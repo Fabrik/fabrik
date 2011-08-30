@@ -17,6 +17,10 @@ defined('JPATH_BASE') or die();
 
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_fabrik'.DS.'helpers'.DS.'element.php');
 
+//missing class lead to error: Class 'JFormFieldList' not found
+JFormHelper::loadFieldClass('list');
+//
+
 /**
  * Renders a SQL element
  *
@@ -24,6 +28,8 @@ require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_fabrik'.DS.'helpers'.DS
  * @subpackage		Parameter
  * @since		1.5
  */
+ 
+
 
 class JFormFieldSQL2 extends JFormFieldList
 {
