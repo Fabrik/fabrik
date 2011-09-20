@@ -91,7 +91,7 @@ var Autofill =  new Class({
 			alert(Joomla.JText._('PLG_FORM_AUTOFILL_NORECORDS_FOUND'));
 		}
 		json.each(function (val, key) {
-			var k2 = key.substr(-4);
+			var k2 = key.substr(key.length-4, 4);
 			if (k2 === '_raw') {
 				key = key.replace('_raw', '');
 				var el = this.form.formElements.get(key);
