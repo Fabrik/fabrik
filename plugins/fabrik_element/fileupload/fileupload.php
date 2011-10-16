@@ -1459,7 +1459,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			$canDownload = in_array($data[$aclEl], JFactory::getUser()->authorisedLevels());
 			if (!$canDownload) {
 				$img = $params->get('fu_download_noaccess_image');
-				return $img == '' ? '' : "<img src=\"images/stories/$img\" alt=\"".JText::_('DOWNLOAD NO PERMISSION')."\" />";
+				return $img == '' ? '' : "<img src=\"images/$img\" alt=\"".JText::_('DOWNLOAD NO PERMISSION')."\" />";
 			}
 		}
 
@@ -1482,7 +1482,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			}
 		}
 		if ($params->get('fu_download_access_image') !== '') {
-			$title = "<img src=\"images/stories/".$params->get('fu_download_access_image')."\" alt=\"$title\" />";
+			$title = "<img src=\"images/".$params->get('fu_download_access_image')."\" alt=\"$title\" />";
 		}
 		$link = COM_FABRIK_LIVESITE . "index.php?option=com_fabrik&task=plugin.pluginAjax&plugin=fileupload&method=ajax_download&element_id=$elementid&formid=$formid&rowid=$rowid&repeatcount=$repeatCounter";
 		$url = "<a href=\"$link\">$title</a>";
