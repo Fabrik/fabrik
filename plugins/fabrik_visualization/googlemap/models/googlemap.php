@@ -267,7 +267,7 @@ class fabrikModelGooglemap extends FabrikFEModelVisualization {
 						}
 					} else {
 						//standard google map icon size
-						list($width, $height) = $this->markerSize(JPATH_SITE.DS.'images'.DS.'stories'.DS.$iconImg);
+						list($width, $height) = $this->markerSize(JPATH_SITE.DS.'images'.DS.$iconImg);
 					}
 					//just for moosehunt!
 					$radomize = ($_SERVER['HTTP_HOST'] == 'moosehunt.mobi') ? true :false;
@@ -303,7 +303,7 @@ class fabrikModelGooglemap extends FabrikFEModelVisualization {
 			//replace last icon?
 			$iconImg = JArrayHelper::getValue($aLastIcons, $c, '');
 			if ($iconImg != '') {
-				list($width, $height) = $this->markerSize(JPATH_SITE.DS.'images'.DS.'stories'.DS.$iconImg);
+				list($width, $height) = $this->markerSize(JPATH_SITE.DS.'images'.DS.$iconImg);
 				$icons[$v[0].$v[1]][3] = $iconImg;
 				$icons[$v[0].$v[1]][4] = $width;
 				$icons[$v[0].$v[1]][5] = $height;
