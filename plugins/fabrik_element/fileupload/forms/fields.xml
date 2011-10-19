@@ -168,6 +168,12 @@
 				label="PLG_ELEMENT_FILEUPLOAD_THUMB_PREFIX_LABEL" 
 				description="PLG_ELEMENT_FILEUPLOAD_THUMB_PREFIX_DESC" />
 			
+			<field name="thumb_suffix" 
+				type="text" 
+				size="10" 
+				label="PLG_ELEMENT_FILEUPLOAD_THUMB_SUFFIX_LABEL" 
+				description="PLG_ELEMENT_FILEUPLOAD_THUMB_SUFFIX_DESC" />
+			
 			<field name="thumb_max_width" 
 				type="text" 
 				size="3" 
