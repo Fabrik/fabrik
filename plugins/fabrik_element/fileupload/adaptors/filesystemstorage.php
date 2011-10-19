@@ -173,8 +173,13 @@ class filesystemstorage extends storageAdaptor{
 		$file = $w->parseMessageForPlaceHolder($file);
 		$f = basename($file);
 		$dir = dirname($file);
+		// Jaanus added: create also thumb suffix
+		$ext = JFile::getExt($f);
+		$fclean = str_replace('.'.$ext, '', $f); //remove extension
 		if ($type == 'thumb') {
-			$file = $dir . '/' . $params->get('thumb_prefix') .  $f;
+		//	$file = $dir . '/' . $params->get('thumb_prefix') .  $f;
+			$file = $dir . '/' . $params->get('thumb_prefix') .  $fclean . $params->get('thumb_suffix') .'.'. $ext; //$f replaced by $fclean, $ext
+		// Jaanus: end of changements
 		} else {
 			$file = $dir . '/' . $f;
 		}
