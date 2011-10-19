@@ -403,7 +403,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			} else {
 				$title_name = str_replace('.', '___', $params->get('fu_title_element'));
 			}
-			$title_name .= '_raw';
+			//$title_name .= '_raw'; //Jaanus: WHY _raw? Do we really want to see the numbers instead of normal words? See also http://fabrikar.com/forums/showthread.php?p=123267 about f2
 			if (array_key_exists($title_name, $oAllRowsData)) {
 				if (!empty($oAllRowsData->$title_name)) {
 					$title = $oAllRowsData->$title_name;
@@ -1473,7 +1473,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		} else {
 			$title_name = str_replace('.', '___', $params->get('fu_title_element'));
 		}
-		$title_name .= '_raw';
+		//$title_name .= '_raw'; //Jaanus: see 406
 		if (is_array($formModel->_data)) {
 			if (array_key_exists($title_name, $formModel->_data)) {
 				if (!empty($formModel->_data[$title_name])) {
