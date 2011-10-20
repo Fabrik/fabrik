@@ -163,7 +163,7 @@ class plgFabrik_ListEmail extends plgFabrik_List {
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$files = JRequest::getVar('attachement', array(), 'files');
-		$folder = JPATH_ROOT.DS.'images'.DS.'stories';
+		$folder = JPATH_ROOT.DS.'images';
 		$this->filepath = array();
 		$c = 0;
 		if (array_key_exists('name', $files)) {
