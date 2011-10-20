@@ -268,7 +268,7 @@ var FbGoogleMapViz = new Class({
 		if (img !== '') {
 			markerOptions.flat = true;
 			if (img.substr(0, 7) !== 'http://' && img.substr(0, 8) !== 'https://') {
-				markerOptions.icon = Fabrik.liveSite + '/images/stories/' + img;
+				markerOptions.icon = Fabrik.liveSite + '/images/' + img;
 			} else {
 				markerOptions.icon = img;
 			}
