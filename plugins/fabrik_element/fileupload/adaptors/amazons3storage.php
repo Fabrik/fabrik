@@ -264,7 +264,12 @@ class amazons3storage extends storageAdaptor{
 
 		$f = basename($file);
 		$dir = dirname($file);
-		$file = $dir . '/' . $params->get('thumb_prefix') .  $f;
+		// Jaanus added: create also thumb suffix as for filesystemstrage
+		$ext = JFile::getExt($f);
+		$fclean = str_replace('.'.$ext, '', $f); //remove extension
+		$file = $dir . '/' . $params->get('thumb_prefix') .  $fclean . $params->get('thumb_suffix') .'.'. $ext; //$f replaced by $fclean, $ext
+		// $file = $dir . '/' . $params->get('thumb_prefix') .  $f;
+		// Jaanus: end of changements
 		return $file;
 	}
 
