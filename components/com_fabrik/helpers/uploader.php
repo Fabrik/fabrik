@@ -63,7 +63,7 @@ class uploader extends JObject
 
 	/**
 	 * @access private
-	 * @param string path to folder - eg /images/stories
+	 * @param string path to folder - eg /images
 	 */
 
 	function _makeRecursiveFolders($folderPath, $mode = 0755)
