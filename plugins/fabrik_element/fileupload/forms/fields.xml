@@ -333,7 +333,7 @@
 					
 				<field name="fu_download_noaccess_image"
 					type="imagelist" 
-					hide_none="1" directory="/images/stories" 
+					hide_none="1" directory="/images" 
 					label="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_LABEL" 
 					description="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_DESC" />
 					
@@ -344,7 +344,7 @@
 					
 				<field name="fu_download_access_image"
 					type="imagelist" 
-					hide_none="1" directory="/images/stories" 
+					hide_none="1" directory="/images" 
 					label="PLG_ELEMENT_FILEUPLOAD_ACCESS_IMG_LABEL" 
 					description="PLG_ELEMENT_FILEUPLOAD_ACCESS_IMG_DESC" />
 				

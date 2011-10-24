@@ -151,7 +151,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 		for ($i=0; $i <count($data); $i++) {
 			if ($showImage) {
 				// $$$ rob 30/06/2011 - say if we import via csv a url to the image check that and use that rather than the relative path
-				$src = substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE .'images/stories/' . $selectImage_root_folder . '/' . $data[$i];
+				$src = substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE .'images/' . $selectImage_root_folder . '/' . $data[$i];
 				$data[$i] = "<img src=\"$src\" alt=\"$data[$i]\" />";
 			}
 			if ($linkURL) {
@@ -224,7 +224,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 	{
 		$params = $this->getParams();
 		$selectImage_root_folder = $params->get('selectImage_root_folder', '');
-		return "<img src='" . COM_FABRIK_LIVESITE  . 'images/stories/' . $selectImage_root_folder . '/'. $data . "' />";
+		return "<img src='" . COM_FABRIK_LIVESITE  . 'images/' . $selectImage_root_folder . '/'. $data . "' />";
 	}
 
 	/**
@@ -244,7 +244,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 		$rootFolder = ltrim($rootFolder, '/');
 		$rootFolder = rtrim($rootFolder, '/');
 		// $$$ rob - 30/062011 allow for full urls in the image. (e.g from csv import)
-		$defaultImage = substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE . 'images/stories/'.$rootFolder.'/'.$value;
+		$defaultImage = substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE . 'images/'.$rootFolder.'/'.$value;
 		// $$$ rob - 30/06/2011 can only select an image if its not a remote image
 		$canSelect 		= ($params->get('image_front_end_select', '0') && substr($value, 0, 4) !== 'http');
 		$float        = $params->get('image_float');
@@ -271,7 +271,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 				$path = $rootFolder;
 			}
 
-			$fullpath = JPATH_SITE.DS.'images'.DS.'stories';
+			$fullpath = JPATH_SITE.DS.'images';
 
 			$images = array();
 			$imagenames = (array)JFolder::files($fullpath.DS.$path);
@@ -327,9 +327,9 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 		$params = $this->getParams();
 		$element = $this->getElement();
 		$id = $this->getHTMLId($repeatCounter);
-		$selRoot = COM_FABRIK_LIVESITE.'images/stories/'.$params->get('selectImage_root_folder', '');
+		$selRoot = COM_FABRIK_LIVESITE.'images/'.$params->get('selectImage_root_folder', '');
 		$opts = $this->getElementJSOptions($repeatCounter);
-		$opts->rootPath = 'images/stories/'.$params->get('selectImage_root_folder', '');
+		$opts->rootPath = 'images/'.$params->get('selectImage_root_folder', '');
 		$opts->canSelect = $params->get('image_front_end_select', false);
 		$opts->id = $element->id;
 		$opts->ds = DS;
@@ -356,7 +356,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 		$folders 	= array();
 		$path 		= $params->get('imagepath', '/');
 		$file 		= $params->get('imagefile');
-		$fullpath = JPATH_SITE . '/images/stories';
+		$fullpath = JPATH_SITE . '/images';
 		$folders[] = JHTML::_('select.option', '/', '/');
 		FabrikWorker::readImages($fullpath, "/", $folders, $images, $this->ignoreFolders);
 		$lists['folders'] =	JHTML::_('select.genericlist',  $folders, 'params[imagepath]', 'class="inputbox" size="1" ', 'value', 'text', $path);
@@ -390,14 +390,14 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 				var root = '<?php echo COM_FABRIK_LIVESITE;?>';
 				var file = $('paramsimagefile').get('value');
 				var folder = $('paramsimagepath').get('value');
-				$('view_imagefiles').src = root + "images/stories/"  + file;
+				$('view_imagefiles').src = root + "images/"  + file;
 			}
 
 			head.ready(function() {
 			$('paramsimagepath').addEvent('change', function(e) {
 				var event = new Event(e);
 				event.stop;
-				var folder = '<?php echo 'images/stories' . $params->get('selectImage_root_folder', ''); ?>' + $(event.target).getValue();
+				var folder = '<?php echo 'images' . $params->get('selectImage_root_folder', ''); ?>' + $(event.target).getValue();
 				var url = '<?php echo COM_FABRIK_LIVESITE;?>index.php?option=com_fabrik&format=raw&view=plugin&task=pluginAjax&g=element&plugin=image&method=ajax_files';
 				var myAjax = new Request({url:url, method:'post',
 			'data':{'folder':folder},
@@ -425,7 +425,7 @@ class plgFabrik_ElementImage extends plgFabrik_Element
 	<tr>
 		<td class="paramlist_key"><?php echo JText::_('Default image'); ?></td>
 		<td><?php echo $lists['folders'];echo "<br />\n" . $lists['imagefiles']; ?>
-		<img name="view_imagefiles" id="view_imagefiles" src="<?php echo COM_FABRIK_LIVESITE . 'images/stories/'. $params->get('image_path');?>" width="100" alt="view imagefiles"/> <br />
+		<img name="view_imagefiles" id="view_imagefiles" src="<?php echo COM_FABRIK_LIVESITE . 'images/'. $params->get('image_path');?>" width="100" alt="view imagefiles"/> <br />
 		</td>
 	</tr>
 	<tr>

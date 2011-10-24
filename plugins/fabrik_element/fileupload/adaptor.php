@@ -125,7 +125,7 @@ class storageAdaptor{
 
 	/**
 	 * @access public
-	 * @param string path to folder - eg /images/stories
+	 * @param string path to folder - eg /images
 	 */
 
 	function makeRecursiveFolders( $folderPath, $mode = 0755)
