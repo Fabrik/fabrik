@@ -208,6 +208,13 @@
 					<option value="1">JYES</option>
 			</field>
 				
+			<field name="icon_file" 
+				SIZE="20" type="text" 
+				default="" 
+				label="COM_FABRIK_FIELD_ICON_FILE_LABEL" 
+				description="COM_FABRIK_FIELD_ICON_FILE_DESC">
+			</field>
+
 			<field name="custom_link" 
 				size="70" type="text" 
 				label="COM_FABRIK_FIELD_CUSTOM_LINK_LABEL" 

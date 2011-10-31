@@ -274,7 +274,15 @@ class plgFabrik_Element extends FabrikPlugin
 			$this->iconsSet = false;
 			return $data;
 		}
-		$cleanData = FabrikString::clean($data);
+		$iconfile = $params->get('icon_file'); //Jaanus added this and following if/else; sometimes we need permanent image (e.g logo of the website where the link always points, like Wikipedia's W)
+
+		if ($iconfile == '') {	
+		$cleanData = FabrikString::clean($data); //this is original	
+		}	
+		else {	
+		$cleanData = $iconfile;
+		}
+
 		foreach ($this->_imageExtensions as $ex) {
 			$f = JPath::clean($cleanData.'.'.$ex);
 			$img = FabrikHelperHTML::image($cleanData.'.'.$ex);
