@@ -51,7 +51,7 @@
 				type="element" 
 				connection="params_connection"
 				connection_in_repeat="false"
-				table="table" 
+				table="params_table" 
 				label="PLG_CRON_GCAL_DESC_ELEMENT_LABEL" 
 				description="PLG_CRON_GCAL_DESC_ELEMENT_DESC"/>
 				
