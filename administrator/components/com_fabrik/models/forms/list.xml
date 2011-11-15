@@ -410,7 +410,7 @@
 				
 			<field name="csv_export_frontend" 
 				type="accesslevel" 
-				default="0" 
+				default="2" 
 				label="COM_FABRIK_FIELD_CSV_EXPORT_LABEL" 
 				description="COM_FABRIK_FIELD_CSV_EXPORT_DESC" />
 	
