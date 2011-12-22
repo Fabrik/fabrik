@@ -56,7 +56,7 @@ $this->headingstmpl =  $this->loadTemplate('headings');
 				<td colspan="<?php echo $this->colCount;?>">
 					<a href="#" class="toggle">
 						<?php echo FabrikHelperHTML::image('orderasc.png', 'list', $this->tmpl, JText::_('COM_FABRIK_TOGGLE'));?>
-						<?php echo $this->grouptemplates[$groupedby]; ?> ( <?php echo count($group)?> )
+						<?php echo $groupedby; ?> ( <?php echo count($group)?> )
 					</a>
 				</td>
 			</tr>
