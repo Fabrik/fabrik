@@ -4,6 +4,7 @@
 		<fieldset name="plg-list-radius_search">
 			<field name="updatecol_access" 
 				type="accesslevel"
+				default="1"
 				repeat="true"
 				label="PLG_LIST_UPDATE_COL_ACCESS_LABEL" />
 				

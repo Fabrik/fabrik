@@ -5,6 +5,7 @@
 		<fieldset name="plg-list-inlineedit">
 			<field name="inline_access"
 				type="accesslevel"
+				default="1"
 				repeat="true"
 				label="PLG_LIST_INLINE_ACCESS_LABEL" />
 			

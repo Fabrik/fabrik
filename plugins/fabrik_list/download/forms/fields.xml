@@ -6,7 +6,7 @@
 				type="accesslevel" 
 				default="1"
 				repeat="true"
-				label="COM_FABRIK_ACCESS" />
+				label="PLG_FABRIK_LIST_DOWNLOAD_ACCESS_LABEL" />
 				
 			<field name="download_button_label" 
 				type="text"

@@ -7,7 +7,7 @@
 				type="accesslevel"
 				default="1"
 				repeat="true"
-				label="COM_FABRIK_ACCESS"/>
+				label="PLG_FABRIK_LIST_EMAIL_ACCESS_LABEL"/>
 		
 			<field name="emailtable_from_user" type="radio" default="0" 
 				repeat="true"
