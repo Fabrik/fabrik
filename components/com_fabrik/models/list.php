@@ -4069,7 +4069,7 @@ class FabrikFEModelList extends JModelForm {
 			if ($this->canSelectRows() && $params->get('checkboxLocation', 'end') !== 'end') {
 				$this->addCheckBox($aTableHeadings, $headingClass, $cellClass);
 			}
-			if ($params->get('checkboxLocation', 'end') !== 'end') {
+			if ($params->get('actionLocation', 'end') !== 'end') {
 				$this->actionHeading($aTableHeadings, $headingClass, $cellClass);
 			}
 		}
@@ -4160,7 +4160,7 @@ class FabrikFEModelList extends JModelForm {
 			}
 			$viewLinkAdded = false;
 			//if no elements linking to the edit form add in a edit column (only if we have the right to edit/view of course!)
-			if ($params->get('checkboxLocation', 'end') === 'end') {
+			if ($params->get('actionLocation', 'end') === 'end') {
 				$this->actionHeading($aTableHeadings, $headingClass, $cellClass);
 			}
 			// create columns containing links which point to tables associated with this table
