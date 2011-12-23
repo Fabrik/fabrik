@@ -108,7 +108,7 @@ var fabrikCalendar = new Class({
 				'opacity': 0.6
 			};
 		if (opts.left) {
-			style.left = opts.left.toInt() + 'px';
+			style.left = opts.left.toInt()+1 + 'px';
 		}
 			
 		var id = 'fabrikEvent_' + entry._listid + '_' + entry.id;
@@ -511,7 +511,7 @@ var fabrikCalendar = new Class({
 		var marginleft = width * existing.length;
 		existing.setStyle('width', width + 'px');
 		var v = opts.divclass.substr(1, opts.divclass.length);
-		width -= td.getStyle('border-left-width').toInt() + td.getStyle('border-right-width').toInt(); 
+		width -= td.getStyle('border-width').toInt(); 
 		opts = {'margin-left': marginleft + 'px', 'width': width + 'px', 'height': height, 'view': 'weekView', 'background-color': this._getColor(this.options.colors.headingBg)};
 		opts.left = left;
 		opts.top = top;
