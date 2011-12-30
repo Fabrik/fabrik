@@ -684,6 +684,15 @@
 					<option value="end">COM_FABRIK_END</option>
 			</field>
 			
+			<field name="actionLocation"
+				type="radio"
+				default="end"
+				description="COM_FABRIK_FIELD_ACTION_LOCATION_DESC"
+				label="COM_FABRIK_FIELD_ACTION_LOCATION_LABEL">
+					<option value="beginning">COM_FABRIK_BEGINNING</option>	
+					<option value="end">COM_FABRIK_END</option>
+			</field>
+			
 			<field name="floatPos"
 				type="list" default="left"
 				label="COM_FABRIK_FIELD_FLOAT_POS_LABEL"

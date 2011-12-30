@@ -597,16 +597,18 @@ class FabrikFEModelList extends JModelForm {
 			$aGroupTitles = array();
 			$groupId = 0;
 			$gKey = 0;
+			$groupKey = 0;
 			for ($i = 0; $i < count($data); $i++) {
 				if (isset($data[$i]->$groupBy)) {
-					if (!in_array($data[$i]->$groupBy, $aGroupTitles)) {
-						$aGroupTitles[] = $data[$i]->$groupBy;
+					$data[$i]->$groupKey = (preg_match("/<a ?.*>(.*)<\/a>/", $data[$i]->$groupBy, $match)) ? $match[1] : $data[$i]->$groupBy;
+					if (!in_array($data[$i]->$groupKey, $aGroupTitles)) {
+						$aGroupTitles[] = $data[$i]->$groupKey;
 						$grouptemplate = $w->parseMessageForPlaceHolder($groupTemplate, JArrayHelper::fromObject($data[$i]));
-						$this->grouptemplates[$data[$i]->$groupBy] = nl2br($grouptemplate);
-						$groupedData[$data[$i]->$groupBy] = array();
+						$this->grouptemplates[$data[$i]->$groupKey] = nl2br($grouptemplate);
+						$groupedData[$data[$i]->$groupKey] = array();
 					}
-					$data[$i]->_groupId = $data[$i]->$groupBy;
-					$gKey = $data[$i]->$groupBy;
+					$data[$i]->_groupId = $data[$i]->$groupKey;
+					$gKey = $data[$i]->$groupKey;
 					//	if the group_by was added in in getAsFields remove it from the returned data set (to avoid mess in package view)
 					if ($this->_group_by_added) {
 						unset($data[$i]->$groupBy);
@@ -4072,7 +4074,7 @@ class FabrikFEModelList extends JModelForm {
 			if ($this->canSelectRows() && $params->get('checkboxLocation', 'end') !== 'end') {
 				$this->addCheckBox($aTableHeadings, $headingClass, $cellClass);
 			}
-			if ($params->get('checkboxLocation', 'end') !== 'end') {
+			if ($params->get('actionLocation', 'end') !== 'end') {
 				$this->actionHeading($aTableHeadings, $headingClass, $cellClass);
 			}
 		}
@@ -4163,7 +4165,7 @@ class FabrikFEModelList extends JModelForm {
 			}
 			$viewLinkAdded = false;
 			//if no elements linking to the edit form add in a edit column (only if we have the right to edit/view of course!)
-			if ($params->get('checkboxLocation', 'end') === 'end') {
+			if ($params->get('actionLocation', 'end') === 'end') {
 				$this->actionHeading($aTableHeadings, $headingClass, $cellClass);
 			}
 			// create columns containing links which point to tables associated with this table
@@ -6892,10 +6894,11 @@ class FabrikFEModelList extends JModelForm {
 	{
 		$base	= JURI::getInstance();
 		$base = $base->toString(array('scheme', 'user', 'pass', 'host', 'port', 'path'));
-		//$base .= strpos($base, '?') ? '&' : '?';
 		$qs = JRequest::getVar('QUERY_STRING', '', 'server');
 		if (stristr($qs, 'group_by')) {
 			$qs = FabrikString::removeQSVar($qs, 'group_by');
+		} else {
+			$base .= strpos($base, '?') ? '&' : '?';		
 		}
 		$url = $base.$qs;
 		$url .= strpos($url, '?') ? '&amp;' : '?';
