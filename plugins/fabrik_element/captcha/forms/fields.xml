@@ -12,13 +12,16 @@
 			</field>
 		</fieldset>
 	
-		<fieldset name="plg-captcha-standard">
+		<fieldset name="plg-captcha-standard" label="PLG_ELEMENT_STANDARD_CAPTCHA_FIELDSET_LABEL">
 			<field name="captcha-width" type="text" size="3" default="120" label="PLG_ELEMENT_CAPTCHA_WIDTH_LABEL" description=""/>
 			<field name="captcha-height" type="text" size="3" default="40" label="PLG_ELEMENT_CAPTCHA_HEIGHT_LABEL" description=""/>
 			<field name="captcha-chars" type="text" size="3" default="6" label="PLG_ELEMENT_CAPTCHA_NUMBER_OF_CHARS_LABEL" description=""/>
+			<field name="captcha-bg" type="text" size="7" default="ffffff" label="PLG_ELEMENT_CAPTCHA_BACKGROUND_COLOR" description=""/>	
+			<field name="captcha-noise-color" type="text" size="7" default="0000ff" label="PLG_ELEMENT_CAPTCHA_NOISE_COLOR" description=""/>
+			<field name="captcha-text-color" type="text" size="7" default="0000ff" label="PLG_ELEMENT_CAPTCHA_TEXT_COLOR" description=""/>
 		</fieldset>
 		
-		<fieldset name="plg-captcha-recaptcha">
+		<fieldset name="plg-captcha-recaptcha" label="PLG_ELEMENT_RECAPTCHA_CAPTCHA_FIELDSET_LABEL">
 			<field name="recaptcha_publickey" type="text" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_LABEL" description="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_DESC" size="30" />
 			<field name="recaptcha_privatekey" type="text" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_LABEL" descripton="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_DESC" size="30" default="" />
 		</fieldset>

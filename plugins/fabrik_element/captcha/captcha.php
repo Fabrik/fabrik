@@ -137,8 +137,34 @@ class plgFabrik_ElementCaptcha extends plgFabrik_Element
 
 			// $$$ hugh - code that generates image now in image.php
 			$session->set('com_fabrik.element.captach.security_code', $code);
+
+// ***** e-kinst
+//	additional plugin params with validation
+			$noise_color = $params->get('captcha-noise-color', '0000FF');
+			// '0000FF' again if we have param value but it's invalid
+			$noise_color = $this->_getRGBcolor($noise_color, '0000FF');
+			$text_color = $params->get('captcha-text-color', '0000FF');
+			$text_color = $this->_getRGBcolor($text_color, '0000FF');
+			$bg_color = $params->get('captcha-bg', 'FFFFFF');
+			$bg_color = $this->_getRGBcolor($bg_color, 'FFFFFF');
+
+//	let's keep all params in relatively safe place not only captcha value
+			$session->set('com_fabrik.element.captach.height', $height);
+			$session->set('com_fabrik.element.captach.width', $width);
+			$session->set('com_fabrik.element.captach.noise_color', $noise_color);
+			$session->set('com_fabrik.element.captach.text_color', $text_color);
+			$session->set('com_fabrik.element.captach.bg_color', $bg_color);
+			$session->set('com_fabrik.element.captach.font', $this->_font);
+// * /e-kinst
+
 			// $$$ hugh - changed from static image path to using simple image.php script, to get round IE caching images
-			$str[] = '<img src="'.COM_FABRIK_LIVESITE.'plugins/fabrik_element/captcha/image.php?width='.$width.'&amp;height='.$height.'&amp;font='.$this->_font.'&amp;foo='.rand().'" alt="'.JText::_('security image').'" />';
+
+//***** e-kinst 
+//	It seems too dangerous to set all parameters here,
+//	because everybody can enlarge image size and set noise color to
+//	background color to OCR captcha values without problems
+			$str[] = '<img src="'.COM_FABRIK_LIVESITE.'plugins/fabrik_element/captcha/image.php?foo='.rand().'" alt="'.JText::_('security image').'" />';
+// *  /e-kinst
 			$str[] = '<br />';
 
 			$value = $this->getValue($data, $repeatCounter);
@@ -247,5 +273,33 @@ class plgFabrik_ElementCaptcha extends plgFabrik_Element
 	{
 		return "";
 	}
+	
+// ****** e-kinst
+// return rgb color from hex color
+// @param 3- or 6-digits hex color with optional leading '#'
+// @param default hex color if first param invalid
+// @return string as 'R+G+B' where R,G,B are decimal 
+	private function _getRGBcolor($hexColor, $default='FF0000' )
+	{
+		$regex = '/^#?(([\da-f])([\da-f])([\da-f])|([\da-f]{2})([\da-f]{2})([\da-f]{2}))$/i';
+		$rgb = array();
+		if( !preg_match($regex, $hexColor, $rgb) )
+					{	if( !preg_match($regex, $default, $rgb) )
+								// in case where $default invalid also (call error)
+								$rgb = array('FF0000', 'FF0000', 'FF', '00', '00');
+					}
+		array_shift($rgb);
+		array_shift($rgb);
+		
+		if( count($rgb) > 3 )
+					$rgb = array_slice($rgb, 3, 3);
+		for( $i=0; $i<3; $i++ )
+				{	if( strlen($rgb[$i]) == 1 )  $rgb[$i] .= $rgb[$i];
+				 	$rgb[$i] = intval($rgb[$i], 16);
+				}
+		
+		return implode('+', $rgb);
+	}
+//* /e-kinst
 }
 ?>

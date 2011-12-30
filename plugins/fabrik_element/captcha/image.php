@@ -38,17 +38,27 @@ if (!($code)) {
 	exit;
 }
 
-
-$width = JRequest::getVar('width', 100);
-$height = JRequest::getVar('height', 50);
-$font = JRequest::getVar('font', 50);
+//***** e-kinst
+$width = $session->get('com_fabrik.element.captach.width', 100);
+$height = $session->get('com_fabrik.element.captach.height', 50);
+$font = $session->get('com_fabrik.element.captach.font', 'monofont.ttf');
+$b_color = $session->get('com_fabrik.element.captach.bg_color', '255+255+255');
+$bc = explode('+', $b_color); 
+$n_color = $session->get('com_fabrik.element.captach.noise_color', '0+0+255');
+$nc = explode('+', $n_color); 
+$t_color = $session->get('com_fabrik.element.captach.text_color', '0+0+255');
+$tc = explode('+', $t_color); 
+// * /e-kinst
 
 $font_size = $height * 0.75;
 $image = @imagecreate($width, $height) or die('Cannot initialize new GD image stream');
 /* set the colours */
-$background_color = imagecolorallocate($image, 255, 255, 255);
-$text_color = imagecolorallocate($image, 20, 40, 100);
-$noise_color = imagecolorallocate($image, 100, 120, 180);
+
+//***** e-kinst
+$background_color = imagecolorallocate($image, $bc[0], $bc[1], $bc[2]);
+$text_color = imagecolorallocate($image, $tc[0], $tc[1], $tc[2]);
+$noise_color = imagecolorallocate($image, $nc[0], $nc[1], $nc[2]);
+// * /e-kinst
 /* generate random dots in background */
 for ($i=0; $i<($width*$height)/3; $i++) {
 	imagefilledellipse($image, mt_rand(0,$width), mt_rand(0,$height), 1, 1, $noise_color);
