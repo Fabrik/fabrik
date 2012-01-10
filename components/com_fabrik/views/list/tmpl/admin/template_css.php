@@ -1,6 +1,6 @@
 <?php
 header('Content-type: text/css');
-$c = (int)$_REQUEST['c'];
+$c = $_REQUEST['c'];
 echo "
 #listform_$c .sequenceName{
 	color:#6022E5;
@@ -116,6 +116,7 @@ echo "
 	text-decoration:none;
 }
 .floating-tip {
+	background-color: #fff;
 	border:1px solid #333;
 	padding:0;
 	text-align:left;

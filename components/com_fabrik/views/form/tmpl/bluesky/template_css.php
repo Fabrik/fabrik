@@ -332,6 +332,7 @@ margin:0;
 #{$view}_$c .fabrikGroupRepeater {
 	float: left;
 	width: 19%;
+	padding-top: 40px;
 }
 
 /** used by password element */

@@ -61,7 +61,7 @@ if ($this->showFilters) {
 			<?php }
 			$gCounter++;
 			}?>
-		</dv>
+		</div>
 		<?php	
 		echo $this->nav;
 		print_r($this->hiddenFields);?>
