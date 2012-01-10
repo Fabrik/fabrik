@@ -56,7 +56,7 @@ class JFormFieldFabrikTables extends JFormFieldList
 		$id = $this->id;
 		$fullName = $this->name;
 
-		if ($connectionDd == '') {
+		if ($connectionDd != '') {
 			//we are not monitoring a connection drop down so load in all tables
 			$query = $db->getQuery(true);
 			$query->select("id AS value, label AS text")->from("#__{package}_lists")->where("published <> -2")->order("label ASC");
