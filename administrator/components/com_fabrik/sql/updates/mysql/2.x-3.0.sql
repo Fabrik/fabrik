@@ -33,6 +33,4 @@ ALTER TABLE `#__fabrik_validations` CHANGE `clent_side_validation` `client_side_
 ALTER TABLE `#__fabrik_validations` CHANGE `attribs` `params` TEXT NOT NULL;
 ALTER TABLE `#__fabrik_visualizations` CHANGE `state` `published` INT( 1 ) NOT NULL DEFAULT '0';
 ALTER TABLE `#__fabrik_visualizations` CHANGE `attribs` `params` TEXT NOT NULL;
-ALTER TABLE `#__fabrik_ratings` CHANGE `tableid` `listid` INT( 6 ) NOT NULL;
 
-ALTER TABLE `#__fabrik_connections` CHANGE `state` `published` INT( 1 ) NOT NULL DEFAULT '0';

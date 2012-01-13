@@ -84,16 +84,16 @@ class FabrikModelUpgrade extends JModel
 							if ($row->state == 0) {
 								$row->state = -2;
 							}
-							$p->can_order = $row->can_order;
-							$row->access = $this->mapACL($row->access);
-							$p->view_access = $this->mapACL($p->view_access);
-							$p->filter_access = $this->mapACL($p->filter_access);
-
-							$p->sum_access = $this->mapACL($p->sum_access);
-							$p->avg_access = $this->mapACL($p->avg_access);
-							$p->median_access = $this->mapACL($p->median_access);
-							$p->count_access = $this->mapACL($p->count_access);
-
+							$p->can_order = $row->can_order; 
+							$row->access = isset($row->access) ? $this->mapACL($row->access) : 1;
+							$p->view_access = isset($p->view_access) ? $this->mapACL($p->view_access) : 1;
+							$p->filter_access = isset($p->filter_access) ? $this->mapACL($p->filter_access) : 1;
+										
+							$p->sum_access = isset($p->sum_access) ? $this->mapACL($p->sum_access) : 1;
+							$p->avg_access = isset($p->avg_access) ? $this->mapACL($p->avg_access) : 1;
+							$p->median_access = isset($p->median_access) ? $this->mapACL($p->median_access) : 1;
+							$p->count_access = isset($p->count_access) ? $this->mapACL($p->count_access) : 1;
+			
 							$subOpts = new stdClass();
 		
 							$subOts->sub_values = explode('|', $row->sub_values);
@@ -103,14 +103,14 @@ class FabrikModelUpgrade extends JModel
 							break;
 						case '#__fabrik_tables':
 							$row->access = $this->mapACL($row->access);
-							$p->allow_view_details = $this->mapACL($p->allow_view_details);
-							$p->allow_edit_details = $this->mapACL($p->allow_edit_details);
-							$p->allow_add = $this->mapACL($p->allow_add);
-							$p->allow_drop = $this->mapACL($p->allow_drop);
+							$p->allow_view_details = isset($p->allow_view_details) ? $this->mapACL($p->allow_view_details) : 1;
+							$p->allow_edit_details = isset($p->allow_edit_details) ? $this->mapACL($p->allow_edit_details) : 1;
+							$p->allow_add = isset($p->allow_add) ? $this->mapACL($p->allow_add) : 1;
+							$p->allow_drop = isset($p->allow_drop) ? $this->mapACL($p->allow_drop) : 1;
 							break;
-
+							
 						case '#__fabrik_visualizations':
-							$row->access = $this->mapACL($row->access);
+							$row->access = isset($row->access) ? $this->mapACL($row->access) : 1;					
 							break;
 					}
 					$row->attribs = json_encode($p);
@@ -131,6 +131,22 @@ class FabrikModelUpgrade extends JModel
 				}
 			}
 		}
+		
+		//run fabrik ratings outside mysql script as it may not exist and error
+		$db = JFactory::getDBO();
+		// Check if #__fabrik_ratings table exists
+		$fabrate = "SHOW TABLES LIKE '".$prefix."fabrik_ratings'";
+		$db->setQuery($fabrate);
+		$rateresult = $db->loadObjectList(); 
+		if (!count($rateresult)) {
+			}
+			else 
+			{
+		$db->setQuery ("ALTER TABLE ".$prefix."fabrik_ratings CHANGE `tableid` `listid` INT( 6 ) NOT NULL"); 
+		$db->query();
+
+		}
+		
 	}
 
 	/**
