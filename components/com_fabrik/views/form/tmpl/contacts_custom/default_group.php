@@ -23,8 +23,8 @@
 	<fieldset class="fabrikGroup" id="group<?php echo $this->group->id;?>" style="<?php echo $this->group->css;?>">
 	<legend><?php echo $this->group->title;?></legend>
 
-	<?php if ($group->intro !== '') {?>
-	<div class="groupintro"><?php echo $group->intro ?></div>
+	<?php if ($this->group->intro !== '') {?>
+	<div class="groupintro"><?php echo $this->group->intro ?></div>
 	<?php }?>
 <?php
 /*
