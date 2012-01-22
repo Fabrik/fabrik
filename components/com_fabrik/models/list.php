@@ -6887,7 +6887,7 @@ class FabrikFEModelList extends JModelForm {
 	{
 		// $$$ rob if admin filter task = ilter and not list.filter
 		//if (JRequest::getVar('task') == 'list.filter' || JRequest::getVar('task') == 'filter') {
-		if ((JRequest::getVar('task') == 'list.filter' || JRequest::getVar('task') == 'filter') and (JRequest::getVar('listref') ! = '')) {
+		if ((JRequest::getVar('task') == 'list.filter' || JRequest::getVar('task') == 'filter') and (JRequest::getVar('listref') != '')) {
 			$listref = JRequest::getVar('listref');
 			$listref = explode('_', $listref);
 			array_shift($listref);
