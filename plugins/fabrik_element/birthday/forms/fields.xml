@@ -2,11 +2,12 @@
 <form>
 	<fields name="params">
 		<fieldset name="plg-birthday">
+			<field name="birthday_daylabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_DAY_LABEL" description="PLG_ELEMENT_BIRTHDAY_DAY_LABEL_DESC" />
+			<field name="birthday_monthlabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL" description="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL_DESC" />
+			<field name="birthday_yearlabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL" description="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL_DESC" />
+			<field name="birthday_separatorlabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_SEPARATOR_LABEL" description="PLG_ELEMENT_BIRTHDAY_SEPARATOR_DESC" />
+			<field name="birthday_numyears" type="text" default="110" size="3" label="PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS_LABEL" description="PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS_LABEL_DESC" />
 			<field name="birthday_format" type="text" default="%Y-%m-%d" label="PLG_ELEMENT_BIRTHDAY_DATE_FORMAT_LABEL" description="PLG_ELEMENT_BIRTHDAY_DATE_FORMAT_DESC" />
-			<field name="birthday_daylabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_DAY_LABEL_LABEL" />
-			<field name="birthday_monthlabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL_LABEL" />
-			<field name="birthday_yearlabel" type="text" default="please select" label="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL_LABEL" />
-			<field name="birthday_numyears" type="text" default="110" size="3" label="PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS_LABEL" />
 		</fieldset>
 	</fields>
 </form>
