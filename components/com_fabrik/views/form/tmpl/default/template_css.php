@@ -61,13 +61,7 @@ echo "
 	margin:0;
 }
 
-#{$view}_$c fieldset > ul,
-#details_$c fieldset > ul{
-	padding:40px 10px 20px 10px;
-}
-
-#{$view}_$c fieldset > ul,
-#details_$c fieldset > ul{
+#{$view}_$c fieldset > ul{
 	padding:40px 10px 20px 10px;
 }
 
