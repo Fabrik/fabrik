@@ -130,18 +130,18 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 			$dayvalue = JArrayHelper::getValue($value, 2);
 
 
-			$days = array(JHTML::_('select.option', '', $params->get('bd_day_daylabel', JText::_('DAY'))));
+			$days = array(JHTML::_('select.option', '', $params->get('birthday_daylabel', JText::_('DAY'))));
 			for ($i=1; $i < 32; $i++) {
 				$days[] = JHTML::_('select.option', $i);
 			}
-			$months = array(JHTML::_('select.option', '', $params->get('bd_day_monthlabel', JText::_('MONTH'))));
+			$months = array(JHTML::_('select.option', '', $params->get('birthday_monthlabel', JText::_('MONTH'))));
 			//siin oli enne $monthlabels, viisin ülespoole
 			for ($i=0; $i<count($monthlabels); $i++) {
 				$months[] = JHTML::_('select.option', $i+1, $monthlabels[$i]);
 			}
-			$years = array(JHTML::_('select.option', '', $params->get('bd_day_yearlabel', JText::_('YEAR'))));
+			$years = array(JHTML::_('select.option', '', $params->get('birthday_yearlabel', JText::_('YEAR'))));
 			$date = date('Y');
-			$firstYear = (int)$params->get('bd_day_numyears', 110);
+			$firstYear = (int)$params->get('birthday_numyears', 110);
 			for ($i=$date; $i > $date - $firstYear; $i--) {
 				$years[] = JHTML::_('select.option', $i);
 			}
