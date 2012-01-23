@@ -4,6 +4,7 @@ $c = (int)$_REQUEST['c'];
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'form';
 echo "
 
+/*Here is the styling for your table legend - to learn what all the different elements are in a basic form see http://www.w3schools.com/tags/tag_legend.asp*/  
 #{$view}_$c legend{
 	background-color: #c0c0c0;
 	-moz-user-select: none;
@@ -24,28 +25,33 @@ echo "
 		position:absolute;
 }
 
+/*Here is the styling for your group intro*/
 #{$view}_$c .groupintro{
 	margin-top:40px;
 	padding:0 20px;
 	color:#666;
 }
 
+/*Here is the styling for your legend span, this is extra styling adding to your legend.  For more information on the <span> tag see: http://www.w3schools.com/tags/tag_span.asp*/
 #{$view}_$c legend span{
 	padding:5px;
 	display:block;
 }
 
+/*This controls the background color and the outer border of your form*/
 #{$view}_$c{
 	width:100%;
 	background-color:#FAFAFA;
 	border:1px solid #DDDDDD;
 }
 
+/*This controls the padding of the title of your form*/
 #main #{$view}_$c h1{
-	paddiing-left:10px;
+	padding-left:10px;
 	margin:0;
 }
 
+/*This controls the margin and border of your form area ie the fieldset - note: if you leave the margin as is, this could be said to control the 'inner border'*/
 #{$view}_$c fieldset{
 	margin:5px 10px;
 	position:relative;
@@ -53,7 +59,7 @@ echo "
 	border:1px solid #DDDDDD;
 }
 
-
+/*This controls the display of your form elements - note: ul stands for 'unordered list', see: http://www.w3schools.com/tags/tag_ul.asp*/  
 #{$view}_$c fieldset ul,
 #details_$c fieldset ul{
 	padding:0;
@@ -61,20 +67,24 @@ echo "
 	margin:0;
 }
 
+/*Note that the order of pixel specifications here follows this rule - top, right, bottom, left*/  
 #{$view}_$c fieldset > ul{
 	padding:40px 10px 20px 10px;
 }
 
+/*This controls the styling of the form and group - this is a bit vague, needs clarification*/
 #{$view}_$c .fabrikForm .fabrikGroup ul{
 	list-style:none;
 }
 
+/*This controls the styling of your gallery - needs clarification*/
 #details_$c .fabrikGalleryImage{
 	border:1px solid #ccc;
 	margin:5px;
 	padding:5px;
 }
 
+/*This controls styling of your google maps elements - needs clarification*/
 /* START: align google map sub elements vertically */
 
 .googlemap .fabrikSubElementContainer{
@@ -83,6 +93,7 @@ echo "
 	box-orient:vertical;
 }
 
+/*This controls styling of your google maps elements - needs clarification*/
 .googlemap .fabrikSubElementContainer > div{
 	-mox-box-flex: 1;
 	-webkit-box-flex: 1;
@@ -98,6 +109,7 @@ echo "
 
 /* END : label spacing for chxbox, radios */
 
+/*This controls the styling of the tips box that is associated with any of your elements*/
 .floating-tip {
 	background-color: #fff;
 	font-weight: bold;
@@ -107,14 +119,17 @@ echo "
 	border-radius: 3px;
 }
 
+/*This controls the styling of your linked tables - needs clarification*/
 #{$view}_$c .linkedTables{
 	margin:0.6em 0;
 }
 
+/*This controls the styling of your related data - needs clarification*/
 #{$view}_$c  .related_data_norecords{
 	display:inline;
 }
 
+/*This controls ???? - needs clarification*/
 #{$view}_$c .fabrikForm .fabrikGroup ul .fabrikElementContainer,
 #details_$c .fabrikElementContainer,
 #{$view}_$c .fabrikElementContainer{
@@ -128,12 +143,15 @@ echo "
 	width:50%;
 }
 
+/*This controls the styling of the buttons area at the bottom of your form*/
 #{$view}_$c .fabrikActions{
 	padding:10px;
 	clear:left;
 	margin:5px 10px;
 	border:1px solid #DDDDDD;
 }
+
+/*This controls the spacing between the buttons at the bottom of your form, for more information on the input tag see http://www.w3schools.com/html/html_forms.asp*/
 #{$view}_$c .fabrikActions input{
 	margin-right:7px;
 }
