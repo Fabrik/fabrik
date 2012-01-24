@@ -151,8 +151,8 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 			$str[] = '<div class="fabrikSubElementContainer" id="'.$id.'">';
 			//$name already suffixed with [] as element hasSubElements = true
 			$str[] = JHTML::_('select.genericlist', $days, preg_replace('#(\[\])$#','[0]',$name), $attribs, 'value', 'text', $dayvalue);
-			$str[] = ' / '.JHTML::_('select.genericlist', $months, preg_replace('#(\[\])$#','[1]',$name), $attribs, 'value', 'text', $monthvalue);
-			$str[] = ' / '.JHTML::_('select.genericlist', $years, preg_replace('#(\[\])$#','[2]',$name), $attribs, 'value', 'text', $yearvalue);
+			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' ' .JHTML::_('select.genericlist', $months, preg_replace('#(\[\])$#','[1]',$name), $attribs, 'value', 'text', $monthvalue);
+			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' ' .JHTML::_('select.genericlist', $years, preg_replace('#(\[\])$#','[2]',$name), $attribs, 'value', 'text', $yearvalue);
 			$str[] = '</div>';
 			return implode("\n", $str);
 		}
