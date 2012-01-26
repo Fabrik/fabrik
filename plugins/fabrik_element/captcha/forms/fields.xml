@@ -24,6 +24,13 @@
 		<fieldset label="PLG_ELEMENT_RECAPTCHA_CAPTCHA_FIELDSET_LABEL" name="plg-captcha-recaptcha">
 			<field description="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_LABEL" name="recaptcha_publickey" size="30" type="text"/>
 			<field default="" descripton="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_LABEL" name="recaptcha_privatekey" size="30" type="text"/>
+			<field default="red" description="RECAPTCHA_THEME_DESC" label="PLG_ELEMENT_RECAPTCHA_THEME" name="recaptcha_theme" type="radio">
+				<option value="red">Red</option>
+				<option value="white">White</option>
+				<option value="blackglass">Black Glass</option>
+				<option value="clean">Clean</option>
+			</field>
+			<field default="en" description="RECAPTCHA_LANG_DESC" label="PLG_ELEMENT_RECAPTCHA_LANG" name="recaptcha_lang" size="2" type="text"/>
 		</fieldset>
 
 	</fields>
