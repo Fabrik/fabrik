@@ -466,7 +466,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 	
 	public function getFormatString()
 	{
-		$parmas = $this->getParams();
+		$params = $this->getParams();
 		return $params->get('calc_format_string');
 	}
 }
