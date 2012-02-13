@@ -91,7 +91,7 @@ class FabimageHelper
 			$output = array();
 			@exec('convert -version', $output, $status);
 			$im = array();
-			if (!$status) {
+			if (!$status && class_exists('Imagick')) {
 				if (preg_match("/imagemagick[ \t]+([0-9\.]+)/i",$output[0],$matches))
 				$im["IM"] = $matches[0];
 			}
