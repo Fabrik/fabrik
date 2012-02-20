@@ -81,6 +81,6 @@ class FabrikViewVisualizations extends JView
 			JToolBarHelper::preferences('com_fabrik');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_VISUALIZATIONS');
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_VISUALIZATIONS', false, JText::_('JHELP_COMPONENTS_FABRIK_VISUALIZATIONS'));
 	}
 }
