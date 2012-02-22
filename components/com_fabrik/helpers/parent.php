@@ -700,13 +700,21 @@ class FabrikWorker {
 		$dofilter = false;
 		$filter= false;
 
-		// Filter settings
+	// Filter settings
 		jimport('joomla.application.component.helper');
-		$config		= JComponentHelper::getParams('com_content');
+
+		// Get Config and Filters in Joomla 2.5
+		$config = JComponentHelper::getParams('com_config');
+		$filters = $config->get('filters');
+
+		// If no filter data found, get from com_content (Joomla 1.6/1.7 sites)
+		if (empty($filters)) {
+		$contentParams = JComponentHelper::getParams('com_content');
+		$filters = $contentParams->get('filters');
+		}
+
 		$user		= JFactory::getUser();
 		$userGroups	= JAccess::getGroupsByUser($user->get('id'));
-
-		$filters = $config->get('filters');
 
 		$blackListTags			= array();
 		$blackListAttributes	= array();
