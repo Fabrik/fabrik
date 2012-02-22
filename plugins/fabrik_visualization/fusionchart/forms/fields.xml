@@ -4,9 +4,9 @@
 
 		<fieldset name="options" repeat="1" repeatcontrols="1">
 			
-			<field label="PLG_VISUALIZATION_FUSIONCHART_CONNECTION_LABEL" name="fusionchart_connection" type="connections"/>
+			<field description="PLG_VISUALIZATION_FUSIONCHART_CONNECTION_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_CONNECTION_LABEL" name="fusionchart_connection" type="connections"/>
 		
-			<field connection_in_repeat="false" label="PLG_VISUALIZATION_FUSIONCHART_TABLE_LABEL" name="fusionchart_table" observe="params_fusionchart_connection" repeat="0" type="fabriktables"/>
+			<field connection_in_repeat="false" description="PLG_VISUALIZATION_FUSIONCHART_TABLE_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_TABLE_LABEL" name="fusionchart_table" observe="params_fusionchart_connection" repeat="0" type="fabriktables"/>
 				
 			<field connection="params_fusionchart_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_FUSIONCHART_ELEMENT_DESC" include_calculations="1" label="PLG_VISUALIZATION_FUSIONCHART_ELEMENT_LABEL" name="fusionchart_elementList" table="params_fusionchart_table" type="element"/>
 				
@@ -25,7 +25,7 @@
 				
 			<field connection="params_fusionchart_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_FUSIONCHART_AXIS_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_AXIS_LABEL_LABEL" name="fusion_x_axis_label" table="params_fusionchart_table" type="element"/>
 				
-			<field label="PLG_VISUALIZATION_FUSIONCHART_AXIS_MEAUSREMENT_UNIT_LABEL" name="fusion_x_axis_measurement_unit" size="3" type="text"/>
+			<field description="PLG_VISUALIZATION_FUSIONCHART_AXIS_MEASUREMENT_UNIT_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_AXIS_MEASUREMENT_UNIT_LABEL" name="fusion_x_axis_measurement_unit" size="3" type="text"/>
 			
 			<field default="P" description="PLG_VISUALIZATION_FUSIONCHART_DUAL_Y_PARENT_DESC" label="PLG_VISUALIZATION_FUSIONCHART_DUAL_Y_PARENT_LABEL" name="fusionchart_dual_y_parent" type="list">
 					<option value="P">Primary</option>
@@ -256,11 +256,11 @@
 				
 			<field description="PLG_VISUALIZATION_FUSIONCHART_THOUSAND_SEP_DESC" label="PLG_VISUALIZATION_FUSIONCHART_THOUSAND_SEP_LABEL" name="fusionchart_thousand_sep" size="3" type="text"/>
 				
-			<field description="PLG_VISUALIZATION_FUSIONCHART_DECIMAL_PRECISION" label="PLG_VISUALIZATION_FUSIONCHART_DECIMAL_PRECISION_LABEL" name="fusionchart_decimal_precision" size="3" type="text"/>
+			<field description="PLG_VISUALIZATION_FUSIONCHART_DECIMAL_PRECISION_DESC" label="PLG_VISUALIZATION_FUSIONCHART_DECIMAL_PRECISION_LABEL" name="fusionchart_decimal_precision" size="3" type="text"/>
 				
-			<field description="PLG_VISUALIZATION_FUSIONCHART_DIVLINE_DECIMAL_PRECISION" label="PLG_VISUALIZATION_FUSIONCHART_DIVLINE_DECIMAL_PRECISION_LABEL" name="fusionchart_divline_decimal_precision" size="3" type="text"/>
+			<field description="PLG_VISUALIZATION_FUSIONCHART_DIVLINE_DECIMAL_PRECISION_DESC" label="PLG_VISUALIZATION_FUSIONCHART_DIVLINE_DECIMAL_PRECISION_LABEL" name="fusionchart_divline_decimal_precision" size="3" type="text"/>
 				
-			<field description="PLG_VISUALIZATION_FUSIONCHART_LIMITS_DECIMAL_PRECISION" label="PLG_VISUALIZATION_FUSIONCHART_LIMITS_DECIMAL_PRECISION_LABEL" name="fusionchart_limits_decimal_precision" size="3" type="text"/>
+			<field description="PLG_VISUALIZATION_FUSIONCHART_LIMITS_DECIMAL_PRECISION_DESC" label="PLG_VISUALIZATION_FUSIONCHART_LIMITS_DECIMAL_PRECISION_LABEL" name="fusionchart_limits_decimal_precision" size="3" type="text"/>
 
 		</fieldset>
 
