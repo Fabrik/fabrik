@@ -2,7 +2,7 @@
 <form>
 	<fields name="params">
 		<fieldset name="plg-form-redirect">
-			<field description="PLG_FORM_REDIRECT_JUMPPAGE_LABEL" label="PLG_FORM_REDIRECT_JUMPPAGE_LABEL" name="jump_page" repeat="true" size="40" type="text"/>
+			<field description="PLG_FORM_REDIRECT_JUMPPAGE_LABEL" label="PLG_FORM_REDIRECT_JUMPPAGE_LABEL" name="jump_page" repeat="true" cols="60" rows="2" type="textarea"/>
 				
 			<field default="0" description="PLG_FORM_REDIRECT_APPENDJUMPURL_DESC" label="PLG_FORM_REDIRECT_APPENDJUMPURL_LABEL" name="append_jump_url" repeat="true" type="radio">
 					<option value="0">JNO</option>

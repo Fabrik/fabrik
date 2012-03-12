@@ -5,7 +5,7 @@
 		
 			<field default="20" label="PLG_ELEMENT_FIELD_WIDTH_LABEL" name="width" size="3" type="text"/>
 			
-			<field default="0" label="PLG_ELEMENT_FIELD_HIDDEN_LABEL" name="hidden" type="radio">
+			<field default="0" label="PLG_ELEMENT_FIELD_HIDDEN_LABEL" description="PLG_ELEMENT_FIELD_HIDDEN_DESC" name="hidden" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
