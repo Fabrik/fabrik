@@ -159,11 +159,13 @@ echo "
 	margin-right:7px;
 }
 
+/*This controls the styling of the form field when being validated by ajax*/
 #{$view}_$c .fabrikValidating{
 	color: #476767;
 	background: #EFFFFF url(../images/ajax-loader.gif) no-repeat right 7px !important;
 }
 
+/*This controls the styling of the form field when ajax validation has been successful*/
 #{$view}_$c .fabrikSuccess{
 	color: #598F5B;
 	background: #DFFFE0 url(../images/action_check.png) no-repeat right 7px !important;
