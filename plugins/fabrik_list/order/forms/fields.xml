@@ -5,7 +5,8 @@
 			<field name="order_access"
 				type="accesslevel"
 				repeat="true"
-				label="PLG_LIST_ORDER_ACCESS_LABEL" />
+				label="PLG_LIST_ORDER_ACCESS_LABEL"
+				default="3"	/>
 				
 			<field name="order_element"
 				type="listfields"
