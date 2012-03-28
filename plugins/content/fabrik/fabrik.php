@@ -158,7 +158,7 @@ class plgContentFabrik extends JPlugin
 				case 'id':
 					$id = $m[1];
 					break;
-				case 'layout':
+				case 'tmpl':
 					$layoutFound = true;
 					$layout = $m[1];
 					$origLayout = JRequest::getVar('layout');
