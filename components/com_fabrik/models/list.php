@@ -6543,6 +6543,15 @@ class FabrikFEModelList extends JModelForm {
 				if ($el === false) {
 					$qs[] = "$k=$v";
 				} else {
+					//******* e-kinst
+					# let's keep &id for com_content - in other case in Content Plugin
+					# we have incorrect action in form and as a result bad pagination URLS.
+					# In any case this will not be excessive (I suppose)
+					if($k == 'id'  &&  $option == 'com_content') {		# at least. May be even
+						$qs[] = "$k=$v";				# $option != 'com_fabrik'
+					}
+					// * /e-kinst
+					
 					//check if its a tag element if it is we want to clear that when we clear the form
 					// (if the filter was set via the url we generally want to keep it though
 
