@@ -11,7 +11,7 @@
 					<option value="fail_if_not_exists">PLG_VALIDATIONRULE_FAIL_IF_DOES_NOT_EXISTS</option>
 			</field>
 
-			<field description="PLG_VALIDATIONRULE_EMAILEXISTS_USER_FIELD_DESC" label="PLG_VALIDATIONRULE_MAILEXISTS_USER_FIELD_LABEL" name="emailexists_user_field" repeat="true" type="listfields"/>
+			<field description="PLG_VALIDATIONRULE_EMAILEXISTS_USER_FIELD_DESC" label="PLG_VALIDATIONRULE_EMAILEXISTS_USER_FIELD_LABEL" name="emailexists_user_field" repeat="true" type="listfields"/>
 			
 		</fieldset>
 		
