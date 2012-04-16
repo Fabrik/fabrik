@@ -49,11 +49,11 @@ class plgFabrik_FormPaginate extends plgFabrik_Form {
 			$url = 'index.php?option=com_fabrik&view='.$mode.'&formid='.$formId.'&rowid=';
 		}
 		$ajax = (bool)$params->get('paginate_ajax', true);
-		$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . JText::_('START') : '<a href="'.JRoute::_($url.$this->ids->first).'" class="pagenav paginateFirst '.$linkStartPrev.'"><span>&lt;&lt;</span>' . JText::_('START').'</a>';
-		$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . JText::_('PREV') : '<a href="'.JRoute::_($url.$this->ids->prev).'" class="pagenav paginatePrevious '.$linkStartPrev.'"><span>&lt;</span>' . JText::_('PREV').'</a>';
+		$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . JText::_('COM_FABRIK_START') : '<a href="'.JRoute::_($url.$this->ids->first).'" class="pagenav paginateFirst '.$linkStartPrev.'"><span>&lt;&lt;</span>' . JText::_('COM_FABRIK_START').'</a>';
+		$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . JText::_('COM_FABRIK_PREV') : '<a href="'.JRoute::_($url.$this->ids->prev).'" class="pagenav paginatePrevious '.$linkStartPrev.'"><span>&lt;</span>' . JText::_('COM_FABRIK_PREV').'</a>';
 
-		$nextLink = ($linkNextEnd) ? JText::_('NEXT') . '<span>&gt;</span>' : '<a href="'.JRoute::_($url.$this->ids->next).'" class="pagenav paginateNext'.$linkNextEnd.'">'.JText::_('NEXT') . '<span>&gt;</span></a>';
-		$endLink = ($linkNextEnd) ? JText::_('END') . '<span>&gt;&gt;</span>' : '<a href="'.JRoute::_($url.$this->ids->last).'" class="pagenav paginateLast'.$linkNextEnd.'">'.JText::_('END'). '<span>&gt;&gt;</span></a>';
+		$nextLink = ($linkNextEnd) ? JText::_('COM_FABRIK_NEXT') . '<span>&gt;</span>' : '<a href="'.JRoute::_($url.$this->ids->next).'" class="pagenav paginateNext'.$linkNextEnd.'">'.JText::_('COM_FABRIK_NEXT') . '<span>&gt;</span></a>';
+		$endLink = ($linkNextEnd) ? JText::_('COM_FABRIK_END') . '<span>&gt;&gt;</span>' : '<a href="'.JRoute::_($url.$this->ids->last).'" class="pagenav paginateLast'.$linkNextEnd.'">'.JText::_('COM_FABRIK_END'). '<span>&gt;&gt;</span></a>';
 		$this->_data = '<ul id="fabrik-from-pagination" class="pagination">
 				<li>'.$firstLink.'</li>
 				<li>'.$prevLink.'</li>
@@ -97,7 +97,13 @@ class plgFabrik_FormPaginate extends plgFabrik_Form {
 
 	protected function show($params, $formModel)
 	{
-		$where = $params->get('paginate_where');
+# Nobody except form model constuctor sets _editable property yet -
+# it sets in view.html.php only and after render() - too late I think
+# so no pagination output for frontend details veiw for example.
+# Let's set it here before use it
+		$formModel->checkAccessFromListSettings();
+
+$where = $params->get('paginate_where');
 		switch($where) {
 			case 'both':
 				return true;
