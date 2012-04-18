@@ -25,8 +25,6 @@
 				
 			<field connection="params_fusionchart_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_FUSIONCHART_AXIS_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_AXIS_LABEL_LABEL" name="fusion_x_axis_label" table="params_fusionchart_table" type="element"/>
 				
-			<field description="PLG_VISUALIZATION_FUSIONCHART_AXIS_MEASUREMENT_UNIT_LABEL_DESC" label="PLG_VISUALIZATION_FUSIONCHART_AXIS_MEASUREMENT_UNIT_LABEL" name="fusion_x_axis_measurement_unit" size="3" type="text"/>
-			
 			<field default="P" description="PLG_VISUALIZATION_FUSIONCHART_DUAL_Y_PARENT_DESC" label="PLG_VISUALIZATION_FUSIONCHART_DUAL_Y_PARENT_LABEL" name="fusionchart_dual_y_parent" type="list">
 					<option value="P">Primary</option>
 					<option value="S">Secondary</option>
@@ -34,8 +32,11 @@
 			
 			<field description="PLG_VISUALIZATION_FUSIONCHART_MX_ATTRIBUTES_DESC" label="PLG_VISUALIZATION_FUSIONCHART_MX_ATTRIBUTES_LABEL" name="fusionchart_mx_attributes" size="40" type="text"/>
 			
-			<field description="PLG_VISUALIZATION_FUSIONCHART_WHERE_DESC" label="PLG_VISUALIZATION_FUSIONCHART_WHERE_LABEL" name="fusionchart_where" size="40" type="text"/>
-			
+			<field name="fusionchart_where"
+				type="text"
+				size="40"
+				description="PLG_VISUALIZATION_FUSIONCHART_WHERE_DESC"
+				label="PLG_VISUALIZATION_FUSIONCHART_WHERE_LABEL"/>
 			
 		</fieldset>
 

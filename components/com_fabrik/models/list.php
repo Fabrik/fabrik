@@ -6924,7 +6924,7 @@ class FabrikFEModelList extends JModelForm {
 
 							$do_merge = true;
 							if ($merge == 2) {
-								$pk_vals = array_count_values($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]]);
+								$pk_vals = array_count_values(array_filter($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]]));
 								if ($pk_vals[$data[$i]->$can_repeats_keys[$tmpkey]] > 1) {
 									$do_merge = false;
 								}

@@ -11,8 +11,12 @@
 */
 ?>
 	<?php if ($this->tipLocation == 'above') {
-		echo '<div>'.$element->tipAbove.'</div>';
+		echo '<div>' . $element->tipAbove . '</div>';
 	}?>
+	<?php
+	// as this is a custom template, you may want to exclude $this->element->colum 
+	// which is the inline css required to abide by the group's column set up
+	?>
 	<div <?php echo @$this->element->column;?> class="<?php echo $this->element->containerClass;?>">
 		<?php echo $this->element->label;?>
 		<?php echo $this->element->errorTag; ?>
@@ -25,7 +29,7 @@
 		<div style="clear:both"></div>
 	</div>
 	<?php if ($this->tipLocation == 'below') {
-		echo '<div>'.$element->tipBelow.'</div>';
+		echo '<div>' . $element->tipBelow . '</div>';
 	}?>
 
 	<?php

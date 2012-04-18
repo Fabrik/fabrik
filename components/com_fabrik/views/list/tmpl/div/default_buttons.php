@@ -1,4 +1,6 @@
 <div class="fabrik_buttons">
+	<?php if ($this->hasButtons) {?>
+
 	<ul class="fabrik_action"><?php if ($this->showAdd) {?>
 		<li class="addbutton">
 			<a class="addRecord" href="<?php echo $this->addRecordLink;?>">
@@ -7,7 +9,7 @@
 			</a>
 		</li>
 	<?php }
-	
+
 	if ($this->showFilters && $this->params->get('show-table-filters') == 2) {?>
 		<li>
 			<a href="#" class="toggleFilters">
@@ -66,4 +68,5 @@
 		</li>
 <?php }?>
 </ul>
+<?php }?>
 </div>

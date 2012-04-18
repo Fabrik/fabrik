@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields name="params" addpath="/administrator/components/com_fabrik/elements">
+		
+		<fieldset name="plg-visualization-timeline" repeatcontrols="1" repeat="1">
+			
+			<field name="timeline_connection"
+				type="connections"
+				label="PLG_VIZ_TIMELINE_CONNECTION_LABEL" />
+				
+			<field name="timeline_table" 
+				observe="params_timeline_connection"
+				type="fabriktables"
+				connection_in_repeat="false"
+				label="PLG_VIZ_TIMELINE_LIST_LABEL"/>
+				
+			<field name="timeline_startdate"
+				type="element"
+				connection_in_repeat="false"
+				connection="params_timeline_connection"
+				table="params_timeline_table"
+				published="true"
+				showintable="true"
+				label="PLG_VIZ_TIMELINE_START_DATE_LABEL"
+				description="PLG_VIZ_TIMELINE_START_DATE_DESC" />
+				
+			<field name="timeline_enddate"
+				type="element"
+				connection_in_repeat="false"
+				connection="params_timeline_connection"
+				table="params_timeline_table"
+				published="true"
+				showintable="true"
+				label="PLG_VIZ_TIMELINE_END_DATE_LABEL"
+				description="PLG_VIZ_TIMELINE_END_DATE_DESC" />
+				
+			<field name="timeline_label"
+				type="element"
+				connection_in_repeat="false"
+				connection="params_timeline_connection"
+				table="params_timeline_table"
+				published="true"
+				showintable="true"
+				label="PLG_VIZ_TIMELINE_LABEL_LABEL"
+				description="PLG_VIZ_TIMELINE_LABEL_DESC" />
+				
+			<field name="timeline_detailtemplate"
+				type="textarea"
+				rows="8"
+				cols="40"
+				label="PLG_VIZ_TIMELINE_DETAIL_TEMPLATE_LABEL"
+				description="PLG_VIZ_TIMELINE_DETAIL_TEMPLATE_DESC" />
+				
+			<field name="timeline_colour"
+				type="text"
+				size="8"
+				default="#58A0DC"
+				label="PLG_VIZ_TIMELINE_COLOUR_LABEL"
+				description="PLG_VIZ_TIMELINE_COLOUR_DESC" />
+				
+			<field name="timeline_text_color"
+				type="text"
+				size="8"
+				default="#58A0DC"
+				label="PLG_VIZ_TIMELINE_TEXT_COLOUR_LABEL"
+				description="PLG_VIZ_TIMELINE_TEXT_COLOUR_DESC" />
+				
+			<field name="timeline_class"
+				connection="params_timeline_connection"
+				table="params_timeline_table"
+				published="true"
+				showintable="true"
+				type="element"
+				connection_in_repeat="false"
+				label="PLG_VIZ_TIMELINE_CLASS_LABEL"
+				description="PLG_VIZ_TIMELINE_CLASS_DESC" />
+			
+		</fieldset>
+	</fields>
+</form>

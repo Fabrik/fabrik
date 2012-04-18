@@ -288,9 +288,9 @@ fieldset.adminform input, fieldset.adminform textarea, fieldset.adminform select
 	padding:5px 16px;
 }
 .floating-tip {
-	/* border:1px solid #333; */
-	padding:0;
-	text-align:left;
+	padding: 0;
+	min-width: 100px;
+	text-align: left;
 	font-weight: bold;
 	font-size: 11px;
 	-moz-border-radius: 6px;

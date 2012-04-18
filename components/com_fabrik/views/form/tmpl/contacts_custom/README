@@ -1,11 +1,11 @@
 Documentation for this template will go here!
 
 This template is designed to be used with the example Contact Us form, but
-is intended as a generic examplke of how to create a custom form template,
+is intended as a generic example of how to create a custom form template,
 allowing you to individually place and style each element.
 
 To install this template, unzip it (which you have probably already done
-as you are reading this file!), and upload the 'example' folder to:
+as you are reading this file!), and upload the 'contacts_custom' folder to:
 
 ./components/com_fabrik/views/form/tmpl
 

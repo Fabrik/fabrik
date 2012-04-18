@@ -51,7 +51,7 @@ var FbVisTimeline = new Class({
 		eventSource.loadJSON(this.json, '');
 
 		window.addEvent('resize', function () {
-			if (this.resizeTimerID == null) {
+			if (this.resizeTimerID === null) {
 				this.resizeTimerID = window.setTimeout(function () {
 					this.resizeTimerID = null;
 					this.tl.layout();

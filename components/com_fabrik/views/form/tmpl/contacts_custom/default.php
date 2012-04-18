@@ -10,7 +10,7 @@
 
  You probably won't need to touch anything in this file, as it's all stuff which is
  either controlled by settings on the backend (like 'show title', etc), or you shouldn't touch because
- the form won't work without it (like $form-startTag), or can be more appropriately changed/styled using
+ the form won't work without it (like $form->startTag), or can be more appropriately changed/styled using
  the template_css.php.
 
 */

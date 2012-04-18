@@ -294,8 +294,8 @@ class plgFabrik_Element extends FabrikPlugin
 			$this->iconsSet = false;
 			return $data;
 		}
-		$iconfile = $params->get('icon_file'); //Jaanus added this and following if/else; sometimes we need permanent image (e.g logo of the website where the link always points, like Wikipedia's W)
-		$cleanData = $iconfile == '' ? FabrikString::clean($data) : $iconfile;
+		$iconfile = $params->get('icon_file', ''); //Jaanus added this and following if/else; sometimes we need permanent image (e.g logo of the website where the link always points, like Wikipedia's W)
+		$cleanData = $iconfile === '' ? FabrikString::clean($data) : $iconfile;
 		foreach ($this->_imageExtensions as $ex)
 		{
 			$f = JPath::clean($cleanData . '.' . $ex);
@@ -303,7 +303,11 @@ class plgFabrik_Element extends FabrikPlugin
 			if ($img !== '')
 			{
 				$this->iconsSet = true;
-				$img = '<a class="fabrikTip" href="#" title="' . $data. '">' . $img . '</a>';
+				$opts = new stdClass();
+				$opts->notice = true;
+				$opts = json_encode($opts);
+				$data = '<span>' . $data . '</span>';
+				$img = '<a class="fabrikTip" href="#" opts=\'' . $opts . '\' title="' . $data. '">' . $img . '</a>';
 				return $img;
 			}
 		}
@@ -3722,32 +3726,39 @@ FROM (SELECT DISTINCT $item->db_primary_key, $name AS value, $label AS label FRO
 		$params = $this->getParams();
 		$listModel = $this->getListModel();
 		$data = FabrikWorker::JSONtoData($data, true);
-		foreach ($data as $i => &$d) {
+		foreach ($data as $i => &$d)
+		{
 			// $$$ hugh - in f3 icon_folder is a radio choice, 0 or 1, not a folder path
 			//if ($params->get('icon_folder') != -1 && $params->get('icon_folder') != '') {
-			if ($params->get('icon_folder') == '1') {
+			if ($params->get('icon_folder') == '1')
+			{
 				// $$$ rob was returning here but that stoped us being able to use links and icons together
 				$d = $this->_replaceWithIcons($d);
 			}
 			$d = $this->rollover($d, $oAllRowsData, 'list');
 			$d = $listModel->_addLink($d, $this, $oAllRowsData, $i);
 		}
-
-		if (is_array($data) && count($data) > 1) {
-			if (!array_key_exists(0, $data)){
+		if (is_array($data) && count($data) > 1)
+		{
+			if (!array_key_exists(0, $data))
+			{
 				//occurs if we have created a list from an exisitng table whose data contains json objects (e.g. jos_users.params)
 				$obj = JArrayHelper::toObject($data);
 				$data = array();
 				$data[0] = $obj;
 			}
 			//if we are storing info as json the data will contain an array of objects
-			if (is_object($data[0])) {
-				foreach ($data as &$o) {
+			if (is_object($data[0]))
+			{
+				foreach ($data as &$o)
+				{
 					$this->convertDataToString($o);
 				}
 			}
-			$r = '<ul class="fabrikRepeatData"><li>'.implode('</li><li>', $data).'</li></ul>';
-		} else {
+			$r = '<ul class="fabrikRepeatData"><li>' . implode('</li><li>', $data) . '</li></ul>';
+		}
+		else
+		{
 			$r = empty($data) ? '' : array_shift($data);
 		}
 		return $r;

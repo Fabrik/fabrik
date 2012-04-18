@@ -170,12 +170,12 @@ class FabrikString extends JString{
 	function iclean($str, $fromEnc = "UTF-8", $toEnc = "ASCII//IGNORE//TRANSLIT")
 	{
 		//replace umlauts
-
-		$out = "";
-		for ($i = 0; $i<strlen($str);$i++){
-			$ch= ord($str{$i});
-
-			switch($ch){
+		$out = '';
+		for ($i = 0; $i < strlen($str); $i++)
+		{
+			$ch = ord($str{$i});
+			switch($ch)
+			{
 				case 195: $out .= "";break;
 				case 164: $out .= "ae"; break;
 				case 188: $out .= "ue"; break;
@@ -183,11 +183,14 @@ class FabrikString extends JString{
 				case 132: $out .= "Ae"; break;
 				case 156: $out .= "Ue"; break;
 				case 150: $out .= "Oe"; break;
-				default : $out .= chr($ch) ;
+				//fix for cleaning value of 1
+				case 0: $out = '1';break;
+				default : $out .= chr($ch);
 			}
 		}
 		$str = $out;
-		if (function_exists('iconv')) {
+		if (function_exists('iconv'))
+		{
 			// $$$ rob added @ incase its farsi which creates a notice:
 			// https://github.com/Fabrik/fabrik/issues/72
 			$str = (str_replace("'", '', @iconv($fromEnc, $toEnc, $str))); // replace accented characters with ascii equivalent e.g. é => e
