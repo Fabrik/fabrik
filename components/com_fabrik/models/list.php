@@ -1291,14 +1291,15 @@ class FabrikFEModelList extends JModelForm {
 				// $$$ hugh - not everything is JSON, some stuff is just plain strings.
 				// So we need to see if JSON encoding failed, and only use result if it didn't.
 				// $v = json_decode($v, true);
+			if (is_array($v)) {
+				$v = JArrayHelper::getValue($v, $repeatCounter);
+			} else {
 				$v2 = json_decode($v, true);
 				if ($v2 !== null) {
-					$v = $v2;
+				$v = $v2;
 				}
-				if (is_array($v)) {
-					$v = JArrayHelper::getValue($v, $repeatCounter);
-				}
-			}
+			}		
+		}
 			$array['rowid'] = $this->getSlug($row);
 			$array['listid'] = $table->id;
 			$link = JRoute::_($this->parseMessageForRowHolder($customLink, $array));
