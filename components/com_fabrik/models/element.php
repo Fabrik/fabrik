@@ -954,7 +954,7 @@ class plgFabrik_Element extends FabrikPlugin
 			if ($this->_editable)
 			{
 				$validations = $this->getValidations();
-				if (count($validations) > 0)
+				if (count($validations) > 0 && $params->get('showvaltip'))
 				{
 					$validationHovers = array('<span><ul style="list-style:none">');
 					foreach ($validations as $validation)
@@ -964,6 +964,9 @@ class plgFabrik_Element extends FabrikPlugin
 					$validationHovers[] = '</ul></span>';
 					$title = htmlspecialchars(implode("", $validationHovers), ENT_QUOTES);
 					$l .= FabrikHelperHTML::image('notempty.png', 'form', $tmpl, array('class' => 'fabrikTip', 'opts' => "{notice:true}", 'title' => $title));
+				}elseif (count($validations) > 0)
+				{
+					$l .= FabrikHelperHTML::image('notempty.png', 'form', $tmpl, array('class' => 'fabrikTip'));
 				}
 			}
 			$model = $this->getFormModel();

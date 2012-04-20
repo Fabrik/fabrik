@@ -491,6 +491,15 @@
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 				</field>
+				
+				<field name="showvaltip" 
+					type="radio"
+					default="1"
+					label="COM_FABRIK_FIELD_TIPS_VALSTAR_LABEL"
+					description="COM_FABRIK_FIELD_TIPS_VALSTAR_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
 												
 				<field name="tipsoverelement" 
 					type="radio"
