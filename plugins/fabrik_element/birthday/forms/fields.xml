@@ -3,17 +3,48 @@
 	<fields name="params">
 		<fieldset name="plg-birthday">
 		
-			<field default="please select" description="PLG_ELEMENT_BIRTHDAY_DAY_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_DAY_LABEL" name="birthday_daylabel" type="text"/>
+			<field default="" description="PLG_ELEMENT_BIRTHDAY_DAY_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_DAY_LABEL" name="birthday_daylabel" type="text"/>
 				
-			<field default="please select" description="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL" name="birthday_monthlabel" type="text"/>
+			<field default="" description="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL" name="birthday_monthlabel" type="text"/>
 				
-			<field default="please select" description="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL" name="birthday_yearlabel" type="text"/>
+			<field default="" description="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_YEAR_LABEL" name="birthday_yearlabel" type="text"/>
 				
-			<field default="/" description="PLG_ELEMENT_BIRTHDAY_SEPARATOR_DESC" label="PLG_ELEMENT_BIRTHDAY_SEPARATOR_LABEL" name="birthday_separatorlabel" type="text"/>
-				
-			<field default="110" description="PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS_LABEL" name="birthday_numyears" size="3" type="text"/>
+			<field description="PLG_ELEMENT_BIRTHDAY_YEARLIST_OPT_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_OPT_LABEL" default="number" name="birthday_yearopt" type="radio" >
+			<option value="number">PLG_ELEMENT_BIRTHDAY_NUMBER_OF_YEARS</option>
+			<option value="since">PLG_ELEMENT_BIRTHDAY_SINCE_YEAR</option>
+			</field>
+
+			<field default="100" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_LABEL" name="birthday_yearstart" size="4" type="text"/>
 			
-			<field default="%Y-%m-%d" description="PLG_ELEMENT_BIRTHDAY_DATE_FORMAT_DESC" label="PLG_ELEMENT_BIRTHDAY_DATE_FORMAT_LABEL" name="birthday_format" type="text"/>
+		<field name="list_date_format" type="radio" default="d.m.Y" label="PLG_ELEMENT_BIRTHDAY_LIST_DATE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_LIST_DATEFORMATDESC" >
+			<option value="d.m.Y">01.03.1789</option>
+			<option value="m.d.Y">03/01/1789</option>
+			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
+			<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
+		</field>
+
+		<field name="list_age_format" type="radio" default="no" label="PLG_ELEMENT_BIRTHDAY_LIST_AGE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_LIST_AGEFORMATDESC">
+			<option value="no">PLG_ELEMENT_BIRTHDAY_DATEONLY</option>
+			<option value="{age}">PLG_ELEMENT_BIRTHDAY_AGEONLY</option>
+			<option value="{age} date">PLG_ELEMENT_BIRTHDAY_DATE_AGE</option>
+			<option value="{age} this">PLG_ELEMENT_BIRTHDAY_AGETHISYEAR</option>
+			<option value="{age} next">PLG_ELEMENT_BIRTHDAY_AGENEXTYEAR</option>
+		</field>
+
+		<field name="details_date_format" type="radio" default="d.m.Y" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEFORMATDESC">
+			<option value="d.m.Y">01.03.1789</option>
+			<option value="m.d.Y">03/01/1789</option>
+			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
+			<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
+			<option value="{age}">PLG_ELEMENT_BIRTHDAY_AGEONLY</option>
+			<option value="{age} d.m">PLG_ELEMENT_BIRTHDAY_YYY_D_MONTH</option>
+			<option value="{age} m.d">PLG_ELEMENT_BIRTHDAY_YYY_MONTH_D</option>
+		</field>
+
+		<field name="bd_tutorial" type="spacer" label="PLG_ELEMENT_BIRTHDAY_EXAMPLE" />
+
+		<field name="bd_tutorial_desc" type="spacer" label="PLG_ELEMENT_BIRTHDAY_EXAMPLEDESC" />
+
 		</fieldset>
 	</fields>
 </form>
