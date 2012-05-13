@@ -1729,7 +1729,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			$str[] = '</div>';
 			return implode("\n", $str);
 		}
-		$str[] = '<input class="fabrikinput" name="' . $name . '" type="file" id="' . $id . '" />'."\n";
+		$str[] = $allRenders.'<br/><input class="fabrikinput" name="' . $name . '" type="file" id="' . $id . '" />'."\n";
 		if ($params->get('upload_allow_folderselect') == '1')
 		{
 			$rDir = JPATH_SITE . '/' . $params->get('ul_directory');
