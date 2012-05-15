@@ -71,17 +71,22 @@ class plgFabrik_ElementLink extends plgFabrik_Element
 			}
 			$target = $params->get('link_target', '');
 			if ($listModel->getOutPutFormat() != 'rss') {
-				if (empty($data['label'])) {
-					$link = $data['link'];
+				if (strtolower($data['link']) != 'http://' && strtolower($data['link']) != 'https://') {
+					if (empty($data['label'])) {
+						//$link = $data['link'];
+						$link = '<a href="'.$data['link'].'" target="'.$target.'">'.$data['link'].'</a>';
+					} else {
+						$smart_link = $params->get('link_smart_link', false);
+						if ($smart_link || $target == 'mediabox') {
+							$smarts = $this->_getSmartLinkType($data['link']);
+							$link = '<a href="'.$data['link'].'" rel="lightbox['.$smarts['type'].' '.$smarts['width'].' '.$smarts['height'].']">'.$data['label'].'</a>';
+						}
+						else {
+							$link = '<a href="'.$data['link'].'" target="'.$target.'">'.$data['label'].'</a>';
+						}
+					}
 				} else {
-					$smart_link = $params->get('link_smart_link', false);
-					if ($smart_link || $target == 'mediabox') {
-						$smarts = $this->_getSmartLinkType($data['link']);
-						$link = '<a href="'.$data['link'].'" rel="lightbox['.$smarts['type'].' '.$smarts['width'].' '.$smarts['height'].']">'.$data['label'].'</a>';
-					}
-					else {
-						$link = '<a href="'.$data['link'].'" target="'.$target.'">'.$data['label'].'</a>';
-					}
+					$link = '';
 				}
 			} else {
 				$link = $data['link'];
