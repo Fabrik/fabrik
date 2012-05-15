@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_list" method="upgrade" type="plugin" version="2.5">
+	<name>Fabrik List - PHP Events</name>
+	<author>Mauro H. Leggieri</author>
+	<creationDate>April 2012</creationDate>
+	<copyright>(C) 2012 Mauro H. Leggieri</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>mxmauro@mauroleggieri.com.ar</authorEmail>
+	<authorUrl>www.yodespotrico.com.ar</authorUrl>
+	<version>3.0.5.2</version>
+	<description>Execute PHP-Code on list events</description>
+	<files>
+		<filename plugin="php_events">php_events.php</filename>
+		<filename>index.html</filename>
+		<folder>forms</folder>
+    <folder>language</folder>
+	</files>
+</extension>
