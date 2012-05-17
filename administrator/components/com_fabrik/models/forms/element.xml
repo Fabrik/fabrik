@@ -539,6 +539,38 @@
 						<option value="1">JYES</option>
 				</field>
 				
+				<field name="validationstartip"
+					type="radio"
+					default="1"
+					label="COM_FABRIK_FIELD_STAR_TIP_LABEL"
+					description="COM_FABRIK_FIELD_STAR_TIP_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+
+				<field name="validationstartipcolor"
+					type="radio"
+					default="0"
+					label="COM_FABRIK_FIELD_STAR_TIP_COLOR_LABEL"
+					description="COM_FABRIK_FIELD_STAR_TIP_COLOR_DESC">
+						<option value="0">COM_FABRIK_STAR_COLOR_RED</option>
+						<option value="1">COM_FABRIK_STAR_COLOR_GREY</option>
+				</field>
+
+				<field name="validationstartipmsg"
+					type="radio"
+					default="0"
+					label="COM_FABRIK_FIELD_STAR_TIP_MSG_LABEL"
+					description="COM_FABRIK_FIELD_STAR_TIP_MSG_LABEL_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+
+				<field name="validationstartipcustommsg"
+				size="70" type="text"
+				label="COM_FABRIK_FIELD_STAR_TIP__CUSTOM_MSG_LABEL"
+				description="COM_FABRIK_FIELD_STAR_TIP_CUSTOM_MSG_LABEL_DESC" />
+				
 				<field name="comment"
 					type="textarea"
 					cols="6"
