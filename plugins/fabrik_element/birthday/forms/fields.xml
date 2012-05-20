@@ -15,6 +15,7 @@
 			</field>
 
 			<field default="100" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_LABEL" name="birthday_yearstart" size="4" type="text"/>
+			<field default="0" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_LABEL" name="birthday_forward" size="4" type="text"/>
 			
 		<field name="list_date_format" type="radio" default="d.m.Y" label="PLG_ELEMENT_BIRTHDAY_LIST_DATE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_LIST_DATEFORMATDESC" >
 			<option value="d.m.Y">01.03.1789</option>
