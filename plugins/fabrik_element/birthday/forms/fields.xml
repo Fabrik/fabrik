@@ -18,8 +18,8 @@
 			<field default="0" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_LABEL" name="birthday_forward" size="4" type="text"/>
 			
 		<field name="list_date_format" type="radio" default="d.m.Y" label="PLG_ELEMENT_BIRTHDAY_LIST_DATE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_LIST_DATEFORMATDESC" >
-			<option value="d.m.Y">01.03.1789</option>
-			<option value="m.d.Y">03/01/1789</option>
+			<option value="d.m.Y">31.03.1789</option>
+			<option value="m.d.Y">03/31/1789</option>
 			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
 			<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
 		</field>
@@ -33,8 +33,8 @@
 		</field>
 
 		<field name="details_date_format" type="radio" default="d.m.Y" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATE_FORMAT" description="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEFORMATDESC">
-			<option value="d.m.Y">01.03.1789</option>
-			<option value="m.d.Y">03/01/1789</option>
+			<option value="d.m.Y">31.03.1789</option>
+			<option value="m.d.Y">03/31/1789</option>
 			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
 			<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
 			<option value="{age}">PLG_ELEMENT_BIRTHDAY_AGEONLY</option>
