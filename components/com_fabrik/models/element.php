@@ -958,21 +958,35 @@ class plgFabrik_Element extends FabrikPlugin
 			if ($this->_editable)
 			{
 				$validations = array_unique($this->getValidations());
-				if (count($validations) > 0)
+				if (count($validations) > 0 && $params->get('validationstartip'))
 				{
 					$validationHovers = array('<div><ul class="validation-notices" style="list-style:none">');
-					foreach ($validations as $validation)
+					if($params->get('validationstartipmsg')){
+                                            foreach ($validations as $validation)
+					{
+						$validationHovers[] = '<li>' . $params->get('validationstartipcustommsg') . '</li>';
+					}
+                                        }else{
+                                        foreach ($validations as $validation)
 					{
 						$validationHovers[] = '<li>' . $validation->getHoverText($this, $repeatCounter, $tmpl) . '</li>';
 					}
+                                        }
 					$validationHovers[] = '</ul></div>';
 					$validationHovers = implode('', $validationHovers);
 					$title = htmlspecialchars($validationHovers, ENT_QUOTES);
 					$opts = new stdClass();
 					$opts->position = 'top';
 					$opts = json_encode($opts);
+                                        if($params->get('validationstartipcolor')){
+                                            $l .= FabrikHelperHTML::image('notempty-grey.png', 'form', $tmpl, array('class' => 'fabrikTip', 'opts' => $opts, 'title' => $title));
+                                        }else{
 					$l .= FabrikHelperHTML::image('notempty.png', 'form', $tmpl, array('class' => 'fabrikTip', 'opts' => $opts, 'title' => $title));
-				}
+                                        }
+				}elseif (count($validations) > 0) {
+                                    if($params->get('validationstartipcolor')){$l .= FabrikHelperHTML::image('notempty-grey.png', 'form', $tmpl, array('class' => 'fabrikRequired'));}
+                                    else $l .= FabrikHelperHTML::image('notempty.png', 'form', $tmpl, array('class' => 'fabrikRequired'));
+                                }
 			}
 			$model = $this->getFormModel();
 			$str .= $this->rollover($l, $model->_data);
