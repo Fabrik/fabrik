@@ -8,7 +8,11 @@
 <?php echo $this->table->intro;?>
 <form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
 
-<?php echo $this->loadTemplate('buttons');
+<?php	$buttonsHtml = $this->loadTemplate('buttons');
+	# output only if at once button defined - in other case visible empty block renders
+	# at the same time it's not ggod to 'Display:none' this block - users from some groups may have buttons displayed
+	if( strpos($buttonsHtml, '<li>') !== false )	echo $buttonsHtml;
+
 
 
 if ($this->showFilters) {
