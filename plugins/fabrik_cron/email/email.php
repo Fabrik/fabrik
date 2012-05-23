@@ -47,7 +47,7 @@ class plgFabrik_Cronemail extends plgFabrik_Cron {
 				foreach ($group as $row) {
 					if (!empty($condition)) {
 						$this_condition = $w->parseMessageForPlaceHolder($condition, $row);
-						if (eval($this_condition === false)) {
+						if (eval($this_condition) === false) {
 							continue;
 						}
 					}
@@ -85,7 +85,7 @@ class plgFabrik_Cronemail extends plgFabrik_Cron {
 				$value = @eval($value);
 			}
 			$field = str_replace("___", ".", $field);
-			$query = "UPDATE $table->db_table_name set $field = " . $fabrikDb->Quote($value) . " WHERE $table->db_primary_key IN (" . implode(',', $updates) . ")";
+			$query = "UPDATE $table->db_table_name set $field = " . $value. " WHERE $table->db_primary_key IN (" . implode(',', $updates) . ")";
 			$this->log .= "\n update query: $query";
 			$fabrikDb = $listModel->getDb();
 			$fabrikDb->setQuery($query);
