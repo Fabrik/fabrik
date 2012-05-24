@@ -14,7 +14,7 @@
 					<option value="1">JYES</option>
 			</field>
 				
-			<field cols="30" description="PLG_CRON_EMAIL_CONDITION_DESC" label="PLG_CRON_EMAIL_CONDITION_LABEL" name="cronemail_conditon" rows="5" type="textarea"/>
+			<field cols="30" description="PLG_CRON_EMAIL_CONDITION_DESC" label="PLG_CRON_EMAIL_CONDITION_LABEL" name="cronemail_condition" rows="5" type="textarea"/>
 
 		</fieldset>
 		
