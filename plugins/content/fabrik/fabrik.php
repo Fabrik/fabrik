@@ -146,7 +146,7 @@ class plgContentFabrik extends JPlugin
 		$match = trim($match, "}");
 		$ref = preg_replace('/[^A-Z|a-z|0-9]/', '_', $match);
 		$match = $this->parse(array($match));
-		$match = explode(" ", $match);
+		$match = explode(" ", strip_tags($match));
 		array_shift($match);
 		$user = JFactory::getUser();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
