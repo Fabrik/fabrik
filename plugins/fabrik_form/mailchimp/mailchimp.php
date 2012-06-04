@@ -13,6 +13,7 @@ defined('_JEXEC') or die();
 
 //require the abstract plugin class
 require_once(COM_FABRIK_FRONTEND.DS.'models'.DS.'plugin-form.php');
+require_once('MCAPI.class.php');
 
 class plgFabrik_FormMailchimp extends plgFabrik_Form 
 {
