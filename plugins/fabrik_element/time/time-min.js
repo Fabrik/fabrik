@@ -1,0 +1,1 @@
+var FbTime=new Class({Extends:FbElement,initialize:function(b,a){this.plugin="time";this.parent(b,a)}});

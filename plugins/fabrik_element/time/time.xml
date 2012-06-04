@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_element" method="upgrade" type="plugin" version="2.5">
+	<name>plg_fabrik_element_time</name>
+	<author>Jaanus Nurmoja</author>
+	<creationDate>May 2012</creationDate>
+	<copyright>(C) 2005-2012 fabrikar.com</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>jaanus.nurmoja@gmail.com</authorEmail>
+	<authorUrl>www.facebook.com/jaanus.nurmoja</authorUrl>
+	<version>3.0.6</version>
+	<help url="PLG_ELEMENT_TIME_HELP_SERVER"/>
+	<description>PLG_ELEMENT_TIME_DESCRIPTION</description>
+	<files>
+		<filename plugin="Time only">time.php</filename>
+		<filename>index.html</filename>
+		<filename>time.js</filename>
+		<filename>time-min.js</filename>
+		<folder>forms</folder>
+		<folder>language</folder>
+	</files>
+	
+</extension>

@@ -37,6 +37,7 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 		$params = $this->getParams();
 		$element = $this->getElement();
 		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'), JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
+		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'), JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
 		$monthnumbers = array('01','02','03','04','05','06','07','08','09','10','11','12');
 		$daysys = array('01','02','03','04','05','06','07','08','09');
 		$daysimple = array('1','2','3','4','5','6','7','8','9');
@@ -52,12 +53,14 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 		}
 		$value = $this->getValue($data, $repeatCounter);
 		$fd = $params->get('details_date_format', 'd.m.Y');
+		$dateandage = (int)$params->get('details_dateandage', '0');
+		
 		if (!$this->_editable)
 		{
 			if (!in_array($value, $aNullDates))
 			{
 				//avoid 0000-00-00
-				list($year, $month, $day) = strstr($value, '-') ? explode('-', $value) : explode(',', $value);;
+				list($year, $month, $day) = strstr($value, '-') ? explode('-', $value) : explode(',', $value);
 				$daydisp = str_replace($daysys, $daysimple, $day);
 				$monthdisp = str_replace($monthnumbers, $monthlabels, $month);
 				$thisyear = date('Y');
@@ -136,6 +139,12 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 								$detailvalue .= '';
 							}
 							$detailvalue .= ')';
+						}
+					}
+					else {
+						if ($fd != '{age}' && $dateandage == 1)
+						{
+							$detailvalue .= ' ('. ($ageyear - $year) . ')';
 						}
 					}
 				}
@@ -250,7 +259,7 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 							$a = $data[$thisname];
 						} else {
 							//occurs when getting from the db
-							$a = json_decode($data[$thisname]);
+							$a = FabrikWorker::JSONtoData($data[$thisname], true); //json_decode($data[$thisname]);
 						}
 						$value = JArrayHelper::getValue($a, $repeatCounter, $value);
 					}
@@ -312,10 +321,20 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 	 * @param	mixed	$val (array normally but string on csv import)
 	 * @return	string	yyyy-mm-dd
 	 */
+		//Jaanus: stores the value if all its parts (day, month, year) are selected in form, otherwise stores (or updates data to) null value. NULL is useful in many cases, e.g when using Fabrik for working with data of such components as EventList, where in #___eventlist_events.enddates (times and endtimes as well) empty data is always NULL otherwise nulldate is displayed in its views. 
+		//TODO: if NULL value is the first in repeated group then in list view whole group is empty. Could anyone find a solution? I give up :-(
 
 	private function _indStoreDBFormat($val)
 	{
+		$params = $this->getParams();
+		if ($params->get('empty_is_null') == 1) {
+			if (is_array($val) && !in_array('',$val)) {
+			return $val[2].'-'.$val[1].'-'.$val[0];
+			}
+		}
+		else {
 		return is_array($val) ? $val[2].'-'.$val[1].'-'.$val[0] : '';
+		}
 	}
 
 	/**
@@ -362,9 +381,9 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 		$daysys = array('01','02','03','04','05','06','07','08','09');
 		$daysimple = array('1','2','3','4','5','6','7','8','9');
 		$jubileum = array('0','25','75');
-
 		$groupModel = $this->getGroup();
-		$data = $groupModel->canRepeat() ? json_decode($data) : array($data);
+		//Jaanus: json_decode replaced with FabrikWorker::JSONtoData that made visible also single data in repeated group
+		$data = $groupModel->canRepeat() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array)$data;
 		$ft = $params->get('list_date_format', 'd.m.Y');
 		//$ft = $params->get('birthday_format', 'd.m.Y'); //$ft = $params->get('birthday_format', '%Y-%m-%d');

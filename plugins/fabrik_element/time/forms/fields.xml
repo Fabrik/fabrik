@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields name="params">
+		<fieldset name="plg-time">
+		
+			<field default="" description="PLG_ELEMENT_TIME_HOUR_LABEL_DESC" label="PLG_ELEMENT_TIME_HOUR_LABEL" name="time_hourlabel" type="text"/>
+				
+			<field default="" description="PLG_ELEMENT_TIME_MIN_LABEL_DESC" label="PLG_ELEMENT_TIME_MIN_LABEL" name="time_minlabel" type="text"/>
+				
+			<field default="" description="PLG_ELEMENT_TIME_SEC_LABEL_DESC" label="PLG_ELEMENT_TIME_SEC_LABEL" name="time_seclabel" type="text"/>
+				
+		<field default="H:i:s" description="PLG_ELEMENT_TIME_LIST_FORMAT_DESC" label="PLG_ELEMENT_TIME_LIST_FORMAT" name="list_time_format" type="radio">
+			<option value="H:i:s">12:34:56</option>
+			<option value="H:i">12:34</option>
+			<option value="i:s">34:56</option>
+		</field>
+
+		<field default="H:i:s" description="PLG_ELEMENT_TIME_DETAILS_FORMAT_DESC" label="PLG_ELEMENT_TIME_DETAILS_FORMAT" name="details_time_format" type="radio">
+			<option value="H:i:s">12:34:56</option>
+			<option value="H:i">12:34</option>
+			<option value="i:s">34:56</option>
+		</field>
+		<field default=":" description="PLG_ELEMENT_TIME_SEPARATOR_LABEL_DESC" label="PLG_ELEMENT_TIME_SEPARATOR_LABEL" name="time_separatorlabel" type="text"/>
+
+		</fieldset>
+	</fields>
+</form>

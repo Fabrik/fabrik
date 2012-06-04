@@ -41,6 +41,17 @@
 			<option value="{age} d.m">PLG_ELEMENT_BIRTHDAY_YYY_D_MONTH</option>
 			<option value="{age} m.d">PLG_ELEMENT_BIRTHDAY_YYY_MONTH_D</option>
 		</field>
+		<field default="0" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEANDAGE" name="details_dateandage" type="radio">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+		<field label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEANDAGEDESC" name="dateandagedesc" type="spacer"/>
+
+		<field default="0" label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULL" name="empty_is_null" type="radio">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+		<field label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULLDESC" name="empty_is_null_desc" type="spacer"/>
 
 		<field label="PLG_ELEMENT_BIRTHDAY_EXAMPLE" name="bd_tutorial" type="spacer"/>
 
