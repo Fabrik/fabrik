@@ -2,12 +2,13 @@
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php } ?>
 <?php $form = $this->form;
-echo $form->startTag;
+//echo $form->startTag;
 if ($this->params->get('show-title', 1)) {?>
 <h1><?php echo JRequest::getVar('rowid', 0) == '0' ? 'Add ' : 'Edit ';
 echo $form->label;?></h1>
 <?php }
 echo $form->intro;
+echo $form->startTag;
 echo $this->plugintop;
 $active = ($form->error != '') ? '' : ' fabrikHide';
 echo "<div class=\"fabrikMainError fabrikError$active\">";

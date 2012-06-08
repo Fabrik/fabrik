@@ -2,7 +2,7 @@
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php } ?>
 <?php $form = $this->form;
-echo $form->startTag;
+//echo $form->startTag;
 if ($this->params->get('show-title', 1)) {?>
 <h1><?php echo $form->label;?></h1>
 <?php }?>
@@ -10,7 +10,8 @@ if ($this->params->get('show-title', 1)) {?>
 <?php if ($form->intro !== '') {?>
 <div class="formintro"><?php echo $form->intro; ?></div>
 <?php }?>
-<?php 
+<?php
+echo $form->startTag; 
 echo $this->plugintop;
 $active = ($form->error != '') ? '' : ' fabrikHide';
 echo "<div class=\"fabrikMainError fabrikError$active\">";
