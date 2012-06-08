@@ -383,7 +383,8 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 		$jubileum = array('0','25','75');
 		$groupModel = $this->getGroup();
 		//Jaanus: json_decode replaced with FabrikWorker::JSONtoData that made visible also single data in repeated group
-		$data = $groupModel->canRepeat() ? FabrikWorker::JSONtoData($data, true) : array($data);
+		//Jaanus: removed condition canrepeat() from renderListData: weird result such as 05",null,"1940.07.["1940 (2011) when not repeating but still join and merged. Using isJoin() instead
+		$data = $groupModel->isJoin() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array) $data;
 		$ft = $params->get('list_date_format', 'd.m.Y');
 		//$ft = $params->get('birthday_format', 'd.m.Y'); //$ft = $params->get('birthday_format', '%Y-%m-%d');

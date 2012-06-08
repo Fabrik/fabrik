@@ -261,7 +261,8 @@ class plgFabrik_ElementTime extends plgFabrik_Element
 		$db = FabrikWorker::getDbo();
 		$params = $this->getParams();
 		$groupModel = $this->getGroup();
-		$data = $groupModel->canRepeat() ? FabrikWorker::JsonToData($data) : array($data);
+		//Jaanus: removed condition canrepeat() from renderListData: weird result such as ["00:03:45","00 when not repeating but still join and merged. Using isJoin() instead
+		$data = $groupModel->isJoin() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array) $data;
 		$ft = $params->get('list_time_format', 'H:i:s');
 		$sep = $params->get('time_separatorlabel', JText::_(':'));
