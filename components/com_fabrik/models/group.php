@@ -215,7 +215,7 @@ class FabrikFEModelGroup extends FabModel{
 				$w = JArrayHelper::getValue($widths, ($elCount - 1) % $colcount, $w);
 			}
 			$element->column = ' style="float:left;width:' . $w . ';';
-			if ($elCount !== 0 && ($elCount % $colcount + 1 == 0) || $element->hidden)
+			if ($elCount !== 0 && ($elCount % ($colcount + 1) == 0) || $element->hidden)
 			{
 				$element->startRow = true;
 				$element->column .= "clear:both;";
