@@ -11,7 +11,7 @@
 	<help url="PLG_ELEMENT_TIME_HELP_SERVER"/>
 	<description>PLG_ELEMENT_TIME_DESCRIPTION</description>
 	<files>
-		<filename plugin="Time only">time.php</filename>
+		<filename plugin="time">time.php</filename>
 		<filename>index.html</filename>
 		<filename>time.js</filename>
 		<filename>time-min.js</filename>
