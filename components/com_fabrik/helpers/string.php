@@ -163,7 +163,7 @@ class FabrikString extends JString{
 		preg_replace('/<[a-z][a-z0-9]*[^<>]*>/', '', $label);
 		if (strlen($label) > 50)
 		{
-			$label = substr($label, 0, 47).'...';
+			$label = mb_substr($label,0,47,'UTF-8').'...';
 		}
 		$label = trim($label);
 		return $label;
