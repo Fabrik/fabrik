@@ -92,7 +92,7 @@ class FabrikControllerCrons extends FabControllerAdmin
 				$log->store();
 			}
 		}
-		$this->setRedirect('index.php?option=com_fabrik&view=crons', $c . ' records updated'');
+		$this->setRedirect('index.php?option=com_fabrik&view=crons', $c . ' records updated');
 	}
 
 }
