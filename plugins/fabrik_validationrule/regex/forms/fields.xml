@@ -6,7 +6,7 @@
 				
 			<field cols="30" description="PLG_VALIDATIONRULE_REGEX_CONDITION_DESC" label="PLG_VALIDATIONRULE_REGEX_CONDITION_LABEL" name="regex-validation_condition" repeat="true" rows="5" type="textarea"/>
 				
-			<field description="PLG_VALIDATIONRULE_REGEX_EXPRESSION_DESC" label="PLG_VALIDATIONRULE_REGEX_EXPRESSION_LABEL" name="regex-expression" repeat="true" type="text"/>
+			<field description="PLG_VALIDATIONRULE_REGEX_EXPRESSION_DESC" label="PLG_VALIDATIONRULE_REGEX_EXPRESSION_LABEL" name="regex-expression" repeat="true" size="50" type="text"/>
 				
 			<field default="1" description="PLG_VALIDATIONRULE_REGEX_MATCH_OR_REPLACE_DESC" label="PLG_VALIDATIONRULE_REGEX_MATCH_OR_REPLACE_LABEL" name="regex-match" repeat="true" type="radio">
 				
