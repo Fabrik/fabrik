@@ -1389,7 +1389,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 						$where = $db->quoteName($params->get('join_db_name')) . '.' . $db->quoteName($params->get('join_key_column'));
 					}
 
-					$rows = $this->checkboxRows('parent_id', $condition, $value, $where);
+					$rows = $this->checkboxRows($db->quoteName($params->get('join_db_name')) . '.parent_id', $condition, $value, $where);
 					$joinIds = array_keys($rows);
 					if (!empty($rows))
 					{
@@ -1431,7 +1431,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$key = $db->quoteName($to . '.' . $params->get('join_key_column'));
 		$label = $db->quoteName($to . '.' . $params->get('join_val_column'));
 		$v = $jointable . '.' . $shortName;
-		$query->select('parent_id, ' . $v . ' AS value, ' . $label . ' AS text')
+		$query->select($jointable . '.parent_id, ' . $v . ' AS value, ' . $label . ' AS text')
 		->from($jointable)
 		->join('LEFT', $to . ' ON ' . $key . ' = ' . $jointable . '.' . $shortName);
 		if (!is_null($condition) && !is_null($value))
@@ -1918,7 +1918,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$fullElName = $this->getFullName(false, true, false);
 		$sql = "(SELECT GROUP_CONCAT(" . $jkey . " " . $where . " SEPARATOR '".GROUPSPLITTER."') FROM $jointable
 		LEFT JOIN " . $params->get('join_db_name') . " ON "
-		. $params->get('join_db_name') . "." . $params->get('join_key_column')." = $jointable." . $this->_element->name . " WHERE parent_id = ".$item->db_primary_key.")";
+		. $params->get('join_db_name') . "." . $params->get('join_key_column')." = $jointable." . $this->_element->name . " WHERE " . $params->get('join_db_name') . ".parent_id = ".$item->db_primary_key.")";
 		if ($addAs)
 		{
 			$sql .= ' AS ' . $fullElName;
@@ -1934,7 +1934,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$db = JFactory::getDbo();
 		$table = $this->getListModel()->getTable();
 		$fullElName = $this->getFullName(false, true, false)."_id";
-		$str .= ", (SELECT GROUP_CONCAT(" . $this->_element->name . " SEPARATOR '".GROUPSPLITTER."') FROM $jointable WHERE parent_id = " . $table->db_primary_key . ") AS $fullElName";
+		$str .= ", (SELECT GROUP_CONCAT(" . $this->_element->name . " SEPARATOR '".GROUPSPLITTER."') FROM $jointable WHERE " . $jointable . ".parent_id = " . $table->db_primary_key . ") AS $fullElName";
 		return $str;
 	}
 
