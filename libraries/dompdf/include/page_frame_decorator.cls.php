@@ -593,4 +593,12 @@ class Page_Frame_Decorator extends Frame_Decorator {
     return $y;
   }
 
+	function add_line($br = false) {
+	//Jaanus: temporary solution against a bug
+	}
+
+	function get_current_line_box() {
+	//Jaanus: temporary solution against a bug
+	}
+
 }
