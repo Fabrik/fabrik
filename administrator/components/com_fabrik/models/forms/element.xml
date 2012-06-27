@@ -200,7 +200,9 @@
 				description="COM_FABRIK_FIELD_VIEW_HEADING_LABEL_DESC" />
 				
 			<field name="custom_link" 
-				size="70" type="text" 
+					type="textarea" 
+					cols="60"
+					rows="1" 
 				label="COM_FABRIK_FIELD_CUSTOM_LINK_LABEL" 
 				description="COM_FABRIK_FIELD_CUSTOM_LINK_DESC" />
 			

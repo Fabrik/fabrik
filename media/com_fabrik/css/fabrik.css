@@ -257,6 +257,7 @@ span.handlelabel {
 	min-width: 220px;
 	text-align: left;
 	font-size: 1.05em;
+	z-index:999;
 }
 
 .floating-tip ul.validation-notices{
