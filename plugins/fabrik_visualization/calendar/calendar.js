@@ -462,7 +462,7 @@ var fabrikCalendar = new Class({
 		var counterDate = opts.curdate;
 		var entry = new CloneObject(opts.entry, true, ['enddate', 'startdate']);//for day view to avoid dups when scrolling through days //dont clone the date objs for ie
 		var trs = this.el.getElements(opts.divclass + ' tr');
-		var hour = (entry.startdate.isSameDay(counterDate)) ? entry.startdate.getHours() : 0;
+		var hour = (entry.startdate.isSameDay(counterDate)) ? entry.startdate.getHours() - this.options.open : 0;
 		var i = opts.tdOffset;
 		
 		entry.label = entry.label ? entry.label : '';
@@ -875,20 +875,23 @@ var fabrikCalendar = new Class({
 	},
 	
 	renderWeekView: function () {
-		var i, d, tr, tbody;
+		var i, d, tr, tbody, we;
 		this.popWin.setStyle('opacity', 0);
+		
+		( this.options.showweekends == 0 ) ? we = 6 : we = 8;
+		
 		this.options.viewType = 'weekView';
 		if (!this.weekView) {
 			tbody = new Element('tbody');
 			tr = new Element('tr');
-			for (d = 0; d < 8; d++) {
+			for (d = 0; d < we; d++) {
 				if (d === 0) {
 					tr.adopt(new Element('td', {'class': 'day'}));
 				} else {
 					tr.adopt(new Element('th', {'class': 'dayHeading',
 					'styles': {
-						'width': '80px',
-						'height': '20px',
+						'width': this.options.weekday.width + 'px',
+						'height': ( this.options.weekday.height - 10 ) + 'px',
 						'text-align': 'center',
 						'color': this.options.headingColor,
 						'background-color': this.options.colors.headingBg
@@ -914,17 +917,20 @@ var fabrikCalendar = new Class({
 			}
 			tbody.appendChild(tr);
 			
-			for (i = 0; i < 24; i++) {
+			(this.options.open < 0 ) ? this.options.open = 0 : this.options.open = this.options.open;
+			(this.options.close > 24 || this.options.close < this.options.open ) ? this.options.close = 24 : this.options.close;
+		
+			for (i = this.options.open; i < (this.options.close + 1); i++) {
 				tr = new Element('tr');
-				for (d = 0; d < 8; d++) {
+				for (d = 0; d < we; d++) {
 					if (d === 0) {
 						var hour = (i.length === 1) ? i + '0:00' : i + ':00';
 						tr.adopt(new Element('td', {'class': 'day'}).appendText(hour));
 					} else {
 						tr.adopt(new Element('td', {'class': 'day',
 						'styles': {
-							'width': '90px',
-							'height': '10px',
+							'width': this.options.weekday.width + 'px',
+							'height': this.options.weekday.height + 'px',
 							'background-color': '#F7F7F7',
 							'vertical-align': 'top',
 							'padding': 0,

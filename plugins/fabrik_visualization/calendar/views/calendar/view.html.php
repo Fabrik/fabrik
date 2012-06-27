@@ -32,7 +32,12 @@ class fabrikViewCalendar extends JView
 		$calendar = $model->_row;
 		$this->calName = $model->getCalName();
 
-		$canAdd = $this->get('CanAdd');
+		$fbConfig = JComponentHelper::getParams('com_fabrik');
+		JHTML::stylesheet('media/com_fabrik/css/list.css');
+		$params = $model->getParams();
+		
+		($params->get('calendar-read-only', 0 ) == 1 ) ? $canAdd = 0 : $canAdd = $this->get('CanAdd');
+
 		$this->assign('requiredFiltersFound', $this->get('RequiredFiltersFound'));
 		if ($canAdd && $this->requiredFiltersFound)
 		{
@@ -96,9 +101,18 @@ class fabrikViewCalendar extends JView
 
 		$options->monthday = new stdClass();
 		$options->monthday->width = (int) $params->get('calendar-monthday-width', 90);
-		$options->monthday->height = (int) $params->get('calendar-monthday-height', 90);
+		$options->monthday->height = (int) $params->get('calendar-monthday-height', 80);
 		$options->greyscaledweekend = $params->get('greyscaled-week-end', 0);
 		$options->viewType = $params->get('calendar_default_view', 'monthView');
+		
+		$options->weekday = new stdClass();
+		$options->weekday->width = (int) $params->get('calendar-weekday-width', 90);
+		$options->weekday->height = (int) $params->get('calendar-weekday-height', 10);
+		$options->open = (int)$params->get('open-hour', 0);
+		$options->close = (int)$params->get('close-hour', 24);
+		$options->showweekends = $params->get('calendar-show-weekends', 1);
+		$options->readonly = $params->get('calendar-read-only', 0);
+		
 		$json = json_encode($options);
 
 		JText::script('PLG_VISUALIZATION_CALENDAR_NEXT');
