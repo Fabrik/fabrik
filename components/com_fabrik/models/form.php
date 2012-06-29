@@ -1873,7 +1873,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 		// otherwise it won't be in $data when we rebuild the page.
 		// Need to do it here, so _raw fields get added in the next chunk 'o' code.
 		$this->addEncrytedVarsToArray($post);
-echo "<pre>";print_r($post);exit;
+
 		// $$$ hugh - moved this to after addEncryptedVarsToArray(), so read only data is
 		// available to things like calc's running in preProcess phase.
 		$this->callElementPreprocess();
