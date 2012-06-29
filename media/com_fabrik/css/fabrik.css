@@ -348,6 +348,7 @@ fieldset.adminform input,fieldset.adminform textarea,fieldset.adminform select,f
 }
 
 .floating-tip-wrapper {
+	z-index: 10001;
 	font-size: 0.7em;
 	min-width: 100px;
 	text-align: center;
