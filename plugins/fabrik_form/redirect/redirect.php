@@ -67,7 +67,7 @@ class plgFabrik_FormRedirect extends plgFabrik_Form {
 			return true;
 		}
 		$this->_storeInSession($formModel);
-		$sshowsystemmsg[$this->renderOrder] = true;
+		(empty( $this->_data->thanks_message )) ? $sshowsystemmsg[$this->renderOrder] = false : $sshowsystemmsg[$this->renderOrder] = true;
 		$session->set($context . 'showsystemmsg', $sshowsystemmsg);
 		if ($this->_data->jump_page != '')
 		{
