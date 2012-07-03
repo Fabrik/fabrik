@@ -186,7 +186,7 @@ var fabrikAdminElement = new Class({
 	getPluginTop: function (plugin, opts) {
 		return new Element('tr').adopt(
 			new Element('td').adopt([
-				new Element('input', {'value': Joomla.JText._('COM_FABRIK_ACTION'), 'size': 1, 'readonly': true, 'class': 'readonly'}),
+				new Element('input', {'value': Joomla.JText._('COM_FABRIK_ACTION'), 'size': 3, 'readonly': true, 'class': 'readonly'}),
 				this._makeSel('inputbox elementtype', 'jform[validationrule][plugin][]', this.plugins, plugin)
 			])
 		
