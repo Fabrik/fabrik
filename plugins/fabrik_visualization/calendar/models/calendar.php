@@ -139,6 +139,7 @@ class fabrikModelCalendar extends FabrikFEModelVisualization {
 			$table_startdate = (array) $params->get('calendar_startdate_element');
 			$table_enddate = (array) $params->get('calendar_enddate_element');
 			$colour	= (array) $params->get('colour');
+			$legend	= (array) $params->get('legendtext');
 			$this->_events = array();
 			for ($i=0; $i<count($tables); $i++) {
 				$listModel = JModel::getInstance('list', 'FabrikFEModel');
@@ -165,6 +166,9 @@ class fabrikModelCalendar extends FabrikFEModelVisualization {
 					if (!isset($colour[$i])) {
 						$colour[$i] = '';
 					}
+					if (!isset($legend[$i])) {
+						$legend[$i] = '';
+					}
 					if (!isset($table_label[$i])) {
 						$table_label[$i] = '';
 					}
@@ -174,7 +178,8 @@ class fabrikModelCalendar extends FabrikFEModelVisualization {
 						'startShowTime' => $startShowTime,
 						'endShowTime' => $endShowTime,
 						'label'=>$table_label[$i],
-						'colour'=>$colour[$i] ,
+						'colour'=>$colour[$i],
+						'legendtext'=>$legend[$i],
 						'formid'=>$table->form_id,
 						'listid'=>$tables[$i]
 					);
@@ -379,6 +384,7 @@ class fabrikModelCalendar extends FabrikFEModelVisualization {
 		$this->setupEvents();
 		$tables = (array) $params->get('calendar_table');
 		$colour = (array) $params->get('colour');
+		$legend = (array) $params->get('legendtext');    
 		$calendar = $this->_row;
 		$aLegend = "$this->calName.addLegend([";
 		$jsevents = array();
@@ -388,8 +394,10 @@ class fabrikModelCalendar extends FabrikFEModelVisualization {
 			$table = $listModel->getTable();
 			foreach ($record as $data) {
 				$rubbish = $table->db_table_name . '___';
-				$colour 	= FabrikString::ltrimword($data['colour'], $rubbish);
-				$aLegend  .= "{'label':'" .  $table->label . "','colour':'" . $colour . "'},";
+				$colour = FabrikString::ltrimword($data['colour'], $rubbish);
+				$legend = FabrikString::ltrimword($data['legendtext'], $rubbish);      
+				$label = ( empty( $legend )) ? $table->label : $legend;	
+				$aLegend  .= "{'label':'" . $label . "','colour':'" . $colour . "'},";
 			}
 		}
 		$aLegend = rtrim($aLegend, ","). "]);";

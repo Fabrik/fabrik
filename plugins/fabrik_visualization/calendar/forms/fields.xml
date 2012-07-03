@@ -14,7 +14,8 @@
 				
 			<field connection="params_calendar_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_CALENDAR_LABEL_ELEMENT_DESC" label="PLG_VISUALIZATION_CALENDAR_LABEL_ELEMENT_LABEL" name="calendar_label_element" table="params_calendar_table" type="element"/>
 				
-			<field description="PLG_VISUALIZATION_CALENDAR_COLOR_DESC" label="PLG_VISUALIZATION_CALENDAR_COLOR_LABEL" name="colour" type="text"/>	
+			<field description="PLG_VISUALIZATION_CALENDAR_COLOR_DESC" label="PLG_VISUALIZATION_CALENDAR_COLOR_LABEL" name="colour" type="text"/>
+			<field description="PLG_VISUALIZATION_CALENDAR_LEGEND_TEXT_DESC" label="PLG_VISUALIZATION_CALENDAR_LEGEND_TEXT_LABEL" name="legendtext" type="text"/>
 		</fieldset>
 		
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-visualization-calendar">

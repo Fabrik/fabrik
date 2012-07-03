@@ -122,7 +122,7 @@ var fabrikCalendar = new Class({
 		});
 		eventCont.addEvent('mouseenter', this.doPopupEvent.bindWithEvent(this, [entry, label]));		
 		
-		if (entry.link !== '') {
+		if (entry.link !== '' && this.options.readonly == 0) {
 			x = new Element('a', {'href': entry.link, 'class': 'fabrikEditEvent', 
 				'events': {
 				'click': function (e) {
@@ -463,10 +463,11 @@ var fabrikCalendar = new Class({
 		var entry = new CloneObject(opts.entry, true, ['enddate', 'startdate']);//for day view to avoid dups when scrolling through days //dont clone the date objs for ie
 		var trs = this.el.getElements(opts.divclass + ' tr');
 		var hour = (entry.startdate.isSameDay(counterDate)) ? entry.startdate.getHours() - this.options.open : 0;
+		( hour < 0 ) ? hour = 0 : hour = hour;
 		var i = opts.tdOffset;
 		
 		entry.label = entry.label ? entry.label : '';
-		var td = trs[hour + 1].getElements('td')[i + 1];
+		var td = trs[hour + 1].getElements('td')[i + 1]; 
 		var orighours = entry.startdate.getHours();
 	
 		var rowheight = td.getSize().y;
@@ -484,13 +485,13 @@ var fabrikCalendar = new Class({
 		}
 		
 		if (entry.startdate.getDay() !== entry.enddate.getDay()) {
-			duration = 24;
+			duration = ( this.options.open != 0 || this.options.close != 24 ) ? this.options.close - this.options.open + 1 : 24;
 			if (entry.startdate.isSameDay(counterDate)) {
-				duration = 24 - entry.startdate.getHours();
+				duration = ( this.options.open != 0 || this.options.close != 24 ) ? this.options.close - this.options.open + 1 : 24 - entry.startdate.getHours();
 			} else {
 				entry.startdate.setHours(0);
 				if (entry.enddate.isSameDay(counterDate)) {
-					duration = entry.enddate.getHours();
+					duration = ( this.options.open != 0 || this.options.close != 24 ) ? this.options.close - this.options.open : entry.enddate.getHours();
 				}
 			}
 		}
@@ -792,7 +793,11 @@ var fabrikCalendar = new Class({
 				}
 			}
 			tbody.appendChild(tr);
-			for (var i = 0; i < 24; i++) {
+			
+			this.options.open = this.options.open < 0 ?  0 : this.options.open;
+			(this.options.close > 24 || this.options.close < this.options.open) ? this.options.close = 24 : this.options.close;
+		
+			for (i = this.options.open; i < (this.options.close + 1); i++) {
 				tr = new Element('tr');
 				for (d = 0; d < 2; d++) {
 					if (d === 0) {
@@ -877,7 +882,8 @@ var fabrikCalendar = new Class({
 	renderWeekView: function () {
 		var i, d, tr, tbody, we;
 		this.popWin.setStyle('opacity', 0);
-		we = this.options.showweekends === 0 ? 6 : 8;
+		// For some reason, using '===' does not work, so une '==' instead
+		we = this.options.showweekends == 0 ? 6 : 8;
 		this.options.viewType = 'weekView';
 		if (!this.weekView) {
 			tbody = new Element('tbody');
