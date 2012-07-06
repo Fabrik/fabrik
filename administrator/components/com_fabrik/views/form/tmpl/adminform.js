@@ -35,7 +35,7 @@ fabrikAdminForm = new Class({
 			new Element('td').adopt([
 				new Element('input', {
 					'value': Joomla.JText._('COM_FABRIK_SELECT_DO'),
-					'size': 1,
+					'size': 4,
 					'readonly': true,
 					'class': 'readonly'
 				}),
