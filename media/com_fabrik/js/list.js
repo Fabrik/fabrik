@@ -1317,7 +1317,7 @@ var FbListKeys = new Class({
 
 var FbGroupedToggler = new Class({
 	initialize: function (container) {
-		container.addEvent('mouseup:relay(.fabrik_groupheading a.toggle)', function (e) {
+		container.addEvent('click:relay(.fabrik_groupheading a.toggle)', function (e) {
 			e.stop();
 			e.preventDefault(); //should work according to http://mootools.net/blog/2011/09/10/mootools-1-4-0/
 			var h = e.target.getParent('.fabrik_groupheading');
