@@ -517,9 +517,9 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 				return '';
 			}
 			$aclEl = $this->getFormModel()->getElement($params->get('fu_download_acl', ''), true);
-			$aclEl = $aclEl->getFullName();
 			if (!empty($aclEl))
 			{
+				$aclEl = $aclEl->getFullName();
 				$aclElraw = $aclEl . '_raw';
 				$user = JFactory::getUser();
 				$groups = $user->getAuthorisedViewLevels();
@@ -2301,9 +2301,9 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			exit;
 		}
 		$aclEl = $this->getFormModel()->getElement($params->get('fu_download_acl', ''), true);
-		$aclEl = $aclEl->getFullName();
 		if (!empty($aclEl))
 		{
+			$aclEl = $aclEl->getFullName();
 			$aclElraw = $aclEl . '_raw';
 			$user = JFactory::getUser();
 			$groups = $user->getAuthorisedViewLevels();
