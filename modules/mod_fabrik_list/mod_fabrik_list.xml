@@ -11,7 +11,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.0.2</version>
+	<version>3.0.6</version>
 	<description>MOD_FABRIK_LIST_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_list">mod_fabrik_list.php</filename>
