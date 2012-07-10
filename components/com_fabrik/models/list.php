@@ -2272,7 +2272,7 @@ class FabrikFEModelList extends JModelForm {
 						{
 							// search all filter after a prefilter - alter 'join' value to 'AND'
 							//if ($i > 1 && JArrayHelper::getValue($filters['search_type'], $i-1) == 'prefilter' && JArrayHelper::getValue($filters['search_type'], $i) !== 'prefilter') {
-							if ($last_i && JArrayHelper::getValue($filters['search_type'], $iast_i) == 'prefilter' && JArrayHelper::getValue($filters['search_type'], $i) !== 'prefilter')
+							if ($last_i && JArrayHelper::getValue($filters['search_type'], $last_i) == 'prefilter' && JArrayHelper::getValue($filters['search_type'], $i) !== 'prefilter')
 							{
 								$filters['join'][$i] = 'AND';
 								// $$$ hugh - if using a search form, with a multiselect object (like checkbox) and
