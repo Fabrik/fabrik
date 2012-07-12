@@ -19,8 +19,10 @@ language/*
 libraries/*
 !libraries/dompdf/
 modules/*
-!modules/fabrik_form/*
-!modules/fabrik_list/*
+!modules/mod_fabrik_form
+!modules/mod_fabrik_list
+!modules/mod_fabrik_form/*
+!modules/mod_fabrik_list/*
 media/*
 !media/com_fabrik/*
 logs

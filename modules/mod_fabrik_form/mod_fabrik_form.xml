@@ -4,7 +4,7 @@
 	version="2.5"
 	client="site"
 	method="upgrade">
-	<name>Fabrik form</name>
+	<name>mod_fabrik_form</name>
 	<author>Rob Clayburn</author>
 	<creationDate>{createdate}</creationDate>
 	<copyright>(C) 2005 - {year} Pollen 8 Design Ltd. All rights reserved.</copyright>
@@ -12,7 +12,7 @@
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
 	<version>3.0.6</version>
-	<description>This module shows a Fabrik form.</description>
+	<description>MOD_FABRIK_FORM_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_form">mod_fabrik_form.php</filename>
 		<filename>index.html</filename>
