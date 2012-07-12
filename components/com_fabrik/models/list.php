@@ -690,15 +690,16 @@ class FabrikFEModelList extends JModelForm
 			{
 				if (isset($data[$i]->$groupBy))
 				{
-					if (!in_array($data[$i]->$groupBy, $aGroupTitles))
-					{
-						$aGroupTitles[] = $data[$i]->$groupBy;
-						$grouptemplate = $w->parseMessageForPlaceHolder($groupTemplate, JArrayHelper::fromObject($data[$i]));
-						$this->grouptemplates[$data[$i]->$groupBy] = nl2br($grouptemplate);
-						$groupedData[$data[$i]->$groupBy] = array();
-					}
-					$data[$i]->_groupId = $data[$i]->$groupBy;
-					$gKey = $data[$i]->$groupBy;
+					$sdata = strip_tags($data[$i]->$groupBy);
+					if (!in_array($sdata, $aGroupTitles))
+						{
+							$aGroupTitles[] = $sdata;
+							$grouptemplate = strip_tags($w->parseMessageForPlaceHolder($groupTemplate, JArrayHelper::fromObject($data[$i])));
+							$this->grouptemplates[$sdata] = nl2br($grouptemplate);
+							$groupedData[$sdata] = array();
+						}
+						$data[$i]->_groupId = $sdata;
+						$gKey = $sdata;
 					//	if the group_by was added in in getAsFields remove it from the returned data set (to avoid mess in package view)
 					if ($this->_group_by_added)
 					{
