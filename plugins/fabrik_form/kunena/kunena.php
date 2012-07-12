@@ -41,7 +41,6 @@ class plgFabrik_FormKunena extends plgFabrik_Form {
 		$files[]  = COM_FABRIK_BASE.'components/com_kunena/lib/kunena.defines.php';
 		//$files[]  = COM_FABRIK_BASE.'components/com_kunena/lib/kunena.session.class.php';
 		$files[]  = COM_FABRIK_BASE.'components/com_kunena/lib/kunena.link.class.php';
-		$files[]  = COM_FABRIK_BASE.'components/com_kunena/lib/kunena.link.class.php';
 		//$files[]  = COM_FABRIK_BASE.'components/com_kunena/template/default/smile.class.php';
 		$files[]  = COM_FABRIK_BASE.'components/com_kunena/lib/kunena.smile.class.php';
 		if (!JFile::exists($define)) {
