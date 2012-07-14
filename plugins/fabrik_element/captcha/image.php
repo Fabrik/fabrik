@@ -17,7 +17,7 @@ $path = session_save_path();
 $id = session_id();
 $result = session_start();
 */
-define( '_JEXEC', 1);
+ define( '_JEXEC', 1);
 
 //define('JPATH_BASE', dirname(__FILE__) . '/../../../../../..');
 $jpath = dirname(__FILE__);
@@ -39,8 +39,14 @@ if (!($code)) {
 }
 
 //***** e-kinst
-$width = $session->get('com_fabrik.element.captach.width', 100);
-$height = $session->get('com_fabrik.element.captach.height', 50);
+// Felixkat - Removed width and height.  Now specified by font size.
+
+//$width = $session->get('com_fabrik.element.captach.width', 100);
+//$height = $session->get('com_fabrik.element.captach.height', 50);
+
+$fontsize = $session->get('com_fabrik.element.captach.fontsize', 30);
+$angle = $session->get('com_fabrik.element.captach.angle', 0);
+$padding  = $session->get('com_fabrik.element.captach.padding', 10);
 $font = $session->get('com_fabrik.element.captach.font', 'monofont.ttf');
 $b_color = $session->get('com_fabrik.element.captach.bg_color', '255+255+255');
 $bc = explode('+', $b_color); 
@@ -48,33 +54,44 @@ $n_color = $session->get('com_fabrik.element.captach.noise_color', '0+0+255');
 $nc = explode('+', $n_color); 
 $t_color = $session->get('com_fabrik.element.captach.text_color', '0+0+255');
 $tc = explode('+', $t_color); 
-// * /e-kinst
 
-$font_size = $height * 0.75;
-$image = @imagecreate($width, $height) or die('Cannot initialize new GD image stream');
-/* set the colours */
-
-//***** e-kinst
-$background_color = imagecolorallocate($image, $bc[0], $bc[1], $bc[2]);
-$text_color = imagecolorallocate($image, $tc[0], $tc[1], $tc[2]);
-$noise_color = imagecolorallocate($image, $nc[0], $nc[1], $nc[2]);
-// * /e-kinst
-/* generate random dots in background */
-for ($i=0; $i<($width*$height)/3; $i++) {
-	imagefilledellipse($image, mt_rand(0,$width), mt_rand(0,$height), 1, 1, $noise_color);
-}
-/* generate random lines in background */
-for ($i=0; $i<($width*$height)/150; $i++) {
-	imageline($image, mt_rand(0,$width), mt_rand(0,$height), mt_rand(0,$width), mt_rand(0,$height), $noise_color);
-}
 /* create textbox and add text */
 $fontPath = JPATH_SITE . '/plugins/fabrik_element/captcha/' . $font;
 
-$textbox = imagettfbbox($font_size, 0, $fontPath, $code) or die('Error in imagettfbbox function ' . $fontPath);
-$x = ($width - $textbox[4])/2;
-$y = ($height - $textbox[5])/2;
-imagettftext($image, $font_size, 0, $x, $y, $text_color, $fontPath , $code) or die('Error in imagettftext function');
+$the_box = calculateTextBox($code,$fontPath,$fontsize,$angle);
+
+$imgWidth    = $the_box["width"] + $padding;
+$imgHeight    = $the_box["height"] + $padding;
+
+$image = imagecreate($imgWidth,$imgHeight) or die ('Cannot initialize new GD image stream');
+
+$background_color = imagecolorallocate($image, $bc[0], $bc[1], $bc[2]);
+$text_color = imagecolorallocate($image, $tc[0], $tc[1], $tc[2]);
+$noise_color = imagecolorallocate($image, $nc[0], $nc[1], $nc[2]);
+
+	/* generate random dots in background */
+for ($i=0; $i<($imgWidth*$imgHeight)/3; $i++) {
+	imagefilledellipse($image, mt_rand(0,$imgWidth), mt_rand(0,$imgHeight), 1, 1, $noise_color);
+ }
+
+/*  generate random lines in background */
+for ($i=0; $i<($imgWidth*$imgHeight)/150; $i++) {
+	imageline($image, mt_rand(0,$imgWidth), mt_rand(0,$imgHeight), mt_rand(0,$imgWidth), mt_rand(0,$imgHeight), $noise_color);
+}
+
+imagettftext($image,
+    $fontsize,
+    $angle,
+    $the_box["left"] + ($imgWidth / 2) - ($the_box["width"] / 2),
+    $the_box["top"] + ($imgHeight / 2) - ($the_box["height"] / 2),
+    $text_color,
+    $fontPath,
+    $code) or die('Error in imagettftext function');
+	
+
 // $$$ hugh - @TODO - add some session identifier to the image name (maybe using the hash we use in the formsession stuff)
+
+
 ob_start();
 imagejpeg($image);
 $img = ob_get_contents();
@@ -83,7 +100,7 @@ imagedestroy($image);
 
 if( !empty($img) ) {
 	// it exists, so grab the contents ...
-	//$img = file_get_contents('./image.jpg');
+	// $img = file_get_contents('./image.jpg');
 
 	// ... set no-cache (and friends) headers ...
 	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Some time in the past
@@ -101,4 +118,29 @@ if( !empty($img) ) {
 	// ... and we're done.
 	exit();
 }
+?>
+
+<?php
+function calculateTextBox($code,$fontPath,$fontsize,$angle) {
+    /************
+    simple function that calculates the *exact* bounding box (single pixel precision).
+    The function returns an associative array with these keys:
+    left, top:  coordinates you will pass to imagettftext
+    width, height: dimension of the image you have to create
+    *************/
+    $rect = imagettfbbox($fontsize,$angle,$fontPath,$code);
+    $minX = min(array($rect[0],$rect[2],$rect[4],$rect[6]));
+    $maxX = max(array($rect[0],$rect[2],$rect[4],$rect[6]));
+    $minY = min(array($rect[1],$rect[3],$rect[5],$rect[7]));
+    $maxY = max(array($rect[1],$rect[3],$rect[5],$rect[7]));
+   
+    return array(
+     "left"   => abs($minX) - 1,
+     "top"    => abs($minY) - 1,
+     "width"  => $maxX - $minX,
+     "height" => $maxY - $minY,
+     "box"    => $rect
+    );
+}
+
 ?>

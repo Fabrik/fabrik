@@ -153,8 +153,11 @@ class plgFabrik_ElementCaptcha extends plgFabrik_Element
 		{
 			$str = array();
 			$size = $element->width;
-			$height = $params->get('captcha-height', 40);
-			$width = $params->get('captcha-width', 40);
+			//$height = $params->get('captcha-height', 40);
+			//$width = $params->get('captcha-width', 40);
+			$fontsize = $params->get('captcha-font-size', 22);
+			$angle = $params->get('captcha-angle', 0);
+			$padding = $params->get('captcha-padding', 10);
 			$characters = $params->get('captcha-chars', 6);
 			$code = $this->_generateCode($characters);
 
@@ -172,8 +175,15 @@ class plgFabrik_ElementCaptcha extends plgFabrik_Element
 			$bg_color = $this->_getRGBcolor($bg_color, 'FFFFFF');
 
 			//	let's keep all params in relatively safe place not only captcha value
-			$session->set('com_fabrik.element.captach.height', $height);
-			$session->set('com_fabrik.element.captach.width', $width);
+			// Felixkat - Add
+			$session->set('com_fabrik.element.captach.fontsize', $fontsize);
+			$session->set('com_fabrik.element.captach.angle', $angle);
+			$session->set('com_fabrik.element.captach.padding', $padding);
+			
+			// Felixkat - Remove
+			//$session->set('com_fabrik.element.captach.height', $height);
+			//$session->set('com_fabrik.element.captach.width', $width);
+			// Felixkat - End
 			$session->set('com_fabrik.element.captach.noise_color', $noise_color);
 			$session->set('com_fabrik.element.captach.text_color', $text_color);
 			$session->set('com_fabrik.element.captach.bg_color', $bg_color);
@@ -188,7 +198,7 @@ class plgFabrik_ElementCaptcha extends plgFabrik_Element
 			//	background color to OCR captcha values without problems
 			$str[] = '<img src="' . COM_FABRIK_LIVESITE . 'plugins/fabrik_element/captcha/image.php?foo=' . rand() . '" alt="'
 				. JText::_('security image') . '" />';
-			// *  /e-kinst
+				// *  /e-kinst
 			$str[] = '<br />';
 
 			$type = ($params->get('password') == "1") ? "password" : "text";

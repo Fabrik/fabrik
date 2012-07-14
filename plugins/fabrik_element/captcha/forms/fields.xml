@@ -13,8 +13,12 @@
 		</fieldset>
 	
 		<fieldset label="PLG_ELEMENT_STANDARD_CAPTCHA_FIELDSET_LABEL" name="plg-captcha-standard">
-			<field default="120" description="" label="PLG_ELEMENT_CAPTCHA_WIDTH_LABEL" name="captcha-width" size="3" type="text"/>
-			<field default="40" description="" label="PLG_ELEMENT_CAPTCHA_HEIGHT_LABEL" name="captcha-height" size="3" type="text"/>
+	
+			<field default="30" description="" label="PLG_ELEMENT_CAPTCHA_FONT_SIZE_LABEL" name="captcha-font-size" size="3" type="text"/>
+			<field default="0" description="" label="PLG_ELEMENT_CAPTCHA_ANGLE_LABEL" name="captcha-angle" size="3" type="text"/>
+			<field default="10" description="" label="PLG_ELEMENT_CAPTCHA_PADDING_LABEL" name="captcha-padding" size="3" type="text"/>
+	<!--	<field default="120" description="" label="PLG_ELEMENT_CAPTCHA_WIDTH_LABEL" name="captcha-width" size="3" type="text"/>    -->
+	<!--	<field default="40" description="" label="PLG_ELEMENT_CAPTCHA_HEIGHT_LABEL" name="captcha-height" size="3" type="text"/>   -->
 			<field default="6" description="" label="PLG_ELEMENT_CAPTCHA_NUMBER_OF_CHARS_LABEL" name="captcha-chars" size="3" type="text"/>
 			<field default="ffffff" description="" label="PLG_ELEMENT_CAPTCHA_BACKGROUND_COLOR" name="captcha-bg" size="7" type="text"/>	
 			<field default="0000ff" description="" label="PLG_ELEMENT_CAPTCHA_NOISE_COLOR" name="captcha-noise-color" size="7" type="text"/>
