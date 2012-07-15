@@ -1506,12 +1506,19 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 						// So, we need some logic here to handle that!
 						// $$$ hugh - OK, I think this is the test we need to see if neither ends of the join are a PK,
 						// and if so, don't modify any data, as we're joining on some other field that isn't the PK of either table.
-						if ($oJoin->join_from_table . '.' . $oJoin->table_key == $origTableKey)
-						{
+						// $$$ Jaanus: tested succesfully one idea to allow to write next step joins fk, eg when joined table is joined to
+						// joined table. 
+						// Yet not tested whether it works also with 3rd, 4th etc step joins. But I can confirm it hasn't any impact to
+						// the rather rarely used "parent.fk points to child.pk" case (that I got fully work only by using mysql trigger). 
+						// Anyway, most important is that we got data submission work with joins table1->table2->table3->table# :)
+						// The following "if" prevented it so I commented it out. 
+						
+						/*if ($oJoin->join_from_table . '.' . $oJoin->table_key == $origTableKey)
+						{*/
 							$fkVal = JArrayHelper::getValue($joinKeys, $oJoin->join_from_table . '.' . $oJoin->table_key, $insertId);
 							$data[$fullforeginKey] = $fkVal;
 							$data[$fullforeginKey . '_raw'] = $fkVal;
-						}
+						//}
 					}
 					if ($item->db_primary_key == '')
 					{
