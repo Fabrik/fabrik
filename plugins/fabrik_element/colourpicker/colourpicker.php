@@ -72,7 +72,7 @@ class plgFabrik_ElementColourpicker extends plgFabrik_Element
 		{
 			return;
 		}
-		FabrikHelperHTML::addPath(JPATH_SITE . '/plugins/fabrik_element/colourpicker/images/', 'image', 'form', false);
+		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/colourpicker/images/', 'image', 'form', false);
 		$params = $this->getParams();
 		$element = $this->getElement();
 		$id = $this->getHTMLId($repeatCounter);

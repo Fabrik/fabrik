@@ -114,7 +114,7 @@ class plgFabrik_FormComment extends plgFabrik_Form {
 		$opts->row_id = JRequest::getInt('rowid');
 		$opts->voteType = 'comment';
 
-		FabrikHelperHTML::addPath(JPATH_SITE . '/plugins/fabrik_element/digg/images/', 'image', 'form', false);
+		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/digg/images/', 'image', 'form', false);
 		$opts->imageover = FabrikHelperHTML::image("heart-off.png", 'form', $this->tmpl, array(), true);
 		$opts->imageout = FabrikHelperHTML::image("heart.png", 'form', $this->tmpl, array(), true);
 		$opts->formid = $this->formModel->getId();
@@ -449,7 +449,7 @@ class plgFabrik_FormComment extends plgFabrik_Form {
 		$data[] = '<div class="metadata">';
 		$data[] = $name . ' '  . JText::_('PLG_FORM_COMMENT_WROTE_ON') . ' <small>' . JHTML::date($comment->time_date) .  '</small>';
 
-		FabrikHelperHTML::addPath(JPATH_SITE . '/plugins/fabrik_form/comment/images/', 'image', 'form', false);
+		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_form/comment/images/', 'image', 'form', false);
 		$insrc = FabrikHelperHTML::image("star_in.png", 'form', @$this->tmpl, array(), true);
 		if ($params->get('comment-internal-rating') == 1)
 		{

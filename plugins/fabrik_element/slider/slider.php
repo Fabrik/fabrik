@@ -68,7 +68,7 @@ class plgFabrik_ElementSlider extends plgFabrik_Element
 		$str = array();
 		$str[] = '<div id="' . $id . '" class="fabrikSubElementContainer">';
 
-		FabrikHelperHTML::addPath(JPATH_SITE . '/plugins/fabrik_element/slider/images/', 'image', 'form', false);
+		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/slider/images/', 'image', 'form', false);
 		$outsrc = FabrikHelperHTML::image('clear_rating_out.png', 'form', $this->tmpl, array(), true);
 		if ($params->get('slider-shownone'))
 		{
