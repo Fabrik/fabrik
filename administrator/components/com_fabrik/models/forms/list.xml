@@ -808,7 +808,7 @@
 		
 			<field name="join-display" 
 				type="list" 
-				default="deafult" 
+				default="DEFAULT" 
 				label="COM_FABRIK_FIELD_JOIN_DISPLAY_LABEL" 
 				description="COM_FABRIK_FIELD_JOIN_DISPLAY_DESC">
 				<option value="default">COM_FABRIK_EACH_ROW_SEPARATELY</option>

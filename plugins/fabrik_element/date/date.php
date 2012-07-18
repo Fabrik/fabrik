@@ -753,7 +753,7 @@ class plgFabrik_ElementDate extends plgFabrik_Element
 			}
 			else
 			{
-				// Deafult date should always be entered as gmt date e.g. eval'd default of:
+				// DEFAULT date should always be entered as gmt date e.g. eval'd default of:
 				$default = $element->default;
 				if ($element->eval == "1")
 				{

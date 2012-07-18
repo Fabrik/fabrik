@@ -49,7 +49,7 @@
 				<option value="1">JYES</option>
 			</field>
 			
-			<field deafult="0" description="PLG_FORM_COMMENT_DIGG_DESC" label="PLG_FORM_COMMENT_DIGG_LABEL" name="comment-digg" repeat="true" type="radio">
+			<field DEFAULT="0" description="PLG_FORM_COMMENT_DIGG_DESC" label="PLG_FORM_COMMENT_DIGG_LABEL" name="comment-digg" repeat="true" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
