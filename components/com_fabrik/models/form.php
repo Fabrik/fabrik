@@ -2237,7 +2237,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 						$post[$elName] = $elDbVals;
 					}
 				}
-				// Unset the deafults or the orig submitted form data will be used (see date plugin mysql vs form format)
+				// Unset the DEFAULTs or the orig submitted form data will be used (see date plugin mysql vs form format)
 				$elementModel->defaults = null;
 			}
 		}
