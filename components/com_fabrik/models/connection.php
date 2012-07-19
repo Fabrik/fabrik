@@ -163,10 +163,10 @@ class FabrikFEModelConnection extends JModel {
 
 			$debug 		= $conf->getValue('config.debug');
 
-			$deafult_options= array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
+			$default_options= array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 			$options = $this->getConnectionOptions($cn);
 
-			if ($this->_compareConnectionOpts($deafult_options, $options)) {
+			if ($this->_compareConnectionOpts($default_options, $options)) {
 				$dbs[$cn->id] = FabrikWorker::getDbo();
 			} else {
 				$dbs[$cn->id] = JDatabase::getInstance($options);
@@ -188,7 +188,7 @@ class FabrikFEModelConnection extends JModel {
 					$app = JFactory::getApplication();
 
 					if (!$app->isAdmin()) {
-						JError::raiseError(E_ERROR, 'Could not connection to database', $deafult_options);
+						JError::raiseError(E_ERROR, 'Could not connection to database', $default_options);
 						jexit('Could not connection to database - possibly a menu item which doesn\'t link to a fabrik table');
 					} else {
 						// $$$ rob - unset the connection as caching it will mean that changes we make to the incorrect connection in admin, will not result
