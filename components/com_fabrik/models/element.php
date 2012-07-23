@@ -1543,7 +1543,7 @@ class plgFabrik_Element extends FabrikPlugin
 	 * @return  mixed	- false if you shouldnt continue to render the element
 	 */
 
-	public function preRender($c, $elCount, $tmpl)
+	public function preRender($c, $elCount, $tmpl, $readonly = false)
 	{
 		$model = $this->getFormModel();
 		$groupModel = $this->getGroup();
@@ -1557,7 +1557,7 @@ class plgFabrik_Element extends FabrikPlugin
 		}
 		else
 		{
-			$this->_editable = ($model->_editable) ? true : false;
+			$this->_editable = (($model->_editable) && (!$readonly)) ? true : false;
 		}
 		$params = $this->getParams();
 

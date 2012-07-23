@@ -3988,6 +3988,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 			$groupTable = $groupModel->getGroup();
 			$group = $groupModel->getGroupProperties($this);
 			$groupParams = $groupModel->getParams();
+			$ro = $groupParams->get('read_only');
 			$group->intro = $groupParams->get('intro');
 			$aElements = array();
 
@@ -4107,7 +4108,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 
 					// $$$ rob ensure that the element is associated with the correct form (could occur if n plugins rendering form
 					// and detailed views of the same form.
-					$elementModel->_form = $this;
+					$elementModel->_form = $this;           
 					$elementModel->tmpl = $tmpl;
 
 					// $$$rob test don't include the element in the form is we can't use and edit it
@@ -4136,8 +4137,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 					$elementModel->_foreignKey = $foreignKey;
 					$elementModel->_repeatGroupTotal = $repeatGroup - 1;
 
-					$element = $elementModel->preRender($c, $elCount, $tmpl);
-
+					$element = $elementModel->preRender($c, $elCount, $tmpl, $ro);
 					// $$$ hugh - experimenting with adding non-viewable, non-editable to encrypted vars
 					// if (!$element || ($elementModel->canView() && !$elementModel->canUse()))
 					if (!$element || !$elementModel->canUse())

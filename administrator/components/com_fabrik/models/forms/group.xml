@@ -153,6 +153,15 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 			</field>
+			
+			<field name="read_only"
+				type="radio"
+				default="0"
+				label="COM_FABRIK_GROUP_READ_ONLY_LABEL"
+				description="COM_FABRIK_GROUP_READ_ONLY_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+			</field>			
 	</fieldset>
 	</fields>
 </form>
