@@ -51,6 +51,7 @@ if ($this->showFilters) {
 				echo $this->loadTemplate('row');
 		 	}
 		 	?>
+		 <!-- no caculations in div template 
 		<?php if ($this->hasCalculations) { ?>
 				<ul class="fabrik_calculations">
 				<?php
@@ -64,6 +65,7 @@ if ($this->showFilters) {
 			<?php }
 			$gCounter++;
 			}?>
+		-->
 		</div>
 		<?php	
 		echo $this->nav;

@@ -1,7 +1,34 @@
-<?php
+<?php 
 header('Content-type: text/css');
 $c = $_REQUEST['c'];
 echo "
+#listform_$c div.fabrikList {
+	color: #444444;
+	width:auto;
+	clear:both;
+	padding-top:10px;
+}
+#listform_$c div.fabrik_row {
+	float:left; 
+	border:1px solid; 
+	width:220px;
+	height:400px;
+	overflow:hidden;
+	padding:10px;
+	margin:10px;
+}
+
+#listform_$c div.fabrikList li{
+	list-style:none;
+}
+#listform_$c div.fabrikList .fabrikorder img{
+	display:none;
+}
+#listform_$c div.fabrikList li.fabrik_select{
+	#display:none;
+}
+#listform_$c .divlabel {font-weight:bold}
+
 #listform_$c table.fabrikList {
 	clear:right;
 	border-collapse: collapse;
@@ -22,7 +49,7 @@ echo "
 	border:0;
 	background:transparent;
 }
-
+#listform_$c .fabrikNav{clear:both;}
 #listform_$c .list-footer{
 	display:-moz-box;
 	display:-webkit-box;
