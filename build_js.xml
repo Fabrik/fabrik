@@ -7,7 +7,7 @@
 		<antcall target="js.minify"></antcall>
 	</target>
 
-	<target name="load.properties" description="Set properties for this build">
+	<target name="load.properties" descriptionsdfsdfsdf="Set properties for this build">
 		<echo>load properties</echo>
 		<!--YUI Compressor location -->
 		<property name="yui.dir"
