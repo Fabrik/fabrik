@@ -28,6 +28,11 @@
 				<option value="1">PLG_ELEMENT_DATE_LOCAL_TIME</option>
 			</field>
 			
+			<field default="0" description="PLG_ELEMENT_DATE_DB_FIELD_DESC" label="PLG_ELEMENT_DATE_DB_FIELD_LABEL" name="date_db_field_type" type="radio">
+				<option value="DATETIME">DATETIME</option>
+				<option value="DATE">DATE</option>
+			</field>
+
 			<field default="%Y-%m-%d" description="PLG_ELEMENT_DATE_TABLE_FORMAT_DESC" label="PLG_ELEMENT_DATE_TABLE_DATE_FORMAT_LABEL" length="20" name="date_table_format" type="text"/>
 				
 			<field default="%Y-%m-%d" description="PLG_ELEMENT_DATE_FORM_DATE_FORMAT_DESC" label="PLG_ELEMENT_DATE_FORM_DATE_FORMAT_LABEL" length="20" name="date_form_format" type="text"/>

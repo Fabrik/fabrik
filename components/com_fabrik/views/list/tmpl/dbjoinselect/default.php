@@ -60,6 +60,7 @@ print_r($this->hiddenFields);
 ?>
 </div>
 </form>
+<?php echo $this->table->outro;?>
 
 <?php
 FabrikHelperHTML::script('components/com_fabrik/views/list/tmpl/dbjoinselect/javascript.js');

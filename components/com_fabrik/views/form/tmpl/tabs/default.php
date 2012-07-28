@@ -100,7 +100,10 @@ echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
 
 <?php
 $document = JFactory::getDocument();
+echo $form->outro;
+
 echo $form->endTag;
+
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();
 $options = "{display:$display}";

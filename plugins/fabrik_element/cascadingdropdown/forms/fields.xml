@@ -27,7 +27,7 @@
 				
 			<field connection="params_cascadingdropdown_connection" connection_in_repeat="false" description="PLG_ELEMENT_CDD_LABEL_DESC" excludejoined="1" label="PLG_ELEMENT_CDD_LABEL_LABEL" name="cascadingdropdown_label" table="params_cascadingdropdown_table" type="element"/>
 				
-			<field description="PLG_ELEMENT_CDD_LABEL_CONCAT_DESC" label="PLG_ELEMENT_CDD_LABEL_CONCAT_LABEL" name="cascadingdropdown_label_concat" type="text"/>
+			<field description="PLG_ELEMENT_CDD_LABEL_CONCAT_DESC" label="PLG_ELEMENT_CDD_LABEL_CONCAT_LABEL" name="cascadingdropdown_label_concat" cols="40" rows="8" type="textarea"/>
 		</fieldset>
 		
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-cascadingdropdown-watch">
@@ -37,7 +37,7 @@
 		</fieldset>
 		
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-cascadingdropdown-advanced">
-			<field description="PLG_ELEMENT_CDD_WHERE_DESC" label="PLG_ELEMENT_CDD_WHERE_LABEL" name="cascadingdropdown_filter" type="text"/>
+			<field description="PLG_ELEMENT_CDD_WHERE_DESC" label="PLG_ELEMENT_CDD_WHERE_LABEL" name="cascadingdropdown_filter" cols="40" rows="8" type="textarea"/>
 				
 		
 			

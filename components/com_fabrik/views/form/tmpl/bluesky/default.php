@@ -81,6 +81,9 @@ echo "$form->error</div>";?>
 	<?php } ?>
 
 <?php
+echo $form->outro;
+
 echo $form->endTag;
+
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();?>

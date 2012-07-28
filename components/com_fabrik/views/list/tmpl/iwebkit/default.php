@@ -56,6 +56,7 @@ if ($this->showFilters) {
 ?>
 </div>
 </form>
+<?php echo $this->table->outro;?>
 
 <?php $doc = JFactory::getDocument();
 //$style = $this->params->get('mobile_image') == '' ? 'musiclist' : 'list';

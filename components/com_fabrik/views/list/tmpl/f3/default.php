@@ -68,4 +68,5 @@ if ($this->params->get('show_page_title', 1)) { ?>
 	<?php	echo $this->loadTemplate('footer');?>
 </div>
 </form>
+<?php echo $this->table->outro;?>
 </div>

@@ -51,6 +51,9 @@ echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
 	</div>
 
 <?php
+echo $form->outro;
+
 echo $form->endTag;
+
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();?>

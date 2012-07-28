@@ -39,9 +39,9 @@
 			
 		<field connection="params_join_conn_id" description="PLG_ELEMENT_DBJOIN_JOIN_LABEL_DESC" label="PLG_ELEMENT_DBJOIN_JOIN_LABEL_LABEL" name="join_val_column" table="params_join_db_name" type="listfields"/>
 			
-		<field description="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_DESC" label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL" name="join_val_column_concat" size="70" type="text"/>
+		<field description="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_DESC" label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL" name="join_val_column_concat" cols="40" rows="8" type="textarea"/>
 			
-		<field description="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_DESC" label="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_LABEL" name="database_join_where_sql" size="70" type="text"/>
+		<field description="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_DESC" label="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_LABEL" name="database_join_where_sql" cols="40" rows="8" type="textarea"/>
 			
 		<field default="1" description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_DESC" label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_LABEL" name="database_join_where_access" type="accesslevel"/>
 			

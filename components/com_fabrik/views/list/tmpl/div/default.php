@@ -74,3 +74,4 @@ if ($this->showFilters) {
 </div>
 
 </form>
+<?php echo $this->table->outro;?>
