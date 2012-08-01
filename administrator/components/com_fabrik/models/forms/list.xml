@@ -156,7 +156,16 @@
 	
 	<fields name="params">
 	
-		<fieldset name="details2">
+		<fieldset name="main">
+		<field name="outro"
+			type="editor"
+			filter="FabrikHelper::filterText"
+			rows="3" cols="30"
+			label="COM_FABRIK_FIELD_OUTRO_LABEL"
+			description="COM_FABRIK_FIELD_OUTRO_DESC" />
+		</fieldset>
+
+			<fieldset name="details2">
 			
 			<field name="list_ajax"
 					type="radio"

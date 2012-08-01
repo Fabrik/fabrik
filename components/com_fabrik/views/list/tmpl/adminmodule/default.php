@@ -70,3 +70,4 @@ if ($this->showFilters) {
 </div>
 <?php echo $this->loadTemplate('buttons');?>
 </form>
+<?php echo $this->table->outro;?>

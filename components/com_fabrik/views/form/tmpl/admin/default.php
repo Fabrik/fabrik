@@ -70,6 +70,9 @@ echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
 	<?php echo $form->copyButton  . " " . $form->gobackButton . ' ' . $form->deleteButton . ' ' . $this->message ?>
 	</div>
 <?php
+echo $form->outro;
+
 echo $form->endTag;
+
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();?>

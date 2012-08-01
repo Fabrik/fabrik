@@ -95,3 +95,4 @@ $this->headingstmpl =  $this->loadTemplate('headings');
 	</div>
 </div>
 </form>
+<?php echo $this->table->outro;?>
