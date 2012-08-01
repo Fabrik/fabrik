@@ -4,7 +4,7 @@
 		$style = empty($this->cellClass[$heading]['style']) ? '' : 'style="'.$this->cellClass[$heading]['style'].'"';?>
 		<li class="<?php echo $this->cellClass[$heading]['class']?>" <?php echo $style?>>
 			<span class="divlabel"><?php echo $label;?>:</span>
-			<?php echo @$this->_row->data->$heading;?>
+			<span class="divelement"><?php echo @$this->_row->data->$heading;?></span>
 		</li>
 	<?php }?>
 	</ul>

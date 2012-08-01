@@ -2,7 +2,7 @@
 header('Content-type: text/css');
 $c = $_REQUEST['c'];
 echo "
-#listform_$c div.fabrikList {
+#listform_$c .fabrikList {
 	color: #444444;
 	width:auto;
 	clear:both;
@@ -12,22 +12,41 @@ echo "
 	float:left; 
 	border:1px solid; 
 	width:220px;
-	height:400px;
 	overflow:hidden;
 	padding:10px;
 	margin:10px;
 }
 
-#listform_$c div.fabrikList li{
+#listform_$c .fabrikList li{
 	list-style:none;
 }
-#listform_$c div.fabrikList .fabrikorder img{
+#listform_$c .fabrikList .fabrikorder img{
 	display:none;
 }
-#listform_$c div.fabrikList li.fabrik_select{
-	#display:none;
+#listform_$c .fabrik_groupheading{
+	clear:both;
+}
+#listform_$c .fabrikFilterContainer ul{
+	margin:0px;
+	float:right;
+	text-align:right;
+}
+#listform_$c .fabrikFilterContainer ul .inputbox:focus{border:0}
+
+#listform_$c .fabrikFilterContainer li.fabrik_row{
+	padding:0px 10px 0px 10px;
+}
+#listform_$c .fabrikFilterContainer li.fabrik_row .divfilterLabel{
+	float:left;
+	padding-right:10px
+}
+#listform_$c .fabrikFilterContainer li.fabrik___heading {
+	text-align:left;
+	padding:0px 10px 0px 10px;
 }
 #listform_$c .divlabel {font-weight:bold}
+#listform_$c .fabrik_actions .divlabel {display:none}
+#listform_$c .fabrik_select .divlabel {display:none}
 
 #listform_$c table.fabrikList {
 	clear:right;

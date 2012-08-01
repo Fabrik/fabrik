@@ -1,6 +1,6 @@
 <div class="fabrik_buttons">
-	<?php if ($this->hasButtons) {?>
 
+	<?php if ($this->hasButtons) {?>
 	<ul class="fabrik_action"><?php if ($this->showAdd) {?>
 		<li class="addbutton">
 			<a class="addRecord" href="<?php echo $this->addRecordLink;?>">
@@ -9,8 +9,12 @@
 			</a>
 		</li>
 	<?php }
-
-	if ($this->showFilters && $this->params->get('show-table-filters') == 2) {?>
+	if ($this->showClearFilters) {?>
+		<li>
+		<?php echo $this->clearFliterLink;?>
+		</li>
+	<?php }
+	if ($this->showFilters && $this->toggleFilters) {?>
 		<li>
 			<a href="#" class="toggleFilters">
 				<?php echo $this->buttons->filter;?>
@@ -18,10 +22,13 @@
 			</a>
 		</li>
 	<?php }
+	if ($this->advancedSearch !== '') {
+		echo '<li>' . $this->advancedSearch . '</li>';
+	}
 	if ($this->canGroupBy) {?>
 		<li>
 			<a href="#" class="groupBy">
-				<?php echo $this->buttons->filter;?>
+				<?php echo $this->buttons->groupby;?>
 				<span><?php echo JText::_('COM_FABRIK_GROUP_BY');?></span>
 			</a>
 			<ul>
@@ -41,7 +48,7 @@
 		</li>
 	<?php }
 	if ($this->showCSVImport) {?>
-	<li class="csvImportButton">
+		<li class="csvImportButton">
 			<a href="<?php echo $this->csvImportLink;?>">
 				<?php echo $this->buttons->csvimport;?>
 				<span><?php echo JText::_('COM_FABRIK_IMPORT_FROM_CSV');?></span>
@@ -71,7 +78,12 @@
 		<span><?php echo JText::_('COM_FABRIK_EMPTY')?></span>
 		</a>
 		</li>
-<?php }?>
+	<?php }
+	foreach ($this->pluginTopButtons as $b) {?>
+	<li>
+		<?php echo $b;?>
+	</li>
+	<?php }?>
 </ul>
 <?php }?>
 </div>
