@@ -95,7 +95,13 @@ imagettftext($image,
 ob_start();
 imagejpeg($image);
 $img = ob_get_contents();
-ob_end_clean();
+//
+// Felixkat - Clean has been replaced with flush due to a image truncating issue
+// Haven't been able to pinpoint the exact issue yet, possibly PHP version related
+// http://fabrikar.com/forums/showthread.php?p=147606#post147606
+//
+//ob_end_clean();
+ob_end_flush();
 imagedestroy($image);
 
 if( !empty($img) ) {
