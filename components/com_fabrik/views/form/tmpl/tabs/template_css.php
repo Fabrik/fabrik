@@ -351,6 +351,7 @@ section for dropdowns radio buttons etc**/
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     margin-left: 3px;
     background: #f0f0f0;
     color: #666;
