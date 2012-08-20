@@ -362,7 +362,7 @@ class FabrikViewListBase extends JView
 		$this->assign('list', $this->table);
 		$this->group_by = $item->group_by;
 		$this->form = new stdClass;
-		$this->form->id = $item->id;
+		$this->form->id = $item->form_id;
 		$this->assign('renderContext', $this->get('RenderContext'));
 		$this->formid = 'listform_' . $this->renderContext;
 		$form = $model->getFormModel();
