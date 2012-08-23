@@ -10,7 +10,7 @@
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
-require_once 'fabrikmodelform.php';
+require_once COM_FABRIK_FRONTEND . '/models/fabrikmodelform.php';
 require_once COM_FABRIK_FRONTEND . '/helpers/element.php';
 
 /**
