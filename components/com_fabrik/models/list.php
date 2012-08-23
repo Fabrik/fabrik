@@ -3326,7 +3326,24 @@ class FabrikFEModelList extends JModelForm
 		if (!isset($this->_dbFields[$sig]))
 		{
 			$db = $this->getDb();
-			$tbl = FabrikString::safeColName($tbl);
+			/* moofoo
+				The DESCRIBE query below can fail if the $tbl string is of a table that's not in the current database/connection.
+		   		The (hacky) fix is to check if the Joomla table prefix is in the table name. If it is, the Joomla site database is 
+		   		added to the table name using the usual dot notation. If it's not, the connection/database of the list object is used.
+			*/	
+			$app = JFactory::getApplication();
+			$prefix = $app->getCfg('dbprefix');
+			$dbName = '';
+	
+			if(stripos($tbl,$prefix)!==FALSE){
+				$conf = JFactory::getConfig();
+				$dbName = $conf->get('db');			
+			}else {
+				$thisCn = $this->getConnection()->getConnection();
+				$dbName = $thisCn->database;
+			}		
+			$tbl = FabrikString::safeColName($dbName.".".$tbl);
+
 			$db->setQuery("DESCRIBE " . $tbl);
 			$this->_dbFields[$sig] = $db->loadObjectList($key);
 			if ($db->getErrorNum())
