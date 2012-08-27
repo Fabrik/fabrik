@@ -254,4 +254,112 @@ class FArrayHelper extends JArrayHelper
 		return key($array);
 	}
 
+	/**
+	 * Iterates over the properties of an object (or array) and returns the sum of the integers, 
+	 * lengths of string properties, and sizes of arrays/objects. 
+	 *
+	 * @param   object $obj an object
+	 *
+	 * @return array tables
+	 */	
+
+	private function getObjectNumber($obj){
+		$num = 0;
+		foreach($obj as $v){
+			if(is_numeric($v)){
+				$num += $v;
+			}else if(is_string($v)){
+				$num += strlen($v);
+			}else if(is_array($v)){
+				$num += sizeof($v);
+			}else if(is_object($v)){
+				$num += sizeof(get_object_vars($v));
+			}
+		}
+		return $num;
+	}
+
+	/**
+	 * Creates a key from the arguments passed to 'getHash', for the purposes of caching the result of that function.
+	 * 	 
+	 * @param   array $arrayOfObjects an array of objects
+	 * @param   string $keyProp object property used as hash index.
+	 * @param   string $valueProp object property used as hash value.
+	 *
+	 * @return array tables
+	 */
+
+	private function getHashKey($arrayOfObjects, $keyProp, $valueProp){
+		$s1 = sizeof($arrayOfObjects);
+		if($s1 == 0){ return ''; }
+		
+		$index = $s1 - 1;
+		$object = $arrayOfObjects[$index];
+		$arrayKeys = array_keys(get_object_vars($object));		
+		$s2 = sizeof($arrayKeys);
+
+		$hKey =  preg_replace("/[^a-zA-Z]/", "", $arrayKeys[0]) . preg_replace("/[^a-zA-Z]/", "", $arrayKeys[$s2 - 1]);
+		$hKey .= ($keyProp === NULL ? '' : $keyProp) . ($valueProp === NULL ? '' : $valueProp);
+		$hKey .= $s1 . $s2 . self::getObjectNumber($object);
+
+		return $hKey;
+	}
+
+	/**
+	 * Create a hash from an array of objects. 
+	 * For example, from an array of fabrik connection objects (where each object has the properties 'id', 'host', 'user', etc) 
+	 * you could get an associative array where the 'id' property is the index (key), and the 'database' property is the value.
+	 *
+	 * @param   array $arrayOfObjects an array of objects
+	 * @param   string $keyProp object property to use as hash index. If null, returns an indexed array instead
+	 * @param   string $valueProp object property to use as hash value. If null, returns a hash of the original objects in $arrayOfObjects, indexed by $keyProp.
+	 * @param   boolean $refreshCache If true, the hash object will be re-created (rather than pulled from the cache)
+	 *
+	 * @return array tables
+	 */
+
+	public function getHash($arrayOfObjects, $keyProp = NULL, $valueProp = NULL, $refreshCache = false)
+	{
+		static $cache;
+		$hKey = self::getHashKey($arrayOfObjects, $keyProp, $valueProp);
+
+		if(!$cache[$hKey] || $refreshCache == true){
+
+			if(is_array($arrayOfObjects[0])){
+				foreach($arrayOfObjects AS &$arr){
+					$arr = self::toObject($arr);
+				}
+			}			
+
+			$hash = array();
+
+			$s = sizeof($arrayOfObjects);	
+			for($x = 0; $x < $s; $x++)
+			{
+				if($keyProp == NULL)
+				{
+					$key = $x;
+
+				}else 
+				{
+					$key = $arrayOfObjects[$x]->$keyProp;
+				}			
+				
+				if($valueProp !== NULL)
+				{
+					$value = $arrayOfObjects[$x]->$valueProp;
+
+				}else
+				{
+					$value = $arrayOfObjects[$x];
+				}
+				
+				$hash[$key] = $value;
+			}
+
+			$cache[$hKey] = $hash;
+		}
+
+		return $cache[$hKey];	
+	}
 }
