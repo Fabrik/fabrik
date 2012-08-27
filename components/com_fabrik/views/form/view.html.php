@@ -11,7 +11,7 @@
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
-require_once(JPATH_SITE . '/components/com_fabrik/views/form/view.base.php');
+require_once JPATH_SITE . '/components/com_fabrik/views/form/view.base.php';
 
 class fabrikViewForm extends FabrikViewFormBase {
 
@@ -23,4 +23,3 @@ class fabrikViewForm extends FabrikViewFormBase {
 		}
 	}
 }
-?>

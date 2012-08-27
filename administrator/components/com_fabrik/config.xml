@@ -189,9 +189,10 @@
 			default="0"
 			description="COM_FABRIK_FABRIK_DEBUG_DESC"
 			label="COM_FABRIK_FABRIK_DEBUG_LABEL"
-			type="radio">
+			type="list">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="2">COM_FABRIK_FABRIK_DEBUG_JS</option>
 		</field>
 		
 		<field name="pdf_debug"

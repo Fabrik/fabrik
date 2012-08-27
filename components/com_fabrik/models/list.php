@@ -774,7 +774,7 @@ class FabrikFEModelList extends JModelForm
 					if (!in_array($sdata, $aGroupTitles))
 					{
 						$aGroupTitles[] = $sdata;
-						$grouptemplate = strip_tags($w->parseMessageForPlaceHolder($groupTemplate, JArrayHelper::fromObject($data[$i])));
+						$grouptemplate = ($w->parseMessageForPlaceHolder($groupTemplate, JArrayHelper::fromObject($data[$i])));
 						$this->grouptemplates[$sdata] = nl2br($grouptemplate);
 						$groupedData[$sdata] = array();
 					}
@@ -8820,7 +8820,7 @@ class FabrikFEModelList extends JModelForm
 		}
 		else
 		{
-			if ((JRequest::getVar('task') == 'list.view' && JRequest::getVar('format') == 'raw') || JRequest::getVar('layout') == '_advancedsearch'
+			if (((JRequest::getVar('task') == 'list.view' || JRequest::getVar('task') == 'list.delete') && JRequest::getVar('format') == 'raw') || JRequest::getVar('layout') == '_advancedsearch'
 				|| JRequest::getVar('task') === 'list.elementFilter')
 			{
 				// Testing for ajax nav in content plugin or in advanced search

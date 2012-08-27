@@ -692,6 +692,7 @@
 				description="COM_FABRIK_EDIT_DESC" />
 			
 			<field name="actionMethod"
+				default="floating"
 				type="list"
 				label="COM_FABRIK_FIELD_ACTION_METHOD_LABEL"
 				description="COM_FABRIK_FIELD_ACTION_METHOD_DESC">

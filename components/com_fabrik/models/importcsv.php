@@ -160,6 +160,7 @@ class FabrikFEModelImportcsv extends JModelForm
 		$data = $this->getFormData();
 		if (is_null($this->fieldDelimiter))
 		{
+			$this->fieldDelimiter = ',';
 			$session = JFactory::getSession();
 			if ($session->has('com_fabrik.csv.fielddelimiter'))
 			{

@@ -113,7 +113,7 @@ class FabrikViewListBase extends JView
 
 		}
 		$opts->formels = $formEls;//$elementsNotInTable;
-		$opts->actionMethod = $params->get('actionMethod');
+		$opts->actionMethod = $params->get('actionMethod', '');
 		$opts->floatPos = $params->get('floatPos');
 		$opts->csvChoose = (bool) $params->get('csv_frontend_selection');
 		$popUpWidth = $params->get('popup_width', '');

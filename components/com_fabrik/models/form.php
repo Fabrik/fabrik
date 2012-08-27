@@ -2763,7 +2763,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 				$this->_rowId = FabrikWorker::getMenuOrRequestVar('rowid', $usersConfig->get('rowid'), $this->isMambot, 'request');
 			}
 		}
-		if ($this->getListModel()->getParams()->get('sef-slug') !== '')
+		if ($this->getListModel()->getParams()->get('sef-slug', '') !== '')
 		{
 			$this->_rowId = explode(':', $this->_rowId);
 			$this->_rowId = array_shift($this->_rowId);
@@ -2778,7 +2778,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 		switch ($this->_rowId)
 		{
 			case '-1':
-				$this->_rowId = $user->get('id');
+				$this->_rowId = (int) $user->get('id');
 				break;
 			case '-2':
 			// Set rowid to -2 to load in the last recorded record
@@ -2855,22 +2855,25 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 	{
 		$errorsFound = !empty($this->_arErrors);
 
-		// Test if its a resumed paged form
-		// if so _arErrors will be filled so check all elements had no errors
-		$srow = $this->getSessionData();
-		$multiPageErrors = false;
-		if ($this->saveMultiPage() && $srow->data != '')
+		if ($this->saveMultiPage())
 		{
-			foreach ($this->_arErrors as $err)
+			$srow = $this->getSessionData();
+			// Test if its a resumed paged form
+			// if so _arErrors will be filled so check all elements had no errors
+			$multiPageErrors = false;
+			if ($srow->data != '')
 			{
-				if (!empty($err[0]))
+				foreach ($this->_arErrors as $err)
 				{
-					$multiPageErrors = true;
+					if (!empty($err[0]))
+					{
+						$multiPageErrors = true;
+					}
 				}
-			}
-			if (!$multiPageErrors)
-			{
-				$errorsFound = false;
+				if (!$multiPageErrors)
+				{
+					$errorsFound = false;
+				}
 			}
 		}
 		return $errorsFound;
@@ -2946,15 +2949,20 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 			}
 			else
 			{
+				$sessionLoaded = false;
 				// Test if its a resumed paged form
-				$srow = $this->getSessionData();
-				JDEBUG ? $profiler->mark('formmodel getData: session data loaded') : null;
-				if ($this->saveMultiPage() && $srow->data != '')
+				if ($this->saveMultiPage())
 				{
-					$data = array(FArrayHelper::toObject(array_merge(unserialize($srow->data), JArrayHelper::fromObject($data[0]))));
-					FabrikHelperHTML::debug($data, 'form:getData from session (form not in Mambot and no errors');
+					$srow = $this->getSessionData();
+					JDEBUG ? $profiler->mark('formmodel getData: session data loaded') : null;
+					if ($srow->data != '')
+					{
+						$sessionLoaded = true;
+						$data = array(FArrayHelper::toObject(array_merge(unserialize($srow->data), JArrayHelper::fromObject($data[0]))));
+						FabrikHelperHTML::debug($data, 'form:getData from session (form not in Mambot and no errors');
+					}
 				}
-				else
+				if (!$sessionLoaded)
 				{
 					/* Only try and get the row data if its an active record
 					 * use !== 0 as rowid may be alphanumeric
@@ -2999,7 +3007,8 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 						FabrikHelperHTML::debug($data, 'form:getData from querying rowid= ' . $this->_rowId . ' (form not in Mambot and no errors)');
 
 						// If empty data return and trying to edit a record then show error
-						// occurs if user trying to edit a record forbidden by a prefilter rull
+						// occurs if user trying to edit a record forbidden by a prefilter rule
+						JDEBUG ? $profiler->mark('formmodel getData: empty test') : null;
 						if (empty($data) && $this->_rowId != '')
 						{
 							// $$$ hugh - special case when using -1, if user doesn't have a record yet

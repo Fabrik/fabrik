@@ -1,27 +1,27 @@
 <?php
 
 /**
-* @package Joomla
-* @subpackage Fabrik
-* @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-*/
+ * @package Joomla
+ * @subpackage Fabrik
+ * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+/**
+ * if using file extensions sef and htaccess :
+ * you need to edit yout .htaccess file to:
+ *
+ * RewriteCond %{REQUEST_URI} (/|\.csv|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
+ *
+ * otherwise the csv exporter will give you a 404 error
+ *
+ */
 
-	/**
-	 * if using file extensions sef and htaccess :
-	 * you need to edit yout .htaccess file to:
-	 *
-	 * RewriteCond %{REQUEST_URI} (/|\.csv|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
-	 *
-	 * otherwise the csv exporter will give you a 404 error
-	 *
-	 */
-
-function fabrikBuildRoute(&$query) {
+function fabrikBuildRoute(&$query)
+{
 	$segments = array();
 	$app = JFactory::getApplication();
 	$menu = $app->getMenu();
@@ -30,13 +30,13 @@ function fabrikBuildRoute(&$query) {
 	{
 		//$segments[] = $query['c'];//remove from sef url
 		unset($query['c']);
-	};
+	}
 
 	if (isset($query['task']))
 	{
 		$segments[] = $query['task'];
 		unset($query['task']);
-	};
+	}
 
 	if (isset($query['view']))
 	{
@@ -53,52 +53,56 @@ function fabrikBuildRoute(&$query) {
 	{
 		$segments[] = $query['id'];
 		unset($query['id']);
-	};
+	}
 
 	if (isset($query['layout']))
 	{
 		$segments[] = $query['layout'];
 		unset($query['layout']);
-	};
+	}
 
 	if (isset($query['formid']))
 	{
 		$segments[] = $query['formid'];
 		unset($query['formid']);
-	};
+	}
 
 	// $$$ hugh - looks like we still have some links using 'fabrik' instead of 'formid'
-	if (isset($query['fabrik'])) {
+	if (isset($query['fabrik']))
+	{
 		$segments[] = $query['fabrik'];
 		unset($query['fabrik']);
-	};
+	}
 
 	if (isset($query['listid']))
 	{
-		if ($view != 'form' && $view != 'details') {
+		if ($view != 'form' && $view != 'details')
+		{
 			$segments[] = $query['listid'];
 		}
 		unset($query['listid']);
-	};
+	}
+
 
 	if (isset($query['rowid']))
 	{
 		$segments[] = $query['rowid'];
 		unset($query['rowid']);
-	};
+	}
 
 	if (isset($query['calculations']))
 	{
 		$segments[] = $query['calculations'];
 		unset($query['calculations']);
-	};
+	}
+	;
 
 	if (isset($query['filetype']))
 	{
 		$segments[] = $query['filetype'];
 		unset($query['filetype']);
 	}
-	if (isset($query['format'] ))
+	if (isset($query['format']))
 	{
 		$segments[] = $query['format'];
 		//don't unset as with sef urls and extensions on - if we unset it
@@ -112,13 +116,12 @@ function fabrikBuildRoute(&$query) {
 		unset($query['type']);
 	}
 
-		//test
+	//test
 	if (isset($query['fabriklayout']))
 	{
 		$segments[] = $query['fabriklayout'];
 		unset($query['fabriklayout']);
-	};
-
+	}
 	return $segments;
 }
 
@@ -135,24 +138,20 @@ function fabrikParseRoute($segments)
 	{
 		$view = array_shift(explode('.', $view));
 	}
+
+	// View (controller not passed into segments)
 	switch ($view)
-	{ //view (controller not passed into segments)
+	{
 		case 'form':
 		case 'details':
-			// 3.0 task no longer user
-			//$vars['task'] = 'view';
-			$vars['formid'] = JArrayHelper::getValue($segments, 1, 0);
-			// $$$ rob no longer passing in listid - no need and makes sef urls tidier
-			//$vars['listid'] = JArrayHelper::getValue($segments, 2, 0);
-			$vars['rowid'] = JArrayHelper::getValue($segments, 2, 0);
 			$vars['view'] = $segments[0];
+			$vars['formid'] = JArrayHelper::getValue($segments, 1, 0);
+			$vars['rowid'] = JArrayHelper::getValue($segments, 2, 0);
 			break;
 		case 'table':
 		case 'list':
 			$vars['view'] = JArrayHelper::getValue($segments, 0, '');
 			$vars['listid'] = JArrayHelper::getValue($segments, 1, 0);
-			//$vars['format'] = $segments[2]; - //test may not be when filtering on tbl, sef, modrewrite and file extension on
-			//$vars['type'] = $segments[3];
 			break;
 		case 'import':
 			$vars['view'] = 'import';
@@ -160,12 +159,11 @@ function fabrikParseRoute($segments)
 			$vars['filetype'] = JArrayHelper::getValue($segments, 2, 0);
 			break;
 		case 'visualization':
-			$vars['id'] = JArrayHelper::getValue($segments, 1, 0);;
+			$vars['id'] = JArrayHelper::getValue($segments, 1, 0);
 			$vars['format'] = JArrayHelper::getValue($segments, 2, 'html');
 			break;
 		default:
-			//echo "router: ahk no view! for $view";
+			// Router: ahk no view! for $view
 	}
 	return $vars;
 }
-?>

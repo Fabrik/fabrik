@@ -178,7 +178,7 @@
 					<option value="3">Both</option>
 				</field>
 		
-				<field description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_DESC" filter="access" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_LABEL" name="fu_download_acl" type="listfields"/>
+				<field description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_DESC" filter="viewlevel" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_LABEL" name="fu_download_acl" type="listfields"/>
 					
 				<field description="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_DESC" directory="media/com_fabrik/images" hide_none="1" label="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_LABEL" name="fu_download_noaccess_image" type="imagelist"/>
 					

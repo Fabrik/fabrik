@@ -29,6 +29,12 @@ class FabrikModelElement extends JModelAdmin
 
 	protected $abstractPlugins = null;
 
+	/*
+	 * @var	array	validation plugin models for this element
+	 * @since	3.0.6
+	 */
+	protected $aValidations = null;
+
 	protected $core = array('#__assets', '#__banner_clients', '#__banner_tracks', '#__banners', '#__categories', '#__contact_details', '#__content',
 		'#__content_frontpage', '#__content_rating', '#__core_log_searches', '#__extensions', '#__fabrik_connections', '#__{package}_cron',
 		'#__{package}_elements', '#__{package}_form_sessions', '#__{package}_formgroup', '#__{package}_forms', '#__{package}_groups',
@@ -586,6 +592,57 @@ class FabrikModelElement extends JModelAdmin
 			$data['created_by'] = $user->get('id');
 			$data['created_by_alias'] = $user->get('username');
 		}
+
+		/**
+		 * $$$ hugh
+		 * This insane chunk of code is needed because the validation rule params are not in sequential,
+		 * completely indexed arrays.  What we have is single item arrays, with specific numeric
+		 * keys, like foo-something[0], bar-otherthing[2], etc.  And if you json_encode an array with incomplete
+		 * or out of sequence numeric indexes, it encodes it as an object instead of an array.  Which means the first
+		 * validation plugin will encode as an array, as it's params are single [0] index, and the rest as objects.
+		 * This foobars things, as we then don't know if validation params are arrays or objects!
+		 *
+		 * One option would be to modify every validation, and test every param we use, and if necessary convert it,
+		 * but that would be a major pain in the ass.
+		 *
+		 * So ... we need to fill in the blanks in the arrays, and ksort them.  But, we need to know the param names
+		 * for each validation.  But as they are just stuck in with the rest of the element params, there is no easy
+		 * way of knowing which are validation params and which are element params.
+		 *
+		 * So ... we need to load the validation objects, then load the XML file for each one, and iterate through
+		 * the fieldsets!  Well, that's the only way I could come up with doing it.  Hopefully Rob can come up with
+		 * a quicker and simpler way of doing this!
+		 */
+		$num_validations = count($params['validations']['plugin']);
+		$validation_plugins = $this->getValidations($elementModel, $params['validations']['plugin']);
+		foreach ($validation_plugins as $plugin)
+		{
+			$plugin_form = $plugin->getJForm();
+			JForm::addFormPath(JPATH_SITE . '/plugins/fabrik_validationrule/' . $plugin->_pluginName);
+			$xmlFile = JPATH_SITE . '/plugins/fabrik_validationrule/' . $plugin->_pluginName . '/forms/fields.xml';
+			$xml = $plugin->jform->loadFile($xmlFile, false);
+			foreach ($plugin_form->getFieldsets() as $fieldset)
+			{
+				foreach ($plugin_form->getFieldset($fieldset->name) as $field)
+				{
+					if (isset($params[$field->fieldname]))
+					{
+						if (is_array($params[$field->fieldname]))
+						{
+							for ($x = 0; $x < $num_validations; $x++)
+							{
+								if (!(array_key_exists($x, $params[$field->fieldname])))
+								{
+									$params[$field->fieldname][$x] = '';
+								}
+							}
+							ksort($params[$field->fieldname]);
+						}
+					}
+				}
+			}
+		}
+
 		$data['params'] = json_encode($params);
 		$row->params = $data['params'];
 		$cond = 'group_id = ' . (int) $row->group_id;
@@ -1178,5 +1235,46 @@ class FabrikModelElement extends JModelAdmin
 			$all_kids = array_merge($this->getElementDescendents($kid->id), $all_kids);
 		}
 		return $all_kids;
+	}
+
+	/**
+	* Loads in elements validation objects
+	* $$$ hugh - trying to fix issue on saving where we have to massage the plugin
+	* params, which means knowing all the param names, but we can't call the FE model
+	* version of this method 'cos ... well, it breaks.
+	*
+	* @param   object  $elementModel  a front end element model
+	* @param   array   $usedPlugins   an array of validation plugin names to load
+	*
+	* @return  array	validation objects
+	*/
+
+	private function getValidations($elementModel, $usedPlugins = array())
+	{
+		if (isset($this->_aValidations))
+		{
+			return $this->_aValidations;
+		}
+		$pluginManager = FabrikWorker::getPluginManager();
+		$pluginManager->getPlugInGroup('validationrule');
+		$this->aValidations = array();
+
+		$dispatcher = JDispatcher::getInstance();
+		$ok = JPluginHelper::importPlugin('fabrik_validationrule');
+		foreach ($usedPlugins as $usedPlugin)
+		{
+			if ($usedPlugin !== '')
+			{
+				$class = 'plgFabrik_Validationrule' . JString::ucfirst($usedPlugin);
+				$conf = array();
+				$conf['name'] = JString::strtolower($usedPlugin);
+				$conf['type'] = JString::strtolower('fabrik_Validationrule');
+				$plugIn = new $class($dispatcher, $conf);
+				$oPlugin = JPluginHelper::getPlugin('fabrik_validationrule', $usedPlugin);
+				$plugIn->elementModel = $elementModel;
+				$this->aValidations[] = $plugIn;
+			}
+		}
+		return $this->aValidations;
 	}
 }

@@ -9,7 +9,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-require_once(COM_FABRIK_FRONTEND . '/helpers/image.php');
+require_once COM_FABRIK_FRONTEND . '/helpers/image.php';
 
 define("FU_DOWNLOAD_SCRIPT_NONE", '0');
 define("FU_DOWNLOAD_SCRIPT_TABLE", '1');
@@ -544,19 +544,27 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 				$canDownload = in_array($thisRow->$aclElraw, $groups);
 				if (!$canDownload)
 				{
-					$a = $params->get('fu_download_noaccess_url') == '' ? '' : '<a href="' . $params->get('fu_download_noaccess_url') . '" >';
-					$a2 = $params->get('fu_download_noaccess_url') == '' ? '' : '</a>';
 					$img = $params->get('fu_download_noaccess_image');
-					return $img == '' ? ''
-						: $a . '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
-							. JText::_('DOWNLOAD NO PERMISSION') . '" />' . $a2;
+					$noImg = ($img == '' || ! JFile::exists(COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img));
+					$aClass = $noImg ? 'class="btn button"' : '';
+					$a = $params->get('fu_download_noaccess_url') == '' ? '' : '<a href="' . $params->get('fu_download_noaccess_url') . '" ' . $aClass . '>';
+					$a2 = $params->get('fu_download_noaccess_url') == '' ? '' : '</a>';
+
+					if ($noImg)
+					{
+						$img = JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION');
+					}
+					else{
+						$img = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
+							. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
+					}
+					return $a . $img . $a2;
 				}
 			}
 			$formModel = $this->getForm();
 			$formid = $formModel->getId();
 			$rowid = $thisRow->__pk_val;
 			$elementid = $this->_id;
-			$title = basename($data);
 			if ($params->get('fu_title_element') == '')
 			{
 				$title_name = $this->getFullName(true, true, false) . '__title';
@@ -575,15 +583,22 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 					$title = $title[$i];
 				}
 			}
-			if ($params->get('fu_download_access_image') !== '')
+			$downloadImg = $params->get('fu_download_access_image');
+			if ($downloadImg !== '' && JFile::exists('media/com_fabrik/images/' . $downloadImg))
 			{
-				$title = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $params->get('fu_download_access_image') . '" alt="'
+				$aClass = '';
+				$title = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $downloadImg . '" alt="'
 					. $title . '" />';
+			}
+			else
+			{
+				$aClass = 'class="btn btn-primary button"';
+				$title = '<i class="icon-download icon-white"></i>' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
 			}
 			$link = COM_FABRIK_LIVESITE
 				. 'index.php?option=com_fabrik&amp;task=plugin.pluginAjax&amp;plugin=fileupload&amp;method=ajax_download&amp;element_id='
 				. $elementid . '&amp;formid=' . $formid . '&amp;rowid=' . $rowid . '&amp;repeatcount=' . $i;
-			$url = '<a href="' . $link . '">' . $title . '</a>';
+			$url = '<a href="' . $link . '"' . $aClass . '>' . $title . '</a>';
 			return $url;
 		}
 
@@ -1861,7 +1876,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			{
 				$img = $params->get('fu_download_noaccess_image');
 				return $img == '' ? ''
-					: '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="' . JText::_('DOWNLOAD NO PERMISSION')
+					: '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION')
 						. '" />';
 			}
 		}
@@ -2361,7 +2376,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			$canDownload = in_array($row->$aclElraw, $groups);
 			if (!$canDownload)
 			{
-				$app->enqueueMessage(JText::_('DOWNLOAD NO PERMISSION'));
+				$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION'));
 				$app->redirect($url);
 			}
 		}

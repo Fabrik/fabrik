@@ -1182,10 +1182,15 @@ var FbListKeys = new Class({
 var FbGroupedToggler = new Class({
 	initialize: function (container) {
 		this.container = container;
+		this.collapseOthers = false;
 		this.toggleState = 'shown';
 		container.addEvent('click:relay(.fabrik_groupheading a.toggle)', function (e) {
 			e.stop();
 			e.preventDefault(); //should work according to http://mootools.net/blog/2011/09/10/mootools-1-4-0/
+			
+			if (this.collapseOthers) {
+				this.collapse();
+			}
 			var h = e.target.getParent('.fabrik_groupheading');
 			var img = h.getElement('img');
 			var state = img.retrieve('showgroup', true);
@@ -1195,7 +1200,7 @@ var FbGroupedToggler = new Class({
 			state = state ? false : true;
 			img.store('showgroup', state);
 			return false;
-		});
+		}.bind(this));
 	},
 	
 	setIcon: function (img, state) {
@@ -1208,14 +1213,24 @@ var FbGroupedToggler = new Class({
 	
 	collapse: function () {
 		this.container.getElements('.fabrik_groupdata').hide();
-		this.container.getElements('.fabrik_groupheading a img').each(function (img) {
+		var i = this.container.getElements('.fabrik_groupheading a img');
+		if (i.length === 0) {
+			i = this.container.getElements('.fabrik_groupheading img')
+		}
+		i.each(function (img) {
+			img.store('showgroup', false);
 			this.setIcon(img, true);
 		}.bind(this));
 	},
 	
 	expand: function () {
 		this.container.getElements('.fabrik_groupdata').show();
-		this.container.getElements('.fabrik_groupheading a img').each(function (img) {
+		var i = this.container.getElements('.fabrik_groupheading a img');
+		if (i.length === 0) {
+			i = this.container.getElements('.fabrik_groupheading img')
+		}
+		i.each(function (img) {
+			img.store('showgroup', true);
 			this.setIcon(img, false);
 		}.bind(this));
 	},

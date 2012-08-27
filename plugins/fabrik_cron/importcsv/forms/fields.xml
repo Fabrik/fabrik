@@ -11,7 +11,11 @@
 			</field>
 			
 			<field default="1" description="PLG_CRON_IMPORTCSV_MAXFILES_DESC" label="PLG_CRON_IMPORTCSV_MAXFILES_LABEL" name="cron_importcsv_maxfiles" size="2" type="text"/>
-				
+
+			<field default="," description="PLG_CRON_IMPORTCSV_FIELD_DELIMITER_DESC" label="PLG_CRON_IMPORTCSV_FIELD_DELIMITER_LABEL" name="cron_importcsv_field_delimiter" size="2" type="text"/>
+
+			<field default='"' description="PLG_CRON_IMPORTCSV_TEXT_DELIMITER_DESC" label="PLG_CRON_IMPORTCSV_TEXT_DELIMITER_LABEL" name="cron_importcsv_text_delimiter" size="2" type="text"/>
+		
 			<field default="0" description="PLG_CRON_IMPORTCSV_DROPDATA_DESC" label="PLG_CRON_IMPORTCSV_DROPDATA_LABEL" name="cron_importcsv_dropdata" type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

@@ -389,6 +389,15 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 				}
 			}
 		}
+
+		// Remove tags from labels
+		if ($this->canUse())
+		{
+			foreach ($this->_optionVals[$sql] as $key => &$opt)
+			{
+				$opt->text = strip_tags($opt->text);
+			}
+		}
 		return $this->_optionVals[$sql];
 	}
 
