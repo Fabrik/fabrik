@@ -10,6 +10,7 @@
 defined('_JEXEC') or die();
 
 require_once JPATH_SITE . '/plugins/fabrik_element/databasejoin/databasejoin.php';
+require_once JPATH_SITE . '/components/com_fabrik/helpers/connection.php';
 
 /**
 * Plugin element to render cascading dropdown
@@ -409,6 +410,15 @@ class plgFabrik_ElementCascadingdropdown extends plgFabrik_ElementDatabasejoin
 			return $this->_sql[$sig];
 		}
 		$params = $this->getParams();
+
+		$join = FabTable::getInstance('Join', 'FabrikTable');
+		$join->load(array('element_id' => $this->_id));
+		$opts = json_decode($join->params);
+		
+		$l = 'connection-info';
+		$ll = 'to-db';
+		$dbName = $opts->$l->$ll;
+
 		$element = $this->getElement();
 
 		$watch = $this->_getWatchFullName();
@@ -643,6 +653,13 @@ class plgFabrik_ElementCascadingdropdown extends plgFabrik_ElementDatabasejoin
 			$this->_cn = JModel::getInstance('Connection', 'FabrikFEModel');
 			$this->_cn->setId($id);
 		}
+
+		$this->_cnName = (string) $this->_cn->getConnection()->database;
+		$this->_cnId = (int) $id;
+		if($this->_cnId === 0){
+			$this->_cnId = 1;
+		}
+				
 		return $this->_cn->getConnection();
 	}
 
@@ -864,6 +881,21 @@ class plgFabrik_ElementCascadingdropdown extends plgFabrik_ElementDatabasejoin
 		$l = 'join-label';
 		$o->$l = $join_label;
 		$o->type = 'element';
+
+		$connInfo = $this->getConnectionInfo();		
+		$listModel = $this->getListModel();
+		$table = $listModel->getTable();
+
+		$conn_prop = array(
+			'from-id' => $table->connection_id+0,
+			'from-db' => $listModel->getConnection()->getConnection()->database,
+			'to-id' => $connInfo['id'],
+			'to-db' => $connInfo['name']
+		);
+
+		$l = 'connection-info';
+		$o->$l = new JObject($conn_prop);
+
 		$join->params = json_encode($o);
 		$join->store();
 		return true;

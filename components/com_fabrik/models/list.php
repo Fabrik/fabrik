@@ -14,6 +14,7 @@ jimport('joomla.application.component.modelform');
 require_once COM_FABRIK_FRONTEND . '/helpers/pagination.php';
 require_once COM_FABRIK_FRONTEND . '/helpers/string.php';
 require_once COM_FABRIK_FRONTEND . '/helpers/list.php';
+require_once COM_FABRIK_FRONTEND . '/helpers/connection.php';
 
 /**
  * Fabrik Connection Model
@@ -2103,11 +2104,14 @@ class FabrikFEModelList extends JModelForm
 			{
 				$join->join_type = 'LEFT';
 			}
-			$sql = JString::strtoupper($join->join_type) . ' JOIN ' . $db->quoteName($join->table_join);
+
+			$joinTbl = $join->toDb . "." . $join->table_join;			
+		//	p($join);
+			$sql = JString::strtoupper($join->join_type) . ' JOIN ' . $db->quoteName($joinTbl);
 			$k = FabrikString::safeColName($join->keytable . '.' . $join->table_key);
 			if ($join->table_join_alias == '')
 			{
-				$on = FabrikString::safeColName($join->table_join . '.' . $join->table_join_key);
+				$on = FabrikString::safeColName($joinTbl . '.' . $join->table_join_key);
 				$sql .= ' ON ' . $on . ' = ' . $k;
 			}
 			else
@@ -3211,15 +3215,44 @@ class FabrikFEModelList extends JModelForm
 		$aliases = array($table->db_table_name);
 		$tableGroups = array();
 
+		$conf = JFactory::getConfig();
+		$thisCn = $this->getConnection()->getConnection();
+		$thisCnDb = FConnectionHelper::getDbFromArg($this);
+
 		// Build up the alias and $tableGroups array first
 		foreach ($joins as &$join)
 		{
+			$opts = json_decode($join->params);
+			
+			$l = 'connection-info';			
+			$conn_info = $opts->$l;
+
+
 			$join->canUse = true;
+			$join->diffDb = false;
+	
+			$l = 'from-db';			
+			if($conn_info->$l !== '' && $conn_info->$l !== NULL){
+				$join->fromDb = $conn_info->$l;
+			}else {
+				$join->fromDb = $thisCnDb;
+			}			
+
+			$l = 'to-db';
+			if($conn_info->$l !== '' && $conn_info->$l !== NULL){
+				$join->toDb = $conn_info->$l;
+			}else {
+				$join->toDb = $thisCnDb;
+			}			
+
+			if($join->fromDb != $join->toDb){
+				$join->diffDb = true;
+			}
+	
 			if ($join->table_join == '#__users' || $join->table_join == $prefix . 'users')
 			{
-				$conf = JFactory::getConfig();
-				$thisCn = $this->getConnection()->getConnection();
-				if (!($thisCn->host == $conf->get('host') && $thisCn->database == $conf->get('db')))
+				//Still throw an error if the hosts are different used
+				if (!($thisCn->host == $conf->get('host')))
 				{
 					/* $$$ hugh - changed this to pitch an error and bang out, otherwise if we just set canUse to false, our getData query
 					 * is just going to blow up, with no useful warning msg.
@@ -3227,19 +3260,23 @@ class FabrikFEModelList extends JModelForm
 					 * our connection details, or vice versa, which is not uncommon for 'locahost' setups,
 					 * so at least I'll know what the problem is when they post in the forums!
 					 */
-					JError::raiseError(500, JText::_('COM_FABRIK_ERR_JOIN_TO_OTHER_DB'));
+					JError::raiseError(500, JText::_('COM_FABRIK_ERR_JOIN_TO_OTHER_HOST'));
 					$join->canUse = false;
 				}
 			}
 			// $$$ rob = check for repeat elements In table view we dont need to add the join
 			// as the element data is concatenated into one row. see elementModel::getAsField_html()
-			$opts = json_decode($join->params);
 			if (isset($opts->type) && $opts->type == 'repeatElement')
 			{
 				// If ($join->list_id != 0 && $join->element_id != 0) {
 				$join->canUse = false;
 			}
 			$tablejoin = str_replace('#__', $prefix, $join->table_join);
+			
+			if($join->diffDb){
+				$tablejoin = $join->toDb . "---" . $tablejoin;
+			}			
+
 			if (in_array($tablejoin, $aliases))
 			{
 				$base = $tablejoin;
@@ -3312,37 +3349,34 @@ class FabrikFEModelList extends JModelForm
 
 	public function getDBFields($tbl = null, $key = null)
 	{
+		$dbName = '';
+		$app = JFactory::getApplication();
+		$prefix = $app->getCfg('dbprefix');
+
 		if (is_null($tbl))
 		{
 			$table = $this->getTable();
 			$tbl = $table->db_table_name;
+			$dbName = $this->getConnection()->getConnection()->database;		
+		}else 
+		{
+			if(stripos($tbl, '#__') !== FALSE || stripos($tbl, $prefix) !== FALSE){
+				$config = JFactory::getConfig();
+				$dbName = $config->get('db');				
+			}else {
+				$dbName = FConnectionHelper::getDbFromArg($tbl);				
+			}			
 		}
 		if ($tbl == '')
 		{
 			return array();
 		}
 		$sig = $tbl . $key;
-		$tbl = FabrikString::safeColName($tbl);
+		$tbl = $dbName . '.' . $tbl;
+		$tbl = FabrikString::safeColName($tbl);		
 		if (!isset($this->_dbFields[$sig]))
 		{
 			$db = $this->getDb();
-			/* moofoo
-				The DESCRIBE query below can fail if the $tbl string is of a table that's not in the current database/connection.
-		   		The (hacky) fix is to check if the Joomla table prefix is in the table name. If it is, the Joomla site database is 
-		   		added to the table name using the usual dot notation. If it's not, the connection/database of the list object is used.
-			*/	
-			$app = JFactory::getApplication();
-			$prefix = $app->getCfg('dbprefix');
-			$dbName = '';
-	
-			if(stripos($tbl,$prefix)!==FALSE){
-				$conf = JFactory::getConfig();
-				$dbName = $conf->get('db');			
-			}else {
-				$thisCn = $this->getConnection()->getConnection();
-				$dbName = $thisCn->database;
-			}		
-			$tbl = FabrikString::safeColName($dbName.".".$tbl);
 
 			$db->setQuery("DESCRIBE " . $tbl);
 			$this->_dbFields[$sig] = $db->loadObjectList($key);

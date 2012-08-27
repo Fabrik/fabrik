@@ -955,6 +955,29 @@ class FabrikModelList extends FabModelAdmin
 		$join->table_key = str_replace('`', '', $tableKey);
 		$join->join_type = $joinType;
 		$join->group_id = $groupId;
+
+		$params = json_decode($join->params);
+
+		$connId = $this->getTable()->connection_id + 0;
+		$dbName = FConnectionHelper::getDbFromArg($joinTable);
+	
+		$l = 'connection-info';
+		$params->$l = new stdClass;
+
+		$ll = 'from-id';
+		$params->$l->$ll = $connId;
+
+		$ll = 'from-db';			
+		$params->$l->$ll = $dbName;
+
+		$ll = 'to-id';
+		$params->$l->$ll = $connId;
+		
+		$ll = 'to-db';
+		$params->$l->$ll = $dbName;
+
+		$join->params = json_encode($params);	
+
 		if (!$join->store())
 		{
 			return JError::raiseWarning(500, $join->getError());
