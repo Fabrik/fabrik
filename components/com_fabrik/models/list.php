@@ -2105,8 +2105,7 @@ class FabrikFEModelList extends JModelForm
 				$join->join_type = 'LEFT';
 			}
 
-			$joinTbl = $join->toDb . "." . $join->table_join;			
-		//	p($join);
+			$joinTbl = $join->toDb . "." . $join->table_join;
 			$sql = JString::strtoupper($join->join_type) . ' JOIN ' . $db->quoteName($joinTbl);
 			$k = FabrikString::safeColName($join->keytable . '.' . $join->table_key);
 			if ($join->table_join_alias == '')
