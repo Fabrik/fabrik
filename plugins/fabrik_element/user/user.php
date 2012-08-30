@@ -705,6 +705,7 @@ class plgFabrik_ElementUser extends plgFabrik_ElementDatabasejoin
 		$params = $this->getParams();
 		$joinTable = FabrikString::safeColName($params->get('join_db_name'));
 		$join = $this->getJoin();
+		$joinTable = $join->toDb . "." . $joinTable;		
 		$joinTableName = FabrikString::safeColName($join->table_join_alias);
 		$joinKey = $this->getJoinValueColumn();
 		$elName = FabrikString::safeColName($this->getFullName(false, true, false));

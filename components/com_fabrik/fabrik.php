@@ -40,10 +40,6 @@ foreach ($docs as $d)
 
 JModel::addIncludePath(JPATH_COMPONENT . '/models');
 
-// $$$ rob if you want to you can override any fabrik model by copying it from
-// models/ to models/adaptors the copied file will overwrite (NOT extend) the original
-JModel::addIncludePath(JPATH_COMPONENT . '/models/adaptors');
-
 $controllerName = JRequest::getCmd('view');
 
 // Check for a plugin controller
@@ -143,6 +139,11 @@ if ($isplugin)
 	// Add the model path
 	$modelpaths = JModel::addIncludePath(JPATH_SITE . '/plugins/fabrik_' . $type . '/' . $name . '/models');
 }
+
+// $$$ rob if you want to you can override any fabrik model by copying it from
+// models/ to models/adaptors the copied file will overwrite (NOT extend) the original
+$controller->addModelPath(JPATH_COMPONENT . '/models/adaptors');
+
 $app = JFactory::getApplication();
 $package = JRequest::getVar('package', 'fabrik');
 $app->setUserState('com_fabrik.package', $package);

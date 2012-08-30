@@ -743,8 +743,30 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 			$this->_cn = JModel::getInstance('Connection', 'FabrikFEModel');
 			$this->_cn->setId($id);
 		}
+
+		$this->_cnName = (string) $this->_cn->getConnection()->database;
+		$this->_cnId = (int) $id;
+		if($this->_cnId === 0){
+			$this->_cnId = 1;
+		}
+
 		return $this->_cn->getConnection();
 	}
+
+	/**
+	 * get information about the database connection
+	 * @return  array connection info
+	 */
+
+	protected function getConnectionInfo(){
+
+		if (!isset($this->_cn) || $this->_cn == '')
+		{
+			$this->_loadConnection();
+		}
+
+		return array("id" => $this->_cnId, "name" => $this->_cnName);
+	}	
 
 	/**
 	 * Determines the value for the element in the form view
@@ -1382,6 +1404,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$params = $this->getParams();
 		$joinTable = FabrikString::safeColName($params->get('join_db_name'));
 		$join = $this->getJoin();
+		$joinTable = $join->toDb . "." . $joinTable;
 		$joinTableName = FabrikString::safeColName($join->table_join_alias);
 		$joinKey = $this->getJoinValueColumn();
 		$elName = FabrikString::safeColName($this->getFullName(false, true, false));
@@ -1422,6 +1445,7 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$joinVal = $this->getJoinLabelColumn();
 
 		$join = $this->getJoin();
+		$joinTable = $join->toDb . "." . $joinTable;
 		$joinTableName = $join->table_join_alias;
 		if ($joinTable == '')
 		{
@@ -1930,6 +1954,15 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 	protected function updateFabrikJoins($data, $tableJoin, $keyCol, $label)
 	{
 		//load join based on this element id
+		$listModel = $this->getListModel();
+		$table = $listModel->getTable();
+		
+		$connInfo = $this->getConnectionInfo();
+		$data['from_id'] = $table->connection_id+0;
+		$data['from_db'] = $listModel->getConnection()->getConnection()->database;		
+		$data['to_id'] = $connInfo['id'];
+		$data['to_db'] = $connInfo['name'];
+
 		$this->updateFabrikJoin($data, $this->_id, $tableJoin, $keyCol, $label);
 		$children = $this->getElementDescendents($this->_id);
 		foreach ($children as $id)
@@ -1937,6 +1970,12 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 			$elementModel = FabrikWorker::getPluginManager()->getElementPlugin($id);
 			$data['group_id'] = $elementModel->getElement()->group_id;
 			$data['id'] = $id;
+			
+			$elementList = $elementModel->getListModel();
+			$elementTable = $elementList->getTable();
+			$data['from_id'] = $elementTable->connection_id;
+			$data['from_db'] = $elementList->getConnection()->getConnection()->database;
+
 			$this->updateFabrikJoin($data, $id, $tableJoin, $keyCol, $label);
 		}
 	}
@@ -1989,6 +2028,17 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$l = 'join-label';
 		$o->$l = $label;
 		$o->type = 'element';
+
+		$l = 'connection-info';
+		$o->$l = new JObject(
+			array(
+				'from-id' => $data['from_id'],
+				'from-db' => $data['from_db'],
+				'to-id' => $data['to_id'],
+				'to-db' => $data['to_db']
+			)
+		);
+
 		$join->params = json_encode($o);
 		$join->store();
 	}
