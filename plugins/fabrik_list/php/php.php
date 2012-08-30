@@ -25,14 +25,21 @@ class plgFabrik_ListPhp extends plgFabrik_List
 
 	protected $buttonPrefix = 'php';
 
+	protected $msg = null;
+
 	/**
-	 * Needed to render plugin buttons
+	 * Prep the button if needed
 	 *
-	 * @return  bool
+	 * @param   object  $params  plugin params
+	 * @param   object  &$model  list model
+	 * @param   array   &$args   arguements
+	 *
+	 * @return  bool;
 	 */
 
-	public function button()
+	public function button($params, &$model, &$args)
 	{
+		parent::button($params, $model, $args);
 		return true;
 	}
 
@@ -91,6 +98,10 @@ class plgFabrik_ListPhp extends plgFabrik_List
 		{
 			require_once JPATH_ROOT . '/plugins/fabrik_list/php/scripts/' . $file;
 		}
+		if (isset($statusMsg) && !empty($statusMsg))
+		{
+			$this->msg = $statusMsg;
+		}
 		return true;
 	}
 
@@ -104,9 +115,16 @@ class plgFabrik_ListPhp extends plgFabrik_List
 
 	public function process_result($c)
 	{
-		$params = $this->getParams();
-		$msg = $params->get('table_php_msg', JText::_('PLG_LIST_PHP_CODE_RUN'));
-		return $msg;
+		if (isset($this->msg))
+		{
+			return $this->msg;
+		}
+		else
+		{
+			$params = $this->getParams();
+			$msg = $params->get('table_php_msg', JText::_('PLG_LIST_PHP_CODE_RUN'));
+			return $msg;
+		}
 	}
 
 	/**

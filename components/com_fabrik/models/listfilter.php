@@ -759,7 +759,7 @@ class FabrikFEModelListfilter extends FabModel
 						$joins = $this->listModel->getJoins();
 						foreach ($joins as $join)
 						{
-							$key = $db->nameQuote($join->table_join) . '.' . array_pop(explode('.', $key));
+							$key = $db->quoteName($join->table_join) . '.' . array_pop(explode('.', $key));
 							if (array_key_exists($key, $filter_elements))
 							{
 								$found = true;

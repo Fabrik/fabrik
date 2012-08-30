@@ -68,7 +68,12 @@ var FbListFilter = new Class({
 		if (advancedSearchButton = this.container.getElement('.advanced-search-link')) {
 			advancedSearchButton.addEvent('click', function (e) {
 				e.stop();
-				var url = Fabrik.liveSite + "index.php?option=com_fabrik&view=list&tmpl=component&layout=_advancedsearch&listid=" + this.options.id;
+				var a = e.target;
+				//var url = Fabrik.liveSite + "index.php?option=com_fabrik&view=list&tmpl=component&layout=_advancedsearch&listid=" + this.options.id;
+				if (a.get('tag') !== 'a') {
+					a = a.getParent('a');
+				}
+				var url = a.href;
 				url += '&listref=' + this.options.ref;
 				this.windowopts = {
 					'id': 'advanced-search-win' + this.options.ref,

@@ -10,7 +10,7 @@ var ListFieldsElement = new Class({
 		this.el = el;
 		this.setOptions(options);
 		this.updateMeEvent = this.updateMe.bindWithEvent(this);
-		if (typeOf($(this.options.conn)) === 'null') {
+		if (typeOf(document.id(this.options.conn)) === 'null') {
 			this.cnnperiodical = this.getCnn.periodical(500, this);
 		} else {
 			this.setUp();
@@ -22,7 +22,7 @@ var ListFieldsElement = new Class({
 	},
 	
 	getCnn: function () {
-		if (typeOf($(this.options.conn)) === 'null') {
+		if (typeOf(document.id(this.options.conn)) === 'null') {
 			return;
 		}
 		this.setUp();
@@ -30,12 +30,12 @@ var ListFieldsElement = new Class({
 	},
 	
 	setUp: function () {
-		this.el = $(this.el);
-		$(this.options.conn).addEvent('change', this.updateMeEvent);
-		$(this.options.table).addEvent('change', this.updateMeEvent);
+		this.el = document.id(this.el);
+		document.id(this.options.conn).addEvent('change', this.updateMeEvent);
+		document.id(this.options.table).addEvent('change', this.updateMeEvent);
 			
 		//see if there is a connection selected
-		var v = $(this.options.conn).get('value');
+		var v = document.id(this.options.conn).get('value');
 		if (v !== '' && v !== -1) {
 			this.periodical = this.updateMe.periodical(500, this);
 		}
@@ -45,11 +45,11 @@ var ListFieldsElement = new Class({
 		if (typeOf(e) === 'event') {
 			e.stop();
 		}
-		if ($(this.el.id + '_loader')) {
-			$(this.el.id + '_loader').setStyle('display', 'inline');
+		if (document.id(this.el.id + '_loader')) {
+			document.id(this.el.id + '_loader').setStyle('display', 'inline');
 		}
-		var cid = $(this.options.conn).get('value');
-		var tid = $(this.options.table).get('value');
+		var cid = document.id(this.options.conn).get('value');
+		var tid = document.id(this.options.table).get('value');
 		if (!tid) {
 			return;
 		}
@@ -70,8 +70,8 @@ var ListFieldsElement = new Class({
 					
 					new Element('option', o).appendText(opt.label).inject(this.el);
 				}.bind(this));
-				if ($(this.el.id + '_loader')) {
-					$(this.el.id + '_loader').setStyle('display', 'none');
+				if (document.id(this.el.id + '_loader')) {
+					document.id(this.el.id + '_loader').setStyle('display', 'none');
 				}
 			}.bind(this)
 		}).send();

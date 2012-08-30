@@ -737,13 +737,13 @@ var fabrikCalendar = new Class({
 		{
 			var myfx = new Fx.Scroll(window).toElement('addeventwin');
 			f.each(function (o) {
-				if ($(o.key)) {
-					switch ($(o.key).get('tag')) {
+				if (document.id(o.key)) {
+					switch (document.id(o.key).get('tag')) {
 					case 'select':
-						$(o.key).selectedIndex = o.val;
+						document.id(o.key).selectedIndex = o.val;
 						break;
 					case 'input':
-						$(o.key).value = o.val;
+						document.id(o.key).value = o.val;
 						break;
 					}
 				}

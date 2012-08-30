@@ -50,7 +50,7 @@ class plgFabrik_ValidationruleIsUniqueValue extends plgFabrik_Validationrule
 		$listModel = $elementModel->getlistModel();
 		$table = $listModel->getTable();
 		$db = $listModel->getDb();
-		$lookuptable = $db->NameQuote($table->db_table_name);
+		$lookuptable = $db->quoteName($table->db_table_name);
 		$data = $db->quote($data);
 		$query = $db->getQuery(true);
 		$cond = $params->get('isuniquevalue-caseinsensitive') == 1 ? 'LIKE' : '=';

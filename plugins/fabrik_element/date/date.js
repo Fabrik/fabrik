@@ -356,7 +356,7 @@ var FbDateTime = new Class({
 			this.runLoadEvent(js);
 		} else {
 			if (!this.element) {
-				this.element = $(this.strElement);
+				this.element = document.id(this.strElement);
 			}
 			if (action === 'change') {
 				this.changeEvents.push(js);
@@ -449,10 +449,10 @@ var FbDateTime = new Class({
 		/*if (window.ie) {
 			// when scrolled down the page the offset of the calendar is wrong - this
 			// fixes it
-			var calHeight = $(window.calendar.element).getStyle('height').toInt();
+			var calHeight = document.id(window.calendar.element).getStyle('height').toInt();
 			var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
 			u = u.toInt();
-			$(window.calendar.element).setStyles({
+			document.id(window.calendar.element).setStyles({
 				'top' : u - calHeight + 'px'
 			});
 		}*/
@@ -520,19 +520,19 @@ var FbDateTime = new Class({
 			h.innerHTML = i;
 			h.className = 'fbdateTime-hour';
 			d.appendChild(h);
-			$(h).addEvent('click', function (e) {
+			document.id(h).addEvent('click', function (e) {
 				this.hour = e.target.innerHTML;
 				this.stateTime();
 				this.setActive();
 			}.bind(this));
-			$(h).addEvent('mouseover', function (e) {
+			document.id(h).addEvent('mouseover', function (e) {
 				if (this.hour !== e.target.innerHTML) {
 					e.target.setStyles({
 						background : '#cbeefb'
 					});
 				}
 			}.bind(this));
-			$(h).addEvent('mouseout', function (e) {
+			document.id(h).addEvent('mouseout', function (e) {
 				if (this.hour !== e.target.innerHTML) {
 					h.setStyles({
 						background : this.buttonBg
@@ -561,7 +561,7 @@ var FbDateTime = new Class({
 			h.innerHTML = ':' + (i * 5);
 			h.className = 'fbdateTime-minute';
 			d2.appendChild(h);
-			$(h).addEvent('click', function (e) {
+			document.id(h).addEvent('click', function (e) {
 				this.minute = this.formatMinute(e.target.innerHTML);
 				this.stateTime();
 				this.setActive();

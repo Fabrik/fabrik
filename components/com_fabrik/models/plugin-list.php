@@ -85,6 +85,24 @@ class plgFabrik_List extends FabrikPlugin
 	}
 
 	/**
+	 * Prep the button if needed
+	 *
+	 * @param   object  $params  plugin params
+	 * @param   object  &$model  list model
+	 * @param   array   &$args   arguements
+	 *
+	 * @since  3.0.6.2
+	 *
+	 * @return  bool;
+	 */
+
+	public function button($params, &$model, &$args)
+	{
+		$this->context = $model->getRenderContext();
+		return false;
+	}
+
+	/**
 	 * Build the HTML for the plug-in button
 	 *
 	 * @return  string
@@ -100,7 +118,7 @@ class plgFabrik_List extends FabrikPlugin
 			$label = $this->buttonLabel();
 			$imageName = $this->getParams()->get('list_' . $this->buttonPrefix . '_image_name', $this->buttonPrefix . '.png');
 			$img = FabrikHelperHTML::image($imageName, 'list', '', $label);
-			return '<a href="#" class="' . $name . ' listplugin" title="' . $label . '">' . $img . '<span>' . $label . '</span></a>';
+			return '<a href="#" data-list="' . $this->context . '"class="' . $name . ' listplugin" title="' . $label . '">' . $img . '<span>' . $label . '</span></a>';
 		}
 		return '';
 	}

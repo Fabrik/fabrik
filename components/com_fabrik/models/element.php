@@ -2952,15 +2952,28 @@ class plgFabrik_Element extends FabrikPlugin
 	protected function getRangedFilterValue($value)
 	{
 		$db = FabrikWorker::getDbo();
-		if (is_numeric($value[0]) && is_numeric($value[1]))
+		$element = $this->getElement();
+		if ($element->filter_type === 'range')
 		{
-			$value = $value[0] . ' AND ' . $value[1];
+			if (is_numeric($value[0]) && is_numeric($value[1]))
+			{
+				$value = $value[0] . ' AND ' . $value[1];
+			}
+			else
+			{
+				$value = $db->quote($value[0]) . ' AND ' . $db->quote($value[1]);
+			}
+			$condition = 'BETWEEN';
 		}
 		else
 		{
-			$value = $db->quote($value[0]) . ' AND ' . $db->quote($value[1]);
+			if (is_array($value) && !empty($value))
+			{
+				array_walk($value, array($db, 'quote'));
+				$value = ' (' . implode(',', $value) . ')';
+			}
+			$condition = 'IN';
 		}
-		$condition = 'BETWEEN';
 		return array($value, $condition);
 	}
 
@@ -4538,11 +4551,12 @@ FROM (SELECT DISTINCT $item->db_primary_key, $name AS value, $label AS label FRO
 	 * e.g. pciklists, dropdowns radiobuttons
 	 *
 	 * @param   bool  $repeatCounter  repeat group counter
+	 * @param   bool  $onlylabel      only show the label - overrides standard element settings
 	 *
 	 * @return  string
 	 */
 
-	protected function getAddOptionFields($repeatCounter)
+	protected function getAddOptionFields($repeatCounter, $onlylabel = false)
 	{
 		$params = $this->getParams();
 		if (!$params->get('allow_frontend_addto'))
@@ -4564,8 +4578,11 @@ FROM (SELECT DISTINCT $item->db_primary_key, $name AS value, $label AS label FRO
 			// $$$ rob dont wrap in <dl> as the html is munged when rendered inside form tab template
 			$str[] = '<label for="' . $valueid . '">' . JText::_('COM_FABRIK_VALUE') . '</label>';
 			$str[] = $value;
-			$str[] = '<label for="' . $labelid . '">' . JText::_('COM_FABRIK_LABEL') . '</label>';
-			$str[] = $label;
+			if (!$onlylabel)
+			{
+				$str[] = '<label for="' . $labelid . '">' . JText::_('COM_FABRIK_LABEL') . '</label>';
+				$str[] = $label;
+			}
 		}
 		else
 		{
@@ -5315,8 +5332,8 @@ FROM (SELECT DISTINCT $item->db_primary_key, $name AS value, $label AS label FRO
 		$query->select('id')->from('#__{package}_joins')->where('table_join = ' . $db->quote($item->db_table_name));
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
-		$teskPk = $db->nameQuote($item->db_table_name . '.' . $oldName);
-		$newPk = $db->nameQuote($item->db_table_name . '.' . $newName);
+		$teskPk = $db->quoteName($item->db_table_name . '.' . $oldName);
+		$newPk = $db->quoteName($item->db_table_name . '.' . $newName);
 		foreach ($ids as $id)
 		{
 			$join = FabTable::getInstance('Join', 'FabrikTable');

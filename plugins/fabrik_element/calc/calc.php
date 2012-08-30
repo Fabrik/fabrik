@@ -558,7 +558,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 			$table = $listModel->getTable();
 			$joinSQL = $listModel->_buildQueryJoin();
 			$whereSQL = $listModel->_buildQueryWhere();
-			return "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC($name))) AS value, $label AS label FROM " . $db->nameQuote($table->db_table_name)
+			return "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC($name))) AS value, $label AS label FROM " . $db->quoteName($table->db_table_name)
 				. " $joinSQL $whereSQL";
 		}
 		else
@@ -586,7 +586,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 			$table = $listModel->getTable();
 			$joinSQL = $listModel->_buildQueryJoin();
 			$whereSQL = $listModel->_buildQueryWhere();
-			return "SELECT SEC_TO_TIME(AVG(TIME_TO_SEC($name))) AS value, $label AS label FROM " . $db->nameQuote($table->db_table_name)
+			return "SELECT SEC_TO_TIME(AVG(TIME_TO_SEC($name))) AS value, $label AS label FROM " . $db->quoteName($table->db_table_name)
 				. " $joinSQL $whereSQL";
 		}
 		else
@@ -614,7 +614,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 			$table = $listModel->getTable();
 			$joinSQL = $listModel->_buildQueryJoin();
 			$whereSQL = $listModel->_buildQueryWhere();
-			return "SELECT SEC_TO_TIME(TIME_TO_SEC($name)) AS value, $label AS label FROM " . $db->nameQuote($table->db_table_name)
+			return "SELECT SEC_TO_TIME(TIME_TO_SEC($name)) AS value, $label AS label FROM " . $db->quoteName($table->db_table_name)
 				. " $joinSQL $whereSQL";
 		}
 		else

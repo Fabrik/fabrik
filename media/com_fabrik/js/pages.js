@@ -161,7 +161,7 @@ Page = new Class({
 	removeItem: function (e, id) {
 		e.stop();
 		if (confirm('Do you really want to delete')) {
-			$(id).destroy();
+			document.id(id).destroy();
 			Fabrik.fireEvent('fabrik.page.block.delete', [id]);
 		}
 	},

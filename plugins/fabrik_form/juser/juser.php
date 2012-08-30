@@ -23,15 +23,20 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 class plgFabrik_FormJUser extends plgFabrik_Form
 {
 
-	var $namefield = '';
-	var $emailfield = '';
-	var $usernamefield = '';
-	var $gidfield = '';
-	var $passwordfield = '';
-	var $blockfield = '';
+	protected $namefield = '';
+
+	protected $emailfield = '';
+
+	protected $usernamefield = '';
+
+	protected $gidfield = '';
+
+	protected $passwordfield = '';
+
+	protected $blockfield = '';
 
 	/** @param	object	element model **/
-	var $_elementModel = null;
+	protected $_elementModel = null;
 
 	/**
 	 * Get an element name
@@ -349,7 +354,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 
 		$data['id'] = $original_id;
 
-		$data['gid'] = $this->setGroupIds($formModel, $me);
+		$data['gid'] = $this->setGroupIds($formModel, $me, $user);
 		$user->groups = (array) $data['gid'];
 
 		if ($params->get('juser_field_block') != '')
@@ -469,27 +474,57 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 				// Set the link to confirm the user email.
 				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+				$emailSubject = JText::sprintf(
+					'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+					$data['name'],
+					$data['sitename']
+				);
 
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY', $data['name'], $data['sitename'],
-					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
-					$data['username'], $data['password_clear']);
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+					$data['siteurl'],
+					$data['username'],
+					$data['password_clear']
+				);
 			}
 			elseif ($useractivation == 1 && !$bypassActivation)
 			{
 				// Set the link to activate the user account.
 				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+				$emailSubject = JText::sprintf(
+					'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+					$data['name'],
+					$data['sitename']
+				);
 
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY', $data['name'], $data['sitename'],
-					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
-					$data['username'], $data['password_clear']);
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+					$data['siteurl'],
+					$data['username'],
+					$data['password_clear']
+				);
 			}
 			elseif ($params->get('juser_bypass_accountdetails') != 1)
 			{
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_BODY', $data['name'], $data['sitename'], $data['siteurl']);
+				$emailSubject = JText::sprintf(
+					'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+					$data['name'],
+					$data['sitename']
+				);
+
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl']
+				);
 			}
 
 			// Send the registration email.
@@ -497,13 +532,56 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 			{
 				$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
+				$db = JFactory::getDBO();
+				/*
+				 * Added email to admin code, but haven't had a chance to test it yet.
+				 */
+				/*
+				// Send Notification mail to administrators
+				if (($usersConfig->get('useractivation') < 2) && ($usersConfig->get('mail_to_admin') == 1))
+				{
+					$emailSubject = JText::sprintf(
+						'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+						$data['name'],
+						$data['sitename']
+					);
+
+					$emailBodyAdmin = JText::sprintf(
+						'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
+						$data['name'],
+						$data['username'],
+						$data['siteurl']
+					);
+
+					// Get all admin users
+					$query = 'SELECT name, email, sendEmail' .
+						' FROM #__users' .
+						' WHERE sendEmail=1';
+
+					$db->setQuery($query);
+					$rows = $db->loadObjectList();
+
+					// Send mail to all superadministrators id
+					foreach ($rows as $row)
+					{
+						$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+
+						// Check for an error.
+						if ($return !== true)
+						{
+							// $$$ hugh - should probably log this rather than enqueue it
+							$app->enqueueMessage(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+						}
+					}
+				}
+				*/
+
 				// Check for an error.
 				if ($return !== true)
 				{
 					$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 					// Send a system message to administrators receiving system mails
-					$db = JFactory::getDBO();
 					$query = $db->getQuery(true);
 					$query->select('id')->from('#__users')->where('block = 0 AND sendEmail = 1');
 					$db->setQuery($query);
@@ -564,13 +642,15 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	 * Set user group ids
 	 *
 	 * @param   object  $formModel  form model
-	 * @param   object  $me         joomla user
+	 * @param   object  $me         new joomla user
+	 * @param   object  $user       joomla user before juser plugin run
 	 *
 	 * @return  array   group ids
 	 */
 
-	protected function setGroupIds($formModel, $me)
+	protected function setGroupIds($formModel, $me, $user)
 	{
+		$isNew = ($user->get('id') < 1);
 		$params = $this->getParams();
 		$this->gidfield = $this->getFieldName($params, 'juser_field_usertype');
 		$defaultGroup = (int) $params->get('juser_field_default_group');

@@ -195,7 +195,7 @@ var FbForm = new Class({
 		if (id.slice(0, 6) === 'group_') {
 			id = id.slice(6, id.length);
 			k = id;
-			c = $(id);
+			c = document.id(id);
 		} else {
 			id = id.slice(8, id.length);
 			k = 'element' + id;
@@ -825,21 +825,24 @@ var FbForm = new Class({
 		if (this.form.getElement('input[name=delete]')) {
 			this.form.getElement('input[name=delete]').addEvent('click', function (e) {
 				if (confirm(Joomla.JText._('COM_FABRIK_CONFIRM_DELETE'))) {
-					this.form.getElement('input[name=task]').value = 'delete';
+					this.form.getElement('input[name=task]').value = this.options.admin ? 'form.delete' : 'delete';
 				} else {
 					return false;
 				}
 			}.bind(this));
 		}
 		if (this.options.ajax) {
-			$A([apply, submit]).each(function (btn) {
+			var copy = this._getButton('Copy');
+			$A([apply, submit, copy]).each(function (btn) {
 				if (typeOf(btn) !== 'null') {
 					btn.addEvent('click', this.doSubmit.bindWithEvent(this, [btn]));
 				}
 			}.bind(this));
 			
 		}
-		this.form.addEvent('submit', this.doSubmit.bindWithEvent(this));
+		else {
+			this.form.addEvent('submit', this.doSubmit.bindWithEvent(this));
+		}
 	},
 
 	doSubmit : function (e, btn) {
@@ -865,6 +868,10 @@ var FbForm = new Class({
 				// get all values from the form
 				var data = $H(this.getFormData());
 				data = this._prepareRepeatsForAjax(data);
+				if (btn.name === 'Copy') {
+					data.Copy = 1;
+					e.stop();
+				}
 				data.fabrik_ajax = '1';
 				data.format = 'raw';
 				var myajax = new Request.JSON({
@@ -1167,7 +1174,7 @@ var FbForm = new Class({
 			}).start(1, 0);
 			if (toel) {
 				// Only scroll the window if the previous element is not visible
-				var win_scroll = $(window).getScroll().y;
+				var win_scroll = document.id(window).getScroll().y;
 				var obj = toel.getCoordinates();
 				// If the top of the previous repeat goes above the top of the visible
 				// window,
@@ -1246,6 +1253,7 @@ var FbForm = new Class({
 			e.stop();
 		}
 		var i = e.target.getParent('.fabrikGroup').id.replace('group', '');
+		var group_id = i.toInt();
 		var group = document.id('group' + i);
 		var c = this.repeatGroupMarkers.get(i);
 		var repeats = document.id('fabrik_repeat_group_' + i + '_counter').get('value').toInt();
@@ -1262,6 +1270,16 @@ var FbForm = new Class({
 			subgroups[0].getElement('.fabrikSubGroupElements').show();
 			this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
 			return;
+		}
+		
+		var cloneFromRepeatCount = '0';
+		if (e) {
+			var pk_id = this.options.group_pk_ids[group_id];
+			var pk_el = e.target.findClassUp('fabrikSubGroup').getElement("[name*=[" + pk_id + "]]");
+			var re = new RegExp('join\\[\\d+\\]\\[' + pk_id + '\\]\\[(\\d+)\\]');
+			if (pk_el.name.test(re)) {
+				cloneFromRepeatCount = pk_el.name.match(re)[1];
+			}
 		}
 		var clone = this.getSubGroupToClone(i);
 		var tocheck = this.repeatGetChecked(group);
@@ -1301,7 +1319,8 @@ var FbForm = new Class({
 						if (document.id(testid).getElement('input')) {
 							input.cloneEvents(document.id(testid).getElement('input'));
 						}
-						// id set out side this each() function
+						// Note: Radio's etc now have their events delegated from the form - so no need to duplicate them
+						
 					} else {
 						input.cloneEvents(el.element);
 
@@ -1363,15 +1382,27 @@ var FbForm = new Class({
 			// $$$ hugh - moved reset() from end of loop above, otherwise elements with un-cloneable object
 			// like maps end up resetting the wrong map to default values.  Needs to run after element has done
 			// whatever it needs to do with un-cloneable object before resetting.
-			newEl.reset();
-		});
+			// $$$ hugh - adding new option to allow copying of the existing element values when copying
+			// a group, instead of resetting to default value.  This means knowing what the group PK element
+			// is, do we don't copy that value.  hence new group_pk_ids[] array, which gives us the PK element
+			// name in regular full format, which we need to test against the join string name.
+			var pk_re = new RegExp('\\[' + this.options.group_pk_ids[group_id] + '\\]');
+			if (!this.options.group_copy_element_values[group_id] || (this.options.group_copy_element_values[group_id] && newEl.element.name && newEl.element.name.test(pk_re))) {
+				// Call reset method that resets both events and value back to default.
+				newEl.reset();
+			}
+			else {
+				// Call reset method that only resets the events, not the value
+				newEl.resetEvents();
+			}
+		}.bind(this));
 		var o = {};
 		o[i] = newElementControllers;
 		this.addElements(o);
 
 		// Only scroll the window if the new element is not visible
 		var win_size = window.getHeight();
-		var win_scroll = $(window).getScroll().y;
+		var win_scroll = document.id(window).getScroll().y;
 		var obj = clone.getCoordinates();
 		// If the bottom of the new repeat goes below the bottom of the visible
 		// window,
@@ -1436,9 +1467,9 @@ var FbForm = new Class({
 
 	reset : function () {
 		this.addedGroups.each(function (subgroup) {
-			var group = $(subgroup).findClassUp('fabrikGroup');
+			var group = document.id(subgroup).findClassUp('fabrikGroup');
 			var i = group.id.replace('group', '');
-			$('fabrik_repeat_group_' + i + '_counter').value = $('fabrik_repeat_group_' + i + '_counter').get('value').toInt() - 1;
+			document.id('fabrik_repeat_group_' + i + '_counter').value = document.id('fabrik_repeat_group_' + i + '_counter').get('value').toInt() - 1;
 			subgroup.remove();
 		});
 		this.addedGroups = [];
@@ -1520,5 +1551,10 @@ var FbForm = new Class({
 				}
 			}.bind(this));
 		}.bind(this));
+	},
+	
+	getSubGroupCounter: function (group_id)
+	{
+		
 	}
 });

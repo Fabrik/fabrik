@@ -1584,30 +1584,36 @@ class plgFabrik_ElementDatabasejoin extends plgFabrik_ElementList
 		$str = '';
 		$params = $this->getParams();
 		$db = JFactory::getDBO();
-		if ($type == 'querystring')
+
+		if ($this->isJoin())
 		{
-			//$key2 = FabrikString::safeColNameToArrayKey($key);
-			// $$$ rob no matter whether you use elementname_raw or elementname in the querystring filter
-			// by the time it gets here we have normalized to elementname. So we check if the original qs filter was looking at the raw
-			// value if it was then we want to filter on the key and not the label
-			//if (!array_key_exists($key2, JRequest::get('get'))) {
-			if (!$this->_rawFilter)
+			$key = $this->buildQueryElementConcat($key, false);
+		}
+		else
+		{
+			if ($type == 'querystring')
 			{
-				$k = $db->quoteName($params->get('join_db_name')) . '.' . $db->quoteName($params->get('join_val_column'));
+				/* $$$ rob no matter whether you use elementname_raw or elementname in the querystring filter
+				 * by the time it gets here we have normalized to elementname. So we check if the original qs filter was looking at the raw
+				 * value if it was then we want to filter on the key and not the label
+				 */
+				if (!$this->_rawFilter)
+				{
+					$k = $db->quoteName($params->get('join_db_name')) . '.' . $db->quoteName($params->get('join_val_column'));
+				}
+				else
+				{
+					$k = $key;
+				}
+				$this->encryptFieldName($k);
+				return "$k $condition $value";
 			}
-			else
-			{
-				$k = $key;
-			}
-			$this->encryptFieldName($k);
-			return "$k $condition $value";
-			//}
 		}
 		$this->encryptFieldName($key);
 		if (!$this->_rawFilter && ($type == 'searchall' || $type == 'prefilter'))
 		{
 			// $$$rob wasnt working for 2nd+ db join element to same table (where key = `countries_0`.`label`)
-			//$k = '`' . $params->get('join_db_name'). "`.`".$params->get('join_val_column').'`';
+			// $k = '`' . $params->get('join_db_name'). "`.`".$params->get('join_val_column').'`';
 			$str = "$key $condition $value";
 		}
 		else

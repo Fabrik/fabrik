@@ -7,7 +7,7 @@ var FbPicklist = new Class({
 			this.watchAdd();
 		}
 		// hovercolor: this.options.bghovercolour,
-		var dropcolour = $(this.options.element + '_fromlist').getStyle(
+		var dropcolour = document.id(this.options.element + '_fromlist').getStyle(
 				'background-color');
 		this.sortable = new Sortables([ '#' + this.element.id + '_fromlist',
 				'#' + this.element.id + '_tolist' ], {
@@ -85,7 +85,7 @@ var FbPicklist = new Class({
 							document.id(id + '_ddVal').value = '';
 						}
 						document.id(id + '_ddLabel').value = '';
-						// this.showEmptyMsg($(this.options.element +
+						// this.showEmptyMsg(document.id(this.options.element +
 						// '_tolist'));
 						this.setData();
 						this.addNewOption(val, label);

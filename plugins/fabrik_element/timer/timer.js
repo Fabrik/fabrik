@@ -17,7 +17,7 @@ var FbTimer = new Class({
 	initialize: function (element, options) {
 		this.plugin = 'fabriktimer';
 		this.parent(element, options);
-		var b = $(this.options.element + '_button');
+		var b = document.id(this.options.element + '_button');
 		this.seg = 0;
 		this.min = 0;
 		this.hour = 0;

@@ -63,7 +63,7 @@ var FbVideo = new Class({
 		}
 		//@todo: video ajax update');
 		if (this.options.file !== '') {
-			var c = $(this.options.element + '_placeholder');
+			var c = document.id(this.options.element + '_placeholder');
 			c.empty();
 		}
 		if (val !== '') {
@@ -76,12 +76,12 @@ var FbVideo = new Class({
 	},
 		
 	getVideoObj: function () {
-		this.video = $(this.options.element + '_placeholder').getElementsByTagName('embed')[0];
+		this.video = document.id(this.options.element + '_placeholder').getElementsByTagName('embed')[0];
 		return this.video;
 	},
 			
 	insertMovie: function () {
-		var c = $(this.options.element + '_placeholder');
+		var c = document.id(this.options.element + '_placeholder');
 		var n = this.options.element + "_object";
 		if (this.options.file !== '') {
 			str = '<OBJECT CLASSID="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"';

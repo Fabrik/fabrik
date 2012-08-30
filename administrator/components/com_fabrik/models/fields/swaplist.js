@@ -1,33 +1,33 @@
 var SwapList = new Class({
 	
 	initialize: function (from, to, addbutton, removebutton, upbutton, downbutton) {
-		this.from = $(from);
-		this.to = $(to);
-		if (typeOf($(addbutton)) !== false) {
-			$(addbutton).addEvent('click', function (e) {
+		this.from = document.id(from);
+		this.to = document.id(to);
+		if (typeOf(document.id(addbutton)) !== 'null') {
+			document.id(addbutton).addEvent('click', function (e) {
 				e.stop();
-				$('jform__createGroup0').checked = true;
+				document.id('jform__createGroup0').checked = true;
 				this.addSelectedToList(this.from, this.to);
 				this.delSelectedFromList(this.from);
 			}.bind(this));
 			
-			$(removebutton).addEvent('click', function (e) {
+			document.id(removebutton).addEvent('click', function (e) {
 				e.stop();
 				this.addSelectedToList(this.to, this.from);
 				this.delSelectedFromList(this.to);
 			}.bind(this));
 			
-			$(upbutton).addEvent('click', function (e) {
+			document.id(upbutton).addEvent('click', function (e) {
 				e.stop();
 				this.moveInList(-1);
 			}.bind(this));
 			
-			$(downbutton).addEvent('click', function (e) {
+			document.id(downbutton).addEvent('click', function (e) {
 				e.stop();
 				this.moveInList(+1);
 			}.bind(this));
 			
-			$('adminForm').onsubmit = function (e) {
+			document.id('adminForm').onsubmit = function (e) {
 				this.to.getElements('option').each(function (opt) {
 					opt.selected = true;
 				});

@@ -14,7 +14,7 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field default="Y-m-d h:m:s" description="PLG_ELEMENT_TIMESTAMP_FORMAT_DESC" label="PLG_ELEMENT_TIMESTAMP_FORMAT_LABEL" length="20" name="timestamp_format" type="text"/>
+			<field default="Y-m-d H:i:s" description="PLG_ELEMENT_TIMESTAMP_FORMAT_DESC" label="PLG_ELEMENT_TIMESTAMP_FORMAT_LABEL" length="20" name="timestamp_format" type="text"/>
 		</fieldset>
 	</fields>
 </form>

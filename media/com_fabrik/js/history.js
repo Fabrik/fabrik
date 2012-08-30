@@ -5,11 +5,11 @@ var History = new Class({
 	initialize: function (undobutton, redobutton) {
 		this.recording = true;
 		this.pointer = -1;
-		if ($(undobutton)) {
-			$(undobutton).addEvent('click', this.undo.bindWithEvent(this));
+		if (document.id(undobutton)) {
+			document.id(undobutton).addEvent('click', this.undo.bindWithEvent(this));
 		}
-		if ($(redobutton)) {
-			$(redobutton).addEvent('click', this.redo.bindWithEvent(this));
+		if (document.id(redobutton)) {
+			document.id(redobutton).addEvent('click', this.redo.bindWithEvent(this));
 		}
 		Fabrik.addEvent('fabrik.history.on', this.on.bindWithEvent(this));
 		Fabrik.addEvent('fabrik.history.off', this.off.bindWithEvent(this));

@@ -2,7 +2,7 @@ var Tabs = new Class({
 	initialize : function (el, tabs, editable) {
 		this.editable = editable;
 		this.iconGen = new IconGenerator({scale: 0.5});
-		this.el = $(el);
+		this.el = document.id(el);
 		this.tabs = $H({});
 		this.build(tabs);
 	},

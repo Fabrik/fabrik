@@ -237,7 +237,13 @@ class FabrikControllerForm extends JControllerForm
 		$this->setRedirect($page, $msg);
 	}
 
-	function cck()
+	/**
+	 * CCK - not used atm
+	 *
+	 * @return void
+	 */
+
+	public function cck()
 	{
 		$catid = JRequest::getInt('catid');
 		$db = JFactory::getDBO();
@@ -251,7 +257,60 @@ class FabrikControllerForm extends JControllerForm
 			return JError::raiseNotice(500, JText::_('SET_FORM_CCK_CATEGORY'));
 		}
 		JRequest::setVar('formid', $id);
-		JRequest::setVar('iframe', 1);//tell fabrik to load js scripts normally
+
+		// Tell fabrik to load js scripts normally
+		JRequest::setVar('iframe', 1);
 		$this->view();
+	}
+
+	/**
+	 * Delete a record from a form
+	 *
+	 * @since 3.0.6.2
+	 *
+	 * @return  null
+	 */
+
+	public function delete()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die('Invalid Token');
+		$app = JFactory::getApplication();
+		$model = $this->getModel('list', 'FabrikFEModel');
+		$ids = array(JRequest::getVar('rowid', 0));
+
+		$listid = JRequest::getInt('listid');
+		$limitstart = JRequest::getVar('limitstart' . $listid);
+		$length = JRequest::getVar('limit' . $listid);
+
+		$oldtotal = $model->getTotalRecords();
+		$model->setId($listid);
+		$model->deleteRows($ids);
+
+		$total = $oldtotal - count($ids);
+
+		$ref = 'index.php?option=com_fabrik&task=list.view&listid=' . $listid;
+		if ($total >= $limitstart)
+		{
+			$newlimitstart = $limitstart - $length;
+			if ($newlimitstart < 0)
+			{
+				$newlimitstart = 0;
+			}
+			$ref = str_replace("limitstart$listid=$limitstart", "limitstart$listid=$newlimitstart", $ref);
+			$app = JFactory::getApplication();
+			$context = 'com_fabrik.list.' . $model->getRenderContext() . '.';
+			$app->setUserState($context . 'limitstart', $newlimitstart);
+		}
+		if (JRequest::getVar('format') == 'raw')
+		{
+			JRequest::setVar('view', 'list');
+
+			$this->display();
+		}
+		else
+		{
+			$app->redirect($ref, count($ids) . " " . JText::_('COM_FABRIK_RECORDS_DELETED'));
+		}
 	}
 }

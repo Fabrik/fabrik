@@ -511,8 +511,10 @@ EOD;
 
 	public static function cssAsAsset()
 	{
+		//return JRequest::getVar('format') == 'raw'
+		//	|| (JRequest::getVar('tmpl') == 'component') && JRequest::getVar('print') != 1 && JRequest::getVar('format') !== 'pdf';
 		return JRequest::getVar('format') == 'raw'
-			|| (JRequest::getVar('tmpl') == 'component') && JRequest::getVar('print') != 1 && JRequest::getVar('format') !== 'pdf';
+		|| (JRequest::getVar('tmpl') == 'component' && JRequest::getVar('iframe') != 1) && JRequest::getVar('print') != 1 && JRequest::getVar('format') !== 'pdf';
 	}
 
 	/**

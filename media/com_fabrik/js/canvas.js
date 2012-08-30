@@ -22,7 +22,7 @@ var Canvas = new Class({
 	},
 	
 	setDrags: function () {
-		$('typeList').getElements('li').each(function (li) {
+		document.id('typeList').getElements('li').each(function (li) {
 			li.addEvent('mousedown', function (e) {
 				var clone = li.clone().setStyles(li.getCoordinates()) // this returns an
 				// object with

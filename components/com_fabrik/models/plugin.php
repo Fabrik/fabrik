@@ -97,9 +97,11 @@ class FabrikPlugin extends JPlugin
 	}
 
 	/**
-	 * render the element admin settings
-	 * @param   array	data
-	 * @param   int		repeat plugin counter
+	 * Render the element admin settings
+	 *
+	 * @param   array  $data           admin data
+	 * @param   int    $repeatCounter  repeat plugin counter
+	 *
 	 * @return  string	admin html
 	 */
 
@@ -225,10 +227,10 @@ class FabrikPlugin extends JPlugin
 	 * Used in plugin manager runPlugins to set the correct repeat set of
 	 * data for the plugin
 	 *
-	 * @param   object	original params $params
-	 * @param   int		plugin $repeatCounter
+	 * @param   object  $params         original params
+	 * @param   int     $repeatCounter  repeat group counter
 	 *
-	 * @param   object  params
+	 * @return   object  params
 	 */
 
 	function setParams(&$params, $repeatCounter)
@@ -247,7 +249,9 @@ class FabrikPlugin extends JPlugin
 	}
 
 	/**
-	 * load params
+	 * Load params
+	 *
+	 * @return  object  params
 	 */
 
 	public function getParams()
@@ -262,7 +266,10 @@ class FabrikPlugin extends JPlugin
 		}
 	}
 
-	function _loadParams()
+	/**
+	 *
+	 */
+	protected function _loadParams()
 	{
 		if (!isset($this->attribs))
 		{

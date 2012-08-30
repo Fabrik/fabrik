@@ -41,7 +41,7 @@ class FabrikControllerList extends JController
 		{
 			// in PDF view only shown the main component content.
 			JRequest::setVar('tmpl', 'component');
-		} 
+		}
 		// Set the default view name from the Request
 		$view = $this->getView($viewName, $viewType);
 		$view->setLayout($layout);
@@ -212,6 +212,10 @@ class FabrikControllerList extends JController
 			if (JRequest::getVar('format') == 'raw')
 			{
 				JRequest::setVar('view', 'list');
+				$model->setRenderContext($model->getId());
+				$context = 'com_fabrik.list' . $model->getRenderContext() . '.msg';
+				$session = JFactory::getSession();
+				$session->set($context, implode("\n", $msgs));
 			}
 			else
 			{

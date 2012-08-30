@@ -56,6 +56,9 @@ var FbDatabasejoin = new Class({
 			destroy = true;
 			visible = true;
 		}
+		if (this.options.popupform === 0 || this.options.allowadd === false) {
+			return;
+		}
 		this.activePopUp = true;
 		var url = "index.php?option=com_fabrik&task=form.view&tmpl=component&ajax=1&formid=" + this.options.popupform;
 		var id = this.element.id + '-popupwin';

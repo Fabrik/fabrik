@@ -82,7 +82,7 @@ var FabrikGrid = new Class({
 		var opts = Object.clone(this.iconSettings);
 		Object.append(opts, options);
 		var i = Fabrik.iconGen.create(icon[name], opts);
-		var button = $('fabrikInterface').getElement(to);
+		var button = document.id('fabrikInterface').getElement(to);
 		if(typeOf(button) == 'element'){
 			i.inject(button);
 		}

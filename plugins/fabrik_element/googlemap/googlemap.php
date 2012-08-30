@@ -572,8 +572,8 @@ class plgFabrik_ElementGooglemap extends plgFabrik_Element
 		$listModel = $this->getlistModel();
 		$table = $listModel->getTable();
 		$fullElName = JArrayHelper::getValue($opts, 'alias', $dbtable . '___' . $this->_element->name);
-		$dbtable = $db->nameQuote($dbtable);
-		$str = $dbtable . '.' . $db->nameQuote($this->_element->name) . ' AS ' . $db->nameQuote($fullElName);
+		$dbtable = $db->quoteName($dbtable);
+		$str = $dbtable . '.' . $db->quoteName($this->_element->name) . ' AS ' . $db->quoteName($fullElName);
 		if ($table->db_primary_key == $fullElName)
 		{
 			array_unshift($aFields, $fullElName);
@@ -582,10 +582,10 @@ class plgFabrik_ElementGooglemap extends plgFabrik_Element
 		else
 		{
 			$aFields[] = $str;
-			$aAsFields[] = $db->nameQuote($fullElName);
+			$aAsFields[] = $db->quoteName($fullElName);
 			$rawName = $fullElName . '_raw';
-			$aFields[] = $dbtable . '.' . $db->nameQuote($this->_element->name) . ' AS ' . $db->nameQuote($rawName);
-			$aAsFields[] = $db->nameQuote($rawName);
+			$aFields[] = $dbtable . '.' . $db->quoteName($this->_element->name) . ' AS ' . $db->quoteName($rawName);
+			$aAsFields[] = $db->quoteName($rawName);
 		}
 	}
 

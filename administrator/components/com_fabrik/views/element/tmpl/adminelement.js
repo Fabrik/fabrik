@@ -220,6 +220,6 @@ function setAll(t, elName) {
 }
 
 function deleteSubElements(sTagId) {
-	var oNode = $(sTagId);
+	var oNode = document.id(sTagId);
 	oNode.parentNode.removeChild(oNode);
 }

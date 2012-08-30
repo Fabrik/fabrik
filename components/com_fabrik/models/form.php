@@ -1409,6 +1409,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 				continue;
 			}
 			$oJoin = $aPreProcessedJoin['join'];
+
 			// 3.0 test on repeatElement param type
 			if (is_string($oJoin->params))
 			{
@@ -1427,17 +1428,19 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 					}
 				}
 			}
-			else {
+			else
+			{
 				$oJoinPk = FabrikString::safeColNameToArrayKey($oJoin->params->pk);
 			}
 
 			if (array_key_exists('Copy', $this->_formData))
 			{
 				$this->_rowId = '';
-				// $$$ hugh - nope, this is wrong, builds the wrong element name, we need to use the join's PK, not it's FK,
-				// so we need the new 'pk' param if available, or build it from first principles.
-				// So ... moved that code to just above, where we now build the oJoinPk.
-				// $this->_formData['join'][$oJoin->id][$oJoin->table_join . '___' . $oJoin->table_key] = '';
+				/* $$$ hugh - nope, this is wrong, builds the wrong element name, we need to use the join's PK, not it's FK,
+				 * so we need the new 'pk' param if available, or build it from first principles.
+				 * So ... moved that code to just above, where we now build the oJoinPk.
+				 * $this->_formData['join'][$oJoin->id][$oJoin->table_join . '___' . $oJoin->table_key] = '';
+				 */
 				if (is_array($this->_formData['join'][$oJoin->id][$oJoinPk]))
 				{
 					foreach ($this->_formData['join'][$oJoin->id][$oJoinPk] as &$ojpk)
@@ -1460,7 +1463,6 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 
 			$groups = $this->getGroupsHiarachy();
 			$repeatTotals = JRequest::getVar('fabrik_repeat_group', array(0), 'post', 'array');
-
 
 			$joinType = isset($oJoin->params->type) ? $oJoin->params->type : '';
 			if ((int) $oJoin->group_id !== 0 && $joinType !== 'repeatElement')
@@ -1555,12 +1557,12 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 				$oJoinPk = $oJoin->table_join . '___';
 				foreach ($cols as $col)
 				{
-					if ($col->Key == 'PRI')
-					{
-						$oJoinPk .= $col->Field;
-					}
+				    if ($col->Key == 'PRI')
+				    {
+				        $oJoinPk .= $col->Field;
+				    }
 				}
-				*/
+				 */
 				$fullforeginKey = $oJoin->table_join . '___' . $oJoin->table_join_key;
 
 				$repeatParams = array();
@@ -2840,7 +2842,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 		$listModel = $this->getListModel();
 		$fabrikDb = $listModel->getDb();
 		$item = $listModel->getTable();
-		$k = $fabrikDb->nameQuote($item->db_primary_key);
+		$k = $fabrikDb->quoteName($item->db_primary_key);
 		$fabrikDb->setQuery("SELECT MAX($k) FROM " . FabrikString::safeColName($item->db_table_name) . $listModel->_buildQueryWhere());
 		return $fabrikDb->loadResult();
 	}
@@ -3757,7 +3759,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 
 	private function _getOutro($match)
 	{
-		$m = explode(":", $match[0]);
+		$m = explode(':', $match[0]);
 		array_shift($m);
 		return FabrikString::rtrimword(implode(":", $m), "}");
 	}
@@ -3877,35 +3879,28 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 		$linkedform_linktype = $factedLinks->linkedform_linktype;
 		$linkedtable_linktype = $factedLinks->linkedlist_linktype;
 		$f = 0;
-		$query = $db->getQuery(true);
-		$query->select('id, label, db_table_name')->from('#__{package}_lists');
-		$db->setQuery($query);
-		$aTableNames = $db->loadObjectList('label');
-		if ($db->getErrorNum())
-		{
-			JError::raiseError(500, $db->getErrorMsg());
-		}
 		foreach ($joinsToThisKey as $element)
 		{
-			$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
-			$val = JRequest::getVar($qsKey);
-			if ($val == '')
+			$key = $element->list_id . '-' . $element->form_id . '-' . $element->element_id;
+			if (isset($linkedLists->$key) && $linkedLists->$key != 0)
 			{
-				// Default to row id if we are coming from a main link (and not a related data link)
-				$val = JRequest::getVar($qsKey . '_raw', '');
-				if (empty($val))
+				$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
+				$val = JRequest::getVar($qsKey);
+				if ($val == '')
 				{
-					$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
-					$val = JArrayHelper::getValue($this->_data, $thisKey, $val);
+					// Default to row id if we are coming from a main link (and not a related data link)
+					$val = JRequest::getVar($qsKey . '_raw', '');
 					if (empty($val))
 					{
-						$val = JRequest::getVar('rowid');
+						$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
+						$val = JArrayHelper::getValue($this->_data, $thisKey, $val);
+						if (empty($val))
+						{
+							$val = JRequest::getVar('rowid');
+						}
 					}
 				}
-			}
-			$key = $element->list_id . '-' . $element->form_id . '-' . $element->element_id;
-			if (isset($linkedLists->$key))
-			{
+
 				// $$$ hugh - changed to use _raw as key, see:
 				// http://fabrikar.com/forums/showthread.php?t=20020
 				$linkKey = $element->db_table_name . '___' . $element->name;
@@ -3913,7 +3908,7 @@ INNER JOIN #__{package}_groups as g ON g.id = fg.group_id
 				$popUpLink = JArrayHelper::getValue($linkedtable_linktype->$key, $f, false);
 				$recordCounts = $referringTable->getRecordCounts($element);
 				$count = is_array($recordCounts) && array_key_exists($val, $recordCounts) ? $recordCounts[$val]->total : 0;
-				$links[$element->list_id][] = $referringTable->viewDataLink($popUpLink, $element, null, $linkKey, $val, $count, $f);
+				$links[$element->list_id][] = $element->listlabel . ': ' . $referringTable->viewDataLink($popUpLink, $element, null, $linkKey, $val, $count, $f);
 			}
 			$f++;
 		}

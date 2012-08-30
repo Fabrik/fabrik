@@ -27,19 +27,20 @@ var Autofill = new Class({
 				this.setUp(form);	
 			}.bind(this));
 		}*/
-		
+		this.setupDone = false;
+		this.setUp(Fabrik.blocks['form_' + this.options.formid]);
 		Fabrik.addEvent('fabrik.form.elements.added', function (form) {
 			this.setUp(form);	
 		}.bind(this));
 		
 		Fabrik.addEvent('fabrik.form.element.added', function (form, elId, oEl) {
 			if (!this.element) {
-				//if we are on the form load then this.element not set so return
+				// if we are on the form load then this.element not set so return
 				return;
 			}
-			// a group has been duplicated
+			// A group has been duplicated
 			if (oEl.strElement === this.element.strElement) {
-				// the element is a clone of our observable element
+				// The element is a clone of our observable element
 				this.element = false;
 				this.setUp(form);
 			}
@@ -48,23 +49,32 @@ var Autofill = new Class({
 	
 	/**
 	 * get the observable element
+	 * 
+	 * @param   int  repeatNum  if element to observe is in a repeat group which index'd element should be returned
+	 *  
 	 * @return element object
 	 */
-	getElement: function () {
+	getElement: function (repeatNum) {
 		var testE = false;
 		var e = this.form.formElements.get(this.options.observe);
-		//if its a joined element
+		
+		// If its a joined element
 		if (!e) {
+			var repeatCount = 0;
 			var k = Object.keys(this.form.formElements);
 			var ii = k.each(function (i) {
 				if (i.contains(this.options.observe)) {
 					testE = this.form.formElements.get(i);
 					if (!this.attached.contains(testE.options.element)) {
-						//we havent previously observed this element, add it to this.attached
+						// We havent previously observed this element, add it to this.attached
 						// so that in the future we don't re-add it.
 						this.attached.push(testE.options.element);
+						//e = testE;
+					}
+					if (typeOf(repeatNum) === 'null' || repeatNum === repeatCount) {
 						e = testE;
 					}
+					repeatCount ++;
 				}
 			}.bind(this));
 		}
@@ -72,10 +82,13 @@ var Autofill = new Class({
 	},
 	
 	setUp: function (form) {
+		if (this.setupDone) {
+			return;
+		}
 		try {
 			this.form = form;
 		} catch (err) {
-			//form_x not found (detailed view perhaps)
+			// form_x not found (detailed view perhaps)
 			return;
 		}
 		var e = this.getElement();
@@ -98,6 +111,7 @@ var Autofill = new Class({
 			var t = this.options.trigger === '' ? this.element.strElement : this.options.trigger;
 			this.form.dispatchEvent('', t, 'load', evnt);
 		}
+		this.setupDone = true;
 	},
 	
 	// perform ajax lookup when the observer element is blurred
@@ -110,6 +124,9 @@ var Autofill = new Class({
 		}
 		Fabrik.loader.start('form_' + this.options.formid, Joomla.JText._('PLG_FORM_AUTOFILL_SEARCHING'));
 		
+		if (!this.element) {
+			this.element = this.getElement(0);
+		}
 		var v = this.element.getValue();
 		var formid = this.options.formid;
 		var observe = this.options.observe;
@@ -118,7 +135,7 @@ var Autofill = new Class({
 			'evalScripts': true,
 			'data': {
 				'option': 'com_fabrik',
-				'format': 'json',
+				'format': 'raw',
 				'task': 'plugin.pluginAjax',
 				'plugin': 'autofill',
 				'method': 'ajax_getAutoFill',

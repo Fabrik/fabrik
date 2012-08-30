@@ -501,3 +501,17 @@ table.fabrikList .oddRow1 {
 /*********************************************************/
 /************  End basic table styling *******************/
 /*********************************************************/
+
+/*********************************************************/
+/************  Misc. Workarounds *************************/
+/*********************************************************/
+
+/** Workaround for Gantry's date class stomping on our date element class **/
+
+.fabrikGroup ul li.date {
+	font-weight: normal;
+	text-align: left;
+}
+.fabrikGroup ul li.date span {
+	display:inline
+}

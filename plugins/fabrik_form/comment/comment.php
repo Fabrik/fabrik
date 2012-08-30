@@ -26,7 +26,7 @@ class FabrikTableComment extends FabTable
 	/**
 	 * Object constructor to set table and key fields.
 	 *
-	 * @param   JDatabase  $db    JDatabase connector object.
+	 * @param   JDatabase  &$db  JDatabase connector object.
 	 *
 	 */
 
@@ -669,8 +669,21 @@ class plgFabrik_FormComment extends plgFabrik_Form
 		$res = $row->store();
 		if ($res === false)
 		{
-			echo $row->getError();
-			exit;
+			// Attempt to create the db table?
+			$sql = JFile::read(COM_FABRIK_BASE . '/plugins/fabrik_form/comment/sql/install.mysql.uft8.sql');
+			$db->setQuery($sql);
+			if (!$db->query())
+			{
+				JError::raiseError(500, $db->getErrorMsg());
+				exit;
+			}
+			$res = $row->store();
+			if ($res === false)
+			{
+				JError::raiseError(500, $row->getError());
+				exit;
+			}
+
 		}
 		$obj = new stdClass;
 

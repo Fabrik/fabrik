@@ -2171,6 +2171,8 @@ class plgFabrik_ElementDate extends plgFabrik_Element
 			else
 			{
 				parent::formJavascriptClass($srcs, 'media/com_fabrik/js/lib/datejs/date.js');
+				parent::formJavascriptClass($srcs, 'media/com_fabrik/js/lib/datejs/core.js');
+				parent::formJavascriptClass($srcs, 'media/com_fabrik/js/lib/datejs/parser.js');
 				parent::formJavascriptClass($srcs, 'media/com_fabrik/js/lib/datejs/extras.js');
 			}
 		}

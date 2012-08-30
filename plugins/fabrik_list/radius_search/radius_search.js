@@ -4,7 +4,7 @@ var FbListRadiusSearch = new Class({
 		this.parent(options);
 		head.ready(function () {
 
-			this.element = $(element).getElement('.radus_search');
+			this.element = document.id(element).getElement('.radus_search');
 			if (typeOf(this.options.value) === 'null') {
 				this.options.value = 0;
 			}

@@ -198,7 +198,7 @@ var fabriktablesElement = new Class({
 		if (r === '') {
 			return;
 		}
-		var table = $(this.el).get('value');
+		var table = document.id(this.el).get('value');
 		var key = element.getOpts().getValues().toString() + ',' + table;
 		var opts = eval(r);
 		element.el.empty();

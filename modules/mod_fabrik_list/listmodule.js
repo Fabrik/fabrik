@@ -6,7 +6,7 @@ var fabrikTableModule = new Class({
 		}, arguments[1] || {});
 
 		window.addEvent('load', function (e) {
-			this.blocks = $(id).getElements('.fabrik_block');
+			this.blocks = document.id(id).getElements('.fabrik_block');
 			if (window.getHeight() - 70 > this.blocks[1].getStyle("height").toInt() && this.blocks[1].getStyle("height").toInt() != 0) {
 				var h = this.blocks[1].getStyle("height").toInt();
 			} else {
@@ -58,7 +58,7 @@ var fabrikTableModule = new Class({
 							this.blocks[1].show();
 							document.mochaDesktop.newWindow(this.o);
 						} else {
-							$(this.winname).show();
+							document.id(this.winname).show();
 						}
 						if (this.form) {
 							this.form.show();
@@ -80,7 +80,7 @@ var fabrikTableModule = new Class({
 		this.blocks[0].getElements('.fabrik___rowlink').removeEvents();
 		oTable.watchRows();
 		this.blocks[0].getElements('.fabrik___rowlink').addEvent('click', function (event) {
-			if (!$(this.winname)) {
+			if (!document.id(this.winname)) {
 				this.blocks[1].show();
 				if (this.options.mooversion > 1.1) {
 					var win = new MochaUI.Window(this.o);
@@ -88,7 +88,7 @@ var fabrikTableModule = new Class({
 					document.mochaDesktop.newWindow(this.o);
 				}
 			} else {
-				$(this.winname).show();
+				document.id(this.winname).show();
 			}
 			this.blocks[1].getElement('.fabrikForm').show();
 			this.blocks[1].getElement('.fabrikDetails').hide();
@@ -106,7 +106,7 @@ var fabrikTableModule = new Class({
 					document.mochaDesktop.newWindow(this.o);
 				}
 			} else {
-				$(this.winname).show();
+				document.id(this.winname).show();
 			}
 			this.blocks[1].getElement('.fabrikForm').hide();
 			this.blocks[1].getElement('.fabrikDetails').show();

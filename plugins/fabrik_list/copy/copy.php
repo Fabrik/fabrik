@@ -26,13 +26,18 @@ class plgFabrik_ListCopy extends plgFabrik_List
 	protected $buttonPrefix = 'copy';
 
 	/**
-	 * Needed to render plugin buttons
+	 * Prep the button if needed
 	 *
-	 * @return  bool
+	 * @param   object  $params  plugin params
+	 * @param   object  &$model  list model
+	 * @param   array   &$args   arguements
+	 *
+	 * @return  bool;
 	 */
 
-	public function button()
+	public function button($params, &$model, &$args)
 	{
+		parent::button($params, $model, $args);
 		return true;
 	}
 

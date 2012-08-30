@@ -32,7 +32,7 @@ Element.implement({
 		if (this.hasClass(classname)) {
 			return this;
 		}
-		var el = $(this);
+		var el = document.id(this);
 		while (el && !el.hasClass(classname)) {
 			if (typeOf(el.getParent()) !== 'element') {
 				return false;

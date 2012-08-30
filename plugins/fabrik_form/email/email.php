@@ -156,7 +156,7 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 			$email_to = array_merge($email_to, $email_to_eval);
 		}
 
-		@list($email_from, $email_from_name) = split(":", $w->parseMessageForPlaceholder($params->get('email_from'), $this->data, false));
+		@list($email_from, $email_from_name) = explode(":", $w->parseMessageForPlaceholder($params->get('email_from'), $this->data, false), 2);
 		if (empty($email_from))
 		{
 			$email_from = $config->getvalue('mailfrom');

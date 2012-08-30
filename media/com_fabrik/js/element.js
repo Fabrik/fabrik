@@ -144,7 +144,7 @@ var FbElement =  new Class({
 			this.runLoadEvent(js);
 		} else {
 			if (!this.element) {
-				this.element = $(this.strElement);
+				this.element = document.id(this.strElement);
 			}
 			if (this.element) {
 				if (action === 'change') {
@@ -161,7 +161,7 @@ var FbElement =  new Class({
 	addNewOption: function (val, label)
 	{
 		var a;
-		var added = $(this.options.element + '_additions').value;
+		var added = document.id(this.options.element + '_additions').value;
 		var json = {'val': val, 'label': label};
 		if (added !== '') {
 			a = JSON.decode(added);
@@ -174,7 +174,7 @@ var FbElement =  new Class({
 			s += JSON.encode(a[i]) + ',';
 		}
 		s = s.substring(0, s.length - 1) + ']';
-		$(this.options.element + '_additions').value = s;
+		document.id(this.options.element + '_additions').value = s;
 	},
 	
 	//below functions can override in plugin element classes
@@ -203,12 +203,17 @@ var FbElement =  new Class({
 	
 	reset: function ()
 	{
-		this.loadEvents.each(function (js) {
-			this.runLoadEvent(js, 100);
-		}.bind(this));
+		this.resetEvents();
 		if (this.options.editable === true) {
 			this.update(this.options.defaultVal);
 		}
+	},
+	
+	resetEvents: function ()
+	{
+		this.loadEvents.each(function (js) {
+			this.runLoadEvent(js, 100);
+		}.bind(this));		
 	},
 	
 	clear: function ()

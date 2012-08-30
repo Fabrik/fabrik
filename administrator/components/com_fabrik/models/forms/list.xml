@@ -696,7 +696,7 @@
 				type="list"
 				label="COM_FABRIK_FIELD_ACTION_METHOD_LABEL"
 				description="COM_FABRIK_FIELD_ACTION_METHOD_DESC">
-					<option value="">COM_FABRIK_FIELD_ACTION_METHOD_INLINE</option>
+					<option value="inline">COM_FABRIK_FIELD_ACTION_METHOD_INLINE</option>
 					<option value="floating">COM_FABRIK_FIELD_ACTION_METHOD_FLOATING</option>
 			</field>
 			

@@ -54,13 +54,19 @@ var FbListPlugin = new Class({
 	clearFilter: Function.from(),
 
 	watchButton: function () {
-		//do relay for floating menus
+		// Do relay for floating menus
 		if (typeOf(this.options.name) === 'null') {
 			return;
 		}
-		// might need to be this.listform and not document
-		document.addEvent('click:relay(.' + this.options.name + ')', function (e) {
+		// Might need to be this.listform and not document
+		document.addEvent('click:relay(.' + this.options.name + ')', function (e, element) {
 			e.stop();
+			
+			// Check that the button clicked belongs to this this.list
+			if (element.get('data-list') !== this.list.options.listRef) {
+				return;
+			}
+			e.preventDefault();
 			var row, chx;
 			// if the row button is clicked check its associated checkbox
 			if (e.target.getParent('.fabrik_row')) {
@@ -115,7 +121,7 @@ var FbList = new Class({
 		'canEdit': true,
 		'canView': true,
 		'page': 'index.php',
-		'actionMethod': '',
+		'actionMethod': 'floating',
 		'formels': [], // elements that only appear in the form
 		'data': [], // [{col:val, col:val},...] (depreciated)
 		'rowtemplate': '',
@@ -441,6 +447,7 @@ var FbList = new Class({
 			onSuccess: function (res) {
 				if (res.err) {
 					alert(res.err);
+					Fabrik.Windows.exportcsv.close();
 				} else {
 					if (typeOf(document.id('csvcount')) !== 'null') {
 						document.id('csvcount').set('text', res.count);
@@ -770,6 +777,9 @@ var FbList = new Class({
 						Fabrik.loader.stop('listform_' + this.options.listRef);
 						Fabrik['filter_listform_' + this.options.listRef].onUpdateData();
 						Fabrik.fireEvent('fabrik.list.submit.ajax.complete', [this, json]);
+						if (json.msg) {
+							alert(json.msg);
+						}
 					}.bind(this)
 				});
 			} else {
@@ -1215,7 +1225,7 @@ var FbGroupedToggler = new Class({
 		this.container.getElements('.fabrik_groupdata').hide();
 		var i = this.container.getElements('.fabrik_groupheading a img');
 		if (i.length === 0) {
-			i = this.container.getElements('.fabrik_groupheading img')
+			i = this.container.getElements('.fabrik_groupheading img');
 		}
 		i.each(function (img) {
 			img.store('showgroup', false);
@@ -1227,7 +1237,7 @@ var FbGroupedToggler = new Class({
 		this.container.getElements('.fabrik_groupdata').show();
 		var i = this.container.getElements('.fabrik_groupheading a img');
 		if (i.length === 0) {
-			i = this.container.getElements('.fabrik_groupheading img')
+			i = this.container.getElements('.fabrik_groupheading img');
 		}
 		i.each(function (img) {
 			img.store('showgroup', true);
@@ -1248,7 +1258,7 @@ var FbListActions = new Class({
 
 	Implements: [Options],
 	options: {
-		'method': '',
+		'method': 'floating',
 		'floatPos': 'bottom'
 	},
 

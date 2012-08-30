@@ -93,7 +93,8 @@ class plgFabrik_ElementTimestamp extends plgFabrik_Element
 	public function renderListData($data, &$thisRow)
 	{
 		$params = $this->getParams();
-		$data = JHTML::_('date', $data, JText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')));
+		$tz_offset = $params->get('gmt_or_local', '0') == '0';
+		$data = JHTML::_('date', $data, JText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')), $tz_offset);
 		return parent::renderListData($data, $thisRow);
 	}
 

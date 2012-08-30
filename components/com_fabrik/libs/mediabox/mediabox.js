@@ -27,7 +27,7 @@ var Mediabox;
 
 	window.addEvent("domready", function() {
 		// Append the Mediabox HTML code at the bottom of the document
-		$(document.body).adopt(
+		document.id(document.body).adopt(
 			$$([
 				overlay = new Element("div", {id: "mbOverlay"}).addEvent("click", close),
 				center = new Element("div", {id: "mbCenter"}),

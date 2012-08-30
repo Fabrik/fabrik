@@ -22,7 +22,7 @@ var elementElement = new Class({
 	},
 
 	ready : function () {
-		if (typeOf($(this.options.conn)) === 'null') {
+		if (typeOf(document.id(this.options.conn)) === 'null') {
 			return false;
 		}
 		if (typeOf(FabrikAdmin.model.fields.fabriktable) === 'undefined') {

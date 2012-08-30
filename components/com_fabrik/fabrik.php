@@ -103,7 +103,7 @@ else
 /**
  * Create the controller if the task is in the form view.task then get
  * the specific controller for that class - otherwse use $controller to load
- * required controller class 
+ * required controller class
  */
 if (strpos(JRequest::getCmd('task'), '.') !== false)
 {

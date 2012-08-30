@@ -343,9 +343,11 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	}
 
 	/**
-	 * shows the data formatted for the table view
-	 * @param	string	data
-	 * @param	object	all the data in the tables current row
+	 * Shows the data formatted for the list view
+	 *
+	 * @param   string  $data      data to show
+	 * @param	object  &$thisRow  all the data in the tables current row
+	 *
 	 * @return	string	formatted value
 	 */
 
@@ -353,8 +355,8 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	{
 		$data = FabrikWorker::JSONtoData($data, true);
 		$params = $this->getParams();
-		// $$$ hugh - have to run thru rendering even if data is empty,
-		// in case default image is being used.
+
+		// $$$ hugh - have to run thru rendering even if data is empty, iin case default image is being used.
 		if (empty($data))
 		{
 			$data[0] = $this->_renderListData('', $thisRow, 0);
@@ -371,7 +373,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	}
 
 	/**
-	 * shows the data formatted for the CSV export view
+	 * Shows the data formatted for the CSV export view
 	 * @param	string	data
 	 * @param	string	element name
 	 * @param	object	all the data in the tables current row
@@ -479,9 +481,9 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	/**
 	 * Display the file in the table
 	 *
-	 * @param   string  $data    current cell data
-	 * @param   array  $thisRow  current row data
-	 * @param   int    $i        repeat group count
+	 * @param   string  $data      current cell data
+	 * @param   array   &$thisRow  current row data
+	 * @param   int    $i          repeat group count
 	 *
 	 * @return	string
 	 */
@@ -523,7 +525,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		$data = FabrikWorker::JSONtoData($data);
 		if (is_array($data) && !empty($data))
 		{
-			//crop stuff needs to be removed from data to get correct file path
+			// Crop stuff needs to be removed from data to get correct file path
 			$data = $data[0];
 		}
 		$storage = $this->getStorage();
@@ -554,7 +556,8 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 					{
 						$img = JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION');
 					}
-					else{
+					else
+					{
 						$img = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
 							. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
 					}
@@ -1064,13 +1067,11 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		$cropWidth = $coords->cropdim->w;
 		$cropHeight = $coords->cropdim->h;
 		$scale = (int) $coords->scale;
-		//get the orignal file
+		// Get the orignal file
 		list($origImage, $header) = $oImage->imageFromFile($filepath);
 
-		//get original File dims
+		// Get original File dims
 		list($origWidth, $origHeight) = getimagesize($filepath);
-		/* echo "filepath = $filepath <br>";
-		echo "orgi width = $origWidth <br>"; */
 		if ($scale !== 100)
 		{
 			//make a scaled verios of the original image
@@ -1082,29 +1083,32 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			imagecopyresampled($scaledImage, $origImage, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
 			$origImage = $scaledImage;
 		}
-		//$oImage->imageToFile($destCropFile, $origImage);exit;
 		$imagedim = $coords->imagedim;
-		//has the image itself been dragged?
+
+		// Has the image itself been dragged?
 		$deltaX = 400 / 2 - $imagedim->x;
 		$deltaY = 400 / 2 - $imagedim->y;
 
-		//make an image the size of the crop interface
+		// Make an image the size of the crop interface
 		$canvas = imagecreatetruecolor(400, 400);
-		$destX = (int) (400 - ($origWidth * ($scale / 100))) / 2; //x position to start placing the original image on the canvas
-		//echo "destX = $destX <br>";
+
+		// X position to start placing the original image on the canvas
+		$destX = (int) (400 - ($origWidth * ($scale / 100))) / 2;
 		$destX = $destX - $deltaX;
 
-		$destY = (int) (400 - ($origHeight * ($scale / 100))) / 2; //y position to start placing the original image on the canvas
+		// Y position to start placing the original image on the canvas
+		$destY = (int) (400 - ($origHeight * ($scale / 100))) / 2;
 		$destY = $destY - $deltaY;
 
-		$srcX = 0; // x point on source image to copy from
-		$srcY = 0; //y point on source image to copy from
+		// X point on source image to copy from
+		$srcX = 0;
+
+		// Y point on source image to copy from
+		$srcY = 0;
 		$srcW = (int) $origWidth * ($scale / 100);
 		$srcH = (int) $origHeight * ($scale / 100);
 		$destWidth = (int) $imagedim->w;
 		$setHeight = (int) $imagedim->h;
-
-		//echo "$canvas, $origImage, $destX, $destY, $srcX, $srcY, $destWidth, $setHeight, $srcW, $srcH";
 
 		imagecopyresampled($canvas, $origImage, $destX, $destY, $srcX, $srcY, $destWidth, $setHeight, $srcW, $srcH);
 
@@ -1112,8 +1116,9 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 
 		if ($coords->rotation != 0)
 		{
-			//works great here for images with scale < 100
-			//rotate image
+			// Works great here for images with scale < 100
+
+			// Rotate image
 			list($rotatedImgObject, $rotateWidth, $rotateHeight) = $oImage->rotate($destCropFile, $destCropFile, $coords->rotation * -1);
 			//scale it back to crop dims
 			$xx = $rotateWidth / 2 - 400 / 2;
@@ -1121,7 +1126,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			$oImage->crop($destCropFile, $destCropFile, $xx, $yy, 400, 400);
 		}
 
-		//Crop it from the crop coordinates
+		// Crop it from the crop coordinates
 		$srcX = ($coords->cropdim->x - ($coords->cropdim->w / 2));
 		$srcY = $coords->cropdim->y - ($coords->cropdim->h / 2);
 		$oImage->crop($destCropFile, $destCropFile, $srcX, $srcY, $cropWidth, $cropHeight, 0, 0, $bg);
@@ -1218,16 +1223,14 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		}
 		if ($this->processAjaxUploads($name))
 		{
-			//stops form data being updated with blank data.
+			// Stops form data being updated with blank data.
 			return;
 		}
 		// if we've turnd on crop but not set ajax upload then the cropping wont work so we shouldnt return
 		// otherwise no standard image processed
 		if ($this->crop($name) && $params->get('ajax_upload'))
 		{
-			//echo "<pre>";print_r($this->_form->_formData);
-			//echo "should have cropped";exit;
-			//stops form data being updated with blank data.
+			// Stops form data being updated with blank data.
 			return;
 		}
 		$files = array();
@@ -1498,8 +1501,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	}
 
 	/**
-	 * process the upload (can be called via ajax from pluploader
-	 * @access private
+	 * Process the upload (can be called via ajax from pluploader
 	 *
 	 * @param	array	$file info
 	 * @param	string	user selected upload folder
@@ -1511,6 +1513,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 	{
 		$params = $this->getParams();
 		$storage = $this->getStorage();
+
 		// $$$ hugh - check if we need to blow away the cached filepath, set in validation
 		$myFileName = $storage->cleanName($file['name'], $repeatGroupCounter);
 		if ($myFileName != $file['name'])
@@ -1525,6 +1528,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			$params->set('ul_file_types', implode(',', $this->_getAllowedExtension()));
 		}
 		$err = null;
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
@@ -1652,6 +1656,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		$elName = $this->getFullName(true, true, false);
 		$elNameRaw = $elName . '_raw';
 		$params = $this->getParams();
+
 		//@TODO test with fileuploads in join groups
 
 		$groupModel = $this->getGroup();
@@ -1693,16 +1698,24 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		}
 
 		$storage = $this->getStorage();
+
 		// $$$ hugh - check if we need to blow away the cached filepath, set in validation
 		$myFileName = $storage->cleanName($myFileName, $repeatCounter);
 
 		$folder = $params->get('ul_directory');
 		$folder = $folder . '/' . $myFileDir;
-		$folder = JPath::clean(JPATH_SITE . '/' . $folder);
+		if ($storage->appendServerPath())
+		{
+			$folder = JPATH_SITE . '/' . $folder;
+		}
+		$folder = JPath::clean($folder);
 		$w = new FabrikWorker;
 		$folder = $w->parseMessageForPlaceHolder($folder);
 
-		JPath::check($folder);
+		if ($storage->appendServerPath())
+		{
+			JPath::check($folder);
+		}
 		$storage->makeRecursiveFolders($folder);
 		$p = $folder . '/' . $myFileName;
 		$this->_filePaths[$repeatCounter] = JPath::clean($p);
@@ -2220,8 +2233,8 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 						{
 							$join = $this->getJoinModel()->getJoin();
 							$query = $db->getQuery(true);
-							$query->select('*')->from($db->nameQuote($join->table_join))
-								->where($db->nameQuote('parent_id') . ' = ' . $db->quote($row->__pk_val));
+							$query->select('*')->from($db->quoteName($join->table_join))
+								->where($db->quoteName('parent_id') . ' = ' . $db->quote($row->__pk_val));
 							$db->setQuery($query);
 							$imageRows = $db->loadObjectList('id');
 							if (!empty($imageRows))
@@ -2231,8 +2244,8 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 									$this->deleteFile($imageRow->$name);
 								}
 								$query->clear();
-								$query->delete($db->nameQuote($join->table_join))
-									->where($db->nameQuote('id') . ' IN (' . implode(', ', array_keys($imageRows)) . ')');
+								$query->delete($db->quoteName($join->table_join))
+									->where($db->quoteName('id') . ' IN (' . implode(', ', array_keys($imageRows)) . ')');
 								$db->setQuery($query);
 								$db->query();
 							}
@@ -2522,7 +2535,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 		$this->deleteFile($filename);
 		$db = $this->getListModel()->getDb();
 		$query = $db->getQuery(true);
-		$query->delete($db->nameQuote($join->table_join))->where($db->nameQuote('id') . ' = ' . JRequest::getInt('recordid'));
+		$query->delete($db->quoteName($join->table_join))->where($db->quoteName('id') . ' = ' . JRequest::getInt('recordid'));
 		$db->setQuery($query);
 		$db->query();
 	}

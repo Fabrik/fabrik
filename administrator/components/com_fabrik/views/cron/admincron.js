@@ -10,7 +10,7 @@ var CronAdmin = new Class({
 	},
 	
 	watchSelector: function () {
-		$('jform_plugin').addEvent('change', function (e) {
+		document.id('jform_plugin').addEvent('change', function (e) {
 			e.stop();
 			var myAjax = new Request.HTML({
 				url: 'index.php',
@@ -20,7 +20,7 @@ var CronAdmin = new Class({
 					'format': 'raw',
 					'plugin': e.target.get('value')
 				},
-				'update': $('plugin-container')
+				'update': document.id('plugin-container')
 			}).send();
 		});
 	}

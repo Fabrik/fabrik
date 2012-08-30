@@ -544,6 +544,18 @@ class FabrikFEModelGroup extends FabModel
 	}
 
 	/**
+	* Is the group a repeat group
+	*
+	* @return  bool
+	*/
+
+	public function canCopyElementValues()
+	{
+		$params = $this->getParams();
+		return $params->get('repeat_copy_element_values', '0') === '1';
+	}
+
+	/**
 	 * is the group a join?
 	 *
 	 * @return  bool

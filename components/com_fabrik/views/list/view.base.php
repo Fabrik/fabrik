@@ -113,7 +113,7 @@ class FabrikViewListBase extends JView
 
 		}
 		$opts->formels = $formEls;//$elementsNotInTable;
-		$opts->actionMethod = $params->get('actionMethod', '');
+		$opts->actionMethod = $params->get('actionMethod', 'floating');
 		$opts->floatPos = $params->get('floatPos');
 		$opts->csvChoose = (bool) $params->get('csv_frontend_selection');
 		$popUpWidth = $params->get('popup_width', '');
@@ -425,7 +425,7 @@ class FabrikViewListBase extends JView
 
 		$this->assign('emptyDataMessage', $this->get('EmptyDataMsg'));
 		$this->assignRef('groupheadings', $groupHeadings);
-		$this->calculations = $this->_getCalculations($this->headings, $params->get('actionMethod'));
+		$this->calculations = $this->_getCalculations($this->headings, $params->get('actionMethod', 'floating'));
 		$this->assign('isGrouped', !($this->get('groupBy') == ''));
 		$this->assign('colCount', count($this->headings));
 

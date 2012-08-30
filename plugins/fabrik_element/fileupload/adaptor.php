@@ -136,22 +136,34 @@ class storageAdaptor{
 			}
 		}
 	}
-	
+
 	function getFullPath($filepath) {
 		return JError::raiseWarning(500, 'method not implemeneted');
 	}
-	
+
 	/**
 	 * Allows storage model to modify pathname just before it is rendered.  For instance,
 	 * if using Amazon S3 with 'Authenticated URL' option.
-	 * 
+	 *
 	 * @access public
 	 * @param string path to file
 	 * @return string
 	 */
-	
+
 	function preRenderPath($filepath) {
 		return $filepath;
 	}
+
+	/**
+	 * When creating file paths, do we need to append them with JPATH_SITE
+	 *
+	 * @since  3.0.6.2
+	 *
+	 * @return  bool
+	 */
+
+	public function appendServerPath()
+	{
+		return true;
+	}
 }
-?>

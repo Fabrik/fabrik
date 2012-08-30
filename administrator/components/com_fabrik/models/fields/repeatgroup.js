@@ -11,7 +11,7 @@ var FbRepeatGroup = new Class({
 	},
 	
 	initialize: function (element, options) {
-		this.element = $(element);
+		this.element = document.id(element);
 		this.setOptions(options);
 		this.counter = this.element.getElements('ul').length - 1;
 		this.watchAdd();

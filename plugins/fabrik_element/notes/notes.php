@@ -173,7 +173,7 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 		{
 			if ($field != '' && $field !== $fk)
 			{
-				$where[] = $db->nameQuote($field) . ' = ' . $db->quote($value);
+				$where[] = $db->quoteName($field) . ' = ' . $db->quote($value);
 			}
 			else
 			{
@@ -183,11 +183,11 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 		// Jaanus: when we choose WHERE field to be the same as FK then WHERE criteria is automatically FK = rowid, custom criteria(s) above may be added
 		if ($fk !== '' && $field === $fk && $rowid != '')
 		{
-			$where[] = $db->nameQuote($fk) . ' = ' . $rowid;
+			$where[] = $db->quoteName($fk) . ' = ' . $rowid;
 		}
 		if ($this->loadRow != '')
 		{
-			$pk = $db->nameQuote($this->getJoin()->table_join_alias) . '.' . $db->nameQuote($params->get('join_key_column'));
+			$pk = $db->quoteName($this->getJoin()->table_join_alias) . '.' . $db->quoteName($params->get('join_key_column'));
 			$where[] = $pk . ' = ' . $this->loadRow;
 		}
 		return 'WHERE ' . implode(" OR ", $where); //Jaanus: not sure why AND was originally here
@@ -204,7 +204,7 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 		}
 		else
 		{
-			return " ORDER BY " . $db->nameQuote($orderBy) . ' ' . $params->get('notes_order_dir', 'ASC');
+			return " ORDER BY " . $db->quoteName($orderBy) . ' ' . $params->get('notes_order_dir', 'ASC');
 		}
 	}
 
@@ -224,8 +224,8 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 			$user = $params->get('userid', '');
 			if ($user !== '')
 			{
-				$tbl = $db->nameQuote($this->getJoin()->table_join_alias);
-				$fields .= ',' . $tbl . '.' . $db->nameQuote($user) . 'AS userid, u.name AS username';
+				$tbl = $db->quoteName($this->getJoin()->table_join_alias);
+				$fields .= ',' . $tbl . '.' . $db->quoteName($user) . 'AS userid, u.name AS username';
 			}
 		}
 		return $fields;
@@ -247,8 +247,8 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 			$user = $params->get('userid', '');
 			if ($user !== '')
 			{
-				$tbl = $db->nameQuote($this->getJoin()->table_join_alias);
-				$join .= ' LEFT JOIN #__users AS u ON u.id = ' . $tbl . '.' . $db->nameQuote($user);
+				$tbl = $db->quoteName($this->getJoin()->table_join_alias);
+				$join .= ' LEFT JOIN #__users AS u ON u.id = ' . $tbl . '.' . $db->quoteName($user);
 			}
 		}
 		return $join;
@@ -298,7 +298,7 @@ class plgFabrik_ElementNotes extends plgFabrik_ElementDatabasejoin
 			$fk = $params->get('join_fk_column', '');
 			if ($fk !== '')
 			{
-				$query->set($db->nameQuote($fk) . ' = ' . $db->quote(JRequest::getVar('rowid')));
+				$query->set($db->quoteName($fk) . ' = ' . $db->quote(JRequest::getVar('rowid')));
 			}
 			$db->setQuery($query);
 

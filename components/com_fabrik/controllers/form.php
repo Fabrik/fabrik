@@ -46,7 +46,7 @@ class FabrikControllerForm extends JController
 	}
 
 	/**
-	 * inline edit control
+	 * Inline edit control
 	 *
 	 * @return  null
 	 *
@@ -363,7 +363,7 @@ class FabrikControllerForm extends JController
 	}
 
 	/**
-	 * clear down any temp db records or cookies
+	 * Clear down any temp db records or cookies
 	 * containing partially filled in form data
 	 *
 	 * @return  null

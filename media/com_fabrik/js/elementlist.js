@@ -47,7 +47,7 @@ var FbElementList =  new Class({
 			this.runLoadEvent(js);
 		} else {
 			this._getSubElements();
-			var c = this.getContainer();
+			c = this.form.form;
 			var delegate = action + ':relay(input[type=' + this.type + '])';
 			c.addEvent(delegate, function (event, target) {
 			    typeOf(js) === 'function' ? js.delay(0) : eval(js);
@@ -88,6 +88,7 @@ var FbElementList =  new Class({
 			}
 			r.getElement('span').set('text', label);
 			r.inject(this.subElements.getLast().findUp('li'), 'after');
+			i.fireEvent('change');
 			this._getSubElements();
 			if (v) {
 				v.value = '';

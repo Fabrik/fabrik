@@ -52,6 +52,6 @@ defined('_JEXEC') or die();
 	<input type="hidden" name="listid" value="<?php echo $this->listid?>" />
 	<input type="hidden" name="task" value="list.filter" />
 	<input type="hidden" name="advanced-search" value="1" />
-<?php //echo $this->fields?>
+	<input type="hidden" name="<?php echo JRequest::getVar('tkn', 'request')?>" value="1" />
 
 </form>
