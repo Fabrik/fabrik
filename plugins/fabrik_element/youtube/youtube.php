@@ -140,7 +140,7 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 					{
 						if ($params->get('text_link') != NULL)
 						{
-							$dlink = $params->get('text_link');
+							$dlink = JText::_( $params->get('text_link'));
 						}
 						else
 						{
