@@ -1537,7 +1537,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 			return;
 		}
 		$filepath = $this->_getFilePath($repeatGroupCounter);
-		if (!uploader::canUpload($file, $err, $params))
+		if (!FabrikUploader::canUpload($file, $err, $params))
 		{
 			$this->setError(100, $file['name'] . ': ' . JText::_($err));
 		}
@@ -1549,7 +1549,7 @@ class plgFabrik_ElementFileupload extends plgFabrik_Element
 				case 0:
 					break;
 				case 1:
-					$filepath = uploader::incrementFileName($filepath, $filepath, 1);
+					$filepath = FabrikUploader::incrementFileName($filepath, $filepath, 1);
 					break;
 				case 2:
 					$storage->delete($filepath);
