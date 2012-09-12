@@ -46,10 +46,11 @@ var FbElementList =  new Class({
 			this.loadEvents.push(js);
 			this.runLoadEvent(js);
 		} else {
-			var subEls = this._getSubElements();
+			var subElsName = this.element.id;
 			c = this.form.form;
 			var delegate = action + ':relay(input[type=' + this.type + '])';
 			c.addEvent(delegate, function (event, target) {
+				var subEls = document.id(subElsName).getElements('input');
 				if (subEls.contains(target)) {
 					typeOf(js) === 'function' ? js.delay(0) : eval(js);
 				}
@@ -90,7 +91,15 @@ var FbElementList =  new Class({
 			}
 			r.getElement('span').set('text', label);
 			r.inject(this.subElements.getLast().findUp('li'), 'after');
-			i.fireEvent('change');
+			
+			var index = 0;
+			if (this.type === 'radio') {
+				index = this.subElements.length;
+			}
+			document.id(this.form.form).fireEvent("change", {
+				target: $$('input[name='+i.name+']')[index]
+			});
+            
 			this._getSubElements();
 			if (v) {
 				v.value = '';

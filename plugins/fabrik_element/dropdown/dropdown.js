@@ -61,6 +61,10 @@ var FbDropdown = new Class({
 					}
 					l.value = '';
 					this.addNewOption(val, label);
+					document.id(this.element.id).fireEvent('change', {stop:$empty});
+					if (this.mySlider) {
+						this.mySlider.toggle();
+					}
 				}
 			}.bind(this));
 		}
