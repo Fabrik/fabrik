@@ -206,7 +206,9 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 		$element = $this->getElement();
 		if ($element->hidden == '1')
 		{
-			return $this->getHiddenField($name, $data[$name], $id);
+			if( isset( $data[$name] )) {
+				return $this->getHiddenField($name, $data[$name], $id);
+			}
 		}
 		$params = $this->getParams();
 		$cols = $element->width;
