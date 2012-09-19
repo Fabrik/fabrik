@@ -661,7 +661,15 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$params = $this->getParams();
 		$this->gidfield = $this->getFieldName($params, 'juser_field_usertype');
 		$defaultGroup = (int) $params->get('juser_field_default_group');
-		$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $this->gidfield, $defaultGroup);
+		
+		// $$$ JFQuestiaux - Get the right group ids when gidfield is in a joined group
+		if(substr( $this->gidfield, 0, 4 ) == 'join' ) {
+			$pos = strpos( $this->gidfield, ']' );
+			$idJoin = substr( $this->gidfield, 5, $pos-5 );
+			$groupIds = (array) JArrayHelper::getValue($formModel->_formData[join][$idJoin], substr($this->gidfield, $pos+2, -1) . '_raw' , $defaultGroup);
+		} else {
+			$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $this->gidfield, $defaultGroup);
+		}
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
 		if (!empty($groupIds) && is_object($groupIds[0]))
