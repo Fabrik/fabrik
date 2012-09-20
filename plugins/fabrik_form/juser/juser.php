@@ -661,7 +661,12 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$params = $this->getParams();
 		$this->gidfield = $this->getFieldName($params, 'juser_field_usertype');
 		$defaultGroup = (int) $params->get('juser_field_default_group');
-		$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $this->gidfield, $defaultGroup);
+		
+		if( $this->gidfield ) {
+			$groupIds = $this->getFieldValue($params, 'juser_field_usertype', $formModel->_formData);
+		} else {
+			$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $defaultGroup);
+		}
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
 		if (!empty($groupIds) && is_object($groupIds[0]))
