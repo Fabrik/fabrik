@@ -178,7 +178,7 @@ class plgFabrik_ElementUsergroup extends plgFabrik_Element
 					* but we only want the first value
 					*/
 
-					if (is_array($value) && !$this->isJoin())
+					if (is_array($value) && $this->isJoin() && !$groupModel->canRepeat() )
 					{
 						$value = array_shift($value);
 					}
