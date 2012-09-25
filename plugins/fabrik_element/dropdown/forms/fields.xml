@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-
 	<fields name="params">
 		<fieldset name="plg-dropdown-mutli">
 		
@@ -12,13 +11,6 @@
 			</field>
 			
 			<field default="3" description="PLG_ELEMENT_DROPDOWN_MULTISIZE_DESC" label="PLG_ELEMENT_DROPDOWN_MULTISIZE_LABEL" name="dropdown_multisize" size="3" type="text"/>
-
-			<field cols="45" label="PLG_ELEMENT_DROPDOWN_DEFAULT_LABEL" name="default" rows="6" type="textarea"/>
-				
-			<field default="0" label="PLG_ELEMENT_DROPDOWN_EVAL_LABEL" name="eval" type="radio">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
 							
 		</fieldset>
 
@@ -45,5 +37,17 @@
 			<field default="" description="PLG_ELEMENT_DROPDOWN_SEPARATOR_DESC" label="PLG_ELEMENT_DROPDOWN_SEPARATOR_LABEL" name="options_split_str" size="10" type="text"/>
 		</fieldset>
 		
+	</fields>
+	<fields>
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-dropdown">
+			
+			<field default="0" label="PLG_ELEMENT_DROPDOWN_EVAL_LABEL" name="eval" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			
+			<field cols="45" label="PLG_ELEMENT_DROPDOWN_DEFAULT_LABEL" name="default" rows="6" type="textarea"/>
+		
+		</fieldset>
 	</fields>
 </form>

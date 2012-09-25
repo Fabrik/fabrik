@@ -147,13 +147,14 @@ class plgFabrik_ElementDropdown extends plgFabrik_ElementList
 	public function getDefaultValue($data = array())
 	{
 		$params = $this->getParams();
+		$element = $this->getElement();
 
 		if (!isset($this->_default))
 		{
-			if ($this->getElement()->default != '')
+			if ($element->default != '')
 			{
 
-				$default = $this->getElement()->default;
+				$default = $element->default;
 				/*
 				 * Nasty hack to fix #504 (eval'd default value)
 				 * where _default not set on first getDefaultValue
@@ -167,7 +168,13 @@ class plgFabrik_ElementDropdown extends plgFabrik_ElementList
 				{
 					$w = new FabrikWorker;
 					$default = $w->parseMessageForPlaceHolder($default, $data);
-					$v = $params->get('eval', '0') == '1' ? eval($default) : $default;
+					if ($element->eval == "1")
+					{
+						$v = @eval(stripslashes($default));
+						FabrikWorker::logEval($default, 'Caught exception on eval in ' . $element->name . '::getDefaultValue() : %s');
+					}else{
+						$v = $default;
+					}
 				}
 				if (is_string($v))
 				{

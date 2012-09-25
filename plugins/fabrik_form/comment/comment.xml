@@ -31,6 +31,7 @@
 		<filename>inlineedit.js</filename>
 		<filename>inlineedit-min.js</filename>
 		<filename>comments.css</filename>
+		<folder>forms</folder>
 		<folder>images</folder>
 		<folder>language</folder>
 		<folder>sql</folder>
