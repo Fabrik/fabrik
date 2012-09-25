@@ -73,7 +73,7 @@ defined('_JEXEC') or die;
 			<td><?php echo $sample;?></td>
 		</tr>
 
-<?php endforeach;?>
+<?php endfor;?>
 </tbody>
 </table>
 
