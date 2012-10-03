@@ -7215,6 +7215,13 @@ class FabrikFEModelList extends JModelForm
 	private function _replaceWithRowData($matches)
 	{
 		$match = $matches[0];
+		
+		// $$$ felixkat - J! plugin closings, i.e  {/foo} were getting caught here.
+		if (preg_match('[{/]', $match))
+		{
+			return $match;
+		}
+		
 		/* strip the {} */
 		$match = JString::substr($match, 1, JString::strlen($match) - 2);
 
