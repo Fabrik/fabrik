@@ -90,9 +90,9 @@ echo "$form->error</div>";?>
 	</div>
 
 <?php
-echo $form->outro;
+
 
 echo $form->endTag;
-
+echo $form->outro;
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();?>

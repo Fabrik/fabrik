@@ -104,13 +104,14 @@ head.ready(function() {
 
 
 <?php $form = $this->form;
-echo $form->startTag;
+//echo $form->startTag;
 if ($this->params->get('show-title', 1)) {?>
 <div id="topbar">
   <div id="title"><?php echo $form->label;?></div>
 </div>
 <?php }
 echo $form->intro;
+echo $form->startTag;
 echo $this->plugintop;
 $active = ($form->error != '') ? '' : ' fabrikHide';
 echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
@@ -187,9 +188,9 @@ echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
 	<?php echo $this->message ?>
 
 <?php
-echo $form->outro;
 
 echo $form->endTag;
+echo $form->outro;
 
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();
