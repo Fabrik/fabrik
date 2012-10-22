@@ -7,7 +7,7 @@
  * sh404SEF version : 3.4.6.1269 - February 2012
  *
  * This is a sh404SEF native plugin file for Fabrik component (http://fabrikar.com)
- * Plugin version 1.3 - April 2012
+ * Plugin version 1.4 - October 2012
  * 
  */
 
@@ -39,15 +39,11 @@ if (!function_exists('shFetchListName')) {
 
 // Fetch slug
 if (!function_exists('shFetchSlug')) {
-	function shFetchSlug($rowid) {
+	function shFetchSlug($rowid, $formid) {
 		if (empty($rowid) || $rowid == '-1') {
 		       return null;
 		} else {
-		       $pos = strpos( $rowid, '-' );
-		       $slug = substr( $rowid, $pos+1 );
-		       if (!empty($slug)) {
-			       shRemoveFromGETVarsList('rowid');
-		       }
+		       $slug = shFetchRecordName( $rowid, $formid );
 		       return isset($slug) ? $slug : '';
 		}
 	}
@@ -115,18 +111,18 @@ if ($dosef == false) return;
 // ------------------  load language file - adjust as needed ----------------------------------------
 
 $task = isset($task) ? @$task : null; // var_dump( $task );
-$Itemid = isset($Itemid) ? @$Itemid : null;  //var_dump( $Itemid );
-$listid = isset($listid) ? @$listid : null; // var_dump( $listid );
-$id = isset($id) ? @$id : null;  // var_dump( $id );
-$view = isset($view) ? @$view : null;  // var_dump( $view ); 
-$formid = isset($formid) ? @$formid : null;  // var_dump( $formid );
-$rowid = isset($rowid) ? @$rowid : null; // var_dump( $rowid );
+$Itemid = isset($Itemid) ? @$Itemid : null;  // var_dump( $Itemid );
+$listid = isset($listid) ? @$listid : null;  // var_dump( $listid );
+$id = isset($id) ? @$id : null;   // var_dump( $id );
+$view = isset($view) ? @$view : null;   // var_dump( $view ); 
+$formid = isset($formid) ? @$formid : null;   // var_dump( $formid );
+$rowid = isset($rowid) ? @$rowid : null;  // var_dump( $rowid );
 
 // Get fabrik SEF configuration - used to include/exclude list's names in SEF urls
 $config	= JComponentHelper::getParams('com_fabrik');
 
 switch ($view) {
-	case 'form':
+	case 'form':	
 		return false;
 		break;
 
@@ -138,7 +134,7 @@ switch ($view) {
 			}
 		}
 		if (isset($rowid)) {
-			$title[] = shFetchSlug($rowid);
+			$title[] = shFetchSlug($rowid, $formid);
 			shRemoveFromGETVarsList( 'rowid' );
 			shMustCreatePageId( 'set', true);
 		} else {
@@ -216,7 +212,7 @@ shRemoveFromGETVarsList('cid');
 shRemoveFromGETVarsList('view');
 shRemoveFromGETVarsList('Itemid');
 shRemoveFromGETVarsList('lang');
-shRemoveFromGETVarsList('resetfilters');
+// shRemoveFromGETVarsList('resetfilters');
 shRemoveFromGETVarsList('calculations');
 shRemoveFromGETVarsList('random');
 
