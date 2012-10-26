@@ -54,9 +54,6 @@ class plgFabrik_ElementTime extends plgFabrik_Element
 			$data = $this->getFormModel()->_data;
 		}
 		$value = $this->getValue($data, $repeatCounter);
-		echo "<pre>";
-		print_r($value);
-		echo "</pre>";
 		$sep = $params->get('time_separatorlabel', JText::_(':'));
 		$fd = $params->get('details_time_format', 'H:i:s');
 		if (!$this->isEditable())
