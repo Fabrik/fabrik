@@ -334,6 +334,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$siteURL = JURI::base();
 		$bypassActivation = $params->get('juser_bypass_activation', false);
 		$bypassRegistration = $params->get('juser_bypass_registration', true);
+		$autoLogin = $params->get('juser_auto_login', false);
 
 		// Load in the com_user language file
 		$lang = JFactory::getLanguage();
@@ -452,6 +453,11 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 				$data['activation'] = JUtility::getHash(JUserHelper::genRandomPassword());
 				$data['block'] = 1;
 			}
+			// If Auto login is activated, we need to set activation and block to 0
+			if( $autoLogin ) {
+				$data['activation'] = 0;
+				$data['block'] = 0;
+			}
 		}
 
 		// Check that username is not greater than 150 characters
@@ -510,7 +516,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			// Handle account activation/confirmation emails.
-			if ($useractivation == 2 && !$bypassActivation)
+			if ($useractivation == 2 && !$bypassActivation && !$autoLogin)
 			{
 				// Set the link to confirm the user email.
 				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
@@ -521,7 +527,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
 					$data['username'], $data['password_clear']);
 			}
-			elseif ($useractivation == 1 && !$bypassActivation)
+			elseif ($useractivation == 1 && !$bypassActivation && !$autoLogin)
 			{
 				// Set the link to activate the user account.
 				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
@@ -530,6 +536,15 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 
 				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY', $data['name'], $data['sitename'],
 					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
+					$data['username'], $data['password_clear']
+				);
+			}
+			elseif ( $autoLogin )
+			{
+				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+
+				$emailBody = JText::sprintf('PLG_FABRIK_FORM_JUSER_AUTO_LOGIN_BODY', $data['name'], $data['sitename'],
+					$data['siteurl'],
 					$data['username'], $data['password_clear']
 				);
 			}
@@ -668,7 +683,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$this->gidfield = $this->getFieldName($params, 'juser_field_usertype');
 		$defaultGroup = (int) $params->get('juser_field_default_group');
 		//$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $this->gidfield, $defaultGroup);
-		$groupIds = (array) $this->getFieldValue($params, 'juser_field_usertype', $formModel->_formData, $defaultGroup);
+		$groupIds = $this->getFieldValue($params, 'juser_field_usertype', $formModel->_formData, $defaultGroup);
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
 		if (!empty($groupIds) && is_object($groupIds[0]))
