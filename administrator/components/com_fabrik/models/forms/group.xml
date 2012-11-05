@@ -97,6 +97,15 @@
 				description="COM_FABRIK_REPEAT_GROUP_MAX_DESC"
 				size="2" />
 			
+			<field name="repeat_tabular_mode" 
+				type="radio" 
+				default="1"
+				label="COM_FABRIK_FIELD_TABULAR_MODE_LABEL" 
+				description="COM_FABRIK_FIELD_TABULAR_MODE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
 			<field name="repeat_add_access" 
 				type="accesslevel"
 				default="1"
@@ -114,6 +123,7 @@
 				valueformat="tableelement" 
 				label="COM_FABRIK_FIELD_OR_USE_FIELD_LABEL" 
 				description="COM_FABRIK_FIELD_OR_USE_FIELD_DELETE_LABEL" />
+				
 				
 			<!--  not yet implemented but used in calc element huh!? (copied over from f2)
 			<field name="show_repeat_max" 

@@ -501,6 +501,11 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			$srcs[] = 'components/com_fabrik/js/form_' . $this->getId() . '.js';
 		}
+		// Jaanus: ... and ability to use overriding javascript in templates that need it
+		elseif (JFile::exists(COM_FABRIK_FRONTEND . '/views/form/tmpl/' . $this->getTmpl() . '/default.js'))
+		{
+			$srcs[] = 'components/com_fabrik/views/form/tmpl/' . $this->getTmpl() . '/default.js';
+		}
 	}
 
 	/**
@@ -4820,47 +4825,63 @@ class FabrikFEModelForm extends FabModelForm
 	public function getRedirectURL($incSession = true, $isMambot = false)
 	{
 		$app = JFactory::getApplication();
+		$rowid = $app->input->get('rowid', '', 'string');
 		if ($app->isAdmin())
 		{
-			if (array_key_exists('apply', $this->_formData))
+			if (array_key_exists('apply', $this->_formData) || (!$this->_editable && $listModel->canEdit($this->_data) && array_key_exists('goedit', $this->_formData)))
 			{
-				$url = 'index.php?option=com_fabrik&task=form.view&formid=' . JRequest::getInt('formid') . '&rowid=' . JRequest::getInt('rowid');
+				$url = 'index.php?option=com_fabrik&task=form.view&formid=' . JRequest::getInt('formid') . '&rowid=' . $rowid;
 			}
 			else
-			{
-				$url = 'index.php?option=com_fabrik&task=list.view&listid=' . $this->getListModel()->getId();
+			{  //Jaanus: tried to add redirect urls that return details view from form and vice versa - here and below
+				if (array_key_exists('details', $this->_formData))
+				{
+					$url = 'index.php?option=com_fabrik&task=details.view&formid=' . JRequest::getInt('formid') . '&rowid=' . $rowid;			
+				}
+				else
+				{
+					$url = 'index.php?option=com_fabrik&task=list.view&listid=' . $this->getListModel()->getId();
+				}
 			}
 		}
 		else
 		{
-			if (array_key_exists('apply', $this->_formData))
+			if (array_key_exists('apply', $this->_formData) || (JRequest::getVar('view') == 'details' && $listModel->canEdit($this->_data) && array_key_exists('goedit', $this->_formData)))
 			{
-				$url = 'index.php?option=com_fabrik&view=form&formid=' . JRequest::getInt('formid') . '&rowid=' . JRequest::getInt('rowid')
+				$url = 'index.php?option=com_fabrik&view=form&formid=' . JRequest::getInt('formid') . '&rowid=' . $rowid
 					. '&listid=' . JRequest::getInt('listid');
 			}
 			else
 			{
-				if ($isMambot)
+				if (array_key_exists('details', $this->_formData))
 				{
-					// Return to the same page
-					$url = JArrayHelper::getvalue($_SERVER, 'HTTP_REFERER', 'index.php');
+					$url = 'index.php?option=com_fabrik&view=details&formid=' . JRequest::getInt('formid') . '&rowid=' . $rowid 
+					. '&listid=' . JRequest::getInt('listid');			
 				}
 				else
 				{
-					// Return to the page that called the form
-					$url = urldecode(JRequest::getVar('fabrik_referrer', 'index.php', 'post'));
-				}
-				$Itemid = (int) @$app->getMenu('site')->getActive()->id;
-				if ($url == '')
-				{
-					if ($Itemid !== 0)
+					if ($isMambot)
 					{
-						$url = 'index.php?' . http_build_query($app->getMenu('site')->getActive()->query) . '&Itemid=' . $Itemid;
+						// Return to the same page
+						$url = JArrayHelper::getvalue($_SERVER, 'HTTP_REFERER', 'index.php');
 					}
 					else
 					{
-						// No menu link so redirect back to list view
-						$url = 'index.php?option=com_fabrik&view=list&listid=' . JRequest::getInt('listid');
+						// Return to the page that called the form
+						$url = urldecode(JRequest::getVar('fabrik_referrer', 'index.php', 'post'));
+					}
+					$Itemid = (int) @$app->getMenu('site')->getActive()->id;
+					if ($url == '')
+					{
+						if ($Itemid !== 0)
+						{
+							$url = 'index.php?' . http_build_query($app->getMenu('site')->getActive()->query) . '&Itemid=' . $Itemid;
+						}
+						else
+						{
+							// No menu link so redirect back to list view
+							$url = 'index.php?option=com_fabrik&view=list&listid=' . JRequest::getInt('listid');
+						}
 					}
 				}
 			}

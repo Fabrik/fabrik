@@ -608,7 +608,7 @@ class FabrikFEModelGroup extends FabModel
 	* @return  bool
 	*/
 
-	public function canCopyElementValues()
+		public function canCopyElementValues()
 	{
 		$params = $this->getParams();
 		return $params->get('repeat_copy_element_values', '0') === '1';
@@ -753,6 +753,7 @@ class FabrikFEModelGroup extends FabModel
 		$group->showMaxRepeats = $params->get('show_repeat_max', '0') == '1';
 		$group->canAddRepeat = $this->canAddRepeat();
 		$group->canDeleteRepeat = $this->canDeleteRepeat();
+		$group->isTabular = $params->get('repeat_tabular_mode') == '1';
 		return $group;
 	}
 
