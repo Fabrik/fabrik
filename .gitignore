@@ -57,3 +57,10 @@ fabrik_build/output/
 /image
 /language
 libraries/dompdf/lib/fonts/log.htm
+components/com_fabrik/.DS_Store
+
+plugins/fabrik_form/.DS_Store
+
+plugins/fabrik_form/juser/.DS_Store
+
+plugins/fabrik_form/juser/language/.DS_Store
