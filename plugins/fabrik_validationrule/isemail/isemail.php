@@ -49,7 +49,7 @@ class PlgFabrik_ValidationruleIsEmail extends PlgFabrik_Validationrule
 		$email = urldecode($email);
 		$params = $this->getParams();
 		$allow_empty = $params->get('isemail-allow_empty');
-		$allow_empty = $allow_empty[$pluginc];
+		$allow_empty = $allow_empty->$pluginc;
 		if ($allow_empty == '1' and empty($email))
 		{
 			return true;
@@ -110,7 +110,7 @@ class PlgFabrik_ValidationruleIsEmail extends PlgFabrik_Validationrule
 	{
 		$params = $this->getParams();
 		$allow_empty = $params->get('isemail-allow_empty');
-		$allow_empty = $allow_empty[$pluginc];
+		$allow_empty = $allow_empty->$pluginc;
 		return $allow_empty == '1';
 	}
 
