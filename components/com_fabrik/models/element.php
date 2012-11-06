@@ -2071,7 +2071,7 @@ class PlgFabrik_Element extends FabrikPlugin
 
 	protected function buildInput($node = 'input', $bits = array())
 	{
-		$str = '<' . $node . ' ';
+		$str = '<' . $node . ' ';                
 		foreach ($bits as $key => $val)
 		{
 			$str .= $key . ' = "' . $val . '" ';
@@ -2095,10 +2095,43 @@ class PlgFabrik_Element extends FabrikPlugin
 		$element = $this->getElement();
 		$params = $this->getParams();
 		$size = $element->width;
+                $inputMin = $inputMax = $inputStep = '';
+                
 		if (!isset($type))
 		{
-			$type = $params->get('password') == "1" ? 'password' : 'text';
-		}
+                    if( $params->get('password') == "1" ) {
+                        $type = 'password';
+                    } else {
+                        switch ($params->get('input-type')) {
+                            case '1' :
+                                $type = 'email';
+                                break;
+                            case '2' :
+                                $type = 'search';
+                                break;
+                            case '3' :
+                                $type = 'url';
+                                break;
+                            case '4' :
+                                $type = 'tel';
+                                break;
+                            default :
+                                $type = 'text';
+                        }
+                    }
+                    
+                    if( $params->get('input-number') ) {
+                                                   
+                        ( $params->get('input-number') == "1" ) ? $type = 'number' : $type = 'range';
+                        
+                        ( $params->get('min-input') != '' ) ? $inputMin = $params->get('min-input') : $inputMin = '';
+                        
+                        ( $params->get('max-input') != '' ) ? $inputMax = $params->get('max-input') : $inputMax = '';
+                        
+                        ( $params->get('step-input') != '' ) ? $inputStep = $params->get('step-input') : $inputStep = '';
+                    }
+                }
+                
 		$maxlength = $params->get('maxlength');
 		if ($maxlength == "0" or $maxlength == '')
 		{
@@ -2115,6 +2148,15 @@ class PlgFabrik_Element extends FabrikPlugin
 			$type = 'hidden';
 		}
 		$bits['type'] = $type;
+                if( $inputMin ) {
+                    $bits['min'] = $inputMin;
+                }
+                if( $inputMax ) {
+                    $bits['max'] = $inputMax;
+                }
+                if( $inputStep ) {
+                    $bits['step'] = $inputStep;
+                }
 		$bits['id'] = $this->getHTMLId($repeatCounter);
 		$bits['name'] = $this->getHTMLName($repeatCounter);
 		$bits['size'] = $size;

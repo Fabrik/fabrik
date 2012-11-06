@@ -30,6 +30,27 @@
 		<field description="PLG_ELEMENT_FIELD_PLACEHOLDER_DESC" label="PLG_ELEMENT_FIELD_PLACEHOLDER_LABEL" name="placeholder" size="60" type="text"/>
 				
 			<field default="0"
+				description="PLG_ELEMENT_FIELD_INPUT_TYPE_DESC" label="PLG_ELEMENT_FIELD_INPUT_TYPE_LABEL" name="input-type" type="list">
+					<option value="0">PLG_ELEMENT_FIELD_INPUT_TYPE_DEFAULT</option>
+					<option value="1">PLG_ELEMENT_FIELD_INPUT_TYPE_EMAIL</option>
+					<option value="2">PLG_ELEMENT_FIELD_INPUT_TYPE_SEARCH</option>
+					<option value="3">PLG_ELEMENT_FIELD_INPUT_TYPE_URL</option>
+					<option value="4">PLG_ELEMENT_FIELD_INPUT_TYPE_PHONE</option>
+			</field>
+			
+			<field default="0"
+			        class="btn-group"
+				description="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_DESC" label="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_LABEL" name="input-number" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">PLG_ELEMENT_FIELD_INPUT_TYPE_NUMBER</option>
+					<option value="2">PLG_ELEMENT_FIELD_INPUT_TYPE_RANGE</option>
+			</field>
+			
+			<field description="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_MIN_DESC" label="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_MIN_LABEL" class="input-mini" default="" name="min-input" size="3" type="number" />
+			<field description="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_MAX_DESC" label="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_MAX_LABEL" class="input-mini" default="" name="max-input" size="3" type="number" />
+			<field description="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_STEP_DESC" label="PLG_ELEMENT_FIELD_NUMBER_INPUT_TYPE_STEP_LABEL" class="input-mini" default="" name="step-input" size="3" type="number" />
+			
+			<field default="0"
 				class="btn-group"
 				label="PLG_ELEMENT_FIELD_PASSWORD_LABEL" name="password" type="radio">
 					<option value="0">JNO</option>
