@@ -4116,8 +4116,9 @@ class FabrikFEModelForm extends FabModelForm
 				$count = is_array($recordCounts) && array_key_exists($val, $recordCounts) ? $recordCounts[$val]->total : 0;
 
 				// $$$ tom - 2012-09-14 - This should be from the linkedlistheader:
+				// Jaanus: or listlabel
 				// $label = $factedLinks->linkedformheader->$key;
-				$label = $factedLinks->linkedlistheader->$key;
+				$label = $factedLinks->linkedlistheader->$key == '' ? $element->listlabel : $factedLinks->linkedlistheader->$key;
 				$links[$element->list_id][] = $label . ': ' . $referringTable->viewDataLink($popUpLink, $element, null, $linkKey, $val, $count, $f);
 			}
 			$f++;
