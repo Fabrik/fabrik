@@ -12,18 +12,6 @@
 $group = $this->group;
 ?>
 <table class="repeatGroupTable fabrikList">
-	<tbody>
-		<?php
-
-		// Load each repeated group in a <tr>
-		$this->i = 0;
-		foreach ($group->subgroups as $subgroup) :
-			$this->elements = $subgroup;
-			echo $this->loadTemplate('repeatgroup_row');
-			$this->i ++;
-		endforeach;
-		?>
-	</tbody>
 	<thead>
 		<tr>
 	<?php
@@ -46,4 +34,16 @@ $group = $this->group;
 	?>
 	</tr>
 	</thead>
+	<tbody>
+		<?php
+
+		// Load each repeated group in a <tr>
+		$this->i = 0;
+		foreach ($group->subgroups as $subgroup) :
+			$this->elements = $subgroup;
+			echo $this->loadTemplate('repeatgroup_row');
+			$this->i ++;
+		endforeach;
+		?>
+	</tbody>
 </table>
