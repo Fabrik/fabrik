@@ -5640,7 +5640,7 @@ class FabrikFEModelList extends JModelForm
 			return $this->canSelectRows;
 		}
 		$actionMethod = $this->actionMethod();
-		if ($this->canDelete() || ($this->canEditARow() && $actonMethod === 'floating') || $this->deletePossible())
+		if ($this->canDelete() || ($this->canEditARow() && $actionMethod === 'floating') || $this->deletePossible())
 		{
 			$this->canSelectRows = true;
 			return $this->canSelectRows;
