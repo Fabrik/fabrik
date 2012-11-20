@@ -465,7 +465,11 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 				/*
 				$str[] = '<input class="fabrikinput inputbox" disabled="disabled" name="'.$name.'" id="'.$id.'" value="'.$value.'" size="'.$element->width.'" />';
 				 */
-				$str[] = '<span class="fabrikinput" name="' . $name . '" id="' . $id . '">' . $value . '</span>';
+				if ($element->height<=1) {
+					$str[] = '<span class="fabrikinput" name="' . $name . '" id="' . $id . '">' . $value . '</span>';
+				} else {
+					$str[] = '<textarea class="fabrikinput" disabled="disabled" name="' . $name . '" id="' . $id . '" cols="' . $element->width . '" rows="' . $element->height . '">' . $value . '</textarea>\n';
+				}
 			}
 		}
 		else
