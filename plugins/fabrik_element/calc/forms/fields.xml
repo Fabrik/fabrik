@@ -9,6 +9,8 @@
 			</field>
 				
 			<field label="PLG_ELEMENT_CALC_WIDTH_LABEL" name="width" size="3" type="text"/>
+			
+			<field label="PLG_ELEMENT_CALC_HEIGHT_LABEL" name="height" size="3" type="text"/>
 				
 		</fieldset>
 	</fields>
