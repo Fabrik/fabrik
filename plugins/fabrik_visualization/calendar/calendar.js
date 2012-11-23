@@ -320,7 +320,7 @@ var fabrikCalendar = new Class({
 				}
 			}).adopt(
 				new Element('img', {
-					'src': Fabrik.liveSite + 'plugins/fabrik_visualization/calendar/views/calendar/tmpl/' + this.options.tmpl + '/images/del.png',
+					'src': '/plugins/fabrik_visualization/calendar/views/calendar/tmpl/' + this.options.tmpl + '/images/del.png',
 					'alt': 'del',
 					'class': 'fabrikDeleteEvent'
 				})).appendText(Joomla.JText._('PLG_VISUALIZATION_CALENDAR_DELETE'))
@@ -344,13 +344,13 @@ var fabrikCalendar = new Class({
 				}).adopt([
 					new Element('span', {'class': 'popupEdit'}).adopt(
 						new Element('img', {
-						'src': Fabrik.liveSite + 'plugins/fabrik_visualization/calendar/views/calendar/tmpl/' + this.options.tmpl + '/images/edit.png',
+						'src': '/plugins/fabrik_visualization/calendar/views/calendar/tmpl/' + this.options.tmpl + '/images/edit.png',
 						'alt': Joomla.JText._('PLG_VISUALIZATION_CALENDAR_EDIT'),
 						'class': 'fabrikEditEvent'
 					})).appendText(Joomla.JText._('PLG_VISUALIZATION_CALENDAR_EDIT')),
 					new Element('span', {'class': 'popupView'}).adopt(
 					new Element('img', {
-						'src': Fabrik.liveSite + 'media/com_fabrik/images/view.png',
+						'src': '/media/com_fabrik/images/view.png',
 						'alt': Joomla.JText._('PLG_VISUALIZATION_CALENDAR_VIEW'),
 						'class': 'fabrikViewEvent'
 					})).appendText(Joomla.JText._('PLG_VISUALIZATION_CALENDAR_VIEW'))			
