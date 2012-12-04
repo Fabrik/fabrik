@@ -1,4 +1,3 @@
-
 <?php foreach ($this->elements as $element) :
 	$class = 'fabrikErrorMessage';
 	if (trim($element->error) !== '') :
@@ -15,7 +14,7 @@
 	<div class="controls">
 
 		<?php if ($this->tipLocation == 'above') : ?>
-			<p clas="help-block"><?php echo $element->tipAbove ?></p>
+			<p class="help-block"><?php echo $element->tipAbove ?></p>
 		<?php endif ?>
 
 
@@ -28,12 +27,12 @@
 		</div>
 
 		<?php if ($this->tipLocation == 'side') : ?>
-			<p clas="help-block"><?php echo $element->tipAbove ?></p>
+			<p class="help-block"><?php echo $element->tipSide ?></p>
 		<?php endif ?>
 		</div>
 
 	<?php if ($this->tipLocation == 'below') :?>
-		<p clas="help-block"><?php echo $element->tipAbove ?></p>
+		<p class="help-block"><?php echo $element->tipBelow ?></p>
 	<?php endif ?>
 
 	</div>
