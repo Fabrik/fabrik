@@ -341,10 +341,6 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$bypassRegistration = $params->get('juser_bypass_registration', true);
 		$autoLogin = $params->get('juser_auto_login', false);
 
-		// Load in the com_user language file
-		$lang = JFactory::getLanguage();
-		$lang->load('com_user');
-
 		$data = $formModel->formData;
 
 		// Check for request forgeries
