@@ -28,45 +28,9 @@ class plgFabrik_ElementTimer extends plgFabrik_Element
 	public $hasSubElements = false;
 
 	/** @var  string  db table field type */
-	protected $fieldDesc = 'DATETIME';
+	protected $fieldDesc = 'TIME';
 
-	/**
-	 * Manupulates posted form data for insertion into database
-	 *
-	 * @param   mixed  $val   this elements posted form data
-	 * @param   array  $data  posted form data
-	 *
-	 * @return  mixed
-	 */
-
-	public function storeDatabaseFormat($val, $data)
-	{
-		$return = "0000-00-00 " . $val;
-		$format = '%Y-%m-%d %H:%i:%s';
-		$timebits = FabrikWorker::strToDateTime($return, $format);
-		$return = date('Y-m-d H:i:s', $timebits['timestamp']);
-		return $return;
-	}
-
-	/**
-	 * Shows the data formatted for the list view
-	 *
-	 * @param   string  $data      elements data
-	 * @param   object  &$thisRow  all the data in the lists current row
-	 *
-	 * @return  string	formatted value
-	 */
-
-	public function renderListData($data, &$thisRow)
-	{
-		if ($data != '')
-		{
-			$format = '%Y-%m-%d %H:%i:%s';
-			$timebits = FabrikWorker::strToDateTime($data, $format);
-			$data = date('H:i:s', $timebits['timestamp']);
-		}
-		return $data;
-	}
+	 // Jaanus: works better when using datatype 'TIME' as above and forgetting any date part of data :)
 
 	/**
 	 * Determines if the element can contain data used in sending receipts,
