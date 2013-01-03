@@ -373,6 +373,7 @@ var FbGoogleMap = new Class({
 		var dms = this.element.getElement('.latdms');
 		var latdms = dms.get('value').replace('S', '-');
 		latdms = latdms.replace('N', '');
+		dms = this.element.getElement('.lngdms');
 		var lngdms = dms.get('value').replace('W', '-');
 		lngdms = lngdms.replace('E', '');
 
