@@ -23,7 +23,13 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 	public $hasSubElements = true;
 
 	/** @var  string  db table field type */
-	protected $fieldDesc = 'DATE';
+		
+		public function getFieldDescription()
+		{
+		return 'DATE';
+		}
+		
+		// protected $fieldDesc = 'DATE';
 
 	/**
 	 * Draws the html form element
@@ -61,7 +67,7 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 		 * _form_data was not set to no readonly value was returned
 		 * added little test to see if the data was actually an array before using it
 		 */
-		if (is_array($this->getFormModel()->data))
+		if (is_array($this->_form->_data))
 		{
 			$data = $this->_form->_data;
 		}
@@ -445,8 +451,10 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 
 	public function elementJavascript($repeatCounter)
 	{
+		$params = $this->getParams();
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
+		$opts->separator = $params->get('birthday_separatorlabel', JText::_('/'));
 		$opts = json_encode($opts);
 		return "new FbBirthday('$id', $opts)";
 	}
