@@ -745,11 +745,11 @@ class plgContentFabrik extends JPlugin
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		require_once COM_FABRIK_FRONTEND . '/controller.php';
-		require_once COM_FABRIK_FRONTEND . '/controllers/form.php';
 
-		// If in admin details view and embedding a list - this gave an error - if only needed for 3.0.x
+		// If in admin form or details view and embedding a list - this gave an error - if only needed for 3.0.x
 		if ($view !== 'list')
 		{
+			require_once COM_FABRIK_FRONTEND . '/controllers/form.php';
 			require_once COM_FABRIK_FRONTEND . '/controllers/details.php';
 		}
 		require_once COM_FABRIK_FRONTEND . '/controllers/package.php';
