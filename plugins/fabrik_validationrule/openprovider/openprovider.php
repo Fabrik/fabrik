@@ -14,7 +14,7 @@ defined('_JEXEC') or die();
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin.php';
 require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
-require_once COM_FABRIK_FRONTEND . '/plugins/validationrule/openprovider/api.php';
+require_once JPATH_SITE . '/plugins/fabrik_validationrule/openprovider/api.php';
 
 /**
  * Domain name look up against open provider service
@@ -24,7 +24,7 @@ require_once COM_FABRIK_FRONTEND . '/plugins/validationrule/openprovider/api.php
  * @since       3.0
  */
 
-class FabrikModelOpenprovider extends FabrikModelValidationRule {
+class plgFabrik_ValidationruleOpenprovider extends plgFabrik_Validationrule {
 
 	/**
 	 * Plugin name
