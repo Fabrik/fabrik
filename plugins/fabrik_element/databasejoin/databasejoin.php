@@ -94,7 +94,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		// Make sure same connection as this table
 		$fullElName = JArrayHelper::getValue($opts, 'alias', $table . '___' . $element->name);
-		if ($params->get('join_conn_id') == $connection->get('_id') || $element->plugin != 'databasejoin')
+		if ($params->get('join_conn_id') == $connection->get('id') || $element->plugin != 'databasejoin')
 		{
 			$join = $this->getJoin();
 			if (!$join)
