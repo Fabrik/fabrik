@@ -4012,6 +4012,13 @@ class FabrikFEModelForm extends FabModelForm
 		}
 		$w = new FabrikWorker;
 		$text = $w->parseMessageForPlaceHolder($text, $this->_data, true);
+		// Jaanus: to remove content plugin code from intro and/or outro when plugins are not processed
+		$params = $this->getParams();
+		$jplugins = (int) $params->get('process-jplugins', '2');
+		if ($jplugins == 0 || ($jplugins == 2 && $this->isEditable()))
+		{
+			$text = preg_replace("/{\s*.*?}/i", '', $text);
+		}
 		return $text;
 	}
 
