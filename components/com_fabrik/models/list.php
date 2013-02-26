@@ -1538,7 +1538,9 @@ class FabrikFEModelList extends JModelForm
 		{
 			// Only load the current record sets record counts
 			$where .= trim($where) == '' ? ' WHERE ' : ' AND ';
-			$where .= "$linkKey IN (" . implode(',', $pks) . ")";
+			// $$$thm - use quotes to support char key columns
+//			$where .= "$linkKey IN (" . implode(',', $pks) . ")";
+			$where .= "$linkKey IN ('" . implode('\',\'', $pks) . "')";
 		}
 		// Force reload of join sql
 		$listModel->set('_joinsSQL', null);
