@@ -116,4 +116,11 @@
   array (
     'normal' => DOMPDF_FONT_DIR . 'cf03a3b5951279adeebc43754a8deee6',
   ),
+  'arial' => 
+  array (
+    'normal' => DOMPDF_FONT_DIR . 'ARIAL',
+    'bold' => DOMPDF_FONT_DIR . 'ARIALbd',
+    'italic' => DOMPDF_FONT_DIR . 'ARIALi',
+    'bold_italic' => DOMPDF_FONT_DIR . 'ARIALbi',
+  ),
 ) ?>
