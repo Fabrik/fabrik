@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields>
-		<fieldset name="plg-element-time">
-			<field default="0" description="PLG_ELEMENT_TIME_EVAL_DESC" label="PLG_ELEMENT_TIME_EVAL_LABEL" name="eval" type="radio">
+		<fieldset name="plg-element-time" label="COM_FABRIK_DATA">
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_TIME_EVAL_DESC" label="PLG_ELEMENT_TIME_EVAL_LABEL" name="eval" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -11,7 +13,7 @@
 		</fieldset>
 	</fields>
 	<fields name="params">
-		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-time-params">
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-time-params" label="PLG_ELEMENT_TIME_FORMATTING">
 		
 			<field default=""
 				class="input-small"
@@ -35,6 +37,14 @@
 			<option value="H:i:s">hh:mm:ss</option>
 			<option value="H:i">hh:mm</option>
 			<option value="i:s">mm:ss</option>
+		</field>
+		<field default="1" description="PLG_ELEMENT_MINUTES_INCREMENT_DESC" label="PLG_ELEMENT_MINUTES_INCREMENT" name="minutes_increment" type="list">
+			<option value="1">1 min</option>
+			<option value="5">5 min</option>
+			<option value="10">10 min</option>
+			<option value="15">15 min</option>
+			<option value="20">20 min</option>
+			<option value="30">30 min</option>
 		</field>
 		<field default=":"
 			class="input-mini"

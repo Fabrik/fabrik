@@ -101,21 +101,22 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 			$minvalue = JArrayHelper::getValue($value, 1);
 			$secvalue = JArrayHelper::getValue($value, 2);
 
-			$hours = array(JHTML::_('select.option', '', $params->get('time_hourlabel', JText::_('HOUR'))));
+			$hours = array(JHTML::_('select.option', '', $params->get('time_hourlabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_HOUR'))));
 			for ($i = 0; $i < 24; $i++)
 			{
-				$v = str_pad($i, 2, '0', STR_PAD_LEFT);
-				$hours[] = JHTML::_('select.option', $v, $i);
+				$i = str_pad($i, 2, '0', STR_PAD_LEFT);
+				$hours[] = JHTML::_('select.option', $i);
 			}
-			$mins = array(JHTML::_('select.option', '', $params->get('time_minlabel', JText::_('MINUTE'))));
-
+			$mins = array(JHTML::_('select.option', '', $params->get('time_minlabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_MINUTE'))));
+			$increment = (int)$params->get( 'minutes_increment', 1 );
+			
 			// Siin oli enne $monthlabels, viisin ülespoole
-			for ($i = 0; $i < 60; $i++)
+			for ($i = 0; $i < 60; $i += $increment)
 			{
 				$i = str_pad($i, 2, '0', STR_PAD_LEFT);
 				$mins[] = JHTML::_('select.option', $i);
 			}
-			$secs = array(JHTML::_('select.option', '', $params->get('time_seclabel', JText::_('SECOND'))));
+			$secs = array(JHTML::_('select.option', '', $params->get('time_seclabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_SECOND'))));
 			for ($i = 0; $i < 60; $i++)
 			{
 				$i = str_pad($i, 2, '0', STR_PAD_LEFT);
@@ -338,24 +339,23 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		{
 			if ($d)
 			{
-				list($hour, $min, $sec) = explode(':', $d);
-				$hms = $hour . $sep . $min . $sep . $sec;
-				$hm = $hour . $sep . $min;
-				$ms = $min . $sep . $sec;
 				$timedisp = '';
 				if ($ft == "H:i:s")
 				{
-					$timedisp = $hms;
+					list($hour, $min, $sec) = explode(':', $d);
+					$timedisp = $hour . $sep . $min . $sep . $sec;
 				}
 				else
 				{
 					if ($ft == "H:i")
 					{
-						$timedisp = $hm;
+						list($hour, $min) = explode(':', $d);
+						$timedisp = $hour . $sep . $min;
 					}
 					if ($ft == "i:s")
 					{
-						$timedisp = $ms;
+						list($min, $sec) = explode(':', $d);
+						$timedisp = $min . $sep . $sec;
 					}
 				}
 				$format[] = $timedisp;
