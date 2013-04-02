@@ -65,23 +65,23 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		{
 			if ($value)
 			{
-				// Avoid 0000-00-00
-				list($hour, $min, $sec) = strstr($value, ':') ? explode(':', $value) : explode(',', $value);
-
 				// $$$ rob - all this below is nice but ... you still need to set a default
 				$detailvalue = '';
 				if ($fd == 'H:i:s')
 				{
+					list($hour, $min, $sec) = strstr($value, ':') ? explode(':', $value) : explode(',', $value);
 					$detailvalue = $hour . $sep . $min . $sep . $sec;
 				}
 				else
 				{
 					if ($fd == 'H:i')
 					{
+						list($hour, $min) = strstr($value, ':') ? explode(':', $value) : explode(',', $value);
 						$detailvalue = $hour . $sep . $min;
 					}
 					if ($fd == 'i:s')
 					{
+						list($min, $sec) = strstr($value, ':') ? explode(':', $value) : explode(',', $value);
 						$detailvalue = $min . $sep . $sec;
 					}
 				}

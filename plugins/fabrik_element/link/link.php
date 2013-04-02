@@ -106,6 +106,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				$_lnk = str_replace('&', '&amp;', $_lnk);
 			}
 			$target = $params->get('link_target', '');
+			$rel = $params->get('rel_nofollow', 0);
 			if ($listModel->getOutPutFormat() != 'rss')
 			{
 				$link = '';
@@ -125,7 +126,11 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 					}
 					else
 					{
-						$link = '<a href="' . $_lnk . '" target="' . $target . '">' . $_lbl . '</a>';
+						if( $rel ) {
+							$link = '<a href="' . $_lnk . '" target="' . $target . '" rel="nofollow">' . $_lbl . '</a>';
+						} else {
+							$link = '<a href="' . $_lnk . '" target="' . $target . '">' . $_lbl . '</a>';
+						}
 					}
 				}
 			}
@@ -205,6 +210,10 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				$smarts = $this->getSmartLinkType($_lnk);
 				return '<a href="' . $_lnk . '" rel="lightbox[' . $smarts['type'] . ' ' . $smarts['width'] . ' ' . $smarts['height'] . ']">' . $_lbl
 					. '</a>';
+			}
+			$rel = $params->get('rel_nofollow', 0);
+			if( $rel ) {
+				return '<a href="' . $_lnk . '" target="' . $target . '" rel="nofollow">' . $_lbl . '</a>';
 			}
 			return '<a href="' . $_lnk . '" target="' . $target . '">' . $_lbl . '</a>';
 		}

@@ -28,6 +28,13 @@
 					<option value="1">JYES</option>
 			</field>
 			
+			<field default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_LINK_NO_FOLLOW_LINK_DESC" label="PLG_ELEMENT_LINK_NO_FOLLOW_LINK_LABEL" name="rel_nofollow" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field class="input-mini" default="255" label="PLG_ELEMENT_LINK_MAX_LENGTH" name="maxlength" size="3" type="maxlength"/>
 		</fieldset>
 		
