@@ -701,7 +701,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 		$data = $listModel->getData();
 		$return = new stdClass;
 		$w = new FabrikWorker;
-		$store = (bool) $params->get('calc_on_save_only', 0);
+		$store = !((bool) $params->get('calc_on_save_only', 0));
 		$listRef = 'list_' . $listModel->getRenderContext() . '_row_';
 		$storeKey = $this->getElement()->name;
 		foreach ($data as $group)
