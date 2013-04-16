@@ -470,7 +470,7 @@ class plgFabrik_ElementCalc extends plgFabrik_Element
 				}
 				else
 				{
-					$str[] = '<textarea class="fabrikinput" disabled="disabled" name="' . $name . '" id="' . $id . '" cols="' . $element->width . '" rows="' . $element->height . '">' . $value . '</textarea>\n';
+					$str[] = '<textarea class="fabrikinput" disabled="disabled" name="' . $name . '" id="' . $id . '" cols="' . $element->width . '" rows="' . $element->height . '">' . $value . '</textarea>';
 				}
 			}
 		}
