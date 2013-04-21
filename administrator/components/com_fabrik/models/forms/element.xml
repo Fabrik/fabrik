@@ -110,7 +110,7 @@
 					<option value="2">COM_FABRIK_SHOW_ALL_OPTIONS</option>
 			</field>
 			
-			<field class="btn-group" default="text" description="COM_FABRIK_FIELD_ORDER_BY_DESC" label="COM_FABRIK_FIELD_ORDER_BY_LABEL" name="filter_groupby" type="list">
+			<field  default="text" description="COM_FABRIK_FIELD_ORDER_BY_DESC" label="COM_FABRIK_FIELD_ORDER_BY_LABEL" name="filter_groupby" type="list">
 					<option value="text">COM_FABRIK_LABEL</option>
 					<option value="value">COM_FABRIK_VALUE</option>
 					<option value="-1">COM_FABRIK_NONE</option>
