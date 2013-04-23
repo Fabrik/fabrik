@@ -60,8 +60,8 @@ class FabrikModelPackages extends JModelList
 		$query->from('#__{package}_packages AS p');
 
 		// Join over the users for the checked out user.
-		$query->select('u.name AS editor');
-		$query->join('LEFT', '#__users AS u ON checked_out = u.id');
+		$query->select(' u.name AS editor');
+		$query->join('LEFT', '#__users AS u ON p.checked_out = u.id');
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
@@ -74,7 +74,7 @@ class FabrikModelPackages extends JModelList
 			$query->where('(p.published IN (0, 1))');
 		}
 
-		$query->where('external_ref <> 1');
+		$query->where('(p.external_ref <> 1 OR p.external_ref IS NULL)');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
@@ -91,7 +91,6 @@ class FabrikModelPackages extends JModelList
 			$orderCol = 'category_title ' . $orderDirn . ', ordering';
 		}
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-
 		return $query;
 	}
 
@@ -143,7 +142,7 @@ class FabrikModelPackages extends JModelList
 		$this->setState('filter.published', $published);
 
 		// List state information.
-		parent::populateState('name', 'asc');
+		parent::populateState('u.name', 'asc');
 	}
 
 	/**
