@@ -771,10 +771,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 		// $$$ hugh - we need to use the join alias, not hard code #__users
 		$join = $this->getJoin();
-		if (is_object($join))
-		{
-			$joinTableName = $join->table_join_alias;
-		}
+		$joinTableName = $join->table_join_alias;
 		if (empty($joinTableName))
 		{
 			$joinTableName = '#__users';

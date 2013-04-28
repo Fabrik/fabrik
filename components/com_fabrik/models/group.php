@@ -202,7 +202,6 @@ class FabrikFEModelGroup extends FabModel
 		}
 		$params = $this->getParams();
 		$this->canEdit = true;
-
 		// If group show is type 5, then read only.
 		if ($params->get('repeat_group_show_first', '1') == '5')
 		{
@@ -210,7 +209,7 @@ class FabrikFEModelGroup extends FabModel
 		}
 
 		$formModel = $this->getFormModel();
-
+		//$row = $formModel()->getData();
 		$pluginCanEdit = FabrikWorker::getPluginManager()->runPlugins('onCanEditGroup', $formModel, 'form', $this);
 		if (empty($pluginCanEdit))
 		{

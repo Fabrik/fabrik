@@ -127,7 +127,7 @@ class PlgFabrik_ListInlineedit extends PlgFabrik_List
 					$els[$key]->elid = $val->_id;
 					$els[$key]->plugins = array();
 					$els[$key]->plugins[$key] = $val->getElement()->id;
-
+	
 					// Load in all element js classes
 					$val->formJavascriptClass($srcs);
 				}

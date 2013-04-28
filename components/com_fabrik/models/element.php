@@ -809,12 +809,10 @@ class PlgFabrik_Element extends FabrikPlugin
 
 	/**
 	 * Check if the user can use the active element
-	 * If location is 'list' then we don't check the group canEdit() option - causes inline edit plugin not to work
-	 * when followed by a update_col plugin.
 	 *
-	 * @param   object  &$model    Calling the plugin list/form
-	 * @param   string  $location  To trigger plugin on form/list for elements
-	 * @param   string  $event     To trigger plugin on
+	 * @param   object  &$model    calling the plugin list/form
+	 * @param   string  $location  to trigger plugin on
+	 * @param   string  $event     to trigger plugin on
 	 *
 	 * @return  bool can use or not
 	 */
@@ -835,8 +833,8 @@ class PlgFabrik_Element extends FabrikPlugin
 			 * So if element's group show is type 5, then element is de-facto read only.
 			 * if ($this->getGroup()->getParams()->get('repeat_group_show_first', '1') == '5')
 			 */
-			if ($location !== 'list' && !$this->getGroup()->canEdit())
-			{
+			if (!$this->getGroup()->canEdit())
+						{
 				$this->_access->use = false;
 			}
 			else

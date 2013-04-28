@@ -1056,8 +1056,6 @@ EOD;
 
 		$file = (array) $file;
 		$src = array();
-		$counter = 0;
-		$last = count($file) - 1;
 		foreach ($file as $f)
 		{
 			if (!(JString::stristr($f, 'http://') || JString::stristr($f, 'https://')))
@@ -1097,23 +1095,13 @@ EOD;
 
 			if (JRequest::getCmd('format') == 'raw')
 			{
-				// Only load $onLoad on last script
-				if ($counter !== $last)
-				{
-					echo '<script type="text/javascript">Asset.javascript(\'' . $f . '\');</script>';
-				}
-				else
-				{
-					$opts = trim($onLoad) !== '' ? '\'onLoad\':function(){' . $onLoad . '}' : '';
-					echo '<script type="text/javascript">Asset.javascript(\'' . $f . '\', {' . $opts . '});</script>';
-				}
-
+				$opts = trim($onLoad) !== '' ? '\'onLoad\':function(){' . $onLoad . '}' : '';
+				echo '<script type="text/javascript">Asset.javascript(\'' . $f . '\', {' . $opts . '});</script>';
 			}
 			else
 			{
 				$src[] = "'" . $f . "'";
 			}
-			$counter ++;
 		}
 		if ($onLoad !== '' && JRequest::getCmd('format') != 'raw' && !empty($src))
 		{

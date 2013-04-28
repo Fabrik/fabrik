@@ -3414,18 +3414,21 @@ class FabrikFEModelList extends JModelForm
 		*/
 
 		$pluginCanEdit = FabrikWorker::getPluginManager()->runPlugins('onCanEdit', $this, 'list', $row);
+		$pluginCanEdit = !empty($pluginCanEdit) && !in_array(false, $pluginCanEdit);
 
-		// At least one plugin run, so plugin results take precedence over anything else.
-		if (!empty($pluginCanEdit))
+		/*
+		 * At least one plugin ran, and none of them said No, so that's it, let them override, don't even
+		 * bother findin out what canUserDo and regular ACL's say.
+		 */
+		if ($pluginCanEdit)
 		{
-			// If one plugin returns false then return false.
-			return in_array(false, $pluginCanEdit) ? false : true;
+			return true;
 		}
 
 		$canUserDo = $this->canUserDo($row, 'allow_edit_details2');
 		if ($canUserDo !== -1)
 		{
-			// $canUserDo expressed a boolean preference, so use that
+			// canUserDo() expressed a boolean preference, so use that
 			return $canUserDo;
 		}
 		if (!is_object($this->_access) || !array_key_exists('edit', $this->_access))
@@ -3685,10 +3688,7 @@ class FabrikFEModelList extends JModelForm
 		{
 			$form = $this->getFormModel();
 			$form->getGroupsHiarachy();
-			// $ids = $form->getElementIds(array(), array('includePublised' => false));
-
-			// Force loading of join elements
-			$ids = $form->getElementIds(array(), array('includePublised' => false, 'loadPrefilters' => true));
+			$ids = $form->getElementIds(array(), array('includePublised' => false));
 			$db = FabrikWorker::getDbo(true);
 			$id = (int) $this->getId();
 			$query = $db->getQuery(true);
@@ -3774,7 +3774,8 @@ class FabrikFEModelList extends JModelForm
 			if ($join->table_join == '#__users' || $join->table_join == $prefix . 'users')
 			{
 				$conf = JFactory::getConfig();
-				if (!$this->inJDb())
+				$thisCn = $this->getConnection()->getConnection();
+				if (!($thisCn->host == $conf->get('host') && $thisCn->database == $conf->get('db')))
 				{
 					/* $$$ hugh - changed this to pitch an error and bang out, otherwise if we just set canUse to false, our getData query
 					 * is just going to blow up, with no useful warning msg.
@@ -4608,100 +4609,85 @@ class FabrikFEModelList extends JModelForm
 	}
 
 	/**
-	 * Get the prefilter settings from list/module/menu options
-	 * Use in listModel::getPrefilterArray() and formModel::getElementIds()
-	 *
-	 * @return multitype:array
-	 */
-	public function prefilterSetting()
-	{
-		$app = JFactory::getApplication();
-		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$params = $this->getParams();
-		$showInList = array();
-		$listels = json_decode(FabrikWorker::getMenuOrRequestVar('list_elements', '', $this->isMambot));
-		if (isset($listels->show_in_list))
-		{
-			$showInList = $listels->show_in_list;
-		}
-		$showInList = (array) JRequest::getVar('fabrik_show_in_list', $showInList);
-
-		// Are we coming from a post request via a module?
-		$moduleid = 0;
-		$requestRef = JRequest::getVar('listref', '');
-		if ($requestRef !== '' && !strstr($requestRef, 'com_' . $package))
-		{
-			// If so we need to load in the modules parameters
-			$ref = explode('_', $requestRef);
-			if (count($ref) > 1)
-			{
-				$moduleid = (int) array_pop($ref);
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				if ($moduleid !== 0)
-				{
-					$this->setRenderContext($moduleid);
-					$query->select('params')->from('#__modules')->where('id = ' . $moduleid);
-					$db->setQuery($query);
-					$obj = json_decode($db->loadResult());
-					if (is_object($obj) && isset($obj->prefilters))
-					{
-						$properties = $obj->prefilters;
-					}
-				}
-			}
-		}
-
-		// List prfilter properties
-		$elements = $this->getElements('filtername');
-		$afilterFields = (array) $params->get('filter-fields');
-		$afilterConditions = (array) $params->get('filter-conditions');
-		$afilterValues = (array) $params->get('filter-value');
-		$afilterAccess = (array) $params->get('filter-access');
-		$afilterEval = (array) $params->get('filter-eval');
-		$afilterJoins = (array) $params->get('filter-join');
-		$afilterGrouped = (array) $params->get('filter-grouped');
-
-		/* If we are rendering as a module dont pick up the menu item options (parmas already set in list module)
-		 * so first statement when rendenering a module, 2nd when posting to the component from a module.
-		*/
-		if (!strstr($this->getRenderContext(), 'mod_fabrik_list') && $moduleid === 0)
-		{
-			$properties = FabrikWorker::getMenuOrRequestVar('prefilters', '', $this->isMambot);
-		}
-		if (isset($properties))
-		{
-			$prefilters = JArrayHelper::fromObject(json_decode($properties));
-			$conditions = (array) $prefilters['filter-conditions'];
-			if (!empty($conditions))
-			{
-				$afilterFields = JArrayHelper::getValue($prefilters, 'filter-fields', array());
-				$afilterConditions = JArrayHelper::getValue($prefilters, 'filter-conditions', array());
-				$afilterValues = JArrayHelper::getValue($prefilters, 'filter-value', array());
-				$afilterAccess = JArrayHelper::getValue($prefilters, 'filter-access', array());
-				$afilterEval = JArrayHelper::getValue($prefilters, 'filter-eval', array());
-				$afilterJoins = JArrayHelper::getValue($prefilters, 'filter-join', array());
-			}
-		}
-		return array($afilterFields, $afilterConditions, $afilterValues, $afilterAccess, $afilterEval, $afilterJoins);
-	}
-
-	/**
 	 * Creates array of prefilters
-	 * Set to public 15/04/2013
 	 *
 	 * @param   array  &$filters  filters
 	 *
 	 * @return  array	prefilters combinde with filters
 	 */
 
-	public function getPrefilterArray(&$filters)
+	protected function getPrefilterArray(&$filters)
 	{
 		if (!isset($this->prefilters))
 		{
-			$elements = $this->getElements('filtername');
+			$app = JFactory::getApplication();
+			$package = $app->getUserState('com_fabrik.package', 'fabrik');
 			$params = $this->getParams();
-			list($afilterFields, $afilterConditions, $afilterValues, $afilterAccess, $afilterEval, $afilterJoins) = $this->prefilterSetting();
+			$showInList = array();
+			$listels = json_decode(FabrikWorker::getMenuOrRequestVar('list_elements', '', $this->isMambot));
+			if (isset($listels->show_in_list))
+			{
+				$showInList = $listels->show_in_list;
+			}
+			$showInList = (array) JRequest::getVar('fabrik_show_in_list', $showInList);
+
+			// Are we coming from a post request via a module?
+			$moduleid = 0;
+			$requestRef = JRequest::getVar('listref', '');
+			if ($requestRef !== '' && !strstr($requestRef, 'com_' . $package))
+			{
+				// If so we need to load in the modules parameters
+				$ref = explode('_', $requestRef);
+				if (count($ref) > 1)
+				{
+					$moduleid = (int) array_pop($ref);
+					$db = JFactory::getDbo();
+					$query = $db->getQuery(true);
+					if ($moduleid !== 0)
+					{
+						$this->setRenderContext($moduleid);
+						$query->select('params')->from('#__modules')->where('id = ' . $moduleid);
+						$db->setQuery($query);
+						$obj = json_decode($db->loadResult());
+						if (is_object($obj) && isset($obj->prefilters))
+						{
+							$properties = $obj->prefilters;
+						}
+					}
+				}
+			}
+
+			// List prfilter properties
+			$elements = $this->getElements('filtername');
+			$afilterFields = (array) $params->get('filter-fields');
+			$afilterConditions = (array) $params->get('filter-conditions');
+			$afilterValues = (array) $params->get('filter-value');
+			$afilterAccess = (array) $params->get('filter-access');
+			$afilterEval = (array) $params->get('filter-eval');
+			$afilterJoins = (array) $params->get('filter-join');
+			$afilterGrouped = (array) $params->get('filter-grouped');
+
+			/* If we are rendering as a module dont pick up the menu item options (parmas already set in list module)
+			 * so first statement when rendenering a module, 2nd when posting to the component from a module.
+			*/
+			if (!strstr($this->getRenderContext(), 'mod_fabrik_list') && $moduleid === 0)
+			{
+				$properties = FabrikWorker::getMenuOrRequestVar('prefilters', '', $this->isMambot);
+			}
+			if (isset($properties))
+			{
+				$prefilters = JArrayHelper::fromObject(json_decode($properties));
+				$conditions = (array) $prefilters['filter-conditions'];
+				if (!empty($conditions))
+				{
+					$afilterFields = JArrayHelper::getValue($prefilters, 'filter-fields', array());
+					$afilterConditions = JArrayHelper::getValue($prefilters, 'filter-conditions', array());
+					$afilterValues = JArrayHelper::getValue($prefilters, 'filter-value', array());
+					$afilterAccess = JArrayHelper::getValue($prefilters, 'filter-access', array());
+					$afilterEval = JArrayHelper::getValue($prefilters, 'filter-eval', array());
+					$afilterJoins = JArrayHelper::getValue($prefilters, 'filter-join', array());
+				}
+			}
 			$join = 'WHERE';
 			$w = new FabrikWorker;
 			for ($i = 0; $i < count($afilterFields); $i++)
@@ -5917,17 +5903,6 @@ class FabrikFEModelList extends JModelForm
 
 				$headingClass[$compsitKey] = array('class' => $elementModel->getHeadingClass(), 'style' => $elementParams->get('tablecss_header'));
 				$cellClass[$compsitKey] = array('class' => $elementModel->getCellClass(), 'style' => $elementParams->get('tablecss_cell'));
-
-				// Add in classes for repeat/merge data
-				if ($groupModel->canRepeat())
-				{
-					$cellClass[$compsitKey]['class'] .= ' repeat';
-					$dis = $params->get('join-display');
-					if ($dis != 'default')
-					{
-						$cellClass[$compsitKey]['class'] .= '-' . $dis;
-					}
-				}
 
 			}
 			if ($groupHeadings[$groupHeadingKey] == 0)
@@ -8657,11 +8632,10 @@ class FabrikFEModelList extends JModelForm
 	public function getAdvancedElementFilter()
 	{
 		$app = JFactory::getApplication();
-		$input = $app->input;
-		$element = $input->get('element');
-		$elementid = $input->getId('elid');
+		$element = JRequest::getVar('element');
+		$elementid = JRequest::getVar('elid');
 		$pluginManager = FabrikWorker::getPluginManager();
-		$className = $input->get('plugin');
+		$className = JRequest::getVar('plugin');
 		$plugin = $pluginManager->getPlugIn($className, 'element');
 		$plugin->setId($elementid);
 		$el = $plugin->getElement();
@@ -8675,14 +8649,7 @@ class FabrikFEModelList extends JModelForm
 		}
 		$script = $plugin->filterJS(false, $container);
 		FabrikHelperHTML::addScriptDeclaration($script);
-
-		// For update col plug-in we override to use the field filter type.
-		$filterOverride = $input->get('filterOverride', '');
-		if ($filterOverride !== '')
-		{
-			$plugin->getElement()->filter_type = 'field';
-		}
-		echo $plugin->getFilter($input->getInt('counter', 0), false);
+		echo $plugin->getFilter(JRequest::getInt('counter', 0), false);
 	}
 
 	/**
@@ -8698,7 +8665,6 @@ class FabrikFEModelList extends JModelForm
 		$qs = array();
 		$w = new FabrikWorker;
 		$app = JFactory::getApplication();
-		$input = $app->input;
 		$menuItem = $app->getMenu('site')->getActive();
 		$Itemid = is_object($menuItem) ? $menuItem->id : 0;
 		$params = $this->getParams();
@@ -9589,15 +9555,14 @@ class FabrikFEModelList extends JModelForm
 		}
 	}
 
-	/**
-	 * Short cut to test if the lists connection is the same as the Joomla database
-	 *
-	 * @return  true
-	 */
-
 	public function inJDb()
 	{
-		return $this->getConnection()->isJdb();
+		$config = JFactory::getConfig();
+		$cnn = $this->getConnection()->getConnection();
+		/* if the table database is not the same as the joomla database then
+		 * we should simply return a hidden field with the user id in it.
+		*/
+		return $config->get('db') == $cnn->database;
 	}
 
 	/**

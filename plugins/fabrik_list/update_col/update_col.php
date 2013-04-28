@@ -342,14 +342,6 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		return true;
 	}
 
-	/**
-	 * Build the form which allows the user to select which elements to update
-	 *
-	 * @param   FabrikFEModelList  $model  List model
-	 *
-	 * @return  string  HTML Form
-	 */
-
 	protected function userSelectForm($model)
 	{
 		JText::script('PLG_LIST_UPDATE_COL_UPDATE');
@@ -363,10 +355,10 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		foreach ($elementModels as $elementModel)
 		{
 			$element = $elementModel->getElement();
-			if ($elementModel->canUse($this, 'list') && $element->plugin !== 'internalid')
+			if ($elementModel->canUse() && $element->plugin !== 'internalid')
 			{
 				$elName = $elementModel->getFilterFullName();
-				$options[] = '<option value="' . $elName . '" data-id="' . $element->id . '" data-plugin="' . $element->plugin . '">' . strip_tags($element->label) . '</option>';
+				$options[] = '<option value="' . $elName. '" data-id="' . $element->id . '" data-plugin="' . $element->plugin . '">' . strip_tags($element->label) . '</option>';
 			}
 		}
 
