@@ -69,16 +69,11 @@ class plgFabrik_ElementYesno extends plgFabrik_ElementRadiobutton
 	public function renderListData($data, &$thisRow)
 	{
 		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/yesno/images/', 'image', 'list', false);
-
-		// Check if the data is in csv format, if so then the element is a multi drop down
-		if ($data == '1')
-		{
-			return FabrikHelperHTML::image("1.png", 'list', @$this->tmpl, array('alt' => JText::_('JYES')));
-		}
-		else
-		{
-			return FabrikHelperHTML::image("0.png", 'list', @$this->tmpl, array('alt' => JText::_('JNO')));
-		}
+		$raw = $this->getFullName(false, true, false) . '_raw';
+		$rawdata = $thisRow->$raw;
+		$img = $rawdata ? "$rawdata.png" : "0.png";
+		$alt = $rawdata ? $data : JText::_('JNO');
+		return FabrikHelperHTML::image($img, 'list', @$this->tmpl, array('alt' => $alt));
 	}
 
 	/**
@@ -94,14 +89,11 @@ class plgFabrik_ElementYesno extends plgFabrik_ElementRadiobutton
 	public function renderListData_pdf($data, $thisRow)
 	{
 		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/yesno/images/', 'image', 'list', false);
-		if ($data == '1')
-		{
-			return FabrikHelperHTML::image("1_8bit.png", 'list', $this->tmpl, array('alt' => JText::_('JYES')));
-		}
-		else
-		{
-			return FabrikHelperHTML::image("0_8bit.png", 'list', $this->tmpl, array('alt' => JText::_('JNO')));
-		}
+		$raw = $this->getFullName(false, true, false) . '_raw';
+		$rawdata = $thisRow->$raw;
+		$img = $rawdata ? '"' . $rawdata . '_8bit.png"' : "0_8bit.png";
+		$alt = $rawdata ? $data : JText::_('JNO');
+		return FabrikHelperHTML::image($img, 'list', $this->tmpl, array('alt' => $alt));
 	}
 
 	/**
@@ -115,14 +107,10 @@ class plgFabrik_ElementYesno extends plgFabrik_ElementRadiobutton
 
 	public function renderListData_csv($data, &$thisRow)
 	{
-		if ($data == '1')
-		{
-			return JText::_('JYES');
-		}
-		else
-		{
-			return JText::_('JNO');
-		}
+		$raw = $this->getFullName(false, true, false) . '_raw';
+		$rawdata = $thisRow->$raw;
+		$data = $rawdata ? $data : JText::_('JNO');
+		return $data;
 	}
 
 	/**
