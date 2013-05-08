@@ -144,13 +144,13 @@ var ColourPicker = new Class({
 					'events': {
 						'click': function (e) {
 							this.updateFromSwatch(e);
-						},
+						}.bind(this),
 						'mouseenter': function (e) {
-							this.showColourName();
-						},
+							this.showColourName(e);
+						}.bind(this),
 						'mouseleave': function (e) {
 							this.clearColourName(e);
-						}
+						}.bind(this)
 					}
 				}));
 				j++;
