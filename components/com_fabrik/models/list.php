@@ -7938,16 +7938,19 @@ $groupBy .= '_raw';
 			}
 			if ($app->isAdmin())
 			{
-				$link .= "index.php?option=' . $package . '&task=$view.view&formid=" . $table->form_id . "&listid=" . $this->getId() . $keyIdentifier;
+				$link .= "index.php?option=com_$package&task=$view.view&formid=" . $table->form_id . "&listid=" . $this->getId() . $keyIdentifier;
 			}
 			else
 			{
-				$link .= "index.php?option=' . $package. '&view=$view&formid=" . $table->form_id . $keyIdentifier;
+				$link .= "index.php?option=com_$package&view=$view&formid=" . $table->form_id . $keyIdentifier;
 			}
+			// Jaanus: does it have any sense here, &tmpl=component?
+			/*
 			if ($this->packageId !== 0)
 			{
 				$link .= '&tmpl=component';
 			}
+			*/
 			$link = JRoute::_($link);
 		}
 		else
