@@ -40,6 +40,11 @@ FabrikHelperHTML::script($srcs);
 				</li>
 				<?php endforeach; ?>
 
+				<?php foreach ($this->form->getFieldset('details3') as $field) :?>
+				<li>
+					<?php echo $field->label; ?><?php echo $field->input; ?>
+				</li>
+				<?php endforeach; ?>
 			</ul>
 			<div class="clr"> </div>
 

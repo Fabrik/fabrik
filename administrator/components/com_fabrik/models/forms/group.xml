@@ -45,6 +45,16 @@
 			default="0" />
 			
 	</fieldset>
+	<fieldset name="details3">
+				<field name="css"
+				type="textarea"
+				rows="6"
+				cols="20"
+				label="COM_FABRIK_FIELD_GROUP_CSS_LABEL"
+				description="COM_FABRIK_FIELD_GROUP_CSS_DESC" />
+
+	</fieldset>
+
 	</fields>
 	<fields name="params">
 		<fieldset name="pagination" legend="test">
