@@ -37,7 +37,6 @@
 			<field name="update_on_edit"
 				type="list"
 				default="0"
-				class="btn-group"
 				description="PLG_ELEMENT_USER_UPDATE_ON_EDIT_DESC"
 				label="PLG_ELEMENT_USER_UPDATE_ON_EDIT_LABEL">
 					<option value="0">JNO</option>
