@@ -97,7 +97,8 @@ class plgFabrik_Cronemail extends plgFabrik_Cron
 							$thismsg = eval($thismsg);
 						}
 						$thissubject = $w->parseMessageForPlaceHolder($subject, $row);
-						$res = JUTility::sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
+						$mail = JFactory::getMailer(); 				
+						$res = $mail->sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
 						if (!$res)
 						{
 							$this->log .= "\n failed sending to $thisto";
