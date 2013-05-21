@@ -1232,9 +1232,11 @@ class FabrikModelList extends FabModelAdmin
 							break;
 						case "datetime":
 						case "date":
-						case "time":
 						case "timestamp":
 							$plugin = 'date';
+							break;
+						case "time":
+							$plugin = 'time';
 							break;
 						default:
 							$plugin = 'field';
