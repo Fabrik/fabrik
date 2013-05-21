@@ -21,6 +21,10 @@
 	
 		<fieldset name="plg-textarea-extra">
 			
+			<field default="1" label="PLG_ELEMENT_TEXTAREA_SHOW_LABEL_LABEL" name="textarea_showlabel" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			<field description="PLG_ELEMENT_TEXTAREA_PLACEHOLDER_DESC" label="PLG_ELEMENT_TEXTAREA_PLACEHOLDER_LABEL" name="textarea_placeholder" size="60" type="text"/>
 				
 			<field default="0" description="PLG_ELEMENT_TEXTAREA_USE_WYSIWYG_EDITOR_DESC" label="PLG_ELEMENT_TEXTAREA_USE_WYSIWYG_EDITOR_LABEL" name="use_wysiwyg" type="radio">
