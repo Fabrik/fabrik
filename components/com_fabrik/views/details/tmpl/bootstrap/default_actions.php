@@ -15,7 +15,9 @@ if ($this->hasActions) : ?>
 	<div class="row-fluid">
 		<div class="span12">
 			<div class="btn-group">
-				<?php echo $form->nextButton . ' ' . $form->prevButton; ?>
+				<?php echo $form->nextButton . ' ' . $form->prevButton;
+				echo $form->gobackButton  . ' ' . $this->message;
+				?>
 			</div>
 		</div>
 	</div>
