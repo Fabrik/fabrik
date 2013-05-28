@@ -27,6 +27,12 @@
 				<option value="multilist">PLG_ELEMENT_DBJOIN_MULTILIST</option>
 		</field>
 		
+		<field name="max-width" 
+			type="text" 
+			size="10" 
+			description="PLG_ELEMENT_DBJOIN_DROPDOWN_MAXWIDTH_DESC" 
+			label="PLG_ELEMENT_DBJOIN_DROPDOWN_MAXWIDTH_LABEL"/>
+
 	</fieldset>
 	
 	<fieldset label="Data" name="plg-databasejoin-simple">

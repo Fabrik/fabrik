@@ -32,6 +32,12 @@
 					<option value="radio">PLG_ELEMENT_CDD_RADIO_LIST</option>
 				</field>
 			
+			<field name="max-width" 
+				type="text" 
+				size="10" 
+				description="PLG_ELEMENT_CDD_DROPDOWN_MAXWIDTH_DESC" 
+				label="PLG_ELEMENT_CDD_DROPDOWN_MAXWIDTH_LABEL"/>
+
 			<field label="PLG_ELEMENT_CDD_CONNECTION_LABEL" name="cascadingdropdown_connection" type="connections"/>
 						
 			<field connection_in_repeat="false" description="PLG_ELEMENT_CDD_TABLE_DESC" label="PLG_ELEMENT_CDD_TABLE_LABEL" name="cascadingdropdown_table" observe="params_cascadingdropdown_connection" type="fabriktables"/>
