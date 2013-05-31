@@ -91,6 +91,13 @@ endforeach;
 			</tbody>
 			<?php endif ?>
 			<tbody class="fabrik_groupdata">
+				<tr>
+					<td class="groupdataMsg" colspan="<?php echo count($this->headings)?>">
+						<div class="emptyDataMessage" style="<?php echo $this->emptyStyle?>">
+							<?php echo $this->emptyDataMessage; ?>
+						</div>
+					</td>
+				</tr>
 			<?php
 			foreach ($group as $this->_row) :
 				echo $this->loadTemplate('row');
