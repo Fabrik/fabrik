@@ -1116,6 +1116,8 @@ class FabrikFEModelList extends JModelForm
 		{
 			$w = new FabrikWorker;
 
+		/**
+		  * FIX - Group-by for display should be same as group-by used to get data and should be _raw !!
 			// 3.0 if not group by template spec'd by group but assigned in qs then use that as the group by tmpl
 			$requestGroupBy = $input->get('group_by', '');
 			if ($requestGroupBy == '')
@@ -1131,6 +1133,9 @@ class FabrikFEModelList extends JModelForm
 			{
 				$groupTemplate = '{' . $requestGroupBy . '}';
 			}
+		**/
+			$groupTemplate = '{' . $groupBy . '_raw}';
+
 			$groupedData = array();
 			$thisGroupedData = array();
 			$groupBy = FabrikString::safeColNameToArrayKey($groupBy);
