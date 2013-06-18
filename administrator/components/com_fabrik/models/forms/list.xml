@@ -277,6 +277,18 @@
 				description="COM_FABRIK_FIELD_DROP_RECORDS_DESC"
 				label="COM_FABRIK_FIELD_DROP_RECORDS_LABEL" />
 				
+			<field name="csv_export_frontend"
+				type="accesslevel"
+				default="2"
+				description="COM_FABRIK_FIELD_CSV_EXPORT_DESC"
+				label="COM_FABRIK_FIELD_CSV_EXPORT_LABEL" />
+				
+			<field name="csv_import_frontend"
+				type="accesslevel"
+				default="3"
+				description="COM_FABRIK_FIELD_CSV_IMPORT_DESC"
+				label="COM_FABRIK_FIELD_CSV_IMPORT_LABEL" />
+				
 		</fieldset>
 	
 		<fieldset name="filters">
