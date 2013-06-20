@@ -12,11 +12,6 @@ if ($this->hasActions) : ?>
 			?>
 			</div>
 		</div>
-		<div class="span4">
-			<div class="btn-group">
-				<?php echo $form->prevButton . ' ' . $form->nextButton; ?>
-			</div>
-		</div>
 
 		<div class="span4">
 			<div class="btn-group">
