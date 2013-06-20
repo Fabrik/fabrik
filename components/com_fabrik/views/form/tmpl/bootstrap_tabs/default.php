@@ -44,11 +44,15 @@ echo $this->loadTemplate('relateddata');
 <?php
 $i = 0;
 foreach ($this->groups as $group) :
+// If this ismultipage then groups are consolidated until a group with a page break
+// So we should only show a tab if: it is first tab, or if it is a page break 
+if (!$model->isMultiPage() or ($i == 0 or $group->splitPage)) :
 ?>
 
     <li <?php if ($i == 0) echo 'class="active"'?>><a href="#group-tab<?php echo $group->id;?>" data-toggle="tab"><?php echo $group->title?></a></li>
 
 <?php
+endif;
 $i ++;
 endforeach;
 ?>

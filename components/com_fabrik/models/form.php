@@ -4075,6 +4075,7 @@ class FabrikFEModelForm extends FabModelForm
 			$groupParams = $groupModel->getParams();
 			$group->intro = $groupParams->get('intro');
 			$group->columns = $groupParams->get('group_columns', 1);
+			$group->splitPage = $groupParams->get('split_page', 0);
 			if ($groupModel->canRepeat())
 			{
 				$group->tmpl = $groupParams->get('repeat_template', 'repeatgroup');
