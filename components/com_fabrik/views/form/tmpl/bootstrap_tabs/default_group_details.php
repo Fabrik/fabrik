@@ -4,7 +4,7 @@
 foreach ($this->elements as $element) :
 	 if (!$element->hidden) {
 		if ($element->startRow) :?>
-			<div clas="row-fluid">
+			<div class="row-fluid">
 		<?php
 		endif;
 		?>
