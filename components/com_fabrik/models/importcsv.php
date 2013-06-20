@@ -736,7 +736,7 @@ class FabrikFEModelImportcsv extends JModelForm
 			}
 			if (!$tableJoinsFound)
 			{
-				$formModel->formData = $aRow;
+				$formModel->formData = $formModel->formDataWithTableName = $aRow;
 				if (!in_array(false, FabrikWorker::getPluginManager()->runPlugins('onImportCSVRow', $model, 'list')))
 				{
 					$formModel->processToDB();

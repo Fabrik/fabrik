@@ -1655,6 +1655,8 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					$listModel->encrypt[] = $elementModel->getElement()->name;
 				}
+				// Following line added to fix importcsv where data from first row is used for every row.
+				$elementModel->defaults = null;
 				$elementModel->onStoreRow($data);
 			}
 		}
