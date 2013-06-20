@@ -289,8 +289,8 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		$elements = (array) $groupModel->getMyElements();
 		$names = array();
 		$fields = $listModel->getDBFields(null, 'Field');
-		$names['id'] = "id INT( 6 ) NOT NULL AUTO_INCREMENT PRIMARY KEY";
-		$names['parent_id'] = "parent_id INT(6)";
+		$names['id'] = "id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY";
+		$names['parent_id'] = "parent_id INT(11)";
 		foreach ($elements as $element)
 		{
 			$fname = $element->getElement()->name;
