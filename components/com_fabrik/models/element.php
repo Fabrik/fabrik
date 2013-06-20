@@ -5059,7 +5059,14 @@ FROM (SELECT DISTINCT $item->db_primary_key, $name AS value, $label FROM " . Fab
 		{
 			return false;
 		}
-		$shortName = $this->getElement()->name;
+		$element = $this->getElement();
+		// We should not process this element if it is unpublished
+		// Unpublished elements may not be in a valid state and may cause an error (white-screen)
+		if (!$element->published)
+		{
+			return false;
+		}
+		$shortName = $element->name;
 		$listModel = $this->getListModel();
 		if ($this->encryptMe())
 		{
