@@ -1942,6 +1942,7 @@ class PlgFabrik_Element extends FabrikPlugin
 	{
 		$item = $this->getElement();
 		$c = array('fabrikElementContainer', 'plg-' . $item->plugin);
+		$c[] = $element->className;
 		if ($element->hidden)
 		{
 			$c[] = 'fabrikHide';
