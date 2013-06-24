@@ -2199,7 +2199,28 @@ class PlgFabrik_Element extends FabrikPlugin
 		$size = (int) $element->width < 0 ? 1 : (int) $element->width;
 		if (!isset($type))
 		{
-			$type = $params->get('password') == "1" ? 'password' : 'text';
+		    // Changes by JF Questiaux - info@betterliving.be
+                    switch ($params->get('password')) // Kept the name 'password' for backward compatibility
+                    {
+                        case '1' : 
+                            $type = 'password';
+                            break;
+                        case '2' :
+                            $type = 'tel';
+                            break;
+                        case '3' :
+                            $type = 'email';
+                            break;
+                        case '4' :
+                            $type = 'search';
+                            break;
+                        case '5' :
+                            $type = 'url';
+                            break;
+                        default :
+                            $type = 'text';
+                    }
+                    // End of changes
 		}
 		$maxlength = $params->get('maxlength');
 		if ($maxlength == "0" or $maxlength == '')

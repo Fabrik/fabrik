@@ -29,11 +29,13 @@
 		
 		<field description="PLG_ELEMENT_FIELD_PLACEHOLDER_DESC" label="PLG_ELEMENT_FIELD_PLACEHOLDER_LABEL" name="placeholder" size="60" type="text"/>
 				
-			<field default="0"
-				class="btn-group"
-				label="PLG_ELEMENT_FIELD_PASSWORD_LABEL" name="password" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			<field default="0" description="PLG_ELEMENT_FIELD_INPUTTYPE_DESC" label="PLG_ELEMENT_FIELD_INPUTTYPE_LABEL" name="password" type="list">
+					<option value="0">PLG_ELEMENT_INPUTTYPE_TEXT</option>
+					<option value="1">PLG_ELEMENT_INPUTTYPE_PASSWORD</option>
+					<option value="2">PLG_ELEMENT_INPUTTYPE_PHONE</option>
+					<option value="3">PLG_ELEMENT_INPUTTYPE_EMAIL</option>
+					<option value="4">PLG_ELEMENT_INPUTTYPE_SEARCH</option>
+					<option value="5">PLG_ELEMENT_INPUTTYPE_URL</option>
 			</field>
 			
 			<field class="input-mini" default="255" label="PLG_ELEMENT_FIELD_MAX_LENGTH_LABEL" name="maxlength" size="3" type="maxlength"/>

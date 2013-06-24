@@ -51,7 +51,7 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		{
 			return true;
 		}
-		if ($input->get('view') === 'details' || $formModel->getRowId() > 0)
+		if (JFactory::getApplication()->input->get('view') === 'details' || $formModel->getRowId() > 0)
 		{
 			return true;
 		}
