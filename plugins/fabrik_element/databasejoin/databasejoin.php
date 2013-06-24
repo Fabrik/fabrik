@@ -2404,7 +2404,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$this->updateFabrikJoins($data, $this->getDbName(), $this->getJoinValueFieldName(), $this->getLabelParamVal());
 
 		}
-		return parent::onSave();
+		return parent::onSave($data);
 	}
 
 	/**
