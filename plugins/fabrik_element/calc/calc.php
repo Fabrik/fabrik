@@ -321,11 +321,12 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	{
 		$params = $this->getParams();
 		$format = trim($params->get('calc_format_string'));
+		$element_data = $data;
 		if ($params->get('calc_on_save_only', 0))
 		{
 			if ($format != '')
 			{
-				$element_data = sprintf($format, $data);
+				$element_data = sprintf($format, $element_data);
 			}
 			return parent::preFormatFormJoins($element_data, $row);
 		}
