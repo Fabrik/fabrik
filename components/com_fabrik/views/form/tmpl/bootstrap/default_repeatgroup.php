@@ -12,7 +12,7 @@
 $group = $this->group;
 foreach ($group->subgroups as $subgroup) :
 	?>
-	<div class="fabrikSubGroup">repeat groups
+	<div class="fabrikSubGroup">
 	<?php
 		// Add the add/remove repeat group buttons
 		if ($group->editable) : ?>
