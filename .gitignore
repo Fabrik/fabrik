@@ -86,3 +86,5 @@ libraries/dompdf/lib/fonts/dompdf_font_family_cache.dist.php
 /.externalToolBuilders
 custom_css.php
 custom.css
+!software_license.txt
+!contributor_license.txt
