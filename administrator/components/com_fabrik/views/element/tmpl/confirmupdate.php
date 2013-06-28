@@ -24,7 +24,7 @@ $db = FabrikWorker::getDbo(true);
 	<?php endif; ?>
 	<?php if (JString::strtolower($this->origDesc) !== JString::strtolower($this->newDesc)) :?>
   		<li style="padding-left:30px">
-  			<?php echo JText::sprintf('COM_FABRIK_UPDATE_ELEMENT_STRUCTURE', $this->origDesc, $this->newDesc); ?>
+  			<?php echo JText::sprintf('COM_FABRIK_UPDATE_ELEMENT_STRUCTURE', $this->oldName, $this->origDesc, $this->newDesc); ?>
   		</li>
  	<?php endif;?>
 	</ul>
