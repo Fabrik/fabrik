@@ -127,7 +127,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 
 	public function renderListData_csv($data, &$thisRow)
 	{
-		$raw = $this->getFullName(false, true, false) . '_raw';
+		$raw = $this->getFullName(true, false) . '_raw';
 		$rawdata = $thisRow->$raw;
 		$data = $rawdata ? $data : JText::_('JNO');
 		return $data;
