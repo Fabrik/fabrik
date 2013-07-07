@@ -43,7 +43,7 @@ class PlgFabrik_ValidationruleAkismet extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		$params = $this->getParams();
 		$user = JFactory::getUser();
