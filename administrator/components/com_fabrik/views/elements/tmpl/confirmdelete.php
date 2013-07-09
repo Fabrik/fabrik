@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th style="width:2%"><input type="checkbox" name="toggle" value="" onclick="checkAll(this);" /></th>
+				<th style="width:2%"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this);" /></th>
 				<th><?php echo JText::_('COM_FABRIK_ELEMENTS'); ?></th>
 			</tr>
 		</thead>
