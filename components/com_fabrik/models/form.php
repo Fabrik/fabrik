@@ -1993,7 +1993,8 @@ class FabrikFEModelForm extends FabModelForm
 
 						if ($plugin->shouldValidate($form_data, $pluginc))
 						{
-							$allData = $this->getData();
+							// $allData = $this->getData();
+							$allData = $this->formData;
 							if (!$plugin->validate($form_data, $elementModel, $pluginc, $c, $allData))
 							{
 								$this->errors[$elName][$c][] = $w->parseMessageForPlaceHolder($plugin->getMessage($pluginc));
