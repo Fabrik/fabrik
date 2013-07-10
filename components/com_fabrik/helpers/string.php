@@ -282,7 +282,11 @@ class FabrikString extends JString
 			 */
 
 			// Replace accented characters with ascii equivalent e.g. é => e
-			$str = (str_replace("'", '', @iconv($fromEnc, $toEnc, $str)));
+			$str1 = (@iconv($fromEnc, $toEnc, $str));
+			if($str1) {
+				$str = $str1;
+			}
+			$str = (str_replace("'", '', $str));
 		}
 		// Compress internal whitespace and replace with _
 		$str = preg_replace('/\s+/', '_', $str);
