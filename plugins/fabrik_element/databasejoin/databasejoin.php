@@ -1005,20 +1005,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$db = $this->getDb();
 		if (!$db)
 		{
-			JError::raiseWarning(JText::sprintf('PLG_ELEMENT_DBJOIN_DB_CONN_ERR', $element->name));
-			return '';
+			throw new RuntimeException(JText::sprintf('PLG_ELEMENT_DBJOIN_DB_CONN_ERR', $element->name));
 		}
-		if (isset($formModel->aJoinGroupIds[$groupModel->getId()]))
-		{
-			$joinId = $formModel->aJoinGroupIds[$groupModel->getId()];
-			$joinGroupId = $groupModel->getId();
-		}
-		else
-		{
-			$joinId = '';
-			$joinGroupId = '';
-		}
+
 		$default = (array) $this->getValue($data, $repeatCounter, array('raw' => true));
+		$defaultLabels = (array) $this->getValue($data, $repeatCounter, array('raw' => false));
 
 		$tmp = $this->_getOptions($data, $repeatCounter);
 		$w = new FabrikWorker;
@@ -1027,60 +1018,27 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$d = $w->parseMessageForPlaceHolder($d);
 		}
 		$thisElName = $this->getHTMLName($repeatCounter);
-
-		// Get the default label for the drop down (use in read only templates)
-		$defaultLabel = '';
-		$defaultValue = '';
-		foreach ($tmp as $obj)
-		{
-			if ($obj->value == JArrayHelper::getValue($default, 0, ''))
-			{
-				$defaultValue = $obj->value;
-				$defaultLabel = $obj->text;
-				break;
-			}
-		}
-
 		$id = $this->getHTMLId($repeatCounter);
 
-		// $$$ rob 24/05/2011 - add options per row
-		$optsPerRow = intval($params->get('dbjoin_options_per_row', 0));
+		$optsPerRow = (int) $params->get('dbjoin_options_per_row', 0);
 		$html = array();
 
-		// $$$ hugh - still need to check $this->editable, as content plugin sets it to false,
-		// as no point rendering editable view for {fabrik view=element ...} in an article.
 		if (!$formModel->isEditable() || !$this->isEditable())
 		{
-			// $$$ rob 19/03/2012 uncommented line below - needed for checkbox rendering
-			$obj = JArrayHelper::toObject($data);
-			//$defaultLabel = $this->renderListData($default, $obj);
-			$defaultLabel = $this->renderListData($defaultLabel, $obj);
-			if ($defaultLabel === $params->get('database_join_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT')))
+			// Read only element formatting...
+			if (JArrayHelper::getValue($defaultLabels, 0) === $params->get('database_join_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT')))
 			{
 				// No point showing 'please select' for read only
-				$defaultLabel = '';
+				unset($defaultLabels[0]);
 			}
-			if ($params->get('databasejoin_readonly_link') == 1)
-			{
-				$popupformid = (int) $params->get('databasejoin_popupform');
-				if ($popupformid !== 0)
-				{
-					$query = $db->getQuery(true);
-					$query->select('id')->from('#__{package}_lists')->where('form_id =' . $popupformid);
-					$db->setQuery($query);
-					$listid = $db->loadResult();
-					$url = 'index.php?option=com_' . $package . '&view=details&formid=' . $popupformid . '&listid =' . $listid . '&rowid=' . $defaultValue;
-					$defaultLabel = '<a href="' . JRoute::_($url) . '">' . $defaultLabel . '</a>';
-				}
-			}
-			$html[] = $defaultLabel;
+			$this->addReadOnlyLinks($defaultLabels, $default);
+			$html[] = count($defaultLabels) < 2 ? implode(' ', $defaultLabels) : '<ul><li>' . implode('<li>', $defaultLabels) . '</li></ul>';
 		}
 		else
 		{
 			// $$$rob should be canUse() otherwise if user set to view but not use the dd was shown
 			if ($this->canUse())
 			{
-				$idname = $this->getFullName(true, false) . '_id';
 				$attribs = 'class="fabrikinput inputbox input ' . $params->get('bootstrap_class', 'input-large') . '" size="1"';
 
 				// If user can access the drop down
@@ -1088,20 +1046,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				{
 					case 'dropdown':
 					default:
-						// Jaanus: to avoid dropdowns becoming too large because of possible long labels
-						$attribs .= $params->get('max-width', '') != '' ? ' style="max-width:' . $params->get('max-width') . ';"' : '';
 						$html[] = JHTML::_('select.genericlist', $tmp, $thisElName, $attribs, 'value', 'text', $default, $id);
 						break;
 					case 'radio':
-						$this->renderRadioList($data, $repeatCounter, $html, $tmp, $defaultValue);
+						$this->renderRadioList($data, $repeatCounter, $html, $tmp, JAarrayHelper::getValue($default, 0));
 						break;
 					case 'checkbox':
 						$this->renderCheckBoxList($data, $repeatCounter, $html, $tmp, $default);
-						$defaultLabel = implode("\n", $html);
 						break;
 					case 'multilist':
 						$this->renderMultiSelectList($data, $repeatCounter, $html, $tmp, $default);
-						$defaultLabel = implode("\n", $html);
 						break;
 					case 'auto-complete':
 						$this->renderAutoComplete($data, $repeatCounter, $html, $default);
@@ -1171,6 +1125,46 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$html[] = '</div>';
 		}
 		return implode("\n", $html);
+	}
+
+	protected function addReadOnlyLinks(&$defaultLabels, $defaultValues)
+	{
+		$params = $this->getParams();
+		if ($params->get('databasejoin_readonly_link') == 1)
+		{
+			if ($popUrl = $this->popUpFormUrl())
+			{
+				for ($i = 0; $i < count($defaultLabels); $i++)
+				{
+					$url = $popUrl . $defaultValues[$i];
+					$defaultLabels[$i] = '<a href="' . JRoute::_($url) . '">' . $defaultLabels[$i] . '</a>';
+				}
+			}
+		}
+	}
+
+	/**
+	 * Build Pop up form URL
+	 *
+	 * @return boolean|string
+	 */
+
+	protected function popUpFormUrl()
+	{
+		$app = JFactory::getApplication();
+		$package = $app->getUserState('com_fabrik.package', 'fabrik');
+		$params = $this->getParams();
+		$popupformid = (int) $params->get('databasejoin_popupform');
+		if ($popupformid === 0)
+		{
+			return false;
+		}
+		$db = $this->getDb();
+		$query = $db->getQuery(true);
+		$query->select('id')->from('#__{package}_lists')->where('form_id =' . $popupformid);
+		$db->setQuery($query);
+		$listid = $db->loadResult();
+		return 'index.php?option=com_' . $package . '&view=details&formid=' . $popupformid . '&listid=' . $listid . '&rowid=' ;
 	}
 
 	/**
