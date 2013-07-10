@@ -783,7 +783,16 @@ class FabrikFEModelList extends JModelForm
 		JDEBUG ? $profiler->mark('query build end') : null;
 
 		$cache = FabrikWorker::getCache($this);
-		$results = $cache->call(array(get_class($this), 'finesseData'), $this->getId(), $query, $this->limitStart, $this->limitLength, $this->outPutFormat);
+		$item = $this->getTable();
+		try
+		{
+			$results = $cache->call(array(get_class($this), 'finesseData'), $this->getId(), $query, $this->limitStart, $this->limitLength, $this->outPutFormat);
+		}
+		catch (Exception $e)
+		{
+
+			throw new RuntimeException('Fabrik has generated an incorrect query for the list ' . $item->label . ': <br /><br /><pre>' . $e->getMessage() . '</pre>', 500);
+		}
 		$this->totalRecords = $results[0];
 		$this->data = $results[1];
 		$this->groupTemplates = $results[2];
