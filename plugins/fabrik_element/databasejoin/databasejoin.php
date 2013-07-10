@@ -899,7 +899,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Get the database object
 	 *
-	 * @return  object	database
+	 * @return  object	Database
 	 */
 
 	public function getDb()
@@ -999,25 +999,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$formModel = $this->getForm();
 		$groupModel = $this->getGroup();
-		$element = $this->getElement();
-		$aGroupRepeats[$element->group_id] = $groupModel->canRepeat();
 		$displayType = $this->getDisplayType();
 		$db = $this->getDb();
-		if (!$db)
-		{
-			throw new RuntimeException(JText::sprintf('PLG_ELEMENT_DBJOIN_DB_CONN_ERR', $element->name));
-		}
-
 		$default = (array) $this->getValue($data, $repeatCounter, array('raw' => true));
 		$defaultLabels = (array) $this->getValue($data, $repeatCounter, array('raw' => false));
 
 		$tmp = $this->_getOptions($data, $repeatCounter);
 		$w = new FabrikWorker;
-		foreach ($default as &$d)
-		{
-			$d = $w->parseMessageForPlaceHolder($d);
-		}
-		$thisElName = $this->getHTMLName($repeatCounter);
+		$default = $w->parseMessageForPlaceHolder($default);
+		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
 
 		$optsPerRow = (int) $params->get('dbjoin_options_per_row', 0);
@@ -1046,7 +1036,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				{
 					case 'dropdown':
 					default:
-						$html[] = JHTML::_('select.genericlist', $tmp, $thisElName, $attribs, 'value', 'text', $default, $id);
+						$html[] = JHTML::_('select.genericlist', $tmp, $name, $attribs, 'value', 'text', $default, $id);
 						break;
 					case 'radio':
 						$this->renderRadioList($data, $repeatCounter, $html, $tmp, JAarrayHelper::getValue($default, 0));
@@ -1127,6 +1117,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		return implode("\n", $html);
 	}
 
+	/**
+	 * Add read only links
+	 *
+	 * @param   array  &$defaultLabels  Default labels
+	 * @param   array  $defaultValues   Default values
+	 *
+	 * @return  void
+	 */
 	protected function addReadOnlyLinks(&$defaultLabels, $defaultValues)
 	{
 		$params = $this->getParams();
@@ -1340,12 +1338,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * called from within function getValue
+	 * Called from within function getValue
 	 * needed so we can append _raw to the name for elements such as db joins
 	 *
-	 * @param   array  $opts  options
+	 * @param   array  $opts  Options
 	 *
-	 * @return  string  element name inside data array
+	 * @return  string  Element name inside data array
 	 */
 
 	protected function getValueFullName($opts)
@@ -1363,16 +1361,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * Determines the label used for the browser title
 	 * in the form/detail views
 	 *
-	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
-	 * @param   array  $opts           options
+	 * @param   array  $data           Form data
+	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   array  $opts           Options
 	 *
-	 * @return  string	default value
+	 * @return  string	Default value
 	 */
 
 	public function getTitlePart($data, $repeatCounter = 0, $opts = array())
 	{
-		// $$$ rob set ths to label otherwise we get the value/key and not label
+		// $$$ rob set this to label otherwise we get the value/key and not label
 		$opts['valueFormat'] = 'label';
 		return $this->getValue($data, $repeatCounter, $opts);
 	}
@@ -1469,11 +1467,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Used to format the data when shown in the form's email
 	 *
-	 * @param   mixed  $value          element's data
-	 * @param   array  $data           form records data
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   mixed  $value          Element's data
+	 * @param   array  $data           Form records data
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
-	 * @return  string	formatted value
+	 * @return  string	Formatted value
 	 */
 
 	public function getEmailValue($value, $data = array(), $repeatCounter = 0)
@@ -1532,10 +1530,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Shows the data formatted for the list view
 	 *
-	 * @param   string  $data      elements data
-	 * @param   object  &$thisRow  all the data in the lists current row
+	 * @param   string  $data      Elements data
+	 * @param   object  &$thisRow  All the data in the lists current row
 	 *
-	 * @return  string	formatted value
+	 * @return  string	Formatted value
 	 */
 
 	public function renderListData($data, &$thisRow)
@@ -1571,39 +1569,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 			$data = json_encode($labeldata);
 		}
-		else
-		{
-			// Wierd one http://fabrikar.com/forums/showpost.php?p=153789&postcount=16, so lets try to ensure we have a value before using getLabelForValue()
-		/* 	 $col = $this->getFullName(false, true, false) . '_raw';
-			$row = JArrayHelper::fromObject($thisRow);
-			$data = JArrayHelper::getValue($row, $col, $data);
-
-			// Rendered as checkbox/mutliselect
-			if (is_string($data) && strstr($data, GROUPSPLITTER))
-			{
-				$labeldata = explode(GROUPSPLITTER, $data);
-			}
-			else
-			{
-				// $$$ hugh - $data may already be JSON encoded, so we don't want to double-encode.
-				if (!FabrikWorker::isJSON($data))
-				{
-					$labeldata = (array) $data;
-				}
-				else
-				{
-					// $$$ hugh - yeah, I know, kinda silly to decode right before we encode,
-					// should really refactor so encoding goes in this if/else structure!
-					$labeldata = (array) json_decode($data);
-				}
-			}
-			foreach ($labeldata as &$l)
-			{
-				$l = $this->getLabelForValue($l);
-			} */
-		}
-
-		//$data = json_encode($labeldata);
 
 		// $$$ rob add links and icons done in parent::renderListData();
 		return parent::renderListData($data, $thisRow);

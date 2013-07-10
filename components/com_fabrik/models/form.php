@@ -1776,10 +1776,7 @@ class FabrikFEModelForm extends FabModelForm
 								 * their JSON data for encrypted read only vals, need to decode.
 								 */
 								$v = FabrikWorker::JSONtoData($v, true);
-								foreach ($v as &$tmpV)
-								{
-									$tmpV = $w->parseMessageForPlaceHolder($tmpV, $post);
-								}
+								$v = $w->parseMessageForPlaceHolder($v, $post);
 							}
 							$elementModel->setGroupModel($groupModel);
 							$elementModel->setValuesFromEncryt($post, $key, $v);

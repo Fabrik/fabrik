@@ -226,10 +226,8 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		}
 
 		$w = new FabrikWorker;
-		foreach ($default as &$d)
-		{
-			$d = $w->parseMessageForPlaceHolder($d);
-		}
+		$default = $w->parseMessageForPlaceHolder($default);
+
 		// Not yet implemented always going to use dropdown for now
 		$displayType = $params->get('cdd_display_type', 'dropdown');
 		$html = array();

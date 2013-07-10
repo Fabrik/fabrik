@@ -560,7 +560,7 @@ class FabrikWorker
 	 * Iterates through string to replace every
 	 * {placeholder} with posted data
 	 *
-	 * @param   string  $msg               Text to parse
+	 * @param   mixed   $msg               Text|Array to parse
 	 * @param   array   $searchData        Data to search for placeholders (default $_REQUEST)
 	 * @param   bool    $keepPlaceholders  If no data found for the place holder do we keep the {...} string in the message
 	 * @param   bool    $addslashes        Add slashed to the text?
@@ -571,48 +571,46 @@ class FabrikWorker
 
 	public function parseMessageForPlaceHolder($msg, $searchData = null, $keepPlaceholders = true, $addslashes = false, $theirUser = null)
 	{
-		$this->parseAddSlases = $addslashes;
-		if ($msg == '' || is_array($msg) || JString::strpos($msg, '{') === false)
+		$returnType = is_array($msg) ? 'array' : 'string';
+		$msgs = (array) $msg;
+		foreach ($msgs as &$msg)
 		{
-			return $msg;
-		}
-		$msg = str_replace(array('%7B', '%7D'), array('{', '}'), $msg);
-		if (is_object($searchData))
-		{
-			$searchData = JArrayHelper::fromObject($searchData);
-		}
-		/* $$$ rob changed to allow request variables to be parsed as well. I have a sneaky feeling this
-		 * was set to post for a good reason, but I can't see why now.
-		 * $$$ hugh - for reasons I don't understand, merging request just doesn't seem to work
-		 * in some situations, so I'm adding a replaceRequest call here as a bandaid.
-		 */
+			$this->parseAddSlases = $addslashes;
+			if (!($msg == '' || is_array($msg) || JString::strpos($msg, '{') === false))
+			{
 
-		/* @TODO $$$ rob can you remember what those situations where? Because doing this is messing up form plugins
-		 * (e.g redirect) when they do replace on getEmailData()
-		 * as having the line below commented in causes the request to be used before searchData.
-		 * self::replaceRequest($msg);
-		 */
+				$msg = str_replace(array('%7B', '%7D'), array('{', '}'), $msg);
+				if (is_object($searchData))
+				{
+					$searchData = JArrayHelper::fromObject($searchData);
+				}
+				// Merge in request and specified search data
+				$f = JFilterInput::getInstance();
+				$post = $f->clean($_REQUEST, 'array');
+				$this->_searchData = is_null($searchData) ? $post : array_merge($post, $searchData);
 
-		$f = JFilterInput::getInstance();
-		$post = $f->clean($_REQUEST, 'array');
-		$this->_searchData = is_null($searchData) ? $post : array_merge($post, $searchData);
-		$this->_searchData['JSession::getFormToken'] = JSession::getFormToken();
-		$msg = self::replaceWithUserData($msg);
-		if (!is_null($theirUser))
-		{
-			$msg = self::replaceWithUserData($msg, $theirUser, 'your');
+				// Enable users to use placeholder to insert session token
+				$this->_searchData['JSession::getFormToken'] = JSession::getFormToken();
+
+				// Replace with the user's data
+				$msg = self::replaceWithUserData($msg);
+				if (!is_null($theirUser))
+				{
+					// Replace with a specified user's data
+					$msg = self::replaceWithUserData($msg, $theirUser, 'your');
+				}
+				$msg = self::replaceWithGlobals($msg);
+				$msg = preg_replace("/{}/", "", $msg);
+
+				// Replace {element name} with form data
+				$msg = preg_replace_callback("/{[^}\s]+}/i", array($this, 'replaceWithFormData'), $msg);
+				if (!$keepPlaceholders)
+				{
+					$msg = preg_replace("/{[^}\s]+}/i", '', $msg);
+				}
+			}
 		}
-		$msg = self::replaceWithGlobals($msg);
-		$msg = preg_replace("/{}/", "", $msg);
-
-		// Replace {element name} with form data
-		$msg = preg_replace_callback("/{[^}\s]+}/i", array($this, 'replaceWithFormData'), $msg);
-		if (!$keepPlaceholders)
-		{
-			$msg = preg_replace("/{[^}\s]+}/i", '', $msg);
-		}
-
-		return $msg;
+		return $returnType === 'array' ? $msgs : JArrayHelper::getValue($msgs, 0, '');
 	}
 
 	/**

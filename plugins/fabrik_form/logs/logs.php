@@ -180,7 +180,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 		// Making complete path + filename + extension
 		$w = new FabrikWorker;
-		$logs_file = $logs_path . DS . $w->parseMessageForPlaceHolder($params->get('logs_file')) . $random_filename . '.' . $ext;
+		$logs_file = $logs_path . '/' . $w->parseMessageForPlaceHolder($params->get('logs_file')) . $random_filename . '.' . $ext;
 		$logs_mode = $params->get('logs_append_or_overwrite');
 		$date_element = $params->get('logs_date_field');
 		$date_now = $params->get('logs_date_now');
