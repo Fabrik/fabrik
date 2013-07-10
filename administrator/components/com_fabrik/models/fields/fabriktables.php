@@ -133,6 +133,8 @@ class JFormFieldFabrikTables extends JFormFieldList
 		$html .= '<img style="margin-left:10px;display:none" id="' . $this->id . '_loader" src="components/com_fabrik/images/ajax-loader.gif" alt="'
 			. JText::_('LOADING') . '" />';
 		$script = '<script type="text/javascript">' . $script . '</script>';
+		FabrikHelperHTML::framework();
+		FabrikHelperHTML::iniRequireJS();
 		return $html;
 	}
 

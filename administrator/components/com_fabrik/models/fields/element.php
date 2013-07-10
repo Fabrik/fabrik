@@ -121,6 +121,8 @@ class JFormFieldElement extends JFormFieldList
 			$return .= '<img style="margin-left:10px;display:none" id="' . $this->id
 				. '_loader" src="components/com_fabrik/images/ajax-loader.gif" alt="' . JText::_('COM_FABRIK_LOADING') . '" />';
 		}
+		FabrikHelperHTML::framework();
+		FabrikHelperHTML::iniRequireJS();
 		return $return;
 	}
 

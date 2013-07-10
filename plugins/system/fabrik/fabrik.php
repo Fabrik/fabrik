@@ -72,7 +72,7 @@ class PlgSystemFabrik extends JPlugin
 
 		// In preg_replace \\ is replaced with \, doubling up the quotes keeps \\ as \\.
 		$js = str_replace("\\", "\\\\", $js);
-		$script = '<script type="text/javascript">' . "\n" . '<![CDATA[' . "\n" . $shim . "\n" . $js . "\n" . ']]>' . "\n" . '</script>';
+
 		$script = '<script type="text/javascript">' . "\n" .  "\n" . $shim . "\n" . $js . "\n" . '</script>';
 
 		$session->clear('fabrik.js.scripts');

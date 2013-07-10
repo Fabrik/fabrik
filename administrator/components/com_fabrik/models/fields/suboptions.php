@@ -105,6 +105,8 @@ class JFormFieldSuboptions extends JFormField
 			$html[] = '</ul>';
 			$html[] = '<a class="' . $addClass . '" href="#" id="addSuboption"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a></div>';
 		}
+		FabrikHelperHTML::framework();
+		FabrikHelperHTML::iniRequireJS();
 		return implode("\n", $html);
 	}
 

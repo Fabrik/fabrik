@@ -254,6 +254,8 @@ class JFormFieldFabrikModalrepeat extends JFormField
 		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
 		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '" />';
 
+		FabrikHelperHTML::framework();
+		FabrikHelperHTML::iniRequireJS();
 		return implode("\n", $str);
 	}
 }
