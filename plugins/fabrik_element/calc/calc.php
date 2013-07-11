@@ -91,17 +91,15 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			{
 				if ($groupModel->canRepeat())
 				{
-					// @TODO this wont work with  new flat name structure
-					$joinid = $groupModel->getGroup()->join_id;
-					if (array_key_exists('join', $data) && array_key_exists($joinid, $data['join']) && is_array($data['join'][$joinid]))
+					foreach ($data as $name => $values)
 					{
-						foreach ($data['join'][$joinid] as $name => $values)
+						if (is_array($data[$name]))
 						{
-							foreach ($data['join'][$joinid][$name] as $key => $val)
+							foreach ($data[$name] as $key => $val)
 							{
 								if ($key != $repeatCounter)
 								{
-									unset($data['join'][$joinid][$name][$key]);
+									unset($data[$name][$key]);
 								}
 							}
 						}
