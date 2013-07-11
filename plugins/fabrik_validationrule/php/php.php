@@ -43,7 +43,7 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		// For multiselect elements
 		if (is_array($data))
@@ -56,8 +56,10 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 		if ($domatch)
 		{
 			$formModel = $elementModel->getFormModel();
-			$php_code = $params->get('php-code');
-			$retval = eval($php_code[$pluginc]);
+			$w = new FabrikWorker;
+			$php_code = $w->parseMessageForPlaceHolder($params->get('php-code')[$pluginc], $allData, true, true);
+			$retval = @eval($php_code);
+			FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(false,false) . '::_getV(): %s');
 			return $retval;
 		}
 		return true;
@@ -75,16 +77,18 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 	 * @return  string	original or replaced data
 	 */
 
-	public function replace($data, &$elementModel, $pluginc, $repeatCounter)
+	public function replace($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		$params = $this->getParams();
 		$domatch = $params->get('php-match');
 		$domatch = $domatch[$pluginc];
 		if (!$domatch)
 		{
-			$formModel = $elementModel->getFormModel();
-			$php_code = $params->get('php-code');
-			return eval($php_code[$pluginc]);
+			$w = new FabrikWorker;
+			$php_code = $w->parseMessageForPlaceHolder($params->get('php-code')[$pluginc], $allData, true, true);
+			$retval = @eval($php_code);
+			FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(false,false) . '::_getV(): %s');
+			return $retval;
 		}
 		return $data;
 	}

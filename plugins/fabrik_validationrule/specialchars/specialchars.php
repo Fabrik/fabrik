@@ -43,7 +43,7 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		// For multiselect elements
 		if (is_array($data))
@@ -80,7 +80,7 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 	 * @return  string	original or replaced data
 	 */
 
-	public function replace($data, &$elementModel, $pluginc, $repeatCounter)
+	public function replace($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		$params = $this->getParams();
 		$domatch = (array) $params->get('specialchars-match');

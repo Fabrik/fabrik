@@ -642,7 +642,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 			else
 			{
 				$create_custom_table = "CREATE TABLE IF NOT EXISTS $rdb (" . $db->quoteName('id')
-					. " int(11) NOT NULL auto_increment PRIMARY KEY, $clabels_createdb);";
+					. " int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, $clabels_createdb);";
 				$db->setQuery($create_custom_table);
 				$db->execute();
 

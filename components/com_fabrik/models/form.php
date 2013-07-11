@@ -1993,7 +1993,9 @@ class FabrikFEModelForm extends FabModelForm
 
 						if ($plugin->shouldValidate($form_data, $pluginc))
 						{
-							if (!$plugin->validate($form_data, $elementModel, $pluginc, $c))
+							// $allData = $this->getData();
+							$allData = $this->formData;
+							if (!$plugin->validate($form_data, $elementModel, $pluginc, $c, $allData))
 							{
 								$this->errors[$elName][$c][] = $w->parseMessageForPlaceHolder($plugin->getMessage($pluginc));
 								$ok = false;
@@ -2003,7 +2005,7 @@ class FabrikFEModelForm extends FabModelForm
 								if ($groupModel->canRepeat())
 								{
 									$elDbVals[$c] = $form_data;
-									$testreplace = $plugin->replace($elDbVals[$c], $elementModel, $pluginc, $c);
+									$testreplace = $plugin->replace($elDbVals[$c], $elementModel, $pluginc, $c, $allData);
 									if ($testreplace != $elDbVals[$c])
 									{
 										$elDbVals[$c] = $testreplace;
@@ -2014,7 +2016,7 @@ class FabrikFEModelForm extends FabModelForm
 								}
 								else
 								{
-									$testreplace = $plugin->replace($elDbVals, $elementModel, $pluginc, $c);
+									$testreplace = $plugin->replace($elDbVals, $elementModel, $pluginc, $c, $allData);
 									if ($testreplace != $elDbVals)
 									{
 										$elDbVals = $testreplace;
@@ -2907,7 +2909,7 @@ class FabrikFEModelForm extends FabModelForm
 
 */
 		}
-//		$this->listModel = $listModel;
+		//		$this->listModel = $listModel;
 
 		// Test to allow {$my->id}'s to be evald from query strings
 		$w = new FabrikWorker;

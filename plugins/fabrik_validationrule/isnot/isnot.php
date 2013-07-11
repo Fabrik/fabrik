@@ -44,7 +44,7 @@ class PlgFabrik_ValidationruleIsNot extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		if (is_array($data))
 		{

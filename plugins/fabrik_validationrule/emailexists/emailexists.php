@@ -43,7 +43,7 @@ class PlgFabrik_ValidationruleEmailExists extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		if (empty($data))
 		{
@@ -167,5 +167,4 @@ class PlgFabrik_ValidationruleEmailExists extends PlgFabrik_Validationrule
 			return parent::getLabel($elementModel, $pluginc);
 		}
 	}
-
 }

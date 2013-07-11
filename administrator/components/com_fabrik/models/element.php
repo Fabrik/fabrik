@@ -1097,7 +1097,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$name = $db->quoteName($row->name);
 		$db
 			->setQuery(
-				'CREATE TABLE IF NOT EXISTS ' . $db->quoteName($tableName) . ' ( id INT( 6 ) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(6), '
+				'CREATE TABLE IF NOT EXISTS ' . $db->quoteName($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(11), '
 					. $name . ' ' . $desc . ', ' . $db->quoteName('params') . ' TEXT );');
 		$db->execute();
 

@@ -43,7 +43,7 @@ class PlgFabrik_ValidationruleNotempty extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		$ok = $elementModel->dataConsideredEmpty($data, $repeatCounter);
 		return !$ok;

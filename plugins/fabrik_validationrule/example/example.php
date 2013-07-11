@@ -92,7 +92,7 @@ class PlgFabrik_ValidationruleExample extends PlgFabrik_Validationrule
 	 * @return  bool  true if validation passes, false if fails
 	 */
 
-	public function validate($data, &$elementModel, $pluginc, $repeatCounter)
+	public function validate($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		$found = preg_match("/http:/i", $data);
 		return $found;
@@ -110,7 +110,7 @@ class PlgFabrik_ValidationruleExample extends PlgFabrik_Validationrule
 	 * @return  string	original or replaced data
 	 */
 
-	public function replace($data, &$elementModel, $pluginc, $repeatCounter)
+	public function replace($data, &$elementModel, $pluginc, $repeatCounter, $allData)
 	{
 		return $data;
 	}
