@@ -4089,7 +4089,6 @@ class FabrikFEModelList extends JModelForm
 
 		// The element type AFTER saving
 		$objtype = $elementModel->getFieldDescription();
-		$newObjectType = strtolower($objtype);
 		$dbdescriptions = $this->getDBFields($tableName, 'Field');
 
 		if (!$this->canAlterFields() && !$this->canAddFields())
@@ -4162,22 +4161,24 @@ class FabrikFEModelList extends JModelForm
 		* we would do something like $base_existingDef = $elementModel->baseFieldDescription($existingDef), and (say) the
 		* field element, if passed "TINYINT(3) UNSIGNED" would return "INT(3)".  But for now, just tweak it here.
 		*/
-		$lowerobjtype = JString::strtolower(trim($objtype));
-		$lowerobjtype = str_replace(' not null', '', $lowerobjtype);
-		$lowerobjtype = str_replace(' unsigned', '', $lowerobjtype);
-		$base_existingDef = JString::strtolower(trim($existingDef));
-		$base_existingDef = str_replace(' unsigned', '', $base_existingDef);
-		$base_existingDef = str_replace(array('integer', 'tinyint', 'smallint', 'mediumint', 'bigint'), 'int', $base_existingDef);
+		$objtypeUpper = ' '.JString::strtoupper(trim($objtype)).' ';
+		$objtypeUpper = str_replace(' NOT NULL ', ' ', $objtypeUpper);
+		$objtypeUpper = str_replace(' UNSIGNED ', ' ', $objtypeUpper);
+		$objtypeUpper = trim($objtypeUpper);
+		$existingDef = ' '.JString::strtoupper(trim($existingDef)).' ';
+		$existingDef = str_replace(' UNSIGNED ', ' ', $existingDef);
+		$existingDef = str_replace(array(' INTEGER', ' TINYINT', ' SMALLINT', ' MEDIUMINT', ' BIGINT'), ' INT', $existingDef);
+		$existingDef = trim($existingDef);
 
-		if ($element->name == $origColName && trim($base_existingDef) == $lowerobjtype)
+		if ($element->name == $origColName && $existingDef == $objtypeUpper)
 		{
-			// No chanages to the element name or field type
+			// No changes to the element name or field type
+			return $return;
+		}
+		elseif ($this->canAlterFields() === false)
+		{
 			// Give a notice if the user cant alter the field type but selections he has made would normally do so:
-			if ($this->canAlterFields() === false && trim($base_existingDef) !== $newObjectType)
-			{
-				$app->enqueueMessage(JText::_('COM_FABRIK_NOTICE_ELEMENT_SAVED_BUT_STRUCTUAL_CHANGES_NOT_APPLIED'), 'notice');
-			}
-
+			$app->enqueueMessage(JText::_('COM_FABRIK_NOTICE_ELEMENT_SAVED_BUT_STRUCTUAL_CHANGES_NOT_APPLIED'), 'notice');
 			return $return;
 		}
 
@@ -4226,7 +4227,7 @@ class FabrikFEModelList extends JModelForm
 				$testColName = $tableName . '.' . FabrikString::safeColName($element->name);
 				if (FabrikString::safeColName($primaryKey) == $tableName . '.' . FabrikString::safeColName($element->name) && $table->auto_inc)
 				{
-					if (!strstr($q, 'NOT NULL AUTO_INCREMENT'))
+					if (!strpos($q, ' NOT NULL AUTO_INCREMENT'))
 					{
 						$q .= ' NOT NULL AUTO_INCREMENT ';
 					}
@@ -4235,7 +4236,7 @@ class FabrikFEModelList extends JModelForm
 				$return[0] = true;
 				$return[1] = $q;
 				$return[2] = $origColName;
-				$return[3] = $objtype;
+				$return[3] = $objtypeUpper;
 				$return[5] = $dropKey;
 				return $return;
 			}
