@@ -44,6 +44,12 @@ echo "
 	color:#666;
 }
 
+/*Here is the styling for your group outro*/
+#{$view}_$c .groupoutro{
+	padding:10px 20px 10px 20px;
+	color:#666;
+}
+
 /*Here is the styling for your legend span, this is extra styling adding to your legend.  For more information on the <span> tag see: http://www.w3schools.com/tags/tag_span.asp*/
 #{$view}_$c legend span{
 	padding:5px 5px 5px 20px; /*added right, bottom, left padding*/

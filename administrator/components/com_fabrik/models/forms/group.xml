@@ -75,6 +75,14 @@
 				label="COM_FABRIK_FIELD_GROUP_INTRO_LABEL"
 				description="COM_FABRIK_FIELD_GROUP_INTRO_DESC" />
 			
+			<field name="outro"
+				type="editor"
+				filter="FabrikAdminHelper::filterText"
+				rows="6"
+				cols="20"
+				label="COM_FABRIK_FIELD_GROUP_OUTRO_LABEL"
+				description="COM_FABRIK_FIELD_GROUP_OUTRO_DESC" />
+			
 		</fieldset>
 	
 	<fieldset name="repeat">

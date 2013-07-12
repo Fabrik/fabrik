@@ -163,7 +163,13 @@ echo "<div class=\"fabrikMainError fabrikError$active\">$form->error</div>";?>
 		} else {
 			$this->elements = $group->elements;
 			echo $this->loadTemplate('group');
-		}?>
+		}	// Show the group outro
+	if ($group->outro !== '') :?>
+		<div class="groupoutro"><?php echo $group->outro ?></div>
+	<?php
+	endif;
+	?>	
+
 	</fieldset>
 <?php
 	}

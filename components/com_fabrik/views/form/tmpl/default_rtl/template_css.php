@@ -48,6 +48,12 @@ echo "
 	color:#666;
 }
 
+/*Here is the styling for your group outro*/
+#{$view}_$c .groupoutro{
+	padding:10px 20px 10px 20px;
+	color:#666;
+}
+
 #{$view}_$c legend span{
 	padding:5px;
 	display:block;
