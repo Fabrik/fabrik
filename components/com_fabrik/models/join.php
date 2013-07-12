@@ -176,14 +176,14 @@ class FabrikFEModelJoin extends FabModel
 	}
 
 	/**
-	 * Get join table's primary key
+	 * Get joined table's primary key
 	 *
 	 * @param   string  $glue  Between table and field name
 	 *
 	 * @return  string
 	 */
 
-	public function getPrimaryKey($glue = '___')
+	public function getForeignID($glue = '___')
 	{
 		$join = $this->getJoin();
 		$pk = str_replace('`', '', $join->params->get('pk'));
@@ -192,7 +192,7 @@ class FabrikFEModelJoin extends FabModel
 	}
 
 	/**
-	 * Get foreign key
+	 * Get the join foreign key
 	 *
 	 * @param   string  $glue  Between table and field name
 	 *
@@ -203,6 +203,21 @@ class FabrikFEModelJoin extends FabModel
 	{
 		$join = $this->getJoin();
 		$fk = $join->table_join . $glue . $join->table_join_key;
+		return $fk;
+	}
+
+	/**
+	 * Get the join Primary key
+	 *
+	 * @param   string  $glue  Between table and field name
+	 *
+	 * @return string
+	 */
+
+	public function getPrimaryKey($glue = '___')
+	{
+		$join = $this->getJoin();
+		$fk = $join->join_from_table . $glue . $join->table_key;
 		return $fk;
 	}
 

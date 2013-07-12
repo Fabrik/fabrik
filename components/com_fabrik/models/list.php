@@ -9376,18 +9376,17 @@ class FabrikFEModelList extends JModelForm
 		*/
 		foreach ($data[0] as $key => $val)
 		{
-			$origKey = $key;
-			$tmpkey = FabrikString::rtrimword($key, '_raw');
+			$shortkey = FabrikString::rtrimword($key, '_raw');
 			/* $$$ hugh - had to cache this stuff, because if you have a lot of rows and a lot of elements,
 			 * doing this many hundreds of times causes huge slowdown, exceeding max script execution time!
 			* And we really only need to do it once for the first row.
 			*/
-			if (!isset($can_repeats[$tmpkey]))
+			if (!isset($can_repeats[$shortkey]))
 			{
-				$elementModel = $formModel->getElement($tmpkey);
+				$elementModel = $formModel->getElement($shortkey);
 
 				// $$$ rob - testing for linking join which is repeat but linked join which is not - still need separate info from linked to join
-				// $can_repeats[$tmpkey] = $elementModel ? ($elementModel->getGroup()->canRepeat()) : 0;
+				// $can_repeats[$shortkey] = $elementModel ? ($elementModel->getGroup()->canRepeat()) : 0;
 				if ($merge == 2 && $elementModel)
 				{
 					if ($elementModel->getGroup()->canRepeat() || $elementModel->getGroup()->isJoin())
@@ -9425,23 +9424,24 @@ class FabrikFEModelList extends JModelForm
 						// Hopefully we now have the PK
 						if (isset($can_repeats_tables[$join_table_name]))
 						{
-							$can_repeats_keys[$tmpkey] = $join_table_name . '___' . $can_repeats_tables[$join_table_name]['colname'];
+							$can_repeats_keys[$shortkey] = $join_table_name . '___' . $can_repeats_tables[$join_table_name]['colname'];
 						}
+						$crk_sk = $can_repeats_keys[$shortkey];
 						// Create the array if it doesn't exist
-						if (!isset($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]]))
+						if (!isset($can_repeats_pk_vals[$crk_sk]))
 						{
-							$can_repeats_pk_vals[$can_repeats_keys[$tmpkey]] = array();
+							$can_repeats_pk_vals[$crk_sk] = array();
 						}
 						// Now store the
-						if (!isset($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][0]))
+						if (!isset($can_repeats_pk_vals[$crk_sk][0]) and isset($data[0]->$crk_sk))
 						{
-							$can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][0] = $data[0]->$can_repeats_keys[$tmpkey];
+							$can_repeats_pk_vals[$crk_sk][0] = $data[0]->$crk_sk;
 						}
 					}
 				}
-				$can_repeats[$tmpkey] = $elementModel ? ($elementModel->getGroup()->canRepeat() || $elementModel->getGroup()->isJoin()) : 0;
+				$can_repeats[$shortkey] = $elementModel ? ($elementModel->getGroup()->canRepeat() || $elementModel->getGroup()->isJoin()) : 0;
 			}
-		}
+		} // end foreach
 
 		for ($i = 0; $i < $count; $i++)
 		{
@@ -9452,14 +9452,16 @@ class FabrikFEModelList extends JModelForm
 				foreach ($data[$i] as $key => $val)
 				{
 					$origKey = $key;
-					$tmpkey = FabrikString::rtrimword($key, '_raw');
-					if ($can_repeats[$tmpkey])
+					$shortkey = FabrikString::rtrimword($key, '_raw');
+					if ($can_repeats[$shortkey])
 					{
-						if ($merge == 2 && !isset($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][$i]))
+						if ($merge == 2 
+						&& !isset($can_repeats_pk_vals[$can_repeats_keys[$shortkey]][$i])
+						&& isset($data[$i]->$can_repeats_keys[$shortkey]))
 						{
-							$can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][$i] = $data[$i]->$can_repeats_keys[$tmpkey];
+							$can_repeats_pk_vals[$can_repeats_keys[$shortkey]][$i] = $data[$i]->$can_repeats_keys[$shortkey];
 						}
-						if ($origKey == $tmpkey)
+						if ($origKey == $shortkey)
 						{
 							/* $$$ rob - this was just appending data with a <br> but as we do thie before the data is formatted
 							 * it was causing all sorts of issues for list rendering of links, dates etc. So now turn the data into
@@ -9468,10 +9470,10 @@ class FabrikFEModelList extends JModelForm
 							$do_merge = true;
 							if ($merge == 2)
 							{
-								$pk_vals = array_count_values(array_filter($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]]));
-								if ($data[$i]->$can_repeats_keys[$tmpkey] != '')
+								$pk_vals = array_count_values(array_filter($can_repeats_pk_vals[$can_repeats_keys[$shortkey]]));
+								if (isset($data[$i]->$can_repeats_keys[$shortkey]))
 								{
-									if ($pk_vals[$data[$i]->$can_repeats_keys[$tmpkey]] > 1)
+									if ($pk_vals[$data[$i]->$can_repeats_keys[$shortkey]] > 1)
 									{
 										$do_merge = false;
 									}
@@ -9526,10 +9528,12 @@ class FabrikFEModelList extends JModelForm
 					foreach ($data[$i] as $key => $val)
 					{
 						$origKey = $key;
-						$tmpkey = FabrikString::rtrimword($key, '_raw');
-						if ($can_repeats[$tmpkey] && !isset($can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][$i]))
+						$shortkey = FabrikString::rtrimword($key, '_raw');
+						if ($can_repeats[$shortkey] 
+						&& !isset($can_repeats_pk_vals[$can_repeats_keys[$shortkey]][$i])
+						&& isset($data[$i]->$can_repeats_keys[$shortkey]))
 						{
-							$can_repeats_pk_vals[$can_repeats_keys[$tmpkey]][$i] = $data[$i]->$can_repeats_keys[$tmpkey];
+							$can_repeats_pk_vals[$can_repeats_keys[$shortkey]][$i] = $data[$i]->$can_repeats_keys[$shortkey];
 						}
 					}
 				}

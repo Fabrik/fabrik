@@ -615,6 +615,34 @@ class FabrikFEModelGroup extends FabModel
 			$this->listQueryElements[$sig] = array();
 			$elements = $this->getMyElements();
 			$joins = $this->getListModel()->getJoins();
+			/**
+			* $$$ Paul - it is possible that the user has set Include in List Query 
+			* to No for table primary key or join foreign key. If List is then set  
+			* to Merge and Reduce, this causes a problem because the pk/fk 
+			* placeholder is not set. We therefor include the table PK and join FK 
+			* regardless of Include in List Query settings if any elements in the 
+			* group have Include in List Query = Yes.
+			* In order to avoid iterating over the elements twice, we save the  
+			* PK / FK elementModel and include it as soon as it is needed.
+			* If the access level does not allow for these to be used, then we should 
+			* display some sort of warning - though this is not included in this fix.
+			**/
+			$repeating = $this->canRepeat();
+			$join = $this->getJoinModel();
+			if (is_null($join->getJoin()->params))
+			{
+				$join_id = "";
+				$join_fk = "";
+			} 
+			else 
+			{
+				$join_id = $join->getForeignID();
+				$join_fk = $join->getForeignKey();
+			}
+			
+			$element_included = false;
+			$table_pk_included = $join_fk_included = false;
+			$table_pk_element = $join_fk_element = null;
 			foreach ($elements as $elementModel)
 			{
 				$element = $elementModel->getElement();
@@ -636,33 +664,55 @@ class FabrikFEModelGroup extends FabModel
 						continue;
 					}
 
-					/**
-					 * $$$ hugh - if the eleent is an FK in a list join, ignore the include_in_list setting,
-					 * and just incude it.  Technically we could check to see if any of the elements from the joined
-					 * list are being incuded before making this decision, but it's such a corner case, I vote for
-					 * just including list join FK's, period.
-					 */
-					foreach ($joins as $join)
+					$full_name = $elementModel->getFullName(true, false);
+					if (($params->get('include_in_list_query', 1) == 1) // Include in List Query
+					 || (empty($showInList) && $element->show_in_list_summary) // Element show in list
+					 || (in_array($element->id, $showInList)) // Menu items explicitly defines the list
+					 || ($element->primary_key)) // Master primary key always included
 					{
-						if (!empty($join->list_id) && $element->id == $join->element_id)
+						if ($element->primary_key || $full_name == $join_id)
 						{
-							$this->listQueryElements[$sig][] = $elementModel;
-							continue;
+							$table_pk_included = true;
+						}
+						elseif (!$table_pk_included && !is_null($table_pk_element))
+						{ // Add primary key before other element
+							$this->listQueryElements[$sig][] = $table_pk_element;
+							$table_pk_included = true;
+						}
+						if ($full_name == $join_fk)
+						{
+							$join_fk_included = true;
+						}
+						elseif (!$join_fk_included && !is_null($join_fk_element))
+						{ // Add foreign key before other element
+							$this->listQueryElements[$sig][] = $join_fk_element;
+							$join_fk_included = true;
+						}
+						$this->listQueryElements[$sig][] = $elementModel;
+						$element_included = true;
+					}
+					elseif ($element->primary_key || $full_name == $join_id)
+					{
+						if ($element_included)
+						{ // Add primary key after other element
+						$this->listQueryElements[$sig][] = $elementModel;
+							$table_pk_included = true;
+						}
+						else
+						{ // Save primary key for future use
+							$table_pk_element = $elementModel;
 						}
 					}
-
-					if (empty($showInList))
+					elseif ($elementModel->getFullName(true, false) == $join_fk)
 					{
-						if ($element->show_in_list_summary || $params->get('include_in_list_query', 1) == 1)
-						{
+						if ($element_included)
+						{ // Add foreign key after other element
 							$this->listQueryElements[$sig][] = $elementModel;
+							$join_fk_included = true;
 						}
-					}
-					else
-					{
-						if (in_array($element->id, $showInList) || $params->get('include_in_list_query', 1) == 1)
-						{
-							$this->listQueryElements[$sig][] = $elementModel;
+						else
+						{ // Save foreign key for future use
+							$join_fk_element = $elementModel;
 						}
 					}
 				}
@@ -1065,6 +1115,7 @@ class FabrikFEModelGroup extends FabModel
 		$canRepeat = $this->canRepeat();
 		$repeats = $this->repeatTotals();
 		$joinModel = $this->getJoinModel();
+<<<<<<< HEAD
 		/*
 		 * $$$ hugh - test code for new isJoin in join model
 		 */
@@ -1075,6 +1126,9 @@ class FabrikFEModelGroup extends FabModel
 		}
 		*/
 		$pkField = $joinModel->getPrimaryKey();
+=======
+		$pkField = $joinModel->getForeignID();
+>>>>>>> Force inclusion of PK/FK in certain circumstances
 
 		$listModel = $this->getListModel();
 		$item = $this->getGroup();
@@ -1157,19 +1211,15 @@ class FabrikFEModelGroup extends FabModel
 		$fullFk = $joinTable->table_join . '___' . $joinTable->table_join_key;
 
 		$elementModels = $this->getPublishedElements();
-		$fkFound = false;
 		foreach ($elementModels as $elementModel)
 		{
 			if ($elementModel->getFullName(true, false) === $fullFk)
 			{
-				$fkFound = true;
+				return true;
 			}
 		}
-		if (!$fkFound)
-		{
-			JError::raiseWarning(E_ERROR, JText::sprintf('COM_FABRIK_JOINED_DATA_BUT_FK_NOT_PUBLISHED', $fullFk));
-		}
-		return $fkFound;
+		JError::raiseWarning(E_ERROR, JText::sprintf('COM_FABRIK_JOINED_DATA_BUT_FK_NOT_PUBLISHED', $fullFk));
+		return false;
 	}
 
 	/**
