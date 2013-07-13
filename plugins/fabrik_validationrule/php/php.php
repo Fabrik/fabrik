@@ -58,7 +58,8 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 			$formModel = $elementModel->getFormModel();
 			$formData = $formModel->formData;
 			$w = new FabrikWorker;
-			$php_code = $w->parseMessageForPlaceHolder($params->get('php-code')[$pluginc], $formData, true, true);
+			$phpCode = $params->get('php-code');
+			$php_code = $w->parseMessageForPlaceHolder($phpCode[$pluginc], $formData, true, true);
 			$retval = @eval($php_code);
 			FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(false,false) . '::_getV(): %s');			$retval = eval($php_code[$pluginc]);
 			return $retval;
@@ -88,7 +89,8 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 			$formModel = $elementModel->getFormModel();
 			$formData = $formModel->formData;
 			$w = new FabrikWorker;
-			$php_code = $w->parseMessageForPlaceHolder($params->get('php-code')[$pluginc], $formData, true, true);
+			$phpCode = $params->get('php-code');
+			$php_code = $w->parseMessageForPlaceHolder($phpCode[$pluginc], $formData, true, true);
 			$retval = @eval($php_code);
 			FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(false,false) . '::_getV(): %s');			$retval = eval($php_code[$pluginc]);
 			return $retval;
