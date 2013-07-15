@@ -40,8 +40,16 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$default = $w->parseMessageForPlaceHolder($element->default, $data, true, true);
 			if ($element->eval == '1')
 			{
-				$default = @eval($default);
-				FabrikWorker::logEval($default, 'Caught exception on eval of ' . $element->name . ': %s');
+				$app = JFactory::getApplication();
+				if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+				{
+					$default = eval($default);
+				}
+				else
+				{
+					$default = @eval($default);
+				}
+				FabrikWorker::logEval($default, 'Caught exception on Calc default eval of ' . $element->name . ': %s');
 			}
 			$this->default = $default;
 		}
@@ -111,7 +119,15 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 				$data_copy = $data;
 			}
 			$default = $w->parseMessageForPlaceHolder($params->get('calc_calculation'), $data, true, true);
-			$default = @eval($default);
+			$app = JFactory::getApplication();
+			if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+			{
+				$default = eval($default);
+			}
+			else
+			{
+				$default = @eval($default);
+			}
 			FabrikWorker::logEval($default, 'Caught exception on eval of ' . $this->getElement()->name . '::_getV(): %s');
 			return $default;
 		}
@@ -261,7 +277,16 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 		// $$$ hugh - add $data same-same as $d, for consistency so user scripts know where data is
 		$data = $d;
-		$calc = eval($w->parseMessageForPlaceHolder($calc, $d));
+		$calc = $w->parseMessageForPlaceHolder($calc, $d);
+		$app = JFactory::getApplication();
+		if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+		{
+			$calc = eval($calc);
+		}
+		else
+		{
+			$calc = @eval($calc);
+		}
 		FabrikWorker::logEval($calc, 'Caught exception on eval of ' . $this->getElement()->name . '::preProcess(): %s');
 		$form->updateFormData($key, $calc);
 		$form->updateFormData($rawkey, $calc);
@@ -344,7 +369,15 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			 */
 			$d = $data;
 			$res = $listModel->parseMessageForRowHolder($cal, $data, true);
-			$res = @eval($res);
+			$app = JFactory::getApplication();
+			if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+			{
+				$res = eval($res);
+			}
+			else
+			{
+				$res = @eval($res);
+			}
 			FabrikWorker::logEval($res, 'Caught exception on eval in ' . $element->name . '::renderListData() : %s');
 			if ($format != '')
 			{
@@ -491,7 +524,15 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		// $$$ hugh - trying to standardize on $data so scripts know where data is
 		$data = $d;
 		$calc = $w->parseMessageForPlaceHolder($calc, $d);
-		$c = @eval($calc);
+		$app = JFactory::getApplication();
+		if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+		{
+			$c = eval($calc);
+		}
+		else
+		{
+			$c = @eval($calc);
+		}
 		$c = preg_replace('#(\/\*.*?\*\/)#', '', $c);
 		echo $c;
 	}
@@ -661,7 +702,15 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			{
 				$key = $listRef . $row->__pk_val;
 				$default = $w->parseMessageForPlaceHolder($params->get('calc_calculation'), $row);
-				$return->$key = @eval($default);
+				$app = JFactory::getApplication();
+				if ($app->input->get('fabrikdebug') == 1 || JDEBUG)
+				{
+					$return->$key = eval($default);
+				}
+				else
+				{
+					$return->$key = @eval($default);
+				}
 				if ($store)
 				{
 					$listModel->storeCell($row->__pk_val, $storeKey, $return->$key);
