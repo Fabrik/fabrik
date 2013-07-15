@@ -1288,7 +1288,9 @@ class PlgFabrik_Element extends FabrikPlugin
 			$values = JArrayHelper::getValue($data, $name, $default);
 
 			// Querystring override (seems on http://fabrikar.com/subscribe/form/22 querystring var was not being set into $data)
-			if (empty($values))
+			// $$$ hugh - ooops, '0' will count as empty.
+			// if (empty($values))
+			if ($values === '')
 			{
 				$values = $input->get($name, '', 'string');
 			}
