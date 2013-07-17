@@ -1151,18 +1151,26 @@ class FabrikWorker
 
 	public static function logEval($val, $msg)
 	{
-		$app = JFactory::getApplication();
-		if (version_compare(phpversion(), '5.2.0', '>='))
+		if ($val !== false)
 		{
-			if ($val === false && $error = error_get_last() && ($app->input->get('fabrikdebug') == 1 || JDEBUG))
+			return;
+		}
+		$app = JFactory::getApplication();
+		if (FabrikHelperHTML::isDebug())
+		{
+			// Give a technical error message to the developer
+			if (version_compare(phpversion(), '5.2.0', '>=') and $error = error_get_last() and is_array($error))
 			{
-				// $$$ hugh - for some strange reason, error_get_last() sometimes returns true, instead of an array
-				// or null, when there hasn't been an eror.
-				if ($error !== true)
-				{
-					$app->enqueueMessage(sprintf($msg, $error['message']), 'notice');
-				}
+				$app->enqueueMessage(sprintf($msg, $error['message']), 'notice');
 			}
+			else
+			{
+				$app->enqueueMessage(sprintf($msg, "unknown error"), 'notice');
+			}
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING'), 'notice');
 		}
 	}
 

@@ -40,8 +40,16 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$default = $w->parseMessageForPlaceHolder($element->default, $data, true, true);
 			if ($element->eval == '1')
 			{
-				$default = @eval($default);
-				FabrikWorker::logEval($default, 'Caught exception on eval of ' . $element->name . ': %s');
+				if (FabrikHelperHTML::isDebug())
+				{
+					$res = eval($default);
+				}
+				else
+				{
+					$res = @eval($default);
+				}
+				FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . '::getDefaultValue() : ' . $default . ' : %s');
+				$default = $res;
 			}
 			$this->default = $default;
 		}
@@ -80,7 +88,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		 *  If viewing form or details view and calc set to always run then return the $default
 		 *  which has had the calculation run on it.
 		 */
-		if (!$params->get('calc_on_save_only', true))
+		$task = JFactory::getApplication()->input->get('task', '');
+		if (!$params->get('calc_on_save_only', true) || $task == 'form.process' || $task == 'process')
 		{
 			// $default = $this->getDefaultValue($data, $repeatCounter);
 			$this->swapValuesForLabels($data);
@@ -93,27 +102,27 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 				{
 					foreach ($data as $name => $values)
 					{
-						if (is_array($data[$name]))
+						// $$$ Paul - Because $data contains stuff other than placeholders, we have to exclude e.g. fabrik_repeat_group
+						if (is_array($values) && count($values) > 1 & isset($values[$repeatCounter]) && $name != 'fabrik_repeat_group')
 						{
-							foreach ($data[$name] as $key => $val)
-							{
-								if ($key != $repeatCounter)
-								{
-									unset($data[$name][$key]);
-								}
-							}
+							$data[$name] = $data[$name][$repeatCounter];
 						}
 					}
 				}
 			}
+			$default = $w->parseMessageForPlaceHolder($params->get('calc_calculation'), $data, true, true);
+			//  $$$ hugh - standardizing on $data but need need $d here for backward compat
+			$d = $data;
+			if (FabrikHelperHTML::isDebug())
+			{
+				$res = eval($default);
+			}
 			else
 			{
-				$data_copy = $data;
+				$res = @eval($default);
 			}
-			$default = $w->parseMessageForPlaceHolder($params->get('calc_calculation'), $data, true, true);
-			$default = @eval($default);
-			FabrikWorker::logEval($default, 'Caught exception on eval of ' . $this->getElement()->name . '::_getV(): %s');
-			return $default;
+			FabrikWorker::logEval($res, 'Eval exception : ' . $this->getElement()->name . '::_getV() : ' . $default . ' : %s');
+			return $res;
 		}
 		$rawname = $name . '_raw';
 		if ($groupModel->isJoin())
@@ -221,7 +230,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		$w = new FabrikWorker;
 		$form = $this->getForm();
 
-		$d = unserialize(serialize($form->formData));
+		$data = unserialize(serialize($form->formData));
 		$calc = $params->get('calc_calculation');
 		$group = $this->getGroup();
 
@@ -233,38 +242,32 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		$key = $this->getFullName(true, false);
 		$shortkey = $this->getFullName(true, false);
 		$rawkey = $key . '_raw';
-		if ($group->canRepeat())
+		$this->swapValuesForLabels($data);
+		$res = $this->_getV($data, $c);
+		// Create arrays for calc values as needed
+		if (is_array($data[$key]))
 		{
-			if ($group->isJoin())
-			{
-				$key = str_replace("][", '.', $key);
-				$key = str_replace(array('[', ']'), '.', $key) . $c;
-				$rawkey = str_replace($shortkey, $shortkey . '_raw', $key);
-			}
-			else
-			{
-				$key = $key . '.' . $c;
-				$rawkey = $rawkey . '.' . $c;
-			}
+			$data[$key][$c] = $res;
+		}
+		elseif (!isset($data[$key]) && $c == 0)
+		{
+			$data[$key] = $res;
 		}
 		else
 		{
-			if ($group->isJoin())
+			if (!isset($data[$key]))
 			{
-				$key = str_replace('][', '.', $key);
-				$key = str_replace(array('[', ']'), '.', $key);
-				$key = rtrim($key, '.');
-				$rawkey = str_replace($shortkey, $shortkey . '_raw', $key);
+				$data[$key] = array();
 			}
+			else
+			{
+				$data[$key] = array($data[$key]);
+			}
+			$data[$key][$c] = $res;
 		}
-		$this->swapValuesForLabels($d);
-
-		// $$$ hugh - add $data same-same as $d, for consistency so user scripts know where data is
-		$data = $d;
-		$calc = eval($w->parseMessageForPlaceHolder($calc, $d));
-		FabrikWorker::logEval($calc, 'Caught exception on eval of ' . $this->getElement()->name . '::preProcess(): %s');
-		$form->updateFormData($key, $calc);
-		$form->updateFormData($rawkey, $calc);
+			
+		$form->updateFormData($key, $data[$key]);
+		$form->updateFormData($rawkey, $data[$key]);
 	}
 
 	/**
@@ -338,14 +341,19 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$data = JArrayHelper::fromObject($row);
 			$data['rowid'] = $data['__pk_val'];
 			$data['fabrik'] = $formModel->getId();
-			/**
-			 *  $$$ hugh - trying to standardize on $data so scripts know where data is,
-			 *  need $d here for backward compat
-			 */
+			//  $$$ Paul - Because this is run on List rows before repeat-group merges, repeat group placeholders are OK.
+			//  $$$ hugh - standardizing on $data but need need $d here for backward compat
 			$d = $data;
-			$res = $listModel->parseMessageForRowHolder($cal, $data, true);
-			$res = @eval($res);
-			FabrikWorker::logEval($res, 'Caught exception on eval in ' . $element->name . '::renderListData() : %s');
+			$cal = $listModel->parseMessageForRowHolder($cal, $data, true);
+			if (FabrikHelperHTML::isDebug())
+			{
+				$res = eval($cal);
+			}
+			else
+			{
+				$res = @eval($cal);
+			}
+			FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . '::preFormatFormJoins() : '. $cal .' : %s');
 			if ($format != '')
 			{
 				$res = sprintf($format, $res);
@@ -491,7 +499,14 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		// $$$ hugh - trying to standardize on $data so scripts know where data is
 		$data = $d;
 		$calc = $w->parseMessageForPlaceHolder($calc, $d);
-		$c = @eval($calc);
+		if (FabrikHelperHTML::isDebug())
+		{
+			$c = eval($calc);
+		}
+		else
+		{
+			$c = @eval($calc);
+		}
 		$c = preg_replace('#(\/\*.*?\*\/)#', '', $c);
 		echo $c;
 	}
@@ -661,7 +676,14 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			{
 				$key = $listRef . $row->__pk_val;
 				$default = $w->parseMessageForPlaceHolder($params->get('calc_calculation'), $row);
-				$return->$key = @eval($default);
+				if (FabrikHelperHTML::isDebug())
+				{
+					$return->$key = eval($default);
+				}
+				else
+				{
+					$return->$key = @eval($default);
+				}
 				if ($store)
 				{
 					$listModel->storeCell($row->__pk_val, $storeKey, $return->$key);
@@ -686,7 +708,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	* @return  string  email formatted value
 	*/
 
-	protected function _getEmailValue($value, $data = array(), $repeatCounter = 0)
+	protected function getIndEmailValue($value, $data = array(), $repeatCounter = 0)
 	{
 		$params = $this->getParams();
 		if (!$params->get('calc_on_save_only', true))
