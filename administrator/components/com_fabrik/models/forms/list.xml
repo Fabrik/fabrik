@@ -658,6 +658,15 @@
 				description="COM_FABRIK_FIELD_ADMIN_TEMPLATE_DESC"
 				label="COM_FABRIK_FIELD_ADMIN_TEMPLATE_LABEL" />
 				
+			<field name="tab_field"
+				type="listfields"
+				description="COM_FABRIK_LIST_TAB_FIELD_DESC"
+				label="COM_FABRIK_LIST_TAB_FIELD_LABEL"
+				nojoins="true"
+				valueformat="tableelement"
+				pluginfilter="field|calc" 
+				/>
+
 			<field name="empty_data_msg"
 				type="text"
 				description="COM_FABRIK_FIELD_EMPTY_DATA_MESSAGE_DESC"
