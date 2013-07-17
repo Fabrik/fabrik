@@ -72,6 +72,7 @@ class JFormFieldListfields extends JFormFieldList
 		$labelMethod = (string) JArrayHelper::getValue($this->element, 'label_method');
 		$highlightpk = (bool) JArrayHelper::getValue($this->element, 'highlightpk', false);
 		$nojoins = (bool) JArrayHelper::getValue($this->element, 'nojoins', false);
+		$pluginFilter = explode('|',(string) JArrayHelper::getValue($this->element, 'pluginfilter', ''));
 
 		switch ($controller)
 		{
@@ -148,7 +149,7 @@ class JFormFieldListfields extends JFormFieldList
 				{
 					$formModel = $listModel->getFormModel();
 					$valfield = $valueformat == 'tableelement' ? 'name' : 'id';
-					$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins));
+					$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins, $pluginFilter);
 				}
 				else
 				{
@@ -164,7 +165,7 @@ class JFormFieldListfields extends JFormFieldList
 				}
 				$formModel = $this->form->model;
 				$valfield = $valueformat == 'tableelement' ? 'name' : 'id';
-				$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins));
+				$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins, $pluginFilter);
 				break;
 			case 'group':
 				$valfield = $valueformat == 'tableelement' ? 'name' : 'id';
@@ -172,7 +173,7 @@ class JFormFieldListfields extends JFormFieldList
 				$groupModel = JModelLegacy::getInstance('Group', 'FabrikFEModel');
 				$groupModel->setId($id);
 				$formModel = $groupModel->getFormModel();
-				$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins));
+				$res = $formModel->getElementOptions(false, $valfield, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins, $pluginFilter);
 				break;
 			default:
 				return JText::_('THE LISTFIELDS ELEMENT IS ONLY USABLE BY LISTS AND ELEMENTS');
@@ -251,12 +252,14 @@ class JFormFieldListfields extends JFormFieldList
 		$pluginFilters = trim($this->element['filter']) == '' ? array() : explode('|', $this->element['filter']);
 		$labelMethod = (string) JArrayHelper::getValue($this->element, 'label_method');
 		$nojoins = (bool) JArrayHelper::getValue($this->element, 'nojoins', false);
+		$pluginFilter = explode('|',(string) JArrayHelper::getValue($this->element, 'pluginfilter', ''));
+
 		$bits = array();
 		$showRaw = (bool) JArrayHelper::getValue($this->element, 'raw', false);
 		$groupModel = JModelLegacy::getInstance('Group', 'FabrikFEModel');
 		$groupModel->setId($groupId);
 		$optskey = $valueformat == 'tableelement' ? 'name' : 'id';
-		$res = $groupModel->getForm()->getElementOptions(false, $optskey, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins);
+		$res = $groupModel->getForm()->getElementOptions(false, $optskey, $onlylistfields, $showRaw, $pluginFilters, $labelMethod, $nojoins, $pluginFilter);
 		$hash = $controller . '.' . implode('.', $bits);
 		if (array_key_exists($hash, $this->results))
 		{

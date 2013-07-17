@@ -117,7 +117,8 @@
 			label="COM_FABRIK_FIELD_PRIMARY_KEY_LABEL"
 			valueformat="tableelement"
 			nojoins="true"
-			typefilter="MEDIUMINT|INT|BIGINT"/>
+			pluginfilter="internalid|field" 
+			/>
 					
 		<field name="auto_inc"
 			type="radio"

@@ -2381,7 +2381,7 @@ class FabrikFEModelForm extends FabModelForm
 	 * @return	array	html options
 	 */
 
-	public function getElementOptions($useStep = false, $key = 'name', $show_in_list_summary = false, $incRaw = false, $filter = array(), $labelMethod = '', $noJoins = false)
+	public function getElementOptions($useStep = false, $key = 'name', $show_in_list_summary = false, $incRaw = false, $filter = array(), $labelMethod = '', $noJoins = false, $pluginFilter = array())
 	{
 		$groups = $this->getGroupsHiarachy();
 		$aEls = array();
@@ -2406,6 +2406,14 @@ class FabrikFEModelForm extends FabModelForm
 				if ($show_in_list_summary == true && $el->show_in_list_summary != 1)
 				{
 					continue;
+				}
+				if (!empty($pluginFilter))
+				{
+					$plugin = $el->plugin;
+					if (!in_array($plugin, $pluginFilter))
+					{
+						continue;
+					}
 				}
 				$val = $el->$key;
 				$label = strip_tags($prefix . $el->label);
