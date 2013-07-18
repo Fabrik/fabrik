@@ -40,6 +40,18 @@ class JFormFieldBootstrapfieldclass extends JFormFieldList
 		$sizes[] = JHTML::_('select.option', 'input-xlarge');
 		$sizes[] = JHTML::_('select.option', 'input-xxlarge');
 		$sizes[] = JHTML::_('select.option', 'input-block-level');
+		$sizes[] = JHTML::_('select.option', 'span1');
+		$sizes[] = JHTML::_('select.option', 'span2');
+		$sizes[] = JHTML::_('select.option', 'span3');
+		$sizes[] = JHTML::_('select.option', 'span4');
+		$sizes[] = JHTML::_('select.option', 'span5');
+		$sizes[] = JHTML::_('select.option', 'span6');
+		$sizes[] = JHTML::_('select.option', 'span7');
+		$sizes[] = JHTML::_('select.option', 'span8');
+		$sizes[] = JHTML::_('select.option', 'span9');
+		$sizes[] = JHTML::_('select.option', 'span10');
+		$sizes[] = JHTML::_('select.option', 'span11');
+		$sizes[] = JHTML::_('select.option', 'span12');
 		return $sizes;
 	}
 }

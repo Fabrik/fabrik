@@ -117,7 +117,8 @@
 			label="COM_FABRIK_FIELD_PRIMARY_KEY_LABEL"
 			valueformat="tableelement"
 			nojoins="true"
-			typefilter="MEDIUMINT|INT|BIGINT"/>
+			filter="internalid|field" 
+			/>
 					
 		<field name="auto_inc"
 			type="radio"
@@ -329,18 +330,16 @@
 				description="COM_FABRIK_FIELD_SEARCH_ELEMENTS_DESC"
 				label="COM_FABRIK_FIELD_SEARCH_ELEMENTS_LABEL">
 				
-					<fields name="params">
-						<fieldset modal="true" name="list_search_elements_modal" repeat="true">
-							<field name="search_elements"
-								label="COM_FABRIK_SEARCH_ELEMENTS_LABEL"
-								description="COM_FABRIK_SEARCH_ELEMENTS_LABEL_DESC"
-								size="30"
-								label_method="availableInAdvancedSearchLabel"
-								type="listfields"/>
-						
-						</fieldset>
+				<fields name="params">
+					<fieldset modal="true" name="list_search_elements_modal" repeat="true">
+						<field name="search_elements"
+							label="COM_FABRIK_SEARCH_ELEMENTS_LABEL"
+							description="COM_FABRIK_SEARCH_ELEMENTS_LABEL_DESC"
+							size="30"
+							label_method="availableInAdvancedSearchLabel"
+							type="listfields"/>
+					</fieldset>
 				</fields>
-				
 			</field>
 			
 	 		<field name="search-all-label"
@@ -691,30 +690,30 @@
 			
 			<field name="pdf_size"
 				type="list"
-				default="letter"
+				default="a4"
 				description="COM_FABRIK_FIELD_PDF_SIZE_DESC"
 				label="COM_FABRIK_FIELD_PDF_SIZE_LABEL">
-					<option value="a0"></option>
-				    <option value="a1">a1</option>
-				    <option value="a2">a2</option>
-				    <option value="a3">a3</option>
-				    <option value="a4">a4</option>
-				    <option value="b0">b0</option>
-				    <option value="b1">b1</option>
-				    <option value="b2">b2</option>
-				    <option value="b3">b3</option>
-				    <option value="b4">b4</option>
-				    <option value="c0">c0</option>
-				    <option value="c1">c1</option>
-				    <option value="c2">c2</option>
-				    <option value="c3">c3</option>
-				    <option value="c4">c4</option>
-				    <option value="letter">letter</option>
-				    <option value="legal">legal</option>
-				    <option value="ledger">ledger</option>
-				    <option value="tabloid">tabloid</option>
-				    <option value="executive">executive</option>
-				    <option value="folio">folio</option>
+					<option value="a0">a0</option>
+					<option value="a1">a1</option>
+					<option value="a2">a2</option>
+					<option value="a3">a3</option>
+					<option value="a4">a4</option>
+					<option value="b0">b0</option>
+					<option value="b1">b1</option>
+					<option value="b2">b2</option>
+					<option value="b3">b3</option>
+					<option value="b4">b4</option>
+					<option value="c0">c0</option>
+					<option value="c1">c1</option>
+					<option value="c2">c2</option>
+					<option value="c3">c3</option>
+					<option value="c4">c4</option>
+					<option value="letter">letter</option>
+					<option value="legal">legal</option>
+					<option value="ledger">ledger</option>
+					<option value="tabloid">tabloid</option>
+					<option value="executive">executive</option>
+					<option value="folio">folio</option>
 			</field>
 			
 			<field name="show-title"
