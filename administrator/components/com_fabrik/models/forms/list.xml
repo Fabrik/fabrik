@@ -1235,6 +1235,8 @@
 		
 			<field name="factedlinks"
 				type="factedlinks"
+				label="COM_FABRIK_MY_RELATED_DATA_LABEL"
+				description="COM_FABRIK_MY_RELATED_DATA_DESC"
 			/>
 			
 		</fieldset>
