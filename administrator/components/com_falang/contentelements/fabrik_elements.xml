@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<falang type="contentelement">
+  <name>Fabrik - Elements</name>
+  <author>Manel Zaera, manelzaera@yahoo.es Benjamin Rivalland - www.decisionpublique.fr</author>
+  <version>1.8</version>
+  <description>Definition for Fabrik  Elements</description>
+  <reference>
+  	<table name="fabrik_elements">
+  		<field name="id" translate="0" type="referenceid">ID</field>
+		<field name="name" translate="1" type="titletext">Name</field>
+  		<field name="label" translate="1" type="titletext">Label</field>  		
+	 	</table>
+  </reference>
+   <translationfilters>
+    <keyword>label</keyword>
+    <fabrikgroup>group_id</fabrikgroup>
+    <author>created_by</author>
+    <published>published</published>
+  </translationfilters>
+</falang>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<falang type="contentelement">
+  <name>Fabrik - List</name>
+  <author>Rob Clayburn</author>
+  <version>1.8</version>
+  <description>Definition for Fabrik Lists</description>
+  <reference>
+  	<table name="fabrik_lists">
+  		<field name="id" translate="0" type="referenceid">ID</field>
+  		<field name="label" translate="1" type="titletext">Label</field>  		
+		<field name="introduction" translate="1" type="htmltext">Introduction</field>	  		
+  	</table>
+  </reference>
+</falang>
