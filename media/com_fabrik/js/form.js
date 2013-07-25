@@ -412,13 +412,17 @@ var FbForm = new Class({
 				submit.disabled = "disabled";
 				submit.setStyle('opacity', 0.5);
 			}
-			this.form.getElement('.fabrikPagePrevious').disabled = "disabled";
-			this.form.getElement('.fabrikPageNext').addEvent('click', function (e) {
-				this._doPageNav(e, 1);
-			}.bind(this));
-			this.form.getElement('.fabrikPagePrevious').addEvent('click', function (e) {
-				this._doPageNav(e, -1);
-			}.bind(this));
+			if (typeOf(document.getElement('.fabrikPagePrevious')) !== 'null') {
+				this.form.getElement('.fabrikPagePrevious').disabled = "disabled";
+				this.form.getElement('.fabrikPagePrevious').addEvent('click', function (e) {
+					this._doPageNav(e, -1);
+				}.bind(this));
+			}
+			if (typeOf(document.getElement('.fabrikPagePrevious')) !== 'null') {
+				this.form.getElement('.fabrikPageNext').addEvent('click', function (e) {
+					this._doPageNav(e, 1);
+				}.bind(this));
+			}
 			this.setPageButtons();
 			this.hideOtherPages();
 		}
@@ -573,27 +577,31 @@ var FbForm = new Class({
 		var submit = this._getButton('submit');
 		var prev = this.form.getElement('.fabrikPagePrevious');
 		var next = this.form.getElement('.fabrikPageNext');
-		if (this.currentPage === this.options.pages.getKeys().length - 1) {
-			if (typeOf(submit) !== 'null') {
-				submit.disabled = "";
-				submit.setStyle('opacity', 1);
+		if (typeOf(next) !== 'null') {
+			if (this.currentPage === this.options.pages.getKeys().length - 1) {
+				if (typeOf(submit) !== 'null') {
+					submit.disabled = "";
+					submit.setStyle('opacity', 1);
+				}
+				next.disabled = "disabled";
+				next.setStyle('opacity', 0.5);
+			} else {
+				if (typeOf(submit) !== 'null' && (this.options.rowid === '' || this.options.rowid.toString() === '0')) {
+					submit.disabled = "disabled";
+					submit.setStyle('opacity', 0.5);
+				}
+				next.disabled = "";
+				next.setStyle('opacity', 1);
 			}
-			next.disabled = "disabled";
-			next.setStyle('opacity', 0.5);
-		} else {
-			if (typeOf(submit) !== 'null' && (this.options.rowid === '' || this.options.rowid.toString() === '0')) {
-				submit.disabled = "disabled";
-				submit.setStyle('opacity', 0.5);
-			}
-			next.disabled = "";
-			next.setStyle('opacity', 1);
 		}
-		if (this.currentPage === 0) {
-			prev.disabled = "disabled";
-			prev.setStyle('opacity', 0.5);
-		} else {
-			prev.disabled = "";
-			prev.setStyle('opacity', 1);
+		if (typeOf(prev) !== 'null') {
+			if (this.currentPage === 0) {
+				prev.disabled = "disabled";
+				prev.setStyle('opacity', 0.5);
+			} else {
+				prev.disabled = "";
+				prev.setStyle('opacity', 1);
+			}
 		}
 	},
 	
