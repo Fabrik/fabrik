@@ -49,9 +49,9 @@ class FabrikTableList extends FabTable
 	public function bind($src, $ignore = array())
 	{
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
+		if (isset($src['rules']) && is_array($src['rules']))
 		{
-			$rules = new JAccessRules($array['rules']);
+			$rules = new JAccessRules($src['rules']);
 			$this->setRules($rules);
 		}
 
