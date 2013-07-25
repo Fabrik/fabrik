@@ -83,7 +83,7 @@ $this->group = $group;
 					$this->elements = $subgroup;
 					echo $this->loadTemplate($group->tmpl);
 	// Show the group outro
-	if ($group->outro !== '') :?>		<div class="groupoutro"><?php echo $group->outro ?></div>
+	if ($group->outro != '') :?>		<div class="groupoutro"><?php echo $group->outro ?></div>
 	<?php
 	endif;
 	?>					?>
@@ -115,7 +115,7 @@ $this->group = $group;
 		$this->elements = $group->elements;
 		echo $this->loadTemplate($group->tmpl);
 		// Show the group outro
-		if ($group->outro !== '') :?>
+		if ($group->outro != '') :?>
 			<div class="groupoutro"><?php echo $group->outro ?></div>
 <?php
 		endif;

@@ -119,7 +119,7 @@ foreach ($this->groups as $group) :
 	$this->elements = $group->elements;
 	echo $this->loadTemplate($group->tmpl);
 	// Show the group outro
-	if ($group->outro !== '') :?>
+	if ($group->outro != '') :?>
 		<div class="groupoutro"><?php echo $group->outro ?></div>
 	<?php
 	endif;
