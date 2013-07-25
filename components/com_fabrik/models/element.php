@@ -2798,7 +2798,7 @@ class PlgFabrik_Element extends FabrikPlugin
 			case 'hidden':
 				if (is_array($default))
 				{
-					$this->rangedFilterFields($default, $return, $rows, $v, 'hidden');
+					$this->rangedFilterFields($default, $return, null, $v, 'hidden');
 				}
 				else
 				{
