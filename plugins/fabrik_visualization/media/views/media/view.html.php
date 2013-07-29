@@ -18,9 +18,10 @@ jimport('joomla.application.component.view');
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.media
+ * @since       3.0
  */
 
-class fabrikViewMedia extends JView
+class FabrikViewMedia extends JView
 {
 
 	/**
@@ -31,7 +32,7 @@ class fabrikViewMedia extends JView
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 */
 
-	function display($tpl = 'default')
+	public function display($tpl = 'default')
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
@@ -60,8 +61,6 @@ class fabrikViewMedia extends JView
 
 		$this->params = $params;
 		$viewName = $this->getName();
-		$pluginManager = FabrikWorker::getPluginManager();
-		$plugin = $pluginManager->getPlugIn('media', 'visualization');
 		$this->containerId = $this->get('ContainerId');
 		$this->showFilters = $model->showFilters();
 		$this->filters = $this->get('Filters');

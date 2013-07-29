@@ -23,7 +23,7 @@
 			type="text"
 			required="true" 
 			size="40"
-			filter="cmd"
+			filter="word"
 			label="COM_FABRIK_FIELD_PACKAGE_COMPONENT_NAME_LABEL"
 			description="COM_FABRIK_FIELD_PACKAGE_COMPONENT_NAME_DESC" />
 			
@@ -50,10 +50,26 @@
 	</fieldset>
 	
 	<fields name="params">
+	
+		<fieldset name="more">
+		
+			<!-- <field name="jversion"
+				type="list"
+				required="true"
+				default="2.5"
+				label="COM_FABRIK_FIELD_PACKAGE_JVERSION_LABEL"
+				description="COM_FABRIK_FIELD_PACKAGE_JVERSION_DESC">
+					<option value="2.5">2.5</option>
+					<option value="3.0">3.0</option>	
+			</field> -->
+		
+		</fieldset>
 		<fieldset name="json">
 			
 			<field name="canvas"
-				type="Hiddenparams" value=""/>
+				type="Hiddenparams"
+				value=""/>
+				
 		</fieldset>
 	</fields>
 </form>

@@ -12,12 +12,11 @@
 defined('_JEXEC') or die();
 
 /**
- *
  * String helpers
  *
- * @package      Joomla
- * @subpackage   Fabrik.helpers
- * @since        3.0
+ * @package     Joomla
+ * @subpackage  Fabrik.helpers
+ * @since       3.0
  */
 
 class FabrikString extends JString
@@ -26,9 +25,9 @@ class FabrikString extends JString
 	/**
 	 * UTF-8 aware - replace the first word
 	 *
-	 * @param   $str   string  the string to be trimmed
-	 * @param   $word  string  the word to trim
-	 * @param   $whitespace  string  ignore but preserve leading whitespace
+	 * @param   string  $str         The string to be trimmed
+	 * @param   string  $word        The word to trim
+	 * @param   string  $whitespace  Ignore but preserve leading whitespace
 	 *
 	 * @return  string  the trimmed string
 	 */
@@ -58,8 +57,8 @@ class FabrikString extends JString
 	/**
 	 * Right trim a word from a string
 	 *
-	 * @param   &$str  string  the string to be trimmed
-	 * @param   $word  string  the word to trim
+	 * @param   string  &$str  The string to be trimmed
+	 * @param   string  $word  The word to trim
 	 *
 	 * @return  string  the trimmed string
 	 */
@@ -82,8 +81,8 @@ class FabrikString extends JString
 	 * UTF-8 aware - remove the first word
 	 * CASE INSENSETIVE
 	 *
-	 * @param   $str   string  the string to be trimmed
-	 * @param   $word  string  the word to trim
+	 * @param   string  $str   The string to be trimmed
+	 * @param   string  $word  The word to trim
 	 *
 	 * @return  string  the trimmed string
 	 */
@@ -103,7 +102,7 @@ class FabrikString extends JString
 	 * table.field is returned as `table`.field`
 	 * table is return as `table`
 	 *
-	 * @param   $col  string  col name to format
+	 * @param   string  $col  Col name to format
 	 *
 	 * @return string in `table`.field` format
 	 */
@@ -141,7 +140,7 @@ class FabrikString extends JString
 	 * Inverse of safeColName takes `table`.`field`
 	 * and returns table___field
 	 *
-	 * @param   $col  string  in `table`.`field` format
+	 * @param   string  $col  In `table`.`field` format
 	 *
 	 * @return  string  in table___field format
 	 */
@@ -157,7 +156,7 @@ class FabrikString extends JString
 	 * Takes tablename.element or tablename___elementname
 	 * (with or without quotes) and returns elementname
 	 *
-	 * @param   $col  string  column name to shorten
+	 * @param   string  $col  Column name to shorten
 	 *
 	 * @return  string  element name
 	 */
@@ -182,7 +181,7 @@ class FabrikString extends JString
 	 * Get a shortened version of the element label - so that the admin pages
 	 * don't get too stretched when we populate dropdowns with the label
 	 *
-	 * @param   $label  string  complete element label
+	 * @param   string  $label  Complete element label
 	 *
 	 * @return  string  shortened element label
 	 */
@@ -211,12 +210,12 @@ class FabrikString extends JString
 
 	public static function dbFieldName($str)
 	{
-		$name = JFilterInput::clean($str, 'CMD');
+		$name = JFilterInput::getInstance()->clean($str, 'CMD');
 
 		// Chinese characters?
 		if ($name === '')
 		{
-			$name = str_replace(array(' ', '.', '-'), '', $str) ;
+			$name = str_replace(array(' ', '.', '-'), '', $str);
 		}
 		return $name;
 	}
@@ -229,16 +228,16 @@ class FabrikString extends JString
 	 * 22/11/2011 added IGNORE to default enc otherwise iconv chops everything after first unconvertable char
 	 * 05/02/2012 changed name to iclean, removed strtolower() and added clean() as wrapper that does strtolower
 	 *
-	 * @param   $str      string  to clean
-	 * @param   $fromEnc  string  from encoding
-	 * @param   $toEnc    string  to encoding
+	 * @param   string  $str      To clean
+	 * @param   string  $fromEnc  From encoding
+	 * @param   string  $toEnc    To encoding
 	 *
 	 * @return  string  cleaned
 	 */
 
 	public static function iclean($str, $fromEnc = "UTF-8", $toEnc = "ASCII//IGNORE//TRANSLIT")
 	{
-		//replace umlauts
+		// Replace umlauts
 		$out = '';
 		for ($i = 0; $i < JString::strlen($str); $i++)
 		{
@@ -266,7 +265,8 @@ class FabrikString extends JString
 				case 150:
 					$out .= "Oe";
 					break;
-				//fix for cleaning value of 1
+
+				// Fix for cleaning value of 1
 				case 0:
 					$out = '1';
 					break;
@@ -282,7 +282,11 @@ class FabrikString extends JString
 			 */
 
 			// Replace accented characters with ascii equivalent e.g. é => e
-			$str = (str_replace("'", '', @iconv($fromEnc, $toEnc, $str)));
+			$str1 = (@iconv($fromEnc, $toEnc, $str));
+			if($str1) {
+				$str = $str1;
+			}
+			$str = (str_replace("'", '', $str));
 		}
 		// Compress internal whitespace and replace with _
 		$str = preg_replace('/\s+/', '_', $str);
@@ -294,16 +298,16 @@ class FabrikString extends JString
 	/**
 	 * Wrapper for iclean(), that does strtolower on output of clean()
 	 *
-	 * @param   $str      string  to clean
-	 * @param   $fromEnc  string  from encoding
-	 * @param   $toEnc    string  to encoding
+	 * @param   string  $str      To clean
+	 * @param   string  $fromEnc  From encoding
+	 * @param   string  $toEnc    To encoding
 	 *
 	 * @return  string  cleaned
 	 */
 
 	public static function clean($str, $fromEnc = "UTF-8", $toEnc = "ASCII//IGNORE//TRANSLIT")
 	{
-		return JString::strtolower(FabrikString::iclean($str, $fromEnc, $toEnc));
+		return JString::strtolower(self::iclean($str, $fromEnc, $toEnc));
 	}
 
 	/**
@@ -338,7 +342,6 @@ class FabrikString extends JString
 				$title .= "::";
 			}
 			$tip = htmlspecialchars('<div class="truncate_text">' . $title . $orig . '</div>');
-			//$tip = $title.$orig;
 			$jOpts = new stdClass;
 			$jOpts->notice = true;
 			$jOpts->position = JArrayHelper::getValue($opts, 'position', 'top');
@@ -351,8 +354,8 @@ class FabrikString extends JString
 	/**
 	 * Removes a querystring key from a url/queyrstring
 	 *
-	 * @param   $url  string  or querystring
-	 * @param   $key  string  to remove
+	 * @param   string  $url  Or querystring
+	 * @param   string  $key  To remove
 	 *
 	 * @return  string  url/querystring
 	 */
@@ -394,7 +397,7 @@ class FabrikString extends JString
 	/**
 	 * Takes a complete URL, and urlencodes any query string args
 	 *
-	 * @param   $url  string  to encode
+	 * @param   string  $url  To encode
 	 *
 	 * @return  encoded url
 	 */
@@ -409,7 +412,9 @@ class FabrikString extends JString
 				$new_qs = array();
 				foreach (explode('&', $qs) as $arg)
 				{
-					list($key, $val) = explode('=', $arg);
+					$bits = explode('=', $arg);
+					$key = JArrayHelper::getValue($bits, 0, '');
+					$val = JArrayHelper::getValue($bits, 1, '');
 					$new_qs[] = $key . "=" . urlencode($val);
 				}
 				$url = $site . "?" . implode("&", $new_qs);
@@ -435,7 +440,7 @@ class FabrikString extends JString
 	/**
 	 * Prepare a string for presentation in html.
 	 *
-	 * @param   &$string  string  to convert for html
+	 * @param   string  &$string  To convert for html
 	 *
 	 * @return  void
 	 */
@@ -454,7 +459,7 @@ class FabrikString extends JString
 	 * Doesn't do any sanity testing to see if it's actually a valid element
 	 * name, just goes by pattern patching word___word
 	 *
-	 * @params   string  $str  String to test
+	 * @param   string  $str  String to test
 	 *
 	 * @return   bool
 	 *
@@ -485,7 +490,7 @@ class FabrikString extends JString
 		{
 			$ar = explode(":", $v);
 			$o->zoomlevel = count($ar) == 2 ? array_pop($ar) : 4;
-			$v = FabrikString::ltrimword($ar[0], "(");
+			$v = self::ltrimword($ar[0], "(");
 			$v = rtrim($v, ")");
 			$v = str_replace(' ', '', $v);
 			$o->coords = explode(",", $v);

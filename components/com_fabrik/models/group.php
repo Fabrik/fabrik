@@ -28,7 +28,7 @@ class FabrikFEModelGroup extends FabModel
 	 *
 	 * @var JRegistry
 	 */
-	protected $_params = null;
+	protected $params = null;
 
 	/**
 	 * Id of group to load
@@ -203,10 +203,11 @@ class FabrikFEModelGroup extends FabModel
 		$params = $this->getParams();
 		$this->canEdit = true;
 
-		// If group show is type 5, then read only.
+		// If group show is type 5, then always read only.
 		if ($params->get('repeat_group_show_first', '1') == '5')
 		{
 			$this->canEdit = false;
+			return $this->canEdit;
 		}
 
 		$formModel = $this->getFormModel();
@@ -228,11 +229,18 @@ class FabrikFEModelGroup extends FabModel
 	/**
 	 * Can the user view the group
 	 *
+	 * @param   string  $mode  View mode list|form
+	 *
 	 * @return   bool
 	 */
 
-	public function canView()
+	public function canView($mode = 'form')
 	{
+		// No ACL option for list view.
+		if ($mode === 'list')
+		{
+			return true;
+		}
 		if (!is_null($this->canView))
 		{
 			return $this->canView;
@@ -413,9 +421,10 @@ class FabrikFEModelGroup extends FabModel
 		{
 			$colcount = 1;
 		}
-		$spanKey = ($elCount -1) % $colcount;
+		$spanKey = ($elCount - 1) % $colcount;
 
 		$element->span = $colcount == 0 ? 'span12' : JArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colcount));
+
 		$element->span = ' ' . $element->span;
 		$element->offset = $params->get('group_offset', 0);
 
@@ -443,15 +452,9 @@ class FabrikFEModelGroup extends FabModel
 			}
 			else
 			{
-				if ((($elCount -1) % $colcount === $colcount - 1))
+				if ((($elCount - 1) % $colcount === $colcount - 1))
 				{
-					// echo $element->label_raw . ($elCount - 1) . "  % $colcount = " . $elCount % $colcount . " = " . ($colcount - 1) . " (yes)<br>";
 					$element->endRow = 1;
-				}
-				else
-				{
-					// echo $element->label_raw . ($elCount - 1) . " $elCount % $colcount = " . $elCount % $colcount . " = " . ($colcount - 1) . "(no)<br>";
-
 				}
 			}
 			$element->column .= '" ';
@@ -485,6 +488,10 @@ class FabrikFEModelGroup extends FabModel
 	{
 		$params = $this->getParams();
 		$widths = $params->get('group_column_widths', '');
+		if (trim($widths) === '')
+		{
+			return;
+		}
 		$widths = explode(',', $widths);
 		if (FabrikWorker::j3())
 		{
@@ -611,6 +618,7 @@ class FabrikFEModelGroup extends FabModel
 		{
 			$this->listQueryElements[$sig] = array();
 			$elements = $this->getMyElements();
+			$joins = $this->getListModel()->getJoins();
 			foreach ($elements as $elementModel)
 			{
 				$element = $elementModel->getElement();
@@ -630,6 +638,31 @@ class FabrikFEModelGroup extends FabModel
 					if ($input->get('view') == 'list' && !$elementModel->canView('list'))
 					{
 						continue;
+					}
+
+					/**
+					 * $$$ hugh - if the eleent is an FK or a PK in a list join, ignore the include_in_list setting,
+					 * and just include it.  Technically we could check to see if any of the elements from the joined
+					 * list are being included before making this decision, but it's such a corner case, I vote for
+					 * just including list join PK/FK's, period.
+					 */
+					foreach ($joins as $join)
+					{
+						if (!empty($join->list_id))
+						{
+							/*
+							 * Bit of a hack, just grab the fullname, bust it up into table and element name,
+							 * then compare it against PK and FK table/field names.
+							 */
+							$fullname = $elementModel->getFullName(false, true, false);
+							list($tablename, $shortname) = explode('___', $fullname);
+							if (($tablename == $join->join_from_table && $shortname == $join->table_key)
+								|| ($tablename == $join->table_join && $shortname == $join->table_join_key))
+							{
+								$this->listQueryElements[$sig][] = $elementModel;
+								continue;
+							}
+						}
 					}
 
 					if (empty($showInList))
@@ -784,11 +817,11 @@ class FabrikFEModelGroup extends FabModel
 	}
 
 	/**
-	 *
 	 * Get the group's join_id
 	 *
 	 * @return  mixed   join_id, or false if not a join
 	 */
+
 	public function getJoinId()
 	{
 		if (!$this->isJoin())
@@ -836,11 +869,11 @@ class FabrikFEModelGroup extends FabModel
 
 	public function &getParams()
 	{
-		if (!$this->_params)
+		if (!$this->params)
 		{
-			$this->_params = new JRegistry($this->getGroup()->params);
+			$this->params = new JRegistry($this->getGroup()->params);
 		}
-		return $this->_params;
+		return $this->params;
 	}
 
 	/**
@@ -860,7 +893,7 @@ class FabrikFEModelGroup extends FabModel
 		$params = $this->getParams();
 		if (!isset($this->_editable))
 		{
-			$this->_editable = $formModel->_editable;
+			$this->_editable = $formModel->isEditable();
 		}
 		if ($this->_editable)
 		{

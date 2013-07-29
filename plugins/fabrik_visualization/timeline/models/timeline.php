@@ -333,7 +333,10 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 		$this->clearSession();
 		$w = new FabrikWorker;
 		jimport('string.normalise');
-		$document->addScript('http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true');
+
+		// The similie jQuery autodetect and load code is broken as it tests for $ (for which mootools gives a false positive) so include
+		$document->addScript('http://code.jquery.com/jquery-1.9.1.min.js');
+		$document->addScript('http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js?bundle=true');
 		$c = 0;
 		$templates = (array) $params->get('timeline_detailtemplate', array());
 		$startdates = (array) $params->get('timeline_startdate', array());

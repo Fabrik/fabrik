@@ -19,25 +19,27 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class plgFabrik_ElementBirthday extends plgFabrik_Element
+class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 {
 
 	public $hasSubElements = true;
 
-	/** @var  string  db table field type */
+	/**
+	 * Get db table field type
+	 *
+	 * @return  string
+	 */
 
-		public function getFieldDescription()
-		{
+	public function getFieldDescription()
+	{
 		return 'DATE';
-		}
-
-		// protected $fieldDesc = 'DATE';
+	}
 
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   array  $data           To preopulate element with
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
 	 */
@@ -177,7 +179,7 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 						}
 					}
 				}
-				$value = $this->_replaceWithIcons($detailvalue);
+				$value = $this->replaceWithIcons($detailvalue);
 				return ($element->hidden == '1') ? "<!-- " . $detailvalue . " -->" : $detailvalue;
 			}
 			else
@@ -366,22 +368,6 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 
 	public function storeDatabaseFormat($val, $data)
 	{
-		/**
-		 *  $$$ hugh - No need for this in 3.x, all repeated groups are now joins,
-		 *  so we get called once per instance of repeat
-		 */
-		/*
-		$groupModel = $this->getGroup();
-		if ($groupModel->canRepeat()) {
-		    if (is_array($val)) {
-		        $res = array();
-		        foreach ($val as $v) {
-		            $res[] = $this->_indStoreDBFormat($v);
-		        }
-		        return json_encode($res);
-		    }
-		}
-		 */
 		return $this->_indStoreDBFormat($val);
 	}
 
@@ -471,161 +457,249 @@ class plgFabrik_ElementBirthday extends plgFabrik_Element
 
 	public function renderListData($data, &$thisRow)
 	{
-		$db = FabrikWorker::getDbo();
-		$aNullDates = array('0000-00-000000-00-00', '0000-00-00 00:00:00', '0000-00-00', '', $db->getNullDate());
-		$params = $this->getParams();
-		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'),
-			JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
-		$monthnumbers = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
-		$daysys = array('01', '02', '03', '04', '05', '06', '07', '08', '09');
-		$daysimple = array('1', '2', '3', '4', '5', '6', '7', '8', '9');
-		$jubileum = array('0', '25', '75');
 		$groupModel = $this->getGroup();
 		/**
 		 * Jaanus: json_decode replaced with FabrikWorker::JSONtoData that made visible also single data in repeated group
 		 *
 		 * Jaanus: removed condition canrepeat() from renderListData: weird result such as 05",null,
 		 * "1940.07.["1940 (2011) when not repeating but still join and merged. Using isJoin() instead
-		 */
+		*/
 		$data = $groupModel->isJoin() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array) $data;
-		$ft = $params->get('list_date_format', 'd.m.Y');
 
-		// $ft = $params->get('birthday_format', 'd.m.Y'); //$ft = $params->get('birthday_format', '%Y-%m-%d');
-		$fta = $params->get('list_age_format', 'no');
 		$format = array();
-
 		foreach ($data as $d)
 		{
-			if (!in_array($d, $aNullDates))
-			{
-				/**
-				 * $$$ rob default to a format date
-				 * $date = JFactory::getDate($d);
-				 * $datedisp = $date->toFormat($ft);
-				 * Jaanus: sorry, but in this manner the element doesn't work with dates earlier than 1901
-				 */
-
-				list($year, $month, $day) = explode('-', $d);
-				$daydisp = str_replace($daysys, $daysimple, $day);
-				$monthdisp = str_replace($monthnumbers, $monthlabels, $month);
-				$nextyear = date('Y') + 1;
-				$lastyear = date('Y') - 1;
-				$thisyear = date('Y');
-				$year = JString::ltrim($year, '0');
-				$dmy = $day . '.' . $month . '.' . $year;
-				$mdy = $month . '/' . $day . '/' . $year;
-				$dmonthyear = $daydisp . '. ' . $monthdisp . ' ' . $year;
-				$monthdyear = $monthdisp . ' ' . $daydisp . ', ' . $year;
-				if ($ft == "d.m.Y")
-				{
-					$datedisp = $dmy;
-				}
-				else
-				{
-					if ($ft == "m.d.Y")
-					{
-						$datedisp = $mdy;
-					}
-					if ($ft == "D. month YYYY")
-					{
-						$datedisp = $dmonthyear;
-					}
-					if ($ft == "Month d, YYYY")
-					{
-						$datedisp = $monthdyear;
-					}
-				}
-				if ($fta == 'no')
-				{
-					$format[] = $datedisp;
-				}
-				else
-				{
-					if (date('m-d') == $month . '-' . $day)
-					{
-						if ($fta == '{age}')
-						{
-							$format[] = '<font color ="#DD0000"><b>' . ($thisyear - $year) . "</b></font>";
-						}
-						else
-						{
-							if ($fta == '{age} date')
-							{
-								$format[] = '<font color ="#DD0000"><b>' . $datedisp . ' (' . ($thisyear - $year) . ')</b></font>';
-							}
-							if ($fta == '{age} this')
-							{
-								$format[] = '<font color ="#DD0000"><b>' . ($thisyear - $year) . ' (' . $datedisp . ')</b></font>';
-							}
-							if ($fta == '{age} next')
-							{
-								$format[] = '<font color ="#DD0000"><b>' . ($nextyear - $year) . ' (' . $datedisp . ')</b></font>';
-							}
-						}
-					}
-					else
-					{
-						if ($fta == '{age} date')
-						{
-							if (date('m-d') > $month . '-' . $day)
-							{
-								$format[] = $datedisp . ' (' . ($thisyear - $year) . ')';
-							}
-							else
-							{
-								$format[] = $datedisp . ' (' . ($lastyear - $year) . ')';
-							}
-						}
-						else
-						{
-							if ($fta == '{age}')
-							{
-								if (date('m-d') > $month . '-' . $day)
-								{
-									$format[] = $thisyear - $year;
-								}
-								else
-								{
-									$format[] = $lastyear - $year;
-								}
-							}
-							else
-							{
-								if ($fta == '{age} this')
-								{
-									if (in_array(substr(($thisyear - $year), -1), $jubileum) || in_array(substr(($thisyear - $year), -2), $jubileum))
-									{
-										$format[] = '<b>' . ($thisyear - $year) . ' (' . $datedisp . ')</b>';
-									}
-									else
-									{
-										$format[] = ($thisyear - $year) . ' (' . $datedisp . ')';
-									}
-								}
-								if ($fta == '{age} next')
-								{
-									if (in_array(substr(($nextyear - $year), -1), $jubileum) || in_array(substr(($nextyear - $year), -2), $jubileum))
-									{
-										$format[] = '<b>' . ($nextyear - $year) . ' (' . $datedisp . ')</b>';
-									}
-									else
-									{
-										$format[] = ($nextyear - $year) . ' (' . $datedisp . ')';
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				$format[] = '';
-			}
+			$format[] = $this->listFormat($d);
 		}
 		$data = json_encode($format);
 		return parent::renderListData($data, $thisRow);
 	}
 
+	/**
+	 * Format a date based on list age/date format options
+	 *
+	 * @param   string  $d  Date
+	 *
+	 * @since   3.0.9
+	 *
+	 * @return string|number
+	 */
+
+	private function listFormat($d)
+	{
+		if (!FabrikWorker::isDate($d))
+		{
+			return '';
+		}
+		$params = $this->getParams();
+
+		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'),
+				JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
+
+		$monthnumbers = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
+		$daysys = array('01', '02', '03', '04', '05', '06', '07', '08', '09');
+		$daysimple = array('1', '2', '3', '4', '5', '6', '7', '8', '9');
+		$jubileum = array('0', '25', '75');
+
+		$ft = $params->get('list_date_format', 'd.m.Y');
+
+		$fta = $params->get('list_age_format', 'no');
+
+		/**
+		 * $$$ rob default to a format date
+		 * $date = JFactory::getDate($d);
+		 * $datedisp = $date->toFormat($ft);
+		 * Jaanus: sorry, but in this manner the element doesn't work with dates earlier than 1901
+		*/
+
+		list($year, $month, $day) = explode('-', $d);
+		$daydisp = str_replace($daysys, $daysimple, $day);
+		$monthdisp = str_replace($monthnumbers, $monthlabels, $month);
+		$nextyear = date('Y') + 1;
+		$lastyear = date('Y') - 1;
+		$thisyear = date('Y');
+		$year = JString::ltrim($year, '0');
+		$dmy = $day . '.' . $month . '.' . $year;
+		$mdy = $month . '/' . $day . '/' . $year;
+		$dmonthyear = $daydisp . '. ' . $monthdisp . ' ' . $year;
+		$monthdyear = $monthdisp . ' ' . $daydisp . ', ' . $year;
+		if ($ft == "d.m.Y")
+		{
+			$datedisp = $dmy;
+		}
+		else
+		{
+			if ($ft == "m.d.Y")
+			{
+				$datedisp = $mdy;
+			}
+			if ($ft == "D. month YYYY")
+			{
+				$datedisp = $dmonthyear;
+			}
+			if ($ft == "Month d, YYYY")
+			{
+				$datedisp = $monthdyear;
+			}
+		}
+
+		if ($fta == 'no')
+		{
+			return $datedisp;
+		}
+		else
+		{
+			if (date('m-d') == $month . '-' . $day)
+			{
+				if ($fta == '{age}')
+				{
+					return '<font color ="#DD0000"><b>' . ($thisyear - $year) . "</b></font>";
+				}
+				else
+				{
+					if ($fta == '{age} date')
+					{
+						return '<font color ="#DD0000"><b>' . $datedisp . ' (' . ($thisyear - $year) . ')</b></font>';
+					}
+					if ($fta == '{age} this')
+					{
+						return '<font color ="#DD0000"><b>' . ($thisyear - $year) . ' (' . $datedisp . ')</b></font>';
+					}
+					if ($fta == '{age} next')
+					{
+						return '<font color ="#DD0000"><b>' . ($nextyear - $year) . ' (' . $datedisp . ')</b></font>';
+					}
+				}
+			}
+			else
+			{
+				if ($fta == '{age} date')
+				{
+					if (date('m-d') > $month . '-' . $day)
+					{
+						return $datedisp . ' (' . ($thisyear - $year) . ')';
+					}
+					else
+					{
+						return $datedisp . ' (' . ($lastyear - $year) . ')';
+					}
+				}
+				else
+				{
+					if ($fta == '{age}')
+					{
+						if (date('m-d') > $month . '-' . $day)
+						{
+							return $thisyear - $year;
+						}
+						else
+						{
+							return $lastyear - $year;
+						}
+					}
+					else
+					{
+						if ($fta == '{age} this')
+						{
+							if (in_array(substr(($thisyear - $year), -1), $jubileum) || in_array(substr(($thisyear - $year), -2), $jubileum))
+							{
+								return '<b>' . ($thisyear - $year) . ' (' . $datedisp . ')</b>';
+							}
+							else
+							{
+								return ($thisyear - $year) . ' (' . $datedisp . ')';
+							}
+						}
+						if ($fta == '{age} next')
+						{
+							if (in_array(substr(($nextyear - $year), -1), $jubileum) || in_array(substr(($nextyear - $year), -2), $jubileum))
+							{
+								return '<b>' . ($nextyear - $year) . ' (' . $datedisp . ')</b>';
+							}
+							else
+							{
+								return ($nextyear - $year) . ' (' . $datedisp . ')';
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Used by radio and dropdown elements to get a dropdown list of their unique
+	 * unique values OR all options - basedon filter_build_method
+	 *
+	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
+	 * @param   string  $tableName  Table name to use - defaults to element's current table
+	 * @param   string  $label      Field to use, defaults to element name
+	 * @param   string  $id         Field to use, defaults to element name
+	 * @param   bool    $incjoin    Include join
+	 *
+	 * @return  array  text/value objects
+	 */
+
+	public function filterValueList($normal, $tableName = '', $label = '', $id = '', $incjoin = true)
+	{
+		$rows = parent::filterValueList($normal, $tableName, $label, $id, $incjoin);
+		foreach ($rows as &$row)
+		{
+			$txt = $this->listFormat($row->text);
+			if ($txt !== '')
+			{
+				$row->text = strip_tags($txt);
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * This builds an array containing the filters value and condition
+	 * when using a ranged search
+	 *
+	 * @param   array  $value  Initial values
+	 *
+	 * @return  array  (value condition)
+	 */
+
+	protected function getRangedFilterValue($value)
+	{
+		$db = FabrikWorker::getDbo();
+		$element = $this->getElement();
+		if ($element->filter_type === 'range')
+		{
+			if (strtotime($value[0]) > strtotime($value[1]))
+			{
+				$tmp_value = $value[0];
+				$value[0] = $value[1];
+				$value[1] = $tmp_value;
+			}
+
+
+			if (is_numeric($value[0]) && is_numeric($value[1]))
+			{
+				$value = $value[0] . ' AND ' . $value[1];
+			}
+			else
+			{
+				$value = $db->quote($value[0]) . ' AND ' . $db->quote($value[1]);
+			}
+			$condition = 'BETWEEN';
+		}
+		else
+		{
+			if (is_array($value) && !empty($value))
+			{
+				foreach ($value as &$v)
+				{
+					$v = $db->quote($v);
+				}
+				$value = ' (' . implode(',', $value) . ')';
+			}
+			$condition = 'IN';
+		}
+		return array($value, $condition);
+	}
 }

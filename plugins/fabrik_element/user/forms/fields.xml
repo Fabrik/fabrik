@@ -3,6 +3,9 @@
 	<fields>
 		<fieldset name="plg-element-user">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_USER_HELP_SERVER" />
+				
 			<field name="hidden"
 				type="radio"
 				default="0"

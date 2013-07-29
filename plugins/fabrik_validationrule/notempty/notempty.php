@@ -22,7 +22,7 @@ require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
  * @since       3.0
  */
 
-class plgFabrik_ValidationruleNotempty extends plgFabrik_Validationrule
+class PlgFabrik_ValidationruleNotempty extends PlgFabrik_Validationrule
 {
 
 	/**
@@ -49,10 +49,10 @@ class plgFabrik_ValidationruleNotempty extends plgFabrik_Validationrule
 	/**
 	 * Validate the elements data against the rule
 	 *
-	 * @param   string  $data           to check
-	 * @param   object  &$elementModel  element Model
-	 * @param   int     $pluginc        plugin sequence ref
-	 * @param   int     $repeatCounter  repeat group counter
+	 * @param   string  $data           To check
+	 * @param   object  &$elementModel  Element Model
+	 * @param   int     $pluginc        Plugin sequence ref
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return  bool  true if validation passes, false if fails
 	 */

@@ -21,7 +21,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
  * @since       3.0
  */
 
-class plgFabrik_ElementRating extends plgFabrik_Element
+class PlgFabrik_ElementRating extends PlgFabrik_Element
 {
 
 	/**
@@ -246,6 +246,7 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 
 	protected function canRate($row_id = null, $ids = array())
 	{
+		$app = JFactory::getApplication();
 		$params = $this->getParams();
 		if ($params->get('rating-mode') == 'user-rating')
 		{
@@ -254,7 +255,7 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 		}
 		if (is_null($row_id))
 		{
-			$row_id = JRequest::getInt('rowid');
+			$row_id = $app->input->get('rowid', '', 'string');
 		}
 		$list = $this->getListModel()->getTable();
 		$listid = $list->id;
@@ -276,10 +277,12 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 
 	public function render($data, $repeatCounter = 0)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
 		$params = $this->getParams();
-		if (JRequest::getVar('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
+		if ($input->get('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
 		{
 			return JText::_('PLG_ELEMENT_RATING_ONLY_ACCESSIBLE_IN_DETALS_VIEW');
 		}
@@ -301,8 +304,8 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 			$str[] = '<img src="' . $imagepath . 'clear_rating_out' . $ext . '" style="' . $css . 'padding:3px;" alt="clear" class="rate_-1" />';
 		}
 		$listid = $this->getlistModel()->getTable()->id;
-		$formid = JRequest::getInt('formid');
-		$row_id = JRequest::getInt('rowid');
+		$formid = $input->getInt('formid');
+		$row_id = $input->get('rowid', '', 'string');
 		if ($params->get('rating-mode') == 'creator-rating')
 		{
 			$avg = $value;
@@ -346,10 +349,12 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 
 	public function storeDatabaseFormat($val, $data)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$params = $this->getParams();
-		$listid = JRequest::getInt('listid');
-		$formid = JRequest::getInt('formid');
-		$row_id = JRequest::getInt('rowid');
+		$listid = $input->getInt('listid');
+		$formid = $input->getInt('formid');
+		$row_id = $input->get('rowid', '', 'string');
 		if ($params->get('rating-mode') == 'user-rating')
 		{
 			list($val, $total) = $this->getRatingAverage($val, $listid, $formid, $row_id);
@@ -365,17 +370,19 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 
 	public function onAjax_rate()
 	{
-		$this->setId(JRequest::getInt('element_id'));
-		$this->getElement();
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$this->setId($input->getInt('element_id'));
+		$this->loadMeForAjax();
 		$listModel = $this->getListModel();
 		$list = $listModel->getTable();
 		$listid = $list->id;
 		$formid = $listModel->getFormModel()->getId();
-		$row_id = JRequest::getVar('row_id');
-		$rating = JRequest::getInt('rating');
+		$row_id = $input->get('row_id');
+		$rating = $input->getInt('rating');
 		$this->doRating($listid, $formid, $row_id, $rating);
 
-		if (JRequest::getVar('mode') == 'creator-rating')
+		if ($input->get('mode') == 'creator-rating')
 		{
 			// @todo FIX for joins as well
 
@@ -386,17 +393,26 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 			$query->update($list->db_table_name)
 			->set($element->name . '=' . $rating)->where($list->db_primary_key . ' = ' . $db->quote($row_id));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		$this->getRatingAverage('', $listid, $formid, $row_id);
 		echo $this->avg;
 	}
 
+	/**
+	 * Get cookie name
+	 *
+	 * @param   int     $listid  List id
+	 * @param   string  $row_id  Row id
+	 *
+	 * @return string  Hashed cookie name.
+	 */
+
 	private function getCookieName($listid, $row_id)
 	{
 		$cookieName = "rating-table_{$listid}_row_{$row_id}" . $_SERVER['REMOTE_ADDR'];
 		jimport('joomla.utilities.utility');
-		return JUtility::getHash($cookieName);
+		return JApplication::getHash($cookieName);
 	}
 
 	/**
@@ -423,16 +439,18 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 	 			`user_id` , `listid` , `formid` , `row_id`, `element_id`
 	 		)
 		);");
-		$db->query();
+		$db->execute();
 	}
 
 	/**
 	 * Main method to store a rating
 	 *
-	 * @param $listid
-	 * @param $formid
-	 * @param $row_id
-	 * @param $rating
+	 * @param   int     $listid  List id
+	 * @param   int     $formid  Form id
+	 * @param   string  $row_id  Row reference
+	 * @param   int     $rating  Rating
+	 *
+	 * @return  void
 	 */
 
 	private function doRating($listid, $formid, $row_id, $rating)
@@ -440,18 +458,33 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 		$this->createRatingTable();
 		$db = FabrikWorker::getDbo(true);
 		$config = JFactory::getConfig();
-		$tzoffset = $config->getValue('config.offset');
+		$tzoffset = $config->get('offset');
 		$date = JFactory::getDate('now', $tzoffset);
 		$strDate = $db->quote($date->toSql());
 		$userid = $db->quote($this->getStoreUserId($listid, $row_id));
-		$elementid = $this->getElement()->id;
+		$elementid = (int) $this->getElement()->id;
+		$query = $db->getQuery(true);
+		$formid = (int) $formid;
+		$listid = (int) $listid;
+		$rating = (int) $rating;
+		$row_id = $db->quote($row_id);
 		$db
 			->setQuery(
 				"INSERT INTO #__fabrik_ratings (user_id, listid, formid, row_id, rating, date_created, element_id)
 		values ($userid, $listid, $formid, $row_id, $rating, $strDate, $elementid)
-			ON DUPLICATE KEY UPDATE date_created = $strDate, rating = $rating");
-		$db->query();
+			ON DUPLICATE KEY UPDATE date_created = $strDate, rating = $rating"
+		);
+		$db->execute();
 	}
+
+	/**
+	 * Get the stored user id
+	 *
+	 * @param   int     $listid  List id
+	 * @param   string  $row_id  Row reference
+	 *
+	 * @return Mixed string/int
+	 */
 
 	private function getStoreUserId($listid, $row_id)
 	{
@@ -460,7 +493,8 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 		if ($userid === 0)
 		{
 			$hash = $this->getCookieName($listid, $row_id);
-			//set cookie
+
+			// Set cookie
 			$lifetime = time() + 365 * 24 * 60 * 60;
 			setcookie($hash, '1', $lifetime, '/');
 			$userid = $hash;
@@ -478,18 +512,20 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 
 	public function elementJavascript($repeatCounter)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$user = JFactory::getUser();
 		$params = $this->getParams();
-		if (JRequest::getVar('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
+		if ($input->get('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
 		{
 			return;
 		}
 		$id = $this->getHTMLId($repeatCounter);
 		$element = $this->getElement();
-		$data = $this->_form->_data;
+		$data = $this->getFormModel()->data;
 		$listid = $this->getlistModel()->getTable()->id;
-		$formid = JRequest::getInt('formid');
-		$row_id = JRequest::getInt('rowid');
+		$formid = $input->getInt('formid');
+		$row_id = $input->get('rowid', '', 'string');
 		$value = $this->getValue($data, $repeatCounter);
 		if ($params->get('rating-mode') != 'creator-rating')
 		{
@@ -507,7 +543,7 @@ class plgFabrik_ElementRating extends plgFabrik_Element
 		$opts->userid = (int) $user->get('id');
 		$opts->canRate = (bool) $this->canRate();
 		$opts->mode = $params->get('rating-mode');
-		$opts->view = JRequest::getCmd('view');
+		$opts->view = $input->get('view');
 		$opts->rating = $value;
 		JText::script('PLG_ELEMENT_RATING_NO_RATING');
 		return array('FbRating', $id, $opts);

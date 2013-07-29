@@ -100,7 +100,7 @@ var ColourPicker = new Class({
 		}.bind(this));
 		
 		this.blueField.addEvent("change", function (e) {
-			this.updateFromFiel(e, 'blue');
+			this.updateFromField(e, 'blue');
 		}.bind(this));
 
 		if (this.showCloseButton) {
@@ -144,13 +144,13 @@ var ColourPicker = new Class({
 					'events': {
 						'click': function (e) {
 							this.updateFromSwatch(e);
-						},
+						}.bind(this),
 						'mouseenter': function (e) {
-							this.showColourName();
-						},
+							this.showColourName(e);
+						}.bind(this),
 						'mouseleave': function (e) {
 							this.clearColourName(e);
-						}
+						}.bind(this)
 					}
 				}));
 				j++;
@@ -333,7 +333,7 @@ var ColourPicker = new Class({
 
 		var sliderField = new Element('input', {
 			'type': 'text',
-			'id': element + colour + 'redField',
+			'id': element + colour + 'Field',
 			'size': '3',
 			'class': 'input ' + colour + 'SliderField',
 			'value': value

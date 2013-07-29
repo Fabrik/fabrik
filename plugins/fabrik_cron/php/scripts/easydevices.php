@@ -14,7 +14,7 @@ $count = (int) $db->loadResult();
 
 if ($count === 0) {
   $db->setQuery("INSERT INTO moose_location (`location`, `time_date`) VALUES ($location, $time)");
-  $db->query();
+  $db->execute();
 }
 
 //also update any time worn values:
@@ -42,7 +42,7 @@ foreach($rows as $row) {
   }
   $query .= ' where id = ' . (int) $row->id;
   $db->setQuery($query) ;
-  $db->query();
+  $db->execute();
   $c++;
   $prevId = $row->id;
   $prevTime = $row->time_date;

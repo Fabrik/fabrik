@@ -23,7 +23,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fabrik/tables');
  * @since       3.0
  */
 
-class plgFabrik_FormSubscriptions extends plgFabrik_Form
+class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 {
 
 	/**
@@ -554,7 +554,7 @@ class plgFabrik_FormSubscriptions extends plgFabrik_Form
 								$query = $db->getQuery(true);
 								$query->update('#__fabrik_subs_invoices')->set(implode(',', $set_array))->where('id = ' . $db->quote($rowid));
 								$db->setQuery($query);
-								if (!$db->query())
+								if (!$db->execute())
 								{
 									$status = 'form.subscriptions.ipnfailure.query_error';
 									$err_msg = 'sql query error: ' . $db->getErrorMsg();

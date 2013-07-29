@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 ?>
 <div class="emptyDataMessage" style="<?php echo $this->emptyStyle?>"><?php echo $this->emptyDataMessage; ?></div>
-<form class="fabrikForm" action="<?php echo $this->table->action;?>" autocomplete="off" method="post" id="<?php echo $this->formid;?>" name="fabrikTable">
+<form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikTable">
 <?php if ($this->params->get('show-title', 1)) :?>
 	<div class="page-header">
 	<h1 class="fabrikTableHeading"><?php echo $this->table->label;?></h1>

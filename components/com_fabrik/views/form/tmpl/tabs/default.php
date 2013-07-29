@@ -43,6 +43,7 @@ echo $this->loadTemplate('relateddata');
 $display = 0;
 $c = 0;
 foreach ($this->groups as $group) :
+$this->group = $group;
 	$errorstyle = '';
 	foreach ($group->elements as $element) :
 		if ($element->error !== '') :
@@ -65,6 +66,12 @@ foreach ($this->groups as $group) :
 		<legend><span><?php echo $group->title;?></span></legend>
 	<?php
 	endif;
+
+	// Show the group intro
+	if ($group->intro !== '') :?>
+		<div class="groupintro"><?php echo $group->intro ?></div>
+	<?php
+	endif;
 	?>
 	<div style="<?php echo $group->css?>">
 	<?php if ($group->canRepeat) :
@@ -74,8 +81,12 @@ foreach ($this->groups as $group) :
 				<div class="fabrikSubGroupElements">
 					<?php
 					$this->elements = $subgroup;
-					echo $this->loadTemplate('group');
-					?>
+					echo $this->loadTemplate($group->tmpl);
+	// Show the group outro
+	if ($group->outro !== '') :?>		<div class="groupoutro"><?php echo $group->outro ?></div>
+	<?php
+	endif;
+	?>					?>
 				</div>
 				<?php if ($group->editable) : ?>
 					<div class="fabrikGroupRepeater">
@@ -102,7 +113,12 @@ foreach ($this->groups as $group) :
 		endforeach;
 	else:
 		$this->elements = $group->elements;
-		echo $this->loadTemplate('group');
+		echo $this->loadTemplate($group->tmpl);
+		// Show the group outro
+		if ($group->outro !== '') :?>
+			<div class="groupoutro"><?php echo $group->outro ?></div>
+<?php
+		endif;
 	endif;
 	?>
 	</div>
@@ -116,7 +132,7 @@ endforeach;
 echo $this->hiddenFields;
  echo $this->pluginbottom; ?>
 <div class="fabrikActions"><?php echo $form->resetButton;?> <?php echo $form->submitButton;?>
-<?php echo $form->prevButton?><?php echo $form->nextButton?> 
+<?php echo $form->prevButton?><?php echo $form->nextButton?>
  <?php echo $form->applyButton;?>
 <?php echo $form->copyButton  . " " . $form->gobackButton . ' ' . $form->deleteButton . ' ' . $this->message ?>
 </div>

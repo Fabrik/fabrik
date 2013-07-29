@@ -108,26 +108,7 @@ class FabrikModelElements extends FabModelList
 
 		// Join over the users for the checked out user.
 
-		/**
-		 * $$$ hugh - altered this query as ...
-		 * WHERE (jj.list_id != 0 AND jj.element_id = 0)
-		 * ...instead of ...
-		 * WHERE jj.list_id != 0
-		 * ... otherwioe we pick up repeat elements, as they have both table and element set
-		 * and he query fails with "returns multiple values" for the fullname select
-		 */
-
-		$fullname = "(SELECT DISTINCT(
-		IF( ISNULL(jj.table_join), CONCAT(ll.db_table_name, '___', ee.name), CONCAT(jj.table_join, '___', ee.name))
-		)
-		FROM #__fabrik_elements AS ee
-		LEFT JOIN #__{package}_joins AS jj ON jj.group_id = ee.group_id
-		LEFT JOIN #__{package}_formgroup as fg ON fg.group_id = ee.group_id
-		LEFT JOIN #__{package}_lists AS ll ON ll.form_id = fg.form_id
-		WHERE (jj.list_id != 0 AND jj.element_id = 0)
-		AND ee.id = e.id AND ee.group_id <> 0  LIMIT 1)  AS full_element_name";
-
-		$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, l.db_table_name');
+		$query->select('e.id');
 
 		$query->join('LEFT', '#__users AS u ON checked_out = u.id');
 		$query->join('LEFT', '#__{package}_groups AS g ON e.group_id = g.id ');
@@ -146,6 +127,34 @@ class FabrikModelElements extends FabModelList
 		if (trim($orderCol) !== '')
 		{
 			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
+
+		// Work out the element ids so we can limit the fullname subquery
+		$db->setQuery($query, $start = $this->getState('list.start'), $this->getState('list.limit'));
+		$elementIds = $db->loadColumn();
+
+		/**
+		 * $$$ hugh - altered this query as ...
+		 * WHERE (jj.list_id != 0 AND jj.element_id = 0)
+		 * ...instead of ...
+		 * WHERE jj.list_id != 0
+		 * ... otherwioe we pick up repeat elements, as they have both table and element set
+		 * and he query fails with "returns multiple values" for the fullname select
+		 */
+
+		if (count($elementIds) > 0)
+		{
+			$fullname = "(SELECT DISTINCT(
+			IF( ISNULL(jj.table_join), CONCAT(ll.db_table_name, '___', ee.name), CONCAT(jj.table_join, '___', ee.name))
+			)
+			FROM #__fabrik_elements AS ee
+			LEFT JOIN #__{package}_joins AS jj ON jj.group_id = ee.group_id
+			LEFT JOIN #__{package}_formgroup as fg ON fg.group_id = ee.group_id
+			LEFT JOIN #__{package}_lists AS ll ON ll.form_id = fg.form_id
+			WHERE (jj.list_id != 0 AND jj.element_id = 0)
+			AND ee.id = e.id AND ee.group_id <> 0 AND ee.id IN (" . implode(',', $elementIds) . ") LIMIT 1)  AS full_element_name";
+
+			$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, l.db_table_name');
 		}
 		return $query;
 	}
@@ -186,23 +195,28 @@ class FabrikModelElements extends FabModelList
 
 			$validations = $params->get('validations');
 			$v = array();
+
 			// $$$ hugh - make sure the element has validations, if not it could return null or 0 length array
 			if (is_object($validations))
 			{
 				for ($i = 0; $i < count($validations->plugin); $i ++)
 				{
 					$pname = $validations->plugin[$i];
-					// $$$ hugh - it's possible to save an element with a validation that hasn't
-					// actually had a plugin type selected yet.  Yeah, I should add a language
-					// string for this.  So sue me.  :)
+					/*
+					 * $$$ hugh - it's possible to save an element with a validation that hasn't
+					 * actually had a plugin type selected yet.  Yeah, I should add a language
+					 * string for this.  So sue me.  :)
+					 */
 					if (empty($pname))
 					{
 						$v[] = "No plugin type selected!";
 						continue;
 					}
 					$msgs = $params->get($pname . '-message');
-					// $$$ hugh - elements which haven't been saved since Published param was added won't have
-					// plugin_published, and just default to Published
+					/*
+					 * $$$ hugh - elements which haven't been saved since Published param was added won't have
+					 * plugin_published, and just default to Published
+					 */
 					if (!isset($validations->plugin_published))
 					{
 						$published = JText::_('JPUBLISHED');

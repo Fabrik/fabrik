@@ -1,10 +1,11 @@
 <?php
-
 /**
- * @package  fabrik
- * @version 905 | fabrik_cheesegrits | 2008-05-19 21:21:05 +0200 (Mon, 19 May 2008
- * @Copyright (C) Hugh Messenger
- * @license GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * User ajax example
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 /**
@@ -16,7 +17,12 @@
  * index.php?option=com_fabrik&format=raw&task=plugin.userAjax&method=userExists&username=" + myUsername;
  *
  * Fabrik will automatically try and call the function name specified in your 'method='.
- * You are responsible for grabbing any other parameters, using JRequest::getVar('variablename'),
+ * You are responsible for grabbing any other parameters, using:
+ *
+ *  $app = JFactory::getApplication();
+    $input = $app->input;
+    $input->get('variablename'),
+
  * as per the $myUsername exmaple in userExists() below.
  *
  * The userExists() example is designed to test if a username given in a text element
@@ -34,7 +40,7 @@
  *				refocus.focus();
  *			}
  *		}
- *	 }).request();
+ *	 }).send();
  *}
  *
  * In this case, the above code is called from the 'onchange' trigger
@@ -59,7 +65,7 @@
  *	 new Request({url:url,
  *		method: 'get',
  *		update: document.id('jos_fabrik_formdata_13___states')
- *	 }).request();
+ *	 }).send();
  * }
  *
  * The important note here is the 'update' parameter, which tells Mootools the ID of the
@@ -68,21 +74,39 @@
  */
 
 /* MOS Intruder Alerts */
-defined('_JEXEC' ) or die('Restricted access');
+defined('_JEXEC') or die('Restricted access');
 
-class userAjax {
-	function userExists() {
+/**
+ * Define your userAjax class
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @since       3.0
+ */
+
+class UserAjax
+{
+	/**
+	 * This is the method that is run. You should echo out the result you which to return to the browser
+	 *
+	 * @return  void
+	 */
+
+	public function userExists()
+	{
 		$db = FabrikWorker::getDbo();
+		$query = $db->getQuery(true);
 		$retStr = '';
-		$myUsername = JRequest::getVar('username', '');
-		$query = "SELECT name from #__users WHERE username = '$myUsername' LIMIT 1";
-		$db->setQuery($query);
-		$results = $db->loadObjectList();
-		if ($thisName = $results[0]->name) {
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$myUsername = $input->get('username', '');
+		$query->select('name')->from('#__users')->where('username = ' . $db->quote($myUsername));
+		$db->setQuery($query, 1, 0);
+		$result = $db->loadResult();
+		if ($thisName = $result)
+		{
 			$retStr = "The username $myUsername is already in use by $thisName";
 		}
 		echo $retStr;
 	}
 }
-
-?>

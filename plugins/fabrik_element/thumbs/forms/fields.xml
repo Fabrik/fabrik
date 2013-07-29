@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields>
+	
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-thumbs">
+	
+		<field type="helplink"
+				url="PLG_ELEMENT_THUMBS_HELP_SERVER" />
+					
+		</fieldset>
+		
+	</fields>
+		
+</form>

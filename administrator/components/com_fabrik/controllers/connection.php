@@ -2,11 +2,10 @@
 /**
  * Connection controller class
  *
- * @package Joomla.Administrator
- * @subpackage Fabrik
- * @since		1.6
- * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 // No direct access
@@ -17,9 +16,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Connection controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       1.6
 */
 class FabrikControllerConnection extends JControllerForm
 {
@@ -36,10 +35,12 @@ class FabrikControllerConnection extends JControllerForm
 	 * @return string connection message
 	 */
 
-	function test()
+	public function test()
 	{
-		JRequest::checkToken() or die('Invalid Token');
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		JSession::checkToken() or die('Invalid Token');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('cid', array(), 'array');
 		$cid = array((int) $cid[0]);
 		$link = 'index.php?option=com_fabrik&view=connections';
 		foreach ($cid as $id)
@@ -48,7 +49,7 @@ class FabrikControllerConnection extends JControllerForm
 			$model->setId($id);
 			if ($model->testConnection() == false)
 			{
-				JError::raiseWarning(500,  JText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
+				JError::raiseWarning(500, JText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
 				$this->setRedirect($link);
 				return;
 			}

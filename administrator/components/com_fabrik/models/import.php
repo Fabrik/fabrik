@@ -19,7 +19,7 @@ require_once 'fabmodeladmin.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @since    3.0
+ * @since       3.0
  */
 
 class FabrikModelImport extends FabModelAdmin

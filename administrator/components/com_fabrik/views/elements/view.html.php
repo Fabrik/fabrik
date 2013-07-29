@@ -17,10 +17,11 @@ jimport('joomla.application.component.view');
 /**
  * View class for a list of elements.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
 */
+
 class FabrikViewElements extends JView
 {
 	/**

@@ -16,9 +16,9 @@ jimport('joomla.application.component.controller');
 /**
  * Fabrik master display controller.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 
 class FabrikController extends JController

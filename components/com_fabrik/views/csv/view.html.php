@@ -21,13 +21,13 @@ jimport('joomla.application.component.view');
  * @since       3.0.6
  */
 
-class fabrikViewCsv extends JView
+class FabrikViewCsv extends JView
 {
 
 	/**
 	 * Display the view
 	 *
-	 * @param   string   $tpl  template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 */
@@ -47,7 +47,7 @@ class fabrikViewCsv extends JView
 		if (!$listModel->canCSVExport())
 		{
 			JError::raiseError(400, 'Naughty naughty!');
-			jexit;
+			jexit();
 		}
 		$this->addTemplatePath(JPATH_SITE . '/components/com_fabrik/views/csv/tmpl');
 		return parent::display($tpl);
@@ -115,6 +115,7 @@ class fabrikViewCsv extends JView
 		JText::script('COM_FABRIK_SAVING_TO');
 
 		$srcs = FabrikHelperHTML::framework();
+		$srcs[] = 'media/com_fabrik/js/list-plugin.js';
 		$srcs[] = 'media/com_fabrik/js/list.js';
 		FabrikHelperHTML::script($srcs);
 

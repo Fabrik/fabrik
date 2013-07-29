@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-fbactiviyfeed">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FBFEED_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_FBFEED_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBFEED_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
 				
 			<field description="PLG_ELEMENT_FBFEED_DOMAIN_DESC" label="PLG_ELEMENT_FBFEED_DOMAIN_LABEL" name="fbactivityfeed_domain" type="text"/>

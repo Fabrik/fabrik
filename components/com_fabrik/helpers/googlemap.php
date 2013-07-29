@@ -61,7 +61,7 @@ class FabGoogleMapHelper
 
 				$stylers[$key] = array();
 			}
-			$aStyle = new stdClass();
+			$aStyle = new stdClass;
 			$styleKey = JArrayHelper::getValue($styleKeys, $i);
 			$styleValue = JArrayHelper::getValue($styleValues, $i);
 			if ($styleKey && $styleValue)

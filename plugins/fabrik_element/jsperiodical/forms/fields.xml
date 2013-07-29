@@ -3,11 +3,14 @@
 	<fields name="params">
 		<fieldset label="field" name="plg-element-jsperiodical">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_JSPERIODICAL_HELP_SERVER" />
+		
 			<field default="100" description="PLG_ELEMENT_JSPERIODICAL_TIME_DESC" label="PLG_ELEMENT_JSPERIODICAL_TIME_LABEL" name="jsperiod_period" size="3" type="text"/>
 				
 			<field cols="50" description="PLG_ELEMENT_JSPERIODICAL_OBSERVER_CODE_DESC" label="PLG_ELEMENT_JSPERIODICAL_OBSERVER_CODE_LABEL" name="jsperiod_code" rows="10" type="textarea"/>
 					
 		</fieldset>
 
-		</fields>
+	</fields>
 </form>

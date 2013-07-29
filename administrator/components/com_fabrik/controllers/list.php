@@ -66,8 +66,10 @@ class FabrikControllerList extends FabControllerForm
 
 	public function copy()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = JModel::getInstance('list', 'FabrikFEModel');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('cid', array(0), 'array');
+		$model = JModelLegacy::getInstance('list', 'FabrikFEModel');
 		if (count($cid) > 0)
 		{
 			$viewType = JFactory::getDocument()->getType();
@@ -90,11 +92,13 @@ class FabrikControllerList extends FabControllerForm
 	public function doCopy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JSession::checkToken() or die('Invalid Token');
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$model = $this->getModel();
 		$model->copy();
 		$ntext = $this->text_prefix . '_N_ITEMS_COPIED';
-		$this->setMessage(JText::plural($ntext, count(JRequest::getVar('cid'))));
+		$this->setMessage(JText::plural($ntext, count($input->get('cid', array(), 'array'))));
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
@@ -108,17 +112,16 @@ class FabrikControllerList extends FabControllerForm
 
 	public function view($model = null)
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		if (is_array($cid))
-		{
-			$cid = $cid[0];
-		}
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('cid', array(0), 'array');
+		$cid = $cid[0];
 		if (is_null($model))
 		{
-			$cid = JRequest::getInt('listid', $cid);
+			$cid = $input->getInt('listid', $cid);
 
 			// Grab the model and set its id
-			$model = JModel::getInstance('List', 'FabrikFEModel');
+			$model = JModelLegacy::getInstance('List', 'FabrikFEModel');
 			$model->setState('list.id', $cid);
 		}
 
@@ -129,7 +132,6 @@ class FabrikControllerList extends FabControllerForm
 
 		// Use the front end renderer to show the table
 		$this->setPath('view', COM_FABRIK_FRONTEND . '/views');
-		// $viewLayout = JRequest::getCmd('layout', 'default');
 		$viewLayout = $input->getWord('layout', 'default');
 		$view = $this->getView($this->view_item, $viewType, '');
 		$view->setModel($model, true);
@@ -138,13 +140,13 @@ class FabrikControllerList extends FabControllerForm
 		$view->setLayout($viewLayout);
 		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LISTS'), 'lists.png');
 
-		$post = JRequest::get('post');
-
 		// Build unique cache id on url, post and user id
 		$user = JFactory::getUser();
-		$cacheid = serialize(array(JRequest::getURI(), $post, $user->get('id'), get_class($view), 'display', $this->cacheId));
+		$uri = JFactory::getURI();
+		$uri = $uri->toString(array('path', 'query'));
+		$cacheid = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 		$cache = JFactory::getCache('com_fabrik', 'view');
-		if (in_array(JRequest::getCmd('format'), array('raw', 'csv', 'pdf', 'json', 'fabrikfeed')))
+		if (in_array($input->get('format'), array('raw', 'csv', 'pdf', 'json', 'fabrikfeed')))
 		{
 			$view->display();
 		}
@@ -153,7 +155,7 @@ class FabrikControllerList extends FabControllerForm
 			$cache->get($view, 'display', $cacheid);
 		}
 
-		FabrikAdminHelper::addSubmenu(JRequest::getWord('view', 'lists'));
+		FabrikAdminHelper::addSubmenu($input->getWord('view', 'lists'));
 	}
 
 	/**
@@ -166,12 +168,11 @@ class FabrikControllerList extends FabControllerForm
 		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
 		$input = $app->input;
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = JModel::getInstance('List', 'FabrikFEModel');
+		$cid = $input->get('cid', array(0), 'array');
+		$model = JModelLegacy::getInstance('List', 'FabrikFEModel');
 		$model->setState('list.id', $cid[0]);
 		$formModel = $model->getFormModel();
 		$viewType = $document->getType();
-		// $viewLayout = JRequest::getCmd('layout', 'linked_elements');
 		$viewLayout = $input->getWord('layout', 'linked_elements');
 		$view = $this->getView($this->view_item, $viewType, '');
 		$view->setModel($model, true);
@@ -201,16 +202,18 @@ class FabrikControllerList extends FabControllerForm
 	public function order()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-		$model = JModel::getInstance('List', 'FabrikFEModel');
-		$id = JRequest::getInt('listid');
+		JSession::checkToken() or die('Invalid Token');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$model = JModelLegacy::getInstance('List', 'FabrikFEModel');
+		$id = $input->getInt('listid');
 		$model->setId($id);
-		JRequest::setvar('cid', $id);
+		$input->set('cid', $id);
 		$model->setOrderByAndDir();
 
 		// $$$ hugh - unset 'resetfilters' in case it was set on QS of original table load.
-		JRequest::setVar('resetfilters', 0);
-		JRequest::setVar('clearfilters', 0);
+		$input->set('resetfilters', 0);
+		$input->set('clearfilters', 0);
 		$this->view();
 	}
 
@@ -237,10 +240,12 @@ class FabrikControllerList extends FabControllerForm
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('Invalid Token');
-		$model = JModel::getInstance('List', 'FabrikFEModel');
-		$id = JRequest::getInt('listid');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$model = JModelLegacy::getInstance('List', 'FabrikFEModel');
+		$id = $input->get('listid');
 		$model->setId($id);
-		JRequest::setvar('cid', $id);
+		$input->set('cid', $id);
 		$request = $model->getRequestData();
 		$model->storeRequestData($request);
 
@@ -259,12 +264,13 @@ class FabrikControllerList extends FabControllerForm
 		// Check for request forgeries
 		JSession::checkToken() or die('Invalid Token');
 		$app = JFactory::getApplication();
-		$model = JModel::getInstance('List', 'FabrikFEModel');
-		$listid = JRequest::getInt('listid');
+		$input = $app->input;
+		$model = JModelLegacy::getInstance('List', 'FabrikFEModel');
+		$listid = $input->getInt('listid');
 		$model->setId($listid);
-		$ids = JRequest::getVar('ids', array(), 'request', 'array');
-		$limitstart = JRequest::getVar('limitstart' . $listid);
-		$length = JRequest::getVar('limit' . $listid);
+		$ids = $input->get('ids', array(), 'array');
+		$limitstart = $input->getInt('limitstart' . $listid);
+		$length = $input->getInt('limit' . $listid);
 		$oldtotal = $model->getTotalRecords();
 		$model->deleteRows($ids);
 		$total = $oldtotal - count($ids);
@@ -280,9 +286,9 @@ class FabrikControllerList extends FabControllerForm
 			$context = 'com_fabrik.list' . $model->getRenderContext() . '.list.';
 			$app->setUserState($context . 'limitstart' . $listid, $newlimitstart);
 		}
-		if (JRequest::getVar('format') == 'raw')
+		if ($input->get('format') == 'raw')
 		{
-			JRequest::setVar('view', 'list');
+			$input->set('view', 'list');
 			$this->view();
 		}
 		else

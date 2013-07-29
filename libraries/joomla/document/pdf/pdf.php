@@ -1,9 +1,9 @@
 <?php
 /**
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @package     Joomla.Framework
+ * @subpackage  Document
+ * @copyright   Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license     GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -55,7 +55,7 @@ class JDocumentpdf extends JDocumentHTML
 		}
 		if (!$this->iniDomPdf())
 		{
-			JError::raiseError(JText::_('COM_FABRIK_ERR_NO_PDF_LIB_FOUND'));
+			JError::raiseError(500, JText::_('COM_FABRIK_ERR_NO_PDF_LIB_FOUND'));
 		}
 	}
 
@@ -97,10 +97,12 @@ class JDocumentpdf extends JDocumentHTML
 	 * Legal seems to be more leiniant than a4 for example
 	 * If doing landscape set large paper size
 	 *
+	 * @param   string  $size         Paper size E.g A4,legal
+	 * @param   string  $orientation  Paper orientation landscape|portrait
+	 *
 	 * @since 3.0.7
 	 *
-	 * @param   string   $size         Paper size E.g A4,legal
-	 * @param   string   $orientation  Paper orientation landscape|portrait
+	 * @return  void
 	 */
 
 	public function setPaper($size = 'A4', $orientation = 'landscape')
@@ -112,7 +114,7 @@ class JDocumentpdf extends JDocumentHTML
 	/**
 	 * Sets the document name
 	 *
-	 * @param   string   $name	Document name
+	 * @param   string  $name  Document name
 	 *
 	 * @return  void
 	 */
@@ -136,8 +138,8 @@ class JDocumentpdf extends JDocumentHTML
 	/**
 	 * Render the document.
 	 *
-	 * @param boolean 	$cache		If true, cache the output
-	 * @param array		$params		Associative array of attributes
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
 	 *
 	 * @return	string
 	 */
@@ -162,8 +164,13 @@ class JDocumentpdf extends JDocumentHTML
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see JDocumentHTML::getBuffer()
+	 * Get the contents of a document include
+	 *
+	 * @param   string  $type     The type of renderer
+	 * @param   string  $name     The name of the element to render
+	 * @param   array   $attribs  Associative array of remaining attributes.
+	 *
+	 * @return  The output of the renderer
 	 */
 
 	public function getBuffer($type = null, $name = null, $attribs = array())
@@ -181,7 +188,7 @@ class JDocumentpdf extends JDocumentHTML
 	/**
 	 * Parse relative images a hrefs and style sheets to full paths
 	 *
-	 * @param	string	&$data  data
+	 * @param   string  &$data  data
 	 *
 	 * @return  void
 	 */

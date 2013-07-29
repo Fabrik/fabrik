@@ -4,7 +4,9 @@ var FbCalc = new Class({
 		this.plugin = 'calc';
 		this.oldAjaxCalc = null;
 		this.parent(element, options);
-		this.spinner = new Spinner(this.element.getParent());
+		if (this.element) {
+			this.spinner = new Spinner(this.element.getParent());
+		}
 	},
 	
 	attachedToForm : function () {

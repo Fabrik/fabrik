@@ -20,15 +20,15 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormPHP extends plgFabrik_Form
+class PlgFabrik_FormPHP extends PlgFabrik_Form
 {
 
 	/**
 	* canEditGroup, called when canEdit called in group model
 	*
-	* @param   object  $params      plugin parameters
-	* @param   object  &$formModel  form model
-	* @param   array  $groupModel  group model
+	* @param   object  $params      Plugin parameters
+	* @param   object  &$formModel  Form model
+	* @param   array   $groupModel  Group model
 	*
 	* @return  void
 	*/
@@ -285,9 +285,9 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 	/**
 	 * Run plugins php code/script
 	 *
-	 * @param   object  $params      plugin params
-	 * @param   object  &$formModel  form model
-	 * $param   object  &$groupModel  group model
+	 * @param   object  $params       Plugin params
+	 * @param   object  &$formModel   Form model
+	 * @param   object  &$groupModel  Group model
 	 *
 	 * @return bool false if error running php code
 	 */
@@ -322,10 +322,11 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 
 			if ($method == 'getBottomContent' || $method == 'getTopContent' || $method == 'getEndContent')
 			{
-				// For these types of scripts any out put you want to inject into the form should be echo'd out
-				// $$$ hugh - the tooltip on the PHP plugin says specifically NOT to echo, but to return the content.
-				// Rather than break any existing code by changing this code to do what the tooltip says, here's a
-				// Horrible Hack so either way should work.
+				/* For these types of scripts any out put you want to inject into the form should be echo'd out
+				 * $$$ hugh - the tooltip on the PHP plugin says specifically NOT to echo, but to return the content.
+				 * Rather than break any existing code by changing this code to do what the tooltip says, here's a
+				 * Horrible Hack so either way should work.
+				 */
 				ob_start();
 				$php_result = eval($code);
 				$output = ob_get_contents();
@@ -347,6 +348,7 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 			else
 			{
 				$php_result = eval($code);
+
 				// Bail out if code specifically returns false
 				if ($php_result === false)
 				{
@@ -360,9 +362,10 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 			// nore than once on the same page.
 			$require_once = $params->get('form_php_require_once', '0') == '1';
 
-			// $$$ hugh - give them some way of getting at form data
-			// (I'm never sure if $_REQUEST is 'safe', i.e. if it has post-validation data)
-			// $$$ hugh - pretty sure we can dump this, but left it in for possible backward compat issues
+			/* $$$ hugh - give them some way of getting at form data
+			 * (I'm never sure if $_REQUEST is 'safe', i.e. if it has post-validation data)
+			 * $$$ hugh - pretty sure we can dump this, but left it in for possible backward compat issues
+			 */
 			global $fabrikFormData, $fabrikFormDataWithTableName;
 
 			// For some reason, = wasn't working??
@@ -386,11 +389,13 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 			// If it's a form load method, needs to be handled thisaway
 			if ($method == 'getBottomContent' || $method == 'getTopContent' || $method == 'getEndContent')
 			{
-				// For these types of scripts any out put you want to inject into the form should be echo'd out
-				// @TODO - shouldn't we apply this logic above as well (direct eval)?
-				// $$$ hugh - AAAAGH.  Tbe tooltip on the form plugin itself specifically says NOT to echo, but to
-				// return the content.  Rather than just changing this code to do what the comment says, which would
-				// break any existing code folk have, I'll do a Horrible Hack so it works either way.
+				/*
+				 * For these types of scripts any out put you want to inject into the form should be echo'd out
+				 * @TODO - shouldn't we apply this logic above as well (direct eval)?
+				 * $$$ hugh - AAAAGH.  Tbe tooltip on the form plugin itself specifically says NOT to echo, but to
+				 * return the content.  Rather than just changing this code to do what the comment says, which would
+				 * break any existing code folk have, I'll do a Horrible Hack so it works either way.
+				 */
 				ob_start();
 				$php_result = $require_once ? require_once $php_file : require $php_file;
 				$output = ob_get_contents();
@@ -419,15 +424,18 @@ class plgFabrik_FormPHP extends plgFabrik_Form
 				return false;
 			}
 
-			// $$$ hugh - added this to make it more convenient for defining functions to call in form PHP.
-			// So you can have a 'script file' that defines function(s), AND a direct eval that calls them,
-			// without having to stick a require() in the eval code.
-			// @TODO add an option to specify which way round to execute (file first or eval first)
-			// as per Skype convo with Rob.
+			/*
+			 * $$$ hugh - added this to make it more convenient for defining functions to call in form PHP.
+			 * So you can have a 'script file' that defines function(s), AND a direct eval that calls them,
+			 * without having to stick a require() in the eval code.
+			 * @TODO add an option to specify which way round to execute (file first or eval first)
+			 * as per Skype convo with Rob.
+			 */
 			$code = $w->parseMessageForPlaceHolder($params->get('curl_code', ''), $this->html, true, true);
 			if (!empty($code))
 			{
 				$php_result = eval($code);
+
 				// Bail out if code specifically returns false
 				if ($php_result === false)
 				{

@@ -3,6 +3,9 @@
 	<fields name="params">
 
 		<fieldset name="plg-element-timestamp">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_TIMESTAMP_HELP_SERVER" />
 
 			<field default="0" description="PLG_ELEMENT_TIMESTAMP_GMT_OR_LOCAL_DESC" label="PLG_ELEMENT_TIMESTAMP_GMT_OR_LOCAL_LABEL" name="gmt_or_local" type="radio">
 				<option value="0">GMT</option>

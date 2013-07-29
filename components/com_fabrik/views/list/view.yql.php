@@ -10,14 +10,23 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.view');
+require_once JPATH_SITE . '/components/com_fabrik/views/list/view.base.php';
 
-class FabrikViewList extends JView{
+class FabrikViewList extends FabrikViewListBase
+{
 
-	function display()
+	/**
+	 * Display the template
+	 *
+	 * @param   sting  $tpl  template
+	 *
+	 * @return void
+	 */
+
+	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
-		$model		=& $this->getModel();
+		$model = $this->getModel();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 
 		$model->setId(JRequest::getVar('listid', $usersConfig->get('listid')));
@@ -33,5 +42,5 @@ class FabrikViewList extends JView{
 
 	}
 }
-?>
+
 

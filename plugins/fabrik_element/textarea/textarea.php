@@ -17,7 +17,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class plgFabrik_ElementTextarea extends plgFabrik_Element
+class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 {
 
 	/**
@@ -66,7 +66,8 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 		}
 		// $$$ rob 24/02/2011 remove duplicates from tags
 		$data = array_unique($data);
-		$icon = FabrikHelperHTML::image('tag.png', 'form', @$this->tmpl, array('alt' => 'tag'));
+		$img = FabrikWorker::j3() ? 'bookmark.png' : 'tag.png';
+		$icon = FabrikHelperHTML::image($img, 'form', @$this->tmpl, array('alt' => 'tag'));
 		foreach ($data as $d)
 		{
 			$d = trim($d);
@@ -107,6 +108,7 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 	{
 		$data = parent::renderListData($data, $thisRow);
 		$params = $this->getParams();
+
 		if ($params->get('textarea-tagify') == true)
 		{
 			$data = $this->tagify($data);
@@ -144,6 +146,25 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 	}
 
 	/**
+	 * Get the element's HTML label
+	 *
+	 * @param   int     $repeatCounter  Group repeat counter
+	 * @param   string  $tmpl           Form template
+	 *
+	 * @return  string  label
+	 */
+
+	public function getLabel($repeatCounter = 0, $tmpl = '')
+	{
+		$params = $this->getParams();
+		$element = $this->getElement();
+		if ($params->get('textarea_showlabel') == '0')
+		{
+			$element->label = '';
+		}
+		return parent::getLabel($repeatCounter, $tmpl);
+	}
+	/**
 	 * Does the element use the WYSWYG editor
 	 *
 	 * @return  bool	use wysiwyg editor
@@ -153,7 +174,8 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 	{
 		$params = $this->getParams();
 		$element = $this->getElement();
-		if ($params->get('use_wysiwyg', 0) && JRequest::getInt('ajax') !== 1)
+		$app = JFactory::getApplication();
+		if ($params->get('use_wysiwyg', 0) && $app->input->getInt('ajax') !== 1)
 		{
 			return preg_replace("/[^A-Za-z0-9]/", "_", $element->name);
 		}
@@ -186,11 +208,13 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 	protected function useWysiwyg()
 	{
 		$params = $this->getParams();
-		if (JRequest::getVar('format') == 'raw')
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		if ($input->get('format') == 'raw')
 		{
 			return false;
 		}
-		if (JRequest::getVar('ajax') == '1')
+		if ($input->get('ajax') == '1')
 		{
 			return false;
 		}
@@ -208,6 +232,8 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 
 	public function render($data, $repeatCounter = 0)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
 		$element = $this->getElement();
@@ -216,12 +242,12 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 			return $this->getHiddenField($name, $this->getValue($data, $repeatCounter), $id);
 		}
 		$params = $this->getParams();
-		$cols = $element->width;
-		$rows = $element->height;
+		$cols = $params->get('width', $element->width);
+		$rows = $params->get('height', $element->height);
 		$value = $this->getValue($data, $repeatCounter);
 		$bits = array();
 		$wysiwyg = $this->useWysiwyg();
-		if (!$this->_editable)
+		if (!$this->isEditable())
 		{
 			if (!$wysiwyg)
 			{
@@ -240,11 +266,11 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 		$bits['class'] = "fabrikinput inputbox";
 		if (isset($this->_elementError) && $this->_elementError != '')
 		{
-			$bits['class'] .= " elementErrorHighlight";
+			$bits['class'] .= ' elementErrorHighlight';
 		}
 		if ($wysiwyg)
 		{
-			if (JRequest::getVar('ajax') == 1)
+			if ($input->get('ajax') == 1)
 			{
 				// $bits['class'] .= " mce_editable";
 				$str = "<textarea ";
@@ -257,7 +283,8 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 			else
 			{
 				$editor = JFactory::getEditor();
-				$str = $editor->display($name, $value, $cols * 10, $rows * 15, $cols, $rows, true, $id);
+				$buttons = (bool) $params->get('wysiwyg_extra_buttons', true);
+				$str = $editor->display($name, $value, $cols * 10, $rows * 15, $cols, $rows, $buttons, $id);
 			}
 		}
 		else
@@ -277,7 +304,8 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 			{
 				$str .= $key . '="' . $val . '" ';
 			}
-			$str .= "name=\"$name\" id=\"" . $id . "\" cols=\"$cols\" rows=\"$rows\">" . $value . "</textarea>\n";
+
+			$str .= 'name="' . $name . '" id="' . $id . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
 		}
 		if ($params->get('textarea-showmax'))
 		{
@@ -394,7 +422,7 @@ class plgFabrik_ElementTextarea extends plgFabrik_Element
 
 			if ($this->_inDetailedView)
 			{
-				$id .= "_ro";
+				$id .= '_ro';
 			}
 		}
 		else

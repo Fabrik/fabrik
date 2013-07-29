@@ -16,9 +16,9 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 /**
  * Renders a list of ascending / decending options
  *
- * @package 	Joomla
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla
+ * @subpackage  Form
+ * @since       1.6
  */
 
 class JFormFieldAscendingdescending extends JFormFieldList
@@ -33,11 +33,10 @@ class JFormFieldAscendingdescending extends JFormFieldList
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array	The field option objects.
 	 */
 
-	public function getOptions()
+	protected function getOptions()
 	{
 		$opts[] = JHTML::_('select.option', 'ASC', JText::_('COM_FABRIK_ASCENDING'));
 		$opts[] = JHTML::_('select.option', 'DESC', JText::_('COM_FABRIK_DESCENDING'));

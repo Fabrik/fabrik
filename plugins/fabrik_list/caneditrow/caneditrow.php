@@ -84,7 +84,7 @@ class PlgFabrik_ListCaneditrow extends PlgFabrik_List
 			$caneditrow_eval = $w->parseMessageForPlaceHolder($caneditrow_eval, $data);
 			$caneditrow_eval = @eval($caneditrow_eval);
 			FabrikWorker::logEval($caneditrow_eval, 'Caught exception on eval in can edit row : %s');
-			$this->acl[$data->__pk_val] = $caneditrow_eval;
+			$this->acl[$data['__pk_val']] = $caneditrow_eval;
 			return $caneditrow_eval;
 		}
 		else

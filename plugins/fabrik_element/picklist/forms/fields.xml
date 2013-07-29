@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-picklist">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_PICKLIST_HELP_SERVER" />
+				
 			<field label="COM_FABRIK_SUBOPTIONS" name="sub_options" type="suboptions"/>
 				
 			<field default="0" description="PLG_ELEMENT_PICKLIST_EDIT_DROPDOWN_DESC" label="PLG_ELEMENT_PICKLIST_EDIT_DROPDOWN_LABEL" name="allowadd" type="radio">

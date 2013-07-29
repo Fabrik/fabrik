@@ -4,6 +4,9 @@
 <fields>
 	<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-ip">
 			
+			<field type="helplink"
+				url="PLG_ELEMENT_IP_HELP_SERVER" />
+				
 			<field default="0" label="PLG_ELEMENT_IP_HIDDEN_LABEL" name="hidden" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

@@ -16,9 +16,9 @@ require_once 'fabcontrolleradmin.php';
 /**
  * Forms list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 class FabrikControllerForms extends FabControllerAdmin
 {
@@ -39,7 +39,8 @@ class FabrikControllerForms extends FabControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param	array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see		JController
 	 * @since	1.6
 	 */

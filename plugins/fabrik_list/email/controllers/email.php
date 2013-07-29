@@ -101,6 +101,11 @@ class FabrikControllerListemail extends JController
 		$listModel->setId($input->getInt('id'));
 		$model->setParams($listModel->getParams(), $input->getInt('renderOrder'));
 		$model->listModel = $listModel;
+		/*
+		 * $$$ hugh - for some reason have to do this here, if we don't, it'll
+		 * blow up when it runs later on from within the list model itself.
+		 */
+		$formModel = $listModel->getFormModel();
 		$model->doEmail();
 	}
 

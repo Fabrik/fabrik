@@ -32,7 +32,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Constructor
 	 *
-	 * @param   JRegistry  &$params  options
+	 * @param   JRegistry  &$params  Options
 	 */
 
 	public function __construct(&$params)
@@ -56,6 +56,7 @@ abstract class FabrikStorageAdaptor
 	 *
 	 * @return  string
 	 */
+
 	public function getUploadedFilePath()
 	{
 		return $this->uploadedFilePath;
@@ -64,7 +65,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Does a file exist
 	 *
-	 * @param   string  $filepath  file path to test
+	 * @param   string  $filepath  File path to test
 	 *
 	 * @return bool
 	 */
@@ -74,7 +75,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Does a folder exist
 	 *
-	 * @param   string  $path  folder path to test
+	 * @param   string  $path  Folder path to test
 	 *
 	 * @return bool
 	 */
@@ -84,7 +85,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Create a folder
 	 *
-	 * @param   string  $path  folder path
+	 * @param   string  $path  Folder path
 	 *
 	 * @return bool
 	 */
@@ -94,8 +95,8 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Write a file
 	 *
-	 * @param   string  $file    file name
-	 * @param   string  $buffer  the buffer to write
+	 * @param   string  $file    File name
+	 * @param   string  $buffer  The buffer to write
 	 *
 	 * @return  void
 	 */
@@ -105,7 +106,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Read a file
 	 *
-	 * @param   string  $filepath  file path
+	 * @param   string  $filepath  File path
 	 *
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 */
@@ -115,7 +116,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Clean the file path
 	 *
-	 * @param   string  $path  path to clean
+	 * @param   string  $path  Path to clean
 	 *
 	 * @return  string  cleaned path
 	 */
@@ -125,8 +126,8 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Clean a fle name
 	 *
-	 * @param   string  $filename       file name to clean
-	 * @param   int     $repeatCounter  repeat group counter
+	 * @param   string  $filename       File name to clean
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return  string  cleaned name
 	 */
@@ -136,7 +137,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Delete a file
 	 *
-	 * @param   string  $filepath  file to delete
+	 * @param   string  $filepath  File to delete
 	 *
 	 * @return  void
 	 */
@@ -157,7 +158,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Set a file's permissions
 	 *
-	 * @param   string  $filepath  file to set permissions for
+	 * @param   string  $filepath  File to set permissions for
 	 *
 	 * @return  string
 	 */
@@ -180,7 +181,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Do a final transform on the path name
 	 *
-	 * @param   string  &$filepath  path to parse
+	 * @param   string  &$filepath  Path to parse
 	 *
 	 * @return  void
 	 */
@@ -193,7 +194,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Convert a full server path into a full url
 	 *
-	 * @param   string  $path  server path
+	 * @param   string  $path  Server path
 	 *
 	 * @return  string  url
 	 */
@@ -208,10 +209,10 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Make recursive folders
 	 *
-	 * @param   string   $folderPath  path to folder - eg /images/stories
-	 * @param   bitmask  $mode        permissions
+	 * @param   string   $folderPath  Path to folder - eg /images/stories
+	 * @param   bitmask  $mode        Permissions
 	 *
-	 *  @return  mixed JError|void
+	 * @return  mixed JError|void
 	 */
 
 	public function makeRecursiveFolders($folderPath, $mode = 0755)
@@ -228,7 +229,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Get the complete folder path, including the server root
 	 *
-	 * @param   string  $filepath  the file path
+	 * @param   string  $filepath  The file path
 	 *
 	 * @return  string
 	 */
@@ -239,7 +240,7 @@ abstract class FabrikStorageAdaptor
 	 * Allows storage model to modify pathname just before it is rendered.  For instance,
 	 * if using Amazon S3 with 'Authenticated URL' option.
 	 *
-	 * @param   string  $filepath  path to file
+	 * @param   string  $filepath  Path to file
 	 *
 	 * @return  string
 	 */
@@ -260,5 +261,39 @@ abstract class FabrikStorageAdaptor
 	public function appendServerPath()
 	{
 		return true;
+	}
+
+	/**
+	 * Randomize file name
+	 *
+	 * @param   string  &$filename  File name
+	 *
+	 * @since 3.0.8
+	 *
+	 * @return void
+	 */
+
+	protected function randomizeName(&$filename)
+	{
+		$params = $this->getParams();
+		if ($params->get('random_filename') == 1)
+		{
+			$length = (int) $params->get('length_random_filename');
+			if ($length < 6)
+			{
+				$length = 6;
+			}
+			$key = "";
+			$possible = "0123456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRTVWXYZ";
+			$i = 0;
+			while ($i < $length)
+			{
+				$char = JString::substr($possible, mt_rand(0, JString::strlen($possible) - 1), 1);
+				$key .= $char;
+				$i++;
+			}
+			$ext = JFile::getExt($filename);
+			$filename = $key . '.' . $ext;
+		}
 	}
 }

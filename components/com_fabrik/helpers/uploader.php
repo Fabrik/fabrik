@@ -40,8 +40,6 @@ class FabrikUploader extends JObject
 	 * Upload
 	 *
 	 * @param   object  $formModel  form model
-	 *
-	 * @return  void
 	 */
 
 	public function __construct($formModel)
@@ -74,9 +72,11 @@ class FabrikUploader extends JObject
 	/**
 	 * Moves a file from one location to another
 	 *
-	 * @param   $pathFrom   string  file to move
-	 * @param   $pathTo     string  location to move file to
-	 * @param   $overwrite  bool  should we overwrite existing files
+	 * @param   string  $pathFrom   File to move
+	 * @param   string  $pathTo     Location to move file to
+	 * @param   bool    $overwrite  Should we overwrite existing files
+	 *
+	 * @deprecated (dont think its used)
 	 *
 	 * @return  bool  do we overwrite any existing files found at pathTo?
 	 */
@@ -105,13 +105,13 @@ class FabrikUploader extends JObject
 	/**
 	 * Make a recursive folder structure
 	 *
-	 * @param   $folderPath  string   path to folder - eg /images/stories
-	 * @param   $mode        hex      folder permissions
+	 * @param   string  $folderPath  Path to folder - eg /images/stories
+	 * @param   hex     $mode        Folder permissions
 	 *
 	 * @return  void
 	 */
 
-	function _makeRecursiveFolders($folderPath, $mode = 0755)
+	public function _makeRecursiveFolders($folderPath, $mode = 0755)
 	{
 		if (!JFolder::exists($folderPath))
 		{
@@ -124,6 +124,8 @@ class FabrikUploader extends JObject
 
 	/**
 	 * Iterates through $_FILE data to see if any files have been uploaded
+	 *
+	 * @deprecated (dont see it being used)
 	 *
 	 * @return  bool  true if files uploaded
 	 */
@@ -146,14 +148,14 @@ class FabrikUploader extends JObject
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   $file     array   File information
-	 * @param   &$err     string  An error message to be returned
-	 * @param   &$params  object  params
+	 * @param   array    $file     File information
+	 * @param   string   &$err     An error message to be returned
+	 * @param   JParams  &$params  Params
 	 *
 	 * @return  bool
 	 */
 
-	function canUpload($file, &$err, &$params)
+	public static function canUpload($file, &$err, &$params)
 	{
 		if (empty($file['name']))
 		{
@@ -166,7 +168,6 @@ class FabrikUploader extends JObject
 			// Handle potential malicous attack
 			$err = JText::_('File has not been uploaded');
 			return false;
-			;
 		}
 
 		jimport('joomla.filesystem.file');
@@ -196,8 +197,8 @@ class FabrikUploader extends JObject
 			$images = explode(',', $params->get('image_extensions'));
 			if (in_array($format, $images))
 			{
-				// f its an image run it through getimagesize
-				if (($imginfo = getimagesize($file['tmp_name'])) === FALSE)
+				// If its an image run it through getimagesize
+				if (($imginfo = getimagesize($file['tmp_name'])) === false)
 				{
 					$err = 'WARNINVALIDIMG';
 					return false;
@@ -206,25 +207,6 @@ class FabrikUploader extends JObject
 			elseif (!in_array($format, $ignored))
 			{
 				// If its not an image...and we're not ignoring it
-				/*$allowed_mime = explode(',', $upload_mime);
-				$illegal_mime = explode(',', $upload_mime_illegal);
-				if (function_exists('finfo_open') && $params->get('check_mime',1)) {
-				    // We have fileinfo
-				    $finfo = finfo_open(FILEINFO_MIME);
-				    $type = finfo_file($finfo, $file['tmp_name']);
-				    if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
-				        $err = 'WARNINVALIDMIME';
-				        return false;
-				    }
-				    finfo_close($finfo);
-				} elseif (function_exists('mime_content_type') && $params->get('check_mime',1)) {
-				    // we have mime magic
-				    $type = mime_content_type($file['tmp_name']);
-				    if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
-				        $err = 'WARNINVALIDMIME';
-				        return false;
-				    }
-				}*/
 			}
 		}
 
@@ -253,14 +235,14 @@ class FabrikUploader extends JObject
 	 * Recursive file name incrementation untill no file with exsiting name
 	 * exists
 	 *
-	 * @param   $origFileName  string  intial file name
-	 * @param   $newFileName   string  this recursions file name
-	 * @param   $version       int     file version
+	 * @param   string  $origFileName  Intial file name
+	 * @param   string  $newFileName   This recursions file name
+	 * @param   int     $version       File version
 	 *
 	 * @return  string  new file name
 	 */
 
-	function incrementFileName($origFileName, $newFileName, $version)
+	public function incrementFileName($origFileName, $newFileName, $version)
 	{
 		if (JFile::exists($newFileName))
 		{
@@ -270,7 +252,7 @@ class FabrikUploader extends JObject
 			$f = JString::rtrim($f, $version - 1);
 			$newFileName = $f . $version . "." . $ext;
 			$version++;
-			$newFileName = FabrikUploader::incrementFileName($origFileName, $newFileName, $version);
+			$newFileName = self::incrementFileName($origFileName, $newFileName, $version);
 		}
 		return $newFileName;
 	}

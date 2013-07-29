@@ -3,6 +3,9 @@
 	<fields name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-image">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_IMAGE_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_IMAGE_PATH_DESC" label="PLG_ELEMENT_IMAGE_PATH_LABEL" name="imagepath" type="field"/>
 
 			<field default="0" description="PLG_ELEMENT_IMAGE_USER_SEL_IMAGE_DESC" label="PLG_ELEMENT_IMAGE_USER_SEL_IMAGE_LABEL" name="image_front_end_select" type="list">

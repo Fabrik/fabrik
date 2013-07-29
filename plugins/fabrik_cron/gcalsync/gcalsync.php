@@ -13,7 +13,6 @@ defined('_JEXEC') or die();
 require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
 
 /**
- *
  * Fabrik Cron Job:
  * Syncs events from a Google Calendar into a Fabrik List
  *
@@ -22,7 +21,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
  * @since       3.0
  */
 
-class plgFabrik_CronGcalsync extends plgFabrik_Cron
+class PlgFabrik_CronGcalsync extends PlgFabrik_Cron
 {
 
 	/**
@@ -181,7 +180,7 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 			}
 			else
 			{
-				$gdataCal = new Zend_Gdata_Calendar();
+				$gdataCal = new Zend_Gdata_Calendar;
 			}
 
 			// Set up and execute the call to grab the feed from google
@@ -228,7 +227,7 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 			{
 				if (!array_key_exists($id, $our_event_ids))
 				{
-					// we don't have the ID, so add the event to our table
+					// We don't have the ID, so add the event to our table
 					$row = array();
 					$row[$gcal_start_date_element] = strftime('%Y-%m-%d %H:%M:%S', strtotime($event->when[0]->startTime));
 					$row[$gcal_end_date_element] = strftime('%Y-%m-%d %H:%M:%S', strtotime($event->when[0]->endTime));
@@ -248,9 +247,9 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 			{
 				// Grab the tzOffset.  Note that gcal want +/-XX (like -06)
 
-				// but J! gives us +/-X (like -6) so we sprintf it to the right format
+				// But J! gives us +/-X (like -6) so we sprintf it to the right format
 				$config = JFactory::getConfig();
-				$tzOffset = (int) $config->getValue('config.offset');
+				$tzOffset = (int) $config->get('offset');
 				$tzOffset = sprintf('%+03d', $tzOffset);
 
 				// Loop thru the array we built earlier of events we have that aren't in gcal
@@ -280,7 +279,7 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 					// Grab the start date, apply the tx offset, and format it for gcal
 					$start_date = JFactory::getDate($event->$gcal_start_date_element);
 					$start_date->setOffset($tzOffset);
-					$start_fdate = $start_date->toFormat('%Y-%m-%d %H:%M:%S');
+					$start_fdate = $start_date->toSql();
 					$date_array = explode(' ', $start_fdate);
 					$when->startTime = "{$date_array[0]}T{$date_array[1]}.000{$tzOffset}:00";
 
@@ -297,7 +296,7 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 					// Grab the end date, apply the tx offset, and format it for gcal
 					$end_date = JFactory::getDate($event->$gcal_end_date_element);
 					$end_date->setOffset($tzOffset);
-					$end_fdate = $end_date->toFormat('%Y-%m-%d %H:%M:%S');
+					$end_fdate = $end_date->toSql();
 					$date_array = explode(' ', $end_fdate);
 					$when->endTime = "{$date_array[0]}T{$date_array[1]}.000{$tzOffset}:00";
 					$newEvent->when = array($when);
@@ -321,7 +320,7 @@ class plgFabrik_CronGcalsync extends plgFabrik_Cron
 					$query = $db->getQuery(true);
 					$query->update($table_name)->set($gcal_id_element . ' = ' . $db->quote($gcal_id))->where('id = ' . $db->quote($our_id));
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}

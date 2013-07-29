@@ -34,20 +34,19 @@ Updating
 
 Once you have installed Fabrik 3.x, if you want to stay up to date with the latest code updates between official releases, you can 'update from GitHub'.
 
-Please see here for instructions on how to update from GitHub - [http://fabrikar.com/wiki/index.php/3.x_Update_from_GitHub](http://fabrikar.com/wiki/index.php/3.x_Update_from_GitHub)
+Please see here for instructions on how to update from GitHub - [http://fabrikar.com/forums/index.php?wiki/update-from-github/](http://fabrikar.com/forums/index.php?wiki/update-from-github/).
 
 Upgrading
 ================
 
-At the time of an official release, please follow the steps here - [http://fabrikar.com/wiki/index.php/3.x_Upgrade_instructions](http://fabrikar.com/wiki/index.php/3.x_Upgrade_instructions)
+At the time of an official release, please follow the steps here - [http://fabrikar.com/forums/index.php?wiki/upgrade-instructions/](http://fabrikar.com/forums/index.php?wiki/upgrade-instructions/)
 
 Further Information
 ================
 
-[Wiki](http://fabrikar.com/wiki)  
-[FAQ](http://fabrikar.com/wiki/index.php/3.x_FAQ)  
+[Wiki](http://fabrikar.com/forums/index.php?wiki)  
+[FAQ](http://fabrikar.com/forums/index.php?wiki/faq/)  
 [Forum](http://fabrikar.com/forums/)  
-[Forum Post Template](http://fabrikar.com/wiki/index.php/3.x_Forum_Post_Template)  
-[Things You Can Do](http://fabrikar.com/wiki/index.php/Things_You_Can_Do)  
-[Contribute Code](http://fabrikar.com/wiki/index.php/Contribute_Code)  
-[Contribute Translation](http://fabrikar.com/wiki/index.php/3.x_Translation)  
+[Things You Can Do](http://fabrikar.com/forums/index.php?wiki/things-you-can-do/)  
+[Contribute Code](http://fabrikar.com/forums/index.php?wiki/contribute-code/)  
+[Contribute Translation](http://fabrikar.com/forums/index.php?wiki/translations/)  

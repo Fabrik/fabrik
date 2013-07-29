@@ -22,7 +22,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormRest extends plgFabrik_Form
+class PlgFabrik_FormRest extends PlgFabrik_Form
 {
 
 	/**
@@ -203,7 +203,7 @@ class plgFabrik_FormRest extends plgFabrik_Form
 			$values = $include->put_value;
 			$format = $include->put_type;
 			$i = 0;
-			$fkName = $fkElement->getFullName(true, false, true);
+			$fkName = $fkElement ? $fkElement->getFullName(true, false, true) : '';
 			foreach ($values as &$v)
 			{
 				if ($v === $fkName)
@@ -375,6 +375,8 @@ class plgFabrik_FormRest extends plgFabrik_Form
 
 	/**
 	 * Get the OAuth store
+	 *
+	 * @return  void
 	 */
 	protected function getOAuthStore()
 	{
@@ -411,12 +413,17 @@ class plgFabrik_FormRest extends plgFabrik_Form
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
+		if ($params->get('oauth_consumer_key', '') === '')
+		{
+			return;
+		}
 		$this->formModel = $formModel;
 		require COM_FABRIK_BASE . '/components/com_fabrik/libs/xing/xing.php';
 		//require_once COM_FABRIK_BASE . '/components/com_fabrik/libs/oauth-php/OAuthStore.php';
 		//require_once COM_FABRIK_BASE . '/components/com_fabrik/libs/oauth-php/OAuthRequester.php';
 
 		$config = JFactory::getConfig();
+
 
 		define("OAUTH_CALLBACK_URL", JUri::getInstance());
 		define('OAUTH_TMP_DIR', $config->get('tmp_path'));

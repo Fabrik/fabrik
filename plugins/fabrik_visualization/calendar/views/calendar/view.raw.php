@@ -16,12 +16,12 @@ jimport('joomla.application.component.view');
 /**
  * Fabrik Calendar Raw View
  *
- * @package		Joomla.Plugin
- * @subpackage	Fabrik.visualization.calendar
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.visualization.calendar
  * @since       3.0
 */
 
-class fabrikViewCalendar extends JView
+class FabrikViewCalendar extends JView
 {
 
 	/**
@@ -32,7 +32,7 @@ class fabrikViewCalendar extends JView
 	 * @return  void
 	 */
 
-	function display($tmpl = 'default')
+	public function display($tmpl = 'default')
 	{
 		$model = $this->getModel();
 		$app = JFactory::getApplication();

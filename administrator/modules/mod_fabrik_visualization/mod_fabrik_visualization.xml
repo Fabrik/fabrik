@@ -2,12 +2,12 @@
 <extension client="administrator" method="upgrade" type="module" version="1.7.0">
 	<name>Fabrik Visualization</name>
 	<author>Rob Clayburn</author>
-	<creationDate>March 2013</creationDate>
+	<creationDate>May 2013</creationDate>
 	<copyright>(C) 2005-2013 fabrikar.com</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.0.7</version>
+	<version>3.0.8</version>
 	<description>This module shows a Fabrik visualization in Joomlas adminstration pages.</description>
 	<files>
 		<filename module="mod_fabrik_visualizaton">mod_fabrik_visualizaton.php</filename>

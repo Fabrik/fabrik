@@ -21,7 +21,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
  * @since       3.0
  */
 
-class plgFabrik_ElementYoutube extends plgFabrik_Element
+class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 {
 
 	var $_pluginName = 'youtube';
@@ -109,7 +109,8 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 		$color1 = JString::substr($params->get('color1'), -6);
 		$color2 = JString::substr($params->get('color2'), -6);
 
-		$vid = array_pop(explode("/", $data));
+		$bits = explode("/", $data);
+		$vid = array_pop($bits);
 		//$$$tom: if one copies an URL from youtube, the URL has the "watch?v=" which barfs the player
 		if (strstr($vid, 'watch'))
 		{
@@ -218,11 +219,13 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 
 	public function render($data, $repeatCounter = 0)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$params = $this->getParams();
 		$element = $this->getElement();
 		$data = $this->getFormModel()->_data;
 		$value = $this->getValue($data, $repeatCounter);
-		if (JRequest::getVar('view') != 'details')
+		if ($input->get('view') != 'details')
 		{
 			$name = $this->getHTMLName($repeatCounter);
 			$id = $this->getHTMLId($repeatCounter);
@@ -234,7 +237,6 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 			{
 				$type .= " elementErrorHighlight";
 			}
-
 			if (!$this->isEditable())
 			{
 				return ($element->hidden == '1') ? '<!-- ' . $value . ' -->' : $value;
@@ -243,11 +245,11 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 			$bits['type'] = $type;
 			$bits['name'] = $name;
 			$bits['id'] = $id;
-			//stop "'s from breaking the content out of the field.
+
+			// Stop "'s from breaking the content out of the field.
 			$bits['value'] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 			$bits['size'] = $size;
 			$bits['maxlength'] = $maxlength;
-
 			$str = "<input ";
 			foreach ($bits as $key => $val)
 			{
@@ -258,7 +260,7 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 		}
 		else
 		{
-			$params = &$this->getParams();
+			$params = $this->getParams();
 			$element = &$this->getElement();
 			$data = &$this->_form->_data;
 			$value = $this->getValue($data, $repeatCounter);
@@ -330,7 +332,8 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 			// $$$ rob - barfed if url entered was like http://www.youtube.com/v/zD8XclVc3DQ&hl=en
 			//$vid = JString::substr($value, 31);
 			//this seems more sturdy a method:
-			$vid = array_pop(explode("/", $value));
+			$bits = explode("/", $value);
+			$vid = array_pop($bits);
 			//$$$tom: if one copies an URL from youtube, the URL has the "watch?v=" which barfs the player
 			if (strstr($vid, 'watch'))
 			{
@@ -414,4 +417,3 @@ class plgFabrik_ElementYoutube extends plgFabrik_Element
 	}
 
 }
-?>

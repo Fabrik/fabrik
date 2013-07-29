@@ -4,12 +4,17 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
+
+jimport('joomla.html.html');
+jimport('joomla.form.formfield');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('list');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 
@@ -20,11 +25,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
  * @subpackage  Form
  * @since       1.6
  */
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
-JFormHelper::loadFieldClass('list');
 
 class JFormFieldTables extends JFormFieldList
 {
@@ -49,11 +49,12 @@ class JFormFieldTables extends JFormFieldList
 		$db = FabrikWorker::getDbo(true);
 		if ($connectionDd == '')
 		{
-			//we are not monitoring a connection drop down so load in all tables
+			// We are not monitoring a connection drop down so load in all tables
 			$query = "SHOW TABLES";
 
 			$db->setQuery($query);
-			$items = $db->loadResultArray();
+			$items = $db->loadColumn();
+
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
@@ -82,9 +83,9 @@ class JFormFieldTables extends JFormFieldList
 	}
 
 	/**
-	 * Get input
+	 * Method to get the field input markup.
 	 *
-	 * @return  string  HTML input
+	 * @return  string	The field input markup.
 	 */
 
 	protected function getInput()

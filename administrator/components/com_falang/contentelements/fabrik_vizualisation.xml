@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<falang type="contentelement">
+  <name>Fabrik - Vizualisation</name>
+  <author>Manel Zaera, manelzaera@yahoo.es</author>
+  <version>1.8</version>
+  <description>Definition for Fabrik Vizualisation</description>
+  <reference>
+      <table name="fabrik_visualizations">
+          <field name="id" translate="0" type="referenceid">ID</field>
+          <field name="label" translate="1" type="titletext">Title</field>
+          <field name="intro_text" translate="1" type="htmltext">Intro text</field>
+      </table>
+  </reference>
+</falang>

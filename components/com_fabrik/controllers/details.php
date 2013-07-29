@@ -155,7 +155,7 @@ class FabrikControllerDetails extends JController
 				// If its in a module with ajax or in a package
 				if ($input->getInt('packageId') !== 0)
 				{
-					$data = array('modified' => $model->_modifiedValidationData);
+					$data = array('modified' => $model->modifiedValidationData);
 
 					// Validating entire group when navigating form pages
 					$data['errors'] = $model->_arErrors;
@@ -182,7 +182,7 @@ class FabrikControllerDetails extends JController
 					 * couldn't determine the exact set up that triggered this, but we need to reset the rowid to -1
 					 * if reshowing the form, otherwise it may not be editable, but rather show as a detailed view
 					 */
-					if ($input->get('usekey') !== '')
+					if ($input->get('usekey', '') !== '')
 					{
 						$input->set('rowid', -1);
 					}
@@ -347,7 +347,7 @@ class FabrikControllerDetails extends JController
 					// Return to the page that called the form
 					$url = urldecode($input->post->get('fabrik_referrer', 'index.php', 'string'));
 				}
-				$Itemid = $app->getMenu('site')->getActive()->id;
+				$Itemid = FabrikWorker::itemId();
 				if ($url == '')
 				{
 					$url = "index.php?option=com_' . $package . '&Itemid=$Itemid";
@@ -377,7 +377,7 @@ class FabrikControllerDetails extends JController
 		$model->getForm();
 		$model->setRowId($input->get('rowid', '', 'string'));
 		$model->validate();
-		$data = array('modified' => $model->_modifiedValidationData);
+		$data = array('modified' => $model->modifiedValidationData);
 
 		// Validating entire group when navigating form pages
 		$data['errors'] = $model->_arErrors;
@@ -413,7 +413,7 @@ class FabrikControllerDetails extends JController
 		$input = $app->input;
 		$sessionModel = $this->getModel('formsession', 'FabrikFEModel');
 		$sessionModel->setFormId($input->getInt('formid', 0));
-		$sessionModel->setRowId($input->getInt('rowid', 0));
+		$sessionModel->setRowId($input->get('rowid', '', 'string'));
 		$sessionModel->remove();
 		$this->display();
 	}

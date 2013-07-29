@@ -2,10 +2,11 @@
 /**
  * Raw Fabrik Plugin Controller
  *
- * @package Joomla
- * @subpackage Fabrik
- * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @since       1.6
  */
 
 // Check to ensure this file is included in Joomla!
@@ -16,10 +17,8 @@ jimport('joomla.application.component.controller');
 /**
  * Raw Fabrik Plugin Controller
  *
- * Used in admin
- * @package		Joomla
- * @subpackage	Fabrik
- * @since 1.5
+ * @package  Fabrik
+ * @since    3.0
  */
 
 class FabrikControllerPlugin extends JController
@@ -32,11 +31,13 @@ class FabrikControllerPlugin extends JController
 	 * @return  void
 	 */
 
-	function pluginAjax()
+	public function pluginAjax()
 	{
-		$plugin = JRequest::getVar('plugin', '');
-		$method = JRequest::getVar('method', '');
-		$group = JRequest::getVar('g', 'element');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$plugin = $input->get('plugin', '');
+		$method = $input->get('method', '');
+		$group = $input->get('g', 'element');
 		if (!JPluginHelper::importPlugin('fabrik_' . $group, $plugin))
 		{
 			$o = new stdClass;
@@ -59,11 +60,13 @@ class FabrikControllerPlugin extends JController
 	 * @return  void
 	 */
 
-	function userAjax()
+	public function userAjax()
 	{
 		$db = FabrikWorker::getDbo();
 		require_once COM_FABRIK_FRONTEND . '/user_ajax.php';
-		$method = JRequest::getVar('method', '');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$method = $input->get('method', '');
 		$userAjax = new userAjax($db);
 		if (method_exists($userAjax, $method))
 		{

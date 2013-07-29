@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="" name="plg-element-openstreetmap">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_OPENSTREETMAP_HELP_SERVER" />
+				
 			<field default="openlayers" description="PLG_ELEMENT_OPENSTREETMAP_DEFAULT_LAYER_DESC" label="PLG_ELEMENT_OPENSTREETMAP_DEFAULT_LAYER_LABEL" name="fb_osm_defaultlayer" type="list">
 				<option value="openlayers">PLG_ELEMENT_OPENSTREETMAP_OPEN_LAYERS</option>
 				<option value="yahoo">PLG_ELEMENT_OPENSTREETMAP_YAHOO</option>

@@ -2,6 +2,8 @@
 /**
  * Fabrik List Template: DB Join Select
  *
+ * @deprecated since 3.0.8/3.1 as we now load list defult tmpl, and us js else where to observe row clicks.
+ *
  * @package     Joomla
  * @subpackage  Fabrik
  * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
 <?php }?>
 
 <?php echo $this->table->intro;?>
-<form class="fabrikForm" action="<?php echo $this->table->action;?>" autocomplete="off" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
+<form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
 
 <?php
 

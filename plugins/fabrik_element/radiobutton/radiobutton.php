@@ -17,7 +17,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class plgFabrik_ElementRadiobutton extends plgFabrik_ElementList
+class PlgFabrik_ElementRadiobutton extends PlgFabrik_ElementList
 {
 
 	/**

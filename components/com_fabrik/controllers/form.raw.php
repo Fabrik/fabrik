@@ -130,7 +130,7 @@ class FabrikControllerForm extends JController
 				// If its in a module with ajax or in a package
 				if (JRequest::getInt('packageId') !== 0)
 				{
-					$data = array('modified' => $model->_modifiedValidationData);
+					$data = array('modified' => $model->modifiedValidationData);
 
 					// Validating entire group when navigating form pages
 					$data['errors'] = $model->_arErrors;
@@ -245,8 +245,7 @@ class FabrikControllerForm extends JController
 					// Return to the page that called the form
 					$url = JRequest::getVar('fabrik_referrer', "index.php", 'post');
 				}
-				// @TODO this global doesnt exist in j1.6
-				$Itemid = $app->getMenu('site')->getActive()->id;
+				$Itemid = FabrikWorker::itemId();
 				if ($url == '')
 				{
 					$url = 'index.php?option=com_' . $option . '&Itemid=' . $Itemid;

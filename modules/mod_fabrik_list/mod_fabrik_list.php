@@ -35,6 +35,7 @@ $lang = JFactory::getLanguage();
 $lang->load('com_fabrik', JPATH_BASE . '/components/com_fabrik');
 
 $app = JFactory::getApplication();
+$input = $app->input;
 $document = JFactory::getDocument();
 
 // Ensure the package is set to fabrik
@@ -44,7 +45,7 @@ $app->setUserState('com_fabrik.package', 'fabrik');
 FabrikHelperHTML::framework();
 
 // $$$rob looks like including the view does something to the layout variable
-$origLayout = JRequest::getVar('layout');
+$origLayout = $input->get('layout');
 
 $listId = (int) $params->get('list_id', 1);
 $useajax = (int) $params->get('useajax', 0);
@@ -65,7 +66,7 @@ if ($listId === 0)
 $listels = json_decode($params->get('list_elements'));
 if (isset($listels->show_in_list))
 {
-	JRequest::setVar('fabrik_show_in_list', $listels->show_in_list);
+	$input->set('fabrik_show_in_list', $listels->show_in_list);
 }
 
 $viewName = 'list';
@@ -101,6 +102,10 @@ if ($params->get('show_nav', '') !== '')
 {
 	$listParams->set('show-table-nav', $params->get('show_nav'));
 }
+$listParams->set('show_into', $params->get('show_into', 1));
+$listParams->set('show_outro', $params->get('show_outro', 1));
+$origShowFilters = $app->input->get('showfilters', 1);
+$app->input->set('showfilters', $params->get('show_filters', 1));
 
 if ($showTitle !== '')
 {
@@ -122,6 +127,7 @@ $prefilters = JArrayHelper::fromObject(json_decode($params->get('prefilters')));
 $conditions = (array) $prefilters['filter-conditions'];
 if (!empty($conditions))
 {
+	$listParams->set('filter-join', $prefilters['filter-join']);
 	$listParams->set('filter-fields', $prefilters['filter-fields']);
 	$listParams->set('filter-conditions', $prefilters['filter-conditions']);
 	$listParams->set('filter-value', $prefilters['filter-value']);
@@ -141,6 +147,7 @@ $view->error = $controller->getError();
 echo $view->display();
 
 JRequest::setVar('layout', $origLayout);
+$app->input->set('showfilters', $origShowFilters);
 
 // Set the package back to what it was before rendering the module
 $app->setUserState('com_fabrik.package', $prevUserState);

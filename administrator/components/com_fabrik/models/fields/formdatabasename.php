@@ -16,9 +16,9 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 /**
  * Renders the form's database name or a field to create one
  *
- * @package 	Joomla
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla
+ * @subpackage  Form
+ * @since       1.6
  */
 
 class JFormFieldFormDatabaseName extends JFormFieldText

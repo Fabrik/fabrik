@@ -17,7 +17,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class allVideosRender
+class AllVideosRender
 {
 
 	/**
@@ -40,7 +40,7 @@ class allVideosRender
 	 * @return  void
 	 */
 
-	function renderListData(&$model, &$params, $file, $thisRow)
+	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->inTableView = true;
 		$this->render($model, $params, $file);
@@ -50,7 +50,7 @@ class allVideosRender
 	 * Render uploaded image
 	 *
 	 * @param   object  &$model   Element model
-	 * @param   object  &$parmas  Element params
+	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 * @param   object  $thisRow  All row's data
 	 *

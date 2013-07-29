@@ -63,6 +63,7 @@ var fabrikAdminElement = new Class({
 			'onComplete': function (r) {
 				document.id('plugin-container').set('html', r);
 				$exec(this.script);
+				FabrikAdmin.reTip();
 			}.bind(this)
 		}).send();
 	},

@@ -2,10 +2,10 @@
 /**
  * Approval viz Model
  *
- * @package		Joomla.Plugin
- * @subpackage	Fabrik.visualization.approvals
- * @copyright	Copyright (C) 2005 Fabrik. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.visualization.approvals
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -18,13 +18,12 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
 /**
  * Approval viz Model
  *
- * @static
- * @package		Joomla.Plugin
- * @subpackage	Fabrik.visualization.approvals
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.visualization.approvals
+ * @since       3.0
  */
 
-class fabrikModelApprovals extends FabrikFEModelVisualization
+class FabrikModelApprovals extends FabrikFEModelVisualization
 {
 
 	/**
@@ -33,7 +32,7 @@ class fabrikModelApprovals extends FabrikFEModelVisualization
 	 * @return   array
 	 */
 
-	function getRows()
+	public function getRows()
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -65,7 +64,6 @@ class fabrikModelApprovals extends FabrikFEModelVisualization
 
 			$userEl = $formModel->getElement($users[$x]);
 			$userEl->getAsField_html($asfields, $fields, array('alias' => 'user'));
-			//$asfields[] = str_replace('___', '.', $users[$x]) . ' AS user';
 
 			if (JArrayHelper::getValue($contents, $x, '') !== '')
 			{
@@ -149,7 +147,7 @@ class fabrikModelApprovals extends FabrikFEModelVisualization
 					$query->update($db->quoteName($item->db_table_name))->set($el . ' = ' . $db->quote($v))
 						->where($item->db_primary_key . ' = ' . $db->quote(JRequest::getVar('rowid')));
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 				catch (JException $e)
 				{

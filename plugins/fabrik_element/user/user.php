@@ -170,7 +170,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			$value = is_object($user) ? $user->get('id') : '';
 			if ($element->hidden)
 			{
-				$str = $this->_getHiddenField($name, $value, $html_id);
+				$str = $this->getHiddenField($name, $value, $html_id);
 			}
 			else
 			{
@@ -190,20 +190,6 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			}
 		}
 		return $str;
-	}
-
-	/**
-	 * get element's hidden field
-	 *
-	 * @access private
-	 * @param string $name
-	 * @param string $value
-	 * @param string $id
-	 * @return strin
-	 */
-	function _getHiddenField($name, $value, $id)
-	{
-		return "<input class='fabrikinput inputbox' type='hidden' name='$name' value='$value' id='$id' />\n";
 	}
 
 	/**
@@ -353,8 +339,6 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			}
 		}
 
-		// $$$ rob if in joined data then $data['rowid'] isnt set - use JRequest var instead
-		//if ($data['rowid'] == 0 && !in_array($element->name, $data)) {
 		// $$$ rob also check we aren't importing from CSV - if we are ingore
 		if (JRequest::getInt('rowid') == 0 && JRequest::getCmd('task') !== 'doimport')
 		{
@@ -414,7 +398,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	}
 
 	/**
-	 * Check user can view the read only element & view in list view
+	 * Check user can view the read only element OR view in list view
 	 *
 	 * When processing the form, we always want to store the current userid
 	 * (subject to save-on-edit, but that's done elsewhere), regardless of
@@ -426,16 +410,19 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 * case allows addDefaultDataFromRO to do that, whilst still enforcing
 	 * Read Access settings for detail/list view
 	 *
+	 * @param   string  $view  View list/form @since 3.0.7
+	 *
 	 * @return  bool  can view or not
 	 */
 
-	public function canView()
+	public function canView($view = 'form')
 	{
-		if (JRequest::getVar('task', '') == 'processForm')
+		$app = JFactory::getApplication();
+		if ($app->input->get('task', '') == 'processForm')
 		{
 			return true;
 		}
-		return parent::canView();
+		return parent::canView($view);
 	}
 
 	/**
@@ -454,15 +441,15 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	}
 
 	/**
-	 * get the class to manage the form element
+	 * Get the class to manage the form element
 	 * if a plugin class requires to load another elements class (eg user for dbjoin then it should
 	 * call FabrikModelElement::formJavascriptClass('plugins/fabrik_element/databasejoin/databasejoin.js', true);
 	 * to ensure that the file is loaded only once
 	 *
-	 * @param   array   &$srcs   scripts previously loaded (load order is important as we are loading via head.js
+	 * @param   array   &$srcs   Scripts previously loaded (load order is important as we are loading via head.js
 	 * and in ie these load async. So if you this class extends another you need to insert its location in $srcs above the
 	 * current file
-	 * @param   string  $script  script to load once class has loaded
+	 * @param   string  $script  Script to load once class has loaded
 	 *
 	 * @return void
 	 */
@@ -577,7 +564,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * This really does get just the default value (as defined in the element's settings)
 	 *
-	 * @param   array  $data  form data
+	 * @param   array  $data  Form data
 	 *
 	 * @return mixed
 	 */
@@ -616,20 +603,12 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			// When rendering the element to the form
 			$key = '__pk_val';
 		}
-		//empty(data) when you are saving a new record and this element is in a joined group
-		// $$$ hugh - added !array_key_exists(), as ... well, rowid doesn't always exist in the query string
+		/*
+		 * empty(data) when you are saving a new record and this element is in a joined group
+		 * $$$ hugh - added !array_key_exists(), as ... well, rowid doesn't always exist in the query string
+		 */
 
-		// $$$ rob replaced ALL references to rowid with __pk_val as rowid doesnt exists in the data :O
-
-		//$$$ rob
-		//($this->_inRepeatGroup && $this->_inJoin &&  $this->_repeatGroupTotal == $repeatCounter)
-		//is for saying that the last record in a repeated join group should be treated as if it was in a new form
-
-		// $$$ rob - erm why on earth would i want to do that! ?? (see above!) - test case:
-		// form with joined data - make record with on repeated group (containing this element)
-		// edit record and the commented out if statement below meant the user dd reverted
-		// to the current logged in user and not the previously selected one
-		if (empty($data) || !array_key_exists($key, $data) )
+		if (empty($data) || !array_key_exists($key, $data))
 		{
 			// $$$ rob - added check on task to ensure that we are searching and not submitting a form
 			// as otherwise not empty valdiation failed on user element
@@ -895,7 +874,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Get the user's property to show, if gid raise warning and revert to username (no gid in J1.7)
 	 *
-	 * @param   object	$user  joomla user
+	 * @param   object  $user  Joomla user
 	 *
 	 * @since	3.0b
 	 *

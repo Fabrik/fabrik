@@ -79,3 +79,8 @@ libraries/dompdf/lib/fonts/log.htm
 libraries/dompdf/lib/fonts/dompdf_font_family_cache.dist.php
 /t3-assets
 /joomlatools-files
+/.externalToolBuilders
+custom_css.php
+custom.css
+!contribution_license.txt
+!software_license.txt

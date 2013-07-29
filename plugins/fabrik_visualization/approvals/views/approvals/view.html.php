@@ -18,10 +18,10 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Plugin
  * @subpackage	Fabrik.visualization.slideshow
- * @since        3.0.6
+ * @since       3.0.6
 */
 
-class fabrikViewApprovals extends JView
+class FabrikViewApprovals extends JView
 {
 
 	/**
@@ -35,28 +35,21 @@ class fabrikViewApprovals extends JView
 	public function display($tpl = 'default')
 	{
 		$model = $this->getModel();
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
-		$id = JRequest::getVar('id', $usersConfig->get('visualizationid', JRequest::getInt('visualizationid', 0)));
+		$id = $input->get('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0)));
 		$model->setId($id);
-		$this->assign('id', $id);
-		$this->assignRef('row', $this->get('Visualization'));
-		$this->assign('rows', $this->get('Rows'));
-
-		$this->assign('containerId', $this->get('ContainerId'));
-
+		$this->id = $id;
+		$this->row = $this->get('Visualization');
+		$this->rows = $this->get('Rows');
+		$this->containerId = $this->get('ContainerId');
 		$this->calName = $this->get('VizName');
-
-		$this->assignRef('params', $model->getParams());
+		$this->params = $model->getParams();
 		$tpl = $this->params->get('approvals_layout', $tpl);
-		$tmplpath = JPATH_SITE . '/plugins/fabrik_visualization/approvals/views/approvals/tmpl/' . $tpl;
-		$this->_setPath('template', $tmplpath);
+		$this->_setPath('template', JPATH_SITE . '/plugins/fabrik_visualization/approvals/views/approvals/tmpl/' . $tpl);
 
-		$ab_css_file = $tmplpath . '/template.css';
-
-		if (file_exists($ab_css_file))
-		{
-			JHTML::stylesheet('/plugins/fabrik_visualization/approvals/views/approvals/tmpl/' . $tpl . '/template.css');
-		}
+		FabrikHelperHTML::stylesheetFromPath('plugins/fabrik_visualization/approvals/views/approvals/tmpl/' . $tpl . '/template.css');
 
 		$ref = $model->getJSRenderContext();
 		$js = "var $ref = new fbVisApprovals('approvals_" . $id . "');\n";

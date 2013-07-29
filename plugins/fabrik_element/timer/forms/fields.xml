@@ -3,6 +3,10 @@
 	<fields name="params">
 	
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-timer">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_TIMER_HELP_SERVER" />
+				
 			<field default="9" label="PLG_ELEMENT_TIMER_WIDTH_LABEL" name="timer_width" size="3" type="text"/>
 				
 			<field cols="45" label="PLG_ELEMENT_TIMER_DEFAULT_LABEL" name="default" rows="6" type="textarea"/>

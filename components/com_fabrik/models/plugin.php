@@ -42,11 +42,11 @@ class FabrikPlugin extends JPlugin
 	var $_xmlPath = null;
 
 	/**
-	 * Params
+	 * Params (must be public)
 	 *
 	 * @var JRegistry
 	 */
-	protected $_params = null;
+	public $params = null;
 
 	var $attribs = null;
 
@@ -71,6 +71,13 @@ class FabrikPlugin extends JPlugin
 	 * @var JForm
 	 */
 	public $jform = null;
+
+	/*
+	 * Plugin data
+	 *
+	 * @var array
+	 */
+	public $data = null;
 
 	/**
 	 * Set the plugin id
@@ -110,10 +117,8 @@ class FabrikPlugin extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
 	 */
 
 	public function __construct(&$subject, $config = array())
@@ -135,10 +140,6 @@ class FabrikPlugin extends JPlugin
 			$type = str_replace('fabrik_', '', $this->_type);
 			$formType = $type . '-options';
 			$formName = 'com_fabrik.' . $formType;
-			//$controlName = 'jform[plugin-options]';
-			// $$$ rob - NO! the params option should be set in the plugin fields.xml file <fields name="params">
-			// allows for params which update actual db fields
-			//$controlName = 'jform[params]';
 			$controlName = 'jform';
 			$this->jform = new JForm($formName, array('control' => $controlName));
 		}
@@ -148,8 +149,8 @@ class FabrikPlugin extends JPlugin
 	/**
 	 * Render the element admin settings
 	 *
-	 * @param   array  $data           admin data
-	 * @param   int    $repeatCounter  repeat plugin counter
+	 * @param   array  $data           Admin data
+	 * @param   int    $repeatCounter  Repeat plugin counter
 	 *
 	 * @return  string	admin html
 	 */
@@ -281,8 +282,8 @@ class FabrikPlugin extends JPlugin
 	 * Used in plugin manager runPlugins to set the correct repeat set of
 	 * data for the plugin
 	 *
-	 * @param   object  $params         original params
-	 * @param   int     $repeatCounter  repeat group counter
+	 * @param   object  &$params        Original params
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return   object  params
 	 */
@@ -427,7 +428,7 @@ class FabrikPlugin extends JPlugin
 				case 'new':
 					if ($model->$k != 0)
 					{
-						$ok = isset($model->_copyingRow) ? $model->copyingRow() : false;
+						$ok = isset($model->copyingRow) ? $model->copyingRow() : false;
 					}
 					break;
 				case 'edit':
@@ -445,6 +446,15 @@ class FabrikPlugin extends JPlugin
 		}
 		return $ok;
 	}
+
+	/**
+	 * Custom process plugin result
+	 *
+	 * @param   string  $method      Method
+	 * @param   JModel  &$formModel  Form Model
+	 *
+	 * @return boolean
+	 */
 
 	public function customProcessResult($method, &$formModel)
 	{
@@ -471,9 +481,11 @@ class FabrikPlugin extends JPlugin
 
 	function ajax_tables()
 	{
-		$cid = JRequest::getInt('cid', -1);
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->getInt('cid', -1);
 		$rows = array();
-		$showFabrikLists = JRequest::getVar('showf', false);
+		$showFabrikLists = $input->get('showf', false);
 		if ($showFabrikLists)
 		{
 			$db = FabrikWorker::getDbo(true);
@@ -581,21 +593,23 @@ class FabrikPlugin extends JPlugin
 		}
 		else
 		{
-			//show fabrik elements in the table
-			//$keyType 1 = $element->id;
-			//$keyType 2 = tablename___elementname
+			/*
+			 * show fabrik elements in the table
+			 * $keyType 1 = $element->id;
+			 * $keyType 2 = tablename___elementname
+			 */
 			$model = JModel::getInstance('List', 'FabrikFEModel');
 			$model->setId($tid);
 			$table = $model->getTable();
 			$db = $model->getDb();
 			$groups = $model->getFormGroupElementData();
-			$published = JRequest::getVar('published', false);
-			$showintable = JRequest::getVar('showintable', false);
+			$published = $input->get('published', false);
+			$showintable = $input->get('showintable', false);
 			foreach ($groups as $g => $groupModel)
 			{
 				if ($groupModel->isJoin())
 				{
-					if (JRequest::getVar('excludejoined') == 1)
+					if ($input->get('excludejoined') == 1)
 					{
 						continue;
 					}
@@ -623,9 +637,11 @@ class FabrikPlugin extends JPlugin
 					}
 					else
 					{
-						//@TODO if in repeat group this is going to add [] to name - is this really
-						// what we want? In timeline viz options i've simply stripped out the [] off the end
-						// as a temp hack
+						/*
+						 * @TODO if in repeat group this is going to add [] to name - is this really
+						 * what we want? In timeline viz options i've simply stripped out the [] off the end
+						 * as a temp hack
+						 */
 						$v = $eVal->getFullName(false);
 					}
 					$c = new stdClass;
@@ -647,7 +663,6 @@ class FabrikPlugin extends JPlugin
 					{
 						$arr[] = $c;
 					}
-
 
 					if ($incCalculations)
 					{
@@ -715,7 +730,7 @@ class FabrikPlugin extends JPlugin
 	/**
 	 * Get the options to ini the J Admin js plugin controller class
 	 *
-	 * @param   string  $html
+	 * @param   string  $html  HTML?
 	 *
 	 * @return  object
 	 */
@@ -745,9 +760,9 @@ class FabrikPlugin extends JPlugin
 	/**
 	 * Process the plugin, called when form is submitted
 	 *
-	 * @param   string             $paramName  param name which contains the PHP code to eval
-	 * @param   array              $data       data
-	 * @param   FabrikFEModelForm  $formModel  form model
+	 * @param   string             $paramName  Param name which contains the PHP code to eval
+	 * @param   array              $data       Data
+	 * @param   FabrikFEModelForm  $formModel  Form model
 	 *
 	 * @return  bool
 	 */
@@ -889,5 +904,41 @@ class FabrikPlugin extends JPlugin
 			->where('m.group_id IN (' . implode(', ', $sendTo) . ')');
 		$db->setQuery($query);
 		return $db->loadColumn();
+	}
+
+	/**
+	 * Make db tables if found, called from onRenderAdminSettings - seems plugins cant run their own sql files atm
+	 *
+	 * @since   3.1a
+	 *
+	 * @return  void
+	 */
+
+	protected function makeDbTable()
+	{
+		$db = FabrikWorker::getDbo();
+
+		// Attempt to create the db table?
+		$file = COM_FABRIK_BASE . '/plugins/' . $this->_type . '/' . $this->_name . '/sql/install.mysql.uft8.sql';
+		if (JFile::exists($file))
+		{
+			$sql = JFile::read($file);
+			$sqls = explode(";", $sql);
+			if (!empty($sqls))
+			{
+				foreach ($sqls as $sql)
+				{
+					if (trim($sql) !== '')
+					{
+						$db->setQuery($sql);
+
+						if (!$db->execute())
+						{
+							JError::raiseError(500, $db->getErrorMsg());
+						}
+					}
+				}
+			}
+		}
 	}
 }

@@ -34,7 +34,7 @@ class FabrikViewList extends JView
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$Itemid	= $app->getMenu('site')->getActive()->id;
+		$Itemid	= FabrikWorker::itemId();
 		$config	= JFactory::getConfig();
 		$user = JFactory::getUser();
 		$model = $this->getModel();
@@ -59,7 +59,8 @@ class FabrikViewList extends JView
 		$form = $formModel->getForm();
 
 		$aJoinsToThisKey = $model->getJoinsToThisKey();
-		/* get headings */
+
+		// Get headings
 		$aTableHeadings = array();
 		$groupModels = $formModel->getGroupsHiarachy();
 		foreach ($groupModels as $groupModel)

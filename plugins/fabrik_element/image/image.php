@@ -341,6 +341,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$value = $this->getValue($data, $repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
 		$rootFolder = $this->rootFolder($value);
+		$value = str_replace($rootFolder, '', $value);
 
 		// $$$ rob - 30/06/2011 can only select an image if its not a remote image
 		$canSelect = ($params->get('image_front_end_select', '0') && JString::substr($value, 0, 4) !== 'http');
@@ -363,7 +364,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			$str[] = '<img src="' . $defaultImage . '" alt="' . $value . '" ' . $float . ' class="imagedisplayor"/>';
 			if (array_key_exists($name, $data))
 			{
-				if (trim($value) == '')
+				if (trim($value) == '' && $rootFolder === '')
 				{
 					$path = "/";
 				}
@@ -395,7 +396,8 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			// $$$rob not sure about his name since we are adding $repeatCounter to getHTMLName();
 			$imageName = $this->getGroupModel()->canRepeat() ? FabrikString::rtrimWord($name, "][$repeatCounter]") . "_image][$repeatCounter]"
 				: $id . '_image';
-			$image = array_pop(explode('/', $value));
+			$bits = explode('/', $value);
+			$image = array_pop($bits);
 
 			// $$$ hugh - append $rootFolder to JPATH_SITE, otherwise we're showing folders
 			// they aren't supposed to be able to see.

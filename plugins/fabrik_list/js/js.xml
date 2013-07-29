@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_list" method="upgrade" type="plugin" version="2.5">
+	<name>plg_fabrik_list_js</name>
+	<author>Rob Clayburn</author>
+	<creationDate>May 2013</creationDate>
+	<copyright>(C) 2005-2013 fabrikar.com</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>rob@pollen-8.co.uk</authorEmail>
+	<authorUrl>www.fabrikar.com</authorUrl>
+	<version>3.0.8</version>
+	<help url="PLG_LIST_JS_HELP_SERVER"/>
+	<description>PLG_LIST_JS_DESCRIPTION</description>
+	<files>
+		<filename plugin="js">js.php</filename>
+		<filename>index.html</filename>
+		<filename>js.js</filename>
+		<filename>js-min.js</filename>
+		<folder>forms</folder>
+		<folder>language</folder>
+		<folder>scripts</folder>
+	</files>
+</extension>

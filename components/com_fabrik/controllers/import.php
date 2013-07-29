@@ -30,13 +30,15 @@ class FabrikControllerImport extends JController
 
 	public function display()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$this->getModel('Importcsv', 'FabrikFEModel')->clearSession();
-		$this->listid = JRequest::getVar('listid', 0);
+		$this->listid = $input->getInt('listid', 0);
 		$listModel = $this->getModel('list', 'FabrikFEModel');
 		$listModel->setId($this->listid);
 		$this->table = $listModel->getTable();
 		$document = JFactory::getDocument();
-		$viewName = JRequest::getVar('view', 'form', 'default', 'cmd');
+		$viewName = $input->get('view', 'form');
 		$viewType = $document->getType();
 
 		// Set the default view name from the Request
@@ -55,6 +57,8 @@ class FabrikControllerImport extends JController
 
 	public function doimport()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$model = $this->getModel('Importcsv', 'FabrikFEModel');
 		$listModel = $model->getListModel();
 
@@ -71,13 +75,13 @@ class FabrikControllerImport extends JController
 		}
 		$id = $listModel->getId();
 		$document = JFactory::getDocument();
-		$viewName = JRequest::getVar('view', 'form', 'default', 'cmd');
+		$viewName = $input->get('view', 'form');
 		$viewType = $document->getType();
 
 		// Set the default view name from the Request
 		$view = $this->getView($viewName, $viewType);
 		$model->import();
-		$Itemid = JRequest::getInt('Itemid');
+		$Itemid = $input->getInt('Itemid');
 		if (!empty($model->newHeadings))
 		{
 			// As opposed to admin you can't alter table structure with a CSV import from the front end
@@ -86,8 +90,9 @@ class FabrikControllerImport extends JController
 		}
 		else
 		{
-			JRequest::setVar('fabrik_list', $id);
-			$msg = $model->insertData();
+			$input->set('fabrik_list', $id);
+			$model->insertData();
+			$msg = $model->updateMessage();
 			$this->setRedirect('index.php?option=com_fabrik&view=list&listid=' . $id . "&resetfilters=1&Itemid=" . $Itemid, $msg);
 		}
 	}

@@ -250,7 +250,7 @@ class FabrikViewFormBase extends JView
 			// If there is a menu item available AND the form is not rendered in a content plugin or module
 			if (is_object($menu) && !$this->isMambot)
 			{
-				$menu_params = new JRegistry($menu->params);
+				$menu_params = is_a($menu->params, 'JRegistry') ? $menu->params : new JRegistry($menu->params);
 				$params->set('page_title', $menu_params->get('page_title', ''));
 				$params->set('show_page_title', $menu_params->get('show_page_title', 0));
 			}
@@ -312,7 +312,7 @@ class FabrikViewFormBase extends JView
 		$this->showPrint = $params->get('print', $fbConfig->get('form_print', 0));
 		if ($this->showPrint)
 		{
-			$text = JHTML::_('image.site', 'printButton.png', '/images/', null, null, JText::_('Print'));
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
 			$this->printLink = '<a href="#" class="printlink" onclick="window.print();return false;">' . $text . '</a>';
 		}
 		if ($input->get('tmpl') != 'component')
@@ -460,6 +460,7 @@ class FabrikViewFormBase extends JView
 		$opts->ajaxValidation = (bool) $params->get('ajax_validations');
 		$opts->primaryKey = $key;
 		$opts->error = @$form->origerror;
+		$opts->failed_validation = $model->hasErrors();
 		$opts->pages = $model->getPages();
 		$opts->plugins = array();
 		$opts->multipage_save = (int) $model->saveMultiPage();
@@ -605,29 +606,6 @@ class FabrikViewFormBase extends JView
 		// Placholder test
 		$script[] = "new Form.Placeholder('.fabrikForm input');";
 
-		$script[] = "function submit_form() {";
-		if (!empty($aWYSIWYGNames))
-		{
-			jimport('joomla.html.editor');
-			$editor = JFactory::getEditor();
-			$script[] = $editor->save('label');
-			foreach ($aWYSIWYGNames as $parsedName)
-			{
-				$script[] = $editor->save($parsedName);
-			}
-		}
-		$script[] = "\treturn false;";
-		$script[] = "}";
-
-		$script[] = "function submitbutton(button) {";
-		$script[] = "\tif (button==\"cancel\") {";
-		$script[] = "\t\tdocument.location = '" . JRoute::_('index.php?option=com_' . $package . '&task=viewTable&cid=' . $listId) . "';";
-		$script[] = "\t}";
-		$script[] = "\tif (button == \"cancelShowForm\") {";
-		$script[] = "\t\treturn false;";
-		$script[] = "\t}";
-		$script[] = "}";
-
 		if (FabrikHelperHTML::inAjaxLoadedPage())
 		{
 			$tipOpts = FabrikHelperHTML::tipOpts();
@@ -647,9 +625,9 @@ class FabrikViewFormBase extends JView
 	}
 
 	/**
-	 * Create the fom bottom hidden fields
+	 * Create the form bottom hidden fields
 	 *
-	 * @param   object  &$form  object containg form view properties
+	 * @param   object  &$form  Object containg form view properties
 	 *
 	 * @return  void
 	 */
@@ -659,8 +637,7 @@ class FabrikViewFormBase extends JView
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$input = $app->input;
-		$menuItem = $app->getMenu('site')->getActive();
-		$Itemid = $menuItem ? $menuItem->id : 0;
+		$Itemid = FabrikWorker::itemId();
 		$model = $this->getModel();
 		$listModel = $model->getListModel();
 		$canDelete = $listModel->canDelete($model->_data);
@@ -804,9 +781,7 @@ class FabrikViewFormBase extends JView
 
 	protected function _cryptQueryString(&$fields)
 	{
-		jimport('joomla.utilities.simplecrypt');
-		jimport('joomla.utilities.utility');
-		$crypt = new JSimpleCrypt;
+		$crypt = FabrikWorker::getCrypt();
 		$formModel = $this->getModel();
 		$get = JRequest::get('get');
 		foreach ($get as $key => $input)
@@ -849,19 +824,18 @@ class FabrikViewFormBase extends JView
 	/**
 	 * Encrypt view only elements
 	 *
-	 * @param   array  &$aHiddenFields  hidden fields
+	 * @param   array  &$aHiddenFields  Hidden fields
 	 *
 	 * @return  void
 	 */
 
 	protected function _cryptViewOnlyElements(&$aHiddenFields)
 	{
-		jimport('joomla.utilities.simplecrypt');
-		jimport('joomla.utilities.utility');
-		$crypt = new JSimpleCrypt;
+		$model = $this->getModel();
+		$crypt = FabrikWorker::getCrypt();
 		$formModel = $this->getModel();
 		$fields = array();
-		$ro = $this->get('readOnlyVals');
+		$ro = $model->getReadOnlyVals();
 		foreach ($ro as $key => $pair)
 		{
 			$repeatGroup = $pair['repeatgroup'];

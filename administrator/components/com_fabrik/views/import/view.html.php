@@ -61,6 +61,11 @@ class FabrikViewImport extends JView
 		$this->elementTypes = $pluginManager->getElementTypeDd('field', 'plugin[]');
 		$this->sample = $this->get('Sample');
 		$this->selectPKField = $this->get('SelectKey');
+		$jform = $input->get('jform', array(), 'array');
+		foreach ($jform as $key => $val)
+		{
+			$this->$key = $val;
+		}
 		parent::display('chooseElementTypes');
 	}
 

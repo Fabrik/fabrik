@@ -19,9 +19,9 @@ require_once 'fabcontrollerform.php';
 /**
  * Cron controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       1.6
  */
 
 class FabrikControllerCron extends FabControllerForm

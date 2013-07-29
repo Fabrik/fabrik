@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-fbrecommendations">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FBRECOMMENDATION_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_FBRECOMMENDATION_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBRECOMMENDATION_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
 			
 			<field description="PLG_ELEMENT_FBRECOMMENDATION_DOMAIN_DESC" label="PLG_ELEMENT_FBRECOMMENDATION_DOMAIN_LABEL" name="fbrecommendations_domain" type="text"/>

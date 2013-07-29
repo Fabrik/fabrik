@@ -61,7 +61,7 @@ class FabimageHelper
 	 * @return  object  image lib
 	 */
 
-	public function loadLib($lib)
+	public static function loadLib($lib)
 	{
 		$class = "Fabimage" . $lib;
 		if (class_exists($class))
@@ -168,7 +168,7 @@ class Fabimage
 	 *
 	 *  @var object
 	 */
-	var $storage = null;
+	public $storage = null;
 
 	/**
 	 * Set the filesystem storage manager
@@ -491,7 +491,6 @@ class FabimageGD extends Fabimage
 		// Convert hex to rgb colours.
 		list($r, $g, $b) = sscanf($bg, '#%2x%2x%2x');
 
-		// $destImg = imagecreatetruecolor($dstW, $dstH);
 		list($origImg, $header) = $this->imageFromFile($origFile);
 
 		$destImg = imagecreatetruecolor($dstW, $dstH);
@@ -530,7 +529,7 @@ class FabimageGD extends Fabimage
 	 * @return  void
 	 */
 
-	protected function writeImg($img, $destFile, $header)
+	public function writeImg($img, $destFile, $header)
 	{
 		if ($header == "image/jpeg")
 		{

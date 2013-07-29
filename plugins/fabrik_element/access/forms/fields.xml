@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields name="params">
+		<fieldset name="plg-access">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_ACCESS_HELP_SERVER" />
+		
+		</fieldset>
+	</fields>
+</form>

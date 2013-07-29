@@ -2,12 +2,56 @@
 <form>
   <fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
     <fieldset name="plg-list-php_events">
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_ONFILTERSGOT_LABEL" name="list_phpevents_onfiltersgot" repeat="true" rows="8" type="textarea"/>
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_ONMAKEFILTERS_LABEL" name="list_phpevents_onmakefilters" repeat="true" rows="8" type="textarea"/>
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_PROCESS_LABEL" name="list_phpevents_process" repeat="true" rows="8" type="textarea"/>
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_ONPRELOADDATA_LABEL" name="list_phpevents_onpreloaddata" repeat="true" rows="8" type="textarea"/>
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_ONLOADDATA_LABEL" name="list_phpevents_onloaddata" repeat="true" rows="8" type="textarea"/>
-      <field cols="60" description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC" label="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_LABEL" name="list_phpevents_ondeleterows" repeat="true" rows="8" type="textarea"/>
+    
+      <field name="list_phpevents_onfiltersgot"
+      	type="textarea"
+      	cols="60" rows="8"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONFILTERSGOT_LABEL"
+      	repeat="true" />
+      
+      <field name="list_phpevents_onmakefilters"
+      	type="textarea"
+      	cols="60" rows="8"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONMAKEFILTERS_LABEL"
+      	repeat="true" />
+      
+      <field name="list_phpevents_process"
+      	type="textarea"
+      	cols="60" rows="8"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_PROCESS_LABEL"
+      	repeat="true" />
+      
+      <field name="list_phpevents_onpreloaddata"
+      	type="textarea"
+      	cols="60" rows="8"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONPRELOADDATA_LABEL"
+      	repeat="true" />
+      
+      <field name="list_phpevents_onloaddata"
+      	type="textarea"
+      	cols="60" rows="8"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONLOADDATA_LABEL"
+      	repeat="true" />
+      
+      <field name="list_phpevents_ondeleterows"
+      	type="textarea"
+      	cols="60" rows="8"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_LABEL"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_DESC"
+      	repeat="true" />
+      	
+      <field name="list_phpevents_onbuildquerywhere"
+      	type="textarea"
+      	cols="60" rows="8"
+      	label="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_LABEL"
+      	description="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_DESC"
+      	repeat="true" />
+      	
     </fieldset>
   </fields>
 </form>

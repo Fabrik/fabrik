@@ -130,8 +130,8 @@ class FabrikHelperHTML
 	 * Load up window code - should be run in ajax loaded pages as well (10/07/2012 but not json views)
 	 * might be an issue in that we may be re-observing some links when loading in - need to check
 	 *
-	 * @param   string  $selector  element select to auto create windows for  - was default = a.modal
-	 * @param   array   $params    window parameters
+	 * @param   string  $selector  Element select to auto create windows for  - was default = a.modal
+	 * @param   array   $params    Window parameters
 	 *
 	 * @deprecated use windows() instead
 	 *
@@ -144,7 +144,6 @@ class FabrikHelperHTML
 	}
 
 	/**
-	 *
 	 * Build an array of the request headers by hand.  Replacement for using
 	 * apache_request_headers(), which only works in certain configurations.
 	 * This solution gets them from the $_SERVER array, and re-munges them back
@@ -154,14 +153,17 @@ class FabrikHelperHTML
 	 * @return   array  request headers assoc
 	 */
 
-	public static function parseRequestHeaders() {
+	public static function parseRequestHeaders()
+	{
 		if (isset(self::$requestHeaders))
 		{
 			return self::$requestHeaders;
 		}
 		self::$requestHeaders = array();
-		foreach($_SERVER as $key => $value) {
-			if (substr($key, 0, 5) <> 'HTTP_') {
+		foreach ($_SERVER as $key => $value)
+		{
+			if (substr($key, 0, 5) <> 'HTTP_')
+			{
 				continue;
 			}
 			$header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
@@ -185,8 +187,6 @@ class FabrikHelperHTML
 		$script = '';
 
 		// Don't include in an Request.JSON call - for autofill form plugin
-		// $$$ hugh - apache_request_headers() only works for certain server configurations
-		//$headers = apache_request_headers();
 		$headers = self::parseRequestHeaders();
 		if (JArrayHelper::getValue($headers, 'X-Request') === 'JSON')
 		{
@@ -844,6 +844,7 @@ EOD;
 				 * removes previously added window.events (17/10/2011 we're now using Fabrik.events - so this may no longer be an issue)
 				 */
 				JHtml::_('behavior.framework', true);
+				JHtml::script('media/com_fabrik/js/lib/art.js');
 
 				JDEBUG ? JHtml::_('script', 'media/com_fabrik/js/lib/head/head.js') : JHtml::_('script', 'media/com_fabrik/js/lib/head/head.min.js');
 
@@ -856,7 +857,7 @@ EOD;
 					$src[] = 'media/com_fabrik/js/lib/flexiejs/flexie.js';
 				}
 				$src[] = 'media/com_fabrik/js/mootools-ext.js';
-				$src[] = 'media/com_fabrik/js/lib/art.js';
+				//$src[] = 'media/com_fabrik/js/lib/art.js';
 				$src[] = 'media/com_fabrik/js/icons.js';
 				$src[] = 'media/com_fabrik/js/icongen.js';
 				$src[] = 'media/com_fabrik/js/fabrik.js';
@@ -1319,16 +1320,17 @@ EOD;
 	 *
 	 * @param   string  $htmlid     of element to turn into autocomplete
 	 * @param   int     $elementid  element id
+	 * @param   int     $formid     form id
 	 * @param   string  $plugin     plugin name
 	 * @param   array   $opts       (currently only takes 'onSelection')
 	 *
 	 * @return  void
 	 */
 
-	public static function autoComplete($htmlid, $elementid, $plugin = 'field', $opts = array())
+	public static function autoComplete($htmlid, $elementid, $formid, $plugin = 'field', $opts = array())
 	{
 		self::autoCompleteScript();
-		$json = self::autoCompletOptions($htmlid, $elementid, $plugin, $opts);
+		$json = self::autoCompletOptions($htmlid, $elementid, $formid, $plugin, $opts);
 		$str = json_encode($json);
 		$class = $plugin === 'cascadingdropdown' ? 'FabCddAutocomplete' : 'FbAutocomplete';
 		self::addScriptDeclaration("head.ready(function() { new $class('$htmlid', $str); });");
@@ -1339,19 +1341,20 @@ EOD;
 	 *
 	 * @param   string  $htmlid     element to turn into autocomplete
 	 * @param   int     $elementid  element id
+	 * @param   int     $formid     form id
 	 * @param   string  $plugin     plugin type
 	 * @param   array   $opts       (currently only takes 'onSelection')
 	 *
 	 * @return  array	autocomplete options (needed for elements so when duplicated we can create a new FabAutocomplete object
 	 */
 
-	public static function autoCompletOptions($htmlid, $elementid, $plugin = 'field', $opts = array())
+	public static function autoCompletOptions($htmlid, $elementid, $formid, $plugin = 'field', $opts = array())
 	{
 		$json = new stdClass;
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
-			. '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
+			. '&formid=' . $formid . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
 		$c = JArrayHelper::getValue($opts, 'onSelection');
 		if ($c != '')
 		{
@@ -1361,6 +1364,7 @@ EOD;
 		{
 			$json->$k = $v;
 		}
+		$json->formRef = 'form_' . $formid;
 		$json->container = JArrayHelper::getValue($opts, 'container', 'fabrikElementContainer');
 		$json->menuclass = JArrayHelper::getValue($opts, 'menuclass', 'auto-complete-container');
 		return $json;
@@ -1614,7 +1618,7 @@ EOD;
 			$sel = in_array($values[$i], $selected);
 			$chx .= $sel ? ' checked="checked" />' : ' />';
 			$labelClass = FabrikWorker::j3() && !$buttonGroup ? $type : '';
-			$item[] = '<label class="fabrikgrid_' . $value .  ' ' . $labelClass . '">';
+			$item[] = '<label class="fabrikgrid_' . $value . ' ' . $labelClass . '">';
 			$item[] = $elementBeforeLabel == '1' ? $chx . $label : $label . $chx;
 			$item[] = '</label>';
 			$items[] = implode("\n", $item);
@@ -1652,7 +1656,7 @@ EOD;
 						$grid[] = '<div class="row-fluid">';
 					}
 
-					$grid[] =  $optionsPerRow != 1 ? '<div class="span' . $span . '">' . $s . '</div>' : $s;
+					$grid[] = $optionsPerRow != 1 ? '<div class="span' . $span . '">' . $s . '</div>' : $s;
 				}
 				if ($i + 1 % $optionsPerRow !== 0 && $optionsPerRow > 1)
 				{
@@ -1672,6 +1676,20 @@ EOD;
 			}
 		}
 		return $grid;
+	}
+
+	/**
+	 * Does the browser support Canvas elements
+	 *
+	 * @since  3.0.9
+	 *
+	 * @return boolean
+	 */
+
+	public static function canvasSupport()
+	{
+		$navigator = JBrowser::getInstance();
+		return !($navigator->getBrowser() == 'msie' && $navigator->getMajor() < 9);
 	}
 
 	/**
@@ -1701,14 +1719,14 @@ EOD;
 	}
 
 	/**
-	* get content item template
-	*
-	* @since   3.0.7
-	*
-	* @param   int $contentTemplate
-	*
-	* @return  string  content item html
-	*/
+	 * Get content item template
+	 *
+	 * @param   int  $contentTemplate  Joomla article id
+	 *
+	 * @since   3.0.7
+	 *
+	 * @return  string  content item html
+	 */
 
 	public function getContentTemplate($contentTemplate)
 	{
@@ -1731,9 +1749,9 @@ EOD;
 	}
 
 	/**
-	* read a template file
+	* Read a template file
 	*
-	* @param   string  path to template
+	* @param   string  $templateFile  Path to template
 	*
 	* @return   string  template content
 	*/
@@ -1744,22 +1762,19 @@ EOD;
 		return JFile::read($templateFile);
 	}
 
-
 	/**
-	* Run a PHP tmeplate as a require.  Return buffered output, or false if require returns false.
-	*
-	* @param   string  path to template
-	*
-	* @param   array  optional element data in standard format, for eval'ed code to use
-	*
-	* @param   object  optional model object, depending on context, for eval'ed code to use
-	*
-	* @return   mixed  email message or false
+	 * Run a PHP tmeplate as a require.  Return buffered output, or false if require returns false.
+	 *
+	 * @param   string  $tmpl   Path to template
+	 * @param   array   $data   Optional element data in standard format, for eval'ed code to use
+	 * @param   object  $model  Optional model object, depending on context, for eval'ed code to use
+	 *
+	 * @return   mixed  email message or false
 	*/
 
 	public function getPHPTemplate($tmpl, $data = array(), $model = null)
 	{
-		// start capturing output into a buffer
+		// Start capturing output into a buffer
 		ob_start();
 		$result = require $tmpl;
 		$message = ob_get_contents();

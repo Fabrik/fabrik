@@ -4,9 +4,16 @@
 
 		<fieldset name="opts" repeat="1" repeatcontrols="1">
 		
-			<field description="CONNECTIONONLYFABRIKTABLES" label="Connection" name="googlemap_connection" type="connections"/>
+			<field name="googlemap_connection"
+				type="connections"
+				description="CONNECTIONONLYFABRIKTABLES"
+				label="Connection" />
 				
-			<field connection_in_repeat="false" label="COM_FABRIK_LIST" name="googlemap_table" observe="params_googlemap_connection" type="fabriktables"/>
+			<field name="googlemap_table"
+				type="fabriktables"
+				connection_in_repeat="false"
+				label="COM_FABRIK_LIST"
+				observe="params_googlemap_connection" />
 			
 			<field name="prefilters"
 				class="modal-prefilter"
@@ -100,9 +107,15 @@
 					</fieldset>
 				</fields>
 			</field>
-			<field cols="40" description="PLG_VISUALIZATION_GOOGLEMAP_DETAIL_TEMPLATE_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_DETAIL_TEMPLATE_LABEL" name="fb_gm_detailtemplate" rows="8" type="textarea"/>
+			
+			<field name="fb_gm_detailtemplate"
+				type="textarea"
+				cols="40" rows="8"
+				description="PLG_VISUALIZATION_GOOGLEMAP_DETAIL_TEMPLATE_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_DETAIL_TEMPLATE_LABEL" />
 
 			<field name="fb_gm_detailtemplate_nl2br"
+				class="btn-group"
 				type="radio"
 				default="1"
 				description="PLG_VISUALIZATION_GOOGLEMAP_DETAIL_TEMPLATE_NL2BR_DESC"
@@ -111,11 +124,28 @@
 					<option value="1">JYES</option>
 			</field>
 							
-			<field description="PLG_VISUALIZATION_GOOGLEMAP_ICON_DESC" directory="media/com_fabrik/images" filter=".png|.jpg|.gif|.jpeg" hide_none="1" label="PLG_VISUALIZATION_GOOGLEMAP_ICON_LABEL" name="fb_gm_iconimage" type="filelist"/>
+			<field name="fb_gm_iconimage"
+				type="filelist"
+				description="PLG_VISUALIZATION_GOOGLEMAP_ICON_DESC"
+				directory="media/com_fabrik/images"
+				filter=".png|.jpg|.gif|.jpeg"
+				hide_none="1"
+				label="PLG_VISUALIZATION_GOOGLEMAP_ICON_LABEL" />
 			
-			<field description="PLG_VISUALIZATION_GOOGLEMAP_FIRST_ICON_DESC" directory="media/com_fabrik/images" filter=".png|.jpg|.gif|.jpeg" hide_none="1" label="PLG_VISUALIZATION_GOOGLEMAP_FIRST_ICON_LABEL" name="fb_gm_first_iconimage" type="filelist"/>
+			<field name="fb_gm_first_iconimage"
+				type="filelist"
+				description="PLG_VISUALIZATION_GOOGLEMAP_FIRST_ICON_DESC"
+				directory="media/com_fabrik/images"
+				filter=".png|.jpg|.gif|.jpeg" hide_none="1"
+				label="PLG_VISUALIZATION_GOOGLEMAP_FIRST_ICON_LABEL" />
 			
-			<field description="PLG_VISUALIZATION_GOOGLEMAP_LAST_ICON_DESC" directory="media/com_fabrik/images" filter=".png|.jpg|.gif|.jpeg" hide_none="1" label="PLG_VISUALIZATION_GOOGLEMAP_LAST_ICON_LABEL" name="fb_gm_last_iconimage" type="filelist"/>
+			<field name="fb_gm_last_iconimage"
+				type="filelist"
+				description="PLG_VISUALIZATION_GOOGLEMAP_LAST_ICON_DESC"
+				directory="media/com_fabrik/images"
+				filter=".png|.jpg|.gif|.jpeg"
+				hide_none="1"
+				label="PLG_VISUALIZATION_GOOGLEMAP_LAST_ICON_LABEL" />
 				
 			<field type="element"
 				name="fb_gm_iconimage2"
@@ -125,13 +155,35 @@
 				label="PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_LABEL"
 				table="params_googlemap_table" />
 				
-			<field description="PLG_VISUALIZATION_GOOGLEMAP_ICON_LETTER_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_ICON_LETTER_LABEL" name="fb_gm_icon_letter" size="1" type="text"/>
+			<field name="fb_gm_icon_letter"
+				type="text"
+				class="input-mini"
+				description="PLG_VISUALIZATION_GOOGLEMAP_ICON_LETTER_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_ICON_LETTER_LABEL"
+				size="1" />
 				
-			<field connection="params_googlemap_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_ELEMENT_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_ELEMENT_LABEL" name="fb_gm_polyline_element" table="params_googlemap_table" type="element"/>
+			<field name="fb_gm_polyline_element"
+				type="element"
+				connection="params_googlemap_connection"
+				connection_in_repeat="false"
+				description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_ELEMENT_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_ELEMENT_LABEL"
+				table="params_googlemap_table" />
 				
-			<field default="10" description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_WIDTH_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_WIDTH_LABEL" name="fb_gm_polyline_width" size="3" type="text"/>
+			<field name="fb_gm_polyline_width"
+				type="text"
+				size="3"
+				class="input-mini"
+				default="10"
+				description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_WIDTH_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_WIDTH_LABEL" />
 				
-			<field default="#CCFFFF" description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_COLOUR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_COLOUR_LABEL" name="fb_gm_polyline_colour" size="7" type="text"/>
+			<field name="fb_gm_polyline_colour"
+				type="color"
+				class="input-mini"
+				default="#CCFFFF"
+				description="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_COLOUR_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_POLYLINE_COLOUR_LABEL" />
 			
 			<field name="fb_gm_use_polygon"
 				type="radio"
@@ -142,10 +194,28 @@
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="0.35" description="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLOPACITY_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLOPACITY_LABEL" name="fb_gm_polygon_fillOpacity" size="3" type="text"/>
-			<field default="#CCFFFF" description="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLCOLOUR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLCOLOUR_LABEL" name="fb_gm_polygon_fillColor" size="8" type="text"/>		
+			<field name="fb_gm_polygon_fillOpacity"
+				class="input-mini"
+				type="text"
+				default="0.35"
+				description="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLOPACITY_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLOPACITY_LABEL"
+				size="3" />
+				
+			<field name="fb_gm_polygon_fillColor"
+				type="color"
+				class="input-mini"
+				default="#CCFFFF"
+				description="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLCOLOUR_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_POLYGON_FILLCOLOUR_LABEL" />		
 	
-			<field connection="params_googlemap_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_GOOGLEMAP_TITLE_ELEMENT_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_TITLE_ELEMENT_LABEL" name="fb_gm_title_element" table="params_googlemap_table" type="element"/>
+			<field name="fb_gm_title_element"
+				type="element"
+				connection="params_googlemap_connection"
+				connection_in_repeat="false"
+				description="PLG_VISUALIZATION_GOOGLEMAP_TITLE_ELEMENT_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_TITLE_ELEMENT_LABEL"
+				table="params_googlemap_table" />
 			
 			<field name="fb_gm_radius_element"
 				connection="params_googlemap_connection"
@@ -153,35 +223,40 @@
 				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_ELEMENT_DESC"
 				label="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_ELEMENT_LABEL"
 				table="params_googlemap_table"
-				type="element"
-			/>
+				type="element" />
 			
 			<field name="fb_gm_radius_default"
 				type="field"
 				default="50"
 				size = "5"
 				label="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_DEFAULT_LABEL"
-				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_DEFAULT_DESC"
-			/>
+				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_DEFAULT_DESC" />
 			
 			<field name="fb_gm_radius_fill_color"
-				type="field"
+				type="color"
+				class="input-mini"
 				default="#CCFFFF"
 				size = "8"
 				label="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_FILL_COLOR_LABEL"
-				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_FILL_COLOR_DESC"
-			/>
+				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_FILL_COLOR_DESC" />
 			
-			<field name="fb_gm_radius_unit" type="radio" default="k" label="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_UNIT_LABEL" description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_UNIT_DESC">
-				<option value="m">Miles</option>
-				<option value="k">Kilometers</option>
+			<field name="fb_gm_radius_unit"
+				type="radio"
+				default="k"
+				label="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_UNIT_LABEL"
+				description="PLG_VISUALIZATION_GOOGLEMAP_RADIUS_UNIT_DESC">
+					<option value="m">Miles</option>
+					<option value="k">Kilometers</option>
 			</field>
 			
 		</fieldset>
 
 		<fieldset name="rest" repeat="0">
 				
-			<field default="G_NORMAL_MAP" label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_LABEL" name="fb_gm_maptype" type="list">
+			<field name="fb_gm_maptype"
+				type="list"
+				default="G_NORMAL_MAP"
+				label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_LABEL">
 					<option value="G_NORMAL_MAP">Normal</option>
 					<option value="G_SATELLITE_MAP">Satelite</option>
 					<option value="G_HYBRID_MAP">Hybrid</option>
@@ -272,18 +347,38 @@
 				</fields>
 			</field>
 			
-			<field default="4" description="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_LABEL" name="fb_gm_zoomlevel" size="2" type="text"/>
+			<field name="fb_gm_zoomlevel"
+				type="text"
+				class="input-mini"
+				default="4"
+				description="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_LABEL" />
 				
-			<field default="middle" description="PLG_VISUALIZATION_GOOGLEMAP_CENTER_ON_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CENTER_ON_LABEL" name="fb_gm_center" type="radio">
+			<field name="fb_gm_center"
+				type="radio"
+				default="middle"
+				description="PLG_VISUALIZATION_GOOGLEMAP_CENTER_ON_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_CENTER_ON_LABEL" >
 					<option value="middle">PLG_VISUALIZATION_GOOGLEMAP_MIDDLE</option>
 					<option value="lastmarker">PLG_VISUALIZATION_GOOGLEMAP_LAST_MARKER</option>
 					<option value="userslocation">PLG_VISUALIZATION_GOOGLEMAP_USERS_LOCATION</option>
 					<option value="querystring">PLG_VISUALIZATION_GOOGLEMAP_QUERY_STRING</option>
 			</field>
 			
-			<field default="600" label="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_LABEL" description="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_DESC" name="fb_gm_mapwidth" size="3" type="text"/>
+			<field name="fb_gm_mapwidth"
+				type="text"
+				size="3"
+				class="input-mini"
+				default="600"
+				label="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_LABEL"
+				description="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_DESC"/>
 				
-			<field default="300" label="PLG_VISUALIZATION_GOOGLEMAP_HEIGHT_LABEL" name="fb_gm_mapheight" size="3" type="text"/>
+			<field name="fb_gm_mapheight"
+				size="3"
+				type="text"
+				class="input-mini"
+				default="300"
+				label="PLG_VISUALIZATION_GOOGLEMAP_HEIGHT_LABEL"/>
 				
 			<field directory="/plugins/fabrik_visualization/googlemap/views/googlemap/tmpl/" label="template" name="fb_gm_layout" type="folderlist"/>
 				
@@ -291,7 +386,9 @@
 		
 		<fieldset label="PLG_VISUALIZATION_GOOGLEMAP_CONTROLS_HEADING" name="controls">
 		
-			<field default="1" description="PLG_VISUALIZATION_GOOGLEMAP_ZOOM_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_ZOOM_LABEL" name="fb_gm_zoom" type="radio">
+			<field default="1"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_ZOOM_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_ZOOM_LABEL" name="fb_gm_zoom" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
@@ -302,17 +399,23 @@
 				<option value="2">Large</option>
 			</field>
 
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_SCALE_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_SCALE_CONTROL_LABEL" name="fb_gm_scalecontrol" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_SCALE_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_SCALE_CONTROL_LABEL" name="fb_gm_scalecontrol" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_LABEL" name="fb_gm_maptypecontrol" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_LABEL" name="fb_gm_maptypecontrol" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_OVERVIEW_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_OVERVIEW_CONTROL_LABEL" name="fb_gm_overviewcontrol" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_OVERVIEW_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_OVERVIEW_CONTROL_LABEL" name="fb_gm_overviewcontrol" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
@@ -321,12 +424,16 @@
 		
 		<fieldset label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_HEADING" name="ajax">
 		
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_LABEL" name="fb_gm_ajax_refresh" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_LABEL" name="fb_gm_ajax_refresh" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="1" description="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_CENTRE_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_CENTRE_LABEL" name="fb_gm_ajax_refresh_center" type="radio">
+			<field default="1"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_CENTRE_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_REFRESH_CENTRE_LABEL" name="fb_gm_ajax_refresh_center" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
@@ -337,27 +444,39 @@
 
 		<fieldset label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTERING_HEADING" name="clustering">
 		
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_CLUSTERING_ON_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTERING_ON_LABEL" name="fb_gm_clustering" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_CLUSTERING_ON_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTERING_ON_LABEL" name="fb_gm_clustering" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
 			<field default="10,50" description="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_SPLIT_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_SPLIT_LABEL" name="fb_gm_cluster_splits" size="10" type="text"/>
 				
-			<field default="5" description="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_ICON_INCREMENT_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_ICON_INCREMENT_LABEL" name="fb_gm_cluster_icon_increment" size="3" type="text"/>
+			<field class="input-mini" default="5" description="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_ICON_INCREMENT_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_CLUSTER_ICON_INCREMENT_LABEL" name="fb_gm_cluster_icon_increment" size="3" type="text"/>
 				
 		</fieldset>
 
 		<fieldset label="PLG_VISUALIZATION_GOOGLEMAP_ADVANCED_HEADING" name="advanced">
 		
-			<field description="PLG_VISUALIZATION_GOOGLEMAP_MARKER_MAX_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_MARKER_MAX_LABEL" name="fb_gm_markermax" type="text"/>
+			<field name="fb_gm_markermax"
+				type="text"
+				class="input-mini"
+				description="PLG_VISUALIZATION_GOOGLEMAP_MARKER_MAX_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_MARKER_MAX_LABEL" />
 				
-			<field default="1" description="PLG_VISUALIZATION_GOOGLEMAP_USE_COOKIES_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_COOKIES_LABEL" name="fb_gm_use_cookies" type="radio">
+			<field default="1"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_USE_COOKIES_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_COOKIES_LABEL" name="fb_gm_use_cookies" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_USE_RADIUS_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_RADIUS_LABEL" name="fb_gm_use_radius" type="radio">
+			<field name="fb_gm_use_radius"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="PLG_VISUALIZATION_GOOGLEMAP_USE_RADIUS_DESC"
+				label="PLG_VISUALIZATION_GOOGLEMAP_USE_RADIUS_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
@@ -369,18 +488,22 @@
 		</fieldset>
 		
 		<fieldset label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAY_HEADING" name="overlay_settings">
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_LABEL" name="fb_gm_use_overlays" type="radio">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_LABEL" name="fb_gm_use_overlays" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 		
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_SIDEBAR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_SIDEBAR_LABEL" name="fb_gm_use_overlays_sidebar" type="radio">
+			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_SIDEBAR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_USE_OVERLAYS_SIDEBAR_LABEL" name="fb_gm_use_overlays_sidebar" type="list">
 					<option value="0">None</option>
 					<option value="1">Left</option>
 					<option value="2">Right</option>
 			</field>
 		
-			<field default="0" description="PLG_VISUALIZATION_GOOGLEMAP_GROUP_BY_SIDEBAR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_BY_SIDEBAR_LABEL" name="fb_gm_group_sidebar" type="radio">
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_GROUP_BY_SIDEBAR_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_BY_SIDEBAR_LABEL" name="fb_gm_group_sidebar" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>	
 			</field>
@@ -395,7 +518,7 @@
 			 -->
 		</fieldset>
 	
-		<fieldset addpath="/administrator/components/com_fabrik/elements" name="overlays" repeat="1" repeatcontrols="1">
+		<fieldset addpath="/administrator/components/com_fabrik/elements" name="overlays" label="PLG_VISUALIZTAION_GOOGLEMAP_OVERLAY_URLS" repeat="1" repeatcontrols="1">
 			<field description="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_URL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_URL_LABEL" name="fb_gm_overlay_urls" size="100" type="text"/>
 				
 			<field description="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_LABEL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_LABEL_LABEL" name="fb_gm_overlay_labels" size="100" type="text"/>

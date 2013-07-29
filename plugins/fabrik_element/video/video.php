@@ -20,9 +20,10 @@ jimport('joomla.application.component.model');
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.video
+ * @since       3.0
  */
 
-class plgFabrik_ElementVideo extends plgFabrik_Element
+class PlgFabrik_ElementVideo extends PlgFabrik_Element
 {
 
 	/** @var array allowed file extensions*/
@@ -31,15 +32,18 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 	protected $_is_upload = true;
 
 	/**
-	 * (non-PHPdoc)
-	 * @see plgFabrik_Element::renderListData()
+	 * Shows the data formatted for the list view
+	 *
+	 * @param   string  $data      elements data
+	 * @param   object  &$thisRow  all the data in the lists current row
+	 *
+	 * @return  string	formatted value
 	 */
 
 	public function renderListData($data, &$thisRow)
 	{
 		$str = '';
 		$data = FabrikWorker::JSONtoData($data, true);
-		//$data = explode(GROUPSPLITTER, $data);
 		foreach ($data as $d)
 		{
 			$str .= $this->_renderListData($d, $thisRow);
@@ -49,9 +53,9 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 
 	/**
 	 * shows the data formatted for the table view
-	 * @param string data
-	 * @param object all the data in the tables current row
-	 * @return string formatted value
+	 * @param   string	data
+	 * @param   object	all the data in the tables current row
+	 * @return  string	formatted value
 	 */
 
 	function _renderListData($data, $thisRow)
@@ -82,18 +86,21 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 
 	function renderPopup()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$document = JFactory::getDocument();
-		$format = JRequest::getVar('format', '');
-		//when loaded via ajax adding scripts into the doc head wont load them
+		$format = $input->get('format', '');
+
+		// When loaded via ajax adding scripts into the doc head wont load them
 		echo "<script type='text/javascript'>";
-		require(COM_FABRIK_FRONTEND . '/media/com_fabrik/js/element.js');
+		require COM_FABRIK_FRONTEND . '/media/com_fabrik/js/element.js';
 		echo "</script>";
 		echo "<script type='text/javascript'>";
-		require(JPATH_ROOT . '/plugins/fabrik_element/video/video.js');
+		require JPATH_ROOT . '/plugins/fabrik_element/video/video.js';
 		echo "</script>";
 
 		$params = $this->getParams();
-		$value = JRequest::getVar('data');
+		$value = $input->get('data', '', 'string');
 		$loop = ($params->get('fbVideoLoop', 0) == 1) ? 'true' : 'false';
 		$autoplay = ($params->get('fbVideoAutoPlay', 0) == 1) ? 'true' : 'false';
 		$controller = ($params->get('fbVideoController', 0) == 1) ? 'true' : 'false';
@@ -136,18 +143,21 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 	}
 
 	/**
-	 * draws the form element
-	 * @param int repeat group counter
-	 * @return string returns element html
+	 * Draws the html form element
+	 *
+	 * @param   array  $data           to preopulate element with
+	 * @param   int    $repeatCounter  repeat group counter
+	 *
+	 * @return  string	elements html
 	 */
 
-	function render($data, $repeatCounter = 0)
+	public function render($data, $repeatCounter = 0)
 	{
 		$element = $this->getElement();
 		$value = $element->default;
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
-		$params = &$this->getParams();
+		$params = $this->getParams();
 
 		$maxlength = $params->get('maxlength');
 		if ((int) $maxlength === 0)
@@ -200,7 +210,7 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 	{
 		$id = $this->getHTMLId($repeatCounter);
 		$element = $this->getElement();
-		$params = &$this->getParams();
+		$params = $this->getParams();
 		$f = str_replace("\\", "/", $element->default);
 		$value = ($element->default != '') ? COM_FABRIK_LIVESITE . $f : '';
 
@@ -219,14 +229,18 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 	}
 
 	/**
-	 * OPTIONAL
+	 * Processes uploaded data
 	 *
+	 * @return  void
 	 */
 
-	function processUpload()
+	public function processUpload()
 	{
-		$aData = JRequest::get('post');
-		$elName = $this->getFullName(true, true, false);
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$filter = JFilterInput::getInstance();
+		$aData = $filter->clean($_POST, 'array');
+		$elName = $this->getFullName(true, false);
 		if (strstr($elName, 'join'))
 		{
 			$elTempName = str_replace('join', '', $elName);
@@ -234,14 +248,14 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 			$joinArray = explode(']', $elTempName);
 			$elName = $joinArray[1];
 			$aFile = $_FILES['join'];
-			$aFile = JRequest::getVar('join', '', 'files', 'array');
-			$myFileName = $aFile['name'][$joinArray[0]][$joinArray[1]];
-			$myTempFileName = $aFile['tmp_name'][$joinArray[0]][$joinArray[1]];
+			$aFile = $input->files->get('join', array(), 'array');
+			$myFileName = $aFile[$joinArray[0]][$joinArray[1]]['name'];
+			$myTempFileName = $aFile[$joinArray[0]][$joinArray[1]]['tmp_name'];
 			$aData['join'][$joinArray[0]][$joinArray[1]] = '';
 		}
 		else
 		{
-			$aFile = JRequest::getVar($elName, '', 'files', 'array');
+			$aFile = $input->files->get($elName, array(), 'array');
 			$myFileName = $aFile['name'];
 			$myTempFileName = $aFile['tmp_name'];
 		}
@@ -273,7 +287,7 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 			$myFileDir = $aData[$elName]['ul_end_dir'];
 			$files[] = $this->_processIndUpload($oUploader, $myFileName, $tmpFile, '', $myFileDir, $aFile);
 		}
-		$group = $this->_group->getGroup();
+		$group = $this->getGroup()->getGroup();
 		if (!$group->is_join)
 		{
 			$aData[$elName] = implode("|", $files);
@@ -339,8 +353,8 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 			{
 				jimport('joomla.filesystem.path');
 				JPath::setPermissions($destFile);
-				//resize main image
 
+				// Resize main image
 				$oImage = FabimageHelper::loadLib($params->get('image_library'));
 				$mainWidth = $params->get('fu_main_max_width');
 				$mainHeight = $params->get('fu_main_max_height');
@@ -370,5 +384,3 @@ class plgFabrik_ElementVideo extends plgFabrik_Element
 
 	}
 }
-
-									  ?>

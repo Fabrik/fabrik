@@ -640,8 +640,10 @@
 		</copy>
 	
 		<mkdir dir="${cfg.destdir}/plugins/search" />
-		<copy file="${basedir}/plugins/search/fabrik/fabrik.xml" todir="${cfg.destdir}/plugins/search" />
-		<copy file="${basedir}/plugins/search/fabrik/fabrik.php" todir="${cfg.destdir}/plugins/search" />
+		<copy todir="${cfg.destdir}/plugins/search">
+			<fileset dir="${basedir}/plugins/search/fabrik">
+			</fileset>
+		</copy>
 
 		<mkdir dir="${cfg.destdir}/plugins/system" />
 		<mkdir dir="${cfg.destdir}/plugins/system/fabrikcron" />

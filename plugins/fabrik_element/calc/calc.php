@@ -25,7 +25,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * This really does get just the default value (as defined in the element's settings)
 	 *
-	 * @param   array  $data  form data
+	 * @param   array  $data  Form data
 	 *
 	 * @return mixed
 	 */
@@ -50,8 +50,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * Get value
 	 *
-	 * @param   string  $data           value
-	 * @param   int     $repeatCounter  repeat group counter
+	 * @param   string  $data           Value
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return  string
 	 */
@@ -208,9 +208,9 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * Determines the value for the element in the form view
 	 *
-	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
-	 * @param   array  $opts           options
+	 * @param   array  $data           Form data
+	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   array  $opts           Options
 	 *
 	 * @return  string	value
 	 */
@@ -244,7 +244,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * run on formModel::setFormData()
 	 *
-	 * @param   int  $c  repeat group counter
+	 * @param   int  $c  Repeat group counter
 	 *
 	 * @return void
 	 */
@@ -348,12 +348,12 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 					foreach (array_keys($v) as $x)
 					{
 						$origval = JArrayHelper::getValue($origdata, $x);
-						$d[$elkey][$x] = $elementModel->getLabelForValue($v[$x], $origval, $d);
+						$d[$elkey][$x] = $elementModel->getLabelForValue($v[$x], $origval, true);
 					}
 				}
 				else
 				{
-					$d[$elkey] = $elementModel->getLabelForValue($v, JArrayHelper::getValue($d, $elkey), $d);
+					$d[$elkey] = $elementModel->getLabelForValue($v, JArrayHelper::getValue($d, $elkey), true);
 				}
 			}
 		}
@@ -417,6 +417,34 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	}
 
 	/**
+	 * Does the element require other elements to be successfully used
+	 * E.g. calc element in csv export must have its calc elements included
+	 *
+	 * @param   array  &$fields  Existing list of fields
+	 *
+	 * @since 3.0.8
+	 *
+	 * @return  void
+	 */
+	public function requiresOtherAsFields(&$fields)
+	{
+		$params = $this->getParams();
+		$calc = $params->get('calc_calculation', '');
+		$formModel = $this->getFormModel();
+		preg_match("/{[^}\s]+}/i", $calc, $matches);
+		$f = array();
+		foreach ($matches as $m)
+		{
+			$m = str_replace(array('{', '}'), '', $m);
+			$elementModel = $formModel->getElement($m);
+			if ($elementModel !== false)
+			{
+				$elementModel->getAsField_html($fields, $f);
+			}
+		}
+	}
+
+	/**
 	 * Prepares the element data for CSV export
 	 *
 	 * @param   string  $data      Element data
@@ -461,7 +489,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		{
 			if (!$this->isEditable())
 			{
-				$value = $this->_replaceWithIcons($value);
+				$value = $this->replaceWithIcons($value);
 				$str[] = $value;
 			}
 			else
@@ -534,7 +562,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$this->setId($input->getInt('element_id'));
-		$this->getElement();
+		$this->loadMeForAjax();
 		$params = $this->getParams();
 		$w = new FabrikWorker;
 		$d = JRequest::get('request');

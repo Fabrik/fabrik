@@ -152,7 +152,7 @@ class PlgFabrik_ListOrder extends PlgFabrik_List
 		$query = "UPDATE " . $table->db_table_name . " SET " . $orderBy . ' = COALESCE(' . $orderBy . ', 1) - 1 ';
 		$query .= " WHERE " . $orderBy . ' ' . $compare . ' ' . $o . ' AND ' . $table->db_primary_key . ' <> ' . $dragged;
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			echo $db->getErrorMsg();
 		}
@@ -173,7 +173,7 @@ class PlgFabrik_ListOrder extends PlgFabrik_List
 
 			$db->setQuery($query);
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				echo $db->getErrorMsg();
 			}
@@ -183,7 +183,7 @@ class PlgFabrik_ListOrder extends PlgFabrik_List
 				$query = "UPDATE " . $table->db_table_name . " SET " . $orderBy . ' = ' . $o;
 				$query .= " WHERE " . $table->db_primary_key . ' = ' . $dragged;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 		$model->reorder(JRequest::getInt('orderelid'));

@@ -27,7 +27,7 @@ if (!class_exists('TwitterOAuth'))
  * @since       3.0
  */
 
-class plgFabrik_FormTwitter extends plgFabrik_Form
+class PlgFabrik_FormTwitter extends PlgFabrik_Form
 {
 
 	/**
@@ -141,14 +141,15 @@ class plgFabrik_FormTwitter extends plgFabrik_Form
 		$session = JFactory::getSession();
 		$formdata = $session->get('com_' . $package . '.form.data');
 
-		// If method is set change API call made. Test is called by default.
-		$content = $connection->get('account/rate_limit_status');
+		// @TODO incorrect for API1.1 should implement this https://dev.twitter.com/docs/api/1.1/get/application/rate_limit_status. For now just use error msg
+		/* $content = $connection->get('account/rate_limit_status');
 
 		if ($content->remaining_hits <= 0)
 		{
 			JError::raiseNotice(500, JText::_('TWITTER_ACCOUNT_LIMIT_REACHED'));
-		}
-		/* Get logged in user to help with tests. */
+		} */
+
+		// Get logged in user to help with tests
 		$user = $connection->get('account/verify_credentials');
 		$msg = $_SESSION['msg'];
 		$data = JFactory::getDate();

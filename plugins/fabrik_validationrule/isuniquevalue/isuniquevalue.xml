@@ -2,12 +2,12 @@
 <extension group="fabrik_validationrule" method="upgrade" type="plugin" version="2.5">
 	<name>plg_fabrik_validationrule_isuniquevalue</name>
 	<author>Rob Clayburn</author>
-	<creationDate>March 2013</creationDate>
+	<creationDate>May 2013</creationDate>
 	<copyright>(C) 2005-2013 fabrikar.com</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.0.7</version>
+	<version>3.0.8</version>
 	<help url="PLG_VALIDATIONRULE_ISUNIQUEVALUE_HELP_SERVER"/>
 	<description>PLG_VALIDATIONRULE_ISUNIQUEVALUE_DESCRIPTION</description>
 	<files>

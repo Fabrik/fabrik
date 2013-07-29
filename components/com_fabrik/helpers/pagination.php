@@ -16,7 +16,7 @@ defined('_JEXEC') or die();
  * @param   int the total number of records in the table
  * @param   int number of records to show per page
  * @param   int which record number to start at
- */
+*/
 
 jimport('joomla.html.pagination');
 
@@ -26,7 +26,7 @@ jimport('joomla.html.pagination');
  *
  * @package  Fabrik
  * @since    3.0
- */
+*/
 
 class FPagination extends JPagination
 {
@@ -76,7 +76,7 @@ class FPagination extends JPagination
 	/**
 	 * Set the pagination ID
 	 *
-	 * @param  int  $id id
+	 * @param   int  $id  id
 	 *
 	 * @return  void
 	 */
@@ -158,8 +158,8 @@ class FPagination extends JPagination
 		}
 		$selected = $this->_viewall ? 0 : $this->limit;
 		$js = '';
-		$html = JHTML::_('select.genericlist', $limits, 'limit' . $this->_id, 'class="inputbox" size="1" onchange="' . $js . '"', 'value', 'text',
-			$selected);
+		$attribs = 'class="inputbox" size="1" onchange="' . $js . '"';
+		$html = JHTML::_('select.genericlist', $limits, 'limit' . $this->_id, $attribs, 'value', 'text', $selected);
 		return $html;
 	}
 
@@ -242,7 +242,7 @@ class FPagination extends JPagination
 		{
 			$list['previous']['active'] = true;
 			$list['previous']['data'] = $itemOverride ? fabrik_pagination_item_active($data->previous, $this->listRef)
-				: $this->_item_active($data->previous);
+			: $this->_item_active($data->previous);
 		}
 		else
 		{
@@ -367,7 +367,7 @@ class FPagination extends JPagination
 
 			$data->previous->base = $page;
 			$data->previous->link = $admin ? "{$sepchar}limitstart{$this->_id}=" . $page
-				: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $page);
+			: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $page);
 
 			$data->start->link = str_replace('resetfilters=1', '', $data->start->link);
 			$data->previous->link = str_replace('resetfilters=1', '', $data->previous->link);
@@ -386,10 +386,10 @@ class FPagination extends JPagination
 
 			$data->next->base = $next;
 			$data->next->link = $admin ? "{$sepchar}limitstart{$this->_id}=" . $next
-				: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $next);
+			: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $next);
 			$data->end->base = $end;
 			$data->end->link = $admin ? "{$sepchar}limitstart{$this->_id}=" . $end
-				: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $end);
+			: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $end);
 
 			$data->next->link = str_replace('resetfilters=1', '', $data->next->link);
 			$data->end->link = str_replace('resetfilters=1', '', $data->end->link);
@@ -408,7 +408,7 @@ class FPagination extends JPagination
 			{
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = $admin ? "{$sepchar}limitstart{$this->_id}=" . $offset
-					: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $offset);
+				: JRoute::_($this->url . "{$sepchar}limitstart{$this->_id}=" . $offset);
 				$data->pages[$i]->link = str_replace('resetfilters=1', '', $data->pages[$i]->link);
 				$data->pages[$i]->link = str_replace('clearordering=1', '', $data->pages[$i]->link);
 			}

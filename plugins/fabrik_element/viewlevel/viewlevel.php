@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * @since       3.0.6
  */
 
-class PlgFabrik_ElementViewlevel extends PlgFabrik_Element
+class PlgFabrik_ElementViewlevel extends PlgFabrik_ElementList
 {
 
 	/**
@@ -37,30 +37,40 @@ class PlgFabrik_ElementViewlevel extends PlgFabrik_Element
 	protected $fieldSize = '3';
 
 	/**
+	 * Array of id, label's queried from #__viewlevel
+	 *
+	 * @var array
+	 */
+	protected $allOpts = null;
+
+	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   array  $data           To preopulate element with
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
-	 * @return  string	elements html
+	 * @return  string	Elements html
 	 */
 
 	public function render($data, $repeatCounter = 0)
 	{
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
-		$arSelected = array('');
+		$user = JFactory::getUser();
+		$selected = $user->getAuthorisedViewLevels();
+		arsort($selected);
+		$selected = array_shift($selected);
 		if (isset($data[$name]))
 		{
-			$arSelected = !is_array($data[$name]) ? explode(',', $data[$name]) : $arSelected = $data[$name];
+			$selected = !is_array($data[$name]) ? explode(',', $data[$name]) : $selected = $data[$name];
 		}
 		if (!$this->canUse())
 		{
 			$data = new stdClass;
-			return $this->renderListData($arSelected[0], $data);
+			return $this->renderListData($selected[0], $data);
 		}
 		$options = array();
-		return JHtml::_('access.level', $name, $arSelected[0], 'class="inputbox" size="6"', $options, $id);
+		return JHtml::_('access.level', $name, $selected, 'class="inputbox" size="6"', $options, $id);
 	}
 
 	/**
@@ -76,6 +86,60 @@ class PlgFabrik_ElementViewlevel extends PlgFabrik_Element
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
 		return array('FbViewlevel', $id, $opts);
+	}
+
+	/**
+	 * Get all user groups (id/title)
+	 *
+	 * @return  array
+	 */
+
+	private function allOpts()
+	{
+		if (!isset($this->allOpts))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('id, title');
+			$query->from($db->quoteName('#__viewlevels'));
+			$db->setQuery($query);
+			$this->allOpts = $db->loadObjectList('id');
+		}
+		return $this->allOpts;
+	}
+
+	/**
+	 * Get sub option values
+	 *
+	 * @return  array
+	 */
+
+	protected function getSubOptionValues()
+	{
+		$opts = $this->allOpts();
+		$return = array();
+		foreach ($opts as $opt)
+		{
+			$return[] = $opt->id;
+		}
+		return $return;
+	}
+
+	/**
+	 * Get sub option labels
+	 *
+	 * @return  array
+	 */
+
+	protected function getSubOptionLabels()
+	{
+		$opts = $this->allOpts();
+		$return = array();
+		foreach ($opts as $opt)
+		{
+			$return[] = $opt->title;
+		}
+		return $return;
 	}
 
 }

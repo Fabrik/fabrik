@@ -80,7 +80,7 @@ class ElementHelper
 	{
 		if (method_exists($element, 'getRepeatCounter'))
 		{
-			$c = $this->getRepeatCounter();
+			$c = $element->getRepeatCounter();
 		}
 		else
 		{
@@ -101,7 +101,7 @@ class ElementHelper
 	{
 		if (method_exists($element, 'getRepeat'))
 		{
-			$c = $this->getRepeat();
+			$c = $element->getRepeat();
 		}
 		else
 		{

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @package Joomla
- * @subpackage Fabrik
- * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
@@ -20,15 +20,53 @@ defined('_JEXEC') or die();
  *
  */
 
+/**
+ * build route
+ *
+ * @param   object  &$query  uri?
+ *
+ * @return  array url
+ */
+
 function fabrikBuildRoute(&$query)
 {
 	$segments = array();
 	$app = JFactory::getApplication();
 	$menu = $app->getMenu();
-	$menuItem = $menu->getItem(@$query['Itemid']);
+
+	if (empty($query['Itemid']))
+	{
+		$menuItem = $menu->getActive();
+		$menuItemGiven = false;
+	}
+	else
+	{
+		$menuItem = $menu->getItem($query['Itemid']);
+		$menuItemGiven = true;
+	}
+
+	// Are we dealing with a view that is attached to a menu item https://github.com/Fabrik/fabrik/issues/498?
+	if (($menuItem instanceof stdClass) && isset($query['view']) && $menuItem->query['view'] == $query['view'] && isset($query['id'])  && isset($menuItem->query['id']) && $menuItem->query['id'] == intval($query['id']))
+	{
+		unset($query['view']);
+
+		if (isset($query['catid']))
+		{
+			unset($query['catid']);
+		}
+
+		if (isset($query['layout']))
+		{
+			unset($query['layout']);
+		}
+
+		unset($query['id']);
+		return $segments;
+	}
+
 	if (isset($query['c']))
 	{
-		//$segments[] = $query['c'];//remove from sef url
+		// $segments[] = $query['c'];//remove from sef url
 		unset($query['c']);
 	}
 
@@ -83,7 +121,6 @@ function fabrikBuildRoute(&$query)
 		unset($query['listid']);
 	}
 
-
 	if (isset($query['rowid']))
 	{
 		$segments[] = $query['rowid'];
@@ -95,7 +132,6 @@ function fabrikBuildRoute(&$query)
 		$segments[] = $query['calculations'];
 		unset($query['calculations']);
 	}
-	;
 
 	if (isset($query['filetype']))
 	{
@@ -105,9 +141,13 @@ function fabrikBuildRoute(&$query)
 	if (isset($query['format']))
 	{
 		$segments[] = $query['format'];
-		//don't unset as with sef urls and extensions on - if we unset it
-		//the url's prefix is set to .html
-		//unset($query['format']);
+
+		/**
+		 * Don't unset as with sef urls and extensions on - if we unset it
+		 * the url's prefix is set to .html
+		 *
+		 *  unset($query['format']);
+		 */
 	}
 
 	if (isset($query['type']))
@@ -116,20 +156,30 @@ function fabrikBuildRoute(&$query)
 		unset($query['type']);
 	}
 
-	//test
+	// Test
 	if (isset($query['fabriklayout']))
 	{
 		$segments[] = $query['fabriklayout'];
 		unset($query['fabriklayout']);
 	}
+
 	return $segments;
 }
 
+/**
+ * parse route
+ *
+ * @param   array  $segments  url
+ *
+ * @return  array vars
+ */
+
 function fabrikParseRoute($segments)
 {
-	//vars are what Joomla then uses for its $_REQUEST array
+	// $vars are what Joomla then uses for its $_REQUEST array
 	$vars = array();
-	//Get the active menu item
+
+	// Get the active menu item
 	$app = JFactory::getApplication();
 	$menu = $app->getMenu();
 	$item = $menu->getActive();
@@ -164,7 +214,7 @@ function fabrikParseRoute($segments)
 			$vars['format'] = JArrayHelper::getValue($segments, 2, 'html');
 			break;
 		default:
-			// Router: ahk no view! for $view
+			break;
 	}
 	return $vars;
 }

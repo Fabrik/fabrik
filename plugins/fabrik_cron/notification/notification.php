@@ -1,11 +1,9 @@
 <?php
 /**
- * A cron task to email records to a give set of users
- * @package Joomla
- * @subpackage Fabrik
- * @author Rob Clayburn
- * @copyright (C) Rob Clayburn
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.cron.notification
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -14,8 +12,26 @@ defined('_JEXEC') or die();
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
 
-class plgFabrik_Cronnotification extends plgFabrik_Cron
+/**
+ * A cron task to email records to a give set of users
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.cron.notification
+ * @since       3.0
+ */
+
+class PlgFabrik_Cronnotification extends PlgFabrik_Cron
 {
+
+	/**
+	 * Check if the user can use the active element
+	 *
+	 * @param   object  &$model    calling the plugin list/form
+	 * @param   string  $location  to trigger plugin on
+	 * @param   string  $event     to trigger plugin on
+	 *
+	 * @return  bool can use or not
+	 */
 
 	public function canUse(&$model = null, $location = null, $event = null)
 	{
@@ -23,11 +39,14 @@ class plgFabrik_Cronnotification extends plgFabrik_Cron
 	}
 
 	/**
-	 * do the plugin action
+	 * Do the plugin action
+	 *
+	 * @param   array  &$data  Record data
+	 *
 	 * @return number of records updated
 	 */
 
-	function process(&$data)
+	public function process(&$data)
 	{
 
 		$db = FabrikWorker::getDbo();
@@ -55,8 +74,8 @@ class plgFabrik_Cronnotification extends plgFabrik_Cron
 		$rows = $db->loadObjectList();
 
 		$config = JFactory::getConfig();
-		$email_from = $config->getValue('mailfrom');
-		$sitename = $config->getValue('sitename');
+		$email_from = $config->get('mailfrom');
+		$sitename = $config->get('sitename');
 		$sent = array();
 		$usermsgs = array();
 
@@ -104,7 +123,7 @@ class plgFabrik_Cronnotification extends plgFabrik_Cron
 		{
 			$sent = implode(';', $sent);
 			$db->setQuery($sent);
-			$db->query();
+			$db->execute();
 		}
 		$this->log = count($sent) . ' notifications sent.<br />';
 		$this->log .= 'Emailed users: <ul><li>' . implode('</li><li>', $successMails) . '</li></ul>';

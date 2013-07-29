@@ -2,11 +2,11 @@
 /**
  * Package controller
  *
- * @package Joomla.Administrator
- * @subpackage Fabrik
- * @since		1.6
- * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @since       1.6
  */
 
 // No direct access
@@ -17,10 +17,10 @@ jimport('joomla.application.component.controllerform');
 /**
  * Package controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		1.6
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
+ */
 
 class FabrikControllerPackage extends JControllerForm
 {
@@ -38,10 +38,12 @@ class FabrikControllerPackage extends JControllerForm
 	 */
 	public function export()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('cid', array(), 'array');
 		$model = $this->getModel();
 		$model->export($cid);
-		$ntext = $this->text_prefix.'_N_ITEMS_EXPORTED';
+		$ntext = $this->text_prefix . '_N_ITEMS_EXPORTED';
 		$this->setMessage(JText::plural($ntext, count($cid)));
 		$this->setRedirect('index.php?option=com_fabrik&view=packages');
 	}
@@ -54,17 +56,18 @@ class FabrikControllerPackage extends JControllerForm
 	public function view()
 	{
 		$document = JFactory::getDocument();
-		//$model = JModel::getInstance('Form', 'FabrikFEModel');
-		$viewType	= $document->getType();
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$viewType = $document->getType();
 		$this->setPath('view', COM_FABRIK_FRONTEND . '/views');
-		$viewLayout	= JRequest::getCmd('layout', 'default');
+		$viewLayout = $input->get('layout', 'default');
 		$view = $this->getView('form', $viewType, '');
-		//$view->setModel($model, true);
 		$view->isMambot = $this->isMambot;
+
 		// Set the layout
 		$view->setLayout($viewLayout);
 
-		//if the view is a package create and assign the table and form views
+		// If the view is a package create and assign the table and form views
 		$listView = $this->getView('list', $viewType);
 		$listModel = $this->getModel('list', 'FabrikFEModel');
 		$listView->setModel($listModel, true);
@@ -83,8 +86,7 @@ class FabrikControllerPackage extends JControllerForm
 			$view->setModel($model, true);
 		}
 
-		//todo check for cached version
-		//JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_FORMS'), 'forms.png');
+		// @TODO check for cached version
 		$view->display();
 	}
 
@@ -96,9 +98,10 @@ class FabrikControllerPackage extends JControllerForm
 	public function listform()
 	{
 		$document = JFactory::getDocument();
-		$this->Form	= $this->get('PackageListForm');
+		$this->Form = $this->get('PackageListForm');
 		$viewType = $document->getType();
 		$view = $this->getView('package', $viewType, '');
+
 		// Push a model into the view
 		$model = $this->getModel();
 		$db = FabrikWorker::getDbo();

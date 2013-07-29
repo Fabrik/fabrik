@@ -22,7 +22,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
  * @since       3.0
  */
 
-class plgFabrik_Cronphp extends plgFabrik_Cron
+class PlgFabrik_Cronphp extends PlgFabrik_Cron
 {
 
 	/**

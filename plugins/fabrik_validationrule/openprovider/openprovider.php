@@ -24,7 +24,8 @@ require_once JPATH_SITE . '/plugins/fabrik_validationrule/openprovider/api.php';
  * @since       3.0
  */
 
-class plgFabrik_ValidationruleOpenprovider extends plgFabrik_Validationrule {
+class PlgFabrik_ValidationruleOpenprovider extends PlgFabrik_Validationrule
+{
 
 	/**
 	 * Plugin name
@@ -70,12 +71,12 @@ class plgFabrik_ValidationruleOpenprovider extends plgFabrik_Validationrule {
 		$api = new OP_API('https://api.openprovider.eu');
 
 		$args = array(
-    'domains' => array(
-		array(
-        'name' => $domain,
-        'extension' => $extension
-		)
-		)
+			'domains' => array(
+				array(
+					'name' => $domain,
+					'extension' => $extension
+				)
+			)
 		);
 		$request = new OP_Request;
 		$request->setCommand('checkDomainRequest')

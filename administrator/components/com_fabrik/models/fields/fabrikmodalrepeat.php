@@ -16,9 +16,9 @@ jimport('joomla.form.formfield');
 /**
  * Display a json loaded window with a repeatble set of sub fields
  *
- * @package		Joomla
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla
+ * @subpackage  Form
+ * @since       1.6
  */
 
 class JFormFieldFabrikModalrepeat extends JFormField
@@ -135,7 +135,6 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			$str[] = '<td>' . $field->getInput() . '</td>';
 		}
 
-
 		$str[] = '<td><div style="width:35px"><a href="#" class="add"><img src="' . $path . '/icon-16-new.png" alt="' . JText::_('ADD') . '" /></a>';
 		$str[] = '<a href="#" class="remove"><img src="' . $path . '/icon-16-delete.png" alt="' . JText::_('REMOVE') . '" /></a>';
 		$str[] = '</td>';
@@ -181,7 +180,8 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			if (typeOf($('$pane')) !== 'null') {
 			  $('$pane').getParent().hide();
 			}
-			});");
+			});"
+				);
 			}
 
 		}

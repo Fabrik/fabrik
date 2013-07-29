@@ -2,6 +2,10 @@
 <form>
 	<fields name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-youtube">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_YOUTUBE_HELP_SERVER" />
+				
 			<field default="60" description="" label="Width" name="width" size="3" type="text"/>
 			<field default="" label="Default" name="default" size="50" type="text"/>
 			<field default="1" description="" label="INCLUDERELATEDVIDEOS" name="include_related" type="radio">

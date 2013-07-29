@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
 		<fieldset label="slider" name="plg-element-slider">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_SLIDER_HELP_SERVER" />
+				
 			<field default="0" label="PLG_ELEMENT_SLIDER_EVAL_LABEL" name="eval" type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

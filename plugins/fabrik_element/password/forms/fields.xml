@@ -2,6 +2,10 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-element-password">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_PASSWORD_HELP_SERVER" />
+				
 			<field default="255" description="" label="PLG_ELEMENT_PASSWORD_MAXLENGTH_LABEL" name="maxlength" size="3" type="text"/>
 		</fieldset>
 	</fields>

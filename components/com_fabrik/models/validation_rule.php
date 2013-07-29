@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/plugin.php';
  * @since    3.0
  */
 
-class plgFabrik_Validationrule extends FabrikPlugin
+class PlgFabrik_Validationrule extends FabrikPlugin
 {
 
 	var $_pluginName = null;

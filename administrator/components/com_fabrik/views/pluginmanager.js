@@ -146,6 +146,7 @@ var PluginManager = new Class({
 					this.addPlugin(plugin, tt_temp + 1);
 				}
 				this.accordion.addSection(toggler, div.getElement('.pane-slider'));
+				FabrikAdmin.reTip();
 			}.bind(this),
 			onFailure: function (xhr) {
 				console.log('fail', xhr);
@@ -194,6 +195,7 @@ var PluginManager = new Class({
 			},
 			update: document.id('plugins').getElements('.actionContainer')[c].getElement('.pluginOpts'),
 			onComplete: function () {
+				FabrikAdmin.reTip();
 			}.bind(this)
 		});
 		this.pluginTotal ++;

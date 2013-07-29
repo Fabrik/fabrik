@@ -19,7 +19,8 @@ defined('_JEXEC') or die();
  * @since       3.0
 */
 
-class fileRender{
+class FileRender
+{
 
 	/**
 	 * Render output

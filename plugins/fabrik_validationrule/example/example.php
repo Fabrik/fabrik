@@ -57,7 +57,7 @@ defined('_JEXEC') or die();
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
 
-class plgFabrik_ValidationruleExample extends plgFabrik_Validationrule
+class PlgFabrik_ValidationruleExample extends PlgFabrik_Validationrule
 {
 
 	/**

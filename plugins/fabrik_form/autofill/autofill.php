@@ -32,7 +32,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormAutofill extends plgFabrik_Form
+class PlgFabrik_FormAutofill extends PlgFabrik_Form
 {
 
 	/**
@@ -57,10 +57,17 @@ class plgFabrik_FormAutofill extends plgFabrik_Form
 		$opts->map = $params->get('autofill_map');
 		$opts->cnn = $params->get('autofill_cnn');
 		$opts->table = $params->get('autofill_table', '');
+		/**
+		 * $$$ hugh - removed this notice, as we support not selecting a list,
+		 * as per the tooltips on the settings, and if not selected we will just
+		 * use "this" list for the lookup.
+		 */
+		/*
 		if ($opts->table === '')
 		{
 			JError::raiseNotice(500, 'Autofill plugin - no list selected');
 		}
+		*/
 		$opts->editOrig = $params->get('autofill_edit_orig', 0) == 0 ? false : true;
 		$opts->confirm = (bool) $params->get('autofill_confirm', true);
 		$opts->autofill_lookup_field = $params->get('autofill_lookup_field');

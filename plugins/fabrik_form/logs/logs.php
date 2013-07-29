@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormLogs extends plgFabrik_Form
+class PlgFabrik_FormLogs extends PlgFabrik_Form
 {
 
 	/**
@@ -57,7 +57,9 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 
 	protected function getMessageType($rowid)
 	{
-		if (JRequest::getVar('view') == 'details')
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		if ($input->get('view') == 'details')
 		{
 			return 'form.details';
 		}
@@ -119,11 +121,12 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 	{
 		$this->formModel = $formModel;
 		$app = JFactory::getApplication();
+		$input = $app->input;
 		$db = FabrikWorker::getDBO();
 		$query = $db->getQuery(true);
-		$rowid = JRequest::getVar('rowid', '');
+		$rowid = $input->get('rowid', '', 'string');
 		$loading = strstr($messageType, 'form.load');
-		$http_referrer = JRequest::getVar('HTTP_REFERER', 'no HTTP_REFERER', 'SERVER');
+		$http_referrer = $input->server->get('HTTP_REFERER', 'no HTTP_REFERER', 'string');
 		$user = JFactory::getUser();
 		$userid = $user->get('id');
 		$username = $user->get('username');
@@ -131,7 +134,14 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 		// Generate random filename
 		if ($params->get('logs_random_filename') == 1)
 		{
-			function generate_filename($length)
+			/**
+			 * Internal generate file name
+			 *
+			 * @param   int  $length  Length of file name
+			 *
+			 * @return  string
+			 */
+			function generate_filename ($length)
 			{
 				$key = "";
 				$possible = "0123456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRTVWXYZ";
@@ -204,9 +214,8 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 				$newData = $this->getNewData($formModel);
 				if (!empty($data))
 				{
-					$post = JRequest::get('post');
-					//$elementModel = JModel::getInstance('element', 'FabrikModel');
-					//$element = $elementModel->getElement(true);
+					$filter = JFilterInput::getInstance();
+					$post = $filter->clean($_POST, 'array');
 					$tableModel = $formModel->getTable();
 
 					$origDataCount = count(array_keys(JArrayHelper::fromObject($formModel->_origData[0])));
@@ -394,7 +403,7 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 
 			$clabelsCreateDb[] = $db->quoteName('rowid') . " INT(11) NOT NULL";
 			$clabelsDb[] = $db->quoteName('rowid');
-			$cdataDb[] = $db->quote((int) $rowid);
+			$cdataDb[] = $db->quote($rowid);
 
 			$clabelsCreateDb[] = $db->quoteName('userid') . " INT(11) NOT NULL";
 			$clabelsDb[] = $db->quoteName('userid');
@@ -497,7 +506,7 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 					$txtMsg = "Date: " . $date . "\n";
 					$txtMsg .= "Form ID: " . $formModel->getId() . "\n";
 					$txtMsg .= "Table ID: " . $formModel->getListModel()->getId() . "\n";
-					$txtMsg .= "Row ID: " . (int) $rowid . "\n";
+					$txtMsg .= "Row ID: " . $rowid . "\n";
 					$txtMsg .= "User ID: $userid ($username)\n";
 					if ($params->get('logs_record_ip') == 1)
 					{
@@ -628,18 +637,18 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 					. $db->quoteName('message') . ") VALUES (" . $db->quote($http_referrer) . ", " . $db->quote($messageType) . ", "
 					. $db->quote($message) . ");";
 				$db->setQuery($in_db);
-				$db->query();
+				$db->execute();
 			}
 			else
 			{
 				$create_custom_table = "CREATE TABLE IF NOT EXISTS $rdb (" . $db->quoteName('id')
 					. " int(11) NOT NULL auto_increment PRIMARY KEY, $clabels_createdb);";
 				$db->setQuery($create_custom_table);
-				$db->query();
+				$db->execute();
 
 				$in_db = "INSERT INTO $rdb ($clabels_db) VALUES ($cdata_db);";
 				$db->setQuery($in_db);
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					/* $$$ changed to always use db fields even if not selected
 					 * so logs already created may need optional fields added.
@@ -648,11 +657,11 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 					foreach ($clabelsCreateDb as $insert)
 					{
 						$db->setQuery("ALTER TABLE ADD $insert AFTER `id`");
-						$db->query();
+						$db->execute();
 					}
 					// ... and try the insert query again
 					$db->setQuery($in_db);
-					$db->query();
+					$db->execute();
 				}
 			}
 
@@ -662,7 +671,7 @@ class plgFabrik_FormLogs extends plgFabrik_Form
 		{
 			jimport('joomla.mail.helper');
 			$config = &JFactory::getConfig();
-			$email_from = $config->getValue('mailfrom');
+			$email_from = $config->get('mailfrom');
 			$email_to = explode(',', $w->parseMessageForPlaceholder($params->get('log_send_email_to', '')));
 			$subject = strip_tags($w->parseMessageForPlaceholder($params->get('log_send_email_subject', 'log event')));
 			foreach ($email_to as $email)

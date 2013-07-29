@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0.7
  */
 
-class plgFabrik_FormFtp extends plgFabrik_Form
+class PlgFabrik_FormFtp extends PlgFabrik_Form
 {
 
 	/**
@@ -87,7 +87,7 @@ class plgFabrik_FormFtp extends plgFabrik_Form
 
 		$cc = null;
 		$bcc = null;
-		$w = new FabrikWorker();
+		$w = new FabrikWorker;
 
 		// $$$ hugh - test stripslashes(), should be safe enough.
 		$message = stripslashes($message);
@@ -101,7 +101,6 @@ class plgFabrik_FormFtp extends plgFabrik_Form
 		$message = str_replace('{fabrik_editurl}', $editURL, $message);
 		$message = str_replace('{fabrik_viewurl}', $viewURL, $message);
 
-
 		$ftp_filename = $params->get('ftp_filename', '');
 		$ftp_filename = $w->parseMessageForPlaceholder($ftp_filename, $this->data, false);
 		$ftp_eval_filename = (int) $params->get('ftp_eval_filename', '0');
@@ -112,7 +111,8 @@ class plgFabrik_FormFtp extends plgFabrik_Form
 		}
 		if (empty($ftp_filename))
 		{
-			$ftp_filename = 'fabrik_ftp_' . md5( uniqid() ) . '.txt';
+			$ftp_filename = 'fabrik_ftp_' . md5(uniqid()) . '.txt';
+
 			// JError::raiseNotice(500, JText::sprintf('PLG_FTP_NO_FILENAME', $email));
 		}
 
@@ -198,7 +198,6 @@ class plgFabrik_FormFtp extends plgFabrik_Form
 		}
 		return $message;
 	}
-
 
 	/**
 	 * Get an array of keys we dont want to email to the user

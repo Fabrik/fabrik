@@ -2,11 +2,10 @@
 /**
  * Fabrik Front End Element View
  *
- * @package		Joomla
- * @subpackage	Fabik
- * @copyright	Copyright (C) 2005 - 2008 Pollen 8 Design Ltd. All rights reserved.
- * @license		GNU/GPL
- * @deprecated
+ * @package     Joomla
+ * @subpackage  Fabik
+ * @copyright   Copyright (C) 2005 - 2008 Pollen 8 Design Ltd. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
@@ -26,55 +25,37 @@ class FabrikViewElement extends JView
 {
 
 	/**
-	 * Element id
+	 * Element id (not used?)
+	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $id = null;
 
 	/**
 	 * Set id
 	 *
-	 * @param   $int  $id  Element id
+	 * @param   int  $id  Element id
+	 *
+	 * @deprecated ?
 	 *
 	 * @return  void
 	 */
 
-	function setId($id)
+	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->id = $id;
 	}
 
 	/**
-	 * display the template
+	 * Display the template
 	 *
-	 * @param sting $tpl
+	 * @param   string  $tpl  Template
+	 *
+	 * @return void
 	 */
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		echo "display";exit;
-	/* 	FabrikHelperHTML::framework();
-		$element = JRequest::getVar('element');
-		$elementid = JRequest::getVar('elid');
-		$pluginManager = JModel::getInstance('Pluginmanager', 'FabrikFEModel');
-		$className = JRequest::getVar('plugin');
-		$plugin = $pluginManager->getPlugIn($className, 'element');
-		if (JError::isError($plugin)) {
-			JError::handleMessage($plugin);
-			return;
-		}
-		$plugin->setId($elementid);
-		$data = array();
-		$repeatCounter = 0;
-		$groupModel = $plugin->getGroup();
-		$srcs = array();
-		$plugin->formJavascriptClass($srcs);
-		FabrikHelperHTML::script($srcs);
-		$html = '<script>';
-		$html .= $plugin->elementJavascript($repeatCounter);
-		$html .= '</script>';
-		$html .= $plugin->_getElement($data, $repeatCounter);
-		echo $html; */
 	}
 
 }

@@ -34,7 +34,7 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	 *
 	 * @var bol
 	 */
-	var $_recordInDatabase = false;
+	protected $recordInDatabase = false;
 
 	/**
 	 * Set/get if element should record its data in the dabase
@@ -46,7 +46,7 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 
 	function setIsRecordedInDatabase()
 	{
-		$this->_recordInDatabase = false;
+		$this->recordInDatabase = false;
 	}
 
 	/**
@@ -149,6 +149,21 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 			FabrikWorker::getPluginManager()->runPlugins('onGetElementDefault', $formModel, 'form', $this);
 		}
 		return $value;
+	}
+
+	/**
+	 * Returns javascript which creates an instance of the class defined in formJavascriptClass()
+	 *
+	 * @param   int  $repeatCounter  Repeat group counter
+	 *
+	 * @return  array
+	 */
+
+	public function elementJavascript($repeatCounter)
+	{
+		$id = $this->getHTMLId($repeatCounter);
+		$opts = $this->getElementJSOptions($repeatCounter);
+		return array('FbDisplay', $id, $opts);
 	}
 
 }

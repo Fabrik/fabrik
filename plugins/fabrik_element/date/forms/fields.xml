@@ -2,6 +2,10 @@
 <form>
 	<fields>
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-date">
+			
+			<field type="helplink"
+				url="PLG_ELEMENT_DBJOIN_HELP_SERVER" />
+				
 			<field label="PLG_ELEMENT_WIDTH_LABEL" name="width" size="3" type="text"/>
 				
 			<field default="0" label="PLG_ELEMENT_DATE_HIDDEN_LABEL" name="hidden" type="radio">

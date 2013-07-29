@@ -62,7 +62,8 @@ class FabrikHelperList
 
 		if (empty($found))
 		{
-			throw new Exception(JText::_('COM_FABRIK_ERR_NO_ELEMENTS_MATCHED_FILTER'));
+			$filterNames = implode(', ', $filter);
+			throw new Exception(JText::sprintf('COM_FABRIK_ERR_NO_ELEMENTS_MATCHED_FILTER', $filterNames));
 		}
 		return $found;
 	}

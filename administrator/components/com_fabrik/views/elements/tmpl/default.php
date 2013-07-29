@@ -23,6 +23,13 @@ $saveOrder	= $listOrder == 'e.ordering';
 
 
 ?>
+<script type="text/javascript">
+window.addEvent('domready', function () {
+	document.getElement('select[name=filter_form]').addEvent('change', function (e) {
+		document.getElement('select[name=filter_group]').selectedIndex = 0;
+	});
+});
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_fabrik&view=elements'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">

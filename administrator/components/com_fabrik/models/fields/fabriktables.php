@@ -26,7 +26,7 @@ JFormHelper::loadFieldClass('list');
  * Renders a list of fabrik lists or db tables
  *
  * @package     Fabrik
- * @subpackage	Form
+ * @subpackage  Form
  * @since       3.0
  */
 

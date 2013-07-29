@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class flashRender
+class FlashRender
 {
 
 	/**
@@ -36,9 +36,11 @@ class flashRender
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 * @param   object  $thisRow  All row's data
+	 *
+	 * @return  void
 	 */
 
-	function renderListData(&$model, &$params, $file, $thisRow)
+	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->render($model, $params, $file);
 	}
@@ -49,6 +51,8 @@ class flashRender
 	 * @param   object  &$model   Element model
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
+	 *
+	 * @return  void
 	 */
 
 	function render(&$model, &$params, $file)
@@ -65,6 +69,7 @@ class flashRender
 		$username = $config->get('user');
 		$password = $config->get('password');
 		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
+
 		// Analyze file and store returned data in $ThisFileInfo
 		$relPath = str_replace("\\", "/", JPATH_SITE . $file);
 		$thisFileInfo = $getID3->analyze($relPath);
@@ -91,28 +96,12 @@ class flashRender
 			$element = $model->getElement();
 
 			// @TODO - work out how to do thumbnails
-			// $$$ hugh - thought about using thumbed-down embedded Flash as
-			// thumbnail, but really need to avoid having to download every flash in
-			// the table on page load!  But just doesn't seem to be a way of getting
-			// a thumbnail from a Flash.  For now, just use a default "Here Be Flash"
-			// icon for the thumb.  Might be nice to add 'icon to use' option for Upload
-			// element, so if it isn't an image type, you can point at another element on the form,
-			// (either and Upload or an Image) and use that as the thumb for this content.
-			/*
-				$thumb_w = $params->get('thumb_max_width');
-				$thumb_h = $params->get('thumb_max_height');
-				$file = str_replace("\\", "/", COM_FABRIK_LIVESITE  . $file);
-				$this->output = "<object width=\"$w\" height=\"$h\">
-				<param name=\"movie\" value=\"$file\">
-				<embed src=\"$file\" width=\"$thumb_w\" height=\"$thumb_h\">
-				</embed>
-				</object>";
-				*/
 			$thumb_dir = $params->get('thumb_dir');
 			if (!empty($thumb_dir))
 			{
 				$file = str_replace("\\", "/", $file);
 				$pathinfo = pathinfo($file);
+
 				// $$$ hugh - apparently filename ocnstant only added in PHP 5.2
 				if (!isset($pathinfo['filename']))
 				{
@@ -136,7 +125,7 @@ class flashRender
 			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
 			$this->output .= "<a href='$file' rel='lightbox[flash $w $h]'><img src='$thumb_file' alt='Full Size'></a>";
 		}
-		elseif ($model->inDetailedView)
+		elseif ($model->_inDetailedView)
 		{
 			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
 			$this->output = "<object width=\"$w\" height=\"$h\">

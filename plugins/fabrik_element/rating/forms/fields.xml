@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-rating">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_RATING_HELP_SERVER" />
+				
 			<field default="user-rating" description="PLG_ELEMENT_RATING_MODE_DESC" label="PLG_ELEMENT_RATING_MODE_LABEL" name="rating-mode" type="radio">
 					<option value="user-rating">User rating</option>
 					<option value="creator-rating">Creator rating</option>

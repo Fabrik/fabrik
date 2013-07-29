@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class audioRender
+class AudioRender
 {
 	/**
 	 * Render output
@@ -39,7 +39,7 @@ class audioRender
 	 * @return  void
 	 */
 
-	function renderListData(&$model, &$params, $file, $thisRow)
+	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->render($model, $params, $file);
 	}
@@ -51,12 +51,12 @@ class audioRender
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 *
-	 * @reutrn  void
+	 * @return  void
 	 */
 
-	function render(&$model, &$params, $file)
+	public function render(&$model, &$params, $file)
 	{
-		$file = str_replace("\\", "/", COM_FABRIK_LIVESITE  . $file);
+		$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
 		$this->output = "<embed src=\"$file\" autostart=\"false\" playcount=\"true\" loop=\"false\" height=\"50\" width=\"200\">";
 	}
 }

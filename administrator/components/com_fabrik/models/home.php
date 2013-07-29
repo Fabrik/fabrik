@@ -186,7 +186,7 @@ class FabrikModelHome extends JModelAdmin
 		$query = $db->getQuery(true);
 		$query->insert('#__{package}_formgroup')->set(array('form_id=' . (int) $formId, 'group_id=' . (int) $groupId, 'ordering=0'));
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			echo $db->getErrorMsg();
 			exit;
@@ -195,7 +195,7 @@ class FabrikModelHome extends JModelAdmin
 		$query = $db->getQuery(true);
 		$query->insert('#__{package}_formgroup')->set(array('form_id=' . (int) $formId, 'group_id=' . (int) $group2Id, 'ordering=1'));
 		$db->setQuery($query);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			echo $db->getErrorMsg();
 			exit;
@@ -258,7 +258,7 @@ class FabrikModelHome extends JModelAdmin
 		foreach ($tables as $table)
 		{
 			$db->setQuery("TRUNCATE TABLE " . $prefix . $table);
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				return JError::raiseError(500, $db->getErrorMsg() . ": " . $db->getQuery());
 			}

@@ -17,10 +17,11 @@ jimport('joomla.application.component.controllerform');
 /**
  * Raw Package controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
+
 class FabrikControllerPackage extends JControllerForm
 {
 	/**
@@ -49,10 +50,12 @@ class FabrikControllerPackage extends JControllerForm
 
 	public function dolist()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
-		$list = JRequest::getCmd('list', 'form');
-		$selected = JRequest::getVar('selected');
+		$list = $input->get('list', 'form');
+		$selected = $input->get('selected');
 		$query->select('id, label')->from('#__fabrik_' . $list . 's');
 		if ($selected != '')
 		{

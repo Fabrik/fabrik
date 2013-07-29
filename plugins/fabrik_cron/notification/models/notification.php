@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
  * @since       3.0
  */
 
-class fabrikModelNotification extends JModel
+class FabrikModelNotification extends JModel
 {
 
 	/**
@@ -28,7 +28,7 @@ class fabrikModelNotification extends JModel
 	 * @return array
 	 */
 
-	function getUserNotifications()
+	public function getUserNotifications()
 	{
 		$rows = $this->getRows();
 		if (!$rows)
@@ -37,7 +37,7 @@ class fabrikModelNotification extends JModel
 			$rows = $this->getRows();
 		}
 
-		$listModel = JModel::getInstance('list', 'FabrikFEModel');
+		$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
 		foreach ($rows as &$row)
 		{
 			/*
@@ -63,29 +63,21 @@ class fabrikModelNotification extends JModel
 		return $rows;
 	}
 
+	/**
+	 * Make notification db tables
+	 *
+	 * @return  void
+	 */
 	protected function makeDbTable()
 	{
-		$db = FabrikWorker::getDbo();
-
-		// Attempt to create the db table?
-		$sql = JFile::read(COM_FABRIK_BASE . '/plugins/fabrik_cron/notification/sql/install.mysql.uft8.sql');
-		$sqls = explode(";", $sql);
-		if (!empty($sqls))
-		{
-			foreach ($sqls as $sql)
-			{
-				if (trim($sql) !== '')
-				{
-					$db->setQuery($sql);
-
-					if (!$db->query())
-					{
-						JError::raiseError(500, $db->getErrorMsg());
-					}
-				}
-			}
-		}
+		parent::makeDbTable();
 	}
+
+	/**
+	 * Get Rows
+	 *
+	 * @return  array
+	 */
 
 	protected function getRows()
 	{
@@ -106,8 +98,9 @@ class fabrikModelNotification extends JModel
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-		$ids = JRequest::getVar('cid', array());
+		JSessoin::checkToken() or die('Invalid Token');
+		$app = JFactory::getApplication();
+		$ids = $app->input->get('cid', array());
 		JArrayHelper::toInteger($ids);
 		if (empty($ids))
 		{
@@ -117,7 +110,7 @@ class fabrikModelNotification extends JModel
 		$query = $db->getQuery(true);
 		$query->delete('#__{package}_notification')->where('id IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 }

@@ -4,6 +4,9 @@
 		
 		<fieldset name="plg-element-yesno">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_YESNO_HELP_SERVER" />
+				
 			<field name="yesno_default"
 				type="list"
 				default="0"

@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class imageRender
+class ImageRender
 {
 
 	/**
@@ -32,6 +32,8 @@ class imageRender
 	var $inTableView = false;
 
 	/**
+	 * Render list data
+	 *
 	 * @param   object  &$model   Element model
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
@@ -50,7 +52,7 @@ class imageRender
 	 * Render uploaded image
 	 *
 	 * @param   object  &$model   Element model
-	 * @param   object  &$parmas  Element params
+	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 * @param   object  $thisRow  All row's data
 	 *
@@ -59,9 +61,15 @@ class imageRender
 
 	public function render(&$model, &$params, $file, $thisRow = null)
 	{
-		// $$$ hugh - added this hack to let people use elementname__title as a title element
-		// for the image, to show in the lightbox popup.
-		// So we have to work out if we're being called from a table or form
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		/*
+		 * $$$ hugh - added this hack to let people use elementname__title as a title element
+		 * for the image, to show in the lightbox popup.
+		 * So we have to work out if we're being called from a table or form
+		 */
+		$formModel = $model->getFormModel();
 		$title = basename($file);
 		if ($params->get('fu_title_element') == '')
 		{
@@ -71,7 +79,7 @@ class imageRender
 		{
 			$title_name = str_replace('.', '___', $params->get('fu_title_element'));
 		}
-		if (JRequest::getVar('view') == 'list')
+		if ($input->get('view') == 'list')
 		{
 			$listModel = $model->getlistModel();
 			if (array_key_exists($title_name, $thisRow))
@@ -82,9 +90,9 @@ class imageRender
 		}
 		else
 		{
-			if (is_object($model->_form))
+			if (is_object($formModel))
 			{
-				if (is_array($model->_form->_data))
+				if (is_array($formModel->data))
 				{
 					$group = $model->getGroup();
 					if ($group->isJoin())
@@ -119,7 +127,6 @@ class imageRender
 		$title = JArrayHelper::getValue($bits, $model->_repeatGroupCounter, $title);
 		$title = htmlspecialchars(strip_tags($title, ENT_NOQUOTES));
 		$element = $model->getElement();
-
 		$file = $model->getStorage()->getFileUrl($file);
 
 		$fullSize = $file;
@@ -142,7 +149,7 @@ class imageRender
 		}
 		$file = $model->storage->preRenderPath($file);
 		$fullSize = $model->storage->preRenderPath($fullSize);
-		if ($params->get('fu_show_image') == 0)
+		if ($params->get('fu_show_image') == 0 && !$this->inTableView)
 		{
 			$fileName = explode("/", $file);
 			$fileName = array_pop($fileName);
@@ -155,7 +162,7 @@ class imageRender
 				$this->output .= '<div class="fabrikGalleryImage" style="width:' . $width . 'px;height:' . $height
 					. 'px; vertical-align: middle;text-align: center;">';
 			}
-			$img = '<img class="fabrikLightBoxImage" src="' . $file . '" alt="' . strip_tags($element->label) . '" />';
+			$img = '<img class="fabrikLightBoxImage" src="' . $file . '" alt="' . $title . '" />';
 			if ($params->get('make_link', true) && !$this->fullImageInRecord($params))
 			{
 				$this->output .= '<a href="' . $fullSize . '" rel="lightbox[]" title="' . $title . '">' . $img . '</a>';
@@ -193,4 +200,3 @@ class imageRender
 	}
 
 }
-

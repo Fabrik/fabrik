@@ -31,7 +31,7 @@ class FabrikAdminHelper
 	 * @return  null
 	 */
 
-	public function prepareSaveDate(&$strdate)
+	public static function prepareSaveDate(&$strdate)
 	{
 		$config = JFactory::getConfig();
 		$tzoffset = $config->get('offset');
@@ -102,8 +102,9 @@ class FabrikAdminHelper
 
 		JSubMenuHelper::addEntry(JText::_('COM_FABRIK_SUBMENU_ELEMENTS'), 'index.php?option=com_fabrik&view=elements', $vName == 'elements');
 
-		JSubMenuHelper::addEntry(JText::_('COM_FABRIK_SUBMENU_VISUALIZATIONS'), 'index.php?option=com_fabrik&view=visualizations',
-			$vName == 'visualizations');
+		JSubMenuHelper::addEntry(
+			JText::_('COM_FABRIK_SUBMENU_VISUALIZATIONS'), 'index.php?option=com_fabrik&view=visualizations', $vName == 'visualizations'
+		);
 
 		JSubMenuHelper::addEntry(JText::_('COM_FABRIK_SUBMENU_PACKAGES'), 'index.php?option=com_fabrik&view=packages', $vName == 'packages');
 
@@ -225,8 +226,9 @@ class FabrikAdminHelper
 			if ($blackList)
 			{
 				// Remove the white-listed attributes from the black-list.
-				$filter = JFilterInput::getInstance(array_diff($blackListTags, $whiteListTags),
-					array_diff($blackListAttributes, $whiteListAttributes), 1, 1);
+				$tags = array_diff($blackListTags, $whiteListTags);
+				$attrs = array_diff($blackListAttributes, $whiteListAttributes);
+				$filter = JFilterInput::getInstance($tags, $attrs, 1, 1);
 			}
 			// White lists take third precedence.
 			elseif ($whiteList)

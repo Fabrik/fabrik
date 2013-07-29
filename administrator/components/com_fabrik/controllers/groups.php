@@ -17,9 +17,9 @@ require_once 'fabcontrolleradmin.php';
 /**
  * Groups list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 
 class FabrikControllerGroups extends FabControllerAdmin

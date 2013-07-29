@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
  * @since       3.0
  */
 
-class plgFabrik_Cronemail extends plgFabrik_Cron
+class PlgFabrik_Cronemail extends PlgFabrik_Cron
 {
 
 	/**
@@ -87,7 +87,8 @@ class plgFabrik_Cronemail extends plgFabrik_Cron
 							$thismsg = eval($thismsg);
 						}
 						$thissubject = $w->parseMessageForPlaceHolder($subject, $row);
-						$res = JUTility::sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
+						$mail = JFactory::getMailer();
+						$res = $mail->sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
 						if (!$res)
 						{
 							$this->log .= "\n failed sending to $thisto";
@@ -106,7 +107,7 @@ class plgFabrik_Cronemail extends plgFabrik_Cron
 		if (!empty($updates) && trim($field) != '')
 		{
 			// Do any update found
-			$listModel = JModel::getInstance('list', 'FabrikFEModel');
+			$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
 			$listModel->setId($params->get('table'));
 			$table = $listModel->getTable();
 			$connection = $params->get('connection');
@@ -123,7 +124,7 @@ class plgFabrik_Cronemail extends plgFabrik_Cron
 				->where($table->db_primary_key . ' IN (' . implode(',', $updates) . ')');
 			$this->log .= "\n update query: $query";
 			$fabrikDb->setQuery($query);
-			$fabrikDb->query();
+			$fabrikDb->execute();
 		}
 		$this->log .= "\n updates " . count($updates) . " records";
 		return count($updates);

@@ -1,15 +1,23 @@
 <?php
 /**
- * @package Joomla
- * @subpackage Fabrik
- * @copyright Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.modelitem');
+
+/**
+ * Package
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @since       3.0
+ */
 
 class FabrikFEModelPackage extends FabModel
 {
@@ -58,8 +66,9 @@ class FabrikFEModelPackage extends FabModel
 	/**
 	 * Method to set the  id
 	 *
-	 * @access	public
-	 * @param	int	ID number
+	 * @param   int  $id  ID number
+	 *
+	 * @return  void
 	 */
 
 	function setId($id)
@@ -74,6 +83,8 @@ class FabrikFEModelPackage extends FabModel
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @since	1.6
+	 *
+	 * @return  void
 	 */
 	protected function populateState()
 	{
@@ -100,7 +111,8 @@ class FabrikFEModelPackage extends FabModel
 	/**
 	 * Method to get package data.
 	 * Packages are all stored in jos_fabrik_packages - so dont use {package} in the query to load them
-	 * @param	integer	The id of the package.
+	 *
+	 * @param   int  $pk  The id of the package.
 	 *
 	 * @return	mixed	Menu item data object on success, false on failure.
 	 */
@@ -122,7 +134,6 @@ class FabrikFEModelPackage extends FabModel
 				$query = $db->getQuery(true);
 
 				$query->select('label, params, published, component_name');
-				//$query->from('#__{package}_packages');
 				$query->from('#__fabrik_packages');
 
 				$query->where('id = ' . (int) $pk);
@@ -184,14 +195,17 @@ class FabrikFEModelPackage extends FabModel
 		{
 			$this->_package = FabTable::getInstance('Package', 'FabrikTable');
 			$this->_package->load($this->_id);
-			//forms can currently only be set from form module
+
+			// Forms can currently only be set from form module
 			$this->_package->forms = '';
 		}
 		return $this->_package;
 	}
 
 	/**
-	 * render the package in the front end
+	 * Render the package in the front end
+	 *
+	 * @return  void
 	 */
 
 	function render()
@@ -199,11 +213,19 @@ class FabrikFEModelPackage extends FabModel
 		$db = FabrikWorker::getDbo();
 		$config = JFactory::getConfig();
 		$document = JFactory::getDocument();
-		//test stuff needs to be assigned in admin
+
+		// Test stuff needs to be assigned in admin
 		$this->_blocks = array();
 		return;
+
 		// @TODO: loading of visualizations
 	}
+
+	/**
+	 * Get status bar
+	 *
+	 * @return string
+	 */
 
 	function statusBar()
 	{
@@ -211,7 +233,9 @@ class FabrikFEModelPackage extends FabModel
 	}
 
 	/**
-	 * load the importer class
+	 * Load the importer class
+	 *
+	 * @return  void
 	 */
 
 	function loadImporter()
@@ -220,7 +244,9 @@ class FabrikFEModelPackage extends FabModel
 	}
 
 	/**
-	 * load in the tables associated with the package
+	 * Load in the tables associated with the package
+	 *
+	 * @return  array
 	 */
 
 	function loadTables()
@@ -243,6 +269,10 @@ class FabrikFEModelPackage extends FabModel
 
 	/**
 	 * (un)publish the package & all its tables
+	 *
+	 * @param   int  $state  State
+	 *
+	 * @return  void
 	 */
 
 	function publish($state)
@@ -256,7 +286,15 @@ class FabrikFEModelPackage extends FabModel
 
 }
 
-class fabrikPackageMenu extends JModel
+/**
+ * Package Menu
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @since       3.0
+ */
+
+class FabrikPackageMenu extends JModel
 {
 
 	/**
@@ -273,8 +311,9 @@ class fabrikPackageMenu extends JModel
 	/**
 	 * Method to set the  id
 	 *
-	 * @access	public
-	 * @param	int	ID number
+	 * @param   int  $id  ID number
+	 *
+	 * @return  void
 	 */
 
 	function setId($id)
@@ -283,10 +322,13 @@ class fabrikPackageMenu extends JModel
 		$this->_id = $id;
 	}
 
+	/**
+	 * Render
+	 *
+	 * @return string
+	 */
 	function render()
 	{
 		return "menu items to go here";
 	}
 }
-
-?>

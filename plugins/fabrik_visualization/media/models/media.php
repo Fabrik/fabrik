@@ -23,26 +23,20 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
  * @since       3.0
  */
 
-class fabrikModelMedia extends FabrikFEModelVisualization
+class FabrikModelMedia extends FabrikFEModelVisualization
 {
-
-	/**
-	 * js name for media
-	 *
-	 * @var string
-	 */
-	var $calName = null;
 
 	/**
 	 * Get Medda
 	 *
 	 * @return string
 	 */
-	function getMedia()
+
+	public function getMedia()
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$Itemid = @$app->getMenu('site')->getActive()->id;
+		$Itemid = FabrikWorker::itemId();
 		$params = $this->getParams();
 		$w = $params->get('media_width');
 		$h = $params->get('media_height');
@@ -72,7 +66,7 @@ class fabrikModelMedia extends FabrikFEModelVisualization
 	 * @return string
 	 */
 
-	function getPlaylist()
+	protected function getPlaylist()
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -96,17 +90,19 @@ class fabrikModelMedia extends FabrikFEModelVisualization
 		$listModel->setId($listid);
 		$list = $listModel->getTable();
 		$form = $listModel->getFormModel();
-		//remove filters?
-		// $$$ hugh - remove pagination BEFORE calling render().  Otherwise render() applies
-		// session state/defaults when it calls getPagination, which is then returned as a cached
-		// object if we call getPagination after render().  So call it first, then render() will
-		// get our cached pagination, rather than vice versa.
-		// Changes in f3 seem to mean that we'll have to poke around in the user state,
-		// rather than just call getPagination().  So we need to remember previous state of
-		// limitstart and limitlength, set them to 0, render the list, then reset to original
-		// values (so we don't mess with any instances of the list user may load).  This code
-		// seems to kinda work.  Once I've tested it further, will probably move it into to
-		// a generic viz model method, so all viz's can call it.
+		/*
+		 * remove filters?
+		 * $$$ hugh - remove pagination BEFORE calling render().  Otherwise render() applies
+		 * session state/defaults when it calls getPagination, which is then returned as a cached
+		 * object if we call getPagination after render().  So call it first, then render() will
+		 * get our cached pagination, rather than vice versa.
+		 * Changes in f3 seem to mean that we'll have to poke around in the user state,
+		 * rather than just call getPagination().  So we need to remember previous state of
+		 * limitstart and limitlength, set them to 0, render the list, then reset to original
+		 * values (so we don't mess with any instances of the list user may load).  This code
+		 * seems to kinda work.  Once I've tested it further, will probably move it into to
+		 * a generic viz model method, so all viz's can call it.
+		 */
 		$context = 'com_' . $package . '.list' . $listModel->getRenderContext() . '.';
 		$item = $listModel->getTable();
 		$rowsPerPage = FabrikWorker::getMenuOrRequestVar('rows_per_page', $item->rows_per_page);
@@ -143,7 +139,6 @@ class fabrikModelMedia extends FabrikFEModelVisualization
 					$location = str_replace('\\', '/', $location);
 					$location = JString::ltrim($location, '/');
 					$location = COM_FABRIK_LIVESITE . $location;
-					//$location = urlencode($location);
 					$retstr .= "		<track>\n";
 					$retstr .= "			<location>" . $location . "</location>\n";
 					if (!empty($titleElement))
@@ -205,7 +200,6 @@ class fabrikModelMedia extends FabrikFEModelVisualization
 					$location = str_replace('\\', '/', $location);
 					$location = JString::ltrim($location, '/');
 					$location = COM_FABRIK_LIVESITE . $location;
-					//$location = urlencode($location);
 					$retstr .= "		<item>\n";
 					$retstr .= '			<media:content url="' . $location . '" />' . "\n";
 					if (!empty($titleElement))
@@ -267,22 +261,6 @@ class fabrikModelMedia extends FabrikFEModelVisualization
 			$params = $this->getParams();
 			$this->listids = (array) $params->get('media_table');
 		}
-	}
-
-	/**
-	 * Get the Media Name - used in js code
-	 *
-	 * @return string
-	 */
-
-	function getMediaName()
-	{
-		if (is_null($this->mediaName))
-		{
-			$media = $this->_row;
-			$this->mediaName = "oMedia{$media->id}";
-		}
-		return $this->mediaName;
 	}
 
 	/**

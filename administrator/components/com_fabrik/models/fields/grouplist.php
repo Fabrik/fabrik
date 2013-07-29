@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,9 +37,9 @@ class JFormFieldGroupList extends JFormFieldList
 	var	$_name = 'Grouplist';
 
 	/**
-	 * Get list options
+	 * Method to get the field input markup.
 	 *
-	 * @return  array
+	 * @return  string	The field input markup.
 	 */
 
 	protected function getOptions()

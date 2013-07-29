@@ -65,9 +65,6 @@ $panels = array(
 	array('heading'=>JText::_('COM_FABRIK_LAYOUT'),
 		'fieldset'=>array('main_template', 'layout')),
 
-	array('heading'=>JText::_('COM_FABRIK_MOBILE_LAYOUT'),
-	'fieldset'=>array('mobile-layout')),
-
 	array('heading'=>JText::_('COM_FABRIK_LINKS'),
 		'fieldset'=>array('links')),
 

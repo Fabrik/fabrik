@@ -71,6 +71,8 @@ class FabrikWebServiceRest extends FabrikWebService
 		}
 		else
 		{
+			$error = (string) $json == '' ? 'Returned data not parsable as JSON' : (string) $json;
+			throw new Exception($error, 500);
 			return array();
 		}
 	}

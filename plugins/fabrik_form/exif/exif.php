@@ -17,9 +17,10 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.exif
+ * @since       3.0
  */
 
-class plgFabrik_FormExif extends plgFabrik_Form
+class PlgFabrik_FormExif extends PlgFabrik_Form
 {
 
 	var $map_field = '';

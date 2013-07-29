@@ -17,9 +17,9 @@ defined('_JEXEC') or die();
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.usergroup
  * @since       3.0.6
- */
+*/
 
-class plgFabrik_ElementUsergroup extends plgFabrik_Element
+class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 {
 
 	/**
@@ -30,10 +30,24 @@ class plgFabrik_ElementUsergroup extends plgFabrik_Element
 	protected $fieldDesc = 'TEXT';
 
 	/**
+	 * Array of id, label's queried from #__usergroups
+	 *
+	 * @var array
+	 */
+	protected $allOpts = null;
+
+	/**
+	 * Does the element contain sub elements e.g checkboxes radiobuttons
+	 *
+	 * @var bool
+	 */
+	public $hasSubElements = false;
+
+	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   array  $data           To preopulate element with
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
 	 */
@@ -55,30 +69,119 @@ class plgFabrik_ElementUsergroup extends plgFabrik_Element
 			$thisUser = JFactory::getUser($userid);
 		}
 		$selected = $this->getValue($data, $repeatCounter);
-		if ($this->canUse())
+		if ($this->isEditable())
 		{
 			return JHtml::_('access.usergroups', $name, $selected);
 		}
 		else
 		{
-			if ($userEl && !empty($thisUser->groups))
+			if ($userEl)
 			{
-				// Get the titles for the user groups.
+				$selected = $thisUser->groups;
+			}
+
+			// Get the titles for the user groups.
+			if (count($selected) > 0)
+			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select($db->quoteName('title'));
 				$query->from($db->quoteName('#__usergroups'));
-				$query->where($db->quoteName('id') . ' IN ( ' . implode(' , ', $thisUser->groups). ')');
+				$query->where($db->quoteName('id') . ' IN ( ' . implode(' , ', $selected) . ')');
 				$db->setQuery($query);
 				$selected = $db->loadColumn();
-			}
-			else
-			{
-				$selected = array();
 			}
 		}
 
 		return implode(', ', $selected);
+	}
+
+	/**
+	 * Get sub option values
+	 *
+	 * @return  array
+	 */
+
+	protected function getSubOptionValues()
+	{
+		$opts = $this->allOpts();
+		$return = array();
+		foreach ($opts as $opt)
+		{
+			$return[] = $opt->id;
+		}
+		return $return;
+	}
+
+	/**
+	 * Get sub option labels
+	 *
+	 * @return  array
+	 */
+
+	protected function getSubOptionLabels()
+	{
+		$opts = $this->allOpts();
+		$return = array();
+		foreach ($opts as $opt)
+		{
+			$return[] = $opt->title;
+		}
+		return $return;
+	}
+
+	/**
+	 * Create an array of label/values which will be used to populate the elements filter dropdown
+	 * returns only data found in the table you are filtering on
+	 *
+	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
+	 * @param   string  $tableName  Table name to use - defaults to element's current table
+	 * @param   string  $label      Field to use, defaults to element name
+	 * @param   string  $id         Field to use, defaults to element name
+	 * @param   bool    $incjoin    Include join
+	 *
+	 * @return  array	Filter value and labels
+	 */
+
+	protected function filterValueList_Exact($normal, $tableName = '', $label = '', $id = '', $incjoin = true)
+	{
+		$listModel = $this->getListModel();
+		$table = $listModel->getTable();
+		$elName2 = $this->getFullName(false, false, false);
+		$tmpIds = $listModel->getColumnData($elName2);
+		$ids = array();
+		foreach ($tmpIds as $tmpId)
+		{
+			$tmpId = FabrikWorker::JSONtoData($tmpId, true);
+			$ids = array_merge($ids, $tmpId);
+		}
+		$ids = array_unique($ids);
+		$opts = $this->allOpts();
+		$return = array();
+		foreach ($ids as $id)
+		{
+			$return[] = array('value' => $id, 'text' => $opts[$id]->title);
+		}
+		return $return;
+	}
+
+	/**
+	 * Get all user groups (id/title)
+	 *
+	 * @return  array
+	 */
+	private function allOpts()
+	{
+		if (!isset($this->allOpts))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('id, title');
+			$query->from($db->quoteName('#__usergroups'));
+			$db->setQuery($query);
+			$this->allOpts = $db->loadObjectList('id');
+		}
+		return $this->allOpts;
 	}
 
 	/**
@@ -102,10 +205,10 @@ class plgFabrik_ElementUsergroup extends plgFabrik_Element
 	 * call FabrikModelElement::formJavascriptClass('plugins/fabrik_element/databasejoin/databasejoin.js', true);
 	 * to ensure that the file is loaded only once
 	 *
-	 * @param   array   &$srcs   scripts previously loaded (load order is important as we are loading via head.js
+	 * @param   array   &$srcs   Scripts previously loaded (load order is important as we are loading via head.js
 	 * and in ie these load async. So if you this class extends another you need to insert its location in $srcs above the
 	 * current file
-	 * @param   string  $script  script to load once class has loaded
+	 * @param   string  $script  Script to load once class has loaded
 	 *
 	 * @return void
 	 */
@@ -117,145 +220,46 @@ class plgFabrik_ElementUsergroup extends plgFabrik_Element
 	}
 
 	/**
-	* Determines the value for the element in the form view
-	*
-	* @param   array  $data           form data
-	* @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
-	* @param   array  $opts           options
-	*
-	* @return  string	value
-	*/
+	 * Determines the value for the element in the form view
+	 *
+	 * @param   array  $data           Form data
+	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   array  $opts           Options
+	 *
+	 * @return  string	value
+	 */
 
 	public function getValue($data, $repeatCounter = 0, $opts = array())
 	{
-		// @TODO rename $this->defaults to $this->values
-		if (!isset($this->defaults))
+		$value = parent::getValue($data, $repeatCounter, $opts);
+		$value = FabrikWorker::JSONtoData($value);
+		if (is_string($value))
 		{
-			$this->defaults = array();
+			// New record or failed validation
+			$value = trim($value);
+			$value = $value === '' ? array() : explode(',', $value);
 		}
-		if (!array_key_exists($repeatCounter, $this->defaults))
-		{
-			$groupModel = $this->getGroup();
-			$group = $groupModel->getGroup();
-			$joinid = $this->isJoin() ? $this->getJoinModel()->getJoin()->id : $group->join_id;
-			$formModel = $this->getFormModel();
-			$element = $this->getElement();
-			$value = $this->getDefaultOnACL($data, $opts);
-
-			$name = $this->getFullName(false, true, false);
-			$rawname = $name . '_raw';
-			if ($groupModel->isJoin() || $this->isJoin())
-			{
-				$nameKey = 'join.' . $joinid . '.' . $name;
-				$rawNameKey = 'join.' . $joinid . '.' . $rawname;
-
-				// $$$ rob 22/02/2011 this test barfed on fileuploads which weren't repeating
-				// if ($groupModel->canRepeat() || !$this->isJoin()) {
-				if ($groupModel->canRepeat())
-				{
-					$v = FArrayHelper::getNestedValue($data, $nameKey . '.' . $repeatCounter, null);
-					if (is_null($v))
-					{
-						$v = FArrayHelper::getNestedValue($data, $rawNameKey . '.' . $repeatCounter, null);
-					}
-					if (!is_null($v))
-					{
-						$value = $v;
-					}
-				}
-				else
-				{
-					$v = FArrayHelper::getNestedValue($data, $nameKey, null);
-					if (is_null($v))
-					{
-						$v = FArrayHelper::getNestedValue($data, $rawNameKey, null);
-					}
-					if (!is_null($v))
-					{
-						$value = $v;
-					}
-					/* $$$ rob if you have 2 tbl joins, one repeating and one not
-					 * the none repeating one's values will be an array of duplicate values
-					* but we only want the first value
-					*/
-
-					if (is_array($value) && !$this->isJoin())
-					{
-						$value = array_shift($value);
-					}
-				}
-			}
-			else
-			{
-				if ($groupModel->canRepeat())
-				{
-					// Repeat group NO join
-					$thisname = $name;
-					if (!array_key_exists($name, $data))
-					{
-						$thisname = $rawname;
-					}
-					if (array_key_exists($thisname, $data))
-					{
-						if (is_array($data[$thisname]))
-						{
-							// Occurs on form submission for fields at least
-							$a = $data[$thisname];
-						}
-						else
-						{
-							// Occurs when getting from the db
-							$a = json_decode($data[$thisname]);
-						}
-						$value = JArrayHelper::getValue($a, $repeatCounter, $value);
-					}
-
-				}
-				else
-				{
-					$value = !is_array($data) ? $data : JArrayHelper::getValue($data, $name, JArrayHelper::getValue($data, $rawname, $value));
-				}
-			}
-
-			if (!is_array($value))
-			{
-				$value = array($value);
-			}
-			/*@TODO perhaps we should change this to $element->value and store $element->default as the actual default value
-			 *stops this getting called from form validation code as it messes up repeated/join group validations
-			*/
-			if (array_key_exists('runplugins', $opts) && $opts['runplugins'] == 1)
-			{
-				FabrikWorker::getPluginManager()->runPlugins('onGetElementDefault', $formModel, 'form', $this);
-			}
-			$this->defaults[$repeatCounter] = $value;
-		}
-		return $this->defaults[$repeatCounter];
+		return $value;
 	}
 
 	/**
-	* Shows the data formatted for the list view
-	*
-	* @param   string  $data      elements data
-	* @param   object  &$thisRow  all the data in the lists current row
-	*
-	* @return  string	formatted value
-	*/
+	 * This really does get just the default value (as defined in the element's settings)
+	 *
+	 * @param   array  $data  Form data
+	 *
+	 * @return mixed
+	 */
 
-	public function renderListData($data, &$thisRow)
+	public function getDefaultValue($data = array())
 	{
-		$data = FabrikWorker::JSONtoData($data, true);
-		JArrayHelper::toInteger($data);
-		$db = FabrikWorker::getDbo(true);
-		$query = $db->getQuery(true);
-		if (!empty($data))
+		if (!isset($this->_default))
 		{
-			$query->select('title')->from('#__usergroups')->where('id IN (' . implode(',', $data) . ')');
-			$db->setQuery($query);
-			$data = $db->loadColumn();
+			$user = JFactory::getUser();
+			$this->_default = $user->get('groups');
+			$this->_default = array_values($this->_default);
+			$this->_default = json_encode($this->_default);
 		}
-		$data = json_encode($data);
-		return parent::renderListData($data, $thisRow);
+		return $this->_default;
 	}
 
 }

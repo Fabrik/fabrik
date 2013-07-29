@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0.7
  */
 
-class plgFabrik_FormAlphaUserPoints extends plgFabrik_Form
+class PlgFabrik_FormAlphaUserPoints extends PlgFabrik_Form
 {
 
 	/**
@@ -42,10 +42,10 @@ class plgFabrik_FormAlphaUserPoints extends plgFabrik_Form
 			$this->data = array_merge($formModel->_formData, $this->getEmailData());
 
 			require_once $api_AUP;
-			$aup = new AlphaUserPointsHelper();
+			$aup = new AlphaUserPointsHelper;
 
 			// Define which user will receive the points.
-			$userId =  $params->get('user_id', '');
+			$userId = $params->get('user_id', '');
 			$userId = (int) $w->parseMessageForPlaceholder($userId, $this->data, false);
 
 			$user = JFactory::getUser();
@@ -55,7 +55,7 @@ class plgFabrik_FormAlphaUserPoints extends plgFabrik_Form
 			$keyReference = '';
 
 			// Shown in the user details page - description of what the point is for
-			$dataReference =  $params->get('data_reference', '');
+			$dataReference = $params->get('data_reference', '');
 			$dataReference = $w->parseMessageForPlaceholder($dataReference, $this->data, false);
 
 			// Override the plugin default points
@@ -84,7 +84,6 @@ class plgFabrik_FormAlphaUserPoints extends plgFabrik_Form
 			$aupPlugin = $params->get('aup_plugin', 'plgaup_fabrik');
 			$aupPlugin = $w->parseMessageForPlaceholder($aupPlugin, $this->data, false);
 
-// 			/echo "$aupPlugin, $aupId, $referralUserPoints, $keyReference, $dataReference, $randomPoints";exit;
 			$aup->userpoints($aupPlugin, $aupId, $referralUserPoints, $keyReference, $dataReference, $randomPoints);
 
 		}

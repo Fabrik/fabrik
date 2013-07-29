@@ -27,7 +27,6 @@ class FabrikTableComment extends FabTable
 	 * Object constructor to set table and key fields.
 	 *
 	 * @param   JDatabase  &$db  JDatabase connector object.
-	 *
 	 */
 
 	public function __construct(&$db)
@@ -50,7 +49,7 @@ class FabrikTableComment extends FabTable
  * @since       3.0
  */
 
-class plgFabrik_FormComment extends plgFabrik_Form
+class PlgFabrik_FormComment extends PlgFabrik_Form
 {
 
 	/**
@@ -698,7 +697,7 @@ class plgFabrik_FormComment extends plgFabrik_Form
 			// Attempt to create the db table?
 			$sql = JFile::read(COM_FABRIK_BASE . '/plugins/fabrik_form/comment/sql/install.mysql.uft8.sql');
 			$db->setQuery($sql);
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseError(500, $db->getErrorMsg());
 				exit;
@@ -766,9 +765,12 @@ class plgFabrik_FormComment extends plgFabrik_Form
 		$query->insert('#__{package}_notification_event')
 			->set(array('event = ' . $event, 'user_id = ' . $user_id, 'reference = ' . $ref, 'date_time = ' . $date));
 		$db->setQuery($query);
-		try {
+		try
+		{
 			$db->execute();
-		} catch (RuntimeException $e) {
+		}
+		catch (RuntimeException $e)
+		{
 			JLog::add('Couldnt save fabrik comment notification event: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
 			return false;
 		}
@@ -800,7 +802,8 @@ class plgFabrik_FormComment extends plgFabrik_Form
 		$query->insert('#__{package}_notification')
 			->set(array('reason = ' . $db->quote('commentor'), 'user_id = ' . $user_id, 'reference = ' . $ref, 'label = ' . $label));
 		$db->setQuery($query);
-		try {
+		try
+		{
 			$db->execute();
 		}
 		catch (RuntimeException $e)
@@ -1001,6 +1004,8 @@ var idcomments_post_url;");
 
 	protected function _jcomment($params, $formModel)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$jcomments = JPATH_SITE . '/components/com_jcomments/jcomments.php';
 		if (JFile::exists($jcomments))
 		{

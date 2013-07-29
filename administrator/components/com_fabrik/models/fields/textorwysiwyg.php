@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,9 +32,9 @@ class JFormFieldTextorwysiwyg extends JFormFieldText
 	var $_name = 'Textorwysiwyg';
 
 	/**
-	 * Get input
+	 * Method to get the field input markup.
 	 *
-	 * @return  string  HTML output
+	 * @return  string	The field input markup.
 	 */
 
 	protected function getInput()
@@ -69,12 +69,13 @@ class JFormFieldTextorwysiwyg extends JFormFieldText
 			$buttons = explode(',', $buttons);
 		}
 		$hide = ((string) $this->element['hide']) ? explode(',', (string) $this->element['hide']) : array();
+
 		// Get an editor object.
 		$editor = $this->getEditor();
-		return $editor
-			->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
-				$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
-				$this->form->getValue($authorField));
+		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+		$btns = $buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false;
+		$auth = $this->form->getValue($authorField);
+		return $editor->display($this->name, $value, $width, $height, $cols, $rows, $btns, $this->id, $asset, $auth);
 	}
 
 	/**

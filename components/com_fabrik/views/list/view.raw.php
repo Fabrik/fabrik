@@ -9,7 +9,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.view');
+require_once JPATH_SITE . '/components/com_fabrik/views/list/view.base.php';
 
 /**
  * RAw Fabrik List view class
@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @since       3.0
  */
 
-class FabrikViewList extends JView
+class FabrikViewList extends FabrikViewListBase
 {
 
 	/**
@@ -37,6 +37,10 @@ class FabrikViewList extends JView
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$model = $this->getModel();
 		$model->setId($input->getInt('listid'));
+		if (!parent::access($model))
+		{
+			exit;
+		}
 		$table = $model->getTable();
 		$params = $model->getParams();
 		$rowid = $input->getInt('rowid');

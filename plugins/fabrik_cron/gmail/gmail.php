@@ -23,14 +23,14 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
  * @since       3.0.7
  */
 
-class plgFabrik_Crongmail extends plgFabrik_Cron
+class PlgFabrik_Crongmail extends PlgFabrik_Cron
 {
 
 	/**
 	 * Do the plugin action
 	 *
-	 * @param   &$data       Data
-	 * @param   &$listModel  List model
+	 * @param   array   &$data       Data
+	 * @param   JModel  &$listModel  List model
 	 *
 	 * @return  int  number of records updated
 	 */
@@ -58,10 +58,6 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 		$dateField = $params->get('plugin-options.date');
 		$contentField = $params->get('plugin-options.content');
 
-		//	$storage = new $storageType( $p);
-		//$imageLib = FabimageHelper::loadLib('GD2');
-		//	$imageLib->setStorage($storage);
-
 		$storeData = array();
 		$numProcessed = 0;
 		foreach ($inboxes as $inbox)
@@ -84,11 +80,13 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 			{
 				$result = imap_fetch_overview($mbox, "1:$MC->Nmsgs");
 				echo $lastid;
-				$mode = 0; //retrieve emails by message number
+
+				// Retrieve emails by message number
+				$mode = 0;
 			}
 			else
 			{
-				// retrieve emails by message id;
+				// Retrieve emails by message id;
 				$result = imap_fetch_overview($mbox, "$lastid:*", FT_UID);
 				if (count($result) > 0)
 				{
@@ -96,7 +94,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 				}
 			}
 			// Fetch an overview for all messages in INBOX
-			//$result = imap_fetch_overview($mbox, "1:$lastid", $mode);
+			// $result = imap_fetch_overview($mbox, "1:$lastid", $mode);
 
 			$numProcessed += count($result);
 			foreach ($result as $overview)
@@ -117,7 +115,8 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 				$thisData['imageFound'] = false;
 
 				$thisData[$fromField] = (empty($matches)) ? $overview->from : "<a href=\"mailto:$matches[1]\">$overview->from</a>";
-				//use server time for all incomming messages.
+
+				// Use server time for all incomming messages.
 				$date = JFactory::getDate();
 
 				$thisData['processed_date'] = $date->toSql();
@@ -126,7 +125,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 				foreach ($parts as $part)
 				{
 
-					//type 5 is image - full list here http://algorytmy.pl/doc/php/function.imap-fetchstructure.php
+					// Type 5 is image - full list here http://algorytmy.pl/doc/php/function.imap-fetchstructure.php
 					if ($part['part_object']->type == 5)
 					{
 						$filecontent = imap_fetchbody($mbox, $overview->msgno, $part['part_number']);
@@ -135,7 +134,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 						$pname = 'parameters';
 						if (is_object($part['part_object']->parameters))
 						{
-							//can be in dparamenters instead?
+							// Can be in dparamenters instead?
 							$pname = 'dparameters';
 						}
 						$attarray = $part['part_object']->$pname;
@@ -153,7 +152,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 
 						if ($attachmentName != '')
 						{
-							//randomize file name
+							// Randomize file name
 							$ext = JFile::getExt($attachmentName);
 							$name = JFile::stripExt($attachmentName);
 							$name .= '-' . JUserHelper::genRandomPassword(5) . '.' . $ext;
@@ -173,34 +172,42 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 					    2 - file.ext
 					 */
 
-					$content = @imap_fetchbody($mbox, $overview->msgno, 1.2); //html
+					// Html
+					$content = @imap_fetchbody($mbox, $overview->msgno, 1.2);
 
 					if (strip_tags($content) == '')
 					{
-						$content = @imap_fetchbody($mbox, $overview->msgno, 1.1); //plain text
+						// Plain text
+						$content = @imap_fetchbody($mbox, $overview->msgno, 1.1);
 					}
 
-					//this encodes text with  =20 correctly i think
-					//may need to test that $part['encoding'] = 4	(QUOTED-PRINTABLE)
+					/*
+					 * This encodes text with  =20 correctly i think
+					 * may need to test that $part['encoding'] = 4	(QUOTED-PRINTABLE)
+					 */
+					//
 					$content = imap_qprint($content);
 
-					// hmm this seemed to include encoded text which imap_base64 couldnt sort out
-					//as the encoding was too long for insert query - shouts were not getting through
-					// think it might be to do with $part being type 5 (image)
-					//
-					// now only adding if part type is 0
+					/*
+					 * Hmm this seemed to include encoded text which imap_base64 couldnt sort out
+					 * as the encoding was too long for insert query - shouts were not getting through
+					 * think it might be to do with $part being type 5 (image)
+					 * now only adding if part type is 0
+					 */
 
 					if (strip_tags($content) == '')
 					{
 
 						if ($part['part_object']->type == 0)
 						{
-							$content = @imap_fetchbody($mbox, $overview->msgno, 1); //multipart alternative
+							// Multipart alternative
+							$content = @imap_fetchbody($mbox, $overview->msgno, 1);
 						}
 					}
 				}
 				$content = $this->removeReplyText($content);
-				//remove any style sheets
+
+				// Remove any style sheets
 				$content = preg_replace('/<\s*style.+?<\s*\/\s*style.*?>/si', ' ', $content);
 				$thisData[$contentField] = $content;
 
@@ -212,7 +219,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 				unset($listModel->getFormModel()->formData);
 				$listModel->getFormModel()->process();
 
-				//// TEST!!!!!!!
+				// TEST!!!!!!!
 
 				if ($deleteMail)
 				{
@@ -230,7 +237,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 		    $largeImagePath = '';
 		    $smallImagePath = '';
 		    if ($data['imageFound']) {
-		    // @TODO process images to fileupload element
+		     @TODO process images to fileupload element
 		    if (isset($data['imageBuffer'] )) {
 		    $relLargeImagePath = '/media/com_fabrik/' . $data['id'] .  '/galleries/images/' . $data['attachmentName'];
 		    $largeImagePath = JPATH_BASE.$relLargeImagePath;
@@ -260,7 +267,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 
 	protected function removeReplyText($content)
 	{
-		// try to remove reply text
+		// Try to remove reply text
 		$content = preg_replace("/\n\>(.*)/", '', $content);
 		$content = explode("\n", $content);
 		for ($i = count($content) - 1; $i >= 0; $i--)
@@ -273,8 +280,10 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 		$last = array_pop($content);
 		$content = implode("\n", $content);
 
-		// test for date and message that preceeds reply text
-		//e.g. "2009/9/2 Dev Site for Play Simon Games "
+		/*
+		 * Test for date and message that preceeds reply text
+		 * e.g. "2009/9/2 Dev Site for Play Simon Games "
+		 */
 		$matches = array();
 		$res = preg_match("/[0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2}/", $last, $matches);
 		if ($res == 0)
@@ -287,7 +296,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 	/**
 	 * Get subject of email
 	 *
-	 * @param   object $overview  Mail overview
+	 * @param   object  $overview  Mail overview
 	 *
 	 * @return  string  email subject
 	 */
@@ -295,7 +304,8 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 	private function getTitle($overview)
 	{
 		$title = $overview->subject;
-		//remove 'RE: ' from title
+
+		// Remove 'RE: ' from title
 		if (JString::strtoupper(substr($title, 0, 3)) == 'RE:')
 		{
 			$title = JString::substr($title, 3, JString::strlen($title));
@@ -316,7 +326,7 @@ class plgFabrik_Crongmail extends plgFabrik_Cron
 
 function create_part_array($structure, $prefix = "")
 {
-	if (isset($structure->parts) && sizeof($structure->parts) > 0)
+	if (isset($structure->parts) && count($structure->parts) > 0)
 	{ // There some sub parts
 		foreach ($structure->parts as $count => $part)
 		{
@@ -345,12 +355,12 @@ function add_part_to_array($obj, $partno, &$part_array)
 	$part_array[] = array('part_number' => $partno, 'part_object' => $obj);
 	if ($obj->type == 2)
 	{ // Check to see if the part is an attached email message, as in the RFC-822 type
-		if (sizeof($obj->parts) > 0)
+		if (count($obj->parts) > 0)
 		{ // Check to see if the email has parts
 			foreach ($obj->parts as $count => $part)
 			{
 				// Iterate here again to compensate for the broken way that imap_fetchbody() handles attachments
-				if (sizeof($part->parts) > 0)
+				if (count($part->parts) > 0)
 				{
 					foreach ($part->parts as $count2 => $part2)
 					{
@@ -372,7 +382,7 @@ function add_part_to_array($obj, $partno, &$part_array)
 	{ // If there are more sub-parts, expand them out.
 		if (isset($obj->parts) && is_array($obj->parts))
 		{
-			if (sizeof($obj->parts) > 0)
+			if (count($obj->parts) > 0)
 			{
 				foreach ($obj->parts as $count => $p)
 				{
@@ -382,3 +392,5 @@ function add_part_to_array($obj, $partno, &$part_array)
 		}
 	}
 }
+
+

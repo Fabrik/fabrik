@@ -2,10 +2,10 @@
 /**
  * Fabrik Google Chart HTML View
  *
- * @package		Joomla.Plugin
- * @subpackage	Fabrik.visualization.chart
- * @copyright	Copyright (C) 2005 Fabrik. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.visualization.chart
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -16,12 +16,12 @@ jimport('joomla.application.component.view');
 /**
  * Fabrik Google Chart HTML View
  *
- * @package		Joomla.Plugin
- * @subpackage	Fabrik.visualization.chart
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.visualization.chart
  * @since       3.0
 */
 
-class fabrikViewChart extends JView
+class FabrikViewChart extends JViewLegacy
 {
 
 	/**
@@ -68,8 +68,7 @@ class fabrikViewChart extends JView
 		$this->showFilters = $model->showFilters();
 		$this->filterFormURL = $this->get('FilterFormURL');
 
-		$pluginParams = $model->getPluginParams();
-		$tpl = $pluginParams->get('chart_layout', $tpl);
+		$tpl = $params->get('chart_layout', $tpl);
 		$tmplpath = JPATH_ROOT . '/plugins/fabrik_visualization/chart/views/chart/tmpl/' . $tpl;
 		$this->_setPath('template', $tmplpath);
 		FabrikHelperHTML::stylesheetFromPath('plugins/fabrik_visualization/chart/views/chart/tmpl/' . $tpl . '/template.css');

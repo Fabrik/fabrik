@@ -2,7 +2,18 @@
 <form>
 	<fields name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-colourpicker">
-		<field description="PLG_ELEMENT_COLOURPICKER_SWATCH_DESC" directory="/plugins/fabrik_element/colourpicker/swatches/" hide_default="1" label="PLG_ELEMENT_COLOURPICKER_SWATCH_LABEL" name="colourpicker-swatch" type="filelist"/>
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_COLOURPICKER_HELP_SERVER" />
+				
+			<field name="colourpicker-swatch"
+				type="filelist"
+				default="default.js"
+				description="PLG_ELEMENT_COLOURPICKER_SWATCH_DESC"
+				directory="/plugins/fabrik_element/colourpicker/swatches/"
+				hide_default="1"
+				hide_none="1"
+				label="PLG_ELEMENT_COLOURPICKER_SWATCH_LABEL"/>
 
 		</fieldset>
 	</fields>

@@ -8,102 +8,6 @@
  * $H:true,unescape:true,head:true,FbListActions:true,FbGroupedToggler:true,FbListKeys:true
  */
 
-var FbListPlugin = new Class({
-	Implements: [Events, Options],
-	options: {
-		requireChecked: true
-	},
-
-	initialize: function (options) {
-		this.setOptions(options);
-		this.result = true; // set this to false in window.fireEvents to stop
-												// current action (eg stop ordering when
-												// fabrik.list.order run)
-		head.ready(function () {
-			this.listform = this.getList().getForm();
-			var l = this.listform.getElement('input[name=listid]');
-			// in case its in a viz
-			if (typeOf(l) === 'null') {
-				return;
-			}
-			this.listid = l.value;
-			this.watchButton();
-		}.bind(this));
-	},
-
-	/**
-	 * get the list object that the plugin is assigned to
-	 */
-
-	getList: function () {
-		return Fabrik.blocks['list_' + this.options.ref];
-	},
-	
-	/**
-	 * get a html nodes row id - so you can pass in td or tr for example
-	 * presumes each row has a fabrik_row class and its id is in a string 'list_listref_rowid'
-	 */
-
-	getRowId: function (node) {
-		if (!node.hasClass('fabrik_row')) {
-			node = node.getParent('.fabrik_row'); 
-		}
-		return node.id.split('_').getLast();
-	},
-
-	clearFilter: Function.from(),
-
-	watchButton: function () {
-		// Do relay for floating menus
-		if (typeOf(this.options.name) === 'null') {
-			return;
-		}
-		// Might need to be this.listform and not document
-		document.addEvent('click:relay(.' + this.options.name + ')', function (e, element) {
-			if (e.rightClick) {
-				return;
-			}
-			e.stop();
-			
-			// Check that the button clicked belongs to this this.list
-			if (element.get('data-list') !== this.list.options.listRef) {
-				return;
-			}
-			e.preventDefault();
-			var row, chx;
-			// if the row button is clicked check its associated checkbox
-			if (e.target.getParent('.fabrik_row')) {
-				row = e.target.getParent('.fabrik_row');
-				if (row.getElement('input[name^=ids]')) {
-					chx = row.getElement('input[name^=ids]');
-					this.listform.getElements('input[name^=ids]').set('checked', false);
-					chx.set('checked', true);
-				}
-			}
-
-			// check that at least one checkbox is checked
-			var ok = false;
-			this.listform.getElements('input[name^=ids]').each(function (c) {
-				if (c.checked) {
-					ok = true;
-				}
-			});
-			if (!ok && this.options.requireChecked) {
-				alert(Joomla.JText._('COM_FABRIK_PLEASE_SELECT_A_ROW'));
-				return;
-			}
-			var n = this.options.name.split('-');
-			this.listform.getElement('input[name=fabrik_listplugin_name]').value = n[0];
-			this.listform.getElement('input[name=fabrik_listplugin_renderOrder]').value = n.getLast();
-			this.buttonAction();
-		}.bind(this));
-	},
-
-	buttonAction: function () {
-		this.list.submit('list.doPlugin');
-	}
-});
-
 var FbList = new Class({
 
 	Implements: [Options, Events],
@@ -138,7 +42,8 @@ var FbList = new Class({
 		'groupByOpts': {},
 		'listRef': '', // e.g. '1_com_fabrik_1'
 		'fabrik_show_in_list': [],
-		'singleOrdering' : false
+		'singleOrdering' : false,
+		'tmpl': ''
 	},
 
 	initialize: function (id, options) {
@@ -186,6 +91,11 @@ var FbList = new Class({
 			});
 			delete Fabrik.blocks['form_' + form.id];
 		});*/
+		
+		// Reload state 
+		if (!!(window.history && history.pushState) && history.state && this.options.ajax) {
+			this._updateRows(history.state);
+		}
 	},
 
 	setRowTemplate: function () {
@@ -197,6 +107,25 @@ var FbList = new Class({
 				this.options.rowtemplate = r;
 			}
 		}
+	},
+	
+	/**
+	 * Used for db join select states.
+	 */
+	rowClicks: function () {
+		fconsole('rowClicks', this.list);
+		this.list.addEvent('click:relay(.fabrik_row)', function (e, r) {
+			var d = Array.from(r.id.split('_')),
+			data = {};
+			data.rowid = d.getLast();
+			var json = {
+					'errors' : {},
+					'data' : data,
+					'rowid': d.getLast(),
+					listid: this.id
+				};
+			Fabrik.fireEvent('fabrik.list.row.selected', json);
+		}.bind(this));
 	},
 
 	watchAll: function (ajaxUpdate) {
@@ -223,7 +152,8 @@ var FbList = new Class({
 			bootstrap: this.options.j3
 		};
 		if (this.options.view === 'csv') {
-			//for csv links e.g. index.php?option=com_fabrik&view=csv&listid=10
+			
+			// For csv links e.g. index.php?option=com_fabrik&view=csv&listid=10
 			this.openCSVWindow();
 		} else {
 			if (this.form.getElements('.csvExportButton')) {
@@ -269,7 +199,7 @@ var FbList = new Class({
 	},
 	
 	_csvExportForm: function () {
-		// cant build via dom as ie7 doesn't accept checked status
+		// Can't build via dom as ie7 doesn't accept checked status
 		var rad = "<input type='radio' value='1' name='incfilters' checked='checked' />" + Joomla.JText._('JYES');
 		var rad2 = "<input type='radio' value='1' name='incraw' checked='checked' />" + Joomla.JText._('JYES');
 		var rad3 = "<input type='radio' value='1' name='inccalcs' checked='checked' />" + Joomla.JText._('JYES');
@@ -665,11 +595,7 @@ var FbList = new Class({
 		if (!this.list) {
 			return;
 		}
-		if (this.options.ajax_links) {
-			
-			// 3.1 - dont need to do this now
-			return;
-		}
+		this.rowClicks();
 	},
 	
 	getForm: function () {
@@ -677,6 +603,12 @@ var FbList = new Class({
 			this.form = document.id(this.options.form);
 		}
 		return this.form;
+	},
+	
+	uncheckAll: function () {
+		this.form.getElements('input[name^=ids]').each(function (c) {
+			c.checked = '';
+		});
 	},
 
 	submit: function (task) {
@@ -698,6 +630,7 @@ var FbList = new Class({
 			var delMsg = delCount === 1 ? Joomla.JText._('COM_FABRIK_CONFIRM_DELETE_1') : Joomla.JText._('COM_FABRIK_CONFIRM_DELETE').replace('%s', delCount); 
 			if (!confirm(delMsg)) {
 				Fabrik.loader.stop('listform_' + this.options.listRef);
+				this.uncheckAll();
 				return false;
 			}
 		}
@@ -756,6 +689,10 @@ var FbList = new Class({
 				this.request.options.data = data;
 			}
 			this.request.send();
+			
+			if (window.history && window.history.pushState) {
+				history.pushState(data, 'fabrik.list.submit');
+			}
 			Fabrik.fireEvent('fabrik.list.submit', [task, this.form.toQueryString().toObject()]);
 		} else {
 			this.form.submit();
@@ -792,6 +729,28 @@ var FbList = new Class({
 			});
 		});
 		return keys;
+	},
+	
+	/**
+	 * Get a single row's data
+	 * 
+	 * @param   string  id  ID
+	 * 
+	 * @since  3.0.8
+	 * 
+	 * @return object
+	 */
+	getRow: function (id) {
+		var found = {};
+		Object.each(this.options.data, function (group) {
+			for (var i = 0; i < group.length; i ++) {
+				var row = group[i];
+				if (row && row.data.__pk_val === id) {
+					found = row.data;
+				}
+			}
+		});
+		return found;
 	},
 
 	fabrikNavOrder: function (orderby, orderdir) {
@@ -853,16 +812,22 @@ var FbList = new Class({
 				// Fabrik.fireEvent('fabrik.list.update', [this, json]);
 			}.bind(this),
 			onError: function (text, error) {
-				console.log(text, error);
+				fconsole(text, error);
 			},
 			onFailure: function (xhr) {
-				console.log(xhr);
+				fconsole(xhr);
 			}
 		}).send();
 	},
 
 	_updateRows: function (data) {
 		var tbody;
+		if (typeOf(data) !== 'object') {
+			return;
+		}
+		if (window.history && window.history.pushState) {
+			history.pushState(data, 'fabrik.list.rows');
+		}
 		if (data.id === this.id && data.model === 'list') {
 			var header = document.id(this.options.form).getElements('.fabrik___heading').getLast();
 			var headings = new Hash(data.headings);
@@ -953,9 +918,11 @@ var FbList = new Class({
 			tbodys.each(function (tbody) {
 				if (!tbody.hasClass('fabrik_groupdata')) {
 					var groupTbody = tbody.getNext();
-					if (groupTbody.getElements('.fabrik_row').length === 0) {
-						tbody.hide();
-						groupTbody.hide();
+					if (typeOf(groupTbody) !== 'null') {
+						if (groupTbody.getElements('.fabrik_row').length === 0) {
+							tbody.hide();
+							groupTbody.hide();
+						}
 					}
 				}
 			});
@@ -1323,7 +1290,7 @@ var FbListActions = new Class({
 		}
 		this.actions = this.list.form.getElements(this.options.selector);
 		this.actions.each(function (ul) {
-			// sub menus ie group by options
+			// Sub menus ie group by options
 			if (ul.getElement('ul')) {
 				var el = ul.getElement('ul');
 				var c = new Element('div').adopt(el.clone());
@@ -1331,7 +1298,8 @@ var FbListActions = new Class({
 				if (trigger.getElement('.fabrikTip')) {
 					trigger = trigger.getElement('.fabrikTip');
 				}
-				var tipOpts = Object.merge(Object.clone(Fabrik.tips.options), {
+				var t = Fabrik.tips ? Fabrik.tips.options : {};
+				var tipOpts = Object.merge(Object.clone(t), {
 					showOn: 'click',
 					hideOn: 'click',
 					position: 'bottom',
@@ -1408,13 +1376,22 @@ var FbListActions = new Class({
 			}
 		}.bind(this));
 
+		this.list.form.getElements('.fabrik_select input[type=checkbox]').addEvent('click', function (e) {
+			Fabrik.activeRow = e.target.getParent('.fabrik_row');
+		});
 		// watch the top/master chxbox
 		var chxall = this.list.form.getElement('input[name=checkAll]');
+		if (typeOf(chxall) !== 'null') {
+			chxall.store('listid', this.list.id);
+		}
+		
 		var c = function (el) {
-			return el.getParent('.fabrik___heading').getElement('ul.fabrik_action');
-		};
+			var p = el.getParent('.fabrik___heading');
+			return typeOf(p) !== 'null' ? p.getElement(this.options.selector) : '';
+		}.bind(this);
 
-		var tipChxAllOpts = Object.merge(Object.clone(Fabrik.tips.options), {
+		var t = Fabrik.tips ? Object.clone(Fabrik.tips.options) : {};
+		var tipChxAllOpts = Object.merge(t, {
 			position: this.options.floatPos,
 			html: true,
 			showOn: 'click',

@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-fbcomment">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FBCOMMENT_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_FBCOMMENT_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBCOMMENT_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
 			
 			<field description="PLG_ELEMENT_FBCOMMENT_HREF_DESC" label="PLG_ELEMENT_FBCOMMENT_HREF_LABEL" name="fbcomment_href" type="text"/>
@@ -12,7 +15,7 @@
 				label="PLG_ELEMENT_FBCOMMENT_UNIQUE_ID_LABEL" 
 				description="PLG_ELEMENT_FBCOMMENT_FBCOMMENT_UNIQUE_ID_DESC" />
 				-->
-			<field default="300" label="PLG_ELEMENT_FBCOMMENT_WIDTH_LABEL" name="fbcomment_width" size="3" type="text"/>
+			<field class="input-mini" default="300" label="PLG_ELEMENT_FBCOMMENT_WIDTH_LABEL" name="fbcomment_width" size="3" type="text"/>
 				
 			<field default="10" label="PLG_ELEMENT_FBCOMMENT_NUMBER_OF_COMMENTS_LABEL" name="fbcomment_number_of_comments" type="text"/>
 			

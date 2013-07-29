@@ -17,9 +17,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Fabrik Admin Visualization Model
  *
- * @package      Joomla.Administrator
- * @subpackage   Fabrik
- * @since        3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 
 class FabrikModelVisualization extends JModelAdmin

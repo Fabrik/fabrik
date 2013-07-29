@@ -969,8 +969,35 @@
 			<field name="table_join_key" type="text"/>
 		</fieldset>
 		
+		<fieldset name="factedlinks2">
+		
+			<field name="show_related_add"
+				type="list"
+				default="0"
+				label="COM_FABRIK_SHOW_RELATED_ADD_LABEL"
+				description="COM_FABRIK_SHOW_RELATED_ADD_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="2">COM_FABRIK_ONLY_IF_EMPTY</option>
+			</field>
+			
+			<field name="show_related_info"
+				type="list"
+				default="0"
+				label="COM_FABRIK_SHOW_RELATED_INFO_LABEL"
+				description="COM_FABRIK_SHOW_RELATED_INFO_DESC">
+					<option value="1">JNO</option>
+					<option value="0">JYES</option>
+					<option value="2">COM_FABRIK_ONLY_IF_NOT_EMPTY</option>        
+			</field>
+			
+		</fieldset>
+		
 		<fieldset name="factedlinks">
-			<field name="factedlinks" type="factedlinks"/>
+		
+			<field name="factedlinks"
+				type="factedlinks"/>
+				
 		</fieldset>
 	</fields>
 </form>

@@ -48,11 +48,23 @@ AdvancedSearch = new Class({
 			if (typeOf(filterManager) !== 'null') {
 				filterManager.onSubmit();
 			}
+			/* Ensure that we clear down other advanced searches from the session.
+			 * Otherwise, filter on one element and submit works, but changing the filter element and value
+			 * will result in 2 filters applied (not one)
+			 * @see http://fabrikar.com/forums/index.php?threads/advanced-search-remembers-value-of-last-dropdown-after-element-change.34734/#post-175693
+			 */
+			var list = this.getList();
+			new Element('input', {
+				'name': 'resetfilters',
+				'value': 1,
+				'type': 'hidden'
+			}).inject(this.form);
+			
 			if (!this.options.ajax) {
 				return;
 			}
 			e.stop();
-			var list = this.getList();
+			
 			list.submit(this.options.controller + '.filter');
 		}.bind(this));
 	},

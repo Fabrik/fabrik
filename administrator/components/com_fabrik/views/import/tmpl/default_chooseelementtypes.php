@@ -78,41 +78,8 @@ defined('_JEXEC') or die;
 </table>
 
 <?php
-			endif;
-			if (!empty($this->matchedHeadings)) :
-			?> <?php 	echo "<H3>" . JText::_('EXISTING HEADINGS FOUND') . "</h3>";?>
-<table class="adminlist">
-	<thead>
-	<tr>
-		<th class="title"><?php echo JText::_('LABEL');?></th>
-		<?php if ($this->selectPKField) : ?>
-			<th class="title"><?php echo JText::_('PRIMARY KEY');?></th>
-		<?php endif; ?>
-		<th><?php echo JText::_('SAMPLE DATA');?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php
-			foreach ($this->matchedHeadings as $heading) :
-				foreach ($this->headings as $sKey => $sVal) :
-					if(JString::strtolower($heading) == JString::strtolower($sVal)) :
-						$sample = $this->data[0][$sKey];
-					endif;
-				endforeach;
-	?>
-	<tr>
-		<td><?php echo $heading;?></td>
-		<?php if ($this->selectPKField) : ?>
-			<td>
-			<input type="checkbox" name="key[<?php echo $heading;?>]" value="1" />
-			</td>
-		<?php endif; ?>
-		<td><?php echo $sample;?></td>
-	</tr>
-	<?php endforeach; ?>
-	</tbody>
-</table>
-<?php endif;
+endif;
+
 $jform = JRequest::getVar('jform');
 ?>
 
@@ -120,11 +87,11 @@ $jform = JRequest::getVar('jform');
 <input type="hidden" name="key[<?php echo $this->newHeadings[0]; ?>]" value="1" />
 <?php endif; ?>
 	<input type="hidden" name="option" value="com_fabrik" />
-	<input type="hidden" name="list_id" value="<?php echo $this->table->id;?>" />
+	<input type="hidden" name="listid" value="<?php echo $this->table->id;?>" />
 	<input type="hidden" name="task" value="import.makeTableFromCSV" />
 	<input type="hidden" name="boxchecked" value="" />
-	<input type="hidden" name="jform[drop_data]" value="<?php echo JRequest::getVar('drop_data') ?>" />
-	<input type="hidden" name="jform[overwrite]" value="<?php echo JRequest::getVar('overwrite') ?>" />
+	<input type="hidden" name="jform[drop_data]" value="<?php echo $this->drop_data ?>" />
+	<input type="hidden" name="jform[overwrite]" value="<?php echo $this->overwrite ?>" />
 	<input type="hidden" name="connection_id" value="<?php echo JArrayHelper::getValue($jform, 'connection_id')?>" />
 	<input type="hidden" name="jform[addkey]" value="<?php echo JArrayHelper::getValue($jform, 'addkey');?>" />
 	<input type="hidden" name="label" value="<?php echo JArrayHelper::getValue($jform, 'label')?>" />

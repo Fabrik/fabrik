@@ -22,7 +22,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormJUser extends plgFabrik_Form
+class PlgFabrik_FormJUser extends plgFabrik_Form
 {
 
 	/**
@@ -77,9 +77,9 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	/**
 	 * Get an element name
 	 *
-	 * @param   object  $params  plugin params
-	 * @param   string  $pname   params property name to look up
-	 * @param   bool    $short   short (true) or full (false) element name, default false/full
+	 * @param   object  $params  Plugin params
+	 * @param   string  $pname   Params property name to look up
+	 * @param   bool    $short   Short (true) or full (false) element name, default false/full
 	 *
 	 * @return	string	element full name
 	 */
@@ -97,10 +97,10 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	/**
 	 * Get the fields value regardless of whether its in joined data or no
 	 *
-	 * @param   object  $params  plugin params
-	 * @param   string  $pname   params property name to get the value for
-	 * @param   array   $data    posted form data
-	 * @param   mixed   $default default value
+	 * @param   object  $params   Plugin params
+	 * @param   string  $pname    Params property name to get the value for
+	 * @param   array   $data     Posted form data
+	 * @param   mixed   $default  Default value
 	 *
 	 * @return  mixed  value
 	 */
@@ -207,7 +207,15 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 			if ($params->get('juser_sync_on_edit', 0) == 1)
 			{
 				$this->useridfield = $this->getFieldName($params, 'juser_field_userid');
-				$userid = (int) JArrayHelper::getValue($formModel->_data, $this->useridfield . '_raw');
+				$userid = JArrayHelper::getValue($formModel->_data, $this->useridfield . '_raw');
+				/**
+				 * $$$ hugh - after a validation failure, userid _raw is an array.
+				 * Trying to work out why, and fix that, but need a bandaid for now.
+				 */
+				if (is_array($userid))
+				{
+					$userid = (int) JArrayHelper::getValue($userid, 0, 0);
+				}
 				if ($userid > 0)
 				{
 					$user = JFactory::getUser($userid);
@@ -324,7 +332,15 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 
 		if ($ftable == $jos_users)
 		{
-			$formModel->_storeMainRow = false;
+			$formModel->storeMainRow = false;
+		}
+
+		// Needed for shouldProcess...
+		$this->formModel = $formModel;
+		$this->data = array_merge($formModel->_formData, $this->getEmailData());
+		if (!$this->shouldProcess('juser_conditon', null, $formModel))
+		{
+			return true;
 		}
 
 		$usersConfig = JComponentHelper::getParams('com_users');
@@ -526,7 +542,8 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 
 				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY', $data['name'], $data['sitename'],
 					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
-					$data['username'], $data['password_clear']);
+					$data['username'], $data['password_clear']
+				);
 			}
 			elseif ($useractivation == 1 && !$bypassActivation && !$autoLogin)
 			{
@@ -631,7 +648,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 						}
 						$q .= implode(',', $messages);
 						$db->setQuery($q);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -683,7 +700,6 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 		$params = $this->getParams();
 		$this->gidfield = $this->getFieldName($params, 'juser_field_usertype');
 		$defaultGroup = (int) $params->get('juser_field_default_group');
-		//$groupIds = (array) JArrayHelper::getValue($formModel->_formData, $this->gidfield, $defaultGroup);
 		$groupIds = (array) $this->getFieldValue($params, 'juser_field_usertype', $formModel->_formData, $defaultGroup);
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
@@ -741,8 +757,8 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	 * Run right at the end of the form processing
 	 * form needs to be set to record in database for this to hook to be called
 	 *
-	 * @param   object  $params      plugin params
-	 * @param   object  &$formModel  form model
+	 * @param   object  $params      Plugin params
+	 * @param   object  &$formModel  Form model
 	 *
 	 * @return	bool
 	 */
@@ -763,7 +779,7 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	/**
 	 * Auto login in the user
 	 *
-	 * @param   object  $formModel  form model
+	 * @param   object  $formModel  Form model
 	 *
 	 * @return  bool
 	 */
@@ -818,9 +834,9 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	/**
 	 * Check if the submitted details are ok
 	 *
-	 * @param   array   $post        posted data
-	 * @param   object  &$formModel  form model
-	 * @param   object  $params      plugin params
+	 * @param   array   $post        Posted data
+	 * @param   object  &$formModel  Form model
+	 * @param   object  $params      Plugin params
 	 *
 	 * @return	bool
 	 */
@@ -900,9 +916,9 @@ class plgFabrik_FormJUser extends plgFabrik_Form
 	/**
 	 * Raise an error - depends on whether ur in admin or not as to what to do
 	 *
-	 * @param   array   &$err   form models error array
-	 * @param   string  $field  name
-	 * @param   string  $msg    message
+	 * @param   array   &$err   Form models error array
+	 * @param   string  $field  Name
+	 * @param   string  $msg    Message
 	 *
 	 * @return  void
 	 */

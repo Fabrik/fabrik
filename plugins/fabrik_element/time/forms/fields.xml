@@ -2,6 +2,10 @@
 <form>
 	<fields>
 		<fieldset name="plg-element-time">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_TIME_HELP_SERVER" />
+				
 			<field default="0" description="PLG_ELEMENT_TIME_EVAL_DESC" label="PLG_ELEMENT_TIME_EVAL_LABEL" name="eval" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

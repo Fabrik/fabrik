@@ -21,7 +21,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormNotification extends plgFabrik_Form
+class PlgFabrik_FormNotification extends PlgFabrik_Form
 {
 
 	/**
@@ -40,8 +40,8 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	/**
 	 * Sets up HTML to be injected into the form's bottom
 	 *
-	 * @param   object  $params     params
-	 * @param   object  $formModel  form model
+	 * @param   object  $params     Params
+	 * @param   object  $formModel  Form model
 	 *
 	 * @return void
 	 */
@@ -49,6 +49,8 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	public function getBottomContent($params, $formModel)
 	{
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		if ($user->get('id') == 0)
 		{
 			$this->html = JText::_('PLG_CRON_NOTIFICATION_SIGN_IN_TO_RECEIVE_NOTIFICATIONS');
@@ -61,8 +63,8 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 		$opts = new stdClass;
 		$opts->listid = $formModel->getListModel()->getId();
 		$opts->formid = $formModel->getId();
-		$opts->rowid = $formModel->_rowId;
-		$opts->senderBlock = JRequest::getCmd('view') == 'form' ? 'form_' : 'details_';
+		$opts->rowid = $formModel->getRowId();
+		$opts->senderBlock = $input->get('view') == 'form' ? 'form_' : 'details_';
 		$opts->senderBlock .= $formModel->getId();
 		$opts = json_encode($opts);
 		$id = uniqid('fabrik_notification');
@@ -97,7 +99,8 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	public function toggleNotification()
 	{
 		// $$$ rob yes this looks odd but its right - as the js mouseup event is fired before the checkbox checked value changes
-		$notify = JRequest::getVar('notify') == 'true' ? false : true;
+		$app = JFactory::getApplication();
+		$notify = $app->input->get('notify') == 'true' ? false : true;
 		$params = $this->getParams();
 		$this->process($notify, 'observer', $params);
 	}
@@ -105,7 +108,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	/**
 	 * Get notification reference
 	 *
-	 * @param   int  $listid  default list id
+	 * @param   int  $listid  Default list id
 	 *
 	 * @return string
 	 */
@@ -113,22 +116,23 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	protected function getRef($listid = 0)
 	{
 		$db = FabrikWorker::getDbo();
-		return $db->quote(JRequest::getInt('listid', $listid) . '.' . JRequest::getInt('formid', 0) . '.' . JRequest::getInt('rowid', 0));
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		return $db->quote($input->getInt('listid', $listid) . '.' . $input->getInt('formid', 0) . '.' . $input->get('rowid', '', 'string'));
 	}
 
 	/**
 	 * Process the plugin
 	 *
-	 * @param   bool       $add     add or remove notification
-	 * @param   string     $why     reason for notification
-	 * @param   JRegistry  $params  params
+	 * @param   bool       $add     Add or remove notification
+	 * @param   string     $why     Reason for notification
+	 * @param   JRegistry  $params  Params
 	 *
 	 * @return  void
 	 */
 
-	protected function process($add = true, $why = 'author', $params)
+	protected function process($add, $why, $params)
 	{
-
 		$db = FabrikWorker::getDbo();
 		$user = JFactory::getUser();
 		$userid = (int) $user->get('id');
@@ -147,7 +151,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 				$fields[] = 'reason = ' . $db->quote($why);
 				$query->insert('#__{package}_notification')->set($fields);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 
 			}
 			else
@@ -155,7 +159,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 				$query->delete('#__{package}_notification')->where($fields);
 				echo JText::_('PLG_CRON_NOTIFICATION_REMOVED');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 		else
@@ -169,7 +173,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 				$fields2 = array_merge($fields, array('user_id = ' . $userid));
 				$query->insert('#__{package}_notification')->set($fields2);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 
 		}
@@ -178,8 +182,8 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	/**
 	 * Test if the notifications should be fired
 	 *
-	 * @param   object  $formModel  form model
-	 * @param   JRegistry  $params  params
+	 * @param   object     $formModel  Form model
+	 * @param   JRegistry  $params     Params
 	 *
 	 * @return  bool
 	 */
@@ -204,34 +208,36 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 	 * Run right at the end of the form processing
 	 * form needs to be set to record in database for this to hook to be called
 	 *
-	 * @param   object  $params      plugin params
-	 * @param   object  &$formModel  form model
+	 * @param   object  $params      Plugin params
+	 * @param   object  &$formModel  Form model
 	 *
 	 * @return	bool
 	 */
 
 	public function onAfterProcess($params, &$formModel)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		if ($params->get('notification_ajax', 0) == 1)
 		{
 			return;
 		}
 		$user = JFactory::getUser();
 		$userid = $user->get('id');
-		$notify = JRequest::getInt('fabrik_notification', 0);
+		$notify = $input->getInt('fabrik_notification', 0);
 
 		if (!$this->triggered($formModel, $params))
 		{
 			return;
 		}
-
-		$why = JRequest::getInt('rowid') == 0 ? 'author' : 'editor';
+		$rowId = $input->getString('rowid', '', 'string');
+		$why = $rowId == '' ? 'author' : 'editor';
 		$this->process($notify, $why, $params);
 
 		// Add entry indicating the form has been updated this record will then be used by the cron plugin to
 		// see which new events have been generated and notify subscribers of said events.
 		$db = FabrikWorker::getDbo();
-		$event = JRequest::getInt('rowid') == 0 ? $db->quote(JText::_('RECORD_ADDED')) : $db->quote(JText::_('RECORD_UPDATED'));
+		$event = $rowId == '' ? $db->quote(JText::_('RECORD_ADDED')) : $db->quote(JText::_('RECORD_UPDATED'));
 		$date = JFactory::getDate();
 		$date = $db->quote($date->toSql());
 		$ref = $this->getRef();
@@ -245,7 +251,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 			$fields = array('user_id = ' . $userid);
 			$query->insert('#__{package}_notification_event')->set($fields);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		else
 		{
@@ -258,7 +264,7 @@ class plgFabrik_FormNotification extends plgFabrik_Form
 				$fields2 = array_merge($fields, array('user_id = ' . $userid));
 				$query->insert('#__{package}_notification_event')->set($fields2);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 	}

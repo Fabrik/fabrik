@@ -53,6 +53,9 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			
+			<field cols="55" description="PLG_FABRIK_FORM_JUSER_CONDITION_DESC" label="PLG_FABRIK_FORM_JUSER_CONDITION_LABEL" name="juser_conditon" repeat="true" rows="5" type="textarea"/>
+			
 		</fieldset>
 	</fields>
 </form>

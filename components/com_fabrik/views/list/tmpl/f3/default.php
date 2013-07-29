@@ -42,7 +42,7 @@ if ($this->params->get('show_page_title', 1)) { ?>
 		<h1><?php echo $this->table->label;?></h1>
 	<?php }?>
 	<?php echo $this->table->intro;?>
-	<form class="fabrikForm" action="<?php echo $this->table->action;?>" autocomplete="off" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
+	<form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
 	<?php echo $this->loadTemplate('header')?>
 	<?php
 	//for some really ODD reason loading the headings template inside the group

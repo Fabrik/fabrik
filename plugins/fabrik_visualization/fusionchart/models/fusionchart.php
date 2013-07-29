@@ -462,7 +462,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 			if (!array_key_exists($tid, $tmodels))
 			{
 				$listModel = null;
-				$listModel = JModel::getInstance('list', 'FabrikFEModel');
+				$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
 				$listModel->setId($tid);
 				$tmodels[$tid] = $listModel;
 			}

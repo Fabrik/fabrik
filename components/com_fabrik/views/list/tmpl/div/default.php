@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 <?php }?>
 
 <?php echo $this->table->intro;?>
-<form class="fabrikForm" action="<?php echo $this->table->action;?>" autocomplete="off" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
+<form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikList">
 
 <?php echo $this->loadTemplate('buttons');
 

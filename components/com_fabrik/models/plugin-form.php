@@ -19,13 +19,15 @@ jimport('joomla.application.component.model');
  * @since       3.0
  */
 
-class plgFabrik_Form extends FabrikPlugin
+class PlgFabrik_Form extends FabrikPlugin
 {
 	/**@var array formatted email data */
 	protected $emailData = null;
 
 	/** @var string html to return from plugin rendering */
 	protected $html = '';
+
+	protected $formModel = null;
 
 	/**
 	 * Run from list model when deleting rows
@@ -410,6 +412,35 @@ class plgFabrik_Form extends FabrikPlugin
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		return $rows;
+	}
+
+	/**
+	 * Does the plugin use session.on
+	 *
+	 * @param   object  $params     plugin params
+	 * @param   object  $formModel  form model
+	 *
+	 * @since  3.0.8
+	 *
+	 * @return  void
+	 */
+
+	public function usesSession($params, $formModel)
+	{
+		$this->usesSession = false;
+	}
+
+	/**
+	 * Does the plugin use session.on - returned results
+	 *
+	 * @since  3.0.8
+	 *
+	 * @return	bool  session.on
+	 */
+
+	public function usesSession_result()
+	{
+		return $this->usesSession;
 	}
 
 }

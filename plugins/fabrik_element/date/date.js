@@ -91,7 +91,7 @@ var FbDateTime = new Class({
 	},
 	
 	/**
-	 * run when calendar poped up - goes over each date and should return true if you dont want the date to be 
+	 * Run when calendar poped up - goes over each date and should return true if you dont want the date to be 
 	 * selectable 
 	 */
 	dateSelect: function (date)
@@ -101,26 +101,27 @@ var FbDateTime = new Class({
 			eval(fn);
 			return result;
 		}
-		// 2.0 fall back 
-		try {
-			return disallowDate(this.cal, date);
-		} catch (err) {
-			//fconsole(err);
-		}
 	},
 	
+	/**
+	 * Run when a button is pressed on the calendar - may not be a date though (could be 'next month' button)
+	 */
 	calSelect: function (calendar, date) {
-		var d = this.setTimeFromField(calendar.date);
-		this.update(d.format('db'));
-		if (this.cal.dateClicked) {
-			this.getDateField().fireEvent('change');
-			if (this.timeButton) {
-				this.getTimeField().fireEvent('change');
+		
+		// Test the date is selectable...
+		if (!this.dateSelect(date)) {
+			var d = this.setTimeFromField(calendar.date);
+			this.update(d.format('db'));
+			if (this.cal.dateClicked) {
+				this.getDateField().fireEvent('change');
+				if (this.timeButton) {
+					this.getTimeField().fireEvent('change');
+				}
+				this.cal.callCloseHandler();
 			}
-			this.cal.callCloseHandler();
+			window.fireEvent('fabrik.date.select', this);
+			Fabrik.fireEvent('fabrik.date.select', this);
 		}
-		window.fireEvent('fabrik.date.select', this);
-		Fabrik.fireEvent('fabrik.date.select', this);
 	},
 	
 	calClose: function (calendar) {
@@ -276,9 +277,16 @@ var FbDateTime = new Class({
 		}
 		this.getElement();
 		if (this.cal) {
-			if (this.getDateField().value === '') {
+			var dateFieldValue = this.getDateField().value;
+			if (dateFieldValue === '') {
 				return '';
 			}
+			// User can press back button in which case date may already be in correct format and calendar date incorrect
+			var re = new RegExp('\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}');
+			if (dateFieldValue.match(re) !== null) {
+				return dateFieldValue;
+			} 
+			
 			v = this.cal.date;
 		} else {
 			if (this.options.value === '' || this.options.value === null) {
@@ -407,7 +415,11 @@ var FbDateTime = new Class({
 					subEl.value = '';
 				});
 				if (this.cal) {
-					this.cal.date = '';
+					/*
+					 * Can't set this.cal.date to a blank string as it expects a date object
+					 * So, defaulting to todays date, not sure we can do anything else?
+					 */ 
+					this.cal.date = new Date();
 				}
 				return;
 			}
@@ -425,8 +437,7 @@ var FbDateTime = new Class({
 		}
 		if (!this.options.editable) {
 			if (typeOf(this.element) !== 'null') {
-				//this.element.set('html', val);
-				this.element.set('html', date.format(f));
+				this.element.set('html', date.print(f));
 			}
 			return;
 		}
@@ -434,7 +445,7 @@ var FbDateTime = new Class({
 		if (this.options.hidden) {
 			//if hidden but form set to show time format dont split up the time as we don't 
 			// have a time field to put it into
-			date = date.format(f);
+			date = date.print(f);
 			this.getDateField().value = date;
 			return;
 		} else {
@@ -448,7 +459,7 @@ var FbDateTime = new Class({
 			this.stateTime();
 		}
 		this.cal.date = date;
-		this.getDateField().value = date.format(this.options.calendarSetup.ifFormat);
+		this.getDateField().value = date.print(this.options.calendarSetup.ifFormat);
 	},
 	
 	/**

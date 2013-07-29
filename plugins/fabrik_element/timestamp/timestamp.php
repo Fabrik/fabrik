@@ -19,7 +19,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
  * @since       3.0
  */
 
-class plgFabrik_ElementTimestamp extends plgFabrik_Element
+class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 {
 
 	/**
@@ -35,7 +35,7 @@ class plgFabrik_ElementTimestamp extends plgFabrik_Element
 	 *
 	 * @var bol
 	 */
-	protected $_recordInDatabase = false;
+	protected $recordInDatabase = false;
 
 	/**
 	 * Get the element's HTML label
@@ -61,7 +61,7 @@ class plgFabrik_ElementTimestamp extends plgFabrik_Element
 
 	public function setIsRecordedInDatabase()
 	{
-		$this->_recordInDatabase = false;
+		$this->recordInDatabase = false;
 	}
 
 	/**

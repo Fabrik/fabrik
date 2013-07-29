@@ -176,6 +176,11 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 		return true;
 	}
 
+	public function onBuildQueryWhere($params, $model)
+	{
+		return $this->doEvaluate($params->get('list_phpevents_onbuildquerywhere'), $model);
+	}
+
 	/**
 	 * Evaluate supplied PHP
 	 *

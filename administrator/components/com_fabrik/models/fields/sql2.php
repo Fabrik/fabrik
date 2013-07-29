@@ -3,9 +3,10 @@
  * Create a list from an SQL query
  *
  * @package     Joomla
- * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @since       1.6
  */
 
 // Check to ensure this file is within the rest of the framework
@@ -18,9 +19,8 @@ JFormHelper::loadFieldClass('list');
 /**
  * Renders a SQL element
  *
- * @package 	Joomla.Framework
- * @subpackage		Parameter
- * @since		1.5
+ * @package  Fabrik
+ * @since    3.0
  */
 
 class JFormFieldSQL2 extends JFormFieldList
@@ -34,9 +34,9 @@ class JFormFieldSQL2 extends JFormFieldList
 	var $_name = 'SQL';
 
 	/**
-	 * Get list options
+	 * Method to get the field options.
 	 *
-	 * @return  array
+	 * @return  array  The field option objects.
 	 */
 
 	protected function getOptions()
@@ -55,7 +55,7 @@ class JFormFieldSQL2 extends JFormFieldList
 			$i++;
 			$tbl = $db->replacePrefix($q[$i]);
 			$db->setQuery("SHOW TABLES");
-			$rows = $db->loadResultArray();
+			$rows = $db->loadColumn();
 			$found = in_array($tbl, $rows) ? true : false;
 			if (!$found)
 			{

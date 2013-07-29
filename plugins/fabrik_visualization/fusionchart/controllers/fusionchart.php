@@ -18,6 +18,7 @@ jimport('joomla.application.component.controller');
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart
+ * @since       3.0
  */
 
 class FabrikControllerVisualizationfusionchart extends FabrikControllerVisualization

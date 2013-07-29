@@ -46,8 +46,8 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Shows the data formatted for the list view
 	 *
-	 * @param   string  $data      elements data
-	 * @param   object  &$thisRow  all the data in the lists current row
+	 * @param   string  $data      Elements data
+	 * @param   object  &$thisRow  All the data in the lists current row
 	 *
 	 * @return  string	formatted value
 	 */
@@ -57,16 +57,11 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		return parent::renderListData($data, $thisRow);
 	}
 
-	protected function getNotes()
-	{
-		$db = $this->getDb();
-	}
-
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   array  $data           To preopulate element with
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
 	 */
@@ -112,6 +107,13 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		return implode("\n", $str);
 	}
 
+	/**
+	 * Get display label
+	 *
+	 * @param   object  $row  Row
+	 *
+	 * @return string
+	 */
 	protected function getDisplayLabel($row)
 	{
 		$params = $this->getParams();
@@ -126,6 +128,13 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		return $txt;
 	}
 
+	/**
+	 * Get linked user name (only for com_uddeim apparently!?)
+	 *
+	 * @param   object  $row  Row
+	 *
+	 * @return string
+	 */
 	protected function getUserNameLinked($row)
 	{
 		if ($this->hasComponent('com_uddeim'))
@@ -138,6 +147,13 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		return '';
 	}
 
+	/**
+	 * Has component. [Really shouldn't be here but in a helper].
+	 *
+	 * @param   string  $c  Component name (com_foo)
+	 *
+	 * @return  bool
+	 */
 	protected function hasComponent($c)
 	{
 		if (!isset($this->components))
@@ -313,6 +329,12 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		return false;
 	}
 
+	/**
+	 * Ajax add note
+	 *
+	 * @return  void
+	 */
+
 	public function onAjax_addNote()
 	{
 		$app = JFactory::getApplication();
@@ -334,6 +356,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 			$query->insert($table)->set($col . ' = ' . $v);
 
 			// Jaanus - commented the $field related code out as it doesn't seem to have sense and it generated "ajax failed" error in submission when where element was selected
+
 			/*$field = $params->get('notes_where_element', '');
 			if ($field !== '') {
 			    $query->set($db->quoteName($field) . ' = ' . $db->quote($params->get('notes_where_value')));

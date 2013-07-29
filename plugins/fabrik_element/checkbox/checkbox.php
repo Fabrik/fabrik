@@ -161,46 +161,6 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Build the filter query for the given element.
-	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
-	 *
-	 * @param   string  $key            element name in format `tablename`.`elementname`
-	 * @param   string  $condition      =/like etc
-	 * @param   string  $value          search string - already quoted if specified in filter array options
-	 * @param   string  $originalValue  original filter value without quotes or %'s applied
-	 * @param   string  $type           filter type advanced/normal/prefilter/search/querystring/searchall
-	 *
-	 * @return  string	sql query part e,g, "key = value"
-	 */
-
-	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal')
-	{
-		$originalValue = trim($value, "'");
-
-		/*
-		 * JSON stored values will back slash "/". So wwe need to add "\\\\"
-		 * before it to escape it for the query.
-		 */
-		$originalValue = str_replace("/", "\\\\/", $originalValue);
-		$this->encryptFieldName($key);
-		switch ($condition)
-		{
-			case '=':
-			case '<>':
-				$condition2 = $condition == '=' ? 'LIKE' : 'NOT LIKE';
-				$glue  = $condition == '=' ? 'OR' : 'AND';
-				$db = FabrikWorker::getDbo();
-				$str = "($key $condition $value " . " $glue $key $condition2 " . $db->quote('["' . $originalValue . '"%') . " $glue $key $condition2 "
-				. $db->quote('%"' . $originalValue . '"%') . " $glue $key $condition2 " . $db->quote('%"' . $originalValue . '"]') . ")";
-				break;
-			default:
-				$str = " $key $condition $value ";
-				break;
-		}
-		return $str;
-	}
-
-	/**
 	 * If no filter condition supplied (either via querystring or in posted filter data
 	 * return the most appropriate filter option for the element.
 	 *
@@ -210,22 +170,6 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 	public function getDefaultFilterCondition()
 	{
 		return '=';
-	}
-
-	/**
-	 * Builds an array containing the filters value and condition
-	 *
-	 * @param   string  $value      initial value
-	 * @param   string  $condition  intial $condition
-	 * @param   string  $eval       how the value should be handled
-	 *
-	 * @return  array	(value condition)
-	 */
-
-	public function getFilterValue($value, $condition, $eval)
-	{
-		$value = $this->prepareFilterVal($value);
-		return parent::getFilterValue($value, $condition, $eval);
 	}
 
 	/**

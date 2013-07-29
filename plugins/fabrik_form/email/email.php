@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormEmail extends plgFabrik_Form
+class PlgFabrik_FormEmail extends PlgFabrik_Form
 {
 
 	/**
@@ -63,6 +63,7 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 	public function onAfterProcess($params, &$formModel)
 	{
 		$app = JFactory::getApplication();
+		$input = $app->input;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		jimport('joomla.mail.helper');
 		$user = JFactory::getUser();
@@ -113,9 +114,9 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 		$message = stripslashes($message);
 
 		$editURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=form&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
-			. JRequest::getVar('rowid');
+			. $input->get('rowid', '', 'string');
 		$viewURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
-			. JRequest::getVar('rowid');
+			. $input->get('rowid', '', 'string');
 		$editlink = '<a href="' . $editURL . '">' . JText::_('EDIT') . '</a>';
 		$viewlink = '<a href="' . $viewURL . '">' . JText::_('VIEW') . '</a>';
 		$message = str_replace('{fabrik_editlink}', $editlink, $message);
@@ -217,6 +218,7 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 		// Send email
 		foreach ($email_to as $email)
 		{
+			$email = strip_tags($email);
 			if (FabrikWorker::isEmail($email))
 			{
 				$thisAttachments = $this->attachments;
@@ -238,7 +240,7 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 						$attach_fname = '';
 					}
 				}
-				// Get a JMail instance (have to get a new instnace otherwise the receipients are appended to previously added recipients)
+				// Get a JMail instance (have to get a new instance otherwise the receipients are appended to previously added recipients)
 				$mail = JFactory::getMailer();
 				$res = $mail->sendMail($email_from, $email_from_name, $email, $thisSubject, $thisMessage, $htmlEmail, $cc, $bcc, $thisAttachments);
 
@@ -321,7 +323,15 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 						}
 						if (is_array($val))
 						{
-							$val = implode(',', $val);
+							if (is_array(current($val)))
+							{
+								// Can't implode multi dimensional arrays
+								$val = json_encode($val);
+							}
+							else
+							{
+								$val = implode(',', $val);
+							}
 						}
 						$aVals = FabrikWorker::JSONtoData($val, true);
 						foreach ($aVals as $v)
@@ -405,8 +415,8 @@ class plgFabrik_FormEmail extends plgFabrik_Form
 		}
 		else
 		{
-			JModel::addIncludePath(COM_FABRIK_BASE . 'components/com_content/models');
-			$articleModel = JModel::getInstance('Article', 'ContentModel');
+			JModelLegacy::addIncludePath(COM_FABRIK_BASE . 'components/com_content/models');
+			$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
 			$res = $articleModel->getItem($contentTemplate);
 		}
 		return $res->introtext . ' ' . $res->fulltext;

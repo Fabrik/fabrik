@@ -3,7 +3,10 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-element-radiobutton">
 		
-		<field label="COM_FABRIK_SUBOPTIONS" name="sub_options" type="suboptions"/>
+			<field type="helplink"
+				url="PLG_ELEMENT_RADIO_HELP_SERVER" />
+				
+			<field label="COM_FABRIK_SUBOPTIONS" name="sub_options" type="suboptions"/>
 				
 			<field default="0" description="PLG_ELEMENT_RADIO_ELEMENT_BEFORE_LABEL_DESC" label="PLG_ELEMENT_RADIO_ELEMENT_BEFORE_LABEL_LABEL" name="radio_element_before_label" type="radio">
 					<option value="0">JNO</option>

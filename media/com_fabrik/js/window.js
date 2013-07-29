@@ -78,20 +78,32 @@ Fabrik.Window = new Class({
 		return del;
 	},
 	
+	/**
+	 * Work out the window width either from px or % variable
+	 * 
+	 * @return  int  Px widht of window
+	 */
+	windowWidthInPx: function () {
+		var w = this.options.width + '';
+		if (w.indexOf('%') !== -1) {
+			return Math.floor(window.getSize().x * (w.toFloat() / 100));
+		}
+		return w.toInt();
+	},
+	
 	makeWindow: function ()
 	{
-		var draggerC, dragger, expandButton, expandIcon, resizeIcon, label;
-		var handleParts = [];
-		var d = {'width': this.options.width + 'px', 'height': this.options.height + 10 + 'px'};
-		
+		var draggerC, dragger, expandButton, expandIcon, resizeIcon, label,
+		handleParts = [],
+		pxWidth = this.windowWidthInPx(),
+		d = {'width': pxWidth + 'px', 'height': this.options.height + 10 + 'px'};
 		if (!(Fabrik.bootstrapped && this.modal)) {
 			d.top = typeOf(this.options.offset_y) !== 'null' ? window.getScroll().y + this.options.offset_y : window.getSize().y / 2 + window.getScroll().y;
-			d.left = typeOf(this.options.offset_x) !== 'null' ? window.getScroll().x + this.options.offset_x : window.getSize().x / 2  + window.getScroll().x - this.options.width / 2;
+			d.left = typeOf(this.options.offset_x) !== 'null' ? window.getScroll().x + this.options.offset_x : window.getSize().x / 2  + window.getScroll().x - pxWidth / 2;
 		}
 		this.window = new Element('div', {'id': this.options.id, 'class': 'fabrikWindow ' + this.classSuffix + ' modal'}).setStyles(d);
 		this.contentWrapperEl = this.window;
-		
-		del = this.deleteButton();
+		var del = this.deleteButton();
 		
 		var hclass = 'handlelabel';
 		if (!this.modal) {
@@ -283,7 +295,6 @@ Fabrik.Window = new Class({
 	},
 	
 	drawWindow: function () {
-		
 		var titleHeight = this.window.getElement('.' + this.handleClass());
 		titleHeight = titleHeight ? titleHeight.getSize().y : 25;
 		var footer = this.window.getElement('.bottomBar').getSize().y;
@@ -323,12 +334,19 @@ Fabrik.Window = new Class({
 	
 	center: function () {
 		if (!(Fabrik.bootstrapped && this.modal)) {
-			this.window.makeCenter();
+			if (this.modal) {
+				this.window.setStyles({'position': 'fixed', 'top': 0});
+			} else {
+				this.window.makeCenter();
+			}
 		}
 	},
 	
 	close: function (e)
 	{
+		if (this.modal) {
+			document.body.setStyle('overflow', 'auto');
+		}
 		if (e) {
 			e.stop();
 		}
@@ -347,6 +365,10 @@ Fabrik.Window = new Class({
 	},
 	
 	open: function (e) {
+		// Crop fileupload interface doesnt like window scrolling when open, so stop it
+		if (this.modal) {
+			document.body.setStyle('overflow', 'hidden');
+		}
 		if (e) {
 			e.stop();
 		}

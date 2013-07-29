@@ -16,9 +16,9 @@ require_once 'fabmodellist.php';
 /**
 * Fabrik Admin Visualizations Model
 *
-* @package      Joomla.Administrator
-* @subpackage   Fabrik
-* @since        3.0
+* @package     Joomla.Administrator
+* @subpackage  Fabrik
+* @since       3.0
 */
 
 class FabrikModelVisualizations extends FabModelList

@@ -3,6 +3,9 @@
 	<fields name="params">
 		<fieldset name="plg-dropdown-mutli">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
+				
 			<field label="COM_FABRIK_SUBOPTIONS" name="sub_options" type="suboptions"/>
 			
 			<field default="0" label="PLG_ELEMENT_DROPDOWN_ALLOW_MULTISELECT_LABEL" name="multiple" type="radio">

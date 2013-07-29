@@ -23,7 +23,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
  * @since       3.0
  */
 
-class fabrikModelSlideshow extends FabrikFEModelVisualization
+class FabrikModelSlideshow extends FabrikFEModelVisualization
 {
 
 	/**
@@ -199,7 +199,7 @@ class fabrikModelSlideshow extends FabrikFEModelVisualization
 					{
 						if ($params->get('slideshow_viz_thumbnails', false))
 						{
-							$small = (string) $imgs[$i]['src'];
+							$small = (string) JArrayHelper::getValue($imgs[$i], 'src');
 							$small = str_replace(COM_FABRIK_LIVESITE, '', $small);
 							$pic_opts['thumbnail'] = $small;
 						}

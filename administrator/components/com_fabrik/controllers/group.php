@@ -17,9 +17,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Group controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 class FabrikControllerGroup extends JControllerForm
 {

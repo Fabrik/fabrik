@@ -17,9 +17,9 @@ defined('_JEXEC') or die();
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
  * @since       3.0
- */
+*/
 
-class pdfRender
+class PdfRender
 {
 
 	/**
@@ -33,13 +33,13 @@ class pdfRender
 	 * File extension for PDF thumbnails
 	 * @var  string
 	 */
-	private $pdf_thumb_type = 'png';
+	protected $pdf_thumb_type = 'png';
 
 	/**
 	 * Is the element in a list view
 	 * @var  bool
 	 */
-	private $inTableView = false;
+	protected $inTableView = false;
 
 	/**
 	 * When in form or detailed view, do we want to show the full image or thumbnail/link?
@@ -53,40 +53,42 @@ class pdfRender
 
 	private function getThumbnail(&$model, &$params, $file)
 	{
-		if ($this->inTableView || ($params->get('make_thumbnail')  == '1' && $params->get('fu_show_image') == 1)) {
-			 if (!$params->get('make_thumbnail', false))
-			 {
-			 	return false;
-			 }
-			 else
-			 {
-			 	$thumb_url = $model->getStorage()->_getThumb($file);
-			 	$thumb_file = $model->getStorage()->urlToPath($thumb_url);
-			 	$thumb_url_info = pathinfo($thumb_url);
-			 	if (JString::strtolower($thumb_url_info['extension'] == 'pdf'))
-			 	{
-			 		$thumb_url = $thumb_url_info['dirname'] . '/' . $thumb_url_info['filename'] . '.' . $this->pdf_thumb_type;
+		if ($this->inTableView || ($params->get('make_thumbnail') == '1' && $params->get('fu_show_image') == 1))
+		{
+			if (!$params->get('make_thumbnail', false))
+			{
+				return false;
+			}
+			else
+			{
+				$thumb_url = $model->getStorage()->_getThumb($file);
+				$thumb_file = $model->getStorage()->urlToPath($thumb_url);
+				$thumb_url_info = pathinfo($thumb_url);
+				if (JString::strtolower($thumb_url_info['extension'] == 'pdf'))
+				{
+					$thumb_url = $thumb_url_info['dirname'] . '/' . $thumb_url_info['filename'] . '.' . $this->pdf_thumb_type;
 					$thumb_file_info = pathinfo($thumb_file);
 					$thumb_file = $thumb_file_info['dirname'] . '/' . $thumb_file_info['filename'] . '.' . $this->pdf_thumb_type;
-			 	}
-			 	if ($model->getStorage()->exists($thumb_file))
-			 	{
-			 		return $thumb_url;
-			 	}
-			 	else
-			 	{
-			 		// If file specific thumb doesn't exist, try the generic per-type image in media folder
-			 		$thumb_file = COM_FABRIK_BASE.'media/com_fabrik/images/pdf.png';
-			 		if (JFile::exists($thumb_file)) {
-			 			return $thumb_file;
-			 		}
-			 		else
-			 		{
-			 			// Nope, nothing we can use as a thumb
-			 			return false;
-			 		}
-			 	}
-			 }
+				}
+				if ($model->getStorage()->exists($thumb_file))
+				{
+					return $thumb_url;
+				}
+				else
+				{
+					// If file specific thumb doesn't exist, try the generic per-type image in media folder
+					$thumb_file = COM_FABRIK_BASE . 'media/com_fabrik/images/pdf.png';
+					if (JFile::exists($thumb_file))
+					{
+						return $thumb_file;
+					}
+					else
+					{
+						// Nope, nothing we can use as a thumb
+						return false;
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -102,7 +104,7 @@ class pdfRender
 	 * @return  void
 	 */
 
-	function renderListData(&$model, &$params, $file, $thisRow)
+	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->inTableView = true;
 		$this->render($model, $params, $file);
@@ -115,10 +117,10 @@ class pdfRender
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 *
-	 * @reutrn  void
+	 * @return  void
 	 */
 
-	function render(&$model, &$params, $file)
+	public function render(&$model, &$params, $file)
 	{
 		jimport('joomla.filesystem.file');
 		$filename = basename($file);

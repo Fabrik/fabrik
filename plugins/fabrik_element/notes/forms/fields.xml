@@ -3,14 +3,24 @@
 	<fields>
 		<fieldset name="plg-element-note">
 					
-				<field default="0" label="PLG_ELEMENT_NOTES_EVAL_LABEL" name="eval" type="radio">
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-					</field>
+			<field type="helplink"
+				url="PLG_ELEMENT_NOTES_HELP_SERVER" />
+				
+			<field name="eval"
+				type="radio"
+				default="0"
+				label="PLG_ELEMENT_NOTES_EVAL_LABEL" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 					
-				<field cols="6" label="PLG_ELEMENT_NOTES_DEFAULT_LABEL" name="default" rows="5" type="textarea"/>
+			<field name="default"
+				type="textarea"
+				cols="6"
+				label="PLG_ELEMENT_NOTES_DEFAULT_LABEL"
+				rows="5" />
 			
-			</fieldset>
+		</fieldset>
 	</fields>
 	
 	<fields name="params">

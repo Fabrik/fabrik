@@ -55,7 +55,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 			if ($params->get('icon_folder') == '1')
 			{
 				// $$$ rob was returning here but that stoped us being able to use links and icons together
-				$d = $this->_replaceWithIcons($d, 'list', $listModel->getTmpl());
+				$d = $this->replaceWithIcons($d, 'list', $listModel->getTmpl());
 			}
 			else
 			{
@@ -404,7 +404,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		if (strstr($v, ","))
 		{
 			$ar = explode(":", $v);
-			$o->zoomlevel = count($ar) == 2 ? array_pop($ar) : 4;
+			$o->zoomlevel = count($ar) == 2 ? array_pop($ar) : $o->zoomlevel;
 			$v = FabrikString::ltrimword($ar[0], "(");
 			$v = rtrim($v, ")");
 			$o->coords = explode(",", $v);

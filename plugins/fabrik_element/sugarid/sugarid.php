@@ -19,7 +19,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
  * @since       3.0
  */
 
-class plgFabrik_ElementSugarid extends plgFabrik_Element
+class PlgFabrik_ElementSugarid extends PlgFabrik_Element
 {
 
 	/**
@@ -39,8 +39,8 @@ class plgFabrik_ElementSugarid extends plgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
-	 * @param   int    $repeatCounter  repeat group counter
+	 * @param   array  $data           To preopulate element with
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
 	 */
@@ -79,8 +79,8 @@ class plgFabrik_ElementSugarid extends plgFabrik_Element
 	/**
 	 * Manupulates posted form data for insertion into database
 	 *
-	 * @param   mixed  $val   this elements posted form data
-	 * @param   array  $data  posted form data
+	 * @param   mixed  $val   This elements posted form data
+	 * @param   array  $data  Posted form data
 	 *
 	 * @return  mixed
 	 */
@@ -133,7 +133,7 @@ class plgFabrik_ElementSugarid extends plgFabrik_Element
 	/**
 	 * Create guid section
 	 *
-	 * @param   string  $characters  string
+	 * @param   string  $characters  String
 	 *
 	 * @return  string  guid section
 	 */
@@ -151,8 +151,8 @@ class plgFabrik_ElementSugarid extends plgFabrik_Element
 	/**
 	 * pad/substr string to specified length
 	 *
-	 * @param   string  &$string  string
-	 * @param   int     $length   size
+	 * @param   string  &$string  String
+	 * @param   int     $length   Size
 	 *
 	 * @return  void
 	 */

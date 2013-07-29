@@ -61,11 +61,12 @@ class FabrikFEModelCSVExport
 	public function writeFile($total)
 	{
 		$app = JFactory::getApplication();
+		$input = $app->input;
 
 		// F3 turn off error reporting as this is an ajax call
 		error_reporting(0);
 		jimport('joomla.filesystem.file');
-		$start = JRequest::getInt('start', 0);
+		$start = $input->getInt('start', 0);
 		$filename = $this->getFileName();
 		$filepath = $this->getFilePath();
 		$str = '';
@@ -97,14 +98,14 @@ class FabrikFEModelCSVExport
 		$table = $this->model->getTable();
 		$this->model->render();
 		$this->removePkVal();
-		$this->outPutFormat = JRequest::getVar('excel') == 1 ? 'excel' : 'csv';
+		$this->outPutFormat = $input->get('excel') == 1 ? 'excel' : 'csv';
 		$this->delimiter = $this->outPutFormat == 'excel' ? COM_FABRIK_EXCEL_CSV_DELIMITER : COM_FABRIK_CSV_DELIMITER;
 		if ($start === 0)
 		{
 			$headings = $this->getHeadings();
 			if (empty($headings))
 			{
-				$url = JRequest::getVar('HTTP_REFERER', '', 'server');
+				$url = $input->server->get('HTTP_REFERER', '');
 				$app->redirect($url, JText::_('No data to export'));
 				return;
 			}
@@ -112,8 +113,8 @@ class FabrikFEModelCSVExport
 			$str .= implode($headings, $this->delimiter) . "\n";
 		}
 
-		$incRaw = JRequest::getVar('incraw', true);
-		$incData = JRequest::getVar('inctabledata', true);
+		$incRaw = $input->get('incraw', true);
+		$incData = $input->get('inctabledata', true);
 
 		$data = $this->model->getData();
 		$exportFormat = $this->model->getParams()->get('csvfullname');
@@ -148,7 +149,7 @@ class FabrikFEModelCSVExport
 						}
 					}
 				}
-				if (JRequest::getVar('inccalcs') == 1)
+				if ($input->get('inccalcs') == 1)
 				{
 					array_unshift($a, ' ');
 				}
@@ -250,7 +251,8 @@ class FabrikFEModelCSVExport
 
 	private function getFileName()
 	{
-		$this->model->setId(JRequest::getInt('listid'));
+		$app = JFactory::getApplication();
+		$this->model->setId($app->input->getInt('listid'));
 		$table = $this->model->getTable();
 		$filename = $table->db_table_name . '-export.csv';
 		return $filename;
@@ -322,9 +324,11 @@ class FabrikFEModelCSVExport
 
 	protected function _addCalculations($a, &$str)
 	{
-		if (JRequest::getVar('inccalcs') == 1)
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		if ($input->get('inccalcs') == 1)
 		{
-			$incRaw = JRequest::getVar('incraw', true);
+			$incRaw = $input->get('incraw', true);
 			$calkeys = array('sums', 'avgs', 'medians', 'count');
 			foreach ($calkeys as $calkey)
 			{
@@ -384,7 +388,7 @@ class FabrikFEModelCSVExport
 						}
 					}
 				}
-				$str .= implode($this->delimiter, array_map(array($this, "quote"), $aCalcs[$calkey]));;
+				$str .= implode($this->delimiter, array_map(array($this, "quote"), $aCalcs[$calkey]));
 				$str .= "\n";
 			}
 		}
@@ -429,6 +433,8 @@ class FabrikFEModelCSVExport
 
 	public function getHeadings()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$w = new FabrikWorker;
 		$table = $this->model->getTable();
 		$params = $this->model->getParams();
@@ -440,7 +446,6 @@ class FabrikFEModelCSVExport
 		{
 			return $g;
 		}
-		$selectedFields = JRequest::getVar('fields');
 		$r = current($g);
 		$formModel = $this->model->getFormModel();
 		$groups = $formModel->getGroupsHiarachy();
@@ -449,8 +454,8 @@ class FabrikFEModelCSVExport
 		{
 			return new stdClass;
 		}
-		$incRaw = JRequest::getVar('incraw', true);
-		$incData = JRequest::getVar('inctabledata', true);
+		$incRaw = $input->get('incraw', true);
+		$incData = $input->get('inctabledata', true);
 
 		$shortkey = FabrikString::shortColName($table->db_primary_key);
 
@@ -532,7 +537,7 @@ class FabrikFEModelCSVExport
 				}
 			}
 		}
-		if (JRequest::getVar('inccalcs') == 1)
+		if ($input->get('inccalcs') == 1)
 		{
 			array_unshift($h, JText::_('Calculation'));
 		}
@@ -555,7 +560,7 @@ class FabrikFEModelCSVExport
 		$newN = $n . '_' . $c;
 		while (in_array($newN, $h))
 		{
-			$c++;
+			$c ++;
 			$newN = $n . '_' . $c;
 		}
 		return $newN;

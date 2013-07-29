@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
 		<fieldset label="field" name="plg-element-field">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
+				
 			<field default="20" label="PLG_ELEMENT_FIELD_WIDTH_LABEL" name="width" size="3" type="text"/>
 			
 			<field default="0" description="PLG_ELEMENT_FIELD_HIDDEN_DESC" label="PLG_ELEMENT_FIELD_HIDDEN_LABEL" name="hidden" type="radio">

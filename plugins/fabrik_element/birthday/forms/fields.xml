@@ -3,6 +3,9 @@
 	<fields name="params">
 		<fieldset name="plg-birthday">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_BIRTHDAY_HELP_SERVER" />
+		
 			<field default="" description="PLG_ELEMENT_BIRTHDAY_DAY_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_DAY_LABEL" name="birthday_daylabel" type="text"/>
 				
 			<field default="" description="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL_DESC" label="PLG_ELEMENT_BIRTHDAY_MONTH_LABEL" name="birthday_monthlabel" type="text"/>
@@ -17,14 +20,14 @@
 			<field default="100" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_START_LABEL" name="birthday_yearstart" size="4" type="text"/>
 			<field default="0" description="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_DESC" label="PLG_ELEMENT_BIRTHDAY_YEARLIST_FORWARD_LABEL" name="birthday_forward" size="4" type="text"/>
 			
-		<field default="d.m.Y" description="PLG_ELEMENT_BIRTHDAY_LIST_DATEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_LIST_DATE_FORMAT" name="list_date_format" type="radio">
+		<field default="d.m.Y" description="PLG_ELEMENT_BIRTHDAY_LIST_DATEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_LIST_DATE_FORMAT" name="list_date_format" type="list">
 			<option value="d.m.Y">01.03.1789</option>
 			<option value="m.d.Y">03/01/1789</option>
 			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
 			<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
 		</field>
 
-		<field default="no" description="PLG_ELEMENT_BIRTHDAY_LIST_AGEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_LIST_AGE_FORMAT" name="list_age_format" type="radio">
+		<field default="no" description="PLG_ELEMENT_BIRTHDAY_LIST_AGEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_LIST_AGE_FORMAT" name="list_age_format" type="list">
 			<option value="no">PLG_ELEMENT_BIRTHDAY_DATEONLY</option>
 			<option value="{age}">PLG_ELEMENT_BIRTHDAY_AGEONLY</option>
 			<option value="{age} date">PLG_ELEMENT_BIRTHDAY_DATE_AGE</option>
@@ -32,7 +35,7 @@
 			<option value="{age} next">PLG_ELEMENT_BIRTHDAY_AGENEXTYEAR</option>
 		</field>
 
-		<field default="d.m.Y" description="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATE_FORMAT" name="details_date_format" type="radio">
+		<field default="d.m.Y" description="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEFORMATDESC" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATE_FORMAT" name="details_date_format" type="list">
 			<option value="d.m.Y">01.03.1789</option>
 			<option value="m.d.Y">03/01/1789</option>
 			<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
@@ -41,15 +44,19 @@
 			<option value="{age} d.m">PLG_ELEMENT_BIRTHDAY_YYY_D_MONTH</option>
 			<option value="{age} m.d">PLG_ELEMENT_BIRTHDAY_YYY_MONTH_D</option>
 		</field>
-		<field default="0" label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEANDAGE" name="details_dateandage" type="radio">
-			<option value="0">NO</option>
-			<option value="1">YES</option>
+		<field default="0"
+			class="btn-group"
+			label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEANDAGE" name="details_dateandage" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 		</field>
 		<field label="PLG_ELEMENT_BIRTHDAY_DETAILS_DATEANDAGEDESC" name="dateandagedesc" type="spacer"/>
 
-		<field default="0" label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULL" name="empty_is_null" type="radio">
-			<option value="0">NO</option>
-			<option value="1">YES</option>
+		<field default="0"
+			class="btn-group"
+			label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULL" name="empty_is_null" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 		</field>
 		<field label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULLDESC" name="empty_is_null_desc" type="spacer"/>
 

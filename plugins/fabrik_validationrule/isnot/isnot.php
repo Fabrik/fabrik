@@ -23,7 +23,7 @@ require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
  * @since       3.0
  */
 
-class plgFabrik_ValidationruleIsNot extends plgFabrik_Validationrule
+class PlgFabrik_ValidationruleIsNot extends PlgFabrik_Validationrule
 {
 
 	/**
@@ -50,10 +50,10 @@ class plgFabrik_ValidationruleIsNot extends plgFabrik_Validationrule
 	/**
 	 * Validate the elements data against the rule
 	 *
-	 * @param   string  $data           to check
-	 * @param   object  &$elementModel  element Model
-	 * @param   int     $pluginc        plugin sequence ref
-	 * @param   int     $repeatCounter  repeat group counter
+	 * @param   string  $data           To check
+	 * @param   object  &$elementModel  Element Model
+	 * @param   int     $pluginc        Plugin sequence ref
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return  bool  true if validation passes, false if fails
 	 */
@@ -76,5 +76,21 @@ class plgFabrik_ValidationruleIsNot extends plgFabrik_Validationrule
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Gets the hover/alt text that appears over the validation rule icon in the form
+	 *
+	 * @param   object  $elementModel  Element model
+	 * @param   int     $pluginc       Validation render order
+	 *
+	 * @return  string	label
+	 */
+
+	protected function getLabel($elementModel, $pluginc)
+	{
+		$params = $this->getParams();
+		$isnot = $params->get('isnot-isnot');
+		return JText::sprintf('PLG_VALIDATIONRULE_ISNOT_LABEL', $isnot[$pluginc]);
 	}
 }

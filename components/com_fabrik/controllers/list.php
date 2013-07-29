@@ -183,7 +183,18 @@ class FabrikControllerList extends JController
 
 		$model->setId($listid);
 		$oldtotal = $model->getTotalRecords();
-		$model->deleteRows($ids);
+		try
+		{
+			$model->deleteRows($ids);
+			$msg = count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED');
+			$msgType = 'message';
+		}
+		catch (Exception $e)
+		{
+			$msg = $e->getMessage();
+			$msgType = 'error';
+			$ids = array();
+		}
 
 		$total = $oldtotal - count($ids);
 
@@ -213,7 +224,7 @@ class FabrikControllerList extends JController
 		else
 		{
 			// @TODO: test this
-			$app->redirect($ref, count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED'));
+			$app->redirect($ref, $msg, $msgType);
 		}
 	}
 

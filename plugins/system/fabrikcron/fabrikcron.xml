@@ -2,12 +2,12 @@
 <extension group="system" method="upgrade" type="plugin" version="2.5">
 	<name>System - Fabrik Scheduled Tasks</name>
 	<author>Pollen 8</author>
-	<creationDate>March 2013</creationDate>
+	<creationDate>May 2013</creationDate>
 	<copyright>(C) 2005-2013 fabrikar.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.pollen-8.co.uk</authorUrl>
-	<version>3.0.7</version>
+	<version>3.0.8</version>
 	<description>Runs Fabrik scheduled tasks</description>
 	<files>
 		<filename plugin="fabrikcron">fabrikcron.php</filename>

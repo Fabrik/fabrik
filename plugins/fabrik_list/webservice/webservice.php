@@ -24,7 +24,7 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 {
 
 	/**@var	string	button prefix name */
-	protected $buttonPrefix = 'update_col';
+	protected $buttonPrefix = 'webservice';
 
 	/**
 	 * Does the plugin render a button at the top of the list?
@@ -49,9 +49,9 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 		{
 			$name = $this->_getButtonName();
 			$label = $this->buttonLabel();
-			$imageName = $this->getParams()->get('list_' . $this->buttonPrefix . '_image_name', $this->buttonPrefix . '.png');
+			$imageName = $this->getParams()->get('list_' . $this->buttonPrefix . '_image_name', 'update_col.png');
 			$img = FabrikHelperHTML::image($imageName, 'list', '', $label);
-			return '<a href="#" class="' . $name . ' listplugin" title="' . $label . '">' . $img . '<span>' . $label . '</span></a>';
+			return '<a data-list="' . $this->context . '" href="#" class="' . $name . ' listplugin" title="' . $label . '">' . $img . '<span>' . $label . '</span></a>';
 		}
 	}
 
@@ -146,12 +146,9 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 		$filters = $this->getServiceFilters($service);
 		$service->setMap($this->getMap($formModel));
 		$filters = array_merge($opts['credentials'], $filters);
-
 		$method = $params->get('webservice_get_method');
 		$startPoint = $params->get('webservice_start_point');
-
 		$serviceData = $service->get($method, $filters, $startPoint, null);
-
 		$update = (bool) $params->get('webservice_update_existing', false);
 		$service->storeLocally($model, $serviceData, $fk, $update);
 		$this->msg = JText::sprintf($params->get('webservice_msg'), $service->addedCount, $service->updateCount);

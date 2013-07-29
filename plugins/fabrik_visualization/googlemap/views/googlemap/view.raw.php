@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @since       3.0
  */
 
-class fabrikViewGooglemap extends JView
+class FabrikViewGooglemap extends JView
 {
 
 	/**

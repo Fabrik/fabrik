@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormConfirmation extends plgFabrik_Form
+class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 {
 
 	protected $runAway = false;
@@ -252,6 +252,20 @@ class plgFabrik_FormConfirmation extends plgFabrik_Form
 	public function getBottomContent_result($c)
 	{
 		return $this->html;
+	}
+
+	/**
+	 * Does the plugin use session.on
+	 *
+	 * @param   object  $params     Plugin params
+	 * @param   object  $formModel  Form model
+	 *
+	 * @return  void
+	 */
+
+	public function usesSession($params, $formModel)
+	{
+		$this->usesSession = true;
 	}
 
 }

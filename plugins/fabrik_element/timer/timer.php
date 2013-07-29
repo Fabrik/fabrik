@@ -22,19 +22,18 @@ require_once JPATH_SITE . '/plugins/fabrik_element/date/date.php';
  * @since       3.0
  */
 
-class plgFabrik_ElementTimer extends plgFabrik_Element
+class PlgFabrik_ElementTimer extends PlgFabrik_Element
 {
 
 	public $hasSubElements = false;
 
 	/**
 	 * Db table field type
+	 * Jaanus: works better when using datatype 'TIME' as above and forgetting any date part of data :)
 	 *
 	 * @var string
 	 */
 	protected $fieldDesc = 'TIME';
-
-	 // Jaanus: works better when using datatype 'TIME' as above and forgetting any date part of data :)
 
 	/**
 	 * Determines if the element can contain data used in sending receipts,
@@ -115,7 +114,7 @@ class plgFabrik_ElementTimer extends plgFabrik_Element
 		$params = $this->getParams();
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
-		$opts->autostart = (bool)$params->get('timer_autostart', false);
+		$opts->autostart = (bool) $params->get('timer_autostart', false);
 		JText::script('PLG_ELEMENT_TIMER_START');
 		JText::script('PLG_ELEMENT_TIMER_STOP');
 		return array('FbTimer', $id, $opts);

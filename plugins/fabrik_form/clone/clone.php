@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormClone extends plgFabrik_Form
+class PlgFabrik_FormClone extends PlgFabrik_Form
 {
 
 	/**

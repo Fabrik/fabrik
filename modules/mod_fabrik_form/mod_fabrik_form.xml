@@ -2,12 +2,12 @@
 <extension client="site" method="upgrade" type="module" version="2.5">
 	<name>mod_fabrik_form</name>
 	<author>Rob Clayburn</author>
-	<creationDate>March 2013</creationDate>
+	<creationDate>May 2013</creationDate>
 	<copyright>(C) 2005-2013 fabrikar.com</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.0.7</version>
+	<version>3.0.8</version>
 	<description>MOD_FABRIK_FORM_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_form">mod_fabrik_form.php</filename>

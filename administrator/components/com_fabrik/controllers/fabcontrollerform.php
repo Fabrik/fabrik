@@ -17,9 +17,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * FabForm controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 
 class FabControllerForm extends JControllerForm
@@ -41,7 +41,9 @@ class FabControllerForm extends JControllerForm
 	public function copy()
 	{
 		$model = $this->getModel();
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('cid', array(), 'array');
 		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
@@ -50,12 +52,12 @@ class FabControllerForm extends JControllerForm
 		{
 			if ($model->copy())
 			{
-				 $ntext = $this->text_prefix . '_N_ITEMS_COPIED';
-				 $this->setMessage(JText::plural($ntext, count($cid)));
+				$ntext = $this->text_prefix . '_N_ITEMS_COPIED';
+				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
-		$extension = JRequest::getCmd('extension');
-		$extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
+		$extension = $input->get('extension');
+		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 }

@@ -17,10 +17,8 @@ jimport('joomla.application.component.controller');
 /**
  * Fabrik Admin Plugin Controller
  *
- * @static
- * @package		Joomla
- * @subpackage	Fabrik
- * @since 1.5
+ * @package  Fabrik
+ * @since    3.0
  */
 
 class FabrikControllerPlugin extends JController
@@ -43,9 +41,11 @@ class FabrikControllerPlugin extends JController
 
 	public function pluginAjax()
 	{
-		$plugin = JRequest::getVar('plugin', '');
-		$method = JRequest::getVar('method', '');
-		$group = JRequest::getVar('g', 'element');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$plugin = $input->get('plugin', '');
+		$method = $input->get('method', '');
+		$group = $input->get('g', 'element');
 
 		if (!JPluginHelper::importPlugin('fabrik_' . $group, $plugin))
 		{
@@ -72,8 +72,10 @@ class FabrikControllerPlugin extends JController
 	public function userAjax()
 	{
 		$db = FabrikWorker::getDbo();
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		require_once COM_FABRIK_FRONTEND . '/user_ajax.php';
-		$method = JRequest::getVar('method', '');
+		$method = $input->get('method', '');
 		$userAjax = new userAjax($db);
 		if (method_exists($userAjax, $method))
 		{
@@ -84,7 +86,7 @@ class FabrikControllerPlugin extends JController
 	/**
 	 * Run cron plugin
 	 *
-	 * @param   object  $pluginManager  plugin manager
+	 * @param   object  &$pluginManager  Plugin manager
 	 *
 	 * @return  void
 	 */
@@ -92,7 +94,9 @@ class FabrikControllerPlugin extends JController
 	public function doCron(&$pluginManager)
 	{
 		$db = FabrikWorker::getDbo();
-		$cid = JRequest::getVar('element_id', array(), 'method', 'array');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$cid = $input->get('element_id', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (empty($cid))
 		{
@@ -106,7 +110,7 @@ class FabrikControllerPlugin extends JController
 		}
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$listModel = JModel::getInstance('list', 'FabrikFEModel');
+		$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
 		$c = 0;
 		foreach ($rows as $row)
 		{
@@ -136,7 +140,7 @@ class FabrikControllerPlugin extends JController
 		$query = $db->getQuery();
 		$query->update('#__{package}_cron')->set('lastrun=NOW()')->where('id IN (' . implode(',', $cid) . ')');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 }

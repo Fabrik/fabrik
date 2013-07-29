@@ -39,7 +39,7 @@ class PlgFabrik_FormUpsert extends plgFabrik_Form
 	 * @return  bool
 	 */
 
-	public function onLastProcess($params, &$formModel)
+	public function onAfterProcess($params, &$formModel)
 	{
 		$w = new FabrikWorker;
 		$this->formModel = $formModel;

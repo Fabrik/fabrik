@@ -88,10 +88,10 @@ class fabrikPayPalIPN
 			// If we found the userid, and it is in the normal user range, set the 'block' field in J!'s
 			// user table to 0.
 			$db->setQuery("UPDATE `#__users` SET `block` = '0' WHERE `id` = " . $db->Quote($userid));
-			$db->query();
+			$db->execute();
 			// Also set the block field in our registration table to 0.
 			$db->setQuery("UPDATE `registration_individual` SET `block` = '0' WHERE `id` = " . $db->Quote($rowid));
-			$db->query();
+			$db->execute();
 		}
 		return 'ok';
 	}
@@ -152,9 +152,9 @@ class fabrikPayPalIPN
 		if (!empty($userid) && (int) $userid > 42)
 		{
 			$db->setQuery("UPDATE `#__users` SET `block` = '1' WHERE `id` = " . $db->Quote($userid));
-			$db->query();
+			$db->execute();
 			$db->setQuery("UPDATE `registration_individual` SET `block` = '1' WHERE `id` = " . $db->Quote($rowid));
-			$db->query();
+			$db->execute();
 		}
 		return 'ok';
 	}

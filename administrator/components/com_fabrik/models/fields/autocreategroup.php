@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
  *
  * @package     Joomla
  * @subpackage  Form
- * @since		1.5
+ * @since       3.0
  */
 
 class JFormFieldAutoCreateGroup extends JFormFieldRadio
@@ -32,12 +32,12 @@ class JFormFieldAutoCreateGroup extends JFormFieldRadio
 	var	$_name = 'AutoCreateGroup';
 
 	/**
-	 * Get the input
+	 * Method to get the radio button field input markup.
 	 *
-	 * @return  string
+	 * @return  string  The field input markup.
 	 */
 
-	function getInput()
+	protected function getInput()
 	{
 		$this->value = $this->form->getValue('id') == 0 ? 1 : 0;
 		return parent::getInput();

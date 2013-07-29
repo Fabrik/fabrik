@@ -89,7 +89,7 @@ class FabrikWorker
 	/**
 	 * Returns true if $file has an image extension type
 	 *
-	 * @param   string  $file  filename
+	 * @param   string  $file  Filename
 	 *
 	 * @deprecated - doesnt seem to be used
 	 *
@@ -105,7 +105,7 @@ class FabrikWorker
 	/**
 	 * Returns true if $file has an image extension type
 	 *
-	 * @param   string  $file  filename
+	 * @param   string  $file  Filename
 	 *
 	 * @deprecated - doesnt seem to be used
 	 *
@@ -121,7 +121,7 @@ class FabrikWorker
 	/**
 	 * Get Audoio Mime type
 	 *
-	 * @param   string  $file  filename
+	 * @param   string  $file  Filename
 	 *
 	 * @deprecated - doesnt seem to be used
 	 *
@@ -141,7 +141,7 @@ class FabrikWorker
 	/**
 	 * Get Video Mime type
 	 *
-	 * @param   string  $file  filename
+	 * @param   string  $file  Filename
 	 *
 	 * @deprecated - doesnt seem to be used
 	 *
@@ -161,7 +161,7 @@ class FabrikWorker
 	/**
 	 * Get Podcast Mime type
 	 *
-	 * @param   string  $file  filename
+	 * @param   string  $file  Filename
 	 *
 	 * @deprecated - doesnt seem to be used
 	 *
@@ -192,8 +192,8 @@ class FabrikWorker
 	 * http://fr.php.net/strftime
 	 * (use as strptime)
 	 *
-	 * @param   string  $date    string date to format
-	 * @param   string  $format  date format strftime format
+	 * @param   string  $date    String date to format
+	 * @param   string  $format  Date format strftime format
 	 *
 	 * @return	array	date info
 	 */
@@ -267,8 +267,8 @@ class FabrikWorker
 	/**
 	 * Check for, and convert, any 'special' formats for strtotime, like 'yesterday', etc
 	 *
-	 * @param   string  $date  date to check
-	 * @param   bool    $gmt   set date to universal time?
+	 * @param   string  $date  Date to check
+	 * @param   bool    $gmt   Set date to universal time?
 	 *
 	 * @return	string	date
 	 */
@@ -315,8 +315,8 @@ class FabrikWorker
 	/**
 	 * String to time
 	 *
-	 * @param   string  $date    date representation
-	 * @param   string  $format  date format
+	 * @param   string  $date    Date representation
+	 * @param   string  $format  Date format
 	 *
 	 * @return	array	date bits keyed on date representations e.g.  m/d/Y
 	 */
@@ -430,7 +430,7 @@ class FabrikWorker
 	 * Removed day of week name from string
 	 *
 	 * @param   string  $date  The string date
-	 * @param   bool    $abrv  abbreviated day?
+	 * @param   bool    $abrv  Abbreviated day?
 	 *
 	 * @return	string	date
 	 */
@@ -463,8 +463,8 @@ class FabrikWorker
 	/**
 	 * Convert a month (could be in any language) into the month number (1 = jan)
 	 *
-	 * @param   string  $date  data to convert
-	 * @param   bool    $abrv  is the month is a short or full name version
+	 * @param   string  $date  Data to convert
+	 * @param   bool    $abrv  Is the month is a short or full name version
 	 *
 	 * @return  string
 	 */
@@ -507,8 +507,8 @@ class FabrikWorker
 	/**
 	 * Check a string is not reserved by Fabrik
 	 *
-	 * @param   string  $str  to check
-	 * @param   bool  $strict  incude things like rowid, listid in the reserved words, defaults to true
+	 * @param   string  $str     To check
+	 * @param   bool    $strict  Incude things like rowid, listid in the reserved words, defaults to true
 	 *
 	 * @return bool
 	 */
@@ -560,18 +560,18 @@ class FabrikWorker
 	 * Iterates through string to replace every
 	 * {placeholder} with posted data
 	 *
-	 * @param   string  $msg               text to parse
-	 * @param   array   $searchData        data to search for placeholders (default $_REQUEST)
-	 * @param   bool    $keepPlaceholders  if no data found for the place holder do we keep the {...} string in the message
-	 * @param   bool    $addslashes        add slashed to the text?
-	 * @param   object  $theirUser         user to use in replaceWithUserData (defaults to logged in user)
+	 * @param   string  $msg               Text to parse
+	 * @param   array   $searchData        Data to search for placeholders (default $_REQUEST)
+	 * @param   bool    $keepPlaceholders  If no data found for the place holder do we keep the {...} string in the message
+	 * @param   bool    $addslashes        Add slashed to the text?
+	 * @param   object  $theirUser         User to use in replaceWithUserData (defaults to logged in user)
 	 *
 	 * @return  string  parsed message
 	 */
 
 	public function parseMessageForPlaceHolder($msg, $searchData = null, $keepPlaceholders = true, $addslashes = false, $theirUser = null)
 	{
-		$this->_parseAddSlases = $addslashes;
+		$this->parseAddSlases = $addslashes;
 		if ($msg == '' || is_array($msg) || JString::strpos($msg, '{') === false)
 		{
 			return $msg;
@@ -593,7 +593,8 @@ class FabrikWorker
 		 * self::replaceRequest($msg);
 		 */
 
-		$post = JRequest::get('request');
+		$f = JFilterInput::getInstance();
+		$post = $f->clean($_REQUEST, 'array');
 		$this->_searchData = is_null($searchData) ? $post : array_merge($post, $searchData);
 		$this->_searchData['JSession::getFormToken'] = JSession::getFormToken();
 		$msg = self::replaceWithUserData($msg);
@@ -603,26 +604,29 @@ class FabrikWorker
 		}
 		$msg = self::replaceWithGlobals($msg);
 		$msg = preg_replace("/{}/", "", $msg);
-		/* replace {element name} with form data */
+
+		// Replace {element name} with form data
 		$msg = preg_replace_callback("/{[^}\s]+}/i", array($this, 'replaceWithFormData'), $msg);
 		if (!$keepPlaceholders)
 		{
 			$msg = preg_replace("/{[^}\s]+}/i", '', $msg);
 		}
+
 		return $msg;
 	}
 
 	/**
 	 * Replace {varname} with request data (called from J content plugin)
 	 *
-	 * @param   string  &$msg  string to parse
+	 * @param   string  &$msg  String to parse
 	 *
 	 * @return  void
 	 */
 
 	public function replaceRequest(&$msg)
 	{
-		$request = JRequest::get('request');
+		$f = JFilterInput::getInstance();
+		$request = $f->clean($_REQUEST, 'array');
 		foreach ($request as $key => $val)
 		{
 			if (is_string($val))
@@ -640,15 +644,16 @@ class FabrikWorker
 	 * AND
 	 * {$their->var->email} placeholderse
 	 *
-	 * @param   string  $msg     message to parse
+	 * @param   string  $msg     Message to parse
 	 * @param   object  $user    Joomla user object
-	 * @param   string  $prefix  search string to look for e.g. 'my' to look for {$my->id}
+	 * @param   string  $prefix  Search string to look for e.g. 'my' to look for {$my->id}
 	 *
 	 * @return	string	parsed message
 	 */
 
 	public static function replaceWithUserData($msg, $user = null, $prefix = 'my')
 	{
+		$app = JFactory::getApplication();
 		if (is_null($user))
 		{
 			$user = JFactory::getUser();
@@ -664,12 +669,17 @@ class FabrikWorker
 						$msg = str_replace('{$' . $prefix . '->' . $key . '}', $val, $msg);
 						$msg = str_replace('{$' . $prefix . '-&gt;' . $key . '}', $val, $msg);
 					}
+					elseif (is_array($val))
+					{
+						$msg = str_replace('{$' . $prefix . '->' . $key . '}', implode(',', $val), $msg);
+						$msg = str_replace('{$' . $prefix . '-&gt;' . $key . '}', implode(',', $val), $msg);
+					}
 				}
 			}
 		}
 		/*
 		 *  $$$rob parse another users data into the string:
-		 *  format: is {$their->var->email} where var is the JRequest var to search for
+		 *  format: is {$their->var->email} where var is the $app->input var to search for
 		 *  e.g url - index.php?owner=62 with placeholder {$their->owner->id}
 		 *  var should be an integer corresponding to the user id to load
 		 */
@@ -679,7 +689,7 @@ class FabrikWorker
 		foreach ($matches as $match)
 		{
 			$bits = explode('->', str_replace(array('{', '}'), '', $match));
-			$userid = JRequest::getInt(JArrayHelper::getValue($bits, 1));
+			$userid = $app->input->getInt(JArrayHelper::getValue($bits, 1));
 			if ($userid !== 0)
 			{
 				$user = JFactory::getUser($userid);
@@ -694,7 +704,7 @@ class FabrikWorker
 	 * Called from parseMessageForPlaceHolder to iterate through string to replace
 	 * {placeholder} with global data
 	 *
-	 * @param   string  $msg  message to parse
+	 * @param   string  $msg  Message to parse
 	 *
 	 * @return	string	parsed message
 	 */
@@ -702,8 +712,7 @@ class FabrikWorker
 	public static function replaceWithGlobals($msg)
 	{
 		$app = JFactory::getApplication();
-		$menuItem = $app->getMenu('site')->getActive();
-		$Itemid = is_object($menuItem) ? $menuItem->id : 0;
+		$Itemid = self::itemId();
 		$config = JFactory::getConfig();
 		$msg = str_replace('{$mosConfig_absolute_path}', JPATH_SITE, $msg);
 		$msg = str_replace('{$mosConfig_live_site}', JURI::base(), $msg);
@@ -711,7 +720,7 @@ class FabrikWorker
 		$msg = str_replace('{$Itemid}', $Itemid, $msg);
 		$msg = str_replace('{$mosConfig_sitename}', $config->get('sitename'), $msg);
 		$msg = str_replace('{$mosConfig_mailfrom}', $config->get('mailfrom'), $msg);
-		$msg = str_replace('{where_i_came_from}', JRequest::getVar('HTTP_REFERER', '', 'server'), $msg);
+		$msg = str_replace('{where_i_came_from}', $app->input->server->get('HTTP_REFERER', ''), $msg);
 		foreach ($_SERVER as $key => $val)
 		{
 			if (!is_object($val) && !is_array($val))
@@ -730,7 +739,7 @@ class FabrikWorker
 	 * Called from parseMessageForPlaceHolder to iterate through string to replace
 	 * {placeholder} with posted data
 	 *
-	 * @param   string  $matches  placeholder e.g. {placeholder}
+	 * @param   string  $matches  Placeholder e.g. {placeholder}
 	 *
 	 * @return	string	posted data that corresponds with placeholder
 	 */
@@ -743,7 +752,15 @@ class FabrikWorker
 		{
 			foreach ($data as $k => $v)
 			{
-				$this->_searchData[$k] = $v;
+				/*
+				 * Only replace if we haven't explicitly set the key in _searchData.
+				 * Otherwise, calc element in repeat group uses all repeating groups values rather than the
+				 * current one that the plugin sets when it fire its Ajax request.
+				 */
+				if (!array_key_exists($k, $this->_searchData))
+				{
+					$this->_searchData[$k] = $v;
+				}
 			}
 		}
 
@@ -852,7 +869,7 @@ class FabrikWorker
 			}
 			$match = $aPost;
 		}
-		if ($this->_parseAddSlases)
+		if ($this->parseAddSlases)
 		{
 			$match = htmlspecialchars($match, ENT_QUOTES, 'UTF-8');
 		}
@@ -864,10 +881,10 @@ class FabrikWorker
 	 *
 	 * @param   string  $imagePath      Image path
 	 * @param   string  $folderPath     Path to scan
-	 * @param   string  &$folders       root path of this folder
+	 * @param   string  &$folders       Root path of this folder
 	 * @param   array   &$images        Value array of all existing folders
 	 * @param   array   $aFolderFilter  Value array of all existing images
-	 * @param   bool    $makeOptions    make options out for the results
+	 * @param   bool    $makeOptions    Make options out for the results
 	 *
 	 * @return  void
 	 */
@@ -904,8 +921,8 @@ class FabrikWorker
 	 * @param   string  $filter         A filter for the names
 	 * @param   bool    $recurse        Recurse search into sub-directories
 	 * @param   bool    $fullpath       True if to prepend the full path to the file name
-	 * @param   array   $aFolderFilter  folder names not to recurse into
-	 * @param   bool    $foldersOnly    return a list of folders only (true)
+	 * @param   array   $aFolderFilter  Folder names not to recurse into
+	 * @param   bool    $foldersOnly    Return a list of folders only (true)
 	 *
 	 * @return	array	of file/folder names
 	 */
@@ -1128,17 +1145,18 @@ class FabrikWorker
 	/**
 	 * Raise a J Error notice if the eval'd result is false and there is a error
 	 *
-	 * @param   mixed   $val  evaluated result
-	 * @param   string  $msg  error message, should contain %s as we spintf in the error_get_last()'s message property
+	 * @param   mixed   $val  Evaluated result
+	 * @param   string  $msg  Error message, should contain %s as we spintf in the error_get_last()'s message property
 	 *
 	 * @return  void
 	 */
 
 	public static function logEval($val, $msg)
 	{
+		$app = JFactory::getApplication();
 		if (version_compare(phpversion(), '5.2.0', '>='))
 		{
-			if ($val === false && $error = error_get_last() && (JRequest::getVar('fabrikdebug') == 1 || JDEBUG))
+			if ($val === false && $error = error_get_last() && ($app->input->get('fabrikdebug') == 1 || JDEBUG))
 			{
 				// $$$ hugh - for some strange reason, error_get_last() sometimes returns true, instead of an array
 				// or null, when there hasn't been an eror.
@@ -1153,9 +1171,9 @@ class FabrikWorker
 	/**
 	 * Log  to table jos_fabrik_logs
 	 *
-	 * @param   string  $type        e.g. 'fabrik.fileupload.download'
-	 * @param   mixed   $msg         array/object/string
-	 * @param   bool    $jsonEncode  should we json encode the message?
+	 * @param   string  $type        E.g. 'fabrik.fileupload.download'
+	 * @param   mixed   $msg         Array/object/string
+	 * @param   bool    $jsonEncode  Should we json encode the message?
 	 *
 	 * @return  void
 	 */
@@ -1178,10 +1196,10 @@ class FabrikWorker
 	 * Returns the global {@link JDatabase} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   bool   $loadJoomlaDb  force (if true) the loading of the main J database,
+	 * @param   bool   $loadJoomlaDb  Force (if true) the loading of the main J database,
 	 * needed in admin to connect to J db whilst still using fab db drivers "{package}" replacement text
 	 *
-	 * @param   mixed  $cnnId         if null then loads the fabrik default connection, if an int then loads the specified connection by its id
+	 * @param   mixed  $cnnId         If null then loads the fabrik default connection, if an int then loads the specified connection by its id
 	 *
 	 * @return  JDatabase object
 	 */
@@ -1242,7 +1260,7 @@ class FabrikWorker
 			{
 				$fabrikDb = self::$database[$sig];
 				$fabrikDb->setQuery("SET OPTION SQL_BIG_SELECTS=1");
-				$fabrikDb->query();
+				$fabrikDb->execute();
 			}
 		}
 		return self::$database[$sig];
@@ -1251,7 +1269,7 @@ class FabrikWorker
 	/**
 	 * Helper function get get a connection
 	 *
-	 * @param   mixed  $item  a list table or connection id
+	 * @param   mixed  $item  A list table or connection id
 	 *
 	 * @since 3.0b
 	 *
@@ -1260,13 +1278,14 @@ class FabrikWorker
 
 	public static function getConnection($item = null)
 	{
-		$jform = JRequest::getVar('jform', array(), 'post');
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$jform = $input->get('jform', array(), 'array');
 		if (is_object($item))
 		{
 			$item = is_null($item->connection_id) ? JArrayHelper::getValue($jform, 'connection_id', -1) : $item->connection_id;
 		}
 		$connId = (int) $item;
-		$config = JFactory::getConfig();
 		if (!self::$connection)
 		{
 			self::$connection = array();
@@ -1312,8 +1331,8 @@ class FabrikWorker
 	 * Takes a string which may or may not be json and returns either string/array/object
 	 * will also turn valGROUPSPLITTERval2 to array
 	 *
-	 * @param   string  $data     json encoded string
-	 * @param   bool    $toArray  force data to be an array
+	 * @param   string  $data     Json encoded string
+	 * @param   bool    $toArray  Force data to be an array
 	 *
 	 * @return  mixed data
 	 */
@@ -1359,13 +1378,25 @@ class FabrikWorker
 	/**
 	 * Test if a string is a compatible date
 	 *
-	 * @param   string  $d  date to test
+	 * @param   string  $d  Date to test
 	 *
 	 * @return	bool
 	 */
 
 	public static function isDate($d)
 	{
+		$db = FabrikWorker::getDbo();
+		$aNullDates = array('0000-00-000000-00-00', '0000-00-00 00:00:00', '0000-00-00', '', $db->getNullDate());
+
+		// catch for ','
+		if (strlen($d) < 2)
+		{
+			return false;
+		}
+		if (in_array($d, $aNullDates))
+		{
+			return false;
+		}
 		try
 		{
 			$dt = new DateTime($d);
@@ -1380,7 +1411,7 @@ class FabrikWorker
 	/**
 	 * See if data is JSON or not.
 	 *
-	 * @param   mixed  $data  date to test
+	 * @param   mixed  $data  Date to test
 	 *
 	 * @since	3.0.6
 	 *
@@ -1403,7 +1434,7 @@ class FabrikWorker
 	/**
 	 * Is the email really an email (more strict than JMailHelper::isEmailAddress())
 	 *
-	 * @param   string  $email  email address
+	 * @param   string  $email  Email address
 	 *
 	 * @since 3.0.4
 	 *
@@ -1438,18 +1469,40 @@ class FabrikWorker
 		}
 		else
 		{
-			$gobackaction = 'onclick=\'history.back();\'';
+			//$gobackaction = 'onclick=\'history.back();\'';
+			$gobackaction = 'onclick="parent.location=\'' . JArrayHelper::getValue($_SERVER, 'HTTP_REFERER') . '\'"';
 		}
 		return $gobackaction;
 	}
 
 	/**
+	 * Attempt to find the active menu item id
+	 *
+	 * @return mixed NULL if nothing found, int if menu item found
+	 */
+
+	public static function itemId()
+	{
+		$app = JFactory::getApplication();
+		if (!$app->isAdmin())
+		{
+			$menus = $app->getMenu();
+			$menu = $menus->getActive();
+			if (is_object($menu))
+			{
+				return $menu->id;
+			}
+		}
+		return null;
+
+	}
+	/**
 	 * Attempt to get a variable first from the menu params (if they exists) if not from request
 	 *
-	 * @param   string  $name      param name
-	 * @param   mixed   $val       default
-	 * @param   bool    $mambot    if set to true menu params ignored
-	 * @param   string  $priority  defaults that menu priorities override request - set to 'request' to inverse this priority
+	 * @param   string  $name      Param name
+	 * @param   mixed   $val       Default
+	 * @param   bool    $mambot    If set to true menu params ignored
+	 * @param   string  $priority  Defaults that menu priorities override request - set to 'request' to inverse this priority
 	 *
 	 * @return  string
 	 */
@@ -1457,15 +1510,16 @@ class FabrikWorker
 	public static function getMenuOrRequestVar($name, $val = '', $mambot = false, $priority = 'menu')
 	{
 		$app = JFactory::getApplication();
+		$input = $app->input;
 		if ($priority === 'menu')
 		{
-			$val = JRequest::getVar($name, $val);
+			$val = $input->get($name, $val, 'string');
 			if (!$app->isAdmin())
 			{
 				$menus = $app->getMenu();
 				$menu = $menus->getActive();
 
-				// If there is a menu item available AND the form is not rendered in a content plugin or module then check the menu fabriklayout property
+				// If there is a menu item available AND the view is not rendered in a content plugin
 				if (is_object($menu) && !$mambot)
 				{
 					$val = $menu->params->get($name, $val);
@@ -1479,13 +1533,13 @@ class FabrikWorker
 				$menus = $app->getMenu();
 				$menu = $menus->getActive();
 
-				// If there is a menu item available AND the form is not rendered in a content plugin or module then check the menu fabriklayout property
+				// If there is a menu item available AND the view is not rendered in a content plugin
 				if (is_object($menu) && !$mambot)
 				{
 					$val = $menu->params->get($name, $val);
 				}
 			}
-			$val = JRequest::getVar($name, $val);
+			$val = $input->get($name, $val, 'string');
 		}
 		return $val;
 	}
@@ -1494,9 +1548,9 @@ class FabrikWorker
 	 * Access control function for determining if the user can perform
 	 * a designated function on a specific row
 	 *
-	 * @param   object  $params  item parasm to test
-	 * @param   object  $row     data
-	 * @param   string  $col     access control setting to compare against
+	 * @param   object  $params  Item parasm to test
+	 * @param   object  $row     Data
+	 * @param   string  $col     Access control setting to compare against
 	 *
 	 * @return	mixed	- if ACL setting defined here return blo, otherwise return -1 to contiune with default acl setting
 	 */
@@ -1505,6 +1559,8 @@ class FabrikWorker
 	{
 		if (!is_null($row))
 		{
+			$app = JFactory::getApplication();
+			$input = $app->input;
 			$user = JFactory::getUser();
 			$usercol = $params->get($col, '');
 			if ($usercol != '')
@@ -1528,7 +1584,7 @@ class FabrikWorker
 					{
 						return false;
 					}
-					if (intVal($usercol_val) === intVal($myid) || JRequest::getVar('rowid') == -1)
+					if (intVal($usercol_val) === intVal($myid) || $input->get('rowid') == -1)
 					{
 						return true;
 					}
@@ -1554,9 +1610,9 @@ class FabrikWorker
 	 * Get a cachec handler
 	 * $$$ hugh - added $listModel arg, needed so we can see if they have set "Disable Caching" on the List
 	 *
-	 * @since   3.0.7
+	 * @param   object  $listModel  List Model
 	 *
-	 * @param   object  listModel
+	 * @since   3.0.7
 	 *
 	 * @return  JCache
 	 */
@@ -1565,9 +1621,10 @@ class FabrikWorker
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$cache = JCache::getInstance('callback',
-				array('defaultgroup' => 'com_' . $package, 'cachebase' => JPATH_BASE . '/cache/', 'lifetime' => ((float) 2 * 60 * 60), 'language' => 'en-GB',
-						'storage' => 'file'));
+		$time = ((float) 2 * 60 * 60);
+		$base = JPATH_BASE . '/cache/';
+		$opts = array('defaultgroup' => 'com_' . $package, 'cachebase' => $base, 'lifetime' => $time, 'language' => 'en-GB', 'storage' => 'file');
+		$cache = JCache::getInstance('callback', $opts);
 		$config = JFactory::getConfig();
 		$doCache = $config->get('caching', 0) > 0 ? true : false;
 		if ($doCache && $listModel !== null)
@@ -1581,7 +1638,7 @@ class FabrikWorker
 	/**
 	 * Get the default values for a given JForm
 	 *
-	 * @param   string  $form  form name e.g. list, form etc
+	 * @param   string  $form  Form name e.g. list, form etc
 	 *
 	 * @since   3.0.7
 	 *
@@ -1598,7 +1655,8 @@ class FabrikWorker
 
 		foreach ($fs as $name => $field)
 		{
-			if (substr($name, 0, 7) === 'params_') {
+			if (substr($name, 0, 7) === 'params_')
+			{
 				$name = str_replace('params_', '', $name);
 				$json['params'][$name] = $field->value;
 			}
@@ -1624,6 +1682,7 @@ class FabrikWorker
 		$version = new JVersion;
 
 		// Only use template test for testing in 2.5 with my temp J bootstrap template.
-		return ($app->getTemplate() === 'bootstrap' || $version->RELEASE > 2.5);
+		$tpl = $app->getTemplate();
+		return ($tpl === 'bootstrap' || $tpl === 'fabrik4' || $version->RELEASE > 2.5);
 	}
 }

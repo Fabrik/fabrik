@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,13 @@ defined('JPATH_BASE') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Hidden params
  *
  * @package     Joomla
  * @subpackage  Form
  * @since       1.6
  */
+
 class JFormFieldHiddenparams extends JFormField
 {
 	/**
@@ -32,7 +33,8 @@ class JFormFieldHiddenparams extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
+	 * @return  string	The field input markup.
+	 * 
 	 * @since	1.6
 	 */
 

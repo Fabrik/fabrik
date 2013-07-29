@@ -206,7 +206,9 @@ class PlgContentFabrik extends JPlugin
 
 			// $$$ hugh - deal with %20 as space in arguments
 			$m[1] = urldecode($m[1]);
-			switch ($m[0])
+
+			$paramKey = str_replace('&nbsp;', '', trim($m[0]));
+			switch ($paramKey)
 			{
 				case 'view':
 					$viewName = JString::strtolower($m[1]);
@@ -263,7 +265,8 @@ class PlgContentFabrik extends JPlugin
 					$clearfilters = $input->get('clearfilters', $m[1]);
 					break;
 				case 'resetfilters':
-					$resetfilters = $input->get('resetfilters', $m[1]);
+					//$resetfilters = $input->get('resetfilters', $m[1]);
+					$resetfilters = $m[1];
 					break;
 				default:
 					if (array_key_exists(1, $m))
@@ -553,7 +556,7 @@ class PlgContentFabrik extends JPlugin
 		$this->origRequestVars = array();
 		foreach ($qs_arr as $k => $v)
 		{
-			$origVar = $input->get($k, '', 'string');
+			$origVar = $input->get($k, null, 'string');
 			$this->origRequestVars[$k] = $origVar;
 			$_GET[$k] = $v;
 			$input->set($k, $v);
@@ -577,19 +580,16 @@ class PlgContentFabrik extends JPlugin
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
+
+		/*
+		 * These are values set by a previous plugin - I think we should unset all of them
+		 * otherwise, filters are cumlative
+		 */
 		foreach ($this->origRequestVars as $k => $v)
 		{
-			if (!is_null($v))
-			{
-				$input->set($k, $v);
-			}
-			else
-			{
-				// $$$ rob 13/04/2012 clear rather than setting to '' as subsequent list plugins with fewer filters
-				// will contain the previous plugins filter, even if not included in the current plugin declaration
-				unset($_GET[$k]);
-				unset($_REQUEST[$k]);
-			}
+			$input->set($k, null);
+			unset($_GET[$k]);
+			unset($_REQUEST[$k]);
 		}
 	}
 

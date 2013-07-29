@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
  *
  * @package     Joomla
  * @subpackage  Form
- * @since		1.5
+ * @since       3.0
  */
 
 class JFormFieldImagelibs extends JFormFieldList
@@ -31,10 +31,11 @@ class JFormFieldImagelibs extends JFormFieldList
 	var $_name = 'Imagelibs';
 
 	/**
-	 * Get element options
+	 * Method to get the field options.
 	 *
-	 * @return  array
+	 * @return  array  The field option objects.
 	 */
+
 	protected function getOptions()
 	{
 		require_once COM_FABRIK_FRONTEND . '/helpers/image.php';

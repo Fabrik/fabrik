@@ -21,7 +21,7 @@ jimport('joomla.application.component.model');
  * @since       3.0
  */
 
-class plgFabrik_Cron extends FabrikPlugin
+class PlgFabrik_Cron extends FabrikPlugin
 {
 
 	/**

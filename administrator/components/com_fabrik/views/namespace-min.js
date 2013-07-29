@@ -1,1 +1,1 @@
-(function(){if(typeOf(window.FabrikAdmin)==="object"){return}FabrikAdmin={};FabrikAdmin.model={fields:{fabriktable:{},element:{}}}}());
+(function(){if(typeOf(window.FabrikAdmin)==="object"){return}FabrikAdmin={};FabrikAdmin.model={fields:{fabriktable:{},element:{}}};FabrikAdmin.reTip=function(){$$(".hasTip").each(function(b){var d=b.get("title");if(d){var c=d.split("::",2);b.store("tip:title",c[0]);b.store("tip:text",c[1])}});var a=new Tips($$(".hasTip"),{maxTitleChars:50,fixed:false})}}());

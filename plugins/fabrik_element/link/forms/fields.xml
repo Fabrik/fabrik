@@ -2,18 +2,38 @@
 <form>
 	<fields>
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link">
-			<field default="20" label="PLG_ELEMENT_LINK_WIDTH_LABEL" name="width" size="3" type="text"/>
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_LINK_HELP_SERVER" />
 				
-			<field cols="45" label="PLG_ELEMENT_LINK_DEFAULT_LABEL_LABEL" name="default" rows="6" type="textarea"/>
+			<field name="width"
+				type="text"
+				size="3"
+				default="20"
+				label="PLG_ELEMENT_LINK_WIDTH_LABEL" />
+				
+			<field name="default"
+				type="textarea"
+				cols="45"
+				label="PLG_ELEMENT_LINK_DEFAULT_LABEL_LABEL"
+				rows="6" />
 		
 		</fieldset>
 	</fields>
 	
 	<fields name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link-extra">
-			<field default="http://" label="PLG_ELEMENT_LINK_DEFAULT_URL_LABEL" name="link_default_url" type="text"/>
+			
+			<field name="link_default_url"
+				type="text"
+				default="http://"
+				size="50"
+				label="PLG_ELEMENT_LINK_DEFAULT_URL_LABEL" />
 				
-			<field default="0" description="PLG_ELEMENT_LINK_TARGET_DESC" label="PLG_ELEMENT_LINK_TARGET_LABEL" name="link_target" type="list">
+			<field name="link_target"
+				type="list"
+				default="0" description="PLG_ELEMENT_LINK_TARGET_DESC"
+				label="PLG_ELEMENT_LINK_TARGET_LABEL" >
 					<option value="_self">PLG_ELEMENT_LINK_SELF</option>
 					<option value="_blank">PLG_ELEMENT_LINK_BLANK</option>
 					<option value="_parent">PLG_ELEMENT_LINK_PARENT</option>
@@ -21,23 +41,45 @@
 					<option value="mediabox">PLG_ELEMENT_LINK_MEDIABOX</option>
 			</field>
 			
-			<field default="0" description="PLG_ELEMENT_LINK_SMART_LINK_DESC" label="PLG_ELEMENT_LINK_SMART_LINK_LABEL" name="link_smart_link" type="radio">
+			<field name="link_smart_link"
+				type="radio"
+				default="0" description="PLG_ELEMENT_LINK_SMART_LINK_DESC"
+				label="PLG_ELEMENT_LINK_SMART_LINK_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field default="255" label="PLG_ELEMENT_LINK_MAX_LENGTH" name="maxlength" size="3" type="maxlength"/>
+			<field name="maxlength"
+				type="maxlength"
+				default="255"
+				label="PLG_ELEMENT_LINK_MAX_LENGTH"
+				size="3"/>
+				
 		</fieldset>
 		
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link-bitly">
-			<field default="0" description="PLG_ELEMENT_LINK_USE_BITLY_DESC" label="PLG_ELEMENT_LINK_USE_BITLY_LABEL" name="use_bitly" type="radio">
+		
+			<field name="use_bitly"
+				type="radio"
+				default="0"
+				description="PLG_ELEMENT_LINK_USE_BITLY_DESC"
+				label="PLG_ELEMENT_LINK_USE_BITLY_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
 			
-			<field description="PLG_ELEMENT_LINK_BITLY_LOGIN_DESC" label="PLG_ELEMENT_LINK_BITLY_LOGIN_LABEL" name="bitly_login" size="30" type="text"/>
+			<field name="bitly_login"
+				type="text"
+				description="PLG_ELEMENT_LINK_BITLY_LOGIN_DESC"
+				label="PLG_ELEMENT_LINK_BITLY_LOGIN_LABEL"
+				size="30" />
 				
-			<field description="PLG_ELEMENT_LINK_BITLY_API_KEY_DESC" label="PLG_ELEMENT_LINK_BITLY_API_KEY_LABEL" name="bitly_apikey" size="40" type="text"/>
+			<field name="bitly_apikey"
+				type="text"
+				description="PLG_ELEMENT_LINK_BITLY_API_KEY_DESC"
+				label="PLG_ELEMENT_LINK_BITLY_API_KEY_LABEL"
+				size="40"/>
+				
 		</fieldset>
 	</fields>
 </form>

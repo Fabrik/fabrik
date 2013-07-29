@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * @since       3.0
  */
 
-class videoRender
+class VideoRender
 {
 
 	/**
@@ -40,7 +40,7 @@ class videoRender
 	 * @return  void
 	 */
 
-	function renderListData(&$model, &$params, $file, $thisRow)
+	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->render($model, $params, $file);
 	}
@@ -52,10 +52,10 @@ class videoRender
 	 * @param   object  &$params  Element params
 	 * @param   string  $file     Row data for this element
 	 *
-	 * @reutrn  void
+	 * @return  void
 	 */
 
-	function render(&$model, &$params, $file)
+	public function render(&$model, &$params, $file)
 	{
 		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
 		ini_set('display_errors', true);
@@ -69,6 +69,7 @@ class videoRender
 		$username = $config->get('user');
 		$password = $config->get('password');
 		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
+
 		// Analyze file and store returned data in $ThisFileInfo
 		$relPath = JPATH_SITE . $file;
 		$thisFileInfo = $getID3->analyze($relPath);
@@ -81,13 +82,14 @@ class videoRender
 			}
 			else
 			{
-				$w = $thisFileInfo['video']['streams']['2']['resolution_x']; //for wmv files
+				// For wmv files
+				$w = $thisFileInfo['video']['streams']['2']['resolution_x'];
 				$h = $thisFileInfo['video']['streams']['2']['resolution_y'];
 			}
 
 			switch ($thisFileInfo['fileformat'])
 			{
-				//add in space for controller
+				// Add in space for controller
 				case 'quicktime':
 					$h += 16;
 					break;
@@ -100,8 +102,8 @@ class videoRender
 		switch ($thisFileInfo['fileformat'])
 		{
 			case 'asf':
-				$this->output = '<object id="MediaPlayer" width=' .$w . ' height=' . $h
-				 . ' classid="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" standby="Loading Windows Media Player components�" type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
+				$this->output = '<object id="MediaPlayer" width=' . $w . ' height=' . $h
+				. ' classid="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" standby="Loading Windows Media Player components�" type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
 
 <param name="filename" value="http://yourdomain/yourmovie.wmv">
 <param name="Showcontrols" value="true">
@@ -129,5 +131,3 @@ class videoRender
 
 	}
 }
-
-?>

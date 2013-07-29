@@ -518,7 +518,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 		if ($params->get('place', 1) == 1)
 		{
 			$el = $this->getPlaceElement();
-			FabrikHelperHTML::autoComplete("radius_search_place{$this->renderOrder}", $el->getElement()->id, $el->getElement()->plugin, $opts);
+			FabrikHelperHTML::autoComplete("radius_search_place{$this->renderOrder}", $el->getElement()->id, $formid, $el->getElement()->plugin, $opts);
 		}
 		if ($params->get('myloc', 1) == 1)
 		{
@@ -548,6 +548,11 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 		$app = JFactory::getApplication();
 		list($latitude, $longitude) = $this->getSearchLatLon();
 		$opts = $this->getElementJSOptions($model);
+		$containerOverride = JArrayHelper::getValue($args, 0, '');
+		if (strstr($containerOverride, 'visualization'))
+		{
+			$opts->ref = str_replace('visualization_', '', $containerOverride);
+		}
 		$opts->steps = (int) $params->get('radius_max', 100);
 		$opts->unit = $params->get('radius_unit', 'km');
 		$opts->value = $this->getValue();

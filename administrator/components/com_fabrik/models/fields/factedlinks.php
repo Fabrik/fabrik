@@ -20,10 +20,9 @@ jimport('joomla.form.helper');
 /**
  * Renders a table of options for controlling the facet / related data links
  *
- * @author 		rob clayburn
- * @package 	Joomla
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla
+ * @subpackage  Form
+ * @since       1.6
  */
 
 class JFormFieldFactedlinks extends JFormFieldList

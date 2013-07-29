@@ -132,19 +132,25 @@ var FbListRadiusSearch = new Class({
 				}.bind(this));
 				
 				Fabrik.loadGoogleMap(true, 'geoCode');
-				this.listform = this.listform.getElement('#radius_search' + this.options.renderOrder);
-				if (typeOf(this.listform) === 'null') {
-					fconsole('didnt find element #radius_search' + this.options.renderOrder);
-					return;
-				}
+				
 				if (typeOf(this.options.value) === 'null') {
 					this.options.value = 0;
 				}
-				this.watchActivate();
 				
-				this.listform.getElements('input[name^=radius_search_type]').addEvent('click', function (e) {
-					this.toggleFields(e);
-				}.bind(this));
+				
+				if (typeOf(this.listform) !== 'null') {
+					this.watchActivate();
+					this.listform = this.listform.getElement('#radius_search' + this.options.renderOrder);
+					if (typeOf(this.listform) === 'null') {
+						fconsole('didnt find element #radius_search' + this.options.renderOrder);
+						return;
+					}
+				
+				
+					this.listform.getElements('input[name^=radius_search_type]').addEvent('click', function (e) {
+						this.toggleFields(e);
+					}.bind(this));
+				}
 				
 				this.options.value = this.options.value.toInt();
 				if (typeOf(this.listform) === 'null') {
@@ -265,7 +271,6 @@ var FbListRadiusSearch = new Class({
 	 */
 	prefilter: function () {
 		if (this.options.prefilter) {
-			this.fx.slideIn();
 			this.mySlide.set(this.options.prefilterDistance);
 			
 			this.listform.getElements('input[name^=radius_search_active]').filter(function (f) {
@@ -273,7 +278,12 @@ var FbListRadiusSearch = new Class({
 			}).getLast().checked = true;
 			
 			this.listform.getElements('input[value=mylocation]').checked = true;
-			this.list.submit('filter');
+			if (!this.list) {
+				// In a viz
+				this.listform.getParent('form').submit();
+			} else {
+				this.getList().submit('filter');
+			}
 		}
 	},
 

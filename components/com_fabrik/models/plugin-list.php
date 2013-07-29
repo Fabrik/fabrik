@@ -57,7 +57,7 @@ class PlgFabrik_List extends FabrikPlugin
 			return true;
 		}
 		$params = $this->getParams();
-		$groups = JFactory::getUser()->authorisedLevels();
+		$groups = JFactory::getUser()->getAuthorisedViewLevels();
 		return in_array($params->get($aclParam), $groups);
 	}
 
@@ -98,6 +98,8 @@ class PlgFabrik_List extends FabrikPlugin
 
 	public function button($params, &$model, &$args)
 	{
+		$listParams = $model->getParams();
+		$this->buttonAction = $listParams->get('actionMethod');
 		$this->context = $model->getRenderContext();
 		return false;
 	}
@@ -113,16 +115,31 @@ class PlgFabrik_List extends FabrikPlugin
 		if ($this->canUse())
 		{
 			$p = $this->onGetFilterKey_result();
+			$j3 = FabrikWorker::j3();
 			FabrikHelperHTML::addPath('plugins/fabrik_list/' . $p . '/images/', 'image', 'list');
 			$name = $this->_getButtonName();
 			$label = $this->buttonLabel();
-			$imageName = $this->getParams()->get('list_' . $this->buttonPrefix . '_image_name', $this->buttonPrefix . '.png');
+			$imageName = $this->getImageName();
 			$img = FabrikHelperHTML::image($imageName, 'list', '', $label);
-			return '<a href="#" data-list="' . $this->context . '" class="' . $name . ' listplugin" title="' . $label . '">' . $img . '<span>' . $label . '</span></a>';
+			$text = $this->buttonAction == 'dropdown' ? $label : '<span class="hidden">' . $label . '</span>';
+			$btnClass = ($j3 && $this->buttonAction != 'dropdown') ? 'btn ' : '';
+			return '<a href="#" data-list="' . $this->context . '" class="' . $btnClass . $name . ' listplugin" title="' . $label . '">' . $img . ' ' . $text . '</a>';
 		}
 		return '';
 	}
 
+	/**
+	 * Get button image
+	 *
+	 * @since   3.1b
+	 *
+	 * @return   string  image
+	 */
+
+	protected function getImageName()
+	{
+		return $this->getParams()->get('list_' . $this->buttonPrefix . '_image_name', $this->buttonPrefix . '.png');
+	}
 	/**
 	 * Build an array of properties to ini the plugins JS objects
 	 *
@@ -226,8 +243,10 @@ class PlgFabrik_List extends FabrikPlugin
 		{
 			return false;
 		}
-		$postedRenderOrder = JRequest::getInt('fabrik_listplugin_renderOrder', -1);
-		return JRequest::getVar('fabrik_listplugin_name') == $this->buttonPrefix && $this->renderOrder == $postedRenderOrder;
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$postedRenderOrder = $input->getInt('fabrik_listplugin_renderOrder', -1);
+		return $input->get('fabrik_listplugin_name') == $this->buttonPrefix && $this->renderOrder == $postedRenderOrder;
 	}
 
 	/**

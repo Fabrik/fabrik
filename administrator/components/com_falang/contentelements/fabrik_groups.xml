@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<falang type="contentelement">
+  <name>Fabrik - Groups</name>
+  <author>Manel Zaera, manelzaera@yahoo.es</author>
+  <version>1.8</version>
+  <description>Definition for Fabrik Groups</description>
+  <reference>
+  	<table name="fabrik_groups">
+  		<field name="id" translate="0" type="referenceid">ID</field>
+  		<field name="name" translate="1" type="titletext">Group Name</field>  		
+  		<field name="label" translate="1" type="text">Group Title</field>  
+  	</table>
+  </reference>
+</falang>

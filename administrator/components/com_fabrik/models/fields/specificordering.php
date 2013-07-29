@@ -5,7 +5,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 Rob Clayburn. All rights reserved.
+ * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,31 +37,33 @@ class JFormFieldSpecificordering extends JFormFieldList
 	var $_name = 'Specificordering';
 
 	/**
-	 * Get list options
+	 * Method to get the field options.
 	 *
-	 * @return  array
+	 * @return  array  The field option objects.
 	 */
 
 	protected function getOptions()
 	{
-		//ONLY WORKS INSIDE ELEMENT :(
+		// ONLY WORKS INSIDE ELEMENT :(
 		$db = FabrikWorker::getDbo();
 		$group_id = $this->form->getValue('group_id');
 		$query = "SELECT ordering AS value, name AS text" . "\n FROM #__{package}_elements " . "\n WHERE group_id = " . (int) $group_id
 			. "\n AND published >= 0" . "\n ORDER BY ordering";
-		// $$$ rob - rather than trying to override the JHTML class lets
-		// just swap {package} for the current package.
+		/**
+		 * $$$ rob - rather than trying to override the JHTML class lets
+		 * just swap {package} for the current package.
+		 */
 		$query = FabrikWorker::getDbo(true)->replacePrefix($query);
 		return JHTML::_('list.genericordering', $query);
 	}
 
 	/**
-	 * Get the HTML input
+	 * Method to get the field input markup.
 	 *
-	 * @return  string  HTML output
+	 * @return  string	The field input markup.
 	 */
 
-	function getInput()
+	protected function getInput()
 	{
 		$id = $this->form->getValue('id');
 		if ($id)

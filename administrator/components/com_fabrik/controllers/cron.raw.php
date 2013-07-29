@@ -17,9 +17,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Cron controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       1.6
  */
 
 class FabrikControllerCron extends JControllerForm
@@ -42,7 +42,7 @@ class FabrikControllerCron extends JControllerForm
 		$plugin = JRequest::getCmd('plugin');
 		$model = $this->getModel();
 		$model->getForm();
-		echo $model->getPluginHTML( $plugin);
+		echo $model->getPluginHTML($plugin);
 	}
 
 }

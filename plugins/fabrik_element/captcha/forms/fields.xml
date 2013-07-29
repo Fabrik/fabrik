@@ -2,6 +2,10 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-element-captcha">
+		
+			<field type="helplink"
+				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
+			
 			<field default="0" description="PLG_ELEMENT_CAPTCHA_SHOW_WHEN_LOGGED_IN_DESC" label="PLG_ELEMENT_CAPTCHA_SHOW_WHEN_LOGGED_IN_LABEL" name="captcha-showloggedin" type="radio">
 				<option value="0">No</option>
 				<option value="1">Yes</option>

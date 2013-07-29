@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @since       3.0
  */
 
-class fabrikViewFusionchart extends JView
+class FabrikViewFusionchart extends JViewLegacy
 {
 
 	/**
@@ -36,6 +36,7 @@ class fabrikViewFusionchart extends JView
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
+		$j3 = FabrikWorker::j3();
 		$srcs = FabrikHelperHTML::framework();
 		$srcs[] = 'media/com_fabrik/js/listfilter.js';
 		$srcs[] = 'media/com_fabrik/js/advanced-search.js';
@@ -61,12 +62,13 @@ class fabrikViewFusionchart extends JView
 		$params = $model->getParams();
 		$this->params = $params;
 		$viewName = $this->getName();
-		$pluginManager = JModel::getInstance('Pluginmanager', 'FabrikFEModel');
+		$pluginManager = JModelLegacy::getInstance('Pluginmanager', 'FabrikFEModel');
 		$plugin = $pluginManager->getPlugIn('calendar', 'visualization');
 		$this->containerId = $this->get('ContainerId');
 		$this->filters = $this->get('Filters');
 		$this->showFilters = $model->showFilters();
 		$this->filterFormURL = $this->get('FilterFormURL');
+		$tpl = $j3 ? 'bootstrap' : 'default';
 		$tpl = $params->get('fusionchart_layout', $tpl);
 		$this->_setPath('template', JPATH_ROOT . '/plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl/' . $tpl);
 

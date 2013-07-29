@@ -104,11 +104,11 @@ class FabrikModelConnection extends JModelAdmin
 		$query = $db->getQuery(true);
 		$query->update('#__fabrik_connections')->set($db->quoteName('default') . ' = 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query->clear();
 		$query->update('#__fabrik_connections')->set($db->quoteName('default') . ' = 1')->where('id = ' . (int) $id);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return true;
 	}
 

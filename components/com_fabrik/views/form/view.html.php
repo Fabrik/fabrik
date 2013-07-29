@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_fabrik/views/form/view.base.php';
  * @since       3.0.6
  */
 
-class fabrikViewForm extends FabrikViewFormBase
+class FabrikViewForm extends FabrikViewFormBase
 {
 
 	/**

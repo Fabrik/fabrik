@@ -4,7 +4,7 @@ var FbFileUpload = new Class({
 		this.plugin = 'fileupload';
 		this.parent(element, options);
 		this.toppath = this.options.dir;
-		if (this.options.folderSelect === "1" && this.options.editable === true) {
+		if (this.options.folderSelect === "1" && this.options.editable === true && !this.options.ajax_upload) {
 			this.ajaxFolder();
 		}
 		
@@ -98,6 +98,7 @@ var FbFileUpload = new Class({
 	 */
 
 	getFormElementsKey: function (elId) {
+		this.baseElementId = elId;
 		if (this.options.ajax_upload && this.options.ajax_max > 1) {
 			return this.options.listName + '___' + this.options.elementShortName;
 		} else {
@@ -176,23 +177,25 @@ var FbFileUpload = new Class({
 		if (typeOf(canvas) === 'null') {
 			return;
 		}
-		this.widget = new ImageWidget(canvas, {
-			
-			'imagedim': {
-				x: 200,
-				y: 200,
-				w: this.options.winWidth,
-				h: this.options.winHeight
-			},
-			
-			'cropdim' : {
-				w: this.options.cropwidth,
-				h: this.options.cropheight,
-				x: this.options.cropwidth / 2,
-				y: this.options.cropheight / 2
-			},
-			crop: this.options.crop
-		});
+		if (this.options.canvasSupport !== false) {
+			this.widget = new ImageWidget(canvas, {
+				
+				'imagedim': {
+					x: 200,
+					y: 200,
+					w: this.options.winWidth,
+					h: this.options.winHeight
+				},
+				
+				'cropdim' : {
+					w: this.options.cropwidth,
+					h: this.options.cropheight,
+					x: this.options.cropwidth / 2,
+					y: this.options.cropheight / 2
+				},
+				crop: this.options.crop
+			});
+		}
 		this.pluploadContainer = c.getElement('.plupload_container');
 		this.pluploadFallback = c.getElement('.plupload_fallback');
 		this.droplist = c.getElement('.plupload_filelist');
@@ -227,59 +230,63 @@ var FbFileUpload = new Class({
 			var count = this.droplist.getElements('li').length;
 			this.startbutton.removeClass('plupload_disabled');
 			files.each(function (file, idx) {
-				if (count >= this.options.ajax_max) {
-					alert(Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_MAX_UPLOAD_REACHED'));
+				if (file.size > this.options.max_file_size * 1000) {
+					alert(Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_FILE_TOO_LARGE_SHORT'));
 				} else {
-					count++;
-					var del = new Element('div', {
-						'class' : 'plupload_file_action'
-					}).adopt(new Element('a', {
-						'href': '#',
-						'style': 'display:block',
-						events: {
-							'click': function (e) {
-								this.pluploadRemoveFile(e, file);
-							}.bind(this)
-						}
-					}));
-					if (this.isImage(file)) {
-						a = new Element('a', {
-							'href' : '#',
-							alt : Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_RESIZE'),
-							events : {
+					if (count >= this.options.ajax_max) {
+						alert(Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_MAX_UPLOAD_REACHED'));
+					} else {
+						count++;
+						var del = new Element('div', {
+							'class' : 'plupload_file_action'
+						}).adopt(new Element('a', {
+							'href': '#',
+							'style': 'display:block',
+							events: {
 								'click': function (e) {
-									this.pluploadResize(e);
+									this.pluploadRemoveFile(e, file);
 								}.bind(this)
 							}
-						});
-						if (this.options.crop) {
-							a.set('html', this.options.resizeButton);
+						}));
+						if (this.isImage(file)) {
+							a = new Element('a', {
+								'href' : '#',
+								alt : Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_RESIZE'),
+								events : {
+									'click': function (e) {
+										this.pluploadResize(e);
+									}.bind(this)
+								}
+							});
+							if (this.options.crop) {
+								a.set('html', this.options.resizeButton);
+							} else {
+								a.set('html', this.options.previewButton);
+							}
+							title = new Element('span').set('text', file.name);
 						} else {
-							a.set('html', this.options.previewButton);
+							a = new Element('span');
+							title = new Element('a', {'href': file.url}).set('text', file.name);
 						}
-						title = new Element('span').set('text', file.name);
-					} else {
-						a = new Element('span');
-						title = new Element('a', {'href': file.url}).set('text', file.name);
+						
+						var filename = new Element('div', {
+							'class' : 'plupload_file_name'
+						}).adopt([ title, new Element('div', {
+							'class' : 'plupload_resize',
+							style : 'display:none'
+						}).adopt(a) ]);
+						var innerli = [ filename, del, new Element('div', {
+							'class' : 'plupload_file_status'
+						}).set('text', '0%'), new Element('div', {
+							'class' : 'plupload_file_size'
+						}).set('text', file.size), new Element('div', {
+							'class' : 'plupload_clearer'
+						}) ];
+						this.droplist.adopt(new Element('li', {
+							id : file.id,
+							'class' : 'plupload_delete'
+						}).adopt(innerli));
 					}
-					
-					var filename = new Element('div', {
-						'class' : 'plupload_file_name'
-					}).adopt([ title, new Element('div', {
-						'class' : 'plupload_resize',
-						style : 'display:none'
-					}).adopt(a) ]);
-					var innerli = [ filename, del, new Element('div', {
-						'class' : 'plupload_file_status'
-					}).set('text', '0%'), new Element('div', {
-						'class' : 'plupload_file_size'
-					}).set('text', file.size), new Element('div', {
-						'class' : 'plupload_clearer'
-					}) ];
-					this.droplist.adopt(new Element('li', {
-						id : file.id,
-						'class' : 'plupload_delete'
-					}).adopt(innerli));
 				}
 			}.bind(this));
 		}.bind(this));
@@ -324,7 +331,9 @@ var FbFileUpload = new Class({
 				resizebutton.id = 'resizebutton_' + file.id;
 				resizebutton.store('filepath', response.filepath);
 			}
-			this.widget.setImage(response.uri, response.filepath, file.params);
+			if (this.widget) { 
+				this.widget.setImage(response.uri, response.filepath, file.params);
+			}
 			
 			// Stores the cropparams which we need to reload the crop widget in the correct state (rotation, zoom, loc etc)
 			new Element('input', {
@@ -420,7 +429,9 @@ var FbFileUpload = new Class({
 	pluploadResize : function (e) {
 		e.stop();
 		var a = e.target.getParent();
-		this.widget.setImage(a.href, a.retrieve('filepath'));
+		if (this.widget) {
+			this.widget.setImage(a.href, a.retrieve('filepath'));
+		}
 	},
 
 	onSubmit : function (form) {

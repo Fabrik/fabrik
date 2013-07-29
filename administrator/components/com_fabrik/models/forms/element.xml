@@ -582,12 +582,17 @@
 			</fieldset>
 			
 				<fieldset name="access2">
-	
+					
 					<field name="view_access" 
-							type="accesslevel" 
-							default="1" 
-							label="COM_FABRIK_ACCESS_VIEWABLE_ELEMENT" 
-							description="COM_FABRIK_ACCESS_VIEWABLE_ELEMENT_DESC" />
+						type="accesslevel" 
+						default="1" 
+						label="COM_FABRIK_ACCESS_VIEWABLE_ELEMENT" 
+						description="COM_FABRIK_ACCESS_VIEWABLE_ELEMENT_DESC" />
+					
+					<field name="view_access_user"
+						type="listfields"
+						label="COM_FABRIK_OR_USE_VALUE_LABEL"	
+						description="COM_FABRIK_OR_USE_VALUE_DESC" />
 							
 					<field name="list_view_access"
 						type="accesslevel"

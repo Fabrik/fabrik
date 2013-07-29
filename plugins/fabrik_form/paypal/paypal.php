@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormPaypal extends plgFabrik_Form
+class PlgFabrik_FormPaypal extends PlgFabrik_Form
 {
 
 	/**
@@ -77,7 +77,7 @@ class plgFabrik_FormPaypal extends plgFabrik_Form
 				$email = array_shift($email);
 			}
 		}
-		$opts['business'] = "$email";
+		$opts['business'] = $email;
 
 		$amount = $params->get('paypal_cost');
 		$amount = $w->parseMessageForPlaceHolder($amount, $data);
@@ -96,7 +96,7 @@ class plgFabrik_FormPaypal extends plgFabrik_Form
 				$amount = array_shift($amount);
 			}
 		}
-		$opts['amount'] = "$amount";
+		$opts['amount'] = $amount;
 
 		// $$$tom added Shipping Cost params
 		$shipping_amount = $params->get('paypal_shipping_cost');
@@ -137,7 +137,7 @@ class plgFabrik_FormPaypal extends plgFabrik_Form
 		// $$$ rob add in subscription variables
 		if ($opts['cmd'] === '_xclick-subscriptions')
 		{
-			$subTable = JModel::getInstance('List', 'FabrikFEModel');
+			$subTable = JModelLegacy::getInstance('List', 'FabrikFEModel');
 			$subTable->setId((int) $params->get('paypal_subs_table'));
 
 			$idEl = FabrikString::safeColName($params->get('paypal_subs_id', ''));
@@ -716,7 +716,7 @@ class plgFabrik_FormPaypal extends plgFabrik_Form
 								->set(implode(',', $set_array))
 								->where($table->db_primary_key . ' = ' . $db->quote($rowid));
 								$db->setQuery($query);
-								if (!$db->query())
+								if (!$db->execute())
 								{
 									$status = 'form.paypal.ipnfailure.query_error';
 									$err_msg = 'sql query error: ' . $db->getErrorMsg();

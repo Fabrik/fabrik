@@ -15,7 +15,7 @@ defined('_JEXEC') or die();
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.dropdown
  * @since       3.0
- */
+*/
 
 class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 {
@@ -84,8 +84,8 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		}
 		/*
 		 * If we have added an option that hasnt been saved to the database. Note you cant have
-		 * it not saved to the database and asking the user to select a value and label
-		 */
+		* it not saved to the database and asking the user to select a value and label
+		*/
 		if ($params->get('allow_frontend_addtodropdown', false) && !empty($selected))
 		{
 			foreach ($selected as $sel)
@@ -155,9 +155,9 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 				$default = $element->default;
 				/*
 				 * Nasty hack to fix #504 (eval'd default value)
-				 * where _default not set on first getDefaultValue
-				 * and then its called again but the results have already been eval'd once and are hence in an array
-				 */
+				* where _default not set on first getDefaultValue
+				* and then its called again but the results have already been eval'd once and are hence in an array
+				*/
 				if (is_array($default))
 				{
 					$v = $default;
@@ -257,77 +257,27 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Build the filter query for the given element.
-	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
+	 * If the search value isnt what is stored in the database, but rather what the user
+	 * sees then switch from the search string to the db value here
+	 * overwritten in things like checkbox and radio plugins
 	 *
-	 * @param   string  $key            element name in format `tablename`.`elementname`
-	 * @param   string  $condition      =/like etc
-	 * @param   string  $label          search string - already quoted if specified in filter array options
-	 * @param   string  $originalValue  original filter value without quotes or %'s applied
-	 * @param   string  $type           filter type advanced/normal/prefilter/search/querystring/searchall
+	 * @param   string  $value  filterVal
 	 *
-	 * @return  string	sql query part e,g, "key = value"
+	 * @return  string
 	 */
 
-	public function getFilterQuery($key, $condition, $label, $originalValue, $type = 'normal')
+	protected function prepareFilterVal($value)
 	{
-		$value = $label;
-		$db = JFactory::getDbo();
-		if ($type == 'searchall')
+		$values = $this->getSubOptionValues();
+		$labels = $this->getSubOptionLabels();
+		for ($i = 0; $i < count($labels); $i++)
 		{
-			// $$$ hugh - (sometimes?) $label is already quoted, which is causing havoc ...
-			$values = $this->replaceLabelWithValue(trim($label, "'"));
-			if (empty($values))
+			if (JString::strtolower($labels[$i]) == JString::strtolower($value))
 			{
-				$value = '';
-			}
-			else
-			{
-				$value = $values[0];
-			}
-			if ($value == '')
-			{
-				$value = $label;
-			}
-			if (!preg_match('#^\'.*\'$#', $value))
-			{
-				$value = $db->quote($value);
+				return $values[$i];
 			}
 		}
-		$this->encryptFieldName($key);
-		$params = $this->getParams();
-
-		/*
-		 * Was using a test for multiple but this can be changed, so data may be recorded in both ways
-		 * as a json array or single value, so regardless of multiple option we should always check for both
-		 */
-
-		$originalValue = trim($value, "'");
-		/*
-		 * JSON stored values will back slash "/". So wwe need to add "\\\\"
-		 * before it to escape it for the query.
-		 */
-		$originalValue = str_replace("/", "\\\\/", $originalValue);
-
-		switch ($condition)
-		{
-			case '=':
-				$condition2 = 'LIKE';
-				$glue = 'OR';
-				break;
-			case '<>':
-				$condition2 = 'NOT LIKE';
-				$glue = 'AND';
-				break;
-			default:
-				$condition2 = 'LIKE';
-				$glue = 'OR';
-				break;
-		}
-		$db = FabrikWorker::getDbo();
-		$str = "($key $condition $value " . " $glue $key $condition2 " . $db->quote('["' . $originalValue . '"%') . " $glue $key $condition2 "
-		. $db->quote('%"' . $originalValue . '"%') . " $glue $key $condition2 " . $db->quote('%"' . $originalValue . '"]') . ")";
-		return $str;
+		return $value;
 	}
 
 	/**

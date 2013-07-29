@@ -2,14 +2,26 @@
 <form>
 	<fields>
 		<fieldset name="plg-element-databasejoin">
+			
+			<field type="helplink"
+				url="PLG_ELEMENT_DBJOIN_HELP_SERVER" />
+				
 			<field default="0" description="PLG_ELEMENT_DBJOIN_EVAL_DESC" label="PLG_ELEMENT_DBJOIN_EVAL_LABEL" name="eval" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				
-			<field cols="45" label="PLG_ELEMENT_DBJOIN_DEFAULT_LABEL" name="default" rows="6" type="textarea"/>
+			<field name="default"
+				type="textarea"
+				cols="45"
+				label="PLG_ELEMENT_DBJOIN_DEFAULT_LABEL"
+				rows="6"/>
 				
-			<field default="0" label="PLG_ELEMENT_DBJOIN_HIDDEN" name="hidden" type="radio">
+			<field name="hidden"
+				type="radio"
+				default="0"
+				class="btn-group"
+				label="PLG_ELEMENT_DBJOIN_HIDDEN">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
@@ -27,6 +39,12 @@
 				<option value="multilist">PLG_ELEMENT_DBJOIN_MULTILIST</option>
 		</field>
 		
+		<field name="max-width" 
+			type="text" 
+			size="10" 
+			description="PLG_ELEMENT_DBJOIN_DROPDOWN_MAXWIDTH_DESC" 
+			label="PLG_ELEMENT_DBJOIN_DROPDOWN_MAXWIDTH_LABEL"/>
+
 	</fieldset>
 	
 	<fieldset label="Data" name="plg-databasejoin-simple">
@@ -76,8 +94,9 @@
 			
 		<field name="database_join_where_when"
 			type="list"
-			default="3" description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_WHEN_DESC"
-			label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_WHEN_LABEL" >
+			default="3"
+			description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_WHEN_DESC"
+			label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_WHEN_LABEL">
 				<option value="1">PLG_ELEMENT_DBJOIN_NEW</option>
 				<option value="2">PLG_ELEMENT_DBJOIN_EDIT</option>
 				<option value="3">PLG_ELEMENT_DBJOIN_BOTH</option>
@@ -93,11 +112,24 @@
 	
 	<fieldset label="Default" name="plg-databasejoin-xtra">
 	
-		<field description="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_DESC" label="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_LABEL" name="database_join_noselectionvalue" size="5" type="text"/>
+		<field name="database_join_noselectionvalue"
+			type="text"
+			description="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_DESC"
+			label="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_LABEL"
+			size="5"/>
 			
-		<field description="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_DESC" label="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_LABEL" name="database_join_noselectionlabel" size="35" type="text"/>
+		<field name="database_join_noselectionlabel"
+			type="text"
+			description="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_DESC"
+			label="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_LABEL"
+			size="35" />
 		
-		<field default="1" description="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_DESC" label="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_LABEL" name="database_join_show_please_select" type="radio">
+		<field name="database_join_show_please_select"
+			type="radio"
+			default="1"
+			class="btn-group"
+			description="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_DESC"
+			label="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
@@ -106,41 +138,96 @@
 
 	<fieldset label="Add option in front end" name="plg-databasejoin-frontend">
 	
-		<field description="PLG_ELEMENT_POPUP_FORM_DESC" label="PLG_ELEMENT_POPUP_FORM_LABEL" name="databasejoin_popupform" type="popupforms"/>
+		<field name="databasejoin_popupform"
+			type="popupforms"
+			description="PLG_ELEMENT_POPUP_FORM_DESC"
+			label="PLG_ELEMENT_POPUP_FORM_LABEL" />
 			
-		<field default="0" description="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_DESC" label="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_LABEL" name="fabrikdatabasejoin_frontend_add" type="radio">
+		<field name="fabrikdatabasejoin_frontend_add"
+			type="radio"
+			default="0"
+			class="btn-group"
+			description="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_DESC"
+			label="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
 		
-		<field default="0" description="PLG_ELEMENT_DBJOIN_Y_OFFSET_DESC" label="PLG_ELEMENT_DBJOIN_Y_OFFSET_LABEL" name="yoffset" size="3" type="text"/>
+		<field name="join_popupwidth"
+			type="text"
+			size="3"
+			class="input-mini"
+			deafult=""
+			description="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_DESC"
+			label="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_LABEL"/>
 			
-		<field default="" description="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_DESC" label="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_LABEL" name="join_popupwidth" size="3" type="text"/>
-			
-		<field default="0" description="PLG_ELEMENT_DBJOIN_READONLY_LINK_DESC" label="PLG_ELEMENT_DBJOIN_READONLY_LINK_LABEL" name="databasejoin_readonly_link" type="radio">
+		<field name="databasejoin_readonly_link"
+			type="radio"
+			default="0"
+			class="btn-group"
+			description="PLG_ELEMENT_DBJOIN_READONLY_LINK_DESC"
+			label="PLG_ELEMENT_DBJOIN_READONLY_LINK_LABEL" >
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
 		
-		<field default="0" description="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_DESC" label="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_LABEL" name="fabrikdatabasejoin_frontend_select" type="radio">
+		<field name="fabrikdatabasejoin_frontend_select"
+			type="radio"
+			default="0"
+			class="btn-group"
+			description="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_DESC"
+			label="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
+		
 	</fieldset>
 	
 	<fieldset label="Advanced" name="plg-databasejoin-advanced">
 	
-		<field cols="40" description="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_DESC" label="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_LABEL" name="dabase_join_label_eval" rows="8" type="textarea"/>
+		<field name="dabase_join_label_eval"
+			type="textarea"
+			cols="40"
+			description="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_DESC"
+			label="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_LABEL"
+			rows="8"/>
 			
-		<field connection="params_join_conn_id" description="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_DESC" label="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_LABEL" name="join_desc_column" table="params_join_db_name" type="listfields"/>
+		<field name="join_desc_column"
+			type="listfields"
+			connection="params_join_conn_id"
+			description="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_DESC"
+			label="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_LABEL"
+			table="params_join_db_name" />
 		
-		<field default="4" description="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_DESC" label="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_LABEL" name="dbjoin_options_per_row" size="2" type="width"/>
+		<field name="dbjoin_options_per_row"
+			type="width"
+			class="input-mini"
+			default="4"
+			description="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_DESC"
+			label="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_LABEL"
+			size="2" />
 			
-		<field default="6" description="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_DESC" label="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_LABEL" name="dbjoin_multilist_size" size="2" type="field"/>
+		<field name="dbjoin_multilist_size"
+			type="field"
+			class="input-mini"
+			default="6"
+			description="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_DESC"
+			label="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_LABEL"
+			size="2" />
 
-		<field default="20" description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_DESC" label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_LABEL" name="dbjoin_autocomplete_size" size="3" type="field"/>
+		<field name="dbjoin_autocomplete_size"
+			type="field"
+			class="input-mini"
+			default="20"
+			description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_DESC"
+			label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_LABEL"
+			size="3" />
 
-		<field default="contains" description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_DESC" label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_LABEL" name="dbjoin_autocomplete_how" type="radio">
+		<field name="dbjoin_autocomplete_how"
+			type="list"
+			default="contains"
+			description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_DESC"
+			label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_LABEL" >
 				<option value="contains">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_CONTAINS</option>
 				<option value="starts_with">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_STARTS_WITH</option>
 		</field>

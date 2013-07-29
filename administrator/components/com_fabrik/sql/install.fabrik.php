@@ -73,55 +73,55 @@ function com_install() {
 							 "\n'site database','1', '1')";
 
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 
 		//update the table's order_by col to allow for multiple order bys
 		$db->setQuery("ALTER TABLE `#__fabrik_lists` CHANGE `order_dir` `order_dir` VARCHAR( 255 ) NOT NULL DEFAULT 'ASC'");
-		$db->query();
+		$db->execute();
 
 		//update db field names for fabrik3.0
 		$db->setQuery("ALTER TABLE '#__fabrik_elements CHANGE `show_in_list_summary` `show_in_list_summary` INT( 1 ) NULL DEFAULT NULL");
-		$db->query();
+		$db->execute();
 		$tables = array('#__fabrik_elements', '#__fabrik_groups', '#_fabrik_jsactions', '#_fabrik_cron', '#__fabrik_forms',
 	'#__fabrik_lists', '#__fabrik_connections', '#__fabrik_joins');
 		foreach ($tables as $table) {
 			$db->setQuery("ALTER TABLE `$table` CHANGE `attribs` `params` TEXT NOT NULL ");
-			$db->query();
+			$db->execute();
 		}
 
 		$db->setQuery("ALTER TABLE `#__fabrik_packages` CHANGE `state` `published` TINYINT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_visualizations` CHANGE `state` `published` INT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_cron` CHANGE `state` `published` TINYINT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_lists` CHANGE `state` `published` TINYINT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_connections` CHANGE `state` `published` INT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_elements` CHANGE `state` `published` INT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_forms` CHANGE `state` `published` INT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_groups` CHANGE `state` `published` INT( 1 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_joins` CHANGE `table_id` `list_id` INT( 6 ) NOT NULL ");
-		$db->query();
+		$db->execute();
 
 		//for new acl in J1.6
 		$db->setQuery("ALTER TABLE `#__fabrik_elements` ADD `asset_id` INT( 6 ) NOT NULL COMMENT 'fk to the #__assets table'");
-		$db->query();
+		$db->execute();
 
 		$db->setQuery("ALTER TABLE `#__fabrik_lists` ADD `asset_id` INT( 6 ) NOT NULL COMMENT 'fk to the #__assets table'");
-		$db->query();
+		$db->execute();
 
 		//ELEMENT filter_access parameter moved to JRule access object
 

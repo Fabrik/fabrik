@@ -23,7 +23,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
  * @since       3.0
  */
 
-class fabrikModelCoverflow extends FabrikFEModelVisualization
+class FabrikModelCoverflow extends FabrikFEModelVisualization
 {
 
 	/**
@@ -33,9 +33,9 @@ class fabrikModelCoverflow extends FabrikFEModelVisualization
 	 * @return  void
 	 */
 
-	function render()
+	public function render()
 	{
-		require_once(COM_FABRIK_FRONTEND . '/helpers/html.php');
+		require_once COM_FABRIK_FRONTEND . '/helpers/html.php';
 		$app = JFactory::getApplication();
 		$params = $this->getParams();
 		$config = JFactory::getConfig();
@@ -78,7 +78,7 @@ class fabrikModelCoverflow extends FabrikFEModelVisualization
 							$event = new stdClass;
 							if (!method_exists($imageElement, 'getStorage'))
 							{
-								//JError::raiseError(500, 'Looks like you selected a element other than a fileupload element for the coverflows image element');
+								// JError::raiseError(500, 'Looks like you selected a element other than a fileupload element for the coverflows image element');
 								switch (get_class($imageElement))
 								{
 									case 'FabrikModelFabrikImage':

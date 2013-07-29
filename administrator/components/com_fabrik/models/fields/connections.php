@@ -23,7 +23,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla
  * @subpackage  Form
- * @since		1.6
+ * @since       3.0
  */
 
 class JFormFieldConnections extends JFormFieldList

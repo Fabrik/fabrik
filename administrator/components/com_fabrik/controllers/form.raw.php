@@ -17,9 +17,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Raw Form controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Fabrik
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Fabrik
+ * @since       3.0
  */
 class FabrikControllerForm extends JControllerForm
 {
@@ -204,8 +204,8 @@ class FabrikControllerForm extends JControllerForm
 	/**
 	 * Generic function to redirect
 	 *
-	 * @param   object  &$model  form model
-	 * @param   string  $msg     optional redirect message
+	 * @param   object  $model  Form model
+	 * @param   string  $msg    Optional redirect message
 	 *
 	 * @deprecated - since 3.0.6 not used
 	 * @return  null

@@ -206,7 +206,7 @@ class FabrikControllerForm extends JController
 		$model->packageId = $input->getInt('packageId');
 		$this->isMambot = $input->get('isMambot', 0);
 		$form = $model->getForm();
-		$model->_rowId = $input->get('rowid', '');
+		$model->_rowId = $input->get('rowid', '', 'string');
 
 		/**
 		 * $$$ hugh - need this in plugin manager to be able to treat a "Copy" form submission
@@ -281,9 +281,9 @@ class FabrikControllerForm extends JController
 					 * couldn't determine the exact set up that triggered this, but we need to reset the rowid to -1
 					 * if reshowing the form, otherwise it may not be editable, but rather show as a detailed view
 					 */
-					if ($input->get('usekey') !== '')
+					if ($input->get('usekey', '') !== '')
 					{
-						JRequest::setVar('rowid', -1);
+						$input->set('rowid', -1);
 					}
 					$view->display();
 				}
@@ -416,9 +416,9 @@ class FabrikControllerForm extends JController
 		$model = $this->getModel('form', 'FabrikFEModel');
 		$model->setId($input->getInt('formid', 0));
 		$model->getForm();
-		$model->_rowId = $input->get('rowid', '', 'string');
+		$model->setRowId($input->get('rowid', '', 'string'));
 		$model->validate();
-		$data = array('modified' => $model->_modifiedValidationData);
+		$data = array('modified' => $model->modifiedValidationData);
 
 		// Validating entire group when navigating form pages
 		$data['errors'] = $model->_arErrors;
@@ -454,7 +454,7 @@ class FabrikControllerForm extends JController
 		$input = $app->input;
 		$sessionModel = $this->getModel('formsession', 'FabrikFEModel');
 		$sessionModel->setFormId($input->getInt('formid', 0));
-		$sessionModel->setRowId($input->getInt('rowid', 0));
+		$sessionModel->setRowId($input->get('rowid', '', 'string'));
 		$sessionModel->remove();
 		$this->display();
 	}

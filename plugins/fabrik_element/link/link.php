@@ -81,6 +81,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 
 	protected function _renderListData($data, $thisRow)
 	{
+		$w = new FabrikWorker;
 		if (is_string($data))
 		{
 			$data = FabrikWorker::JSONtoData($data, true);
@@ -95,6 +96,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 			}
 			$_lnk = trim($data['link']);
 			$_lbl = trim($data['label']);
+			$_lnk = $w->parseMessageForPlaceHolder(urldecode($_lnk), JArrayHelper::fromObject($thisRow));
 			if (JString::strtolower($_lnk) == 'http://' || JString::strtolower($_lnk) == 'https://')
 			{
 				// Treat some default values as empty
@@ -139,6 +141,21 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 			return $link;
 		}
 		return $data;
+	}
+
+	/**
+	 * Prepares the element data for CSV export
+	 *
+	 * @param   string  $data      Element data
+	 * @param   object  &$thisRow  All the data in the lists current row
+	 *
+	 * @return  string	Formatted CSV export value
+	 */
+
+	public function renderListData_csv($data, &$thisRow)
+	{
+		$o = json_decode($data);
+		return $o->link;
 	}
 
 	/**

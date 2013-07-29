@@ -195,7 +195,7 @@ var Loader = new Class({
 		Fabrik.blocks = {};
 		Fabrik.addBlock = function (blockid, block) {
 			Fabrik.blocks[blockid] = block;
-			Fabrik.fireEvent('fabrik.block.added', block);
+			Fabrik.fireEvent('fabrik.block.added', [block, blockid]);
 		};
 		document.addEvent('click:relay(.fabrik_delete a)', function (e, target) {
 			if (e.rightClick) {
@@ -270,6 +270,13 @@ var Loader = new Class({
 		
 		Fabrik.cbQueue = {'google': []};
 		
+		/**
+		 * Load the google maps API once 
+		 * 
+		 * @param  bool   s   Sensor
+		 * @param  mixed  cb  Callback method function or function name (assinged to window)
+		 * 
+		 */
 		Fabrik.loadGoogleMap = function (s, cb) {
 			
 			var prefix = document.location.protocol === 'https:' ? 'https:' : 'http:';
@@ -314,8 +321,15 @@ var Loader = new Class({
 		 */
 		Fabrik.mapCb = function () {
 			Fabrik.googleMap = true;
+			var fn;
 			for (var i = 0; i < Fabrik.cbQueue.google.length; i ++) {
-				window[Fabrik.cbQueue.google[i]]();
+				fn = Fabrik.cbQueue.google[i];
+				if (typeOf(fn) === 'function') {
+					fn();
+				} else {
+					window[fn]();
+				}
+				
 			}
 			Fabrik.cbQueue.google = [];
 		};

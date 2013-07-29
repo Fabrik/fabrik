@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormReceipt extends plgFabrik_Form
+class PlgFabrik_FormReceipt extends PlgFabrik_Form
 {
 
 	var $html = null;

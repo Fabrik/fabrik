@@ -357,26 +357,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 
 	public function cleanName($filename, $repeatCounter)
 	{
-		// $$$peamak: add random filename
-		$params = $this->getParams();
-		if ($params->get('random_filename') == 1)
-		{
-			$length = $params->get('length_random_filename');
-			$key = "";
-			$possible = "0123456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRTVWXYZ";
-			$i = 0;
-			while ($i < $length)
-			{
-				$char = JString::substr($possible, mt_rand(0, JString::strlen($possible) - 1), 1);
-				$key .= $char;
-				$i++;
-			}
-			$file_e = JFile::getExt($filename);
-			$file_f = preg_replace('/.' . $file_e . '$/', '', $filename);
-			$filename = $file_f . '_' . $key . '.' . $file_e;
-
-		}
-		return $filename;
+		return $this->randomizeName($filename);
 	}
 
 	/**

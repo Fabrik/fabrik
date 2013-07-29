@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-fblike">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FBLIKE_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_FBLIKE_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBLIKE_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
 				
 			<field description="PLG_ELEMENT_FBLIKE_URL_DESC" label="PLG_ELEMENT_FBLIKE_URL_LABEL" name="fblike_url" type="text"/>

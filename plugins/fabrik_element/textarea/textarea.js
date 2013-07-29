@@ -68,14 +68,16 @@ var FbTextarea = new Class({
 			if (typeOf(element) !== 'null') {
 				this.warningFX = new Fx.Morph(element, {duration: 1000, transition: Fx.Transitions.Quart.easeOut});
 				this.origCol = element.getStyle('color');
-				if (this.options.wysiwyg) {
+				if (this.options.wysiwyg && typeof(tinymce) !== 'undefined') {
 					tinymce.dom.Event.add(this.container, 'keyup', function (e) {
 						this.informKeyPress(e);
 					}.bind(this));
 				} else {
-					this.container.addEvent('keydown', function (e) {
-						this.informKeyPress(e);
-					}.bind(this));
+					if (typeOf(this.container) !== 'null') {
+						this.container.addEvent('keydown', function (e) {
+							this.informKeyPress(e);
+						}.bind(this));
+					}
 				}
 			}
 		}
@@ -101,11 +103,11 @@ var FbTextarea = new Class({
 		if (this.options.wysiwyg) {
 			var p = this.element.getParent('.fabrikElement');
 			var txt = p.getElement('textarea').clone(true, true);
-			var charLeft = p.getElement('.fabrik_characters_left').clone();
+			var charLeft = p.getElement('.fabrik_characters_left');
 			p.empty();
 			p.adopt(txt);
 			if (typeOf(charLeft) !== 'null') {
-				p.adopt(charLeft);
+				p.adopt(charLeft.clone());
 			}
 			txt.removeClass('mce_editable');
 			txt.setStyle('display', '');
@@ -134,7 +136,7 @@ var FbTextarea = new Class({
 		if (this.options.wysiwyg && this.options.editable) {
 			var name = this.options.isGroupJoin ? this.options.htmlId : this.options.element;
 			document.id(name).addClass('fabrikinput');
-			var instance = tinyMCE.get(name);
+			var instance = typeof(tinyMCE) !== 'undefined' ? tinyMCE.get(name) : false;
 			if (instance) {
 				this.container = instance.getDoc();
 			} else {

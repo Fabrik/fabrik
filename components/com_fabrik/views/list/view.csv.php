@@ -9,7 +9,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.view');
+require_once JPATH_SITE . '/components/com_fabrik/views/list/view.base.php';
 
 /**
  * CSV Fabrik List view class
@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  * @since       3.0
  */
 
-class FabrikViewList extends JView
+class FabrikViewList extends FabrikViewListBase
 {
 
 	/**
@@ -38,6 +38,10 @@ class FabrikViewList extends JView
 		$exporter = JModel::getInstance('Csvexport', 'FabrikFEModel');
 		$model = JModel::getInstance('list', 'FabrikFEModel');
 		$model->setId($input->getInt('listid'));
+		if (!parent::access($model))
+		{
+			exit;
+		}
 		$model->setOutPutFormat('csv');
 		$exporter->model = $model;
 		$input->set('limitstart' . $model->getId(), $input->getInt('start', 0));

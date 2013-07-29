@@ -22,7 +22,7 @@ require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
  * @since       3.0
  */
 
-class plgFabrik_ValidationruleSpecialChars extends plgFabrik_Validationrule
+class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 {
 
 	/**

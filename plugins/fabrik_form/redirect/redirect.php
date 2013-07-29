@@ -20,7 +20,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @since       3.0
  */
 
-class plgFabrik_FormRedirect extends plgFabrik_Form
+class PlgFabrik_FormRedirect extends PlgFabrik_Form
 {
 
 	/**
@@ -137,12 +137,13 @@ class plgFabrik_FormRedirect extends plgFabrik_Form
 		$session = JFactory::getSession();
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
+		$input = $app->input;
 		$formdata = $session->get('com_' . $package . '.form.data');
 		$context = 'com_' . $package . '.form.' . $formdata['formid'] . '.redirect.';
 		$title = (array) $session->get($context . 'title', $title);
 		$title = array_shift($title);
 		$message = $session->get($context . 'msg', $message);
-		if (JRequest::getVar('fabrik_ajax'))
+		if ($input->get('fabrik_ajax'))
 		{
 			// 3.0 - standardize on msg/title options.
 			$opts = new stdClass;
@@ -175,6 +176,9 @@ class plgFabrik_FormRedirect extends plgFabrik_Form
 
 	public function customProcessResult($method, &$formModel)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
 		// If we are applying the form don't run redirect
 		if (is_array($formModel->_formData) && array_key_exists('apply', $formModel->_formData))
 		{
@@ -184,7 +188,7 @@ class plgFabrik_FormRedirect extends plgFabrik_Form
 		{
 			return true;
 		}
-		if (JRequest::getVar('fabrik_ajax'))
+		if ($input->get('fabrik_ajax'))
 		{
 			// Return false to stop the default redirect occurring
 			return false;
@@ -315,6 +319,7 @@ class plgFabrik_FormRedirect extends plgFabrik_Form
 	protected function _storeInSession(&$formModel)
 	{
 		$app = JFactory::getApplication();
+		$input = $app->input;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$store = array();
 		if ($this->_data->save_in_session == '1')
@@ -391,7 +396,7 @@ class plgFabrik_FormRedirect extends plgFabrik_Form
 			$listModel = $formModel->getlistModel();
 
 			// Check for special fabrik_list_filter_all element!
-			$searchAll = JRequest::getVar($listModel->getTable()->db_table_name . '___fabrik_list_filter_all');
+			$searchAll = $input->get($listModel->getTable()->db_table_name . '___fabrik_list_filter_all');
 
 			$app->setUserState('com_' . $package . '.searchform.form' . $formModel->get('id') . '.searchall', $searchAll);
 			$app->setUserState($key, $id);

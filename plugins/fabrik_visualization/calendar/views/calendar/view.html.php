@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @since       3.0
  */
 
-class fabrikViewCalendar extends JView
+class FabrikViewCalendar extends JView
 {
 
 	/**
@@ -37,11 +37,7 @@ class fabrikViewCalendar extends JView
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$input = $app->input;
-		$Itemid = (int) @$app->getMenu('site')->getActive()->id;
-		$pluginManager = FabrikWorker::getPluginManager();
-
-		// Needed to load the language file!
-		$plugin = $pluginManager->getPlugIn('calendar', 'visualization');
+		$Itemid = FabrikWorker::itemId();
 		$model = $this->getModel();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$id = $input->get('id', $usersConfig->get('visualizationid', $input->get('visualizationid', 0)));
@@ -216,8 +212,6 @@ class fabrikViewCalendar extends JView
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$this->setLayout('chooseaddevent');
-		$pluginManager = JModel::getInstance('Pluginmanager', 'FabrikFEModel');
-		$plugin = $pluginManager->getPlugIn('calendar', 'visualization');
 		$model = $this->getModel();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));

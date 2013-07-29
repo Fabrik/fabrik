@@ -3,6 +3,9 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="field" name="plg-element-fblikebox">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FBLIKEBOX_HELP_SERVER" />
+				
 			<field description="PLG_ELEMENT_FBLIKEBOX_PAGE_ID_DESC" label="PLG_ELEMENT_FBLIKEBOX_PAGE_ID_LABEL" name="fblikebox_pageid" type="text"/>
 				
 			<field default="300" label="PLG_ELEMENT_FBLIKEBOX_WIDTH_LABEL" name="fblikebox_width" size="3" type="text"/>
