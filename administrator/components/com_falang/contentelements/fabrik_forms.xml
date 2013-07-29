@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <falang type="contentelement">
-  <name>Fabrik - Forms</name>
-  <author>Manel Zaera, manelzaera@yahoo.es</author>
-  <version>1.8</version>
-  <description>Definition for Fabrik Form</description>
-  <reference>
-  	<table name="fabrik_forms">
-  		<field name="id" translate="0" type="referenceid">ID</field>
-  		<field name="label" translate="1" type="titletext">Title</field>
-  		<field name="intro" translate="1" type="htmltext">Intro text</field>  		
-  		<field name="error" translate="1" type="text">Error message</field>  		  		
-  		<field name="reset_button_label" translate="1" type="text">Reset button label</field>  		
-  		<field name="submit_button_label" translate="1" type="text">Submit button label</field>  		
-  		<field name="created" translate="0" type="created_date">Created</field>
-  		<field name="modified" translate="0" type="modified_date">Modified</field>  		
-  		<field name="checked_out_time" translate="0" type="checked_out_date">Check out date</field>
-  	</table>
-  </reference>
+	<name>Fabrik - Forms</name>
+	<author>Manel Zaera, manelzaera@yahoo.es</author>
+	<version>1.8</version>
+	<description>Definition for Fabrik Form</description>
+	<reference>
+		<table name="fabrik_forms">
+			<field name="id" translate="0" type="referenceid">ID</field>
+			<field name="label" translate="1" type="titletext">Title</field>
+			<field name="intro" translate="1" type="htmltext">Intro text</field>
+			<field name="error" translate="1" type="text">Error message</field>
+			<field name="reset_button_label" translate="1" type="text">Reset button label</field>
+			<field name="submit_button_label" translate="1" type="text">Submit button label</field>
+			<field name="created" translate="0" type="created_date">Created</field>
+			<field name="modified" translate="0" type="modified_date">Modified</field>
+			<field name="checked_out_time" translate="0" type="checked_out_date">Check out date</field>
+		</table>
+	</reference>
 </falang>
