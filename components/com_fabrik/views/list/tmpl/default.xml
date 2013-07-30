@@ -7,109 +7,138 @@
 	</layout>
 	
 	<fields name="request">
-		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_fabrik/models/fields">
 	
-			<field description="The list to show" label="List" name="listid" type="fabriktables"/>
+			<field name="listid" 
+				type="fabriktables" 
+				label="COM_FABRIK_MENU_LIST_LABEL"
+				description="COM_FABRIK_MENU_LIST_DESC" 
+			/>
 				
-			</fieldset>
+		</fieldset>
 	</fields>
 	
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="COM_FABRIK_OPTIONS" name="params">
+		<fieldset name="params"
+			label="COM_FABRIK_MENU_LIST_OPTIONS"
+		>
 
-			<field default="0"
+			<field name="calculations"
+				type="radio"
 				class="btn-group"
-				description="If table view selected then setting this to yes will recaculate the table calculations each time the table is viewed (can slow down your tables performance)" label="Reload Calculations" name="calculations" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				default="0"
+				label="COM_FABRIK_MENU_LIST_RELOAD_CALCS_LABEL"
+				description="COM_FABRIK_MENU_LIST_RELOAD_CALCS_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			
 			<field name="listlayout"
 				type="folderlist"
-				descrption="The table template to use" 
 				directory="/components/com_fabrik/views/list/tmpl/"
-				label="Template"/>
+				label="COM_FABRIK_MENU_LIST_TMPL_LABEL"
+				description="COM_FABRIK_MENU_LIST_TMPL_DESC"
+			/>
 				
 			<field name="resetfilters"
 				type="radio"
-				default="0"
 				class="btn-group"
+				default="0"
 				description="COM_FABRIK_FIELD_RESET_FILTERS_DESC"
-				label="COM_FABRIK_FIELD_RESET_FILTERS_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				label="COM_FABRIK_FIELD_RESET_FILTERS_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		
 			<field name="list_elements" 
 				type="fabrikmodalrepeat"
 				label="COM_FABRIK_LIST_ELEMENTS_LABEL"
-				description="COM_FABRIK_LIST_ELEMENTS_DESC">
-				
+				description="COM_FABRIK_LIST_ELEMENTS_DESC"
+			>
 				<fields name="params">
 					<fieldset modal="true" name="list_elements_modal" repeat="true">
-						<field label="COM_FABRIK_LIST_ELEMENTS_HEADING" name="show_in_list" size="30" multiple="true" type="listfields"/>
-					
+						<field name="show_in_list"
+							type="listfields"
+							size="30"
+							multiple="true"
+							label="COM_FABRIK_LIST_ELEMENTS_HEADING"
+						/>
 					</fieldset>
 				</fields>
 			</field>
 			
-			<field name="prefilters" 
+			<field name="prefilters"
+				type="fabrikmodalrepeat"
 				class="prefilters-modal"
-				type="fabrikmodalrepeat" 
 				label="COM_FABRIK_LIST_PREFILTERS_LABEL"
-				description="COM_FABRIK_LIST_PREFILTERS_DESC">
-			
+				description="COM_FABRIK_LIST_PREFILTERS_DESC"
+			>
 				<fields name="params">
-					<fieldset modal="true" name="prefilters_modal" repeat="true">
-					
-						<field default="OR" label="" name="filter-join" type="list">
-								<option value="AND">AND</option>
-								<option value="OR">OR</option>
+					<fieldset name="prefilters_modal" modal="true" repeat="true">
+						
+						<field name="filter-join" 
+							type="list"
+							default="OR" 
+							label=""
+						>
+							<option value="AND">AND</option>
+							<option value="OR">OR</option>
 						</field>
 						
 						<field name="filter-fields" 
 							type="listfields"
 							raw="true"
 							valueformat="tableelement"
-							label="COM_FABRIK_LIST_ELEMENTS_HEADING"/>
+							label="COM_FABRIK_LIST_ELEMENTS_HEADING"
+						/>
 					
-						<field label="COM_FABRIK_LIST_CONDITION_LABEL" name="filter-conditions" type="list">
-								<option value="equals">EQUALS</option>
-								<option value="notequals">NOT EQUAL TO</option>
-								<option value="begins">BEGINS WITH</option>
-								<option value="contains">CONTAINS</option>
-								<option value="ends">ENDS WITH</option>
-								<option value="greaterthan">GREATER THAN</option>
-								<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
-								<option value="lessthan">LESS THAN</option>
-								<option value="IS NULL">IS NULL</option>
-								<option value="lessthanequals">LESS THAN OR EQUALS</option>
-								<option value="in">IN</option>
-								<option value="not_in">NOT IN</option>
-								<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
-								<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
-								<option value="yesterday">COM_FABRIK_YESTERDAY</option>
-								<option value="today">COM_FABRIK_TODAY</option>
-								<option value="tomorrow">COM_FABRIK_TOMORROW</option>
-								<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
-								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
-								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+						<field name="filter-conditions" 
+							type="list" 
+							label="COM_FABRIK_LIST_CONDITION_LABEL"
+						>
+							<option value="equals">EQUALS</option>
+							<option value="notequals">NOT EQUAL TO</option>
+							<option value="begins">BEGINS WITH</option>
+							<option value="contains">CONTAINS</option>
+							<option value="ends">ENDS WITH</option>
+							<option value="greaterthan">GREATER THAN</option>
+							<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
+							<option value="lessthan">LESS THAN</option>
+							<option value="IS NULL">IS NULL</option>
+							<option value="lessthanequals">LESS THAN OR EQUALS</option>
+							<option value="in">IN</option>
+							<option value="not_in">NOT IN</option>
+							<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
+							<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
+							<option value="yesterday">COM_FABRIK_YESTERDAY</option>
+							<option value="today">COM_FABRIK_TODAY</option>
+							<option value="tomorrow">COM_FABRIK_TOMORROW</option>
+							<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
+							<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
+							<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
 						</field>
 						
-						<field label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" name="filter-value" type="field"/>
+						<field name="filter-value"
+							type="field"
+							label="COM_FABRIK_LIST_FILTER_VALUE_HEADING"
+						/>
 						
 						<field name="filter-eval"
 							type="list"
-							label="COM_FABRIK_TYPE">
-								<option value="0">COM_FABRIK_TEXT</option>
-								<option value="1">COM_FABRIK_EVAL</option>
-								<option value="2">COM_FABRIK_QUERY</option>
-								<option value="3">COM_FABRIK_NO_QUOTES</option>
+							label="COM_FABRIK_TYPE"
+						>
+							<option value="0">COM_FABRIK_TEXT</option>
+							<option value="1">COM_FABRIK_EVAL</option>
+							<option value="2">COM_FABRIK_QUERY</option>
+							<option value="3">COM_FABRIK_NO_QUOTES</option>
 						</field>
 						
 						<field name="filter-access"
 							type="accesslevel"
-							label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING" />
+							label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING"
+						/>
 							
 					</fieldset>
 				</fields>
@@ -119,9 +148,10 @@
 				type="text"
 				default="10"
 				class="input-mini"
-				description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC"
+				size="5"
 				label="COM_FABRIK_FIELD_ROWS_PER_PAGE_LABEL"
-				size="4"/>
+				description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC"
+			/>
 		</fieldset>
 	</fields>
 </metadata>
