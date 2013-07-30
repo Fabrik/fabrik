@@ -5210,7 +5210,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		}
 		else
 		{
-			$r = empty($data) ? '' : array_shift($data);
+			$r = empty($data) ? '' : '<p>' . array_shift($data) . '</p>';
 		}
 		return $r;
 	}
