@@ -17,8 +17,10 @@ echo "
 }
 
 ul.fabrikRepeatData {
+	list-style: none;
 	list-style-position:inside;
-	margin: 0 0 0 6px;
+	margin: 0;
+	padding-left: 0;
 }
 .fabrikRepeatData > li {
 	white-space: nowrap;
@@ -26,4 +28,13 @@ ul.fabrikRepeatData {
 	overflow:hidden;
 	text-overflow: ellipsis;
 }
+td.repeat-merge div, td.repeat-reduce div,
+td.repeat-merge i, td.repeat-reduce i {
+padding: 5px !important;
+}
+
+.nav li {
+list-style: none;
+}
+
 ";?>
