@@ -57,7 +57,7 @@ foreach ($this->groups as $group) :
 
 		<?php endif;
 
-		if ($group->intro !== '') : ?>
+		if (!empty($group->intro)) : ?>
 			<div class="groupintro"><?php echo $group->intro ?></div>
 		<?php
 		endif;

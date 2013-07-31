@@ -57,16 +57,25 @@ echo $this->plugintop;
 	foreach ($this->groups as $group) :
 		// If this ismultipage then groups are consolidated until a group with a page break
 		// So we should only show a tab if: it is first tab, or if it is a page break
-		if (!$model->isMultiPage() or ($i == 0 or $group->splitPage)) :
-		?>
-			<li <?php if ($i == 0) echo 'class="active"'?>>
-				<a href="#group-tab<?php echo $group->id;?>" data-toggle="tab">
-					<?php echo $group->title?>
-				</a>
-			</li>
-		<?php
+		if (!$model->isMultiPage() || $i == 0 || $group->splitPage) :
+			?>
+				<li <?php if ($i == 0) echo 'class="active"'?>>
+					<a href="#group-tab<?php echo $group->id;?>" data-toggle="tab">
+						<?php
+							if (!empty($group->title))
+							{
+								echo $group->title;
+							}
+							else
+							{
+								echo $group->name;
+							}
+						?>
+					</a>
+				</li>
+			<?php
+			$i ++;
 		endif;
-		$i ++;
 	endforeach;
 	?>
 </ul>
@@ -76,21 +85,31 @@ echo $this->plugintop;
 	$i = 0;
 	foreach ($this->groups as $group) :
 		$this->group = $group;
-		?>
-		<div class="tab-pane <?php  if ($i == 0) echo "active"?>" id="group-tab<?php echo $group->id;?>">
+		if ($i == 0 || !$model->isMultiPage() || $group->splitPage) :
+			if ($i != 0)
+			{
+				echo '</div>';
+			}
+			?>
+			<div class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $group->id;?>">
+		<?php
+		endif; ?>
 			<fieldset class="fabrikGroup row-fluid" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
-
-				<?php if (trim($group->title) !== '') :?>
+				<?php
+				$allHidden = true;
+				foreach ($group->elements as $element)
+				{
+					$allHidden &= $element->hidden;
+				}
+				if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
 					<legend class="legend">
 						<span><?php echo $group->title;?></span>
 					</legend>
 				<?php
 				endif;
 
-				if ($group->intro !== '') : ?>
-					<div class="groupintro">
-						<?php echo $group->intro ?>
-					</div>
+				if (!empty($group->intro)) : ?>
+					<div class="groupintro"><?php echo $group->intro ?></div>
 				<?php
 				endif;
 
@@ -103,11 +122,11 @@ echo $this->plugintop;
 				echo $this->loadTemplate($group->tmpl);
 				?>
 			</fieldset>
-		</div>
 		<?php
 		$i++;
 	endforeach;
 	?>
+	</div>
 </div>
 <?php
 if ($model->editable) :
