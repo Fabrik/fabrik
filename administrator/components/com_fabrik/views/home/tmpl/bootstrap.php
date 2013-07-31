@@ -97,7 +97,7 @@ JToolBarHelper::title(JText::_('COM_FABRIK_WELCOME'), 'fabrik.png');
 								<?php echo $log->timedate_created;?>
 								</td>
 								<td>
-								<span class="editlinktip hasTip" title="<?php echo $log->message_type . "::" . $log->message; ?>">
+								<span class="editlinktip hasTooltip" title="<?php echo $log->message_type . "::" . $log->message; ?>">
 									<?php echo $log->message_type;?>
 								</span>
 								</td>
