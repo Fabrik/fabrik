@@ -2,14 +2,17 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="googlemap" name="plg-element-googlemap">
-		
+			
 			<field type="helplink"
-				url="PLG_ELEMENT_GOOGLE_MAP_HELP_SERVER" />
-				
+				url="PLG_ELEMENT_GOOGLE_MAP_HELP_SERVER"
+			/>
+			
 			<field name="fb_gm_maptype"
 				type="list"
 				default="G_NORMAL_MAP"
-				label="PLG_ELEMENT_GOOGLE_MAP_TYPE_LABEL">
+				label="PLG_ELEMENT_GOOGLE_MAP_TYPE_LABEL"
+				description="PLG_ELEMENT_GOOGLE_MAP_TYPE_DESC"
+				>
 					<option value="G_NORMAL_MAP">PLG_ELEMENT_GOOGLE_MAP_NORMAL</option>
 					<option value="G_SATELLITE_MAP">PLG_ELEMENT_GOOGLE_MAP_SATELITE</option>
 					<option value="G_HYBRID_MAP">PLG_ELEMENT_GOOGLE_MAP_HYBRID</option>
@@ -19,37 +22,42 @@
 			<field name="fb_gm_zoomlevel"
 				type="text"
 				class="input-mini"
-				default="4"
-				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
-				label="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_LABEL"
-				size="3" />
-				
-			<field name="fb_gm_mapwidth"
-				default="200"
-				class="input-mini"
-				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
 				size="3"
-				type="text"/>
-				
+				default="4"
+				label="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_LABEL"
+				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
+			/>
+			
+			<field name="fb_gm_mapwidth"
+				type="text"
+				class="input-mini"
+				size="3"
+				default="200"
+				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
+				description="PLG_ELEMENT_GOOGLE_MAP_WIDTH_DESC"
+			/>
+			
 			<field name="fb_gm_mapheight"
 				type="text"
 				class="input-mini"
+				size="3"
 				default="150"
 				label="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_LABEL"
-				size="3" />
+				description="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_DESC"
+			/>
 			
 			<field name="gmap_styles"	
 				type="fabrikmodalrepeat"
+				label="PLG_ELEMENT_GOOGLE_MAP_STYLE_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_STYLE_DESC"
-				label="PLG_ELEMENT_GOOGLE_MAP_STYLE_LABEL">
-				
+			>
 				<fields name="params">
 					<fieldset modal="true" name="gmap_styles_modal">
-					
-					<field name="style_feature"
+						<field name="style_feature"
 							type="list"
 							repeat=""
-							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_FEATURE_LABEL">
+							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_FEATURE_LABEL"
+							>
 								<option value="administrative">administrative</option>
 								<option value="administrative.country">administrative.country</option>
 								<option value="administrative.land_parcel">administrative.land_parcel</option>
@@ -111,13 +119,12 @@
 								<option value="visibility">visibility  (on, off, or simplified)</option>
 								<option value="color">color (an RGB hex string)</option>
 								<option value="weight">weight (an integer value, greater than or equal to zero)</option>
-								
 						</field>
 						
 						<field name="style_styler_value"
 							type="text"
-							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_STYLER_VALUE_LABEL"/>
-							
+							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_STYLER_VALUE_LABEL"
+						/>
 					</fieldset>
 				</fields>
 			</field>
@@ -126,7 +133,8 @@
 				type="list"
 				default="GSmallZoomControl"
 				description="PLG_ELEMENT_GOOGLE_MAP_CONTROL_DESC"
-				label="PLG_ELEMENT_GOOGLE_MAP_CONTROL_LABEL">
+				label="PLG_ELEMENT_GOOGLE_MAP_CONTROL_LABEL"
+				>
 					<option value="">None</option>
 					<option value="GLargeMapControl">PLG_ELEMENT_GOOGLE_MAP_LARGE_MAP_CONTROL</option>
 					<option value="GSmallMapControl">PLG_ELEMENT_GOOGLE_MAP_SMALL_MAP_CONTROL</option>
@@ -378,24 +386,29 @@
 			<field name="fb_gm_table_mapwidth"
 				type="text"
 				class="input-mini"
+				size="3"
 				default="200"
 				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
-				size="3" />
+				description="PLG_ELEMENT_GOOGLE_MAP_WIDTH_DESC"
+			/>
 				
 			<field name="fb_gm_table_mapheight"
 				type="text"
 				class="input-mini"
-				default="150"
 				size="3"
-				label="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_LABEL" />
+				default="150"
+				label="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_LABEL"
+				description="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_DESC"
+			/>
 				
 			<field name="fb_gm_table_zoomlevel"
 				type="text"
 				class="input-mini"
+				size="3"
 				default="4"
-				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_LABEL"
-				size="3"/>
+				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
+			/>
 			
 		</fieldset>
 	</fields>
