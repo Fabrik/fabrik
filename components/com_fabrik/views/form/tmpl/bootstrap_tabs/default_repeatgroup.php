@@ -15,18 +15,18 @@ foreach ($group->subgroups as $subgroup) :
 	<div class="fabrikSubGroup">
 	<?php
 		// Add the add/remove repeat group buttons
-		if ($group->editable) : ?>
-			<div class="fabrikGroupRepeater pull-right">
+		if ($group->editable && ($group->canAddRepeat || $group->canDeleteRepeat)) : ?>
+			<div class="fabrikGroupRepeater pull-right btn-group">
 				<?php if ($group->canAddRepeat) :?>
-				<a class="addGroup" href="#">
-					<?php echo FabrikHelperHTML::image('plus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'opts' => '{trigger: "hover"}', 'title' => JText::_('COM_FABRIK_ADD_GROUP')));?>
-				</a>
+					<a class="addGroup btn btn-small btn-success" href="#">
+						<i class="icon-plus-2 fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_ADD_GROUP'); ?>"></i>
+					</a>
 				<?php
 				endif;
 				if ($group->canDeleteRepeat) :?>
-				<a class="deleteGroup" href="#">
-					<?php echo FabrikHelperHTML::image('minus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'opts' => '{trigger: "hover"}', 'title' => JText::_('COM_FABRIK_DELETE_GROUP')));?>
-				</a>
+					<a class="deleteGroup btn btn-small btn-danger" href="#">
+						<i class="icon-remove fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_DELETE_GROUP'); ?>"></i>
+					</a>
 				<?php endif;?>
 			</div>
 		<?php

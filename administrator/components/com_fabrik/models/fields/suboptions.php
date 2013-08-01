@@ -51,15 +51,16 @@ class JFormFieldSuboptions extends JFormField
 		$default->sub_initial_selection = array();
 		$opts = $this->value == '' ? $default : JArrayHelper::toObject($this->value);
 		$j3 = FabrikWorker::j3();
-		$delClass = FabrikWorker::j3() ? 'btn btn-danger' : 'removeButton';
 		if ($j3)
 		{
-			$delButton = '<div class="btn-group"><a class="btn btn-success" href="#" data-button="addSuboption"><i class="icon-plus"></i> </a>';
-			$delButton .= '<a class="' . $delClass . '" href="#" data-button="deleteSuboption"><i class="icon-minus"></i> </a></div>';
+			$delButton  = '<div class="btn-group">';
+			$delButton .= '<a class="btn btn-success" href="#" data-button="addSuboption"><i class="icon-plus-2"></i> </a>';
+			$delButton .= '<a class="btn btn-danger" href="#" data-button="deleteSuboption"><i class="icon-remove"></i> </a>';
+			$delButton .= '</div>';
 		}
 		else
 		{
-			$delButton = '<a class="' . $delClass . '" href="#"><i class="icon-minus"></i> ' . JText::_('COM_FABRIK_DELETE') . '</a>';
+			$delButton = '<a class="removeButton" href="#"><i class="icon-minus"></i> ' . JText::_('COM_FABRIK_DELETE') . '</a>';
 		}
 		if (is_array($opts))
 		{
@@ -75,7 +76,6 @@ class JFormFieldSuboptions extends JFormField
 		$script[] = "window.addEvent('domready', function () {";
 		$script[] = "\tnew Suboptions('$this->name', $opts);";
 		$script[] = "});";
-		$addClass = FabrikWorker::j3() ? 'btn btn-success' : 'addButton';
 		FabrikHelperHTML::script('administrator/components/com_fabrik/models/fields/suboptions.js', implode("\n", $script));
 		$html = array();
 		if (!$j3)
@@ -91,7 +91,7 @@ class JFormFieldSuboptions extends JFormField
 		$html[] = '<th style="width: 10%">' . JText::_('COM_FABRIK_DEFAULT') . '</th>';
 		if ($j3)
 		{
-			$html[] = '<th style="width: 20%"><a class="' . $addClass . '" href="#" data-button="addSuboption"><i class="icon-plus"></i> </a></th>';
+			$html[] = '<th style="width: 20%"><a class="btn btn-success" href="#" data-button="addSuboption"><i class="icon-plus-2"></i> </a></th>';
 		}
 		$html[] = '</tr>';
 		$html[] = '</thead>';
@@ -103,7 +103,7 @@ class JFormFieldSuboptions extends JFormField
 			$html[] = '<ul id="sub_subElementBody" class="subelements">';
 			$html[] = '<li></li>';
 			$html[] = '</ul>';
-			$html[] = '<a class="' . $addClass . '" href="#" id="addSuboption"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a></div>';
+			$html[] = '<a class="addButton" href="#" id="addSuboption"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a></div>';
 		}
 		FabrikHelperHTML::framework();
 		FabrikHelperHTML::iniRequireJS();

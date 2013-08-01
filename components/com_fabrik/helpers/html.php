@@ -1747,7 +1747,7 @@ EOD;
 		{
 			unset($properties['alt']);
 			$class = JArrayHelper::getValue($properties, 'icon-class', '');
-			$class = 'icon-' . JFile::stripExt($file) . ' ' . $class;
+			$class = 'icon-' . JFile::stripExt($file) . ($class ? ' ' . $class : '');
 			unset($properties['icon-class']);
 
 			$class .= ' ' . JArrayHelper::getValue($properties, 'class', '');
