@@ -465,12 +465,20 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		$listModel = $elementModel->getListModel();
 		$label = JArrayHelper::getValue($opts, 'label', '');
 		$rows = $elementModel->filterValueList(true, '', $label);
-		$v = addslashes($app->input->get('value'));
+		// Paul 20130802 Fix bugette
+		// $v = $app->input->get('value');
+		$v = $app->input->get('value', '', 'string');
+		// Search for every word separately in the result rather than the single string (of multiple words)
+		$regex  = "/(?=.*" .
+			implode(")(?=.*",
+				array_filter(explode(" ",addslashes($v)))
+			) . ").*/i";
 		$start = count($rows) - 1;
 		for ($i = $start; $i >= 0; $i--)
 		{
 			$rows[$i]->text = strip_tags($rows[$i]->text);
-			if (!preg_match("/$v(.*)/i", $rows[$i]->text))
+			// Check that search strings are not in the HTML we just stripped
+			if (!preg_match($regex, $rows[$i]->text))
 			{
 				unset($rows[$i]);
 			}

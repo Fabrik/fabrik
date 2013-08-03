@@ -1531,9 +1531,9 @@ EOD;
 	 * @return  void
 	 */
 
-	public static function autoComplete($htmlid, $elementid, $formid, $plugin = 'field', $opts = array())
+	public static function autoComplete($htmlid, $elementid, $formid, $plugin = 'field', $opts = array(), $max = null)
 	{
-		$json = self::autoCompletOptions($htmlid, $elementid, $formid, $plugin, $opts);
+		$json = self::autoCompleteOptions($htmlid, $elementid, $formid, $plugin, $opts, $max);
 		$str = json_encode($json);
 		JText::script('COM_FABRIK_NO_RECORDS');
 		$class = $plugin === 'cascadingdropdown' ? 'FabCddAutocomplete' : 'FbAutocomplete';
@@ -1557,13 +1557,17 @@ EOD;
 	 * @return  array	autocomplete options (needed for elements so when duplicated we can create a new FabAutocomplete object
 	 */
 
-	public static function autoCompletOptions($htmlid, $elementid, $formid, $plugin = 'field', $opts = array())
+	public static function autoCompleteOptions($htmlid, $elementid, $formid, $plugin = 'field', $opts = array(), $max = null)
 	{
 		$json = new stdClass;
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
 			. '&formid=' . $formid . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
+		if (!empty($max))
+		{
+			$json->max = $max;
+		}
 		$c = JArrayHelper::getValue($opts, 'onSelection');
 		if ($c != '')
 		{

@@ -3,10 +3,10 @@
 	<fields>
 
 		<fieldset name="plg-element-databasejoin" label="COM_FABRIK_OPTIONS">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_DBJOIN_HELP_SERVER" />
-				
+
 			<field default="0"
 				name="eval"
 				type="radio"
@@ -16,13 +16,13 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 			<field name="default"
 				type="textarea"
 				cols="45"
 				label="PLG_ELEMENT_DBJOIN_DEFAULT_LABEL"
 				rows="6"/>
-				
+
 			<field name="hidden"
 				type="radio"
 				default="0"
@@ -33,12 +33,12 @@
 			</field>
 		</fieldset>
 	</fields>
-	
+
 	<fields name="params">
 
-	
+
 	<fieldset label="COM_FABRIK_DATA" name="plg-databasejoin-simple">
-	
+
 		<field name="database_join_display_type"
 			type="list"
 			default="dropdown"
@@ -50,21 +50,30 @@
 				<option value="checkbox">PLG_ELEMENT_DBJOIN_CHECKBOX</option>
 				<option value="multilist">PLG_ELEMENT_DBJOIN_MULTILIST</option>
 		</field>
-		
+
+		<field name="autocomplete_rows"
+			type="text"
+			class="input-mini"
+			size="3"
+			default="10"
+			label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_LABEL"
+			description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_DESC"
+		/>
+
 	</fieldset>
-	
-	<fieldset label="Data" name="plg-databasejoin-simple">
-		
+
+	<fieldset label="COM_FABRIK_DATA" name="plg-databasejoin-simple">
+
 		<field name="join_conn_id"
 			label="PLG_ELEMENT_DBJOIN_CONNECTION"
-			type="connections"/> 
-			
+			type="connections"/>
+
 		<field name="join_db_name"
 			label="PLG_ELEMENT_DBJOIN_TABLE_LABEL"
 			observe="params_join_conn_id"
 			key="name"
 			type="tables"/>
-			
+
 		<field name="join_key_column"
 			type="listfields"
 			highlightpk="true"
@@ -72,33 +81,33 @@
 			description="PLG_ELEMENT_DBJOIN_JOIN_KEY_DESC"
 			label="PLG_ELEMENT_DBJOIN_JOIN_KEY_LABEL"
 			table="params_join_db_name"/>
-			
+
 		<field name="join_val_column"
 			type="listfields"
 			connection="params_join_conn_id"
 			description="PLG_ELEMENT_DBJOIN_JOIN_LABEL_DESC"
 			label="PLG_ELEMENT_DBJOIN_JOIN_LABEL_LABEL"
 			table="params_join_db_name" />
-			
+
 		<field name="join_val_column_concat"
 			type="textarea"
 			cols="40"
 			description="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_DESC"
 			label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			rows="6"/>
-			
+
 		<field name="database_join_where_sql"
 			type="fabrikeditor"
 			mode="mysql"
 			description="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_DESC"
 			label="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_LABEL" />
-			
+
 		<field name="database_join_where_access"
 			type="accesslevel"
 			default="1"
 			description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_DESC"
 			label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_LABEL" />
-			
+
 		<field name="database_join_where_when"
 			type="list"
 			default="3"
@@ -108,29 +117,29 @@
 				<option value="2">PLG_ELEMENT_DBJOIN_EDIT</option>
 				<option value="3">PLG_ELEMENT_DBJOIN_BOTH</option>
 		</field>
-		
+
 		<field name="database_join_join_sql"
 			type="fabrikeditor"
 			mode="mysql"
 			description="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_DESC"
 			label="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_LABEL" />
-			
+
 	</fieldset>
-	
-	<fieldset label="Default" name="plg-databasejoin-xtra">
-	
+
+	<fieldset label="COM_FABRIK_DEFAULT" name="plg-databasejoin-xtra">
+
 		<field name="database_join_noselectionvalue"
 			type="text"
 			description="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_DESC"
 			label="PLG_ELEMENT_DBJOIN_NO_SELECTION_VALUE_LABEL"
 			size="5"/>
-			
+
 		<field name="database_join_noselectionlabel"
 			type="text"
 			description="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_DESC"
 			label="PLG_ELEMENT_DBJOIN_NO_SELECTION_LABEL_LABEL"
 			size="35" />
-		
+
 		<field name="database_join_show_please_select"
 			type="radio"
 			default="1"
@@ -140,16 +149,16 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 	</fieldset>
 
-	<fieldset label="Add option in front end" name="plg-databasejoin-frontend">
-	
+	<fieldset label="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_LABEL" name="plg-databasejoin-frontend">
+
 		<field name="databasejoin_popupform"
 			type="popupforms"
 			description="PLG_ELEMENT_POPUP_FORM_DESC"
 			label="PLG_ELEMENT_POPUP_FORM_LABEL" />
-			
+
 		<field name="fabrikdatabasejoin_frontend_add"
 			type="radio"
 			default="0"
@@ -159,15 +168,15 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="join_popupwidth"
 			type="text"
 			size="3"
 			class="input-mini"
-			deafult=""
+			default=""
 			description="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_DESC"
 			label="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_LABEL"/>
-			
+
 		<field name="databasejoin_readonly_link"
 			type="radio"
 			default="0"
@@ -177,7 +186,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="fabrikdatabasejoin_frontend_select"
 			type="radio"
 			default="0"
@@ -187,24 +196,24 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 	</fieldset>
-	
-	<fieldset label="Advanced" name="plg-databasejoin-advanced">
-	
+
+	<fieldset label="COM_FABRIK_ADVANCED" name="plg-databasejoin-advanced">
+
 		<field name="dabase_join_label_eval"
 			type="fabrikeditor"
 			mode="php"
 			description="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_DESC"
 			label="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_LABEL" />
-			
+
 		<field name="join_desc_column"
 			type="listfields"
 			connection="params_join_conn_id"
 			description="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_DESC"
 			label="PLG_ELEMENT_DBJOIN_DESCRIPTION_FIELD_LABEL"
 			table="params_join_db_name" />
-		
+
 		<field name="dbjoin_options_per_row"
 			type="width"
 			class="input-mini"
@@ -212,7 +221,7 @@
 			description="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_DESC"
 			label="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_LABEL"
 			size="2" />
-			
+
 		<field name="dbjoin_multilist_size"
 			type="field"
 			class="input-mini"
@@ -235,15 +244,16 @@
 			description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_DESC"
 			label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_LABEL" >
 				<option value="contains">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_CONTAINS</option>
+				<option value="words">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_WORDS</option>
 				<option value="starts_with">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_STARTS_WITH</option>
 		</field>
-		
+
 		<field name="bootstrap_class"
 			default="input-large"
 			type="bootstrapfieldclass"
 			description="PLG_ELEMENT_DBJOIN_CLASS_DESC"
 			label="PLG_ELEMENT_DBJOIN_CLASS_LABEL" />
-					
+
 	</fieldset>
 	</fields>
 </form>
