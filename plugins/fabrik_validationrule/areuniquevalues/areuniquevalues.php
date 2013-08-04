@@ -4,13 +4,13 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.validationrule.areuniquevalues
- * @author      Lieven Gryp <dont@know.com>
- * @copyright   Copyright (C) 2005 Fabrik & Lieven Gryp. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @author      Lieven Gryp
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com & Lieven Gryp - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';

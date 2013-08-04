@@ -2,21 +2,21 @@
 /**
  * Post content to twitter: JForm Element
  *
+ * @package     Joomla.Plugin
+ * @subpackage  Fabrik.form.twiter
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ *
  * NOTE - as we can only have one addpath file specified for the params group, this file has to be located
  * in the main ./administrator/components/com_fabrik/models/fields folder.  So until we work out how to do the install
  * XML magic to relocate this file on install, we have simply made a copy of it in the admin location in SVN.
  * If you edit the copy in the plugin folder, please be sure to also modify the copy in the admin folder.
- *
- * @package     Joomla.Plugin
- * @subpackage  Fabrik.form.twiter
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 
 /**
  * Renders a twitter sign in button

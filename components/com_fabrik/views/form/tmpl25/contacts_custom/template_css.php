@@ -4,12 +4,11 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
- ?>
-<?php
+
 header('Content-type: text/css');
 $c = (int) $_REQUEST['c'];
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'form';
@@ -17,8 +16,6 @@ echo "
 #{$view}_$c .fabrikElement {
 	margin-left: 10px;
 }
-
-
 
 #{$view}_$c .fabrikLabel {
 	width: 100px;

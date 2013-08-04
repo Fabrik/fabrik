@@ -1,14 +1,14 @@
 <?php
 /**
-* Plugin element to render fields
-* @package fabrikar
-* @author Rob Clayburn
-* @copyright (C) Rob Clayburn
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-*/
+ * Plugin element to render fields
+ * @package fabrikar
+ * @author Rob Clayburn
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_SITE . '/plugins/fabrik_element/fileupload/models/video.php';
 $render = new videoRender;

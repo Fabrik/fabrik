@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Original file: Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+                Enhancements & fixes: Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Utility class for javascript behaviors
@@ -73,7 +75,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
-* @param   bool  $debug  Is debugging mode on? [optional]
+	 * @param   bool  $debug  Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *

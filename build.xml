@@ -785,8 +785,8 @@
 				<replaceregexp flags="gs">
 					<regexp pattern="\&lt;creationDate\&gt;(.*)\&lt;/creationDate\&gt;"/>
 					<substitution expression="\&lt;creationDate\&gt;${createdate}\&lt;/creationDate\&gt;"/>
-			  		<fileset dir="${basedir}">
-			  			<include name="**/administrator/components/com_fabrik/*.xml"/>
+					<fileset dir="${basedir}">
+						<include name="**/administrator/components/com_fabrik/*.xml"/>
 						<include name="**/modules/mod_fabrik_list/mod_fabrik_*.xml"/>
 						<include name="**/modules/mod_fabrik*/mod_fabrik_*.xml"/>
 						<include name="**/plugins/fabrik**/**/*.xml"/>
@@ -801,8 +801,8 @@
 				<replaceregexp flags="gs">
 					<regexp pattern="\&lt;copyright\&gt;(.*)\&lt;/copyright\&gt;"/>
 					<substitution expression="\&lt;copyright\&gt;(C) 2005-${year} fabrikar.com\&lt;/copyright\&gt;"/>
-			  		<fileset dir="${basedir}">
-			  			<include name="**/administrator/components/com_fabrik/*.xml"/>
+					<fileset dir="${basedir}">
+						<include name="**/administrator/components/com_fabrik/*.xml"/>
 						<include name="**/modules/mod_fabrik_list/mod_fabrik_*.xml"/>
 						<include name="**/modules/mod_fabrik*/mod_fabrik_*.xml"/>
 						<include name="**/plugins/fabrik**/**/*.xml"/>
@@ -817,7 +817,7 @@
 				<replaceregexp flags="sg">
 					<regexp pattern="(&lt;extension.*version=&quot;)(\d\.\d)(&quot;\s*&gt;)" />
 					<substitution expression="\1${jversion}\3"/>
-			  		<fileset dir="${basedir}">
+					<fileset dir="${basedir}">
 						<include name="**/administrator/components/com_fabrik/*.xml"/>
 						<include name="**/modules/mod_fabrik*/mod_fabrik_*.xml"/>
 						<include name="**/plugins/fabrik**/**/*.xml"/>
@@ -897,19 +897,19 @@
 		* set the name 'PATH' and then add in the path to git e.g. C:\Program Files (x86)\Git\bin.
 		-->
 		
-		 <exec executable="git" failonerror="true" outputproperty="git.tag">
-		        <arg line="tag"/>
-		    </exec> 
-		     <script language="javascript"><![CDATA[
-		//get the two most recent tags to get the diff
-		var tags = project.getProperty("git.tag").replace("\r", "").split("\n"),
-		curTag = tags[tags.length-3],//was -1 but need to ignore  3.0a and 30.b
-		priorTag = tags[tags.length-4]; //was -2 but need to ignore 3.0a and 30.b
-		project.setProperty("project.current", curTag);
-		project.setProperty("project.previous", priorTag);
-		project.setProperty("git.log.range", priorTag + ".." + curTag);
-		
-		project.setProperty("git.tags", tags.join(','));
+		<exec executable="git" failonerror="true" outputproperty="git.tag">
+			<arg line="tag"/>
+		</exec> 
+		<script language="javascript"><![CDATA[
+			//get the two most recent tags to get the diff
+			var tags = project.getProperty("git.tag").replace("\r", "").split("\n"),
+			curTag = tags[tags.length-3],//was -1 but need to ignore  3.0a and 30.b
+			priorTag = tags[tags.length-4]; //was -2 but need to ignore 3.0a and 30.b
+			project.setProperty("project.current", curTag);
+			project.setProperty("project.previous", priorTag);
+			project.setProperty("git.log.range", priorTag + ".." + curTag);
+			
+			project.setProperty("git.tags", tags.join(','));
 		]]></script>
 	</target>
 	

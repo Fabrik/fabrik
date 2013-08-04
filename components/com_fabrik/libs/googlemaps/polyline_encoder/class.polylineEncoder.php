@@ -1,17 +1,19 @@
 <?php
 /**
- *
- * $$$ hugh - hacked around for Fabrik use, to allow using the 'radius widget' in static maps.
- * Fixed a bunch of undefined notices, and added the GMapCircle() method.
- *
  * PolylineEncoder based on Mark McClure's Javascript PolylineEncoder
  * and Jim Hribar's PHP version. All nicely melted into a proper PHP5 class.
  *
  * @package     Google Maps Helpers
  * @since       2008-12-02
  * @author      Matthias Bauer <matthias@pulpmedia.at>
- * @copyright	  2008, Pulpmedia Medientechnik und -design GmbH
  * @see 		    http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
+ * @copyright	  Original file: 2008, Pulpmedia Medientechnik und -design GmbH
+ *              Enhancements and fixes:  Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ */
+
+ /**
+ * $$$ hugh - hacked around for Fabrik use, to allow using the 'radius widget' in static maps.
+ * Fixed a bunch of undefined notices, and added the GMapCircle() method.
  */
 class PolylineEncoder
 {

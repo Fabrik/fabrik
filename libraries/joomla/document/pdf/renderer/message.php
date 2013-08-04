@@ -1,5 +1,7 @@
 <?php
 /**
+ * JDocument system message renderer
+ *
  * @package     Joomla.Platform
  * @subpackage  Document
  *
@@ -7,7 +9,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * JDocument system message renderer

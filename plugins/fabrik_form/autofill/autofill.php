@@ -1,10 +1,16 @@
 <?php
 /**
+ * Form Auto-Fill
+ *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.autofill
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
+
+ // No direct access
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * other records in the table to auto fill in the rest of the form with that records data
  *
@@ -13,12 +19,9 @@
  * @package     Joomla
  * @subpackage  Fabrik
  * @author Rob Clayburn
- * @copyright (C) Rob Clayburn
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @copyright Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';

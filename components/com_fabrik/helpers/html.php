@@ -5,11 +5,12 @@
  * @package     Joomla
  * @subpackage  Fabrik.helpers
  * @copyright   Copyright (C) 2005 Pollen 8 Design Ltd. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.filesystem.file');
 if (!defined('COM_FABRIK_FRONTEND'))
 {

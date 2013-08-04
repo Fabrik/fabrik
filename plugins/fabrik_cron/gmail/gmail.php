@@ -5,12 +5,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.cron.gmail
  * @author      Rob Clayburn
- * @copyright   (C) Rob Clayburn
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
