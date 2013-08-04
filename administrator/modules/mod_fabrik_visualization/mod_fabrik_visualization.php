@@ -1,13 +1,16 @@
 <?php
 /**
+ * Fabrik Visualization module - display a fabrik visualization within a Joomla page
+ *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.filesystem.file');
 
 // Load front end language file as well

@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Abstract Form Field class for the Joomla Platform.

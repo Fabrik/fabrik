@@ -41,8 +41,8 @@
 				show="1" hide="0" toggle="data-labels-in-fieldnames"
 				alt="data-labels-in-data"
 				default="0"
-				label="PLG_FBRIK_VIZ_NV3D_DATA_MODE_LABEL"
-				description="PLG_FBRIK_VIZ_NV3D_DATA_MODE_DESC">
+				label="PLG_FABRIK_VIZ_NV3D_DATA_MODE_LABEL"
+				description="PLG_FABRIK_VIZ_NV3D_DATA_MODE_DESC">
 					<option value="0">PLG_FABRIK_VIZ_NV3D_LABELS_IN_DATA</option>
 					<option value="1">PLG_FABRIK_VIZ_NV3D_LABELS_IN_FIELDNAMES</option>	
 			</field>

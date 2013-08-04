@@ -4,40 +4,38 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
+
+$document = JFactory::getDocument();
+$document->setMetaData("apple-mobile-web-app-capable", "yes");
+$document->setMetaData("viewport", "minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no");
+$document->addStyleSheet('components/com_fabrik/views/list/tmpl/iwebkit/css/style.css');
+$document->addScript('components/com_fabrik/views/list/tmpl/iwebkit/javascript/functions.js');
+$document->addHeadLink('components/com_fabrik/views/list/tmpl/iwebkit/homescreen.png', 'apple-touch-icon');
+$document->addHeadLink('components/com_fabrik/views/list/tmpl/iwebkit/startup.png', 'apple-touch-startup-image');
+
+$script = "window.addEvent('fabrik.loaded', function() {
+	document.getElement('body').addClass('list');
+});";
+FabrikHelperHTML::addScriptDeclaration($script);
 ?>
-<?php
-  	$document = JFactory::getDocument();
-  	$document->setMetaData("apple-mobile-web-app-capable", "yes");
-  	$document->setMetaData("viewport", "minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no");
-  	$document->addStyleSheet('components/com_fabrik/views/list/tmpl/iwebkit/css/style.css');
-  	$document->addScript('components/com_fabrik/views/list/tmpl/iwebkit/javascript/functions.js');
-		$document->addHeadLink('components/com_fabrik/views/list/tmpl/iwebkit/homescreen.png', 'apple-touch-icon');
-		$document->addHeadLink('components/com_fabrik/views/list/tmpl/iwebkit/startup.png', 'apple-touch-startup-image');
-
-		$script = "window.addEvent('fabrik.loaded', function() {
-			document.getElement('body').addClass('list');
-		});";
-		FabrikHelperHTML::addScriptDeclaration($script);
-
-		?>
-		<div id="topbar">
-  <div id="title">
+<div id="topbar">
+	<div id="title">
 
 		<?php
-if ($this->params->get('show_page_heading', 1)) { ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_heading')); ?></div>
-<?php } ?>
+		if ($this->params->get('show_page_heading', 1)) { ?>
+			<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_heading')); ?></div>
+		<?php } ?>
 
-<?php if ($this->getModel()->getParams()->get('show-title', 1)) {?>
-	<?php echo $this->table->label;?>
-<?php }?>
-</div>
+		<?php if ($this->getModel()->getParams()->get('show-title', 1)) {?>
+			<?php echo $this->table->label;?>
+		<?php }?>
+	</div>
 </div>
 <?php echo $this->table->intro;?>
 <form class="fabrikForm" action="<?php echo $this->table->action;?>" method="post" id="<?php echo $this->formid;?>" name="fabrikList">

@@ -5,7 +5,7 @@
  * @package     Joomla
  * @subpackage  Fabrik
  * @copyright   Copyright (C) 2005 Pollen 8 Design Ltd. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access

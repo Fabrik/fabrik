@@ -1,13 +1,17 @@
 <?php
 /**
+ * Utility class for javascript behaviors
+ *
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Original file: Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+                Enhancements & fixes: Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Utility class for javascript behaviors
@@ -32,8 +36,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
-		
-		// $$$ rob this is to stop mootools from being re-loaded when in an ajax loaded page, as that 
+
+		// $$$ rob this is to stop mootools from being re-loaded when in an ajax loaded page, as that
 		// resets the window events, stopping Fabriks mediator js system from working (e.g. fabrik.form.submitted will not
 		// fire the events added when the url initially loads.)
 		if (FabrikHelperHTML::inAjaxLoadedPage()) {

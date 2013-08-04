@@ -4,8 +4,8 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  System
- * @copyright   Copyright (C) 2005 - 2008 Pollen 8 Design Ltd. All rights reserved.
- * @license     GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access

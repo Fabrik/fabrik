@@ -1,15 +1,15 @@
 <?php
 /**
- *  Amazon s3 Storage adaptor for Fabrik file upload element
+ * Amazon s3 Storage adaptor for Fabrik file upload element
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_ROOT . '/plugins/fabrik_element/fileupload/adaptor.php';
 
