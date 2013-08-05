@@ -111,7 +111,7 @@ class FlashRender
 				$thumb_path = COM_FABRIK_BASE . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
 				if (JFile::exists($thumb_path))
 				{
-					$thumb_file = COM_FABRIK_LIVESITE . '/' . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
+					$thumb_file = COM_FABRIK_LIVESITE . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
 				}
 				else
 				{

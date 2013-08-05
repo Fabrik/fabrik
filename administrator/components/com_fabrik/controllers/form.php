@@ -233,7 +233,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 		}
 		if ($input->get('format') == 'raw')
 		{
-			$url = COM_FABRIK_LIVESITE . '/index.php?option=com_fabrik&view=list&format=raw&listid=' . $tid;
+			$url = COM_FABRIK_LIVESITE . 'index.php?option=com_fabrik&view=list&format=raw&listid=' . $tid;
 			$this->setRedirect($url, $msg);
 		}
 		else

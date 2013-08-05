@@ -54,7 +54,7 @@ $this->group = $group;
 			if ($display === 0) :
 				$display = $c;
 			endif;
-			$errorstyle = 'style="background:#EFE7B8 url('.COM_FABRIK_LIVESITE.'/media/com_fabrik/images/alert.png) no-repeat scroll left 7px !important;padding-left:40px;"';
+			$errorstyle = 'style="background:#EFE7B8 url(' . COM_FABRIK_LIVESITE .'media/com_fabrik/images/alert.png) no-repeat scroll left 7px !important;padding-left:40px;"';
 			break;
 		endif;
 	endforeach;

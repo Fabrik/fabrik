@@ -153,7 +153,7 @@ class FabrikViewCalendar extends JViewLegacy
 		}
 		else
 		{
-			$options->buttons = '<img src="' . COM_FABRIK_LIVESITE + '/plugins/fabrik_visualization/calendar/views/calendar/tmpl/' . $tpl . '/images/minus-sign.png"
+			$options->buttons = '<img src="' . COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/calendar/views/calendar/tmpl/' . $tpl . '/images/minus-sign.png"
 				alt = "del" class="fabrikDeleteEvent" />' . JText::_('PLG_VISUALIZATION_CALENDAR_DELETE');
 		}
 		$json = json_encode($options);

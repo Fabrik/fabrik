@@ -77,7 +77,7 @@ class FileRender
 		// instead of just putting the filename.
 		if ($params->get('make_thumbnail', false) && JFile::exists($thumb_path))
 		{
-			$thumb_file = COM_FABRIK_LIVESITE . "/media/com_fabrik/images/" . $ext . ".png";
+			$thumb_file = COM_FABRIK_LIVESITE . "media/com_fabrik/images/" . $ext . ".png";
 			$this->output .= "<a class=\"download-archive fabrik-filetype-$ext\" title=\"$file\" href=\"$file\"><img src=\"$thumb_file\" alt=\"$filename\"></a>";
 		}
 		else
