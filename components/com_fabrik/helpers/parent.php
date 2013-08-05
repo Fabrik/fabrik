@@ -1155,23 +1155,23 @@ class FabrikWorker
 		{
 			return;
 		}
+		$enqMsgType = 'error';
+		$indentHTML = '<br/>&nbsp;&nbsp;&nbsp;&nbsp;Debug:&nbsp;';
 		$app = JFactory::getApplication();
+		$errString = JText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING');
 		if (FabrikHelperHTML::isDebug())
 		{
 			// Give a technical error message to the developer
 			if (version_compare(phpversion(), '5.2.0', '>=') and $error = error_get_last() and is_array($error))
 			{
-				$app->enqueueMessage(sprintf($msg, $error['message']), 'notice');
+				$errString .= $indentHTML . sprintf($msg, $error['message']);
 			}
 			else
 			{
-				$app->enqueueMessage(sprintf($msg, "unknown error"), 'notice');
+				$errString .= $indentHTML . sprintf($msg, "unknown error - php version < 5.2.0");
 			}
 		}
-		else
-		{
-			$app->enqueueMessage(JText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING'), 'notice');
-		}
+		$app->enqueueMessage($errString, $enqMsgType);
 	}
 
 	/**
