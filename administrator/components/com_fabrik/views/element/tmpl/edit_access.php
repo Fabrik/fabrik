@@ -4,15 +4,15 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
 
 // No direct access
-defined('_JEXEC') or die;
-?>
-<?php echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUP_LABAEL_RULES_DETAILS'), 'element-access');?>
+defined('_JEXEC') or die('Restricted access');
+
+echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUP_LABAEL_RULES_DETAILS'), 'element-access');?>
 <fieldset class="adminform">
 	<ul class="adminformlist">
 	<?php

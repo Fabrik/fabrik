@@ -3,8 +3,9 @@
  * @version		$Id: atom.php 11687 2009-03-11 17:49:23Z ian $
  * @package     Joomla.Framework
  * @subpackage  Fabrik Documents
-* @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
-* @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ *
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -12,10 +13,8 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
-
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package 	Joomla.Framework
