@@ -1,3 +1,10 @@
+/**
+ * Admin Fabrik Tables Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var fabriktablesElement = new Class({
 
 	Implements: [Options, Events],
@@ -43,15 +50,15 @@ var fabriktablesElement = new Class({
 			return;
 		}
 		this.loader = document.id(this.el.id + '_loader');
-		
+
 		this.cnn.addEvent('change', function (e) {
 			this.updateMe(e);
 		}.bind(this));
-		
+
 		this.el.addEvent('change', function (e) {
 			this.updateElements(e);
 		}.bind(this));
-	
+
 		// see if there is a connection selected
 		var v = this.cnn.get('value');
 		if (v !== '' && v !== -1) {
@@ -114,11 +121,11 @@ var fabriktablesElement = new Class({
 				console.log('fabriktables request exception', headerName, value);
 			}.bind(this)
 		});
-		
+
 		/*
 		 * Use Fabrik.requestQueue rather than myAjax.send()
 		 * as it is polled on form save to ensure that elements are not in a loading state
-		 */ 
+		 */
 		Fabrik.requestQueue.add(myAjax);
 	},
 
@@ -152,7 +159,7 @@ var fabriktablesElement = new Class({
 				var cid = this.cnn.get('value');
 				this.elementLists.set(key, '');
 				//var url = this.options.livesite + 'index.php?option=com_fabrik&format=raw&view=plugin&task=pluginAjax&g=visualization&plugin=chart&method=ajax_fields&k=2&t=' + table + '&cid=' + cid;
-				
+
 				var ajaxopts = {
 					'option': 'com_fabrik',
 					'format': 'raw',
@@ -179,7 +186,7 @@ var fabriktablesElement = new Class({
 							this.waitingElements[key].erase(i);
 						}.bind(this));
 					}.bind(this),
-					
+
 					onFailure: function (r) {
 						this.waitingElements.get(key).each(function (el, i) {
 							this.updateElementOptions('[]', el);
@@ -200,11 +207,11 @@ var fabriktablesElement = new Class({
 		if (r === '') {
 			return;
 		}
-		
+
 		var table = document.id(this.el).get('value');
 		var key = element.getOpts().getValues().toString() + ',' + table;
 		var opts = eval(r);
-		
+
 		if (element.el.get('tag') === 'textarea') {
 			target = element.el.getParent().getElement('select');
 		} else {
@@ -231,7 +238,7 @@ var fabriktablesElement = new Class({
 		if (this.loader) {
 			this.loader.hide();
 		}
-		
+
 	},
 	// only called from repeat viz admin interface i think
 	cloned : function (newid, counter) {

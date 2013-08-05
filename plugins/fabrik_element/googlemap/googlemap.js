@@ -1,3 +1,10 @@
+/**
+ * Googlemap Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 /** call back method when maps api is loaded*/
 function googlemapload() {
 	if (typeOf(Fabrik.googleMapRadius) === 'null') {
@@ -19,7 +26,7 @@ function googleradiusloaded() {
 		window.fireEvent('google.radius.loaded');
 	} else {
 		console.log('no body');
-	}	
+	}
 }
 
 var FbGoogleMap = new Class({
@@ -50,16 +57,16 @@ var FbGoogleMap = new Class({
 		'reverse_geocode': false,
 		'styles': []
 	},
-	
+
 	loadScript: function () {
 		var s = this.options.sensor === false ? 'false' : 'true';
 		Fabrik.loadGoogleMap(s, 'googlemapload');
 	},
-	
+
 	initialize: function (element, options) {
 		this.mapMade = false;
 		this.parent(element, options);
-		
+
 		this.loadFn = function () {
 			switch (this.options.maptype) {
 			case 'G_SATELLITE_MAP':
@@ -78,7 +85,7 @@ var FbGoogleMap = new Class({
 				break;
 			}
 			this.makeMap();
-			
+
 			// @TODO test google object when offline typeOf(google) isnt working
 			if (this.options.center === 1 && this.options.rowid === 0) {
 				if (geo_position_js.init()) {
@@ -89,19 +96,19 @@ var FbGoogleMap = new Class({
 					fconsole('Geo locaiton functionality not available');
 				}
 			}
-			
+
 		}.bind(this);
-		
+
 		this.radFn = function () {
 			this.makeRadius();
 		}.bind(this);
-		
+
 		window.addEvent('google.map.loaded', this.loadFn);
 		window.addEvent('google.radius.loaded', this.radFn);
-		
+
 		this.loadScript();
 	},
-	
+
 	/**
 	 * Called when form closed in ajax window
 	 */
@@ -122,7 +129,7 @@ var FbGoogleMap = new Class({
 			return;
 		}
 		this.mapMade = true;
-		
+
 		if (typeof(this.map) !== 'undefined') {
 			return;
 		}
@@ -150,7 +157,7 @@ var FbGoogleMap = new Class({
 
 			var zoomControl =  this.options.control === '' ? false : true;
 			var zoomControlStyle = this.options.control === 'GSmallMapControl' ? google.maps.ZoomControlStyle.SMALL : google.maps.ZoomControlStyle.LARGE;
-		
+
 			var mapOpts = {
 					center: new google.maps.LatLng(this.options.lat, this.options.lon),
 					zoom: this.options.zoomlevel.toInt(),
@@ -237,12 +244,12 @@ var FbGoogleMap = new Class({
 											if (this.options.reverse_geocode_fields.route) {
 												document.id(this.options.reverse_geocode_fields.route).value = component.long_name;
 											}
-										}	
+										}
 										else if (type === 'neighborhood') {
 											if (this.options.reverse_geocode_fields.neighborhood) {
 												document.id(this.options.reverse_geocode_fields.neighborhood).value = component.long_name;
 											}
-										}	
+										}
 										else if (type === 'locality') {
 											if (this.options.reverse_geocode_fields.city) {
 												document.id(this.options.reverse_geocode_fields.locality).value = component.long_name;
@@ -272,7 +279,7 @@ var FbGoogleMap = new Class({
 						} else {
 							alert("Geocoder failed due to: " + status);
 						}
-					}.bind(this));						
+					}.bind(this));
 				}
 			}.bind(this));
 			google.maps.event.addListener(this.map, "zoom_changed", function (oldLevel, newLevel) {
@@ -300,9 +307,9 @@ var FbGoogleMap = new Class({
 	},
 
 	radiusUpdatePosition: function () {
-		
+
 	},
-	
+
 	radiusUpdateDistance: function () {
 		if (this.options.radius_write_element) {
 			var distance = this.distanceWidget.get('distance');
@@ -314,7 +321,7 @@ var FbGoogleMap = new Class({
 
 		}
 	},
-	
+
 	radiusActiveChanged: function () {
 		// fired by the radius widget when move / drag operation is complete
 		// so let's fire the write element's change event.  Don't do this in updateDistance,
@@ -323,9 +330,9 @@ var FbGoogleMap = new Class({
 			if (!this.distanceWidget.get('active')) {
 				document.id(this.options.radius_write_element).fireEvent('change', new Event.Mock(document.id(this.options.radius_write_element), 'change'));
 			}
-		}		
+		}
 	},
-	
+
 	radiusSetDistance: function () {
 		if (this.options.radius_read_element) {
 			var distance = document.id(this.options.radius_read_element).value;
@@ -338,7 +345,7 @@ var FbGoogleMap = new Class({
 			this.distanceWidget.set('center', center);
 		}
 	},
-	
+
 	makeRadius: function () {
 		if (this.options.use_radius) {
 			if (this.options.radius_read_element && this.options.repeatCounter > 0) {
@@ -386,13 +393,13 @@ var FbGoogleMap = new Class({
 			this.radiusAddActions();
 		}
 	},
-	
+
 	radiusAddActions: function () {
 		if (this.options.radius_read_element) {
 			document.id(this.options.radius_read_element).addEvent('change', this.radiusSetDistance.bind(this));
 		}
 	},
-	
+
 	updateFromLatLng: function () {
 		var lat = this.element.getElement('.lat').get('value').replace('° N', '').toFloat();
 		var lng = this.element.getElement('.lng').get('value').replace('° E', '').toFloat();
@@ -545,7 +552,7 @@ var FbGoogleMap = new Class({
 						f.addEvent('keyup', function (e) {
 							this.geoCode();
 						}.bind(this));
-						
+
 						// Select lists, radios whatnots
 						f.addEvent('change', function (e) {
 							this.geoCode();
@@ -566,7 +573,7 @@ var FbGoogleMap = new Class({
 				this.element.getElement('.geocode').addEvent('click', function (e) {
 					this.geoCode(e);
 				}.bind(this));
-				
+
 				// Stop enter in geocode field submitting the form.
 				this.element.getElement('.geocode_input').addEvent('keypress', function (e) {
 					if (e.key === 'enter') {
@@ -640,21 +647,21 @@ var FbGoogleMap = new Class({
 	geoCenterErr: function (p) {
 		fconsole('geo location error=' + p.message);
 	},
-	
+
 	redraw: function () {
 		google.maps.event.trigger(this.map, 'resize');
 		var center = new google.maps.LatLng(this.options.lat, this.options.lon);
 		this.map.setCenter(center);
 		this.map.setZoom(this.map.getZoom());
 	},
-	
+
 	/*
 	 * Testing some stuff to try and get maps to display properly when they are in the
 	 * tab template.  If a map is in a tab which isn't selected on page load, the map
 	 * will not render properly, and needs to be refreshed when the tab it is in is selected.
 	 * NOTE that this stuff is very specific to the Fabrik tabs template, using J!'s tabs.
 	 */
-    
+
 	doTab: function (event) {
 		(function () {
 			this.redraw();
@@ -665,7 +672,7 @@ var FbGoogleMap = new Class({
 			}
 		}.bind(this)).delay(500);
 	},
-    
+
 	watchTab: function () {
 		var c = Fabrik.bootstrapped ? '.tab-pane' : '.current',
 		a, tab_dl;

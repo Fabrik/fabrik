@@ -1,5 +1,12 @@
+/**
+ * Admin SwapList Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var SwapList = new Class({
-	
+
 	initialize: function (from, to, addbutton, removebutton, upbutton, downbutton) {
 		this.from = document.id(from);
 		this.to = document.id(to);
@@ -10,23 +17,23 @@ var SwapList = new Class({
 				this.addSelectedToList(this.from, this.to);
 				this.delSelectedFromList(this.from);
 			}.bind(this));
-			
+
 			document.id(removebutton).addEvent('click', function (e) {
 				e.stop();
 				this.addSelectedToList(this.to, this.from);
 				this.delSelectedFromList(this.to);
 			}.bind(this));
-			
+
 			document.id(upbutton).addEvent('click', function (e) {
 				e.stop();
 				this.moveInList(-1);
 			}.bind(this));
-			
+
 			document.id(downbutton).addEvent('click', function (e) {
 				e.stop();
 				this.moveInList(+1);
 			}.bind(this));
-			
+
 			document.id('adminForm').onsubmit = function (e) {
 				this.to.getElements('option').each(function (opt) {
 					opt.selected = true;
@@ -54,8 +61,8 @@ var SwapList = new Class({
 				to.options[to.length] = opt;
 			}
 		}
-	}, 
-	
+	},
+
 	delSelectedFromList: function (from) {
 		var srcLen = from.length;
 		for (var i = srcLen - 1; i > -1; i--) {
@@ -64,7 +71,7 @@ var SwapList = new Class({
 			}
 		}
 	},
-	
+
 	moveInList: function (to) {
 		var srcList = this.to;
 		var index = this.to.selectedIndex;

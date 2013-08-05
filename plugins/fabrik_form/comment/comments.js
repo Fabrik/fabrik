@@ -1,7 +1,14 @@
+/**
+ * Form Comment
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FabrikComment = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	getOptions: function () {
 		return {
 			'formid': 0,
@@ -22,7 +29,7 @@ var FabrikComment = new Class({
 		this.spinner = new Spinner('fabrik-comments', {'message': 'loading'});
 		this.ajax = {};
 		this.ajax.deleteComment = new Request({
-			'url': '', 
+			'url': '',
 			'method': 'get',
 			'data': {
 				'option': 'com_fabrik',
@@ -39,7 +46,7 @@ var FabrikComment = new Class({
 			}.bind(this)
 		});
 		this.ajax.updateComment = new Request({
-			'url': '', 
+			'url': '',
 			'method': 'post',
 			'data': {
 				'option': 'com_fabrik',
@@ -88,7 +95,7 @@ var FabrikComment = new Class({
 	watchInput : function () {
 
 		this.ajax.addComment = new Request({
-			'url': 'index.php', 
+			'url': 'index.php',
 			'method': 'get',
 			'data': {
 				'option': 'com_fabrik',
@@ -101,16 +108,16 @@ var FabrikComment = new Class({
 				'rowid': this.options.rowid,
 				'label': this.options.label
 			},
-			
+
 			'onSuccess': function (r) {
 				this.ajaxComplete(r);
 			}.bind(this),
-			
+
 			'onError': function (text, error) {
 				fconsole(text + ": " + error);
 				this.spinner.hide();
 			}.bind(this),
-			
+
 			'onFailure': function (xhr) {
 				alert(xhr.statusText);
 				this.spinner.hide();
@@ -125,7 +132,7 @@ var FabrikComment = new Class({
 			f.getElement('button.submit').addEvent('click', function (e) {
 				this.doInput(e);
 			}.bind(this));
-			
+
 			input.addEvent('click', function (e) {
 				this.testInput(e);
 			}.bind(this));
@@ -138,7 +145,7 @@ var FabrikComment = new Class({
 			e.target.value = '';
 		}
 	},
-	
+
 	updateDigg: function () {
 		if (typeOf(this.digg) !== 'null') {
 			this.digg.removeEvents();
@@ -174,7 +181,7 @@ var FabrikComment = new Class({
 			alert(Joomla.JText._('PLG_FORM_COMMENT_PLEASE_ENTER_A_COMMENT_BEFORE_POSTING'));
 			return;
 		}
-		
+
 		var name = replyform.getElement('input[name=name]');
 		if (name) {
 			var namestr = name.get('value');
@@ -225,7 +232,7 @@ var FabrikComment = new Class({
 
 	saveComment : function (div) {
 		var id = div.getParent('.comment').id.replace('comment-', '');
-		
+
 		this.ajax.updateComment.options.data.comment_id = id;
 		// @TODO causing an error when saving inline edit
 		/*if (typeOf(comment_plugin_notify) !== 'null') {

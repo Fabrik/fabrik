@@ -1,10 +1,17 @@
+/**
+ * Labels
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 /*jshint mootools: true */
 /*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true,head:true */
 
 var Labels = new Class({
-	
+
 	Implements: [Events],
-	
+
 	initialize: function () {
 		$$('.fabrikElementContainer').each(function (c) {
 			var label = c.getElement('label');
@@ -15,11 +22,11 @@ var Labels = new Class({
 				}
 				if (typeOf(input) !== 'null') {
 					input.value = label.innerHTML;
-					
+
 					input.addEvent('click', function (e) {
 						this.toogleLabel(e, input, label.innerHTML);
 					}.bind(this));
-					
+
 					input.addEvent('blur', function (e) {
 						this.toogleLabel(e, input, label.innerHTML);
 					}.bind(this));
@@ -29,7 +36,7 @@ var Labels = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	toogleLabel: function (e, input, label) {
 		new Event(e).stop();
 		if (e.type === 'click') {
@@ -42,7 +49,7 @@ var Labels = new Class({
 			}
 		}
 	}
-       
+
 });
 
 window.addEvent('fabrik.loaded', function () {

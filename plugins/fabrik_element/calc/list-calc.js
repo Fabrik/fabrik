@@ -1,10 +1,10 @@
-
-
 /**
- * @package Joomla!
- * @subpackage JavaScript
- * @since 1.5
+ * Calc Element - List
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
+
 var FbCalcList = new Class({
 
 	options: {
@@ -36,7 +36,7 @@ var FbCalcList = new Class({
 				'rows' : this.list.getRowIds(),
 				'elementname' : this.options.elid
 			};
-		
+
 		new Request.JSON({
 			url: '',
 			data: data,
@@ -50,5 +50,5 @@ var FbCalcList = new Class({
 			}.bind(this)
 		}).send();
 	}
-	
+
 });

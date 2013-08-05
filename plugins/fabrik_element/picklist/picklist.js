@@ -1,3 +1,10 @@
+/**
+ * PickList Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbPicklist = new Class({
 	Extends : FbElement,
 	initialize : function (element, options) {
@@ -8,7 +15,7 @@ var FbPicklist = new Class({
 		}
 		var from = document.id(this.options.element + '_fromlist');
 		var to =  document.id(this.options.element + '_tolist');
-		
+
 		var dropcolour = from.getStyle('background-color');
 		var that = this;
 		this.sortable = new Sortables([ from, to ], {
@@ -23,10 +30,10 @@ var FbPicklist = new Class({
 			}.bind(this),
 			onSort: function (element, clone) {
 				this.showNotices(element, clone);
-				
+
 			}.bind(this),
-			
-			
+
+
 			onStart : function (element, clone) {
 				this.drag.addEvent('onEnter', function (element, droppable) {
 					if (this.lists.contains(droppable)) {
@@ -41,12 +48,12 @@ var FbPicklist = new Class({
 				}.bind(this));
 			}
 		});
-		
+
 		var notices = [from.getElement('li.emptyplicklist'), to.getElement('li.emptyplicklist')];
 		this.sortable.removeItems(notices);
 		this.showNotices();
 	},
-	
+
 	fadeOut: function (droppable, colour) {
 		var hoverFx = new Fx.Tween(droppable, {
 			wait : false,
@@ -54,7 +61,7 @@ var FbPicklist = new Class({
 		});
 		hoverFx.start('background-color', colour);
 	},
-	
+
 	showNotices: function (element, clone) {
 		if (element) {
 			element = element.getParent('ul');
@@ -71,10 +78,10 @@ var FbPicklist = new Class({
 	},
 
 	setData: function () {
-		
+
 		var to = document.id(this.options.element + '_tolist');
 		var lis = to.getElements('li');
-		
+
 		var v = lis.map(
 				function (item, index) {
 					return item.id

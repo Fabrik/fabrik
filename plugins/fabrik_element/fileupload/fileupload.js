@@ -1,3 +1,10 @@
+/**
+ * File Upload Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbFileUpload = new Class({
 	Extends : FbFileElement,
 	initialize : function (element, options) {
@@ -7,11 +14,11 @@ var FbFileUpload = new Class({
 		if (this.options.folderSelect === "1" && this.options.editable === true) {
 			this.ajaxFolder();
 		}
-		
+
 		this.submitEvent = function (form, json) {
 			this.onSubmit(form);
 		}.bind(this);
-		
+
 		Fabrik.addEvent('fabrik.form.submit.start', this.submitEvent);
 		if (this.options.ajax_upload && this.options.editable !== false) {
 			this.watchAjax();
@@ -29,7 +36,7 @@ var FbFileUpload = new Class({
 						response : JSON.encode(response)
 					});
 					document.id(file.id).getElement('.plupload_file_status  .bar').setStyle('width', '100%').addClass('bar-success');
-					//document.id(file.id).getElement('.plupload_file_size').set('text', file.size);					
+					//document.id(file.id).getElement('.plupload_file_size').set('text', file.size);
 				}.bind(this));
 				//this.uploader.trigger('Init'); //no as this creates a second div interface
 				// hack to reposition the hidden input field over the 'ad' button
@@ -42,10 +49,10 @@ var FbFileUpload = new Class({
 				}
 			}
 		}
-		
+
 		this.watchDeleteButton();
 	},
-	
+
 	/**
 	 * Single file uploads can allow the user to delee the reference and/or file
 	 */
@@ -87,13 +94,13 @@ var FbFileUpload = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	/**
 	 * Sets the element key used in Fabrik.blocks.form_X.formElements
-	 * overwritten by dbjoin rendered as checkbox 
-	 * 
+	 * overwritten by dbjoin rendered as checkbox
+	 *
 	 * @since   3.0.7
-	 * 
+	 *
 	 * @return  string
 	 */
 
@@ -114,7 +121,7 @@ var FbFileUpload = new Class({
 	removeCustomEvents: function () {
 		Fabrik.removeEvent('fabrik.form.submit.start', this.submitEvent);
 	},
-	
+
 	cloned: function (c) {
 		// replaced cloned image with default image
 		if (typeOf(this.element.getParent('.fabrikElement')) === 'null') {
@@ -129,20 +136,20 @@ var FbFileUpload = new Class({
 
 	decloned: function (groupid) {
 		var f = document.id('form_' + this.form.id);
-		
+
 		// erm fabrik_deletedimages is never created why test?
 		var i = f.getElement('input[name=fabrik_deletedimages[' + groupid + ']');
 		if (typeOf(i) === 'null') {
 			this.makeDeletedImageField(groupid, this.options.value).inject(f);
 		}
 	},
-	
+
 	/**
 	 * Create a hidden input which will tell fabrik, upon form submission, to delete the file
-	 * 
+	 *
 	 *  @param  int     groupid  group id
 	 *  @param  string  value    file to delete
-	 *  
+	 *
 	 *  @return  DOM Node - hidden input
 	 */
 	makeDeletedImageField: function (groupid, value) {
@@ -161,7 +168,7 @@ var FbFileUpload = new Class({
 			}
 		}
 	},
-	
+
 	addDropArea: function () {
 		var dropTxt = this.container.getElement('tr.plupload_droptext');
 		if (typeOf(dropTxt) !== 'null') {
@@ -172,7 +179,7 @@ var FbFileUpload = new Class({
 		}
 		this.container.getElement('thead').hide();
 	},
-	
+
 	removeDropArea: function () {
 		var dropTxt = this.container.getElement('tr.plupload_droptext');
 		if (typeOf(dropTxt) !== 'null') {
@@ -197,14 +204,14 @@ var FbFileUpload = new Class({
 		}
 		if (this.options.canvasSupport !== false) {
 			this.widget = new ImageWidget(canvas, {
-				
+
 				'imagedim': {
 					x: 200,
 					y: 200,
 					w: this.options.winWidth,
 					h: this.options.winHeight
 				},
-				
+
 				'cropdim' : {
 					w: this.options.cropwidth,
 					h: this.options.cropheight,
@@ -239,11 +246,11 @@ var FbFileUpload = new Class({
 			// FORCEFULLY NUKE GRACEFUL DEGRADING FALLBACK ON INIT
 			this.pluploadFallback.destroy();
 			this.pluploadContainer.removeClass("fabrikHide");
-			
+
 			if (up.features.dragdrop && up.settings.dragdrop) {
 				this.addDropArea();
 			}
-			
+
 		}.bind(this));
 
 		this.uploader.bind('FilesRemoved', function (up, files) {
@@ -273,7 +280,7 @@ var FbFileUpload = new Class({
 								}.bind(this)
 							}
 						}));
-						
+
 						if (this.isImage(file)) {
 							a = new Element('a.editImage', {
 								'href' : '#',
@@ -298,7 +305,7 @@ var FbFileUpload = new Class({
 						var icon = new Element('td.span1.plupload_resize').adopt(a);
 						var progress = '<div class="progress progress-striped"><div class="bar" style="width: 0%;"></div></div>';
 						var filename = new Element('td.span6.plupload_file_name', {
-						}).adopt(title); 
+						}).adopt(title);
 						var innerli = [filename, icon, new Element('td.span5.plupload_file_status', {
 						}).set('html', progress), del ];
 						this.droplist.adopt(new Element('tr', {
@@ -314,7 +321,7 @@ var FbFileUpload = new Class({
 		this.uploader.bind('UploadProgress', function (up, file) {
 			var f = document.id(file.id);
 			if (typeOf(f) !== 'null') {
-				var bar = document.id(file.id).getElement('.plupload_file_status .bar'); 
+				var bar = document.id(file.id).getElement('.plupload_file_status .bar');
 				bar.setStyle('width', file.percent + '%');
 				if (file.percent === 100) {
 					bar.addClass('bar-success');
@@ -354,10 +361,10 @@ var FbFileUpload = new Class({
 				resizebutton.id = 'resizebutton_' + file.id;
 				resizebutton.store('filepath', response.filepath);
 			}
-			if (this.widget) { 
+			if (this.widget) {
 				this.widget.setImage(response.uri, response.filepath, file.params);
 			}
-			
+
 			// Stores the cropparams which we need to reload the crop widget in the correct state (rotation, zoom, loc etc)
 			new Element('input', {
 				'type' : 'hidden',
@@ -365,14 +372,14 @@ var FbFileUpload = new Class({
 				'id' : 'coords_' + file.id,
 				'value' : JSON.encode(file.params)
 			}).inject(this.pluploadContainer, 'after');
-			
+
 			// Stores the actual crop image data retrieved from the canvas
 			new Element('input', {
 				type: 'hidden',
 				name : this.options.elementName + '[cropdata][' + response.filepath + ']',
 				'id' : 'data_' + file.id
 			}).inject(this.pluploadContainer, 'after');
-			
+
 			// Stores the image id if > 1 fileupload
 			var idvalue = [file.recordid, '0'].pick();
 			new Element('input', {
@@ -383,8 +390,8 @@ var FbFileUpload = new Class({
 			}).inject(this.pluploadContainer, 'after');
 
 			document.id(file.id).removeClass('plupload_file_action').addClass('plupload_done');
-			
-			
+
+
 		}.bind(this));
 
 		// (4) UPLOAD FILES FIRE STARTER
@@ -395,7 +402,7 @@ var FbFileUpload = new Class({
 		// (5) KICK-START PLUPLOAD
 		this.uploader.init();
 	},
-	
+
 	isImage: function (file) {
 		if (typeOf(file.type) !== 'null') {
 			return file.type === 'image';
@@ -411,7 +418,7 @@ var FbFileUpload = new Class({
 		}
 		var id = e.target.getParent().getParent().id.split('_').getLast();// alreadyuploaded_8_13
 		var f = e.target.getParent().getParent().getElement('.plupload_file_name span').get('text');
-		
+
 		// Get a list of all of the uploaders files except the one to be deleted
 		var newFiles = [];
 		this.uploader.files.each(function (f) {
@@ -419,10 +426,10 @@ var FbFileUpload = new Class({
 				newFiles.push(f);
 			}
 		});
-		
+
 		// Update the uploader's files with the new list.
 		this.uploader.files = newFiles;
-		
+
 		// Send a request to delete the file from the server.
 		new Request({
 			url: '',
@@ -447,7 +454,7 @@ var FbFileUpload = new Class({
 		if (document.id('coords_alreadyuploaded_' + this.options.id + '_' + id)) {
 			document.id('coords_alreadyuploaded_' + this.options.id + '_' + id).destroy();
 		}
-		
+
 		if (this.getContainer().getElements('table tbody tr.plupload_delete').length === 0) {
 			this.addDropArea();
 		}
@@ -474,11 +481,11 @@ var FbFileUpload = new Class({
 					return fld.name.contains('[crop]');
 				});
 				f  = f.getLast();
-				
+
 				// $$$ rob - seems reloading ajax fileupload element in ajax form (e.g. from db join add record)
 				// is producing odd effects where old fileupload object constains info to previously uploaded image?
 				if (typeOf(f) !== 'null') {
-					
+
 					// Avoid circular reference in chrome when saving in ajax form
 					var i = image.img;
 					delete(image.img);
@@ -616,7 +623,7 @@ var ImageWidget = new Class({
 					}.bind(this)
 				}
 			});
-	
+
 			this.CANVAS.layers.get('overlay-layer').add(this.overlay);
 		}
 
@@ -635,23 +642,23 @@ var ImageWidget = new Class({
 		this.watchClose();
 		this.win.close();
 	},
-	
+
 	/**
 	 * Add or make active an image in the editor
-	 * 
+	 *
 	 * @param  string  uri  Image URI
 	 * @param  string  filepath  Path to file
 	 * @param  object  params    Initial parameters
 	 */
-	
+
 	setImage: function (uri, filepath, params) {
 		this.activeFilePath = filepath;
 		if (!this.images.has(filepath)) {
-			
+
 			// New image
 			var img = Asset.image(uri, {
 				onLoad: function () {
-					
+
 					var params = this.storeImageDimensions(filepath, img, params);
 					this.img = params.img;
 					this.setInterfaceDimensions(params);
@@ -661,7 +668,7 @@ var ImageWidget = new Class({
 				}.bind(this)
 			});
 		} else {
-			
+
 			// Previously set up image
 			params = this.images.get(filepath);
 			this.img = params.img;
@@ -669,10 +676,10 @@ var ImageWidget = new Class({
 			this.showWin();
 		}
 	},
-	
+
 	/**
 	 * Set rotate, scale, image and crop values for a given image
-	 * 
+	 *
 	 * @param   object  params  Image parameters
 	 */
 	setInterfaceDimensions: function (params) {
@@ -682,7 +689,7 @@ var ImageWidget = new Class({
 		if (this.rotateSlide) {
 			this.rotateSlide.set(params.rotation);
 		}
-		
+
 		if (this.cropperCanvas && params.cropdim) {
 			this.cropperCanvas.x = params.cropdim.x;
 			this.cropperCanvas.y = params.cropdim.y;
@@ -694,17 +701,17 @@ var ImageWidget = new Class({
 		this.imgCanvas.x = typeOf(params.imagedim) !== 'null' ? params.imagedim.x : 0;
 		this.imgCanvas.y = typeOf(params.imagedim) !== 'null' ? params.imagedim.y : 0;
 	},
-	
+
 	/**
 	 * One time call to store initial image crop info in this.images
-	 * 
+	 *
 	 * @param   string   filepath  Path to image
-	 * @param   DOMnode  img       Image - just created 
-	 * @param   params   object    Image parameters  
-	 * 
+	 * @param   DOMnode  img       Image - just created
+	 * @param   params   object    Image parameters
+	 *
 	 * @return  object   Update image parameters
 	 */
-	
+
 	storeImageDimensions: function (filepath, img, params) {
 		img.inject(document.body).hide();
 		params = params ? params : new CloneObject(this.imageDefault, true, []);
@@ -720,7 +727,7 @@ var ImageWidget = new Class({
 		this.images.set(filepath, params);
 		return params;
 	},
-	
+
 	makeImgCanvas: function () {
 		var parent = this;
 		return new CanvasItem({
@@ -748,7 +755,7 @@ var ImageWidget = new Class({
 						//console.log('no parent img', parent);
 						return;
 					}
-						
+
 					var w = this.w * this.scale;
 					var h = this.h * this.scale;
 					var x = this.x - w * 0.5;
@@ -807,7 +814,7 @@ var ImageWidget = new Class({
 			}
 		});
 	},
-	
+
 	makeCropperCanvas: function () {
 		var parent = this;
 		return new CanvasItem({
@@ -898,7 +905,7 @@ var ImageWidget = new Class({
 			}
 		});
 	},
-	
+
 	makeThread: function () {
 		this.CANVAS.addThread(new Thread({
 			id : 'myThread',
@@ -911,11 +918,11 @@ var ImageWidget = new Class({
 			}.bind(this)
 		}));
 	},
-	
+
 	/**
 	 * watch the close button
 	 */
-	
+
 	watchClose: function () {
 		var w = document.id(this.windowopts.id);
 		w.getElement('input[name=close-crop]').addEvent('click', function (e) {
@@ -923,10 +930,10 @@ var ImageWidget = new Class({
 			this.win.close();
 		}.bind(this));
 	},
-	
+
 	/**
 	 * Takes the current active image and creates cropped image data via a canvas element
-	 * 
+	 *
 	 * @param   string  filepath  File path to image to crop. If blank use this.activeFilePath
 	 */
 	storeActiveImageData: function (filepath) {
@@ -940,32 +947,32 @@ var ImageWidget = new Class({
 		var h = this.cropperCanvas.h;
 		x = x - (w / 2);
 		y = y - (h / 2);
-		
+
 		var win = document.id(this.windowopts.id);
 		if (typeOf(win) === 'null') {
 			console.log('storeActiveImageData no window found for ' + this.windowopts.id);
 			return;
 		}
 		var canvas = win.getElement('canvas');
-		
+
 		var target = new Element('canvas', {'width': w + 'px', 'height': h + 'px' }).inject(document.body);
 		var ctx = target.getContext('2d');
-		
+
 		var file = filepath.split('\\').getLast();
 		var f = document.getElements('input[name*=' + file + ']').filter(function (fld) {
 			return fld.name.contains('cropdata');
 		});
-		
-		
+
+
 		ctx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
 		f.set('value', target.toDataURL());
 		target.destroy();
 	},
-	
+
 	/**
 	 * set up and wath the zoom slide and input field
 	 */
-	
+
 	watchZoom: function () {
 		var w = document.id(this.windowopts.id);
 		if (!this.windowopts.crop) {
@@ -991,11 +998,11 @@ var ImageWidget = new Class({
 			this.scaleSlide.set(e.target.get('value'));
 		}.bind(this));
 	},
-	
+
 	/**
 	 * set up and wath the rotate slide and input field
 	 */
-	
+
 	watchRotate: function () {
 		var w = document.id(this.windowopts.id);
 		if (!this.windowopts.crop) {
@@ -1021,7 +1028,7 @@ var ImageWidget = new Class({
 			this.rotateSlide.set(e.target.get('value'));
 		}.bind(this));
 	},
-	
+
 	showWin : function () {
 		this.win = Fabrik.getWindow(this.windowopts);
 		if (typeOf(this.CANVAS) === 'null') {
@@ -1030,10 +1037,10 @@ var ImageWidget = new Class({
 		if (typeOf(this.CANVAS.ctxEl) !== 'null') {
 			this.CANVAS.ctxPos = document.id(this.CANVAS.ctxEl).getPosition();
 		}
-		
+
 		if (typeOf(this.CANVAS.threads) !== 'null') {
 			if (typeOf(this.CANVAS.threads.get('myThread')) !== 'null') {
-				
+
 				// Fixes issue where sometime canvas thread is not started/running so nothing is drawn
 				this.CANVAS.threads.get('myThread').start();
 			}

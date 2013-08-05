@@ -1,15 +1,22 @@
+/**
+ * Textarea Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbTextarea = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		
+
 		this.plugin = 'fabriktextarea';
 		this.parent(element, options);
-		
+
 		// $$$ rob need to slightly delay this as if lots of js loaded (eg maps)
-		// before the editor then the editor may not yet be loaded 
-		
+		// before the editor then the editor may not yet be loaded
+
 		this.periodFn = function () {
-			
+
 			// Seems that tinyMCE isn't created if FbLike element published in form
 			this.getTextContainer();
 			if (typeof tinyMCE !== 'undefined') {
@@ -24,17 +31,17 @@ var FbTextarea = new Class({
 		};
 		this.periodFn.periodical(200, this);
 	},
-	
+
 	unclonableProperties: function ()
 	{
 		var props = this.parent();
 		props.push('container');
 		return props;
 	},
-	
+
 	/**
 	 * Set names/ids/elements ect when the elements group is cloned
-	 * 
+	 *
 	 * @param   int  id  element id
 	 * @since   3.0.7
 	 */
@@ -44,7 +51,7 @@ var FbTextarea = new Class({
 		this.options.element = id;
 		this.options.htmlId = id;
 	},
-	
+
 	watchTextContainer: function ()
 	{
 		if (typeOf(this.element) === 'null') {
@@ -64,7 +71,7 @@ var FbTextarea = new Class({
 				return;
 			}
 			var element = c.getElement('.fabrik_characters_left');
-			
+
 			if (typeOf(element) !== 'null') {
 				this.warningFX = new Fx.Morph(element, {duration: 1000, transition: Fx.Transitions.Quart.easeOut});
 				this.origCol = element.getStyle('color');
@@ -82,23 +89,23 @@ var FbTextarea = new Class({
 			}
 		}
 	},
-	
+
 	/**
 	 * Used to find element when form clones a group
-	 * WYSIWYG text editor needs to return something specific as options.element has to use name 
+	 * WYSIWYG text editor needs to return something specific as options.element has to use name
 	 * and not id.
 	 */
 	getCloneName: function () {
 		var name = this.options.isGroupJoin ? this.options.htmlId : this.options.element;
 		return name;
 	},
-	
+
 	/**
 	 * Run when element cloned in repeating group
-	 * 
+	 *
 	 * @param   int  c  repeat group counter
 	 */
-	
+
 	cloned: function (c) {
 		if (this.options.wysiwyg) {
 			var p = this.element.getParent('.fabrikElement');
@@ -119,18 +126,18 @@ var FbTextarea = new Class({
 		this.watchTextContainer();
 		this.parent(c);
 	},
-	
+
 	/**
 	 * run when the element is decloled from the form as part of a deleted repeat group
 	 */
 	decloned: function (groupid) {
 		if (this.options.wysiwyg) {
 			var id = this.options.isGroupJoin ? this.options.htmlId : this.options.element;
-			tinyMCE.execCommand('mceFocus', false, id);                    
+			tinyMCE.execCommand('mceFocus', false, id);
 			tinyMCE.execCommand('mceRemoveControl', false, id);
 		}
 	},
-	
+
 	getTextContainer: function ()
 	{
 		if (this.options.wysiwyg && this.options.editable) {
@@ -149,7 +156,7 @@ var FbTextarea = new Class({
 		}
 		return this.container;
 	},
-	
+
 	getContent: function ()
 	{
 		if (this.options.wysiwyg) {
@@ -158,7 +165,7 @@ var FbTextarea = new Class({
 			return this.container.value;
 		}
 	},
-	
+
 	setContent: function (c)
 	{
 		if (this.options.wysiwyg) {
@@ -173,16 +180,16 @@ var FbTextarea = new Class({
 		}
 		return null;
 	},
-	
+
 	/**
 	 * For tinymce move the cursor to the end
 	 */
 	moveCursorToEnd: function () {
 		var inst = tinyMCE.getInstanceById(this.element.id);
-		inst.selection.select(inst.getBody(), true); 
+		inst.selection.select(inst.getBody(), true);
 		inst.selection.collapse(false);
 	},
-	
+
 	informKeyPress: function ()
 	{
 		var charsleftEl = this.getContainer().getElement('.fabrik_characters_left');
@@ -202,13 +209,13 @@ var FbTextarea = new Class({
 		}
 		charsleftEl.getElement('span').set('html', charsLeft);
 	},
-	
+
 	/**
 	 * How many content items left (e.g 1 word, 100 characters)
-	 * 
+	 *
 	 * @return int
 	 */
-	
+
 	itemsLeft: function () {
 		var i = 0;
 		var content = this.getContent();
@@ -222,11 +229,11 @@ var FbTextarea = new Class({
 		}
 		return i;
 	},
-	
+
 	/**
 	 * Limit the content based on maxType and max e.g. 100 words, 2000 characters
 	 */
-	
+
 	limitContent: function () {
 		var c;
 		var content = this.getContent();
@@ -239,13 +246,13 @@ var FbTextarea = new Class({
 		}
 		this.setContent(c);
 	},
-	
+
 	/**
 	 * Has the max content limit been reached?
-	 * 
+	 *
 	 * @return bool
 	 */
-	
+
 	limitReached: function () {
 		var content = this.getContent();
 		if (this.options.maxType === 'word') {
@@ -256,12 +263,12 @@ var FbTextarea = new Class({
 			return charsLeft < 0 ? true : false;
 		}
 	},
-	
+
 	reset: function ()
 	{
 		this.update(this.options.defaultVal);
 	},
-	
+
 	update: function (val) {
 		this.getElement();
 		this.getTextContainer();

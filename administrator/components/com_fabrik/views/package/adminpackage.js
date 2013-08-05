@@ -1,9 +1,13 @@
-//controller object for admin interface
-
+/**
+ * Controller object for admin interface
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
 
 AdminPackage = new Class({
 	Extends: Canvas,
-	
+
 	initialize: function (opts) {
 		this.simpleUI();
 		return;
@@ -14,7 +18,7 @@ AdminPackage = new Class({
 		this.selectWindows = {}; //windows to select viz/list/forms
 		// which active blockes have been selected
 		// only used to store newly added blocks
-		this.blocks = this.options.blocks;//{'form':[], 'list':[], 'visualization':[]}; 
+		this.blocks = this.options.blocks;//{'form':[], 'list':[], 'visualization':[]};
 		this.makeBlockMenu();
 		Fabrik.addEvent('fabrik.tab.add', function (e) {
 			this.setDrops(e);
@@ -29,35 +33,35 @@ AdminPackage = new Class({
 		}.bind(this));*/
 		//this.history = new History('undo', 'redo');
 	},
-	
+
 	simpleUI: function () {
 		var source = document.id('list-pick');
 		var target = document.id('blockslist');
 		var addBtn = document.id('add-list');
 		var removeBtn = document.id('remove-list');
-		
+
 		this._swaplistIni(addBtn, removeBtn, source, target);
-		
+
 		source = document.id('form-pick');
 		target = document.id('blocksform');
 		addBtn = document.id('add-form');
 		removeBtn = document.id('remove-form');
 		this._swaplistIni(addBtn, removeBtn, source, target);
-		
+
 	},
-	
+
 	_swaplistIni: function (addBtn, removeBtn, source, target) {
 		addBtn.addEvent('click', function (e) {
 			e.stop();
 			this._swaplist(source, target);
 		}.bind(this));
-		
+
 		removeBtn.addEvent('click', function (e) {
 			e.stop();
 			this._swaplist(target, source);
 		}.bind(this));
 	},
-	
+
 	_swaplist: function (source, target) {
 		var sel = source.getElements('option').filter(function (o) {
 			return o.selected;
@@ -67,11 +71,11 @@ AdminPackage = new Class({
 			o.destroy();
 		});
 	},
-	
+
 	makeBlockMenu : function () {
 		var c = new Element('ul', {
 			'id' : 'typeList'
-		}).adopt([ 
+		}).adopt([
 			new Element('li', {'class' : 'draggable typeList-list'}).adopt([
 				new Element('img', {'src': 'components/com_fabrik/images/header/fabrik-list.png', title: 'Drag this list icon onto a page'}),
 				new Element('div').set('text', 'List')
@@ -85,10 +89,10 @@ AdminPackage = new Class({
 				new Element('div').set('text', 'Visualization')
 			]).store('type', 'visualization')
 		]);
-		
-		c.inject(document.id('packagemenu'), 'before');		
+
+		c.inject(document.id('packagemenu'), 'before');
 	},
-	
+
 	insertPage : function (page, id, label, type, dimensions) {
 		var del, art;
 		if (dimensions.width === 0) {
@@ -112,9 +116,9 @@ AdminPackage = new Class({
 		}
 		label = new Element('span', {'class': 'handlelabel'}).set('text', label);
 		var handle = new Element('div', {'class': 'handle'}).adopt([label, del]);
-		
+
 		var dragger = new Element('div', {'class': 'dragger'});
-		
+
 		var content = new Element('div', {'class': 'itemContent'});
 		var listid = id.split('_')[1];
 		content.adopt(new Element('iframe', {'width': '100%', 'height': '90%', 'src': 'index.php?option=com_fabrik&task=package.listform&iframe=1&tmpl=component&id=' +  listid}));
@@ -128,7 +132,7 @@ AdminPackage = new Class({
 			});
 			c.makeDraggable({'handle': handle, 'container': document.id('packagepages')});
 		}
-		
+
 		c.addEvent('mousedown', function (e) {
 			Fabrik.fireEvent('fabrik.page.add', [c]);
 		});
@@ -161,9 +165,9 @@ AdminPackage = new Class({
 			this.selectWindows[id] = Fabrik.getWindow(opts);
 		}
 	},
-	
+
 	addItem: function (e) {
-		e.stop(); 
+		e.stop();
 		var label = e.target.get('text');
 		this.blocks[this.activeType].push(e.target.id);
 		var id = this.activeType + '_' + e.target.id;
@@ -172,12 +176,12 @@ AdminPackage = new Class({
 		this.pages.getActivePage().insert(id, label, this.activeType, this.insertLocation);
 		this.selectWindows['typeWindow-' + this.activeType].close();
 	},
-	
+
 	deleteItem: function (id) {
 		id = id.split('_');
 		this.blocks[id[0]].erase(id[1]);
 	},
-	
+
 	prepareSave: function () {
 		return;
 		/*var o = {};
@@ -190,5 +194,5 @@ AdminPackage = new Class({
 		o.tabs = t;
 		return o;*/
 	}
-	
+
 });

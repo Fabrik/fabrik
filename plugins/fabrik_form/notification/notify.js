@@ -1,5 +1,12 @@
+/**
+ * List Notification
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var Notify = new Class({
-	
+
 	initialize: function (el, options) {
 		this.options = options;
 		var target = document.id(el);

@@ -1,5 +1,8 @@
 /**
- * @author Robert
+ * Element List
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 /*jshint mootools: true */
@@ -7,9 +10,9 @@
 FbElementList = new Class({
 
 	Extends: FbElement,
-	
+
 	type: 'text', // Sub element type
-	
+
 	initialize: function (element, options) {
 		this.parent(element, options);
 		this.addSubClickEvents();
@@ -19,9 +22,9 @@ FbElementList = new Class({
 			this.watchAdd();
 		}
 	},
-	
+
 	// Get the sub element which are the checkboxes themselves
-	
+
 	_getSubElements: function () {
 		var element = this.getElement();
 		if (!element) {
@@ -31,7 +34,7 @@ FbElementList = new Class({
 		}
 		return this.subElements;
 	},
-	
+
 	addSubClickEvents: function () {
 		this._getSubElements().each(function (el) {
 			el.addEvent('click', function (e) {
@@ -39,25 +42,25 @@ FbElementList = new Class({
 			});
 		});
 	},
-	
+
 	addNewEvent: function (action, js) {
 		if (action === 'load') {
 			this.loadEvents.push(js);
 			this.runLoadEvent(js);
 		} else {
 			c = this.form.form;
-			
+
 			// Addded name^= for http://fabrikar.com/forums/showthread.php?t=30563 (js events to show hide multiple groups)
 			var delegate = action + ':relay(input[type=' + this.type + '][name^=' + this.strElement + '])';
 			c.addEvent(delegate, function (event, target) {
-				
+
 				// As we are delegating the event, and reference to 'this' in the js will refer to the first element
 				// When in a repeat group we want to replace that with a reference to the current element.
 				var elid = target.getParent('.fabrikSubElementContainer').id;
 				var that = this.form.formElements[elid];
 				var subEls = that._getSubElements();
 				if (subEls.contains(target)) {
-					
+
 					// Replace this with that so that the js code runs on the correct element
 					js = js.replace(/this/g, 'that');
 					typeOf(js) === 'function' ? js.delay(0) : eval(js);
@@ -65,14 +68,14 @@ FbElementList = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	checkEnter: function (e) {
 		if (e.key === 'enter') {
 			e.stop();
 			this.startAddNewOption();
 		}
 	},
-	
+
 	startAddNewOption: function () {
 		var c = this.getContainer();
 		var l = c.getElement('input[name=addPicklistLabel]');
@@ -92,14 +95,14 @@ FbElementList = new Class({
 			i.value = val;
 			i.checked = 'checked';
 			if (this.type === 'checkbox') {
-				
+
 				// Remove the last [*] from the checkbox sub option name (seems only these use incremental []'s)
 				var name = i.name.replace(/^(.*)\[.*\](.*?)$/, '$1$2');
 				i.name = name + '[' + (this.subElements.length) + ']';
 			}
 			r.getElement('span').set('text', label);
 			r.inject(this.subElements.getLast().findUp('li'), 'after');
-			
+
 			var index = 0;
 			if (this.type === 'radio') {
 				index = this.subElements.length;
@@ -118,7 +121,7 @@ FbElementList = new Class({
 			}
 		}
 	},
-	
+
 	watchAdd: function () {
 		var val;
 		if (this.options.allowadd === true && this.options.editable !== false) {

@@ -1,16 +1,12 @@
+/**
+ * Various Fabrik JS classes
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 /*jshint mootools: true */
 /*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true $H:true,unescape:true,Asset:true,FloatingTips:true,head:true,IconGenerator:true */
-
-/**
- *  This class is temporarily requied until this patch:
- *  https://github.com/joomla/joomla-platform/pull/1209/files
- *  makes it into the CMS code. Its purpose is to queue ajax requests so they are not
- *  all fired at the same time - which result in db session errors.
- *   
- *  Currently this is called from:
- *  fabriktables.js
- *  
- */
 
 /**
  * Console.log wrapper
@@ -22,21 +18,32 @@ function fconsole(thing) {
 	}
 }
 
+/**
+ * This class is temporarily required until this patch makes it into the CMS code:
+ * https://github.com/joomla/joomla-platform/pull/1209/files
+ * Its purpose is to queue ajax requests so they are not all fired at the same time -
+ * which result in db session errors.
+ *
+ * Currently this is called from:
+ * fabriktables.js
+ *
+ */
+
 RequestQueue = new Class({
-	
+
 	queue: {}, // object of xhr objects
-	
+
 	initialize: function () {
 		this.periodical = this.processQueue.periodical(500, this);
 	},
-	
+
 	add: function (xhr) {
 		var k = xhr.options.url + Object.toQueryString(xhr.options.data) + Math.random();
 		if (!this.queue[k]) {
 			this.queue[k] = xhr;
 		}
 	},
-	
+
 	processQueue: function () {
 		if (Object.keys(this.queue).length === 0) {
 			return;
@@ -51,7 +58,7 @@ RequestQueue = new Class({
 				running = false;
 			}
 		}.bind(this));
-		
+
 		// Find first xhr not run and completed to run
 		$H(this.queue).each(function (xhr, k) {
 			if (!xhr.isRunning() && !xhr.isSuccess() && !running) {
@@ -60,7 +67,7 @@ RequestQueue = new Class({
 			}
 		});
 	},
-	
+
 	empty: function () {
 		return Object.keys(this.queue).length === 0;
 	}
@@ -69,7 +76,7 @@ RequestQueue = new Class({
 Request.HTML = new Class({
 
 	Extends: Request,
-	
+
 	options: {
 		update: false,
 		append: false,
@@ -79,7 +86,7 @@ Request.HTML = new Class({
 			Accept: 'text/html, application/xml, text/xml, */*'
 		}
 	},
-	
+
 	success: function (text) {
 		var options = this.options, response = this.response;
 
@@ -104,7 +111,7 @@ Request.HTML = new Class({
 			if (options.filter) {
 				update.adopt(response.elements);
 			} else {
-				
+
 				update.set('html', response.html);
 			}
 		} else if (options.append) {
@@ -121,7 +128,7 @@ Request.HTML = new Class({
 
 		this.onSuccess(response.tree, response.elements, response.html, response.javascript);
 	}
-	
+
 	/*success: function (text) {
 		var options = this.options, response = this.response;
 		var srcs = text.match(/<script[^>]*>([\s\S]*?)<\/script>/gi);
@@ -142,7 +149,7 @@ Request.HTML = new Class({
 		response.html = text.stripScripts(function (script) {
 			response.javascript = script;
 		});
-		
+
 		var match = response.html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
 		if (match) {
 			response.html = match[1];
@@ -194,16 +201,16 @@ Element.implement({
 });
 
 /**
- * Loading aninimation class, either inline next to an element or 
+ * Loading aninimation class, either inline next to an element or
  * full screen
  */
 
 var Loader = new Class({
-	
+
 	initialize: function (options) {
-		this.spinners = {};			
+		this.spinners = {};
 	},
-	
+
 	getSpinner: function (inline, msg) {
 		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
 		if (typeOf(document.id(inline)) === 'null') {
@@ -216,17 +223,17 @@ var Loader = new Class({
 		}
 		return this.spinners[inline];
 	},
-	
+
 	start: function (inline, msg) {
 		this.getSpinner(inline, msg).position().show();
 	},
-	
+
 	stop: function (inline, msg, keepOverlay) {
 		var s = this.getSpinner(inline, msg);
-		
+
 		// Dont keep the spinner once stop is called - causes issue when loading ajax form for 2nd time
 		if (Browser.ie && Browser.version < 9) {
-			
+
 			// Well ok we have to in ie8 ;( otherwise it give a js error somewhere in FX
 			s.clearChain(); // Tried this to remove FX but didnt seem to achieve anything
 			s.hide();
@@ -242,13 +249,13 @@ var Loader = new Class({
  */
 
 if (typeof(Fabrik) === "undefined") {
-	
+
 	if (typeof(jQuery) !== 'undefined') {
 		document.addEvent('click:relay(.popover button.close)', function (event, target) {
 			var popover = '#' + target.get('data-popover');
 			var pEl = document.getElement(popover);
 			jQuery(popover).popover('hide');
-			
+
 			if (typeOf(pEl) !== 'null' && pEl.get('tag') === 'input') {
 				pEl.checked = false;
 			}
@@ -281,7 +288,7 @@ if (typeof(Fabrik) === "undefined") {
 		}
 		Fabrik.watchView(e, target);
 	});
-	
+
 	Fabrik.removeEvent = function (type, fn) {
 		if (Fabrik.events[type]) {
 			var index = Fabrik.events[type].indexOf(fn);
@@ -290,7 +297,7 @@ if (typeof(Fabrik) === "undefined") {
 			}
 		}
 	};
-	
+
 	// Events test: replacing window.addEvents as they are reset when you reload mootools in ajax window.
 	// need to load mootools in ajax window otherwise Fabrik classes dont correctly load
 	Fabrik.addEvent = function (type, fn) {
@@ -301,17 +308,17 @@ if (typeof(Fabrik) === "undefined") {
 			Fabrik.events[type].push(fn);
 		}
 	};
-	
+
 	Fabrik.addEvents = function (events) {
 		for (var event in events) {
 			Fabrik.addEvent(event, events[event]);
 		}
 		return this;
 	};
-	
+
 	Fabrik.fireEvent = function (type, args, delay) {
 		var events = Fabrik.events;
-		
+
 		// An array of returned values from all events.
 		this.eventResults = [];
 		if (!events || !events[type]) {
@@ -327,49 +334,49 @@ if (typeof(Fabrik) === "undefined") {
 		}, this);
 		return this;
 	};
-	
+
 	Fabrik.requestQueue = new RequestQueue();
-	
+
 	Fabrik.cbQueue = {'google': []};
-	
+
 	/**
-	 * Load the google maps API once 
-	 * 
+	 * Load the google maps API once
+	 *
 	 * @param  bool   s   Sensor
 	 * @param  mixed  cb  Callback method function or function name (assinged to window)
-	 * 
+	 *
 	 */
-	
+
 	Fabrik.loadGoogleMap = function (s, cb) {
-		
+
 		var prefix = document.location.protocol === 'https:' ? 'https:' : 'http:';
 		var src = prefix + '//maps.googleapis.com/maps/api/js?&sensor=' + s + '&callback=Fabrik.mapCb';
-		
+
 		// Have we previously started to load the Googlemaps script?
 		var gmapScripts = Array.from(document.scripts).filter(function (f) {
 			return f.src === src;
 		});
-		
+
 		if (gmapScripts.length === 0) {
 			// Not yet loaded so create a script dom node and inject it into the page.
 			var script = document.createElement("script");
 			script.type = "text/javascript";
 			script.src = src;
 			document.body.appendChild(script);
-			
+
 			// Store the callback into the cbQueue, which will be processed after gmaps is loaded.
 			Fabrik.cbQueue.google.push(cb);
 		} else {
 			// We've already added the Google maps js script to the document
 			if (Fabrik.googleMap) {
 				window[cb]();
-				
+
 				// $$$ hugh - need to fire these by hand, otherwise when re-using a map object, like
 				// opening a popup edit for the second time, the map JS will never get these events.
-				
+
 				//window.fireEvent('google.map.loaded');
 				//window.fireEvent('google.radius.loaded');
-				
+
 			} else {
 				// We've started to load the Google Map code but the callback has not been fired.
 				// Cache the call back (it will be fired when Fabrik.mapCb is run.
@@ -378,9 +385,9 @@ if (typeof(Fabrik) === "undefined") {
 			}
 		}
 	};
-	
+
 	/**
-	 * Called once the google maps script has loaded, will run through any queued callback methods and 
+	 * Called once the google maps script has loaded, will run through any queued callback methods and
 	 * fire them.
 	 */
 	Fabrik.mapCb = function () {
@@ -396,9 +403,9 @@ if (typeof(Fabrik) === "undefined") {
 		}
 		Fabrik.cbQueue.google = [];
 	};
-	
+
 	/** Globally observe delete links **/
-	
+
 	Fabrik.watchDelete = function (e, target) {
 		var l, ref, r;
 		r = e.target.getParent('.fabrik_row');
@@ -429,7 +436,7 @@ if (typeof(Fabrik) === "undefined") {
 				} else {
 					ref = target.get('data-listRef');
 				}
-				
+
 				l = Fabrik.blocks[ref];
 				// Depreacted in 3.1
 				if (l.options.actionMethod === 'floating' && !this.bootstrapped) { // should only check all for floating tips
@@ -444,13 +451,13 @@ if (typeof(Fabrik) === "undefined") {
 			e.stop();
 		}
 	};
-	
+
 	/**
 	 * Globally watch list edit links
-	 * 
+	 *
 	 * @param   event    e       relayed click event
 	 * @param   domnode  target  <a> link
-	 * 
+	 *
 	 * @since 3.0.7
 	 */
 	Fabrik.watchEdit = function (e, target) {
@@ -482,7 +489,7 @@ if (typeof(Fabrik) === "undefined") {
 		$H(Fabrik.Windows).each(function (win, key) {
 			win.close();
 		});
-		
+
 		var winOpts = {
 			'id': 'add.' + listRef + '.' + rowid,
 			'title': list.options.popup_edit_label,
@@ -508,16 +515,16 @@ if (typeof(Fabrik) === "undefined") {
 		}
 		Fabrik.getWindow(winOpts);
 	};
-	
+
 	/**
 	 * Globally watch list view links
-	 * 
+	 *
 	 * @param   event    e       relayed click event
 	 * @param   domnode  target  <a> link
-	 * 
+	 *
 	 * @since 3.0.7
 	 */
-	
+
 	Fabrik.watchView = function (e, target) {
 		var listRef = target.get('data-list');
 		var a;
@@ -548,7 +555,7 @@ if (typeof(Fabrik) === "undefined") {
 		$H(Fabrik.Windows).each(function (win, key) {
 			win.close();
 		});
-		
+
 		var winOpts = {
 			'id': 'view.' + '.' + listRef + '.' + rowid,
 			'title': list.options.popup_view_label,
@@ -562,11 +569,11 @@ if (typeof(Fabrik) === "undefined") {
 					Fabrik.blocks[k].destroyElements();
 					Fabrik.blocks[k].formElements = null;
 					Fabrik.blocks[k] = null;
-					delete(Fabrik.blocks[k]);	
+					delete(Fabrik.blocks[k]);
 				} catch (e) {
 					console.log(e);
 				}
-				
+
 			}
 		};
 		if (typeOf(list.options.popup_offset_x) !== 'null') {
@@ -577,12 +584,12 @@ if (typeof(Fabrik) === "undefined") {
 		}
 		Fabrik.getWindow(winOpts);
 	};
-	
+
 	Fabrik.form = function (ref, id, opts) {
 		var form = new FbForm(id, opts);
 		Fabrik.addBlock(ref, form);
 		return form;
 	};
-	
+
 	window.fireEvent('fabrik.loaded');
 }

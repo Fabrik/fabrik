@@ -1,37 +1,42 @@
 /**
- * @author Robert
- 
- watch another element for changes to its value, and send an ajax call to update
- this elements values 
+ * Notes Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
- 
+
+/**
+ watch another element for changes to its value, and send an ajax call to update
+ this elements values
+ */
+
 var FbNotes = new Class({
-	
+
 	options: {
 		'rowid': 0,
 		'id': 0
 	},
-	
-	Extends: FbElement, 
+
+	Extends: FbElement,
 	initialize: function (element, options) {
 		this.plugin = 'notes';
 		this.parent(element, options);
 		this.setUp();
 	},
-	
+
 	setUp: function () {
 		this.element.getElement('.button').addEvent('click', function (e) {
 			this.submit(e);
 		}.bind(this));
 		this.field = this.element.getElement('.fabrikinput');
-		var msg = this.element.getElement('div'); 
+		var msg = this.element.getElement('div');
 		msg.makeResizable({
 			'modifiers': {x: false, y: 'height'},
 			'handle': this.element.getElement('.noteHandle')
 		});
 		this.element.getElement('.noteHandle').setStyle('cursor', 'all-scroll');
 	},
-	
+
 	submit: function (e) {
 		e.stop();
 		var label = this.field.get('value');
@@ -70,10 +75,10 @@ var FbNotes = new Class({
 					Fabrik.loader.stop(this.element);
 				}
 			}).send();
-			
+
 		}
 	},
-	
+
 	cloned: function (c) {
 		Fabrik.fireEvent('fabrik.notes.update', this);
 		this.parent(c);

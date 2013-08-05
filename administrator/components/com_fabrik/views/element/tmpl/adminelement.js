@@ -1,12 +1,19 @@
-//this array contains all the javascript element plugin objects 
+/**
+ * Admin Element Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
+//this array contains all the javascript element plugin objects
 var pluginControllers = [];
 
 var fabrikAdminElement = new Class({
-	
+
 	Extends: PluginManager,
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		id: 0,
 		parentid: 0,
@@ -18,7 +25,7 @@ var fabrikAdminElement = new Class({
 		this.parent(plugins, id, 'validationrule');
 		this.setOptions(options);
 		this.setParentViz();
-		
+
 		this.jsCounter = 0;
 		this.jsactions = ['focus', 'blur', 'abort', 'click', 'change', 'dblclick', 'keydown', 'keypress', 'keyup', 'mouseup', 'mousedown', 'mouseover', 'select', 'load', 'unload'];
 		this.eEvents = ['hide', 'show', 'fadeout', 'fadein', 'slide in', 'slide out', 'slide toggle', 'clear'];
@@ -35,13 +42,13 @@ var fabrikAdminElement = new Class({
 		this.options.jsevents.each(function (opt) {
 			this.addJavascript(opt);
 		}.bind(this));
-		
+
 		document.id('jform_plugin').addEvent('change', function (e) {
 			this.changePlugin(e);
 		}.bind(this));
-		
+
 	},
-	
+
 	changePlugin: function (e) {
 		document.id('plugin-container').empty().adopt(
 		new Element('span').set('text', 'Loading....')
@@ -69,12 +76,12 @@ var fabrikAdminElement = new Class({
 		});
 		Fabrik.requestQueue.add(myAjax);
 	},
-	
+
 	deleteJS: function (e) {
 		e.stop();
 		e.target.up(3).dispose();
 	},
-	
+
 	addJavascript: function (opt) {
 		if (typeOf(opt) !== 'object') {
 			opt = {'params': {
@@ -95,7 +102,7 @@ var fabrikAdminElement = new Class({
 			'name': 'jform[js_code][]',
 			'class': 'inputbox'
 		}).set('text', opt.code);
-		
+
 		var published = opt.params.js_published ? opt.params.js_published : '1';
 		var yesno = [];
 		var yesOpts = {'value': 1};
@@ -107,17 +114,17 @@ var fabrikAdminElement = new Class({
 		}
 		yesno.push(new Element('option', noOpts).set('text', Joomla.JText._('JNO')));
 		yesno.push(new Element('option', yesOpts).set('text', Joomla.JText._('JYES')));
-		
+
 		published = new Element('select.inputbox.elementtype', {'name': 'jform[js_publised][]'}).adopt(yesno);
-		
+
 		action = this._makeSel(this.jsCounter + ' input-small', 'jform[js_action][]', this.jsactions, opt.action, ' - On - ');
 		var evs = this._makeSel(this.jsCounter + ' input-mini', 'js_e_event[]', this.eEvents, opt.params.js_e_event, Joomla.JText._('COM_FABRIK_SELECT_DO'));
 		var triggers = this._makeSel(this.jsCounter, 'js_e_trigger[]', this.eTrigger, opt.params.js_e_trigger, Joomla.JText._('COM_FABRIK_SELECT_ON'));
 		var condition = this._makeSel(this.jsCounter + ' input-mini', 'js_e_condition[]', this.eConditions, opt.params.js_e_condition, Joomla.JText._('COM_FABRIK_IS'));
-		
+
 		var td = new Element('td', {'colspan': 2});
 		td.set('html', this.options.deleteButton);
-		
+
 		var content = new Element('table', {
 			'class': 'paramlist admintable adminform',
 			'id': 'jsAction_' + this.jsCounter
@@ -147,12 +154,12 @@ var fabrikAdminElement = new Class({
 						'name': 'js_e_value[]',
 						'class': 'inputbox',
 						'value': opt.params.js_e_value
-					}) 
+					})
 				])),
 				new Element('tr').adopt(td)
 			])
-			
-			
+
+
 		);
 		td.getElement('a').addEvent('click', function (e) {
 			this.deleteJS(e);
@@ -162,7 +169,7 @@ var fabrikAdminElement = new Class({
 		div.inject(document.id('javascriptActions'));
 		this.jsCounter ++;
 	},
-	
+
 	watchPluginDd: function () {
 		/*document.id('jform_plugin').addEvent('change', function (e) {
 			e.stop();
@@ -171,7 +178,7 @@ var fabrikAdminElement = new Class({
 				if (opt === tab.id.replace('page-', '')) {
 					tab.setStyles({display: 'block'});
 				} else {
-					tab.setStyles({display: 'none'}); 
+					tab.setStyles({display: 'none'});
 				}
 			});
 		});
@@ -179,7 +186,7 @@ var fabrikAdminElement = new Class({
 			document.id('page-' + this.options.plugin).setStyles({display: 'block'});
 		}*/
 	},
-	
+
 	setParentViz: function () {
 		if (this.options.parentid.toInt() !== 0) {
 			myFX = new Fx.Tween('elementFormTable', {property: 'opacity', duration: 500, wait: false}).set(0);
@@ -203,9 +210,9 @@ var fabrikAdminElement = new Class({
 			});
 		}
 	},
-	
+
 	// deprecated???
-	
+
 	getPluginTop: function (plugin, opts) {
 		return new Element('tr').adopt(
 			new Element('td').adopt([
@@ -217,26 +224,26 @@ var fabrikAdminElement = new Class({
 
 function setAllCheckBoxes(elName, val) {
 	var els = document.getElementsByName(elName);
-	var c = els.length; 
+	var c = els.length;
 	for (var i = 0; i < c; i++) {
-		els[i].checked = val;	
+		els[i].checked = val;
 	}
-}	
+}
 
 function setAllDropDowns(elName, selIndex) {
 	els = document.getElementsByName(elName);
-	c = els.length; 
+	c = els.length;
 	for (var i = 0; i < c; i++) {
-		els[i].selectedIndex = selIndex;	
-	}		
-}		
+		els[i].selectedIndex = selIndex;
+	}
+}
 
 function setAll(t, elName) {
 	els = document.getElementsByName(elName);
 	c = els.length;
 	for (var i = 0; i < c; i++) {
 		els[i].value = t;
-	}		
+	}
 }
 
 function deleteSubElements(sTagId) {

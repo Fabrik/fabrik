@@ -1,3 +1,10 @@
+/**
+ * Calc Element Forms
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbCalc = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
@@ -8,7 +15,7 @@ var FbCalc = new Class({
 			this.spinner = new Spinner(this.element.getParent());
 		}
 	},
-	
+
 	attachedToForm : function () {
 		if (this.options.ajax) {
 			var o2;
@@ -27,7 +34,7 @@ var FbCalc = new Class({
 					// $$$ hugh - check to see if an observed element is actually part of a repeat group,
 					// and if so, modify the placeholder name they used to match this instance of it
 					// @TODO - add and test code for non-joined repeats!
-					
+
 					// @TODO:  this needs updating as we dont store as join.x.element any more?
 					if (this.options.canRepeat) {
 						o2 = o + '_' + this.options.repeatCounter;
@@ -35,7 +42,7 @@ var FbCalc = new Class({
 							this.form.formElements[o2].addNewEventAux('change', function (e) {
 								this.calc(e);
 							}.bind(this));
-						}							
+						}
 					}
 					else {
 						this.form.repeatGroupMarkers.each(function (v, k) {
@@ -55,7 +62,7 @@ var FbCalc = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	calc: function () {
 		this.spinner.show();
 		var formdata = this.form.getFormElementData();
@@ -66,7 +73,7 @@ var FbCalc = new Class({
 				formdata[k] = v;
 			}
 		}.bind(this));
-		
+
 		$H(formdata).each(function (v, k) {
 			/*
 			if (k.test(/join___/)) {
@@ -84,9 +91,9 @@ var FbCalc = new Class({
 				formdata[el.options.fullName + '_raw'] = formdata[k + '_raw'];
 			}
 		}.bind(this));
-		
+
 		// For placeholders lets set repeat joined groups to their full element name
-		
+
 		var data = {
 				'option': 'com_fabrik',
 				'format': 'raw',
@@ -102,7 +109,7 @@ var FbCalc = new Class({
 			this.spinner.hide();
 			this.update(r);
 			if (this.options.validations) {
-				
+
 				// If we have a validation on the element run it after AJAX calc is done
 				this.form.doElementValidation(this.options.element);
 			}
@@ -111,20 +118,20 @@ var FbCalc = new Class({
 			Fabrik.fireEvent('fabrik.calc.update', [this, r]);
 		}.bind(this)}).send();
 	},
-	
-	
+
+
 	cloned: function (c) {
 		this.parent(c);
 		this.attachedToForm();
 	},
-	
+
 	update: function (val) {
 		if (this.getElement()) {
 			this.element.innerHTML = val;
 			this.options.value = val;
 		}
 	},
-	
+
 	getValue: function () {
 		if (this.element) {
 			return this.options.value;

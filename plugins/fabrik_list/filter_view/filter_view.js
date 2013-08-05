@@ -1,3 +1,10 @@
+/**
+ * List Filter View
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbListFilterView = new Class({
 	Extends : FbListPlugin,
 	initialize : function (options) {
@@ -20,7 +27,7 @@ var FbListFilterView = new Class({
 			ul.dispose();
 		});
 		document.getElements('.fabrik_filter_view').addEvent('click:relay(a)', function (e) {
-			var href = e.target.get('href'); 
+			var href = e.target.get('href');
 		});
 	}
 });

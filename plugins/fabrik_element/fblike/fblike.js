@@ -1,13 +1,20 @@
+/**
+ * Facebook Like Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbLike = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
 		this.plugin = 'fblike';
 		this.parent(element, options);
-		
+
 		FB.Event.subscribe('edge.create', function (response) {
 			this.like('+');
 		}.bind(this));
-		
+
 		FB.Event.subscribe('edge.remove', function (response) {
 			this.like('-');
 		}.bind(this));

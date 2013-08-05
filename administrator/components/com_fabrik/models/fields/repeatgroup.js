@@ -1,5 +1,8 @@
 /**
- * 
+ * Admin RepeatGroup Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 var FbRepeatGroup = new Class({
@@ -9,7 +12,7 @@ var FbRepeatGroup = new Class({
 	options: {
 		repeatmin: 1
 	},
-	
+
 	initialize: function (element, options) {
 		this.element = document.id(element);
 		this.setOptions(options);
@@ -17,7 +20,7 @@ var FbRepeatGroup = new Class({
 		this.watchAdd();
 		this.watchDelete();
 	},
-	
+
 	repeatContainers: function () {
 		return this.element.getElements('.repeatGroup');
 	},
@@ -32,7 +35,7 @@ var FbRepeatGroup = new Class({
 			var c = new Element('div', {'class': 'repeatGroup', 'id': id}).set('html', div.innerHTML);
 			c.inject(div, 'after');
 			this.counter = newc;
-			
+
 			// Update params ids
 			if (this.counter !== 0) {
 				c.getElements('input, select').each(function (i) {
@@ -45,7 +48,7 @@ var FbRepeatGroup = new Class({
 						newid = a.join('-') + '-' + this.counter;
 						i.id = newid;
 					}
-					
+
 					this.increaseName(i);
 					$H(FabrikAdmin.model.fields).each(function (plugins, type) {
 						var newPlugin = false;
@@ -62,12 +65,12 @@ var FbRepeatGroup = new Class({
 							FabrikAdmin.model.fields[type][i.id] = newPlugin;
 						}
 					}.bind(this));
-					
-					
+
+
 				}.bind(this));
-				
+
 				c.getElements('img[src=components/com_fabrik/images/ajax-loader.gif]').each(function (i) {
-					
+
 					var a = i.id.split('-');
 					a.pop();
 					var newid = a.join('-') + '-' + this.counter + '_loader';
@@ -76,11 +79,11 @@ var FbRepeatGroup = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	getCounter : function () {
 		return this.repeatContainers().length;
 	},
-	
+
 	watchDelete : function () {
 		this.element.getElements('a[data-button=deleteButton]').removeEvents();
 		this.element.getElements('a[data-button=deleteButton]').each(function (r, x) {
@@ -95,20 +98,20 @@ var FbRepeatGroup = new Class({
 			}.bind(this));
 		}.bind(this));
 	},
-	
+
 	increaseName : function (i) {
 		var namebits = i.name.split('][');
 		var ref = namebits[2].replace(']', '').toInt() + 1;
 		namebits.splice(2, 1, ref);
 		i.name = namebits.join('][') + ']';
 	},
-	
+
 	rename : function (x) {
 		this.element.getElements('input, select').each(function (i) {
 			i.name = this._decreaseName(i.name, x);
 		}.bind(this));
 	},
-	
+
 	_decreaseName: function (n, delIndex) {
 		var namebits = n.split('][');
 		var i = namebits[2].replace(']', '').toInt();

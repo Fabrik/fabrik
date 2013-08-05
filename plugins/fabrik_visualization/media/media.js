@@ -1,19 +1,26 @@
+/**
+ * Media Visualization
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbMediaViz = new Class({
-	
+
 	Implements: [Options],
-	
+
 	options: {
 		which_player: 'jw',
 		width: 600,
 		height: 450
 	},
-	
+
 	initialize: function (el, options) {
 		this.el = el;
 		this.setOptions(options);
 		this.render();
 	},
-	
+
 	render: function () {
 		if (this.options.which_player === 'jw') {
 			jwplayer("jw_player").setup({
@@ -29,7 +36,7 @@ var FbMediaViz = new Class({
 					{type: 'html5'},
 					{type: 'download'}
 				]
-			});			
+			});
 		}
 	}
 });

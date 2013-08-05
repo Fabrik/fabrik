@@ -1,3 +1,10 @@
+/**
+ * Cascading Dropdown Element Filter
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var CascadeFilter = new Class({
 	initialize: function (observerid, opts) {
 		this.options = opts;
@@ -13,8 +20,8 @@ var CascadeFilter = new Class({
 					'plugin': 'cascadingdropdown',
 					'method': 'ajax_getOptions',
 					'element_id': this.options.elid,
-					'v': v, 
-					'formid': this.options.formid, 
+					'v': v,
+					'formid': this.options.formid,
 					'fabrik_cascade_ajax_update': 1,
 					'filterview': 'table'
 				},
@@ -33,7 +40,7 @@ var CascadeFilter = new Class({
 				Object.append(this.myAjax.options.data, $filterData);
 				this.myAjax.send();
 			}.bind(this));
-			
+
 			v = this.observer.get('value');
 			this.periodical = this.update.periodical(500, this);
 			this.periodcount = 0;
@@ -41,7 +48,7 @@ var CascadeFilter = new Class({
 			fconsole('observer not found ', observerid);
 		}
 	},
-	
+
 	update: function () {
 		if (this.observer) {
 			this.myAjax.options.data.v = this.observer.get('value');
@@ -51,7 +58,7 @@ var CascadeFilter = new Class({
 			this.myAjax.send();
 		}
 	},
-	
+
 	ajaxComplete: function (json) {
 		json = JSON.decode(json);
 		this.periodcount ++;
@@ -62,7 +69,7 @@ var CascadeFilter = new Class({
 		if (typeOf(document.id(this.options.filterid)) === 'null') {
 			fconsole('filterid not found: ', this.options.filterid);
 			this.endAjax();
-			return;				
+			return;
 		}
 
 		document.id(this.options.filterid).empty();
@@ -78,7 +85,7 @@ var CascadeFilter = new Class({
 			this.endAjax();
 		}
 	},
-	
+
 	endAjax: function ()
 	{
 		document.id(this.options.filterid + '_loading').setStyle('opacity', '0');

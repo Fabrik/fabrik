@@ -1,3 +1,10 @@
+/**
+ * Pages
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var Pages = new Class({
 	initialize: function (container, editable) {
 		this.editable = editable;

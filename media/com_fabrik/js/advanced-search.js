@@ -1,16 +1,23 @@
+/**
+ * Advanced Search
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 /*jshint mootools: true */
 /*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true */
 
 AdvancedSearch = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		'ajax': false,
 		'controller': 'list',
 		'parentView': ''
 	},
-			
+
 	initialize: function (options) {
 		this.setOptions(options);
 		this.form = document.id('advanced-search-win' + this.options.listref).getElement('form');
@@ -28,7 +35,7 @@ AdvancedSearch = new Class({
 				tr.inject(this.form.getElement('.advanced-search-list').getElements('tr').getLast(), 'after');
 			}.bind(this));
 		}
-		
+
 		this.form.addEvent('click:relay(tr)', function (e, target) {
 			this.form.getElements('tr').removeClass('fabrikRowClick');
 			target.addClass('fabrikRowClick');
@@ -37,13 +44,13 @@ AdvancedSearch = new Class({
 		this.watchApply();
 		this.watchElementList();
 	},
-	
+
 	watchApply: function () {
-		
+
 		this.form.getElement('.advanced-search-apply').addEvent('click', function (e) {
 			Fabrik.fireEvent('fabrik.advancedSearch.submit', this);
 			var filterManager = Fabrik['filter_' + this.options.parentView];
-			
+
 			// Format date advanced search fields to db format before posting
 			if (typeOf(filterManager) !== 'null') {
 				filterManager.onSubmit();
@@ -59,16 +66,16 @@ AdvancedSearch = new Class({
 				'value': 1,
 				'type': 'hidden'
 			}).inject(this.form);
-			
+
 			if (!this.options.ajax) {
 				return;
 			}
 			e.stop();
-			
+
 			list.submit(this.options.controller + '.filter');
 		}.bind(this));
 	},
-	
+
 	getList: function () {
 		var list = Fabrik.blocks['list_' + this.options.listref];
 		if (typeOf(list) === 'null') {
@@ -76,7 +83,7 @@ AdvancedSearch = new Class({
 		}
 		return list;
 	},
-  
+
 	watchDelete: function () {
 		//should really just delegate these events from the adv search table
 		this.form.getElements('.advanced-search-remove-row').removeEvents();
@@ -84,21 +91,21 @@ AdvancedSearch = new Class({
 			this.removeRow(e);
 		}.bind(this));
 	},
-	
+
 	watchElementList: function () {
 		this.form.getElements('select.key').removeEvents();
 		this.form.getElements('select.key').addEvent('change', function (e) {
 			this.updateValueInput(e);
 		}.bind(this));
 	},
-	
+
 	/**
 	 * called when you choose an element from the filter dropdown list
 	 * should run ajax query that updates value field to correspond with selected
 	 * element
 	 * @param {Object} e event
 	 */
-	
+
 	updateValueInput: function (e) {
 		var row = e.target.getParent('tr');
 		Fabrik.loader.start(row);
@@ -110,16 +117,16 @@ AdvancedSearch = new Class({
 		}
 		var url = 'index.php?option=com_fabrik&task=list.elementFilter&format=raw';
 		var eldata = this.options.elementMap[v];
-		new Request.HTML({'url': url, 
-			'update': update, 
+		new Request.HTML({'url': url,
+			'update': update,
 			'data': {'element': v, 'id': this.options.listid, 'elid': eldata.id, 'plugin': eldata.plugin, 'counter': this.options.counter,
-				'listref':  this.options.listref, 'context': this.options.controller, 
+				'listref':  this.options.listref, 'context': this.options.controller,
 				'parentView': this.options.parentView},
 			'onComplete': function () {
 				Fabrik.loader.stop(row);
 			}}).send();
 	},
-  
+
 	addRow: function (e) {
 		this.options.counter ++;
 		e.stop();
@@ -139,7 +146,7 @@ AdvancedSearch = new Class({
 		this.watchDelete();
 		this.watchElementList();
 	},
-  
+
 	removeRow: function (e) {
 		e.stop();
 		if (this.form.getElements('.advanced-search-remove-row').length > 1) {
@@ -158,7 +165,7 @@ AdvancedSearch = new Class({
 			});
 		}
 	},
-  
+
 	/**
 	 * removes all rows except for the first one, whose values are reset to empty
 	 */
@@ -193,5 +200,5 @@ AdvancedSearch = new Class({
 		table.removeChild(tr);
 		e.stop();
 	}
- 
+
 });

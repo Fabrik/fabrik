@@ -1,3 +1,10 @@
+/**
+ * Calendar Visualization
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var fabrikCalendar = new Class({
 	Implements: [Options],
 	options: {
@@ -22,9 +29,9 @@ var fabrikCalendar = new Class({
 		restFilterStart: 'na',
 		j3: false
 	},
-	
+
 	initialize: function (el) {
-		
+
 		this.firstRun = true;
 		this.el  = document.id(el);
 		this.SECOND = 1000; // the number of milliseconds in a second
@@ -38,7 +45,7 @@ var fabrikCalendar = new Class({
 		this.droppables = {'month': [], 'week': [], 'day': []};
 		this.fx = {};
 		this.ajax = {};
-		if (typeOf(this.el.getElement('.calendar-message')) !== 'null') { 
+		if (typeOf(this.el.getElement('.calendar-message')) !== 'null') {
 			this.fx.showMsg = new Fx.Morph(this.el.getElement('.calendar-message'), {'duration': 700});
 			this.fx.showMsg.set({'opacity': 0});
 		}
@@ -78,14 +85,14 @@ var fabrikCalendar = new Class({
 			}
 		}*/
 	},
-	
+
 	_makeEventRelDiv: function (entry, opts, aDate, target)
 	{
 		var x, eventCont;
 		var label = entry.label;
 		opts.left === opts.left ? opts.left : 0;
 		opts['margin-left'] === opts['margin-left'] ? opts['margin-left'] : 0;
-		
+
 		var bg = (entry.colour !== '') ? entry.colour : this.options.colors.entryColor;
 
 		if (opts.startMin === 0) {
@@ -94,9 +101,9 @@ var fabrikCalendar = new Class({
 		if (opts.endMin === 0) {
 			opts.endMin = opts.endMin + '0';
 		}
-		
+
 		var v = opts.view ? opts.view : 'dayView';
-		
+
 		var style = {
 				'background-color': this._getColor(bg, aDate),
 				'width': opts.width,
@@ -137,7 +144,7 @@ var fabrikCalendar = new Class({
 			}
 			var dataContent = 'Start: ' + new Date(entry.startdate).format('%X') + '<br /> End :' + entry.enddate.format('%X');
 			if (buttons !== '') {
-				buttons += '<hr /><div class=\"btn-group\" style=\"text-align:center\">' + buttons + '</div>'; 
+				buttons += '<hr /><div class=\"btn-group\" style=\"text-align:center\">' + buttons + '</div>';
 			}
 			eventCont = new Element('a', {
 				'class': 'fabrikEvent label',
@@ -160,12 +167,12 @@ var fabrikCalendar = new Class({
 				'styles': style
 			});
 			eventCont.addEvent('mouseenter', function (e) {
-				this.doPopupEvent(e, entry, label);		
+				this.doPopupEvent(e, entry, label);
 			}.bind(this));
 		}
-		
+
 		if (entry.link !== '' && this.options.readonly === false && this.options.j3 === false) {
-			x = new Element('a', {'href': entry.link, 'class': 'fabrikEditEvent', 
+			x = new Element('a', {'href': entry.link, 'class': 'fabrikEditEvent',
 				'events': {
 				'click': function (e) {
 						Fabrik.fireEvent('fabrik.viz.calendar.event', [e]);
@@ -194,11 +201,11 @@ var fabrikCalendar = new Class({
 				x = new Element('span').appendText(label);
 			}
 		}
-		
+
 		eventCont.adopt(x);
 		return eventCont;
 	},
-	
+
 	doPopupEvent: function (e, entry, label) {
 		var loc;
 		var oldactive = this.activeHoverEvent;
@@ -218,16 +225,16 @@ var fabrikCalendar = new Class({
 			this.popWin.getElement('.popupEdit').show();
 			this.popWin.getElement('.popupView').hide();
 		}
-		
+
 		if (this.activeHoverEvent) {
 			loc = this.activeHoverEvent.getCoordinates();
 		} else {
 			loc = {top: 0, left: 0};
 		}
-		// Barbara : added label in pop-up 
+		// Barbara : added label in pop-up
 		var popLabelElt = this.popup.getElement('div[class=popLabel]');
 		popLabelElt.empty();
-		
+
 		popLabelElt.set('text', label);
 		this.activeDay = e.target.getParent();
 		var newtop = loc.top - this.popWin.getSize().y;
@@ -239,7 +246,7 @@ var fabrikCalendar = new Class({
 		this.popWin.setStyles({'left': loc.left + 20, 'top': loc.top});
 		this.fx.showEventActions.cancel().set({'opacity': 0}).start.delay(500, this.fx.showEventActions, fxopts);
 	},
-	
+
 	_getFirstDayInMonthCalendar: function (firstDate)
 	{
 		var origDate = new Date();
@@ -256,13 +263,13 @@ var fabrikCalendar = new Class({
 			var weekLength = 7 * 24 * 60 * 60 * 1000;
 			//go back a day at a time till we get to the first week of this month view
 			//while(firstDate.getUTCDate() > 1) {
-			while (firstDate.getDate() > 1) {			
+			while (firstDate.getDate() > 1) {
 				firstDate.setTime(firstDate.valueOf() - this.DAY);
 			}
 		}
 		return firstDate;
 	},
-	
+
 	showMonth: function () {
 		// Set the date to the first day of the month
 		var firstDate = new Date();
@@ -277,13 +284,13 @@ var fabrikCalendar = new Class({
 			tds.each(function (td) {
 				td.setProperties({'class': ''});
 				td.addClass(firstDate.getTime());
-				
+
 				// No need to unset as this is done in setProperties above
 				if (firstDate.getMonth() !== this.date.getMonth()) {
 					td.addClass('otherMonth');
 				}
-				
-				if (this.selectedDate.isSameDay(firstDate)) { 
+
+				if (this.selectedDate.isSameDay(firstDate)) {
 					td.addClass('selectedDay');
 				}
 				td.empty();
@@ -298,29 +305,29 @@ var fabrikCalendar = new Class({
 						gridSize ++;
 					}
 				}.bind(this));
-		
+
 				var j = 0;
 				this.entries.each(function (entry) {
 					// Between (end date present) or same (no end date)
 					if ((entry.enddate !== '' && firstDate.isDateBetween(entry.startdate, entry.enddate)) || (entry.enddate === '' && entry.startdate.isSameDay(firstDate))) {
 						var existingEvents = td.getElements('.fabrikEvent').length;
 						var height = 20;
-						
+
 						var dayHeadingSize = td.getElement('.date').getSize().y;
 						height = Math.floor((td.getSize().y - gridSize - dayHeadingSize) / (gridSize));
 						var top = (td.getSize().y * (i - 1)) + this.el.getElement('.monthView .dayHeading').getSize().y + dayHeadingSize;
 						this.colwidth['.monthView'] = this.colwidth['.monthView'] ? this.colwidth['.monthView'] : td.getSize().x;
 						var width = td.getSize().x;
-						
+
 						width = this.colwidth['.monthView'];
-						
+
 						top = top + (existingEvents * height);
 						var left = width * colcounter;
 						// var opts = {'width': width, 'height': height, 'view': 'monthView'};
 						var opts = {'view': 'monthView', 'max-width': width};
 						opts.top = top;
 						if (window.ie) {
-							opts.left = left;							
+							opts.left = left;
 						}
 						opts.startHour = entry.startdate.getHours();
 						opts.endHour = entry.enddate.getHours();
@@ -335,7 +342,7 @@ var fabrikCalendar = new Class({
 				colcounter ++;
 			}.bind(this));
 		}
-		
+
 		// Watch the mouse to see if it leaves the activeArea - if it does hide the event popup
 		document.addEvent('mousemove', function (e) {
 			var el = e.target;
@@ -356,7 +363,7 @@ var fabrikCalendar = new Class({
 				}
 			}
 		}.bind(this));
-		
+
 		this.entries.each(function (entry) {
 			var item = this.el.getElement('.fabrikEvent_' + entry._listid + '_' + entry.id);
 			if (item) {
@@ -366,7 +373,7 @@ var fabrikCalendar = new Class({
 		this._highLightToday();
 		this.el.getElement('.monthDisplay').innerHTML = this.options.months[this.date.getMonth()] + " " + this.date.getFullYear();
 	},
-	
+
 	_makePopUpWin: function () {
 		if (this.options.readonly) {
 			return;
@@ -374,9 +381,9 @@ var fabrikCalendar = new Class({
 		if (typeOf(this.popup) === 'null') {
 			var popLabel = new Element('div', {'class': 'popLabel'});
 			var del = new Element('div', {'class': 'popupDelete'}).set('html', this.options.buttons);
-			
+
 			this.popup = new Element('div', {'class': 'popWin', 'styles': {'position': 'absolute'}}).adopt([popLabel, del]);
-			
+
 			this.popup.inject(document.body);
 			/********** FX EVETNT *************/
 			this.activeArea = null;
@@ -384,7 +391,7 @@ var fabrikCalendar = new Class({
 				duration: 500,
 				transition: Fx.Transitions.Quad.easeInOut,
 				'onCancel': function () {
-					
+
 				}.bind(this),
 				'onComplete': function (e) {
 					if (this.activeHoverEvent) {
@@ -399,20 +406,20 @@ var fabrikCalendar = new Class({
 						z.bottom = (x.bottom > y.bottom) ? x.bottom : y.bottom;
 						z.bottom = z.bottom - scrolltop;
 						this.activeArea = z;
-						this.inFadeOut  = false; 
+						this.inFadeOut  = false;
 					}
 				}.bind(this)
 			});
 		}
 		return this.popup;
 	},
-	
+
 	makeDragMonthEntry: function (item) {
 	},
 
 	/**
 	 * Clear all day event divs and reset td classes
-	 * 
+	 *
 	 * @since  3.0.7
 	 */
 	removeWeekEvents: function () {
@@ -437,7 +444,7 @@ var fabrikCalendar = new Class({
 				if (j !== 1) {
 					firstDate.setTime(firstDate.getTime() + this.DAY);
 				}
-				
+
 				td.addClass('day');
 				if (typeOf(td.retrieve('calevents')) !== 'null') {
 					td.retrieve('calevents').each(function (evnt) {
@@ -456,54 +463,54 @@ var fabrikCalendar = new Class({
 			}
 		}
 		return WeekTds;
-		
+
 	},
-	
+
 	showWeek: function ()
 	{
 		var j, h;
 		var wday = this.date.getDay();
 		// Barbara : offset
 		wday = wday - this.options.first_week_day.toInt();
-		
+
 		var firstDate = new Date();
 		firstDate.setTime(this.date.getTime() - (wday * this.DAY));
-		
+
 		var counterDate = new Date();
 		counterDate.setTime(this.date.getTime() - (wday * this.DAY));
-		
+
 		var lastDate = new Date();
 		lastDate.setTime(this.date.getTime() + ((6 - wday) * this.DAY));
-		
-		this.el.getElement('.monthDisplay').innerHTML = (firstDate.getDate()) + "  " + this.options.months[firstDate.getMonth()] + " " + firstDate.getFullYear() + " - ";	
+
+		this.el.getElement('.monthDisplay').innerHTML = (firstDate.getDate()) + "  " + this.options.months[firstDate.getMonth()] + " " + firstDate.getFullYear() + " - ";
 		this.el.getElement('.monthDisplay').innerHTML += (lastDate.getDate()) + "  " + this.options.months[lastDate.getMonth()] + " " + lastDate.getFullYear();
-		
+
 		var trs = this.el.getElements('.weekView tr');
 
 		// Put dates in top row
 		var ths = trs[0].getElements('th');
-		
+
 		var WeekTds = this.removeWeekEvents();
 
 		var hdiv, ht, thbg;
 		for (i = 0; i < ths.length; i++) {
 			ths[i].className = 'dayHeading';
 			ths[i].addClass(counterDate.getTime());
-			
+
 			thbg = ths[i].getStyle('background-color');
 			ht = this.options.shortDays[counterDate.getDay()] + ' ' + counterDate.getDate() + '/' + this.options.shortMonths[counterDate.getMonth()];
 			hdiv = new Element('div', {'styles': {'background-color': this._getColor(thbg, counterDate)}}).set('text', ht);
-			
+
 			ths[i].empty().adopt(hdiv);
-			
+
 			var eventWidth = 10;
 			var maxoffsets = {};
 			var offsets = {};
 			var hourTds = WeekTds[i];
-			
+
 			// Build max offsets first
 			this.entries.each(function (entry) {
-				
+
 				// Between (end date present) or same (no end date)
 				if ((entry.enddate !== '' && counterDate.isDateBetween(entry.startdate, entry.enddate)) || (entry.enddate === '' && entry.startdate.isSameDay(counterDate))) {
 					var opts = this._buildEventOpts({entry: entry, curdate: counterDate, divclass: '.weekView', 'tdOffset': i});
@@ -513,21 +520,21 @@ var fabrikCalendar = new Class({
 					}
 				}
 			}.bind(this));
-			
+
 			var gridSize = 1;
 			Object.each(maxoffsets, function (o) {
 				if (o > gridSize) {
 					gridSize = o;
 				}
 			});
-			
+
 			// Add event divs
 			this.entries.each(function (entry) {
-				
+
 				// Between (end date present) or same (no end date)
 				if ((entry.enddate !== '' && counterDate.isDateBetween(entry.startdate, entry.enddate)) || (entry.enddate === '' && entry.startdate.isSameDay(counterDate))) {
 					var opts = this._buildEventOpts({entry: entry, curdate: counterDate, divclass: '.weekView', 'tdOffset': i});
-					
+
 					// Work out the left offset for the event - stops concurrent events overlapping each other
 					for (var h = opts.startHour; h <= opts.endHour; h ++) {
 						offsets[h] = typeOf(offsets[h]) === 'null' ? 0 : offsets[h] + 1;
@@ -539,7 +546,7 @@ var fabrikCalendar = new Class({
 						}
 					}
 					td = hourTds[opts.startHour];
-					
+
 					// Work out event div width - taking into account 1px margin between each event
 					eventWidth = Math.floor((td.getSize().x - gridSize) / (gridSize + 1));
 					opts.width = eventWidth + 'px';
@@ -547,7 +554,7 @@ var fabrikCalendar = new Class({
 					var div = this._makeEventRelDiv(entry, opts, null, td);
 					div.inject(document.body);
 					div.store('opts', opts);
-					
+
 					var calEvents = td.retrieve('calevents', []);
 					calEvents.push(div);
 					td.store('calevents', calEvents);
@@ -556,7 +563,7 @@ var fabrikCalendar = new Class({
 			}.bind(this));
 			counterDate.setTime(counterDate.getTime() + this.DAY);
 		}
-		
+
 	},
 
 	_buildEventOpts: function (opts)
@@ -567,24 +574,24 @@ var fabrikCalendar = new Class({
 		var hour = (entry.startdate.isSameDay(counterDate)) ? entry.startdate.getHours() - this.options.open : 0;
 		hour = hour < 0 ?  0 : hour;
 		var i = opts.tdOffset;
-		
+
 		entry.label = entry.label ? entry.label : '';
-		var td = trs[hour + 1].getElements('td')[i + 1]; 
+		var td = trs[hour + 1].getElements('td')[i + 1];
 		var orighours = entry.startdate.getHours();
 		var rowheight = td.getSize().y;
 		//as we buildevent opts twice the sencod parse in IE gives a dif width! so store once and always use that value
 		this.colwidth[opts.divclass] = this.colwidth[opts.divclass] ? this.colwidth[opts.divclass] : td.getSize().x;
 		var top = this.el.getElement(opts.divclass).getElement('tr').getSize().y;
-		
+
 		colwidth = this.colwidth[opts.divclass];
-		
+
 		var left = (colwidth * i);
 		left += this.el.getElement(opts.divclass).getElement('td').getSize().x;
 		var duration = Math.ceil(entry.enddate.getHours() - entry.startdate.getHours());
 		if (duration === 0) {
 			duration = 1;
 		}
-		
+
 		if (entry.startdate.getDay() !== entry.enddate.getDay()) {
 			duration = this.options.open !== 0 || this.options.close !== 24 ? this.options.close - this.options.open + 1 : 24;
 			if (entry.startdate.isSameDay(counterDate)) {
@@ -599,21 +606,21 @@ var fabrikCalendar = new Class({
 
 		top = top + (rowheight * hour);
 		var height = (rowheight * duration);
-		
+
 		if (entry.enddate.isSameDay(counterDate)) {
 			height += (entry.enddate.getMinutes() / 60 * rowheight);
 		}
 		if (entry.startdate.isSameDay(counterDate)) {
 			top += (entry.startdate.getMinutes() / 60 * rowheight);
 			height -= (entry.startdate.getMinutes() / 60 * rowheight);
-		} 
-		
+		}
+
 		var existing = td.getElements('.fabrikEvent');
 		var width = colwidth / (existing.length + 1);
 		var marginleft = width * existing.length;
 		existing.setStyle('width', width + 'px');
 		var v = opts.divclass.substr(1, opts.divclass.length);
-		width -= td.getStyle('border-width').toInt(); 
+		width -= td.getStyle('border-width').toInt();
 		opts = {'z-index': 999, 'margin-left': marginleft + 'px', 'height': height, 'view': 'weekView', 'background-color': this._getColor(this.options.colors.headingBg)};
 		opts['max-width'] = width + 'px';
 		opts.left = left;
@@ -626,10 +633,10 @@ var fabrikCalendar = new Class({
 		entry.startdate.setHours(orighours);
 		return opts;
 	},
-	
+
 	/**
 	 * Clear all day event divs and reset td classes
-	 * 
+	 *
 	 * @since  3.0.7
 	 */
 	removeDayEvents: function () {
@@ -656,14 +663,14 @@ var fabrikCalendar = new Class({
 		}
 		return hourTds;
 	},
-	
+
 	/**
 	 * Show the days events
 	 */
 	showDay: function () {
 		var trs = this.el.getElements('.dayView tr'), h;
 		// Put date in top row
-		
+
 		thbg = trs[0].childNodes[1].getStyle('background-color');
 		ht = this.options.days[this.date.getDay()];
 		h = new Element('div', {'styles': {'background-color': this._getColor(thbg, this.date)}}).set('text', ht);
@@ -671,23 +678,23 @@ var fabrikCalendar = new Class({
 
 		// Clear out old data
 		var hourTds = this.removeDayEvents();
-		
+
 		var eventWidth = 100;
 		var offsets = {};
 		var maxoffsets = {};
 		this.entries.each(function (entry) {
-			
+
 			// Between (end date present) or same (no end date)
 			if ((entry.enddate !== '' && this.date.isDateBetween(entry.startdate, entry.enddate)) || (entry.enddate === '' && entry.startdate.isSameDay(firstDate))) {
 				var opts = this._buildEventOpts({entry: entry, curdate: this.date, divclass: '.dayView', 'tdOffset': 0});
-				
+
 				// Work out the left offset for the event - stops concurrent events overlapping each other
 				for (var h = opts.startHour; h <= opts.endHour; h ++) {
 					maxoffsets[h] = typeOf(maxoffsets[h]) === 'null' ? 0 : maxoffsets[h] + 1;
 				}
 			}
 		}.bind(this));
-		
+
 		var gridSize = 1;
 		Object.each(maxoffsets, function (o) {
 			if (o > gridSize) {
@@ -696,16 +703,16 @@ var fabrikCalendar = new Class({
 		});
 		// Add events
 		this.entries.each(function (entry) {
-			
+
 			// Between (end date present) or same (no end date)
 			if ((entry.enddate !== '' && this.date.isDateBetween(entry.startdate, entry.enddate)) || (entry.enddate === '' && entry.startdate.isSameDay(firstDate))) {
 				var opts = this._buildEventOpts({entry: entry, curdate: this.date, divclass: '.dayView', 'tdOffset': 0});
 				td = hourTds[opts.startHour];
-				
+
 				// Work out event div width - taking into account 1px margin between each event
 				eventWidth = Math.floor((td.getSize().x - gridSize) / (gridSize + 1));
 				opts.width = eventWidth + 'px';
-				
+
 				// Work out the left offset for the event - stops concurrent events overlapping each other
 				for (var h = opts.startHour; h <= opts.endHour; h ++) {
 					offsets[h] = typeOf(offsets[h]) === 'null' ? 0 : offsets[h] + 1;
@@ -720,26 +727,26 @@ var fabrikCalendar = new Class({
 				var div = this._makeEventRelDiv(entry, opts, null, td);
 				div.inject(document.body);
 				div.store('opts', opts);
-				
+
 				var calEvents = td.retrieve('calevents', []);
 				calEvents.push(div);
 				td.store('calevents', calEvents);
 				div.position({'relativeTo': td, 'position': 'upperLeft'});
 			}
 		}.bind(this));
-		
-	
+
+
 		this.el.getElement('.monthDisplay').innerHTML = (this.date.getDate()) + "  " + this.options.months[this.date.getMonth()] + " " + this.date.getFullYear();
 	},
-	
+
 	renderMonthView: function () {
 		var d, tr;
 		this.fadePopWin(0);
 		var firstDate = this._getFirstDayInMonthCalendar(new Date());
-		
+
 		// Barbara : reorganize days labels according to first day of week
 		var days_labels = this.options.days.slice(this.options.first_week_day).concat(this.options.days.slice(0, this.options.first_week_day));
-		
+
 		// Barbara : set a tmpDate that has the same shift regarding the beginning of the week
 		var tmpDate = new Date();
 		tmpDate.setTime(firstDate.valueOf());
@@ -748,7 +755,7 @@ var fabrikCalendar = new Class({
 			//first day of week
 			tmpDate.setTime(firstDate.valueOf() - (backwardsDaysDelta * 24 * 60 * 60 * 1000));
 		}
-		
+
 		this.options.viewType = 'monthView';
 		if (!this.mothView) {
 			tbody = new Element('tbody', {'class': 'viewContainerTBody'});
@@ -768,7 +775,7 @@ var fabrikCalendar = new Class({
 				tmpDate.setTime(tmpDate.getTime() + this.DAY);
 			}
 			tbody.appendChild(tr);
-			
+
 			var highLightColor = this.options.colors.highlight;
 			var bgColor = this.options.colors.bg;
 			var todayColor = this.options.colors.today;
@@ -777,7 +784,7 @@ var fabrikCalendar = new Class({
 				tr = new Element('tr');
 				var parent = this;
 				for (d = 0; d < 7; d++) {
-				
+
 					//'display': 'table-cell', doesnt work in IE7
 					var bgCol = this.options.colors.bg;
 					var extraClass = (this.selectedDate.isSameDay(firstDate)) ? 'selectedDay' : '';
@@ -790,7 +797,7 @@ var fabrikCalendar = new Class({
 						'padding': 0,
 						'border': '1px solid #cccccc'
 					},
-					
+
 					'events': {
 						'mouseenter': function () {
 							this.setStyles({'background-color': highLightColor});
@@ -833,11 +840,11 @@ var fabrikCalendar = new Class({
 		}
 		this.showView('monthView');
 	},
-	
+
 	_getTimeFromClassName: function (n) {
 		return n.replace("today", "").replace("selectedDay", "").replace("day", "").replace("otherMonth", "").trim();
 	},
-	
+
 	openAddEvent: function (e)
 	{
 		var rawd;
@@ -867,7 +874,7 @@ var fabrikCalendar = new Class({
 			this.doubleclickdate = thisDay.getFullYear() + "-" + m + "-" + day + ' ' + hour + ':' + min + ':00';
 			d = '&jos_fabrik_calendar_events___start_date=' + this.doubleclickdate;
 		}
-		
+
 		if (this.options.eventLists.length > 1) {
 			this.openChooseEventTypeForm(this.doubleclickdate, rawd);
 		} else {
@@ -879,12 +886,12 @@ var fabrikCalendar = new Class({
 			this.addEvForm(o);
 		}
 	},
-	
+
 	openChooseEventTypeForm: function (d, rawd)
 	{
-		// rowid is the record to load if editing 
+		// rowid is the record to load if editing
 		var url = 'index.php?option=com_fabrik&tmpl=component&view=visualization&controller=visualization.calendar&task=chooseaddevent&id=' + this.options.calendarId + '&d=' + d + '&rawd=' + rawd;
-		
+
 		// Fix for renderContext when rendered in content plugin
 		url += '&renderContext=' + this.el.id.replace(/visualization_/, '');
 		this.windowopts.contentURL = url;
@@ -896,7 +903,7 @@ var fabrikCalendar = new Class({
 		//this.windowopts.type = 'modal';
 		Fabrik.getWindow(this.windowopts);
 	},
-	
+
 	addEvForm: function (o)
 	{
 		this.windowopts.id = 'addeventwin';
@@ -905,9 +912,9 @@ var fabrikCalendar = new Class({
 		url += '&visualizationid=' + this.options.calendarId;
 		if (o.nextView) {
 			url += '&nextview=' + o.nextView;
-		} 
+		}
 		url += '&fabrik_window_id=' + this.windowopts.id;
-		
+
 		if (typeof(this.doubleclickdate) !== 'undefined') {
 			url += '&start_date=' + this.doubleclickdate;
 		}
@@ -933,7 +940,7 @@ var fabrikCalendar = new Class({
 		}.bind(this);
 		Fabrik.getWindow(this.windowopts);
 	},
-	
+
 	_highLightToday: function () {
 		var today = new Date();
 		this.el.getElements('.viewContainerTBody td').each(
@@ -947,7 +954,7 @@ var fabrikCalendar = new Class({
 			}.bind(this)
 		);
 	},
-	
+
 	centerOnToday: function () {
 		this.date = new Date();
 		this.showView();
@@ -972,14 +979,14 @@ var fabrikCalendar = new Class({
 						'color': this.options.headingColor,
 						'background-color': this.options.colors.headingBg
 					}
-					}).appendText(this.options.days[this.date.getDay()]));	
+					}).appendText(this.options.days[this.date.getDay()]));
 				}
 			}
 			tbody.appendChild(tr);
-			
+
 			this.options.open = this.options.open < 0 ?  0 : this.options.open;
 			(this.options.close > 24 || this.options.close < this.options.open) ? this.options.close = 24 : this.options.close;
-		
+
 			for (i = this.options.open; i < (this.options.close + 1); i++) {
 				tr = new Element('tr');
 				for (d = 0; d < 2; d++) {
@@ -1000,12 +1007,12 @@ var fabrikCalendar = new Class({
 						'events': {
 							'mouseenter': function (e) {
 								this.setStyles({
-									'background-color': '#FFFFDF'	
+									'background-color': '#FFFFDF'
 								});
 							},
 							'mouseleave': function (e) {
 								this.setStyles({
-									'background-color': '#F7F7F7'	
+									'background-color': '#F7F7F7'
 								});
 							},
 							'dblclick': function (e) {
@@ -1034,21 +1041,21 @@ var fabrikCalendar = new Class({
 		//this.showDay();
 		this.showView('dayView');
 	},
-	
+
 	hideDayView: function () {
 		if (this.el.getElement('.dayView')) {
 			this.el.getElement('.dayView').hide();
 			this.removeDayEvents();
 		}
 	},
-	
+
 	hideWeekView: function () {
 		if (this.el.getElement('.weekView')) {
 			this.el.getElement('.weekView').hide();
 			this.removeWeekEvents();
 		}
 	},
-	
+
 	showView: function (view) {
 		this.hideDayView();
 		this.hideWeekView();
@@ -1070,13 +1077,13 @@ var fabrikCalendar = new Class({
 		}
 		Cookie.write("fabrik.viz.calendar.view", this.options.viewType);
 	},
-	
+
 	renderWeekView: function () {
 		var i, d, tr, tbody, we;
 		this.fadePopWin(0);
-		// For some reason, using '===' does not work, so une '==' instead ! 
+		// For some reason, using '===' does not work, so une '==' instead !
 		// $$$ rob : Javascript MUST be strongly typed to pass JSLint in our build scripts
-		// As show weekends is a boolean I have specically cased it to such in the php code 
+		// As show weekends is a boolean I have specically cased it to such in the php code
 		we = this.options.showweekends === false ? 6 : 8;
 		this.options.viewType = 'weekView';
 		if (!this.weekView) {
@@ -1110,14 +1117,14 @@ var fabrikCalendar = new Class({
 							}.bind(this));
 						}.bind(this)
 					}
-					}).appendText(this.options.days[d - 1]));	
+					}).appendText(this.options.days[d - 1]));
 				}
 			}
 			tbody.appendChild(tr);
-			
+
 			this.options.open = this.options.open < 0 ?  0 : this.options.open;
 			(this.options.close > 24 || this.options.close < this.options.open) ? this.options.close = 24 : this.options.close;
-		
+
 			for (i = this.options.open; i < (this.options.close + 1); i++) {
 				tr = new Element('tr');
 				for (d = 0; d < we; d++) {
@@ -1138,20 +1145,20 @@ var fabrikCalendar = new Class({
 							'mouseenter': function (e) {
 								if (!this.hasClass('selectedDay')) {
 									this.setStyles({
-										'background-color': '#FFFFDF'	
+										'background-color': '#FFFFDF'
 									});
 								}
 							},
 							'mouseleave': function (e) {
 								if (!this.hasClass('selectedDay')) {
 									this.setStyles({
-										'background-color': '#F7F7F7'	
+										'background-color': '#F7F7F7'
 									});
 								}
 							},
 							'dblclick': function (e) {
 								this.openAddEvent(e);
-							}.bind(this)	
+							}.bind(this)
 						}
 						}));
 					}
@@ -1169,13 +1176,13 @@ var fabrikCalendar = new Class({
 							tbody
 					)
 			);
-			
+
 			this.el.getElement('.viewContainer').appendChild(this.weekView);
 		}
 		this.showWeek();
 		this.showView('weekView');
 	},
-	
+
 	render: function (options) {
 		this.setOptions(options);
 		document.addEvent('click:relay(button[data-task=deleteCalEvent], a[data-task=deleteCalEvent])', function (event, target) {
@@ -1187,16 +1194,16 @@ var fabrikCalendar = new Class({
 			event.preventDefault();
 			this.editEntry();
 		}.bind(this));
-		
+
 		document.addEvent('click:relay(button[data-task=viewCalEvent], a[data-task=viewCalEvent])', function (event, target) {
 			event.preventDefault();
 			this.viewEntry();
 		}.bind(this));
-		
+
 		document.addEvent('click:relay(a.fabrikEvent)', function (e, target) {
 			this.activeHoverEvent = e.target.hasClass('fabrikEvent') ? e.target : e.target.getParent('.fabrikEvent');
 		}.bind(this));
-		
+
 		this.windowopts.title = Joomla.JText._('PLG_VISUALIZATION_CALENDAR_ADD_EDIT_EVENT');
 		this.windowopts.y = this.options.popwiny;
 		this.popWin = this._makePopUpWin();
@@ -1218,7 +1225,7 @@ var fabrikCalendar = new Class({
 			}
 		}.bind(this)
 		});
-		
+
 		this.ajax.deleteEvent = new Request({
 			url: this.options.url.del,
 			'data': {
@@ -1231,20 +1238,20 @@ var fabrikCalendar = new Class({
 				this.addEntries(json);
 			}.bind(this)
 		});
-	
+
 		if (typeOf(this.el.getElement('.addEventButton')) !== 'null') {
 			this.el.getElement('.addEventButton').addEvent('click', function (e) {
 				this.openAddEvent(e);
 			}.bind(this));
 		}
 		var bs = [];
-		var nav = new Element('div', {'class': 'calendarNav'}).adopt( 
+		var nav = new Element('div', {'class': 'calendarNav'}).adopt(
 		new Element('ul', {'class': 'viewMode'}).adopt(bs));
-		
+
 		this.el.appendChild(nav);
 		//position relative messes up the drag of events
 		this.el.appendChild(new Element('div', {'class': 'viewContainer'}));
-		
+
 		if (typeOf(Cookie.read('fabrik.viz.calendar.date')) !== 'null') {
 			this.date = new Date(Cookie.read('fabrik.viz.calendar.date'));
 		}
@@ -1261,16 +1268,16 @@ var fabrikCalendar = new Class({
 			this.renderMonthView();
 			break;
 		}
-		
+
 		//this.showView();
-	
+
 		this.el.getElement('.nextPage').addEvent('click', function (e) {
 			this.nextPage(e);
 		}.bind(this));
 		this.el.getElement('.previousPage').addEvent('click',  function (e) {
 			this.previousPage(e);
 		}.bind(this));
-		
+
 		if (this.options.show_day) {
 			this.el.getElement('.dayViewLink').addEvent('click', function (e) {
 				this.renderDayView(e);
@@ -1290,10 +1297,10 @@ var fabrikCalendar = new Class({
 			this.centerOnToday(e);
 		}.bind(this));
 		this.showMonth();
-		
+
 		this.ajax.updateEvents.send();
 	},
-	
+
 	showMessage: function (m) {
 		this.el.getElement('.calendar-message').set('html', m);
 		this.fx.showMsg.start({
@@ -1304,7 +1311,7 @@ var fabrikCalendar = new Class({
 			}
 		);
 	},
-	
+
 	addEntry: function (key, o) {
 		var d, d2, m, time;
 		//test if time was passed as well
@@ -1323,13 +1330,13 @@ var fabrikCalendar = new Class({
 			//setFullYear produced a stack overflow in ie7 go figure? and recursrive error in ff6 - reverting to setYear()
 			d2.setYear(d[0]);
 			d2.setMonth(m, d[2]);
-			d2.setDate(d[2]);	
+			d2.setDate(d[2]);
 			d2.setHours(time[0].toInt());
 			d2.setMinutes(time[1].toInt());
 			d2.setSeconds(time[2].toInt());
 			o.startdate = d2;
 			this.entries.set(key, o);
-			
+
 			if (o.enddate) {
 				d = o.enddate.split(' ');
 				d = d[0];
@@ -1343,7 +1350,7 @@ var fabrikCalendar = new Class({
 				time = o.enddate.split(' ');
 				time = time[1];
 				time = time.split(":");
-			
+
 				d = d.split('-');
 				d2 = new Date();
 				m = (d[1]).toInt() - 1;
@@ -1359,7 +1366,7 @@ var fabrikCalendar = new Class({
 		}
 
 	},
-	
+
 	deleteEntry: function () {
 		var key = this.activeHoverEvent.id.replace('fabrikEvent_', '');
 		var i = key.split('_');
@@ -1368,7 +1375,7 @@ var fabrikCalendar = new Class({
 			//doesnt have acess to delete
 			return;
 		}
-		
+
 		if (confirm(Joomla.JText._('PLG_VISUALIZATION_CALENDAR_CONF_DELETE'))) {
 			this.ajax.deleteEvent.options.data = {'id': i[1], 'listid': listid};
 			this.ajax.deleteEvent.send();
@@ -1378,7 +1385,7 @@ var fabrikCalendar = new Class({
 			this.activeDay = null;
 		}
 	},
-	
+
 	editEntry: function (e)
 	{
 		var o = {};
@@ -1389,7 +1396,7 @@ var fabrikCalendar = new Class({
 		e.stop();
 		this.addEvForm(o);
 	},
-	
+
 	viewEntry: function () {
 		var o = {};
 		o.id = this.options.formid;
@@ -1399,7 +1406,7 @@ var fabrikCalendar = new Class({
 		o.nextView = 'details';
 		this.addEvForm(o);
 	},
-	
+
 	addEntries: function (a) {
 		a = $H(a);
 		a.each(function (obj, key) {
@@ -1407,12 +1414,12 @@ var fabrikCalendar = new Class({
 		}.bind(this));
 		this.showView();
 	},
-	
+
 	removeEntry: function (eventId) {
 		this.entries.erase(eventId);
 		this.showView();
 	},
-	
+
 	nextPage: function () {
 		this.fadePopWin(0);
 		switch (this.options.viewType) {
@@ -1432,13 +1439,13 @@ var fabrikCalendar = new Class({
 		}
 		Cookie.write('fabrik.viz.calendar.date', this.date);
 	},
-	
+
 	fadePopWin: function (o) {
 		if (this.popWin) {
 			this.popWin.setStyle('opacity', o);
 		}
 	},
-	
+
 	previousPage: function () {
 		this.fadePopWin(0);
 		switch (this.options.viewType) {
@@ -1457,7 +1464,7 @@ var fabrikCalendar = new Class({
 		}
 		Cookie.write('fabrik.viz.calendar.date', this.date);
 	},
-	
+
 	addLegend: function (a) {
 		var ul = new Element('ul');
 		a.each(function (l) {
@@ -1473,7 +1480,7 @@ var fabrikCalendar = new Class({
 			ul
 		]).inject(this.el, 'after');
 	},
-	
+
 	/**
  * Barbara : commonly used RGB to greyscale formula.
  * Param : #RRGGBB string.
@@ -1506,7 +1513,7 @@ var fabrikCalendar = new Class({
             return aColor;
         }
     }
-	
+
 });
 
 // BEGIN: DATE OBJECT PATCHES

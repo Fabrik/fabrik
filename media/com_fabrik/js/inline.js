@@ -1,17 +1,24 @@
 /**
+ * Simple Inline Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
+/**
  * simple inline editor, double click nodes which match the selector to toggle to a field
  * esc to revert
  * enter to save
- * 
+ *
  */
 var inline = new Class({
-	
+
 	Implements: Options,
-	
+
 	options: {
-		
+
 	},
-	
+
 	initialize: function (selector, options)
 	{
 		this.setOptions(options);
@@ -34,7 +41,7 @@ var inline = new Class({
 			editor.select();
 		}.bind(this));
 	},
-	
+
 	checkKey: function (e, target) {
 		if (e.key === 'enter' || e.key === 'esc' || e.key === 'tab') {
 			target.retrieve('inline').hide();

@@ -1,11 +1,18 @@
+/**
+ * Admin Table Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var tablesElement = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		conn: null
 	},
-	
+
 	initialize: function (el, options) {
 		this.el = el;
 		this.setOptions(options);
@@ -16,12 +23,12 @@ var tablesElement = new Class({
 			this.setUp();
 		}
 	},
-	
+
 	cloned: function ()
 	{
-		
+
 	},
-	
+
 	getCnn: function () {
 		if (typeOf(document.id(this.options.conn)) === 'null') {
 			return;
@@ -29,7 +36,7 @@ var tablesElement = new Class({
 		this.setUp();
 		clearInterval(this.periodical);
 	},
-	
+
 	setUp: function () {
 		this.el = document.id(this.el);
 		this.cnn = document.id(this.options.conn);
@@ -43,7 +50,7 @@ var tablesElement = new Class({
 			this.updateMe();
 		}
 	},
-	
+
 	updateMe: function (e) {
 		if (e) {
 			e.stop();

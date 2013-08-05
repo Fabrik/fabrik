@@ -1,3 +1,10 @@
+/**
+ * Admin Element List Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var elementElement = new Class({
 
 	Implements: [Options, Events],

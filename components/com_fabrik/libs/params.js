@@ -1,12 +1,21 @@
-//this deals with viz admin settings when viz parameters can have repeating groups
-// its still not the same code base as the form and table code so refractoring at some
-// point would be good.
-//not here we clone the actual /admin/com_fabrik/elements/ js classes
-// where as for forms and tables we have a controller class - called admin.js in the plugin folder to deal
-// with cloning
+/**
+ * Visualizations Repeating Groups Helper
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
+/**
+ * This deals with viz admin settings when viz parameters can have repeating groups.
+ * It's still not the same code base as the form and table code so refactoring at some
+ * point would be good.
+ * Not here we clone the actual /admin/com_fabrik/elements/ js classes
+ * where as for forms and tables we have a controller class - called admin.js in the plugin folder
+ * to deal with cloning
+ */
 
 var RepeatParams = new Class({
-	
+
 	initialize:function(el, opts){
 		this.opts = opts;
 		this.el = $(el);
@@ -33,7 +42,7 @@ var RepeatParams = new Class({
 						var newid = a.join('-') + '-' + this.counter;
 						i.id = newid;
 					}
-					
+
 					if (Fabrik.adminElements.has(oldid)){
 						var plugin = Fabrik.adminElements.get(oldid);
 						newPlugin = new CloneObject(plugin, true, []);
@@ -47,18 +56,18 @@ var RepeatParams = new Class({
 						Fabrik.adminElements.set(i.id, newPlugin);
 					}
 				}.bind(this));
-				
+
 				c.getElements('img[src=components/com_fabrik/images/ajax-loader.gif]').each(function(i){
 					i.id = i.id.replace('-0_loader', '-'+this.counter+'_loader');
 				}.bind(this));
 			}
-			
-			
+
+
 			this.watchDeleteParamsGroup();
 		}.bind(this));
 		this.watchDeleteParamsGroup();
 	},
-	
+
 	watchDeleteParamsGroup:function(){
 		var dels = this.el.getParent().getElements('.delete');
 		if (typeOf(dels) !== 'null'){

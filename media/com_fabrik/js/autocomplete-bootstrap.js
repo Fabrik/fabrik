@@ -1,14 +1,17 @@
 /**
- * @author Robert
+ * Bootstrap Auto-Complete
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 /*jshint mootools: true */
 /*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true */
 
 var FbAutocomplete = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		menuclass: 'auto-complete-container dropdown',
 		classes: {
@@ -44,7 +47,7 @@ var FbAutocomplete = new Class({
 			this.getInputElement().addEvent('keyup', function (e) {
 				this.search(e);
 			}.bind(this));
-		
+
 			this.getInputElement().addEvent('blur', function (e) {
 				if (this.options.storeMatchedResultsOnly) {
 					if (!this.matchedResult) {
@@ -56,7 +59,7 @@ var FbAutocomplete = new Class({
 			}.bind(this));
 		}.bind(this));
 	},
-	
+
 	search: function (e) {
 		if (e.key === 'tab' || e.key === 'enter') {
 			e.stop();
@@ -93,7 +96,7 @@ var FbAutocomplete = new Class({
 		}
 		this.searchText = v;
 	},
-	
+
 	completeAjax: function (r, v) {
 		r = JSON.decode(r);
 		this.cache[v] = r;
@@ -101,7 +104,7 @@ var FbAutocomplete = new Class({
 		this.populateMenu(r);
 		this.openMenu();
 	},
-	
+
 	buildMenu: function ()
 	{
 		this.menu = new Element('ul.dropdown-menu', {'role': 'menu'});
@@ -116,17 +119,17 @@ var FbAutocomplete = new Class({
 			this.makeSelection(e, target);
 		}.bind(this));
 	},
-	
+
 	getInputElement: function () {
 		return this.options.labelelement ? this.options.labelelement : this.element;
 	},
-	
+
 	positionMenu: function () {
 		var coords = this.getInputElement().getCoordinates();
 		var pos = this.getInputElement().getPosition();
 		this.menu.setStyles({ 'left': coords.left, 'top': (coords.top + coords.height) - 1, 'width': coords.width});
 	},
-	
+
 	populateMenu: function (data) {
 		// $$$ hugh - added decoding of things like &amp; in the text strings
 		var li, a;
@@ -156,7 +159,7 @@ var FbAutocomplete = new Class({
 			new Element('li').set('text', '....').inject(ul);
 		}
 	},
-	
+
 	makeSelection: function (e, li) {
 		e.preventDefault();
 		// $$$ tom - make sure an item was selected before operating on it.
@@ -175,7 +178,7 @@ var FbAutocomplete = new Class({
             Fabrik.fireEvent('fabrik.autocomplete.notselected', [this, this.element.value]);
 		}
 	},
-	
+
 	closeMenu: function () {
 		if (this.shown) {
 			this.shown = false;
@@ -186,7 +189,7 @@ var FbAutocomplete = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	openMenu: function () {
 		if (!this.shown) {
 			this.menu.show();
@@ -198,20 +201,20 @@ var FbAutocomplete = new Class({
 			this.highlight();
 		}
 	},
-	
+
 	doTestMenuClose: function () {
 		if (!this.mouseinsde) {
 			this.closeMenu();
 		}
 	},
-	
+
 	getListMax: function () {
 		if (typeOf(this.data) === 'null') {
 			return 0;
 		}
 		return this.data.length > this.options.max ? this.options.max : this.data.length;
 	},
-	
+
 	doWatchKeys: function (e) {
 		var max = this.getListMax();
 		if (!this.shown) {
@@ -254,14 +257,14 @@ var FbAutocomplete = new Class({
 			}
 		}
 	},
-	
+
 	getSelected: function () {
 		var a = this.menu.getElements('li').filter(function (li, i) {
 			return i === this.selected;
 		}.bind(this));
 		return a[0];
 	},
-	
+
 	highlight: function () {
 		this.matchedResult = true;
 		this.menu.getElements('li').each(function (li, i) {
@@ -272,13 +275,13 @@ var FbAutocomplete = new Class({
 			}
 		}.bind(this));
 	}
-	
+
 });
 
 var FabCddAutocomplete = new Class({
-	
+
 	Extends: FbAutocomplete,
-	
+
 	search: function (e) {
 		var key;
 		var v = this.getInputElement().get('value');
@@ -313,11 +316,11 @@ var FabCddAutocomplete = new Class({
 						fabrik_cascade_ajax_update: 1,
 						v: observer.get('value')
 					},
-					
+
 					onSuccess: function (e) {
 						this.completeAjax(e);
 					}.bind(this),
-					
+
 					onError: function (text, error) {
 						console.log(text, error);
 					},

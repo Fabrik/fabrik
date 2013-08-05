@@ -1,5 +1,8 @@
 /**
- * @author Robert
+ * List Plugin
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 /* jshint mootools: true */
@@ -7,7 +10,7 @@
  * global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true,
  * $H:true,unescape:true,head:true,FbListActions:true,FbGroupedToggler:true,FbListKeys:true
  */
- 
+
 var FbListPlugin = new Class({
 	Implements: [Events, Options],
 	options: {
@@ -35,7 +38,7 @@ var FbListPlugin = new Class({
 				this.listform = this.getList().container.getElement('form');
 			}
 		}
-		
+
 		this.watchButton();
 	},
 
@@ -50,7 +53,7 @@ var FbListPlugin = new Class({
 		}
 		return b;
 	},
-	
+
 	/**
 	 * get a html nodes row id - so you can pass in td or tr for example
 	 * presumes each row has a fabrik_row class and its id is in a string 'list_listref_rowid'
@@ -58,7 +61,7 @@ var FbListPlugin = new Class({
 
 	getRowId: function (node) {
 		if (!node.hasClass('fabrik_row')) {
-			node = node.getParent('.fabrik_row'); 
+			node = node.getParent('.fabrik_row');
 		}
 		return node.id.split('_').getLast();
 	},
@@ -76,7 +79,7 @@ var FbListPlugin = new Class({
 				return;
 			}
 			e.stop();
-			
+
 			// Check that the button clicked belongs to this this.list
 			if (element.get('data-list') !== this.list.options.listRef) {
 				return;

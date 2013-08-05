@@ -1,3 +1,10 @@
+/**
+ * Chart Visualization
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var fabrikGraph = new Class({
 	Implements: [Options],
 	options: {
@@ -5,11 +12,11 @@ var fabrikGraph = new Class({
 		label: '',
 		aChartKeys: {},
 		axis_label: '',
-		json: {}, 
+		json: {},
 		chartType: 'barChart',
 		xticks: []
 	},
-	
+
 	initialize: function (el, d, options) {
 		this.setOptions(options);
 		//todo doesnt seem to work with 1 record of data
@@ -17,7 +24,7 @@ var fabrikGraph = new Class({
 		this.json = d;
 		this.render();
 	},
-	
+
 	render: function () {
 		switch (this.options.chartType) {
 		case 'BarChart':
@@ -34,6 +41,6 @@ var fabrikGraph = new Class({
 		this.graph.render();
 		if (this.options.legend === '1') {
 			this.graph.addLegend(this.el);
-		} 
+		}
 	}
 });

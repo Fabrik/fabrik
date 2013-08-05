@@ -1,3 +1,10 @@
+/**
+ * List in a Module
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var fabrikTableModule = new Class({
 
 	initialize: function(id){
@@ -5,7 +12,7 @@ var fabrikTableModule = new Class({
       'mooversion': 1.1
     }, arguments[1] ||
     {});
-    
+
 		window.addEvent('load', function(e){
 			this.blocks = document.id(id).getElements('.fabrik_block');
 			if(window.getHeight() - 70  > this.blocks[1].getStyle("height").toInt() && this.blocks[1].getStyle("height").toInt() != 0){
@@ -37,14 +44,14 @@ var fabrikTableModule = new Class({
 					}
 				i++;
 			});
-			
+
 			this.watchViewLinks();
 			this.watchEditLinks();
 			// $$$ is this kosher?  Array.from copies an array, and seems to make [0] be
 			// 'window' if you don't give it an array to copy.
 			var links = Array.from([]);
 			links.extend([this.blocks[0].getElement('.addbutton')]);
-			links.extend(this.blocks[1].getElements('.button')); 
+			links.extend(this.blocks[1].getElements('.button'));
 			links.each(function(l){
 				if(l){
 					l.addEvent('click', function(e){
@@ -65,10 +72,10 @@ var fabrikTableModule = new Class({
 			}.bind(this));
 		}.bind(this));
 	},
-	
+
 	watchEditLinks:function()
 	{
-		//not sure why this is needed but if you edit and save a record then the 
+		//not sure why this is needed but if you edit and save a record then the
 		//table doesnt attach the watchRows events to the new edit links (even though it calls
 		//watchRows() when it updates itself.
 		this.blocks[0].getElements('.fabrik___rowlink').removeEvents();
@@ -89,7 +96,7 @@ var fabrikTableModule = new Class({
 			var e = new Event(event).stop();
 		}.bind(this));
 	},
-	
+
 	watchViewLinks:function()
 	{
 		this.blocks[0].getElements('.fabrik___viewrowlink').addEvent('click', function(event){

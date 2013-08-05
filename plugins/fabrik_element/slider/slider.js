@@ -1,3 +1,10 @@
+/**
+ * Slider Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbSlider = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
@@ -17,13 +24,13 @@ var FbSlider = new Class({
 			}
 			this.output = this.element.getElement('.fabrikinput');
 			this.output2 = this.element.getElement('.slider_output');
-			
+
 			this.output.value = this.options.value;
 			this.output2.set('text', this.options.value);
-			
+
 			this.mySlide = new Slider(
 				this.element.getElement('.fabrikslider-line'),
-				this.element.getElement('.knob'), 
+				this.element.getElement('.knob'),
 				{
 					onChange: function (pos) {
 						this.output.value = pos;
@@ -40,7 +47,7 @@ var FbSlider = new Class({
 					steps : this.options.steps
 				}
 			).set(v);
-			
+
 			if (isNull) {
 				this.output.value = '';
 				this.output2.set('text', '');
@@ -49,7 +56,7 @@ var FbSlider = new Class({
 			this.watchClear();
 		}
 	},
-	
+
 	watchClear: function () {
 		this.element.addEvent('click:relay(.clearslider)', function (e, target) {
 			e.preventDefault();
@@ -59,15 +66,15 @@ var FbSlider = new Class({
 			this.output2.set('text', '');
 		}.bind(this));
 	},
-	
+
 	getValue: function () {
 		return this.options.value;
 	},
-	
+
 	callChange: function () {
 		typeOf(this.changejs) === 'function' ? this.changejs.delay(0) :	eval(this.changejs);
 	},
-	
+
 	addNewEvent: function (action, js) {
 		if (action === 'load') {
 			this.loadEvents.push(js);

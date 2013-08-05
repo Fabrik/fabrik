@@ -1,8 +1,10 @@
 /**
- * @package Joomla!
- * @subpackage JavaScript
- * @since 1.5
+ * Ratings Element - List
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
+
 var FbRatingList = new Class({
 
 	options: {
@@ -68,11 +70,11 @@ var FbRatingList = new Class({
 		this.rating = this._getRating(star);
 		var ratingmsg = star.getParent('.fabrik_element').getElement('.ratingMessage');
 		Fabrik.loader.start(ratingmsg);
-		
+
 		var starRatingCover = new Element('div', {id: 'starRatingCover', styles: {bottom: 0, top: 0, right: 0, left: 0, position: 'absolute', cursor: 'progress'} });
 		var starRatingContainer = star.getParent('.fabrik_element').getElement('div');
 		starRatingContainer.grab(starRatingCover, 'top');
-		
+
 		var row = document.id(star).getParent('.fabrik_row');
 		var rowid = row.id.replace('list_' + this.options.listRef + '_row_', '');
 		var data = {

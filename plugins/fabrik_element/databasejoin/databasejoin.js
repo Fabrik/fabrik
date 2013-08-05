@@ -1,6 +1,13 @@
+/**
+ * Database Join Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbDatabasejoin = new Class({
 	Extends: FbElement,
-	
+
 	options: {
 		'id': 0,
 		'formid': 0,
@@ -14,7 +21,7 @@ var FbDatabasejoin = new Class({
 		'joinId': 0,
 		'isJoin': false
 	},
-	
+
 	initialize: function (element, options) {
 		this.activePopUp = false;
 		this.activeSelect = false;
@@ -22,23 +29,23 @@ var FbDatabasejoin = new Class({
 		this.parent(element, options);
 		this.init();
 	},
-	
+
 	watchAdd: function () {
 		if (c = this.getContainer()) {
 			var b = c.getElement('.toggle-addoption');
-			
+
 			// If duplicated remove old events
-			
+
 			b.removeEvent('click', function (e) {
 				this.start(e);
 			}.bind(this));
-			
+
 			b.addEvent('click', function (e) {
 				this.start(e);
 			}.bind(this));
 		}
 	},
-	
+
 	/**
 	 * Add option via a popup form. Opens a window with the releated form
 	 * inside
@@ -48,7 +55,7 @@ var FbDatabasejoin = new Class({
 			return;
 		}
 		force = force ? true : false;
-		
+
 		// First time loading - auto close the hidden loaded popup.
 		var onContentLoaded = function () {
 			this.close();
@@ -60,16 +67,16 @@ var FbDatabasejoin = new Class({
 			onContentLoaded = function (win) {
 				win.fitToContent();
 			};
-			
+
 			// @FIXME - if set to true, then click addrow, click select rows, click add row => can't submit the form
 			// if set to false then theres an issue with loading data in repeat groups: see window.close()
 			//destroy = true;
 			visible = true;
 			this.activePopUp = true;
 		}
-		
+
 		destroy = true;
-		
+
 		if (force === false && (this.options.popupform === 0 || this.options.allowadd === false)) {
 			return;
 		}
@@ -79,8 +86,8 @@ var FbDatabasejoin = new Class({
 		}
 		var a = c.getElement('.toggle-addoption');
 		var url = typeOf(a) === 'null' ? e.target.get('href') : a.get('href');
-		
-		
+
+
 		var id = this.element.id + '-popupwin';
 		this.windowopts = {
 			'id': id,
@@ -100,30 +107,30 @@ var FbDatabasejoin = new Class({
 			this.windowopts.width = winWidth;
 			this.windowopts.onContentLoaded = onContentLoaded;
 		}
-		
+
 		this.win = Fabrik.getWindow(this.windowopts);
 	},
-	
+
 	getBlurEvent: function () {
 		if (this.options.displayType === 'auto-complete') {
-			return 'change'; 
+			return 'change';
 		}
 		return this.parent();
 	},
-	
+
 	/**
 	 * Adds an option to the db join element, for dropdowns and radio buttons
 	 * (where only one selection is possible from a visible list of options)
 	 * the new option is only selected if its value = this.options.value
-	 * 
+	 *
 	 * @param	string	value               Option value
 	 * @param	string	label               Option label
 	 * @param   bool    autoCompleteUpdate  Should the autocomplete element set its current label/value to the option
 	 * being added - set to false in updateFromServer if not the active element.
-	 * 
+	 *
 	 * @return  void
 	 */
-	
+
 	addOption: function (v, l, autoCompleteUpdate)
 	{
 		autoCompleteUpdate = typeof(autoCompleteUpdate) !== 'undefined' ? autoCompleteUpdate : true;
@@ -150,23 +157,23 @@ var FbDatabasejoin = new Class({
 		case 'checkbox':
 			sel = typeOf(this.options.value) === 'array' ? this.options.value : Array.from(this.options.value);
 			chxed = sel.contains(v) ? true : false;
-			
+
 			subOpts = this.element.getElements('> .fabrik_subelement');
 			opt = this.getCheckboxTmplNode().clone();
 			var i = opt.getElement('input');
 			if (this.options.canRepeat) {
 				i.name = this.options.fullName + '[' + this.options.repeatCounter + '][' + subOpts.length + ']';
 			} else {
-				i.name = this.options.fullName + '[' + subOpts.length + ']';	
+				i.name = this.options.fullName + '[' + subOpts.length + ']';
 			}
-			
+
 			opt.getElement('span').set('text', l);
 			opt.getElement('input').set('value', v);
 			last = subOpts.length === 0 ? this.element : subOpts.getLast();
 			injectWhere = subOpts.length === 0 ? 'bottom' : 'after';
 			opt.inject(last, injectWhere);
 			opt.getElement('input').checked = chxed;
-			
+
 			break;
 		case 'radio':
 		/* falls through */
@@ -177,9 +184,9 @@ var FbDatabasejoin = new Class({
 			if (this.options.canRepeat) {
 				name = this.options.fullName + '[' + this.options.repeatCounter + '][]';
 			} else {
-				name = this.options.fullName + '[]';	
+				name = this.options.fullName + '[]';
 			}
-		
+
 			chxed = (v === this.options.value) ? true : false;
 			opt = new Element('div', {
 				'class': 'fabrik_subelement'
@@ -197,14 +204,14 @@ var FbDatabasejoin = new Class({
 			break;
 		}
 	},
-	
+
 	/**
 	 * As cdd elements clear out the sub options before repopulating we need
 	 * to grab a copy of one of the checkboxes to use as a template node when recreating
 	 * the list
-	 * 
+	 *
 	 * @deprecated
-	 * 
+	 *
 	 * @return  dom node .fabrik_subelement (hidden id checkbox containing fk value)
 	 */
 	getCheckboxIDTmplNode: function () {
@@ -220,7 +227,7 @@ var FbDatabasejoin = new Class({
 		}
 		return this.chxTmplIDNode;
 	},
-	
+
 	hasSubElements: function () {
 		var d = this.options.displayType;
 		if (d === 'checkbox' || d === 'radio') {
@@ -228,12 +235,12 @@ var FbDatabasejoin = new Class({
 		}
 		return this.parent();
 	},
-	
+
 	/**
 	 * As cdd elements clear out the sub options before repopulating we need
 	 * to grab a copy of one of the checkboxes to use as a template node when recreating
 	 * the list
-	 * 
+	 *
 	 * @return  dom node .fabrik_subelement (visible checkbox)
 	 */
 	getCheckboxTmplNode: function () {
@@ -246,17 +253,17 @@ var FbDatabasejoin = new Class({
 			} else {
 				this.chxTmplNode = chxs.getLast().clone();
 			}
-			
+
 		}
 		return this.chxTmplNode;
 	},
-	
+
 	/**
 	 * Send an ajax request to requery the element options and update the element if new options found
-	 * 
+	 *
 	 * @param	string	(optional) additional value to get the updated value for (used in select)
 	 */
-	
+
 	updateFromServer: function (v)
 	{
 		var data = {
@@ -276,16 +283,16 @@ var FbDatabasejoin = new Class({
 		}
 		if (v) {
 			data[this.strElement + '_raw'] = v;
-			
+
 			// Joined elements strElement isnt right so use fullName as well
 			data[this.options.fullName + '_raw'] = v;
 		}
 		new Request.JSON({url: '',
-			method: 'post', 
+			method: 'post',
 			'data': data,
 			onSuccess: function (json) {
 				var sel, existingValues = this.getOptionValues();
-				
+
 				// If duplicating an element in a repeat group when its auto-complete we dont want to update its value
 				if (this.options.displayType === 'auto-complete' && v === '' && existingValues.length === 0) {
 					return;
@@ -302,7 +309,7 @@ var FbDatabasejoin = new Class({
 			}.bind(this)
 		}).post();
 	},
-	
+
 	getOptionValues: function () {
 		var o;
 		var values = [];
@@ -326,7 +333,7 @@ var FbDatabasejoin = new Class({
 		});
 		return values.unique();
 	},
-	
+
 	appendInfo: function (data) {
 		var rowid = data.rowid;
 		var formid = this.options.formid;
@@ -342,7 +349,7 @@ var FbDatabasejoin = new Class({
 			onSuccess: function (r) {
 				var v = r.data[this.options.key];
 				var l = r.data[this.options.label];
-					
+
 				switch (this.options.displayType) {
 				case 'dropdown':
 				/* falls through */
@@ -377,7 +384,7 @@ var FbDatabasejoin = new Class({
 					}
 					break;
 				}
-					
+
 				if (typeOf(this.element) === 'null') {
 					return;
 				}
@@ -387,7 +394,7 @@ var FbDatabasejoin = new Class({
 			}.bind(this)
 		}).send();
 	},
-	
+
 	watchSelect: function () {
 		if (c = this.getContainer()) {
 			var sel = c.getElement('.toggle-selectoption');
@@ -404,7 +411,7 @@ var FbDatabasejoin = new Class({
 						}
 					}
 				}.bind(this));
-				
+
 				// Used for auto-completes in repeating groups to stop all fields updating when a record
 				// is selcted
 				this.unactiveFn = function () {
@@ -416,10 +423,10 @@ var FbDatabasejoin = new Class({
 			this.selectThenAdd();
 		}
 	},
-	
+
 	/**
 	 * Watch the list load so that its add button will close the window and open the db join add window
-	 * 
+	 *
 	 * @return void
 	 */
 	selectThenAdd: function () {
@@ -434,7 +441,7 @@ var FbDatabasejoin = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	/**
 	 * Called when form closed in ajax window
 	 * Should remove any events added to Window or Fabrik
@@ -442,7 +449,7 @@ var FbDatabasejoin = new Class({
 	destroy: function () {
 		window.removeEvent('fabrik.dbjoin.unactivate', this.unactiveFn);
 	},
-	
+
 	selectRecord: function (e) {
 		window.fireEvent('fabrik.dbjoin.unactivate');
 		this.activeSelect = true;
@@ -452,7 +459,7 @@ var FbDatabasejoin = new Class({
 		url += "&triggerElement=" + this.element.id;
 		url += "&resetfilters=1";
 		url += '&c=' + this.options.listRef;
-		
+
 		this.windowopts = {
 			'id': id,
 			'title': Joomla.JText._('PLG_ELEMENT_DBJOIN_SELECT'),
@@ -470,16 +477,16 @@ var FbDatabasejoin = new Class({
 		};
 		var mywin = Fabrik.getWindow(this.windowopts);
 	},
-	
+
 	/**
 	 * Get the window id for the 'select record' window
-	 * 
+	 *
 	 * @return  string
 	 */
 	selectRecordWindowId: function () {
 		return this.element.id + '-popupwin-select';
 	},
-	
+
 	update: function (val) {
 		console.log('update', val);
 		this.getElement();
@@ -500,17 +507,17 @@ var FbDatabasejoin = new Class({
 				if (typeOf(h.get(v)) !== 'null') {
 					this.element.innerHTML += h.get(v) + "<br />";
 				} else {
-					//for detailed view prev/next pagination v is set via elements 
+					//for detailed view prev/next pagination v is set via elements
 					//getROValue() method and is thus in the correct format - not sure that
-					// h.get(v) is right at all but leaving in incase i've missed another scenario 
+					// h.get(v) is right at all but leaving in incase i've missed another scenario
 					this.element.innerHTML += v + "<br />";
-				}	
+				}
 			}.bind(this));
 			return;
 		}
 		this.setValue(val);
 	},
-	
+
 	setValue: function (val) {
 		var found = false;
 		if (typeOf(this.element.options) !== 'null') { //needed with repeat group code
@@ -542,11 +549,11 @@ var FbDatabasejoin = new Class({
 		}
 		this.options.value = val;
 	},
-	
+
 	/**
 	 * Optionally show a description which is another field from the joined table.
 	 */
-	
+
 	showDesc: function (e) {
 		var v = e.target.selectedIndex;
 		var c = this.getContainer().getElement('.dbjoin-description');
@@ -565,7 +572,7 @@ var FbDatabasejoin = new Class({
 			}
 		});
 	},
-	
+
 	getValue: function () {
 		var v = null;
 		this.getElement();
@@ -613,12 +620,12 @@ var FbDatabasejoin = new Class({
 			return v;
 		}
 	},
-	
+
 	/**
 	 * When rendered as a checkbox - the joined to tables values are stored in the visible checkboxes,
 	 * for getValue() to get the actual values we only want to select these subElements and not the hidden
-	 * ones which if we did would add the lookup lists's ids into the values array. 
-	 * 
+	 * ones which if we did would add the lookup lists's ids into the values array.
+	 *
 	 * @return  array
 	 */
 	getChxLabelSubElements: function () {
@@ -629,21 +636,21 @@ var FbDatabasejoin = new Class({
 			}
 		});
 	},
-	
+
 	/**
 	 * Sets the element key used in Fabrik.blocks.form_X.formElements
-	 * 
+	 *
 	 * @since   3.0.7
-	 * 
+	 *
 	 * @deprecated since 3.1rc1
 	 * @return  string
 	 */
 	/*getFormElementsKey: function (elId) {
 	},*/
-	
+
 	/**
 	 * Used to find element when form clones a group
-	 * WYSIWYG text editor needs to return something specific as options.element has to use name 
+	 * WYSIWYG text editor needs to return something specific as options.element has to use name
 	 * and not id.
 	 */
 	getCloneName: function () {
@@ -653,7 +660,7 @@ var FbDatabasejoin = new Class({
 		}*/
 		return this.options.element;
 	},
-	
+
 	getValues: function () {
 		var v = [];
 		var search = (this.options.displayType !== 'dropdown') ? 'input' : 'option';
@@ -662,7 +669,7 @@ var FbDatabasejoin = new Class({
 		});
 		return v;
 	},
-	
+
 	cloned: function (c) {
 		//c is the repeat group count
 		this.activePopUp = false;
@@ -673,7 +680,7 @@ var FbDatabasejoin = new Class({
 			this.cloneAutoComplete();
 		}
 	},
-	
+
 	/**
 	 * Update auto-complete fields id and create new autocompleter object for duplicated element
 	 */
@@ -684,9 +691,9 @@ var FbDatabasejoin = new Class({
 		document.id(f.id).value = '';
 		new FbAutocomplete(this.element.id, this.options.autoCompleteOpts);
 	},
-	
+
 	init: function () {
-		
+
 		// Could be in a popup add record form, in which case we don't want to ini on a main page load
 		if (typeOf(this.element) === 'null') {
 			return;
@@ -695,7 +702,7 @@ var FbDatabasejoin = new Class({
 			this.getCheckboxTmplNode();
 			//this.getCheckboxIDTmplNode();
 		}
-		
+
 		// If users can add records to the database join drop down
 		if (this.options.allowadd === true && this.options.editable !== false) {
 			this.watchAdd();
@@ -707,8 +714,8 @@ var FbDatabasejoin = new Class({
 
 					// rob previously we we doing appendInfo() but that didnt get the concat labels for the database join
 					if (this.options.displayType === 'auto-complete') {
-						
-						// Need to get v if autocomplete and updating from posted popup form as we only want to get ONE 
+
+						// Need to get v if autocomplete and updating from posted popup form as we only want to get ONE
 						// option back inside update();
 						var myajax = new Request.JSON({
 							'url': 'index.php?option=com_fabrik&view=form&format=raw',
@@ -726,7 +733,7 @@ var FbDatabasejoin = new Class({
 				}
 			}.bind(this));
 		}
-		
+
 		if (this.options.editable) {
 			this.watchSelect();
 			if (this.options.showDesc === true) {
@@ -737,7 +744,7 @@ var FbDatabasejoin = new Class({
 			this.watchJoinCheckboxes();
 		}
 	},
-	
+
 	watchJoinCheckboxes: function () {
 		/*if (this.options.displayType === 'checkbox') {
 			// $$$rob 15/07/2011 - when selecting checkboxes have to programatically select hidden checkboxes which store the join ids.
@@ -752,7 +759,7 @@ var FbDatabasejoin = new Class({
 			}.bind(this));
 		}*/
 	},
-	
+
 	getAutoCompleteLabelField: function () {
 		var p = this.element.getParent('.fabrikElement');
 		var f = p.getElement('input[name*=-auto-complete]');
@@ -761,7 +768,7 @@ var FbDatabasejoin = new Class({
 		}
 		return f;
 	},
-	
+
 	addNewEventAux: function (action, js) {
 		switch (this.options.displayType) {
 		case 'dropdown':
@@ -793,9 +800,9 @@ var FbDatabasejoin = new Class({
 				}.bind(this));
 			}
 			break;
-		}		
+		}
 	},
-	
+
 	decreaseName: function (delIndex) {
 		if (this.options.displayType === 'auto-complete') {
 			var f = this.getAutoCompleteLabelField();

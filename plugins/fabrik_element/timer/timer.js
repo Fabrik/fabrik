@@ -1,5 +1,12 @@
+/**
+ * Timer Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbTimer = new Class({
-	
+
 	options: {
 		defaultVal: '',
 		editable: false,
@@ -11,9 +18,9 @@ var FbTimer = new Class({
 		onEveryMinute: function () {},
 		onEveryHour: function () {}
 	},
-	
+
 	Extends: FbElement,
-	
+
 	initialize: function (element, options) {
 		this.plugin = 'fabriktimer';
 		this.parent(element, options);
@@ -29,7 +36,7 @@ var FbTimer = new Class({
 		} else {
 			this.state = 'paused';
 		}
-		
+
 		this.incremental = 1;
 		if (typeOf(b) !== 'null') {
 			b.addEvent('click', function (e) {
@@ -59,21 +66,21 @@ var FbTimer = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	start: function () {
 		if (this.state !== 'started') {
-			this.timer = this.count.periodical(1000, this); 
+			this.timer = this.count.periodical(1000, this);
 			this.state = 'started';
 		}
 	},
-	
-	pause: function () { 
+
+	pause: function () {
 		if (this.state !== 'paused') {
-			clearInterval(this.timer); 
+			clearInterval(this.timer);
 			this.state = 'paused';
 		}
 	},
-	
+
 	count: function () {
 		this.seg += this.incremental;
 		if ((this.seg === -1) || (this.seg === 60)) {
@@ -94,25 +101,25 @@ var FbTimer = new Class({
 			}
 		}
 	},
-	
+
 	time: function () {
 		var time_to_show = (this.hour < 10) ? "0" + this.hour : this.hour;
 		time_to_show += ((this.min < 10) ? ":0" : ":") + this.min;
 		time_to_show += ((this.seg < 10) ? ":0" : ":") + this.seg;
 		return time_to_show;
 	},
-	
+
 	reset: function () {
 		//reset time to initial values
 		start_array = this.options.startCrono.split(":");
 		end_array = this.options.endCrono.split(":");
-		
+
 		this.startMin = start_array[0].toInt();
 		this.startSeg = start_array[1].toInt();
 
 		this.endMin = end_array[0].toInt();
 		this.endSeg = end_array[1].toInt();
-		
+
 		if (this.endMin !== this.startMin) {
 			this.incremental = (this.endMin > this.startMin) ? 1 : -1;
 		} else {

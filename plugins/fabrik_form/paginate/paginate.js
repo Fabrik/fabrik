@@ -1,5 +1,12 @@
+/**
+ * List Paginate
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 FabRecordSet = new Class({
-	
+
 	initialize: function (form, options) {
 		this.form = form;
 		this.options = {};
@@ -12,7 +19,7 @@ FabRecordSet = new Class({
 		this.url = this.options.liveSite + 'index.php?option=com_fabrik&format=raw&controller=plugin&g=form&task=pluginAjax&plugin=paginate&method=xRecord&formid=' + formId + '&mode=' + this.options.view + '&rowid=';
 		this.watchButtons();
 	},
-	
+
 	doUpdate: function (json) {
 		var o = Json.evaluate(json.stripScripts());
 		this.options.ids = o.ids;
@@ -42,7 +49,7 @@ FabRecordSet = new Class({
 		window.fireEvent('fabrik.form.refresh', [o.post.rowid]);
 		oPackage.stopLoading(this.form.getBlock());
 	},
-	
+
 	doNav: function (e, dir) {
 		e.stop();
 		var ok = true;
@@ -72,7 +79,7 @@ FabRecordSet = new Class({
 			rowid = this.options.ids.next;
 			break;
 		}
-		if (!ok) { 
+		if (!ok) {
 			return;
 		}
 		oPackage.startLoading(this.form.getBlock());
@@ -84,7 +91,7 @@ FabRecordSet = new Class({
 			}.bind(this)
 		}).send();
 	},
-	
+
 	watchButtons: function () {
 		var n, form;
 		form = this.form.getForm();
@@ -92,15 +99,15 @@ FabRecordSet = new Class({
 		n.getElement('.paginateNext').addEvent('click', function (e) {
 			this.doNav(e, 1);
 		}.bind(this));
-		
+
 		n.getElement('.paginatePrevious').addEvent('click', function (e) {
 			this.doNav(e, -1);
 		}.bind(this));
-		
+
 		n.getElement('.paginateLast').addEvent('click', function (e) {
 			this.doNav(e, 2);
 		}.bind(this));
-		
+
 		n.getElement('.paginateFirst').addEvent('click', function (e) {
 			this.doNav(e, 0);
 		}.bind(this));

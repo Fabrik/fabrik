@@ -1,3 +1,10 @@
+/**
+ * Approvals Visualization
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var fbVisApprovals = new Class({
 	Implements: [Options],
 	options: {},
@@ -12,7 +19,7 @@ var fbVisApprovals = new Class({
 			}
 			var i = el.getParent('.floating-tip').retrieve('trigger');
 			new Request.HTML({'update': i, 'url': el.href}).send();
-			
+
 		});
 		document.addEvent('click:relay(a.disapprove)', function (e) {
 			var el = e.target;
@@ -23,7 +30,7 @@ var fbVisApprovals = new Class({
 			new Request.HTML({'update': i, 'url': el.href}).send();
 			e.stop();
 		});
-		
+
 		new FloatingTips('.approvalTip', {
 			position: 'right',
 			content: function (e) {

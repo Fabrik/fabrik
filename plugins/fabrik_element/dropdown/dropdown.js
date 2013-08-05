@@ -1,3 +1,10 @@
+/**
+ * Facebook Dropdown Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbDropdown = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
@@ -8,11 +15,11 @@ var FbDropdown = new Class({
 			this.watchAdd();
 		}
 	},
-	
+
 	watchAddToggle : function () {
 		var c = this.getContainer();
 		var d = c.getElement('div.addoption');
-	
+
 		var a = c.getElement('.toggle-addoption');
 		if (this.mySlider) {
 			//copied in repeating group so need to remove old slider html first
@@ -32,7 +39,7 @@ var FbDropdown = new Class({
 			this.mySlider.toggle();
 		}.bind(this));
 	},
-	
+
 	watchAdd: function () {
 		var val;
 		if (this.options.allowadd === true && this.options.editable !== false) {
@@ -69,7 +76,7 @@ var FbDropdown = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	getValue: function () {
 		if (!this.options.editable) {
 			return this.options.value;
@@ -79,13 +86,13 @@ var FbDropdown = new Class({
 		}
 		return this.element.get('value');
 	},
-	
+
 	reset: function ()
 	{
 		var v = this.options.defaultVal;
 		this.update(v);
 	},
-	
+
 	update: function (val) {
 		var opts = [];
 		if  ((typeOf(val) === 'string') && (JSON.validate(val))) {
@@ -94,7 +101,7 @@ var FbDropdown = new Class({
 		if (typeOf(val) === 'null') {
 			val = [];
 		}
-		
+
 		this.getElement();
 		if (typeOf(this.element) === 'null') {
 			return;
@@ -104,15 +111,15 @@ var FbDropdown = new Class({
 			this.element.set('html', '');
 			var h = $H(this.options.data);
 			val.each(function (v) {
-				this.element.innerHTML += h.get(v) + "<br />";	
+				this.element.innerHTML += h.get(v) + "<br />";
 			}.bind(this));
 			return;
 		}
 		opts = this.element.getElements('option');
 		if (typeOf(val) === 'number') {
-			
+
 			// Numbers dont have indexOf() methods so ensure they are strings
-			val = val.toString(); 
+			val = val.toString();
 		}
 		for (var i = 0; i < opts.length; i++) {
 			if (val.indexOf(opts[i].value) !== -1) {
@@ -123,7 +130,7 @@ var FbDropdown = new Class({
 		}
 		this.watchAdd();
 	},
-	
+
 	cloned: function (c)
 	{
 		if (this.options.allowadd === true && this.options.editable !== false) {
@@ -132,5 +139,5 @@ var FbDropdown = new Class({
 		}
 		this.parent(c);
 	}
-	
+
 });

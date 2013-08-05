@@ -1,12 +1,19 @@
+/**
+ * Admin Listfields Dropdown Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var ListFieldsElement = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		conn: null,
 		highlightpk: false
 	},
-	
+
 	initialize: function (el, options) {
 		this.strEl = el;
 		this.el = el;
@@ -17,7 +24,7 @@ var ListFieldsElement = new Class({
 			this.setUp();
 		}
 	},
-	
+
 	/**
 	 * Triggered when a fieldset is repeated (e.g. in googlemap viz where you can
 	 * select more than one data set)
@@ -30,7 +37,7 @@ var ListFieldsElement = new Class({
 		this._cloneProp('table', counter);
 		this.setUp();
 	},
-	
+
 	/**
 	 * Helper method to update option HTML id's on clone()
 	 */
@@ -40,7 +47,7 @@ var ListFieldsElement = new Class({
 		bits.push(counter);
 		this.options[prop] = bits.join('-');
 	},
-	
+
 	getCnn: function () {
 		if (typeOf(document.id(this.options.conn)) === 'null') {
 			return;
@@ -48,7 +55,7 @@ var ListFieldsElement = new Class({
 		this.setUp();
 		clearInterval(this.cnnperiodical);
 	},
-	
+
 	setUp: function () {
 		this.el = document.id(this.el);
 		document.id(this.options.conn).addEvent('change', function () {
@@ -57,14 +64,14 @@ var ListFieldsElement = new Class({
 		document.id(this.options.table).addEvent('change', function () {
 			this.updateMe();
 		}.bind(this));
-			
+
 		// See if there is a connection selected
 		var v = document.id(this.options.conn).get('value');
 		if (v !== '' && v !== -1) {
 			this.periodical = this.updateMe.periodical(500, this);
 		}
 	},
-	
+
 	updateMe: function (e) {
 		if (typeOf(e) === 'event') {
 			e.stop();
@@ -81,20 +88,20 @@ var ListFieldsElement = new Class({
 		var url = 'index.php?option=com_fabrik&format=raw&task=plugin.pluginAjax&g=element&plugin=field&method=ajax_fields&showall=1&cid=' + cid + '&t=' + tid;
 		var myAjax = new Request({
 			url: url,
-			method: 'get', 
+			method: 'get',
 			data: {
 				'highlightpk': this.options.highlightpk,
 				'k': 2
 			},
 			onComplete: function (r) {
-				
+
 				// Googlemap inside repeat group & modal repeat
 				if (typeOf(document.id(this.strEl)) !== null) {
 					this.el = document.id(this.strEl);
 				}
 				var els = document.getElementsByName(this.el.name);
-				
-				var opts = eval(r); 
+
+				var opts = eval(r);
 				this.el.empty();
 				Array.each(els, function (el) {
 					document.id(el).empty();

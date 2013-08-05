@@ -1,18 +1,25 @@
+/**
+ * Radio Button Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 window.FbRadio = new Class({
 	Extends: FbElementList,
-	
+
 	options: {
 		btnGroup: true
 	},
-	
+
 	type: 'radio', // sub element type
-	
+
 	initialize: function (element, options) {
 		this.plugin = 'fabrikradiobutton';
 		this.parent(element, options);
 		this.btnGroup();
 	},
-	
+
 	btnGroup: function () {
 		// Seems slighly skewy in admin as the j template does the same code
 		if (!this.options.btnGroup) {
@@ -20,14 +27,14 @@ window.FbRadio = new Class({
 		}
 		// Turn radios into btn-group
 		this.btnGroupRelay();
-		
+
 		var c = this.getContainer();
 		if (!c) {
 			return;
 		}
 		c.getElements('.radio.btn-group label').addClass('btn');
-		
-		
+
+
 		c.getElements(".btn-group input[checked=checked]").each(function (input) {
 			var label = input.getParent('label');
 			v = input.get('value');
@@ -40,7 +47,7 @@ window.FbRadio = new Class({
 			}
 		});
 	},
-	
+
 	btnGroupRelay: function () {
 		var c = this.getContainer();
 		if (!c) {
@@ -58,7 +65,7 @@ window.FbRadio = new Class({
 			this.setButtonGroupCSS(input);
 		}.bind(this));
 	},
-	
+
 	setButtonGroupCSS: function (input) {
 		var label;
 		if (input.id !== '') {

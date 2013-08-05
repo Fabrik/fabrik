@@ -1,13 +1,18 @@
 /**
- * @author Robert
- 
- watch another element for changes to its value, and send an ajax call to update
- this elements values 
+ * Cascading Dropdown Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
- 
+
+/**
+ watch another element for changes to its value, and send an ajax call to update
+ this elements values
+ */
+
 var FbCascadingdropdown = new Class({
-	 
-	Extends: FbDatabasejoin, 
+
+	Extends: FbDatabasejoin,
 	initialize: function (element, options) {
 		this.ignoreAjax = false;
 		this.parent(element, options);
@@ -19,7 +24,7 @@ var FbCascadingdropdown = new Class({
 			 */
 			this.doChangeEvent = this.doChange.bind(this);
 			document.id(this.options.watch).addEvent('change', this.doChangeEvent);
-			
+
 
 		}
 		if (this.options.showDesc === true) {
@@ -32,7 +37,7 @@ var FbCascadingdropdown = new Class({
 			this.spinner = new Spinner(this.element.getParent('.fabrikElementContainer'));
 		}
 	},
-	
+
 	attachedToForm: function ()
 	{
 		// $$$ rob have to call update here otherwise all options can be shown
@@ -45,7 +50,7 @@ var FbCascadingdropdown = new Class({
 			this.change(v, document.id(this.options.watch).id);
 		}
 	},
-	
+
 	dowatch: function (e)
 	{
 		var v = Fabrik.blocks[this.form.form.id].formElements[this.options.watch].getValue();
@@ -60,7 +65,7 @@ var FbCascadingdropdown = new Class({
 		}
 		this.dowatch(e);
 	},
-	
+
 	/**
 	 * Change
 	 * @param   v          Value of observered element
@@ -74,7 +79,7 @@ var FbCascadingdropdown = new Class({
 		 * http://fabrikar.com/forums/showthread.php?p=109638#post109638
 		 */
 		if (window.ie) {
-			if (this.options.repeatCounter.toInt() === 0) { 
+			if (this.options.repeatCounter.toInt() === 0) {
 			// this is the original cdd element
 				var s = triggerid.substr(triggerid.length - 2, 1);
 				var i = triggerid.substr(triggerid.length - 1, 1);
@@ -90,7 +95,7 @@ var FbCascadingdropdown = new Class({
 		// so any custom 'where' clause on the cdd can use {placeholders}.  Can't use getFormData() because
 		// it includes all QS from current page, including task=processForm, which screws up this AJAX call.
 		var formdata = this.form.getFormElementData();
-		
+
 		var data = {
 				'option': 'com_fabrik',
 				'format': 'raw',
@@ -109,7 +114,7 @@ var FbCascadingdropdown = new Class({
 			this.myAjax.cancel();
 		}
 		this.myAjax = new Request({url: '',
-		method: 'post', 
+		method: 'post',
 		'data': data,
 		onSuccess: function (json) {
 			var origvalue = this.options.def,
@@ -118,14 +123,14 @@ var FbCascadingdropdown = new Class({
 			c;
 			this.spinner.hide();
 			this.setValue(this.getValue());
-			
+
 			json = JSON.decode(json);
 			if (this.options.editable) {
 				this.destroyElement();
 			} else {
 				this.element.getElements('div').destroy();
 			}
-			
+
 			if (this.options.showDesc === true) {
 				c = this.getContainer().getElement('.dbjoin-description');
 				c.empty();
@@ -133,10 +138,10 @@ var FbCascadingdropdown = new Class({
 			this.myAjax = null;
 			if (!this.ignoreAjax) {
 				json.each(function (item) {
-					// $$$ rob if loading edit form, at page load, u may have a previously selected value 
+					// $$$ rob if loading edit form, at page load, u may have a previously selected value
 					//opts = item.value === origvalue ? {'value': item.value, 'selected': 'selected'} : {'value': item.value};
 					if (this.options.editable === false) {
-						
+
 						// Pretify new lines to brs
 						item.text = item.text.replace(/\n/g, '<br />');
 						new Element('div').set('html', item.text).inject(this.element);
@@ -144,7 +149,7 @@ var FbCascadingdropdown = new Class({
 						updateField = (item.value !== '' && item.value === this.getValue());
 						this.addOption(item.value, item.text, updateField);
 					}
-					
+
 					if (this.options.showDesc === true && item.description) {
 						var classname = this.options.showPleaseSelect ? 'notice description-' + (k) : 'notice description-' + (k - 1);
 						new Element('div', {styles: {display: 'none'}, 'class': classname}).set('html', item.description).inject(c);
@@ -152,7 +157,7 @@ var FbCascadingdropdown = new Class({
 				}.bind(this));
 			} else {
 				if (this.options.showPleaseSelect && json.length > 0) {
-					var item = json.shift(); 
+					var item = json.shift();
 					if (this.options.editable === false) {
 						new Element('div').set('text', item.text).inject(this.element);
 					} else {
@@ -167,7 +172,7 @@ var FbCascadingdropdown = new Class({
 			//this.element.disabled = (this.element.options.length === 1 ? true : false);
 			if (this.options.editable && this.options.displayType === 'dropdown') {
 				if (this.element.options.length === 1) {
-					// SELECTS DONT HAVE READONLY PROPERTIES 
+					// SELECTS DONT HAVE READONLY PROPERTIES
 					//this.element.setProperty('readonly', true);
 					this.element.addClass('readonly');
 				} else {
@@ -194,7 +199,7 @@ var FbCascadingdropdown = new Class({
 		}.bind(this)
 		}).send();
 	},
-	
+
 	destroyElement: function () {
 		switch (this.options.displayType)
 		{
@@ -204,19 +209,19 @@ var FbCascadingdropdown = new Class({
 			this.getContainer().getElements('.fabrik_subelement').destroy();
 			break;
 		case 'dropdown':
-			/* falls through */ 
+			/* falls through */
 		default:
 			this.element.empty();
 			break;
 		}
 	},
-	
+
 	cloned: function (c) {
 		// c is the repeat group count
 		this.myAjax = null;
 		this.parent(c);
 		this.spinner = new Spinner(this.element.getParent('.fabrikElementContainer'));
-		// Cloned seems to be called correctly 
+		// Cloned seems to be called correctly
 		if (document.id(this.options.watch)) {
 			if (this.options.watchInSameGroup === true) {
 				// $$$ hugh - nope, 'cos watch already has the _X appended to it!
@@ -239,7 +244,7 @@ var FbCascadingdropdown = new Class({
 				document.id(this.options.watch).addEvent('change', this.doChangeEvent);
 
 			}
-			
+
 		}
 		if (this.options.watchInSameGroup === true) {
 			this.element.empty();
@@ -254,7 +259,7 @@ var FbCascadingdropdown = new Class({
 		}
 		Fabrik.fireEvent('fabrik.cdd.update', this);
 	},
-	
+
 	/**
 	 * Update auto-complete fields id and create new autocompleter object for duplicated element
 	 */
@@ -265,7 +270,7 @@ var FbCascadingdropdown = new Class({
 		document.id(f.id).value = '';
 		new FabCddAutocomplete(this.element.id, this.options.autoCompleteOpts);
 	},
-	
+
 	showDesc: function (e) {
 		if (this.ingoreShowDesc === true) {
 			return;

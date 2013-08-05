@@ -1,37 +1,44 @@
+/**
+ * List Order
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbListOrder = new Class({
 	Extends: FbListPlugin,
-	
+
 	initialize: function (options) {
 		this.parent(options);
-		
+
 		//for iE?
 		document.ondragstart = function () {
 			return false;
 		};
 		var container = this.getList().list;
-		container.setStyle('position', 'relative'); 
+		container.setStyle('position', 'relative');
 		if (typeOf(container.getElement('tbody')) !== 'null') {
 			container = container.getElement('tbody');
 		}
-		
+
 		if (this.options.handle !== false && container.getElements(this.options.handle).length === 0) {
 			fconsole('order: handle selected (' + this.options.handle + ') but not found in container');
 			return;
 		}
-		
+
 		this.sortable = new Sortables(container, {
 			clone: true,
 			constrain: false,
 			revert: true,
 			opacity: 0.7,
 			transition: 'elastic:out',
-		 
+
 			'handle' : this.options.handle,
 			onComplete : function (element, clone) {
 				clone ? clone.removeClass('fabrikDragSelected') : element.removeClass('fabrikDragSelected');
 				//element.removeClass('fabrikDragSelected');
 				this.neworder = this.getOrder();
-				
+
 				Fabrik.loader.start('list_' + this.options.ref, 'sorting', true);
 				new Request({
 					url: 'index.php',
@@ -74,15 +81,15 @@ var FbListOrder = new Class({
 			}
 		}
 	},
-	
+
 	// get the id from the fabrik row's html id
-	
+
 	getRowId : function (element) {
 		return typeOf(element.getProperty('id')) === 'null' ? null : element.getProperty('id').replace('list_' + this.options.ref + '_row_', '');
 	},
-	
+
 	//get the order of the sortable
-	
+
 	getOrder : function () {
 		return (this.sortable.serialize(0, function (element) {
 			return this.getRowId(element);

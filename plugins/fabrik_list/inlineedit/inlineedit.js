@@ -1,6 +1,13 @@
+/**
+ * List Inline Edit
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbListInlineEdit = new Class({
 	Extends: FbListPlugin,
-	
+
 	initialize: function (options) {
 		this.parent(options);
 		this.defaults = {};
@@ -14,19 +21,19 @@ var FbListInlineEdit = new Class({
 		}
 		this.listid = this.options.listid;
 		this.setUp();
-		
+
 		Fabrik.addEvent('fabrik.list.clearrows', function () {
-			this.cancel();			
+			this.cancel();
 		}.bind(this));
-		
+
 		Fabrik.addEvent('fabrik.list.inlineedit.stopEditing', function () {
 			this.stopEditing();
 		}.bind(this));
-		
+
 		Fabrik.addEvent('fabrik.list.updaterows', function () {
 			this.watchCells();
 		}.bind(this));
-		
+
 		Fabrik.addEvent('fabrik.list.ini', function () {
 			var table = this.getList();
 			var formData = table.form.toQueryString().toObject();
@@ -48,16 +55,16 @@ var FbListInlineEdit = new Class({
 				'onException': function (headerName, value) {
 					console.log('ajax inline edit exception', headerName, value);
 				}
-			}).send(); 
+			}).send();
 		}.bind(this));
-		
+
 		// Check for a single element whose click value should trigger the save (ie radio buttons)
 		Fabrik.addEvent('fabrik.element.click', function () {
 			if (Object.getLength(this.options.elements) === 1 && this.options.showSave === false) {
 				this.save(null, this.editing);
 			}
 		}.bind(this));
-		
+
 		Fabrik.addEvent('fabrik.list.inlineedit.setData', function () {
 			if (typeOf(this.editOpts) === 'null') {
 				return;
@@ -69,10 +76,10 @@ var FbListInlineEdit = new Class({
 				e.select();
 			}.bind(this));
 			this.watchControls(this.editCell);
-			this.setFocus(this.editCell);	
+			this.setFocus(this.editCell);
 		}.bind(this));
 	},
-	
+
 	setUp: function () {
 		if (typeOf(this.getList().getForm()) === 'null') {
 			return;
@@ -107,7 +114,7 @@ var FbListInlineEdit = new Class({
 				td.addEvent('click', function (e) {
 					this.select(e, td);
 				}.bind(this));
-			
+
 				td.addEvent('mouseenter', function (e) {
 					if (!this.isEditable(td)) {
 						td.setStyle('cursor', 'pointer');
@@ -119,7 +126,7 @@ var FbListInlineEdit = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	checkKey: function (e) {
 		var nexttds, row, index;
 		if (typeOf(this.td) !== 'element') {
@@ -214,9 +221,9 @@ var FbListInlineEdit = new Class({
 				this.td.removeClass(this.options.focusClass);
 			} else {
 				this.select(e, this.editing);
-				this.cancel(e);	
+				this.cancel(e);
 			}
-			
+
 			break;
 		case 13:
 			//enter
@@ -233,7 +240,7 @@ var FbListInlineEdit = new Class({
 			break;
 		}
 	},
-	
+
 	select: function (e, td) {
 		if (!this.isEditable(td)) {
 			return;
@@ -261,7 +268,7 @@ var FbListInlineEdit = new Class({
 			this.scrollFx.start(x, y);
 		}
 	},
-	
+
 	getElementName: function (td) {
 		var c = td.className.trim().split(' ').filter(function (item, index) {
 			return item !== 'fabrik_element' && item !== 'fabrik_row';
@@ -269,7 +276,7 @@ var FbListInlineEdit = new Class({
 		var element = c[0].replace('fabrik_row___', '');
 		return element;
 	},
-	
+
 	setCursor: function (td) {
 		var element = this.getElementName(td);
 		var opts = this.options.elements[element];
@@ -287,7 +294,7 @@ var FbListInlineEdit = new Class({
 			}
 		});
 	},
-	
+
 	isEditable: function (cell) {
 		if (cell.hasClass('fabrik_uneditable') || cell.hasClass('fabrik_ordercell') || cell.hasClass('fabrik_select') || cell.hasClass('fabrik_actions')) {
 			return false;
@@ -296,7 +303,7 @@ var FbListInlineEdit = new Class({
 		res = this.getList().firePlugin('onCanEditRow', rowid);
 		return res;
 	},
-	
+
 	getPreviousEditable: function (active) {
 		var found = false;
 		var tds = this.getList().getForm().getElements('.fabrik_element');
@@ -312,7 +319,7 @@ var FbListInlineEdit = new Class({
 		}
 		return false;
 	},
-	
+
 	getNextEditable: function (active) {
 		var found = false;
 		var next = this.getList().getForm().getElements('.fabrik_element').filter(function (td, i) {
@@ -320,7 +327,7 @@ var FbListInlineEdit = new Class({
 				if (this.canEdit(td)) {
 					found = false;
 					return true;
-				} 
+				}
 			}
 			if (td === active) {
 				found = true;
@@ -329,7 +336,7 @@ var FbListInlineEdit = new Class({
 		}.bind(this));
 		return next.getLast();
 	},
-	
+
 	canEdit: function (td) {
 		if (!this.isEditable(td)) {
 			return false;
@@ -341,13 +348,13 @@ var FbListInlineEdit = new Class({
 		}
 		return true;
 	},
-	
+
 	edit: function (e, td) {
 		if (this.saving) {
 			return;
 		}
 		Fabrik.fireEvent('fabrik.plugin.inlineedit.editing');
-		
+
 		// Only one field can be edited at a time
 		if (this.inedit) {
 			// If active event is mouse over - close the current editor
@@ -377,14 +384,14 @@ var FbListInlineEdit = new Class({
 		this.editing = td;
 		this.activeElementId = opts.elid;
 		this.defaults[rowid + '.' + opts.elid] = td.innerHTML;
-		
+
 		var data = this.getDataFromTable(td);
-		
+
 		if (typeOf(this.editors[opts.elid]) === 'null' || typeOf(Fabrik['inlineedit_' + opts.elid]) === 'null') {
 			// Need to load on parent otherwise in table td size gets monged
 			Fabrik.loader.start(td.getParent());
 			var inline = this.options.showSave ? 1 : 0;
-			
+
 			var editRequest = new Request({
 				'evalScripts': function (script, text) {
 						this.javascript = script;
@@ -409,20 +416,20 @@ var FbListInlineEdit = new Class({
 				'onSuccess': function (r) {
 					// Need to load on parent otherwise in table td size gets monged
 					Fabrik.loader.stop(td.getParent());
-					
-					//don't use evalScripts = true as we reuse the js when tabbing to the next element. 
+
+					//don't use evalScripts = true as we reuse the js when tabbing to the next element.
 					// so instead set evalScripts to a function to store the js in this.javascript.
 					//Previously js was wrapped in delay
 					//but now we want to use it with and without the delay
-	
+
 					//delay the script to allow time for the dom to be updated
 					(function () {
 						Browser.exec(this.javascript);
-						
+
 						Fabrik.tips.attach('.fabrikTip');
 					}.bind(this)).delay(100);
 					td.empty().set('html', r);
-					
+
 					// IE selection wierdness
 					this.clearSelection();
 					r = r + '<script type="text/javascript">' + this.javascript + '</script>';
@@ -430,21 +437,21 @@ var FbListInlineEdit = new Class({
 					this.watchControls(td);
 					this.setFocus(td);
 				}.bind(this),
-				
+
 				'onFailure': function (xhr) {
 					this.saving = false;
 					this.inedit = false;
 					Fabrik.loader.stop(td.getParent());
 					alert(editRequest.getHeader('Status'));
 				}.bind(this),
-				
+
 				'onException': function (headerName, value) {
 					this.saving = false;
 					this.inedit = false;
 					Fabrik.loader.stop(td.getParent());
 					alert('ajax inline edit exception ' + headerName + ':' + value);
 				}.bind(this)
-				
+
 			}).send();
 		} else {
 
@@ -453,12 +460,12 @@ var FbListInlineEdit = new Class({
 				this.javascript = script;
 			}.bind(this));
 			td.empty().set('html', html);
-			
+
 			// Make a new instance of the element js class which will use the new html
 			eval(this.javascript);
 			this.clearSelection();
 			Fabrik.tips.attach('.fabrikTip');
-			
+
 			// Set some options for use in 'fabrik.list.inlineedit.setData'
 			this.editOpts = opts;
 			this.editData = data;
@@ -466,7 +473,7 @@ var FbListInlineEdit = new Class({
 		}
 		return true;
 	},
-	
+
 	clearSelection: function () {
 		if (document.selection) {
 			document.selection.empty();
@@ -474,7 +481,7 @@ var FbListInlineEdit = new Class({
 			window.getSelection().removeAllRanges();
 		}
 	},
-	
+
 	getDataFromTable: function (td) {
 		var groupedData = this.getList().options.data;
 		var element = this.getElementName(td);
@@ -507,7 +514,7 @@ var FbListInlineEdit = new Class({
 		}
 		return v;
 	},
-	
+
 	setTableData: function (row, element, val) {
 		ref = row.id;
 		var groupedData = this.getList().options.data;
@@ -524,9 +531,9 @@ var FbListInlineEdit = new Class({
 			}.bind(this));
 		}.bind(this));
 	},
-	
+
 	setFocus : function (td) {
-		
+
 		// See http://www.fabrikar.com/forums/index.php?threads/inline-edit-dialog-window-shows-highlight-in-ie.31732/page-2#post-167922
 		if (Browser.ie) {
 			return;
@@ -541,7 +548,7 @@ var FbListInlineEdit = new Class({
 			fn.delay(1000);
 		}
 	},
-	
+
 	watchControls : function (td) {
 		if (typeOf(td.getElement('.inline-save')) !== 'null') {
 			td.getElement('.inline-save').removeEvents('click').addEvent('click', function (e) {
@@ -554,7 +561,7 @@ var FbListInlineEdit = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	save: function (e, td) {
 		var saveRequest,
 		element = this.getElementName(td),
@@ -564,7 +571,7 @@ var FbListInlineEdit = new Class({
 		currentRow = {},
 		eObj = {},
 		data = {};
-		
+
 		if (!this.editing) {
 			return;
 		}
@@ -573,17 +580,17 @@ var FbListInlineEdit = new Class({
 		if (e) {
 			e.stop();
 		}
-		
+
 		eObj = Fabrik['inlineedit_' + opts.elid];
 		if (typeOf(eObj) === 'null') {
 			fconsole('issue saving from inline edit: eObj not defined');
 			this.cancel(e);
 			return false;
 		}
-		
+
 		// Need to load on parent otherwise in table td size gets monged
 		Fabrik.loader.start(td.getParent());
-		
+
 		// Set package id to return js string
 		data = {
 			'option': 'com_fabrik',
@@ -603,13 +610,13 @@ var FbListInlineEdit = new Class({
 		data.fabrik_ignorevalidation = 0;
 		data.join = {};
 		$H(eObj.elements).each(function (el) {
-			
+
 			el.getElement();
 			var v = el.getValue();
 			var jid = el.options.joinId;
 			this.setTableData(row, el.options.element, v);
 			console.log(el.options);
-		
+
 			if (el.options.isJoin) {
 				if (typeOf(data.join[jid]) !== 'object') {
 					data.join[jid] = {};
@@ -618,7 +625,7 @@ var FbListInlineEdit = new Class({
 			} else {
 				data[el.options.element] = v;
 			}
-			
+
 		}.bind(this));
 		console.log(this.currentRow);
 		$H(this.currentRow.data).each(function (v, k) {
@@ -638,14 +645,14 @@ var FbListInlineEdit = new Class({
 				//td.removeClass(this.options.focusClass);
 				td.empty();
 				td.empty().set('html', r);
-				
+
 				// Need to load on parent otherwise in table td size gets monged
 				Fabrik.loader.stop(td.getParent());
 				Fabrik.fireEvent('fabrik.list.updaterows');
 				this.stopEditing();
 				this.saving = false;
 			}.bind(this),
-			
+
 			'onFailure': function (xhr) {
 				// Inject error message from header (created by JError::raiseError()...)
 				var err = td.getElement('.inlineedit .fabrikMainError');
@@ -660,18 +667,18 @@ var FbListInlineEdit = new Class({
 					headerStatus = 'uncaught error';
 				}
 				err.set('html', headerStatus);
-				
+
 			}.bind(this),
-			
+
 			'onException': function (headerName, value) {
 				Fabrik.loader.stop(td.getParent());
 				this.saving = false;
 				alert('ajax inline edit exception ' + headerName + ':' + value);
 			}.bind(this)
-			
+
 		}).send();
 	},
-	
+
 	stopEditing: function (e) {
 		var td = this.editing;
 		if (td !== false) {
@@ -680,7 +687,7 @@ var FbListInlineEdit = new Class({
 		this.editing = null;
 		this.inedit = false;
 	},
-	
+
 	cancel: function (e) {
 		if (e) {
 			e.stop();

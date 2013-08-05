@@ -1,19 +1,26 @@
+/**
+ * Admin SubOptions Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var Suboptions = new Class({
-	
+
 	Implements: [Options],
-	
+
 	options: {
 		sub_initial_selection: [],
 		j3: false
 	},
-	
+
 	initialize: function (name, options) {
 		this.setOptions(options);
 		this.element = document.id(this.options.id);
-		
+
 		if (typeOf(this.element) === 'null') {
 			if (confirm('oh dear - somethings gone wrong with loading the sub-options, do you want to reload?')) {
-				
+
 				// Force reload from server
 				location.reload(true);
 			}
@@ -25,7 +32,7 @@ var Suboptions = new Class({
 			var chx = Object.contains(this.options.sub_initial_selection, v) ? "checked='checked'" : '';
 			this.addSubElement(v, this.options.sub_labels[x], chx);
 		}.bind(this));
-		
+
 		if (this.options.sub_values.length === 0) {
 			this.addSubElement('', '', false);
 		}
@@ -36,16 +43,16 @@ var Suboptions = new Class({
 			}
 			Joomla.submitform(pressbutton);
 		}.bind(this);
-		
+
 	},
-	
+
 	watchButtons: function () {
 		if (this.options.j3) {
 			this.element.addEvent('click:relay(a[data-button="addSuboption"])', function (e) {
 				e.preventDefault();
 				this.addSubElement();
 			}.bind(this));
-			
+
 			this.element.addEvent('click:relay(a[data-button="deleteSuboption"])', function (e, target) {
 				e.preventDefault();
 				var trs = this.element.getElements('tbody tr');
@@ -60,12 +67,12 @@ var Suboptions = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	addOption: function (e) {
 		this.addSubElement();
 		e.stop();
 	},
-	
+
 	removeSubElement: function (e) {
 		var id = e.target.id.replace('sub_delete_', '');
 		if (document.id('sub_subElementBody').getElements('li').length > 1) {
@@ -73,7 +80,7 @@ var Suboptions = new Class({
 		}
 		e.stop();
 	},
-	
+
 	addJ3SubElement: function (sValue, sText, sCurChecked) {
 		var chx = this._chx(sValue, sCurChecked);
 		var delButton = this._deleteButton();
@@ -87,24 +94,24 @@ var Suboptions = new Class({
 			),
 			delButton
 		]);
-		var tbody = this.element.getElement('tbody'); 
+		var tbody = this.element.getElement('tbody');
 		tbody.adopt(tr);
-		
+
 		if (!this.sortable) {
 			this.sortable = new Sortables(tbody, {'handle': '.subhandle'});
 		} else {
 			this.sortable.addItems(tr);
 		}
 		this.counter++;
-		
+
 	},
-	
+
 	_valueField: function (sValue) {
 		return new Element('input', {
-			'class': 'inputbox sub_values', 
+			'class': 'inputbox sub_values',
 			type: 'text',
 			name: this.name + '[sub_values][]',
-			id: 'sub_value_' + this.counter, 
+			id: 'sub_value_' + this.counter,
 			size: 20,
 			value: sValue,
 			events: {
@@ -114,7 +121,7 @@ var Suboptions = new Class({
 			}
 		});
 	},
-	
+
 	_labelField: function (sText) {
 		return new Element('input', {
 			'class': 'inputbox sub_labels',
@@ -125,15 +132,15 @@ var Suboptions = new Class({
 			value : sText
 		});
 	},
-	
+
 	_chx: function (sValue, sCurChecked) {
 		return "<input class=\"inputbox sub_initial_selection\" type=\"checkbox\" value=\"" + sValue + "\" name='" + this.name + "[sub_initial_selection][]' id=\"sub_checked_" + this.counter + "\" " + sCurChecked + " />";
 	},
-	
+
 	_deleteButton: function () {
 		return new Element('td', {width: '20%'}).set('html', this.options.delButton);
 	},
-	
+
 	addSubElement: function (sValue, sText, sCurChecked) {
 		if (this.options.j3) {
 			return this.addJ3SubElement(sValue, sText, sCurChecked);
@@ -156,7 +163,7 @@ var Suboptions = new Class({
 				])
 			])
 		]);
-		var oldLi = document.id('sub_subElementBody').getElement('li'); 
+		var oldLi = document.id('sub_subElementBody').getElement('li');
 		if (typeOf(oldLi) !== 'null' && oldLi.innerHTML === '') {
 			li.replaces(oldLi);
 		} else {
@@ -165,7 +172,7 @@ var Suboptions = new Class({
 		document.id('sub_delete_' + this.counter).addEvent('click', function (e) {
 			this.removeSubElement(e);
 		}.bind(this));
-		
+
 		if (!this.sortable) {
 			this.sortable = new Sortables('sub_subElementBody', {'handle': '.subhandle'});
 		} else {
@@ -173,7 +180,7 @@ var Suboptions = new Class({
 		}
 		this.counter++;
 	},
-	
+
 	onSave: function () {
 		var values = [],
 		ret = true,

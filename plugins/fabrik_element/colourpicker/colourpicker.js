@@ -1,3 +1,10 @@
+/**
+ * Colour Picker Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var SliderField = new Class({
 	initialize : function (field, slider) {
 		this.field = document.id(field);
@@ -23,16 +30,16 @@ var SliderField = new Class({
 });
 
 var ColourPicker = new Class({
-	
+
 	Extends: FbElement,
-	
+
 	options: {
 		red: 0,
 		green: 0,
 		blue: 0,
 		value: [0, 0, 0, 1]
 	},
-	
+
 	initialize : function (element, options) {
 		this.plugin = 'colourpicker';
 		if (typeOf(options.value) === 'null' || options.value[0] === 'undefined') {
@@ -44,27 +51,27 @@ var ColourPicker = new Class({
 				this.grad.update(v);
 			}
 		}.bind(this);
-		
+
 		this.parent(element, options);
 		this.element = document.id(element);
 		this.widget = this.element.getParent('.fabrikSubElementContainer').getElement('.colourpicker-widget');
 		this.setOutputs();
 		var d = new Drag.Move(this.widget, {'handle': this.widget.getElement('.draggable')});
-		
+
 		this.createSliders(element);
-		
+
 		options.outputs = this.outputs;
-		
-		
+
+
 		this.swatch = new ColourPickerSwatch(element, options, this);
 		this.widget.getElement('#' + element + '-swatch').adopt(this.swatch);
 		this.widget.hide();
-		
-		
+
+
 		this.grad = new ColourPickerGradient(element, options, this);
 		this.widget.getElement('#' + element + '-picker').adopt(this.grad.square);
 		this.update(this.options.value);
-		
+
 		var close = this.widget.getElement('.modal-header a');
 		if (close) {
 			close.addEvent('click', function (e) {
@@ -73,32 +80,32 @@ var ColourPicker = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	setOutputs: function (output) {
 		this.outputs = {};
 		this.outputs.backgrounds = this.getContainer().getElements('.colourpicker_bgoutput');
 		this.outputs.foregrounds = this.getContainer().getElements('.colourpicker_output');
-		
+
 		this.outputs.backgrounds.each(function (i) {
-			
+
 			i.addEvent('click', function (e) {
 				this.toggleWidget(e);
 			}.bind(this));
-			
+
 		}.bind(this));
-		
+
 		this.outputs.foregrounds.each(function (i) {
-			
+
 			i.addEvent('click', function (e) {
 				this.toggleWidget(e);
 			}.bind(this));
-			
+
 		}.bind(this));
 	},
-	
+
 	createSliders: function (element) {
 		this.sliderRefs = [];
-		
+
 		// Create the table to hold the scroller
 		this.table = new Element('table');
 		this.tbody = new Element('tbody');
@@ -113,23 +120,23 @@ var ColourPicker = new Class({
 				this.options.colour[col] = pos;
 				this.update(this.options.colour.red + ',' + this.options.colour.green + ',' + this.options.colour.blue);
 			}
-			
+
 		}.bind(this));
 		// this makes the class update when someone enters a value into
-		
+
 		this.redField.addEvent("change", function (e) {
 			this.updateFromField(e, 'red');
 		}.bind(this));
-		
+
 		this.greenField.addEvent("change", function (e) {
 			this.updateFromField(e, 'green');
 		}.bind(this));
-		
+
 		this.blueField.addEvent("change", function (e) {
 			this.updateFromField(e, 'blue');
 		}.bind(this));
 	},
-	
+
 	createColourSlideHTML: function (element, colour, label, value) {
 
 		var sliderField = new Element('input.input-mini input ' + colour + 'SliderField', {
@@ -145,7 +152,7 @@ var ColourPicker = new Class({
 		this.tbody.appendChild(tr1);
 		this[colour + "Field"] = sliderField;
 	},
-	
+
 	updateAll : function (red, green, blue) {
 		red = red ? red.toInt() : 0;
 		green = green ? green.toInt() : 0;
@@ -158,7 +165,7 @@ var ColourPicker = new Class({
 		this.options.colour.blue = blue;
 		this.updateOutputs();
 	},
-	
+
 	updateOutputs : function () {
 		var c = new Color([this.options.colour.red, this.options.colour.green, this.options.colour.blue, 1]);
 		this.outputs.backgrounds.each(function (output) {
@@ -169,7 +176,7 @@ var ColourPicker = new Class({
 		});
 		this.element.value = c.red + ',' + c.green + ',' + c.blue;
 	},
-	
+
 	/**
 	 * @param   mixed  val  RGB string or array
 	 */
@@ -199,7 +206,7 @@ var ColourPicker = new Class({
 			this.options.callback(this.options.colour.red + ',' + this.options.colour.green + ',' + this.options.colour.blue);
 		}
 	},
-	
+
 	toggleWidget: function (e) {
 		e.stop();
 		this.widget.toggle();
@@ -207,14 +214,14 @@ var ColourPicker = new Class({
 });
 
 var ColourPickerSwatch = new Class({
-	
+
 	Extends: Options,
-	
+
 	options: {},
-	
+
 	initialize : function (element, options) {
-		
-		
+
+
 		this.element = document.id(element);
 		this.setOptions(options);
 		this.callback = this.options.callback;
@@ -270,7 +277,7 @@ var ColourPickerSwatch = new Class({
 				}));
 				j++;
 			}.bind(this));
-			
+
 			swatchDiv.adopt(swatchLine);
 		}
 		this.widget.adopt(swatchDiv);
@@ -285,12 +292,12 @@ var ColourPickerSwatch = new Class({
 		this.showColourName(e);
 		this.callback(c, this);
 	},
-	
+
 	showColourName: function (e) {
 		this.colourName = e.target.className;
 		this.colourNameOutput.set('text', this.colourName);
 	},
-	
+
 	clearColourName: function (e) {
 		this.colourNameOutput.set('text', '');
 	}
@@ -298,13 +305,13 @@ var ColourPickerSwatch = new Class({
 });
 
 var ColourPickerGradient = new Class({
-	
+
 	Extends: Options,
-	
+
 	options: {
 		size: 125
 	},
-	
+
 	initialize: function (id, opts) {
 		this.brightness = 0;
 		this.saturation = 0;
@@ -318,21 +325,21 @@ var ColourPickerGradient = new Class({
 
 		// Distance between the colour square and the vertical strip
 		this.margin = 10;
-		
+
 		this.borderColour = "rgba(155, 155, 155, 0.6)";
-		
+
 		// Width of the hue vertical strip
 		this.hueWidth = 40;
-		
+
 		this.colour = new Color(this.options.value);
-		
+
 		this.square = new Element('canvas', {'width': (this.options.size + 65) + 'px', 'height': this.options.size + 'px'});
 		this.square.inject(this.container);
-	
+
 		this.square.addEvent('click', function (e) {
 			this.doIt(e);
 		}.bind(this));
-		
+
 		this.down = false;
 		this.square.addEvent('mousedown', function (e) {
 			this.down = true;
@@ -348,15 +355,15 @@ var ColourPickerGradient = new Class({
 				this.doIt(e);
 			}
 		}.bind(this));
-		
+
 		this.drawCircle();
 		this.drawHue();
 		this.arrow = this.drawArrow();
 		this.positionCircle(this.options.size, 0);
-		
+
 		this.update(this.options.value);
 	},
-	
+
 	doIt: function (e) {
 		var squareBound = {x: 0, y: 0, w: this.options.size, h: this.options.size};
 		var containerPosition = this.square.getPosition();
@@ -369,14 +376,14 @@ var ColourPickerGradient = new Class({
 			this.setHueFromSelection(x, y);
 		}
 	},
-	
+
 	update: function (c) {
 		colour = new Color(c);
-		
+
 		// Store the brightness and saturation for positioning the circle picker in the square selector
 		this.brightness = colour.hsb[2];
 		this.saturation = colour.hsb[1];
-		
+
 		// Our this.colour is only interested in setting the hue from the update colour
 		this.colour = this.colour.setHue(colour.hsb[0]);
 		this.colour = this.colour.setSaturation(100);
@@ -384,11 +391,11 @@ var ColourPickerGradient = new Class({
 		this.render();
 		this.positionCircleFromColour(colour);
 	},
-	
+
 	/**
 	 * Poisition the circle based on a colour. As we are looking at HSB. saturation is defined on the x axis
 	 * and brightness on the left axis (both defined as percentages)
-	 * 
+	 *
 	 * @param  Color  c
 	 */
 	positionCircleFromColour: function (c) {
@@ -398,7 +405,7 @@ var ColourPickerGradient = new Class({
 		var y = Math.floor(this.options.size - (this.options.size * (this.brightness / 100)));
 		this.positionCircle(x, y);
 	},
-	
+
 	/**
 	 * Draw the picker circle
 	 */
@@ -417,7 +424,7 @@ var ColourPickerGradient = new Class({
 		ctx.strokeStyle = '#FFF';
 		ctx.stroke();
 	},
-	
+
 	setHueFromSelection: function (x, y) {
 		y = Math.min(1, y / this.options.size);
 		y = Math.max(0, y);
@@ -425,32 +432,32 @@ var ColourPickerGradient = new Class({
 		this.colour = this.colour.setHue(hue);
 		this.render();
 		this.positionCircle();
-		
+
 		// Apply the brightness/saturation to the color before sending the callback
 		var c = this.colour;
 		c = c.setBrightness(this.brightness);
 		c = c.setSaturation(this.saturation);
 		this.callback(c, this);
 	},
-	
+
 	setColourFromSquareSelection: function (x, y) {
 		var c = this.square.getContext('2d');
 		this.positionCircle(x, y);
 		var p = c.getImageData(x, y, 1, 1).data;
 		var colour = new Color([p[0], p[1], p[2]]);
-		
+
 		// Store the brightness and saturation
 		this.brightness = colour.hsb[2];
 		this.saturation = colour.hsb[1];
 		this.callback(colour, this);
 	},
-	
+
 	positionCircle: function (x, y) {
 		x = x ? x : this.circleX;
 		this.circleX = x;
 		y = y ? y : this.circleY;
 		this.circleY = y;
-		
+
 		// Removes the old circle
 		this.render();
 		var ctx = this.square.getContext('2d');
@@ -459,7 +466,7 @@ var ColourPickerGradient = new Class({
 		y = Math.max(-5, Math.round(y) + offset);
 		ctx.drawImage(this.circle, x, y);
 	},
-	
+
 	drawHue: function () {
 
 		// Drawing hue selector
@@ -475,45 +482,45 @@ var ColourPickerGradient = new Class({
 		gradient.addColorStop(1, "rgba(255, 0, 0, 1)");
 		ctx.fillStyle = gradient;
 		ctx.fillRect(left, this.offset, this.hueWidth - 10, this.options.size);
-		
+
 		// Drawing outer bounds
 		ctx.strokeStyle = this.borderColour;
 		ctx.strokeRect(left + 0.5, this.offset + 0.5, this.hueWidth - 11, this.options.size - 1);
 	},
-	
+
 	render: function () {
 		var ctx = this.square.getContext('2d');
 		var offset = this.offset;
 		ctx.clearRect(0, 0, this.square.width, this.square.height);
 		var size = this.options.size;
-		
+
 		// Drawing color
 		ctx.fillStyle = this.colour.hex;
 		ctx.fillRect(offset, offset, size, size);
-		
+
 		// Overlaying saturation
 		var gradient = ctx.createLinearGradient(offset, offset, size + offset, 0);
 		gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
 		gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 		ctx.fillStyle = gradient;
 		ctx.fillRect(offset, offset, size, size);
-		
+
 		// Overlaying value
 		gradient = ctx.createLinearGradient(0, offset, 0, size + offset);
 		gradient.addColorStop(0.0, "rgba(0, 0, 0, 0)");
 		gradient.addColorStop(1.0, "rgba(0, 0, 0, 1)");
 		ctx.fillStyle = gradient;
 		ctx.fillRect(offset, offset, size, size);
-		
+
 		// Drawing outer bounds
 		ctx.strokeStyle = this.borderColour;
 		ctx.strokeRect(offset + 0.5, offset + 0.5, size - 1, size - 1);
-		
+
 		this.drawHue();
-		
+
 		// Arrow-selection
 		var y = ((360 - this.colour.hsb[0]) / 362) * this.options.size - 2;
-		
+
 		var arrowX = size + this.hueWidth + offset + 2;
 		var arrowY = Math.max(0, Math.round(y) + offset - 1);
 		ctx.drawImage(this.arrow, arrowX, arrowY);
@@ -521,9 +528,9 @@ var ColourPickerGradient = new Class({
 			var y = ((255 - colour.rgba[4]) / 255) * options.size - 2;
 			ctx.drawImage(arrow, size + this.hueWidth * 2 + offset + 2, Math.round(y) + offset - 1);
 		}*/
-		
+
 	},
-	
+
 	drawArrow: function () {
 		var arrow = new Element('canvas');
 		var ctx = arrow.getContext("2d");

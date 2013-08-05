@@ -1,11 +1,14 @@
 /**
- * @author Robert
+ * Form Autofill
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 var Autofill = new Class({
-	
+
 	Implements: [Events, Options],
-	
+
 	options: {
 		'observe': '',
 		'trigger': '',
@@ -17,7 +20,7 @@ var Autofill = new Class({
 		confirm: true,
 		autofill_lookup_field: 0
 	},
-	
+
 	initialize: function (options) {
 		this.setOptions(options);
 		this.attached = [];
@@ -25,15 +28,15 @@ var Autofill = new Class({
 			this.setUp(Fabrik.blocks['form_' + this.options.formid]);
 		} else {
 			Fabrik.addEvent('fabrik.form.elements.added', function (form) {
-				this.setUp(form);	
+				this.setUp(form);
 			}.bind(this));
 		}*/
 		this.setupDone = false;
 		this.setUp(Fabrik.blocks['form_' + this.options.formid]);
 		Fabrik.addEvent('fabrik.form.elements.added', function (form) {
-			this.setUp(form);	
+			this.setUp(form);
 		}.bind(this));
-		
+
 		Fabrik.addEvent('fabrik.form.element.added', function (form, elId, oEl) {
 			if (!this.element) {
 				// if we are on the form load then this.element not set so return
@@ -48,18 +51,18 @@ var Autofill = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	/**
 	 * get the observable element
-	 * 
+	 *
 	 * @param   int  repeatNum  if element to observe is in a repeat group which index'd element should be returned
-	 *  
+	 *
 	 * @return element object
 	 */
 	getElement: function (repeatNum) {
 		var testE = false;
 		var e = this.form.formElements.get(this.options.observe);
-		
+
 		// If its a joined element
 		if (!e) {
 			var repeatCount = 0;
@@ -82,7 +85,7 @@ var Autofill = new Class({
 		}
 		return e;
 	},
-	
+
 	setUp: function (form) {
 		if (this.setupDone) {
 			return;
@@ -104,7 +107,7 @@ var Autofill = new Class({
 			// Fabrik Trigger element object so don't use as this.element or lookup value will be wrong
 			this.lookUp();
 		}.bind(this);
-		
+
 		this.element = e;
 		if (this.options.trigger === '') {
 			if (!this.element) {
@@ -113,8 +116,8 @@ var Autofill = new Class({
 				var elEvnt = this.element.getBlurEvent();
 				this.form.dispatchEvent('', this.element.options.element, elEvnt, function (e) {
 
-					// Fabrik element object that triggered the event 
-					this.element = e; 
+					// Fabrik element object that triggered the event
+					this.element = e;
 					this.lookUp();
 				}.bind(this));
 			}
@@ -127,9 +130,9 @@ var Autofill = new Class({
 		}
 		this.setupDone = true;
 	},
-	
+
 	// perform ajax lookup when the observer element is blurred
-	
+
 	lookUp: function () {
 		if (this.options.confirm === true) {
 			if (!confirm(Joomla.JText._('PLG_FORM_AUTOFILL_DO_UPDATE'))) {
@@ -137,15 +140,15 @@ var Autofill = new Class({
 			}
 		}
 		Fabrik.loader.start('form_' + this.options.formid, Joomla.JText._('PLG_FORM_AUTOFILL_SEARCHING'));
-		
+
 		if (!this.element) {
 			this.element = this.getElement(0);
 		}
 		var v = this.element.getValue();
 		var formid = this.options.formid;
 		var observe = this.options.observe;
-		
-		var myAjax = new Request.JSON({ 
+
+		var myAjax = new Request.JSON({
 			'evalScripts': true,
 			'data': {
 				'option': 'com_fabrik',
@@ -154,7 +157,7 @@ var Autofill = new Class({
 				'plugin': 'autofill',
 				'method': 'ajax_getAutoFill',
 				'g': 'form',
-				'v': v, 
+				'v': v,
 				'formid': formid,
 				'observe': observe,
 				'cnn': this.options.cnn,
@@ -165,7 +168,7 @@ var Autofill = new Class({
 			onCancel: function () {
 				Fabrik.loader.stop('form_' + this.options.formid);
 			}.bind(this),
-			
+
 			onFailure: function (xhr) {
 				Fabrik.loader.stop('form_' + this.options.formid);
 				alert(this.getHeader('Status'));
@@ -180,7 +183,7 @@ var Autofill = new Class({
 			}.bind(this)
 		}).send();
 	},
-	
+
 	// Update the form from the ajax request returned data
 	updateForm: function (json) {
 		var repeatNum = this.element.getRepeatNum();
@@ -188,7 +191,7 @@ var Autofill = new Class({
 		if (json.length === 0) {
 			alert(Joomla.JText._('PLG_FORM_AUTOFILL_NORECORDS_FOUND'));
 		}
-		
+
 		json.each(function (val, key) {
 			var k2 = key.substr(key.length - 4, 4);
 			if (k2 === '_raw') {
@@ -204,7 +207,7 @@ var Autofill = new Class({
 						// See if the user has used simply the full element name rather than the full element name with
 						// the join string
 						key = 'join___' + this.element.options.joinid + '___' + key;
-						
+
 						// Perhaps element is in main group and update element in repeat group :S
 						if (!this.tryUpdate(origKey, val, true)) {
 						}
@@ -217,15 +220,15 @@ var Autofill = new Class({
 		}
 		Fabrik.fireEvent('fabrik.form.autofill.update.end', [this, json]);
 	},
-	
+
 	/**
 	 * Try to update an element
-	 * 
+	 *
 	 * @param   string  key         Form.formElements key to update
 	 * @param   string  value       Value to update to
 	 * @param   bool    looseMatch  Should we test if the key is contained within any of Form.formElements keys?
-	 * 
-	 * @return  bool  True if update occured 
+	 *
+	 * @return  bool  True if update occured
 	 */
 	tryUpdate: function (key, val, looseMatch) {
 		looseMatch = looseMatch ? true : false;
@@ -254,5 +257,5 @@ var Autofill = new Class({
 		}
 		return false;
 	}
-	
+
 });

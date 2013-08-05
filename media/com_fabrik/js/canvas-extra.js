@@ -1,3 +1,10 @@
+/**
+ * Canvas Extra
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 /*jshint mootools: true */
 /*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true,CanvasRenderingContext2D:true,isMobile:true,click2:true,mousemove:true, */
 

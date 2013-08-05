@@ -1,3 +1,10 @@
+/**
+ * Rating Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbRating = new Class({
 	Extends : FbElement,
 	initialize : function (element, options) {
@@ -18,7 +25,7 @@ var FbRating = new Class({
 		this.setup(this.options.row_id);
 		this.setStars();
 	},
-	
+
 	setup : function (rowid) {
 		this.options.row_id = rowid;
 		this.element = document.id(this.options.element + '_div');
@@ -37,7 +44,7 @@ var FbRating = new Class({
 						} else {
 							ii.src = this.options.insrc;
 						}
-						
+
 					}
 				}.bind(this));
 				this.ratingMessage.innerHTML = i.get('data-rating');
@@ -80,13 +87,13 @@ var FbRating = new Class({
 		if (typeOf(clearButton) !== 'null') {
 			clearButton.addEvent('mouseover', function (e) {
 				if (Fabrik.bootstrapped) {
-					
+
 				} else {
 					e.target.src = this.options.clearinsrc;
 				}
 				this.ratingMessage.set('html', Joomla.JText._('PLG_ELEMENT_RATING_NO_RATING'));
 			}.bind(this));
-	
+
 			clearButton.addEvent('mouseout', function (e) {
 				if (this.rating !== -1) {
 					e.target.src = this.options.clearoutsrc;
@@ -106,7 +113,7 @@ var FbRating = new Class({
 				if (!Fabrik.bootstrapped) {
 					this.getClearButton().src = this.options.clearinsrc;
 				}
-				
+
 				this.doAjax();
 			}.bind(this));
 		}
@@ -160,7 +167,7 @@ var FbRating = new Class({
 				} else {
 					ii.removeClass('icon-star').addClass('icon-star-empty');
 				}
-				
+
 			} else {
 				ii.src = starScore <= this.rating ? this.options.insrc : this.options.outsrc;
 			}
@@ -170,7 +177,7 @@ var FbRating = new Class({
 			clearButton.src = this.rating !== -1 ? this.options.clearoutsrc : this.options.clearinsrc;
 		}
 	},
-	
+
 	getClearButton: function () {
 		return this.element.getElement('i[data-rating=-1]');
 	},

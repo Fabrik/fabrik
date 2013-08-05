@@ -1,16 +1,23 @@
+/**
+ * Admin Visualization Editor
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var AdminVisualization = new Class({
-	
+
 	Extends: PluginManager,
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {},
-	
+
 	initialize: function (options, lang) {
 		this.setOptions(options);
 		this.watchSelector();
 	},
-	
+
 	watchSelector: function () {
 		if (typeof(jQuery) !== 'undefined') {
 			jQuery('#jform_plugin').bind('change', function (e) {
@@ -23,7 +30,7 @@ var AdminVisualization = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	changePlugin: function (e) {
 		var myAjax = new Request({
 			url: 'index.php',

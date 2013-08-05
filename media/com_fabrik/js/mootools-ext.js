@@ -1,3 +1,10 @@
+/**
+ * Mootools extensions
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 function CloneObject(what, recursive, asreference) {
 	if (typeOf(what) !== 'object') {
 		return what;

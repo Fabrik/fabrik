@@ -1,3 +1,10 @@
+/**
+ * Admin Namespace
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 (function () {
 	if (typeOf(window.FabrikAdmin) === 'object') {
 		return;
@@ -5,7 +12,7 @@
 	FabrikAdmin = {};
 	// Various Joomla element plugins used to control JForm elements
 	FabrikAdmin.model = {'fields': {'fabriktable': {}, 'element': {}}};
-	
+
 	// Function to apply tips to page, after ajax call has loaded a plugin's form
 	FabrikAdmin.reTip = function () {
 		$$('.hasTip').each(function (el) {
@@ -18,7 +25,7 @@
 		});
 		var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
 	};
-	
+
 	window.fireEvent('fabrik.admin.namespace');
 }());
 

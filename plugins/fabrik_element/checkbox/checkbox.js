@@ -1,14 +1,21 @@
+/**
+ * Checkbox Element
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 FbCheckBox = new Class({
 	Extends: FbElementList,
-	
+
 	type: 'checkbox', // Sub element type
-	
+
 	initialize: function (element, options) {
 		this.plugin = 'fabrikcheckbox';
 		this.parent(element, options);
 		this._getSubElements();
 	},
-	
+
 	watchAddToggle: function () {
 		var c = this.getContainer();
 		var d = c.getElement('div.addoption');
@@ -31,7 +38,7 @@ FbCheckBox = new Class({
 			this.mySlider.toggle();
 		}.bind(this));
 	},
-	
+
 	getValue: function () {
 		if (!this.options.editable) {
 			return this.options.value;
@@ -47,13 +54,13 @@ FbCheckBox = new Class({
 		});
 		return ret;
 	},
-	
+
 	numChecked: function () {
 		return this._getSubElements().filter(function (c) {
 			return c.checked;
 		}).length;
 	},
-	
+
 	update: function (val) {
 		this.getElement();
 		if (typeOf(val) === 'string') {
@@ -66,7 +73,7 @@ FbCheckBox = new Class({
 			}
 			var h = $H(this.options.data);
 			val.each(function (v) {
-				this.element.innerHTML += h.get(v) + "<br />";	
+				this.element.innerHTML += h.get(v) + "<br />";
 			}.bind(this));
 			return;
 		}
@@ -81,7 +88,7 @@ FbCheckBox = new Class({
 			el.checked = chx;
 		}.bind(this));
 	},
-	
+
 	cloned: function (c) {
 		if (this.options.allowadd === true && this.options.editable !== false) {
 			this.watchAddToggle();

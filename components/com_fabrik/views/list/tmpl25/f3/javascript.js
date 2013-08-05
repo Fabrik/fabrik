@@ -1,5 +1,8 @@
 /**
- * @author Robert
+ * List helper
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 var FabrikGrid = new Class({
@@ -16,11 +19,11 @@ var FabrikGrid = new Class({
 		}},
 
 	Implements: Options,
-	
+
 	options: {
 		'listref' : ''
 	},
-	
+
 	initialize : function(options) {
 		this.setOptions(options);
 		//this.container = document.getElement('.f3main');
@@ -28,13 +31,13 @@ var FabrikGrid = new Class({
 		Fabrik.addEvent('fabrik.list.updaterows', function(){
 			this.resizeCells();
 			this.scaleScrollDivs();
-			this.watchResizeCols();	
+			this.watchResizeCols();
 		}.bind(this));
-		
+
 		this.resizeCells();
 		this.scaleScrollDivs();
 		this.watchResizeCols();
-		
+
 		this.injectIcon('plus', '.addbutton');
 		this.injectIcon('export', '.csvExportButton', {rotate:-45, fill:{color:['#1A4D66', '#2E91C2']}});
 		this.injectIcon('import', '.csvImportButton', {rotate:90, fill:{color:['#DC80D3', '#B040A5']}});
@@ -42,7 +45,7 @@ var FabrikGrid = new Class({
 		document.getElement('.scroll-x').setStyle('height',document.getElement('.scroll-y').getHeight()+'px');
 		this.addVertScrollBar();
 	},
-	
+
 	addVertScrollBar:function(){
 		var h = this.container.getElement('.scroll-x').getStyle('height').toInt() - 17;
 		var headingsOffset = this.container.getElements('ul.fabrik___heading').getHeight().sum() + 18;
@@ -69,7 +72,7 @@ var FabrikGrid = new Class({
 		}}).adopt(
 			new Element('div', {'styles':{'height':this.container.getElement('.fabrikList').getStyle('height')}})
 		).inject(document.getElement('.scroll-x'));
-		
+
 	//watch the mouse scroll in the scrollY div and move the yscroller's scroll pos
 	this.fxScrollMirror = new Fx.Scroll(this.yScroller);
 	this.scrollY.addEvent('mousewheel', function(e){
@@ -81,7 +84,7 @@ var FabrikGrid = new Class({
 		e.stop();
 	}.bind(this))
 	},
-	
+
 	injectIcon:function(name, to, options)
 	{
 		if(typeOf(options) !== 'object'){
@@ -122,14 +125,14 @@ var FabrikGrid = new Class({
 			r.addEvent('mouseover', function(e) {
 				this.resizeCol = e.target;
 			}.bind(this));
-			
+
 			r.addEvent('mouseleave', function(e) {
 				this.resizeCol = null;
 			}.bind(this));
 		}.bind(this));
-			
+
 	},
-	
+
 	doResize:function(e){
 		if(!this.resizing || typeOf(this.toResize) == 'null'){
 			return;
@@ -143,14 +146,14 @@ var FabrikGrid = new Class({
 		var els = this.container.getElements('.'+c);
 		var startWidth = this.toResize.retrieve('start-width', this.toResize.getStyle('min-width').toInt());
 		var min = this.toResize.getStyle('min-width').toInt();
-		
-		var w = min + diff;	
+
+		var w = min + diff;
 		//if (w > this.maxWidth) { w = this.maxWidth; }
 		var origWidths = els.getStyle('width');
 		els.setStyles({'min-width':w+'px', 'width':w+'px'});
-		
+
 		if (min + diff < startWidth) {
-			//ensure we don't resize down too much 
+			//ensure we don't resize down too much
 			var widths = els.getWidth();
 			if (widths.max() !== widths.min()) {
 				var index = widths.indexOf(widths.max());
@@ -181,7 +184,7 @@ var FabrikGrid = new Class({
 		}
 		this.resizing = false;
 		this.resizeCol = null;
-		
+
 		this.inActiveArea = false;
 		this.container.setStyle('-moz-user-select', 'auto');
 		this.container.removeEvent('onselectstart', function (e) {
@@ -189,7 +192,7 @@ var FabrikGrid = new Class({
 		}.bind(this));
 		//this.container.getElement('.scroll-y').setStyle('width', this.container.getElement('li.heading').getWidth() + 'px');
 	},
-	
+
 	stopIETextSelect:function(){
 		return false;
 	},
@@ -203,17 +206,17 @@ var FabrikGrid = new Class({
 		for (i = 0; i < fs.length; i++) {
 			if (fs[i] !== 'fabrik_element') {
 				var cells = $$('.' + fs[i]);
-				
+
 				// dont ask why but when heading has a long title and no content in cells
 				// have to do this three times before all cells have the same width!?!?!
 				var max = cells.getWidth().max();
 				if (max > this.maxWidth) { max = this.maxWidth; }
 				cells.setStyles({'min-width': max + 'px', 'width':max+'px'});
-				
+
 				var max = cells.getWidth().max();
 				if (max > this.maxWidth) { max = this.maxWidth; }
 				cells.setStyles({'min-width': max + 'px', 'width':max+'px'});
-				
+
 				var max = cells.getWidth().max();
 				if (max > this.maxWidth) { max = this.maxWidth; }
 				cells.setStyles({'min-width': max + 'px', 'width':max+'px'});

@@ -1,6 +1,10 @@
 /**
- * @author Robert
+ * List helper
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
+
 window.addEvent('fabrik.loaded', function() {
 	Array.from(document.getElements('.fabrikList tr')).each(function (r) {
 		document.id(r).addEvent('mouseover', function(e){

@@ -1,9 +1,16 @@
+/**
+ * Admin Plugin Manager
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var PluginManager = new Class({
-	
+
 	pluginTotal: 0,
-	
+
 	topTotal: -1,
-	
+
 	initialize: function (plugins, id, type) {
 		if (typeOf(plugins) === 'string') {
 			plugins = [plugins];
@@ -17,11 +24,11 @@ var PluginManager = new Class({
 				this.addTop(plugins[i]);
 			}
 			this.periodical = this.iniAccordian.periodical(500, this);
-			
+
 			this.watchPluginSelect();
 			this.watchDelete();
 			this.watchAdd();
-			
+
 			var pluginArea = document.id('plugins');
 			if (typeOf(pluginArea) !== 'null') {
 				pluginArea.addEvent('click:relay(h3.title)', function (e, target) {
@@ -32,35 +39,35 @@ var PluginManager = new Class({
 					});
 					target.toggleClass('pane-toggler-down');
 				});
-			}	
+			}
 		}.bind(this));
-		
+
 	},
-	
+
 	iniAccordian: function () {
 		if (this.pluginTotal === this.plugins.length) {
 			this.accordion.display(1);
 			clearInterval(this.periodical);
 		}
 	},
-	
+
 	/**
 	 * Has the form finished loading and are there any outstanding ajax requests
-	 * 
+	 *
 	 * @return  bool
 	 */
-	canSaveForm: function () 
+	canSaveForm: function ()
 	{
 		if (document.readyState !== 'complete') {
 			return false;
 		}
 		return Fabrik.requestQueue.empty();
 	},
-	
+
 	/**
 	 * @TODO - now only used by element js code - would be nice to remove and use the same code as form/list/validation rule plugins
 	 */
-	
+
 	_makeSel: function (c, name, pairs, sel, selectTxt) {
 		var v, l;
 		selectTxt = selectTxt ? selectTxt : Joomla.JText._('COM_FABRIK_PLEASE_SELECT');
@@ -81,11 +88,11 @@ var PluginManager = new Class({
 		}
 		return new Element('select', {'class': c, 'name': name}).adopt(opts);
 	},
-	
+
 	/**
 	 * @TODO - now only used by element js code - would be nice to remove and use the same code as form/list/validation rule plugins
 	 */
-	
+
 	_addSelOpt: function (opts, pair) {
 		if (typeOf(pair) === 'object') {
 			v = pair.value ? pair.value : pair.name; //plugin list should be keyed on plugin name
@@ -100,7 +107,7 @@ var PluginManager = new Class({
 		}
 		return opts;
 	},
-	
+
 	watchDelete: function () {
 		document.id('adminForm').addEvent('click:relay(a.removeButton, a[data-button=removeButton])', function (event, target) {
 			event.preventDefault();
@@ -109,7 +116,7 @@ var PluginManager = new Class({
 			this.deletePlugin(event);
 		}.bind(this));
 	},
-	
+
 	watchAdd: function () {
 		var addPlugin = document.id('addPlugin');
 		if (typeOf(addPlugin) !== 'null') {
@@ -120,7 +127,7 @@ var PluginManager = new Class({
 			}.bind(this));
 		}
 	},
-	
+
 	addTop: function (plugin) {
 		var published;
 		if (typeOf(plugin) === 'string') {
@@ -128,7 +135,7 @@ var PluginManager = new Class({
 			plugin = plugin ? plugin : '';
 			show_icon = false;
 		} else {
-			// Validation plugins 
+			// Validation plugins
 			published = plugin ? plugin.published : 1;
 			show_icon = plugin ? plugin.show_icon : 1;
 			plugin = plugin ? plugin.plugin : '';
@@ -137,13 +144,13 @@ var PluginManager = new Class({
 		var a = new Element('a.accordion-toggle', {'href': '#'}).adopt(new Element('span.pluginTitle').set('text', plugin));
 		var toggler = new Element('div.title.pane-toggler.accordion-heading').adopt(
 		new Element('strong').adopt(a));
-			
+
 		div.adopt(toggler);
 		div.adopt(new Element('div.accordion-body'));
 		div.inject(document.id('plugins'));
 		var append = document.id('plugins').getElements('.actionContainer').getLast();
 		var tt_temp = this.topTotal; //added temp variable
-		
+
 		// Ajax request to load the first part of the plugin form (do[plugin] in, on)
 		var request = new Request.HTML({
 			url: 'index.php',
@@ -161,7 +168,7 @@ var PluginManager = new Class({
 			},
 			append: append,
 			onSuccess: function (res) {
-				
+
 				if (plugin !== '') {
 					// Sent temp variable as c to addPlugin, so they are aligned properly
 					this.addPlugin(plugin, tt_temp + 1);
@@ -180,12 +187,12 @@ var PluginManager = new Class({
 		this.topTotal ++;
 		Fabrik.requestQueue.add(request);
 	},
-	
+
 	// Bootstrap specific
-	
+
 	updateBootStrap: function () {
 		document.getElements('.radio.btn-group label').addClass('btn');
-		 
+
 		document.getElements(".btn-group input[checked=checked]").each(function (el) {
 			if (el.get('value') === '') {
 				document.getElement("label[for=" + el.get('id') + "]").addClass('active btn-primary');
@@ -199,7 +206,7 @@ var PluginManager = new Class({
 			}
 
 		});
-		
+
 		document.getElements('.hasTip').each(function (el) {
 			var title = el.get('title');
 			if (title) {
@@ -210,7 +217,7 @@ var PluginManager = new Class({
 		});
 		var JTooltips = new Tips($$('.hasTip'), {maxTitleChars: 50, fixed: false});
 	},
-	
+
 	/**
 	 * Watch the plugin select list
 	 */
@@ -225,14 +232,14 @@ var PluginManager = new Class({
 			this.addPlugin(plugin, c);
 		}.bind(this));
 	},
-	
+
 	addPlugin: function (plugin, c) {
 		c = typeOf(c) === 'number' ? c : this.pluginTotal;
 		if (plugin === '') {
 			document.id('plugins').getElements('.actionContainer')[c].getElement('.pluginOpts').empty();
 			return;
 		}
-		
+
 		// Ajax request to load the plugin contennt
 		var request = new Request.HTML({
 			url: 'index.php',
@@ -287,11 +294,11 @@ var PluginManager = new Class({
 		document.id(e.target).getParent('.actionContainer').dispose();
 		this.counter --;
 	}
-	
+
 });
 
 fabrikAdminPlugin = new Class({
-	
+
 	Implements: [Options],
 	options: {},
 	initialize: function (name, label, options)
@@ -300,9 +307,9 @@ fabrikAdminPlugin = new Class({
 		this.label = label;
 		this.setOptions(options);
 	},
-	
+
 	cloned: function () {
-		
+
 	}
-		
+
 });
