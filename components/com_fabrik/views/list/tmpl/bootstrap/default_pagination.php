@@ -1,13 +1,15 @@
 <?php
 /**
+ * Fabrik List Template: Admin Bootstrap pagination
+ *
  * @package		Joomla.Administrator
  * @subpackage	Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// no direct access
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * This is a file to add template specific chrome to pagination rendering.

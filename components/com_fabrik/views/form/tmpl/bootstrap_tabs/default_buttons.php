@@ -4,12 +4,15 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
- ?>
-<?php if ($this->showEmail): ?>
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+if ($this->showEmail): ?>
 	<a class="btn" href="<?php echo $this->emailURL?>">
 		<i class="icon-envelope"></i>
 		<?php echo JText::_('JGLOBAL_EMAIL'); ?>

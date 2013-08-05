@@ -1,13 +1,15 @@
 <?php
 /**
+ * Display the template
+ *
  * @package     Joomla
  * @subpackage	Fabik
- * @copyright	Copyright (C) 2005 - 2008 Pollen 8 Design Ltd. All rights reserved.
- * @license		GNU/GPL
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_SITE . '/components/com_fabrik/views/list/view.base.php';
 

@@ -1,6 +1,15 @@
 <?php
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+/**
+ * Fabrik List Template: Advanced Search
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 $app = JFactory::getApplication();
 $input = $app->input;

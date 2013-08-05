@@ -1,11 +1,24 @@
 <?php
-  	$document = JFactory::getDocument();
-  	$document->setMetaData("apple-mobile-web-app-capable", "yes");
-  	$document->setMetaData("viewport", "minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no");
-  	$document->addStyleSheet('components/com_fabrik/views/form/tmpl/iwebkit/css/style.css');
-  	$document->addScript('components/com_fabrik/views/form/tmpl/iwebkit/javascript/functions.js');
-		$document->addHeadLink('components/com_fabrik/views/form/tmpl/iwebkit/homescreen.png', 'apple-touch-icon');
-		$document->addHeadLink('components/com_fabrik/views/form/tmpl/iwebkit/startup.png', 'apple-touch-startup-image');
+/**
+ * iwebkit Form Template - Default
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @since       3.1
+ */
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+$document = JFactory::getDocument();
+$document->setMetaData("apple-mobile-web-app-capable", "yes");
+$document->setMetaData("viewport", "minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no");
+$document->addStyleSheet('components/com_fabrik/views/form/tmpl/iwebkit/css/style.css');
+$document->addScript('components/com_fabrik/views/form/tmpl/iwebkit/javascript/functions.js');
+document->addHeadLink('components/com_fabrik/views/form/tmpl/iwebkit/homescreen.png', 'apple-touch-icon');
+document->addHeadLink('components/com_fabrik/views/form/tmpl/iwebkit/startup.png', 'apple-touch-startup-image');
 ?>
 <script>
 window.addEvent('fabrik.loaded', function() {

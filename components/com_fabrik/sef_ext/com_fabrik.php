@@ -11,7 +11,8 @@
  *
  */
 
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 //Fetch the form's name
 if (!function_exists('shFetchFormName'))

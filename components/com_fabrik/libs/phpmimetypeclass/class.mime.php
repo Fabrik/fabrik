@@ -1,19 +1,18 @@
 <?php
-
 /**
-* @package MIME Types Class
-* @version 1.0
-* @author  Robert Widdick
-* @copyright Copyright (c) 2009 Robert Widdick - codehelpers.com
-* @license GNU GPL
-* @desc    Defines the class for mime types
-* @param   None
-* @returns Nothing
-* @example See example.php
-*
-* If you use this, all I ask is that you let me know! I'd like to see who all uses this!
-* Also, credits would be much appreciated or a link back to codehelpers.com! Thanks :)
-*/
+ * @package MIME Types Class
+ * @version 1.0
+ * @author  Robert Widdick
+ * @copyright Copyright (c) 2009 Robert Widdick - codehelpers.com
+ * @license GNU GPL
+ * @desc    Defines the class for mime types
+ * @param   None
+ * @returns Nothing
+ * @example See example.php
+ *
+ * If you use this, all I ask is that you let me know! I'd like to see who all uses this!
+ * Also, credits would be much appreciated or a link back to codehelpers.com! Thanks :)
+ */
 
 class MIMETypes {
   # Define some private variables

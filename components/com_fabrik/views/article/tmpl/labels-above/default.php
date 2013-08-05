@@ -1,3 +1,18 @@
+<?php
+/**
+ * Labels-Above Article Template - Default
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @since       3.1
+ */
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
+?>
 <?php if ($this->params->get('show_page_heading', 1)) { ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_heading')); ?></div>
 <?php } ?>

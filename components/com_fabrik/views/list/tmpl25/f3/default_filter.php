@@ -4,14 +4,14 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
-defined('_JEXEC') or die;
-?>
-<?php if ($this->filter_action != 'onchange') {?>
+defined('_JEXEC') or die('Restricted access');
+
+if ($this->filter_action != 'onchange') {?>
 	<div class="submitfilter">
 	<a href="#" name="filter" class="fabrik_filter_submit"></a>
 			</div>

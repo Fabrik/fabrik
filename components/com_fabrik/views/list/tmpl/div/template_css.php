@@ -1,4 +1,13 @@
 <?php
+/**
+ * Fabrik List Template: Div CSS
+ *
+ * @package     Joomla
+ * @subpackage  Fabrik
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 header('Content-type: text/css');
 $c = $_REQUEST['c'];
 $buttonCount = (int) $_REQUEST['buttoncount'];

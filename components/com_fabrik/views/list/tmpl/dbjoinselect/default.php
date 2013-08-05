@@ -2,16 +2,18 @@
 /**
  * Fabrik List Template: DB Join Select
  *
- * @deprecated since 3.0.8/3.1 as we now load list defult tmpl, and us js else where to observe row clicks.
+ * @deprecated since 3.0.8/3.1 as we now load list defult tmpl, 
+ * and use js elsewhere to observe row clicks.
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
+
 ?>
 <?php if ($this->getModel()->getParams()->get('show-title', 1)) {?>
 	<h1><?php echo $this->table->label;?></h1>
