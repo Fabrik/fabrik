@@ -1736,7 +1736,7 @@ class FabrikFEModelList extends JModelForm
 		if (!$facetTable->canAdd())
 		{
 			return '<div style="text-align:center"><a title="' . JText::_('JERROR_ALERTNOAUTHOR')
-			. '"><img src="media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
+			. '"><img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
 		}
 		if ($app->isAdmin())
 		{
@@ -1863,7 +1863,7 @@ class FabrikFEModelList extends JModelForm
 		if (!$facetTable->canView())
 		{
 			return '<div style="text-align:center"><a title="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN')
-			. '"><img src="media/com_fabrik/images/login.png" alt="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN') . '" /></a></div>';
+			. '"><img src="' . COM_FABRIK_LIVESITE  . 'media/com_fabrik/images/login.png" alt="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN') . '" /></a></div>';
 		}
 		$showRelated = (int) $params->get('show_related_info', 0);
 		$emptyLabel = $showRelated === 1 ? JText::_('COM_FABRIK_NO_RECORDS') : '';
