@@ -34,8 +34,8 @@
 				type="text"
 				repeat="true"
 				size="60"
-				description="PLG_REST_PUT_ENDPOINT_DESC"
-				label="PLG_REST_PUT_ENDPOINT_LABEL"/>	
+				description="PLG_FORM_REST_PUT_ENDPOINT_DESC"
+				label="PLG_FORM_REST_PUT_ENDPOINT_LABEL"/>	
 					
 			<field name="xml_parent"
 				type="field"
