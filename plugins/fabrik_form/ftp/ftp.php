@@ -1,13 +1,15 @@
 <?php
 /**
+ * Fabrik FTP
+ *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.ftp
  * @copyright   Copyright (C) 2005 Hugh Messenger. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';

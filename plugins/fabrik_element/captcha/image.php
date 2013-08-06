@@ -4,10 +4,11 @@
  * @package     Joomla
  * @subpackage  Fabrik
  * @author Hugh Messenger
- * @copyright (C) Rob Clayburn
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
+// Allow direct access!!!!
 define( '_JEXEC', 1);
 
 $jpath = dirname(__FILE__);

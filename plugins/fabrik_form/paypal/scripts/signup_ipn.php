@@ -4,9 +4,12 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.paypal
- * @copyright   Copyright (C) 2005 Fabrik. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 /*
  * In the PayPal form plugin settings, you can select a PHP script to use for custom IPN processing.
