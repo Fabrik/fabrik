@@ -120,7 +120,7 @@ $listDirn = $this->state->get('list.direction');
 					</td>
 					<td>
 						<a href="index.php?option=com_fabrik&view=element&layout=edit&filter_groupId=<?php echo $item->id ?>">
-							<i class="icon-plus-2"></i>
+							<i class="icon-plus"></i>
 							<?php echo JText::_('COM_FABRIK_ADD')?>
 						</a>
 						<span class="badge badge-info"><?php echo $item->_elementCount; ?></span>

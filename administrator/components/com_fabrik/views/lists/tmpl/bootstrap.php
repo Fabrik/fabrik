@@ -122,7 +122,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<a href="<?php echo $elementLink?>">
-						<i class="icon-plus-2"></i> <?php echo JText::_('COM_FABRIK_ADD');?>
+						<i class="icon-plus"></i> <?php echo JText::_('COM_FABRIK_ADD');?>
 					</a>
 				</td>
 				<td>

@@ -91,7 +91,7 @@ class JFormFieldSuboptions extends JFormField
 		$html[] = '<th style="width: 10%">' . JText::_('COM_FABRIK_DEFAULT') . '</th>';
 		if ($j3)
 		{
-			$html[] = '<th style="width: 20%"><a class="btn btn-success" href="#" data-button="addSuboption"><i class="icon-plus-2"></i> </a></th>';
+			$html[] = '<th style="width: 20%"><a class="btn btn-success" href="#" data-button="addSuboption"><i class="icon-plus"></i> </a></th>';
 		}
 		$html[] = '</tr>';
 		$html[] = '</thead>';

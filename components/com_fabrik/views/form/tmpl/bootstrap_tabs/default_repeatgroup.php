@@ -22,7 +22,7 @@ foreach ($group->subgroups as $subgroup) :
 			<div class="fabrikGroupRepeater pull-right btn-group">
 				<?php if ($group->canAddRepeat) :?>
 					<a class="addGroup btn btn-small btn-success" href="#">
-						<i class="icon-plus-2 fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_ADD_GROUP'); ?>"></i>
+						<i class="icon-plus fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_ADD_GROUP'); ?>"></i>
 					</a>
 				<?php
 				endif;
