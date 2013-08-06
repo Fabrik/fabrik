@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="1.7"
-	client="site"
-	method="upgrade">
+<extension type="module" version="1.7" client="site" method="upgrade">
 	<name>Fabrik Module - Tag Cloud</name>
 	<author>Rob Clayburn</author>
 	<creationDate>May 2006</creationDate>
-	<copyright>(C) 2006 Pollen 8 Design Ltd. All rights reserved.</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005-2013 fabrikar.com - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
 	<version>3.0.0</version>

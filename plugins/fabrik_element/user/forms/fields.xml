@@ -2,10 +2,10 @@
 <form>
 	<fields>
 		<fieldset label="PLG_ELEMENT_USER_HIDDEN_LABEL" name="plg-element-user">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_USER_HELP_SERVER" />
-				
+
 			<field name="hidden"
 				type="radio"
 				default="0"
@@ -14,16 +14,19 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
-	
+
 	<fields name="params">
 		<fieldset label="COM_FABRIK_OPTIONS" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-user-params">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_USER_HELP_SERVER" />
+
 			<field name="my_table_data"
 			type="list"
-				default="0"
+				default="id"
 				description="PLG_ELEMENT_USER_DISPLAY_DATA_DESC"
 				label="PLG_ELEMENT_USER_DISPLAY_DATA_LABEL">
 					<option value="id">ID</option>
@@ -36,7 +39,7 @@
 					<option value="lastvisitDate">Last Visit Date</option>
 					<option value="activation">Activation</option>
 			</field>
-			
+
 			<field name="update_on_edit"
 				type="list"
 				default="0"
@@ -46,7 +49,7 @@
 					<option value="1">PLG_ELEMENT_USER_UPDATE_IF_INVISIBLE</option>
 					<option value="2">JYES</option>
 			</field>
-			
+
 			<field name="update_on_copy"
 				type="radio"
 				class="btn-group"
@@ -55,7 +58,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="user_use_social_plugin_profile"
 				type="radio"
 				class="btn-group"
@@ -64,13 +67,13 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="user_noselectionlabel"
 				type="text"
 				description="PLG_ELEMENT_USER_NO_SELECTION_LABEL_DESC"
 				label="PLG_ELEMENT_USER_NO_SELECTION_LABEL_LABEL"
 				size="35" />
-				
+
 		</fieldset>
 	</fields>
 </form>

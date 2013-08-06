@@ -2,10 +2,10 @@
 <form>
 	<fields>
 		<fieldset name="plg-element-time" label="COM_FABRIK_DATA">
-		
+
 		<field type="helplink"
 				url="PLG_ELEMENT_TIME_HELP_SERVER" />
-				
+
 			<field name="eval"
 				type="radio"
 				default="0"
@@ -15,40 +15,44 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 			<field name="default"
 				type="textarea"
 				cols="45"
 				label="PLG_ELEMENT_TIME_DEFAULT_LABEL"
 				description="PLG_ELEMENT_TIME_DEFAULT_DESC"
 				rows="6"/>
-				
+
 		</fieldset>
 	</fields>
+
 	<fields name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-time-params" label="PLG_ELEMENT_TIME_FORMATTING">
-		
+
+		<field type="helplink"
+				url="PLG_ELEMENT_TIME_HELP_SERVER" />
+
 			<field name="time_hourlabel"
 				type="text"
 				default=""
 				class="input-small"
 				description="PLG_ELEMENT_TIME_HOUR_LABEL_DESC"
 				label="PLG_ELEMENT_TIME_HOUR_LABEL" />
-				
+
 			<field name="time_minlabel"
 				type="text"
 				default=""
 				class="input-small"
 				description="PLG_ELEMENT_TIME_MIN_LABEL_DESC"
 				label="PLG_ELEMENT_TIME_MIN_LABEL" />
-				
+
 			<field name="time_seclabel"
 				type="text"
 				default=""
 				class="input-small"
 				description="PLG_ELEMENT_TIME_SEC_LABEL_DESC"
 				label="PLG_ELEMENT_TIME_SEC_LABEL" />
-				
+
 		<field name="list_time_format"
 			type="list"
 			default="H:i:s"
@@ -68,7 +72,7 @@
 				<option value="H:i">hh:mm</option>
 				<option value="i:s">mm:ss</option>
 		</field>
-		
+
 		<field name="minutes_increment"
 			type="list"
 			default="1"
@@ -81,7 +85,7 @@
 				<option value="20">20 min</option>
 				<option value="30">30 min</option>
 		</field>
-		
+
 		<field name="time_separatorlabel"
 			type="text"
 			default=":"

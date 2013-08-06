@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="field" name="plg-element-fblike">
-		
+		<fieldset name="plg-element-fblike" label="COM_FABRIK_OPTIONS">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FBLIKE_HELP_SERVER" />
-				
+
 			<field description="PLG_ELEMENT_FBLIKE_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBLIKE_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
-				
+
 			<field description="PLG_ELEMENT_FBLIKE_URL_DESC" label="PLG_ELEMENT_FBLIKE_URL_LABEL" name="fblike_url" type="text"/>
-				
+
 			<field default="standard" description="PLG_ELEMENT_FBLIKE_LAYOUT_DESC" label="PLG_ELEMENT_FBLIKE_LAYOUT_LABEL" name="fblike_layout" type="list">
 					<option value="standard">standard</option>
 					<option value="button_count">button_count</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				label="PLG_ELEMENT_FBLIKE_SHOW_FACES_LABEL" name="fblike_showfaces" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field class="input-mini" default="300" label="PLG_ELEMENT_FBLIKE_WIDTH_LABEL" name="fblike_width" size="3" type="text"/>
-				
+
 			<field default="like" label="PLG_ELEMENT_FBLIKE_ACTION_LABEL" name="fblike action" type="list">
 					<option value="like">like</option>
 					<option value="recommend">recommend</option>
@@ -37,94 +37,105 @@
 					<option value="trebuchet ms">trebuchet ms</option>
 					<option value="verdana">verdana</option>
 			</field>
-			
+
 			<field default="light" label="PLG_ELEMENT_FBLIKE_COLOR_SCHEME_LABEL" name="fblike_colorscheme" type="list">
 					<option value="light">light</option>
 					<option value="dark">dark</option>
 			</field>
-			
+
 			<field name="fblike_locale"
 				default="en_US"
 				size="5"
 				type="text"
 				label="PLG_ELEMENT_FBLIKE_LOCALE_LABEL"
 				description="PLG_ELEMENT_FBLIKE_LOCALE_DESC" />
-					
-		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FBLIKE_REQUIRED" name="plg-element-fblike-required">
-			<field name="fblike_title"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_TITLE_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_TITLE_DESC" />
-				
-			<field name="fblike_type"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_TYPE_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_TYPE_DESC" />
-				
-			<field name="fblike_image"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_IMAGE_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_IMAGE_DESC" />
-			
-			<field name="fblike_description"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_DESCRIPTION_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_DESCRIPTION_DESC" />
-			
-		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FBLIKE_CONTACT" name="plg-element-fblike-opengraph-contact">
-			<field name="fblike_email"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_EMAIL_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_EMAIL_DESC" />
-				
-			<field name="fblike_phone_number"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_PHONE_NUMBER_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_PHONE_NUMBER_DESC" />
-				
-			<field name="fblike_fax_number"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_FAX_NUMBER_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_FAX_NUMBER_DESC" />
-				
-		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FBLIKE_LOCATION" name="plg-element-fblike-opengraph-location">
-			<field name="fblike_location"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_LOCATION_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_LOCATION_DESC" />
-				
-			<field name="fblike_street_address"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_STREET_ADDRESS_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_STREET_ADDRESS_DESC" />
-				
-			<field name="fblike_locality"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_LOCALITY_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_LOCALITY_DESC" />
-				
-			<field name="fblike_region"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_REGION_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_REGION_DESC" />
-				
-			<field name="fblike_postal_code"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_POSTAL_CODE_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_POSTAL_CODE_DESC" />
-				
-			<field name="fblike_country"
-				type="listfields" 
-				label="PLG_ELEMENT_FBLIKE_OG_COUNTRY_LABEL"
-				description="PLG_ELEMENT_FBLIKE_OG_COUNTRY_DESC" />
-			
+
 		</fieldset>
 
+		<fieldset name="plg-element-fblike-required" label="PLG_ELEMENT_FBLIKE_REQUIRED">
+
+			<field type="helplink"
+					url="PLG_ELEMENT_FBLIKE_HELP_SERVER" />
+
+			<field name="fblike_title"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_TITLE_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_TITLE_DESC" />
+
+			<field name="fblike_type"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_TYPE_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_TYPE_DESC" />
+
+			<field name="fblike_image"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_IMAGE_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_IMAGE_DESC" />
+
+			<field name="fblike_description"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_DESCRIPTION_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_DESCRIPTION_DESC" />
+
+		</fieldset>
+
+		<fieldset label="PLG_ELEMENT_FBLIKE_CONTACT" name="plg-element-fblike-opengraph-contact">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FBLIKE_HELP_SERVER" />
+
+			<field name="fblike_email"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_EMAIL_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_EMAIL_DESC" />
+
+			<field name="fblike_phone_number"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_PHONE_NUMBER_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_PHONE_NUMBER_DESC" />
+
+			<field name="fblike_fax_number"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_FAX_NUMBER_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_FAX_NUMBER_DESC" />
+
+		</fieldset>
+
+		<fieldset label="PLG_ELEMENT_FBLIKE_LOCATION" name="plg-element-fblike-opengraph-location">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FBLIKE_HELP_SERVER" />
+
+			<field name="fblike_location"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_LOCATION_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_LOCATION_DESC" />
+
+			<field name="fblike_street_address"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_STREET_ADDRESS_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_STREET_ADDRESS_DESC" />
+
+			<field name="fblike_locality"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_LOCALITY_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_LOCALITY_DESC" />
+
+			<field name="fblike_region"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_REGION_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_REGION_DESC" />
+
+			<field name="fblike_postal_code"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_POSTAL_CODE_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_POSTAL_CODE_DESC" />
+
+			<field name="fblike_country"
+				type="listfields"
+				label="PLG_ELEMENT_FBLIKE_OG_COUNTRY_LABEL"
+				description="PLG_ELEMENT_FBLIKE_OG_COUNTRY_DESC" />
+
+		</fieldset>
 	</fields>
 </form>

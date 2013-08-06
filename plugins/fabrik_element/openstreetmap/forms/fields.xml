@@ -1,56 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="" name="plg-element-openstreetmap">
-		
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-openstreetmap">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_OPENSTREETMAP_HELP_SERVER" />
-				
+
 			<field default="openlayers" description="PLG_ELEMENT_OPENSTREETMAP_DEFAULT_LAYER_DESC" label="PLG_ELEMENT_OPENSTREETMAP_DEFAULT_LAYER_LABEL" name="fb_osm_defaultlayer" type="list">
 				<option value="openlayers">PLG_ELEMENT_OPENSTREETMAP_OPEN_LAYERS</option>
 				<option value="yahoo">PLG_ELEMENT_OPENSTREETMAP_YAHOO</option>
 				<option value="google">PLG_ELEMENT_OPENSTREETMAP_GOOGLE</option>
 				<option value="virtualearth">PLG_ELEMENT_OPENSTREETMAP_VIRTUAL_EARTH</option>
 			</field>
-			
+
 			<field default="0" description="PLG_ELEMENT_OPENSTREETMAP_SHOW_GOOGLE_DESC" label="PLG_ELEMENT_OPENSTREETMAP_SHOW_GOOGLE_LABEL" name="fb_osm_gmlayers" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field description="PLG_ELEMENT_OPENSTREETMAP_GOOGLE_MAP_KEY_DESC" label="PLG_ELEMENT_OPENSTREETMAP_GOOGLE_MAP_KEY_LABEL" name="fb_osm_gm_key" size="30" type="text"/>
-			
+
 			<field default="0" description="PLG_ELEMENT_OPENSTREETMAP_SHOW_YAHOO_DESC" label="PLG_ELEMENT_OPENSTREETMAP_SHOW_YAHOO_LABEL" name="fb_osm_yahoolayers" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field description="PLG_ELEMENT_OPENSTREETMAP_YAHOO_MAP_KEY_DESC" label="PLG_ELEMENT_OPENSTREETMAP_YAHOO_MAP_KEY_LABEL" name="fb_yahoo_key" size="30" type="text"/>
-			
+
 			<field default="0" description="PLG_ELEMENT_OPENSTREETMAP_SHOW_VIRTUAL_EARTH_DESC" label="PLG_ELEMENT_OPENSTREETMAP_SHOW_VIRTUAL_EARTH_LABEL" name="fb_osm_virtualearthlayers" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-		
+
 			<field default="53.2224" description="PLG_ELEMENT_OPENSTREETMAP_LAT_DESC" label="PLG_ELEMENT_OPENSTREETMAP_LAT_LABEL" name="fb_osm_lat" size="10" type="text"/>
-				
+
 			<field default="-4.2007" description="PLG_ELEMENT_OPENSTREETMAP_LONG_DESC" label="PLG_ELEMENT_OPENSTREETMAP_LONG_LABEL" name="fb_osm_long" size="10" type="text"/>
-				
+
 			<field default="4" description="PLG_ELEMENT_OPENSTREETMAP_ZOOM_LEVEL_DESC" label="PLG_ELEMENT_OPENSTREETMAP_ZOOM_LEVEL_LABEL" name="fb_osm_zoomlevel" size="3" type="text"/>
-				
+
 			<field default="200" label="PLG_ELEMENT_OPENSTREETMAP_MAP_WIDTH_LABEL" name="fb_osm_mapwidth" size="3" type="text"/>
-				
+
 			<field default="150" label="PLG_ELEMENT_OPENSTREETMAP_MAP_HEIGHT_LABEL" name="fb_osm_mapheight" size="3" type="text"/>
-			
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_OPENSTREETMAP_LIST_SETTINGS" name="plg-element-openstreetmap-table">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_OPENSTREETMAP_HELP_SERVER" />
+
 			<field default="200" label="PLG_ELEMENT_OPENSTREETMAP_MAP_WIDTH_LABEL" name="fb_osm_table_mapwidth" size="3" type="text"/>
-				
+
 			<field default="150" label="PLG_ELEMENT_OPENSTREETMAP_MAP_HEIGHT_LABEL" name="fb_osm_table_mapheight" size="3" type="text"/>
-				
+
 			<field default="4" description="PLG_ELEMENT_OPENSTREETMAP_ZOOM_LEVEL_DESC" label="PLG_ELEMENT_OPENSTREETMAP_ZOOM_LEVEL_LABEL" name="fb_osm_table_zoomlevel" size="3" type="text"/>
-				
+
 		</fieldset>
 
 		</fields>

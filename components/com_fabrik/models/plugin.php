@@ -213,8 +213,6 @@ class FabrikPlugin extends JPlugin
 
 		// Copy over the data into the params array - plugin fields can have data in either
 		// jform[params][name] or jform[name]
-		$pluginData = array();
-
 		$dontMove = array('width', 'height');
 		if (!array_key_exists('params', $data))
 		{
@@ -254,6 +252,36 @@ class FabrikPlugin extends JPlugin
 
 		$repeatGroupCounter = 0;
 
+		// Paul - If there is a string for plugin_DESCRIPTION then display this as a legend
+		$inistr = strtoupper('PLG_' . $type . '_' . $this->_name . '_DESCRIPTION');
+		$inival = JText::_($inistr);
+		if ($inistr != $inival)
+		{
+			$inival2 = '';
+			// Handle strings with HTML
+			if (substr($inival, 0, 3) == '<p>' || substr($inival, 0, 3) == '<p ')
+			{
+				// Split by paras, use first para for legend and put remaining paras back.
+				$lines = preg_split('/<p.*>|</p>/',$inival,PREG_SPLIT_NO_EMPTY);
+				$inival = $lines[0];
+				unset($lines[0]);
+				$inival2 = '<b><p>' . implode('</p>\n<p>',$lines) . '<br/><br/></p></b>';
+			}
+			elseif (substr($inival, 0, 1) != '<' && strpos($inival, '<br') >0)
+			{
+				// Separate first part for legend and convert rest to paras
+				$lines = preg_split('/<br\s*\/\s*>/',$inival,PREG_SPLIT_NO_EMPTY);
+				$inival = $lines[0];
+				unset($lines[0]);
+				$inival2 = '<b><p>' . implode('</p>\n<p>',$lines) . '<br/><br/></p></b>';
+			}
+			$str[] = '<legend>' . $inival . '</legend>';
+			if ($inival2 != '')
+			{
+				$str[] = $inival2;
+			}
+		}
+
 		if ($mode === 'nav-tabs')
 		{
 			$this->renderFromNavTabHeadings($form, $str, $repeatCounter);
@@ -267,7 +295,7 @@ class FabrikPlugin extends JPlugin
 			$mode = null;
 		}
 
-		// Filer the forms fieldsets for those starting with the correct $serachName prefix
+		// Filer the forms fieldsets for those starting with the correct $searchName prefix
 		foreach ($fieldsets as $fieldset)
 		{
 			if ($mode === 'nav-tabs')
@@ -302,7 +330,7 @@ class FabrikPlugin extends JPlugin
 			$style = isset($fieldset->modal) && $fieldset->modal ? 'style="display:none"' : '';
 			$str[] = '<fieldset class="' . $class . '"' . $id . ' ' . $style . '>';
 
-			if ($mode == '')
+			if ($mode == '' && $fieldset->label != '')
 			{
 				$str[] = '<legend>' . JText::_($fieldset->label) . '</legend>';
 			}
@@ -310,17 +338,15 @@ class FabrikPlugin extends JPlugin
 			$j3 = FabrikWorker::j3();
 			if ($repeat)
 			{
-				$bClass = $j3 ? 'btn' : 'addButton';
-				$str[] = '<a class="' . $bClass . '" href="#" data-button="addButton"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a>';
 				if ($j3)
 				{
-					$str[] = '<a class="btn" href="#" data-button="deleteButton"><i class="icon-minus-sign"></i> ' . JText::_('COM_FABRIK_REMOVE')
-					. '</a>';
+					$str[] = '<a class="btn" href="#" data-button="addButton"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a>';
+					$str[] = '<a class="btn" href="#" data-button="deleteButton"><i class="icon-minus"></i> ' . JText::_('COM_FABRIK_REMOVE') . '</a>';
 				}
-			}
-			if (is_null($mode))
-			{
-				$str[] = '<legend>' . JText::_($fieldset->label) . '</legend>';
+				else
+				{
+					$str[] = '<a class="addButton" href="#" data-button="addButton"><i class="icon-plus"></i> ' . JText::_('COM_FABRIK_ADD') . '</a>';
+				}
 			}
 			for ($r = 0; $r < $repeatDataMax; $r++)
 			{

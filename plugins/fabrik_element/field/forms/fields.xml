@@ -34,9 +34,11 @@
 	</fields>
 	
 	<fields name="params">
-	
 		<fieldset name="plg-element-field-params" label="COM_FABRIK_ADVANCED">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
+				
 		<field name="placeholder"
 			type="text"
 			description="PLG_ELEMENT_FIELD_PLACEHOLDER_DESC"
@@ -106,6 +108,9 @@
 		
 		<fieldset label="PLG_ELEMENT_FIELD_FORMATTING" name="plg-field-formatting">
 
+			<field type="helplink"
+				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
+				
 			<field name="bootstrap_class"
 				type="bootstrapfieldclass"
 				default="input-medium"
@@ -172,6 +177,9 @@
 		
 		<fieldset label="PLG_ELEMENT_FIEILD_GUESS_LINK" name="plg-field-guesslink">
 		
+			<field type="helplink"
+				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
+				
 			<field name="guess_linktype"
 				type="radio"
 				default="0"

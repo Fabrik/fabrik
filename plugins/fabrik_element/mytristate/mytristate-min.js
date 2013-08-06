@@ -1,1 +1,0 @@
-var FbMytristate=new Class({Extends:FbElement,initialize:function(b,a){this.parent(b,a);this.plugin="Mytristate"},changeValue:function(){location.reload(true)},select:function(){this.element.select()},focus:function(){this.element.focus()}});

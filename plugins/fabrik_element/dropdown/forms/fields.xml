@@ -2,14 +2,14 @@
 <form>
 	<fields name="params">
 		<fieldset name="plg-dropdown-mutli" label="COM_FABRIK_DATA">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
 
 			<field name="sub_options"
 				type="suboptions"
 				label="COM_FABRIK_SUBOPTIONS" />
-			
+
 			<field name="multiple"
 				type="radio"
 				default="0"
@@ -18,7 +18,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="dropdown_multisize"
 				type="text"
 				class="input-mini"
@@ -30,7 +30,10 @@
 		</fieldset>
 
 		<fieldset label="PLG_ELEMENT_DROPDOWN_FRONT_END_ADDITIONS" name="plg-dropdown-add">
-			
+
+			<field type="helplink"
+				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
+
 			<field name="allow_frontend_addtodropdown"
 				type="radio"
 				default="0"
@@ -40,7 +43,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="dd-allowadd-onlylabel"
 				type="radio"
 				default="0"
@@ -50,7 +53,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="dd-savenewadditions"
 				type="radio"
 				default="0"
@@ -60,34 +63,40 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
-		
+
 		<fieldset label="Advanced" name="plg-dropdown-advanced">
-			
+
+			<field type="helplink"
+				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
+
 			<field name="options_split_str"
 				type="text"
 				default=""
 				description="PLG_ELEMENT_DROPDOWN_SEPARATOR_DESC"
 				label="PLG_ELEMENT_DROPDOWN_SEPARATOR_LABEL" size="10" />
-			
+
 			<field name="dropdown_populate"
 				type="fabrikeditor"
 				mode="php"
 				description="PLG_ELEMENT_DROPDOWN_POPULATE_DESC"
 				label="PLG_ELEMENT_DROPDOWN_POPULATE_LABEL" />
-				
+
 		</fieldset>
-		
+
 	</fields>
 	<fields>
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-dropdown" label="COM_FABRIK_OPTIONS">
-			
+
+			<field type="helplink"
+				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
+
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"
 				label="PLG_ELEMENT_DROPDOWN_DEFAULT_LABEL" />
-						
+
 			<field name="eval"
 				type="radio"
 				default="0"
@@ -96,7 +105,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </form>

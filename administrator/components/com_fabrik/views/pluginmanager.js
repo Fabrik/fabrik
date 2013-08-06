@@ -182,7 +182,7 @@ var PluginManager = new Class({
 		document.id('adminForm').addEvent('change:relay(select.elementtype)', function (event, target) {
 			event.preventDefault();
 			var plugin = target.get('value');
-			var container = target.getParent('.pluginContanier');
+			var container = target.getParent('.pluginContainer');
 			target.getParent('.actionContainer').getElement('span.pluginTitle').set('text', plugin);
 			var c = container.id.replace('formAction_', '').toInt();
 			this.addPlugin(plugin, c);
@@ -219,7 +219,7 @@ var PluginManager = new Class({
 	},
 
 	deletePlugin: function (e) {
-		var c = e.target.getParent('.pluginContanier');
+		var c = e.target.getParent('.pluginContainer');
 		if (typeOf(c) === 'null') {
 			return;
 		}

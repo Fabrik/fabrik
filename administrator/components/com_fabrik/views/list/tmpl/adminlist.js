@@ -6,25 +6,25 @@
  */
 
 var ListPluginManager = new Class({
-	
+
 	Extends: PluginManager,
 
 	type: 'list',
-	
+
 	initialize: function (plugins, id) {
 		this.parent(plugins, id);
 	}
-	
+
 });
 
 var ListForm = new Class({
-	
+
 	Implements: [Options],
-	
+
 	options: {
 		j3: true
 	},
-	
+
 	initialize: function (options) {
 		var rows;
 		window.addEvent('domready', function () {
@@ -45,15 +45,15 @@ var ListForm = new Class({
 				rows = document.getElement('table.linkedForms').getElement('tbody');
 				new Sortables(rows, {'handle': '.handle'});
 			}
-			
+
 			this.joinCounter = 0;
 			this.watchOrderButtons();
 			this.watchDbName();
 			this.watchJoins();
 		}.bind(this));
-		
+
 	},
-	
+
 	watchOrderButtons: function () {
 		document.getElements('.addOrder').removeEvents('click');
 		document.getElements('.deleteOrder').removeEvents('click');
@@ -66,7 +66,7 @@ var ListForm = new Class({
 			this.deleteOrderBy(e);
 		}.bind(this));
 	},
-	
+
 	addOrderBy: function (e)
 	{
 		var t;
@@ -78,14 +78,14 @@ var ListForm = new Class({
 		t.clone().inject(t, 'after');
 		this.watchOrderButtons();
 	},
-	
+
 	deleteOrderBy: function (e) {
 		if (document.getElements('.orderby_container').length > 1) {
 			e.target.getParent('.orderby_container').dispose();
 			this.watchOrderButtons();
 		}
 	},
-	
+
 	watchDbName: function () {
 		if (document.id('database_name')) {
 			document.id('database_name').addEvent('blur', function (e) {
@@ -97,7 +97,7 @@ var ListForm = new Class({
 			});
 		}
 	},
-	
+
 	_buildOptions: function (data, sel) {
 		var opts = [];
 		if (data.length > 0) {
@@ -119,9 +119,9 @@ var ListForm = new Class({
 				});
 			}
 		}
-		return opts;	
+		return opts;
 	},
-	
+
 	watchTableDd: function () {
 		if (document.id('tablename')) {
 			document.id('tablename').addEvent('change', function (e) {
@@ -130,7 +130,7 @@ var ListForm = new Class({
 				var url = 'index.php?option=com_fabrik&format=raw&task=list.ajax_updateColumDropDowns&cid=' + cid + '&table=' + table;
 				var myAjax = new Request({
 					url: url,
-					method: 'post', 
+					method: 'post',
 					onComplete: function (r) {
 						eval(r);
 					}
@@ -138,14 +138,14 @@ var ListForm = new Class({
 			});
 		}
 	},
-		
+
 	watchFieldList: function (name) {
 		document.getElement('div[id^=table-sliders-data]').addEvent('change:relay(select[name*=' + name + '])', function (e, target) {
 			var rowContainer = this.options.j3 ? 'tr' : 'table';
 			this.updateJoinStatement(target.getParent(rowContainer).id.replace('join', ''));
 		}.bind(this));
 	},
-	
+
 	_findActiveTables: function () {
 		var t = document.getElements('.join_from').combine(document.getElements('.join_to'));
 		t.each(function (sel) {
@@ -156,7 +156,7 @@ var ListForm = new Class({
 		}.bind(this));
 		this.options.activetableOpts.sort();
 	},
-	
+
 	addJoin: function (groupId, joinId, joinType, joinToTable, thisKey, joinKey, joinFromTable, joinFromFields, joinToFields, repeat) {
 		var repeaton, repeatoff, headings, row;
 		joinType = joinType ? joinType : 'left';
@@ -177,9 +177,9 @@ var ListForm = new Class({
 		this._findActiveTables();
 		joinFromFields = joinFromFields ? joinFromFields : [['-', '']];
 		joinToFields = joinToFields ? joinToFields : [['-', '']];
-		
+
 		var tbody = new Element('tbody');
-		
+
 		var ii = new Element('input', {
 			'readonly': 'readonly',
 			'size': '2',
@@ -187,7 +187,7 @@ var ListForm = new Class({
 			'name': 'jform[params][join_id][]',
 			'value': joinId
 		});
-		
+
 		var delButton = new Element('a', {
 			'href': '#',
 			'class': 'btn btn-danger',
@@ -201,22 +201,22 @@ var ListForm = new Class({
 
 		var delHtml = '<i class="icon-minus"></i> ';
 		if (!this.options.j3) {
-			delHtml += Joomla.JText._('COM_FABRIK_DELETE'); 
+			delHtml += Joomla.JText._('COM_FABRIK_DELETE');
 		}
 		delButton.set('html', delHtml);
-		
+
 		joinType = new Element('select', {'name': 'jform[params][join_type][]', 'class': 'inputbox input-mini'}).adopt(this._buildOptions(this.options.joinOpts, joinType));
 		var joinFrom = new Element('select', {'name': 'jform[params][join_from_table][]', 'class': 'inputbox join_from input-small'}).adopt(this._buildOptions(this.options.activetableOpts, joinFromTable));
 		groupId = new Element('input', {'type': 'hidden', 'name': 'group_id[]', 'value': groupId});
 		var tableJoin = new Element('select', {'name': 'jform[params][table_join][]', 'class': 'inputbox join_to input-small'}).adopt(this._buildOptions(this.options.tableOpts, joinToTable));
 		var tableKey = new Element('select', {'name': 'jform[params][table_key][]', 'class': 'table_key inputbox input-small'}).adopt(this._buildOptions(joinFromFields, thisKey));
 		joinKey = new Element('select', {'name': 'jform[params][table_join_key][]', 'class': 'table_join_key inputbox input-small'}).adopt(this._buildOptions(joinToFields, joinKey));
-		var repeatRadio =  
+		var repeatRadio =
 		"<fieldset class=\"radio\">" +
 		"<input type=\"radio\" id=\"joinrepeat" + this.joinCounter + "\" value=\"1\" name=\"jform[params][join_repeat][" + this.joinCounter + "][]\" " + repeaton + "/><label for=\"joinrepeat" + this.joinCounter + "\">" + Joomla.JText._('JYES') + "</label>" +
 		"<input type=\"radio\" id=\"joinrepeatno" + this.joinCounter + "\" value=\"0\" name=\"jform[params][join_repeat][" + this.joinCounter + "][]\" " + repeatoff + "/><label for=\"joinrepeatno" + this.joinCounter + "\">" + Joomla.JText._('JNO') + "</label>" +
 		"</fieldset>";
-		
+
 		if (this.options.j3) {
 			headings = new Element('thead').adopt(
 				new Element('tr').adopt([
@@ -230,7 +230,7 @@ var ListForm = new Class({
 					new Element('th')
 				])
 			);
-			
+
 			row = new Element('tr', {'id': 'join' + this.joinCounter}).adopt([
 				new Element('td').adopt(ii),
 				new Element('td').adopt([groupId, joinType]),
@@ -248,7 +248,7 @@ var ListForm = new Class({
 						'click': function (e) {
 							e.stop();
 							var tbody = e.target.getParent('.adminform').getElement('tbody');
-							Browser.ie ? tbody.toggle() : tbody.slide('toggle'); 
+							Browser.ie ? tbody.toggle() : tbody.slide('toggle');
 						}
 					},
 					'styles': {
@@ -266,7 +266,7 @@ var ListForm = new Class({
 					}))
 				)
 				]);
-			
+
 			row = [
 					new Element('tr').adopt([
 						new Element('td').set('text', 'id'),
@@ -274,34 +274,34 @@ var ListForm = new Class({
 					]),
 					new Element('tr').adopt([
 						new Element('td').adopt([groupId]).set('text', Joomla.JText._('COM_FABRIK_JOIN_TYPE')),
-					
+
 						new Element('td').adopt(joinType)
 					]),
-			
+
 					new Element('tr').adopt([
 						new Element('td').set('text', Joomla.JText._('COM_FABRIK_FROM')),
 						new Element('td').adopt(joinFrom)
 					]),
-			
+
 					new Element('tr').adopt([
 						new Element('td').set('text', Joomla.JText._('COM_FABRIK_TO')),
 						new Element('td').adopt(tableJoin)
 					]),
-			
+
 					new Element('tr').adopt([
 						new Element('td').set('text', Joomla.JText._('COM_FABRIK_FROM_COLUMN')),
 						new Element('td', {'id': 'joinThisTableId' + this.joinCounter }).adopt(
 							tableKey
 						)
 					]),
-			
+
 					new Element('tr').adopt([
 						new Element('td').set('text', Joomla.JText._('COM_FABRIK_TO_COLUMN')),
 						new Element('td', {'id': 'joinJoinTableId' + this.joinCounter }).adopt(joinKey)
 					]),
-			
+
 					new Element('tr').set('html', '<td>' + Joomla.JText._('COM_FABRIK_REPEAT_GROUP_BUTTON_LABEL') + '</td><td>' + repeatRadio + '</td>'),
-			
+
 					new Element('tr').adopt([
 						new Element('td', {'colspan': '2'}).adopt([
 							delButton
@@ -316,9 +316,9 @@ var ListForm = new Class({
 			tbody.adopt(row)
 		]);
 		if (this.options.j3) {
-		
+
 			if (this.joinCounter === 0) {
-				sContent.inject(document.id('joindtd'));  
+				sContent.inject(document.id('joindtd'));
 			} else {
 				var tb = document.id('joindtd').getElement('tbody');
 				row.inject(tb);
@@ -326,17 +326,17 @@ var ListForm = new Class({
 
 		} else {
 			var d = new Element('div', {'id': 'join'}).adopt(sContent);
-			d.inject(document.id('joindtd'));  
+			d.inject(document.id('joindtd'));
 			if (thisKey !== '') {
-				Browser.ie ? tbody.hide() : tbody.slide('hide'); 
+				Browser.ie ? tbody.hide() : tbody.slide('hide');
 			}
 			this.updateJoinStatement(this.joinCounter);
 		}
-		
-		
+
+
 		this.joinCounter ++;
 	},
-			
+
 	deleteJoin: function (e) {
 		var tbl, t;
 		e.stop();
@@ -353,7 +353,7 @@ var ListForm = new Class({
 			}
 		}
 	},
-	
+
 	watchJoins: function () {
 		var rowContainer = this.options.j3 ? 'tr' : 'table';
 		document.getElement('div[id^=table-sliders-data]').addEvent('change:relay(.join_from)', function (e, target) {
@@ -362,16 +362,16 @@ var ListForm = new Class({
 			this.updateJoinStatement(activeJoinCounter);
 			var table = target.get('value');
 			var conn = document.getElement('input[name*=connection_id]').get('value');
-	
+
 			var update = this.options.j3 ? row.getElement('td.table_key') : document.id('joinThisTableId' + activeJoinCounter);
 			var url = 'index.php?option=com_fabrik&format=raw&task=list.ajax_loadTableDropDown&table=' + table + '&conn=' + conn;
 			var myAjax = new Request.HTML({
 				url: url,
-				method: 'post', 
+				method: 'post',
 				update: update
 			}).send();
 		}.bind(this));
-		
+
 		document.getElement('div[id^=table-sliders-data]').addEvent('change:relay(.join_to)', function (e, target) {
 			var row = target.getParent(rowContainer);
 			var activeJoinCounter = row.id.replace('join', '');
@@ -379,11 +379,11 @@ var ListForm = new Class({
 			var table = target.get('value');
 			var conn = document.getElement('input[name*=connection_id]').get('value');
 			var url = 'index.php?name=jform[params][table_join_key][]&option=com_fabrik&format=raw&task=list.ajax_loadTableDropDown&table=' + table + '&conn=' + conn;
-						
+
 			var update = this.options.j3 ? row.getElement('td.table_join_key') : document.id('joinJoinTableId' + activeJoinCounter);
 			var myAjax = new Request.HTML({
 				url: url,
-				method: 'post', 
+				method: 'post',
 				update: update
 			}).send();
 		}.bind(this));
@@ -391,7 +391,7 @@ var ListForm = new Class({
 		this.watchFieldList('table_join_key');
 		this.watchFieldList('table_key');
 	},
-	
+
 	updateJoinStatement: function (activeJoinCounter) {
 		var fields = document.getElements('#join' + activeJoinCounter + ' .inputbox');
 		fields = Array.from(fields);
@@ -405,7 +405,7 @@ var ListForm = new Class({
 		if (typeOf(desc) !== 'null') {
 			desc.set('html', str);
 		}
-						
+
 	}
 
 });
@@ -413,13 +413,13 @@ var ListForm = new Class({
 ////////////////////////////////////////////
 
 var adminFilters = new Class({
-	
+
 	Implements: [Options],
-	
+
 	options: {
 		j3: false
 	},
-	
+
 	initialize: function (el, fields, options) {
 		this.el = document.id(el);
 		this.fields = fields;
@@ -427,7 +427,7 @@ var adminFilters = new Class({
 		this.filters = [];
 		this.counter = 0;
 	},
-	
+
 	addHeadings: function () {
 		var thead = new Element('thead').adopt(new Element('tr', {'id': 'filterTh', 'class': 'title'}).adopt(
 			new Element('th').set('text', Joomla.JText._('COM_FABRIK_JOIN')),
@@ -437,18 +437,18 @@ var adminFilters = new Class({
 			new Element('th').set('text', Joomla.JText._('COM_FABRIK_TYPE')),
 			new Element('th').set('text', Joomla.JText._('COM_FABRIK_APPLY_FILTER_TO')),
 			new Element('th').set('text', Joomla.JText._('COM_FABRIK_GROUPED')),
-			new Element('th').set('text', Joomla.JText._('COM_FABRIK_DELETE'))			 
+			new Element('th').set('text', Joomla.JText._('COM_FABRIK_DELETE'))
 		));
 		thead.inject(document.id('filterContainer'), 'before');
 	},
-	
+
 	deleteFilterOption: function (e) {
 		this.counter --;
 		var tbl, t;
 		e.stop();
 		if (this.options.j3) {
 			var row = e.target.id.replace('filterContainer-del-', '').toInt();
-			
+
 			t = e.target.getParent('tr');
 			tbl = e.target.getParent('table');
 		} else {
@@ -465,7 +465,7 @@ var adminFilters = new Class({
 			t.dispose();
 		}
 	},
-	
+
 	_makeSel: function (c, name, pairs, sel, showSelect) {
 		var opts = [];
 		showSelect = showSelect === true ? true : false;
@@ -481,7 +481,7 @@ var adminFilters = new Class({
 		});
 		return new Element('select', {'class': c + ' input-small', 'name': name}).adopt(opts);
 	},
-	
+
 	addFilterOption: function (selJoin, selFilter, selCondition, selValue, selAccess, evaluate, grouped) {
 		var and, or, joinDd, groupedNo, groupedYes, i, sels;
 		if (this.counter <= 0) {
@@ -497,7 +497,7 @@ var adminFilters = new Class({
 		selValue = selValue ? selValue : '';
 		selAccess = selAccess ? selAccess : '';
 		grouped = grouped ? grouped: '';
-		var conditionsDd = this.options.filterCondDd;					
+		var conditionsDd = this.options.filterCondDd;
 		var tr = new Element('tr');
 		if (this.counter > 0) {
 			var opts = {'type': 'radio', 'name': 'jform[params][filter-grouped][' + this.counter + ']', 'value': '1'};
@@ -512,11 +512,11 @@ var adminFilters = new Class({
 				'value': '0'
 			};
 			opts.checked = (grouped !== '1') ? 'checked' : '';
-			
+
 			groupedNo = new Element('label').set('text', Joomla.JText._('JNO')).adopt(
 				new Element('input', opts)
 			);
-			
+
 		}
 		if (this.counter === 0) {
 			joinDd = new Element('span').set('text', 'WHERE').adopt(
@@ -542,10 +542,10 @@ var adminFilters = new Class({
 			}).adopt(
 		[and, or]);
 		}
-					
+
 		var tdGrouped = new Element('td');
 		var td = new Element('td');
-		
+
 		if (this.counter <= 0) {
 			tdGrouped.appendChild(new Element('input', {
 				'type': 'hidden',
@@ -553,13 +553,13 @@ var adminFilters = new Class({
 				'value': '0'
 			}));
 			tdGrouped.appendChild(new Element('span').set('text', 'n/a'));
-			
+
 		} else {
 			tdGrouped.appendChild(groupedNo);
 			tdGrouped.appendChild(groupedYes);
 		}
 		td.appendChild(joinDd);
-		
+
 		var td1 = new Element('td');
 		td1.innerHTML = this.fields;
 		var td2 = new Element('td');
@@ -568,7 +568,7 @@ var adminFilters = new Class({
 		var td4 = new Element('td');
 		td4.innerHTML = this.options.filterAccess;
 		var td5 = new Element('td');
-		
+
 		var textArea = new Element('textarea', {
 			'name': 'jform[params][filter-value][]',
 			'cols': 17,
@@ -576,25 +576,25 @@ var adminFilters = new Class({
 		}).set('text', selValue);
 		td3.appendChild(textArea);
 		td3.appendChild(new Element('br'));
-		
+
 		var evalopts = [
 			{'value': 0, 'label': Joomla.JText._('COM_FABRIK_TEXT')},
 			{'value': 1, 'label': Joomla.JText._('COM_FABRIK_EVAL')},
 			{'value': 2, 'label': Joomla.JText._('COM_FABRIK_QUERY')},
 			{'value': 3, 'label': Joomla.JText._('COM_FABRIK_NO_QUOTES')}
 		];
-		
+
 		var tdType = new Element('td').adopt(this._makeSel('inputbox elementtype', 'jform[params][filter-eval][]', evalopts, evaluate, false));
 
 		var checked = (selJoin !== '' || selFilter !== '' || selCondition !== '' || selValue !== '') ? true : false;
 		var delId = this.el.id + "-del-" + this.counter;
-		
+
 		var deleteText = this.options.j3 ? '' : Joomla.JText._('COM_FABRIK_DELETE');
 		var bClass = this.options.j3 ? 'btn btn-danger' : 'removeButton';
-		var a = '<button id="' + delId + '" class="' + bClass + '"><i class="icon-minus"></i> ' + deleteText + '</button>'; 
+		var a = '<button id="' + delId + '" class="' + bClass + '"><i class="icon-minus"></i> ' + deleteText + '</button>';
 		td5.set('html', a);
 		tr.appendChild(td);
-		
+
 		tr.appendChild(td1);
 		tr.appendChild(td2);
 		tr.appendChild(td3);
@@ -604,17 +604,17 @@ var adminFilters = new Class({
 		tr.appendChild(td5);
 
 		this.el.appendChild(tr);
-		
+
 		this.el.getParent('table').show();
 		document.id(delId).addEvent('click', function (e) {
 			this.deleteFilterOption(e);
 		}.bind(this));
-		
+
 		document.id(this.el.id + "-del-" + this.counter).click = function (e) {
 			this.deleteFilterOption(e);
 		}.bind(this);
-		
-		/*set default values*/ 
+
+		/*set default values*/
 		if (selJoin !== '') {
 			sels = Array.from(td.getElementsByTagName('SELECT'));
 			if (sels.length >= 1) {
@@ -634,7 +634,7 @@ var adminFilters = new Class({
 					}
 				}
 			}
-		}				
+		}
 
 		if (selCondition !== '') {
 			sels = Array.from(td2.getElementsByTagName('SELECT'));
@@ -645,8 +645,8 @@ var adminFilters = new Class({
 					}
 				}
 			}
-		}	
-		
+		}
+
 		if (selAccess !== '') {
 			sels = Array.from(td4.getElementsByTagName('SELECT'));
 			if (sels.length >= 1) {
@@ -656,8 +656,8 @@ var adminFilters = new Class({
 					}
 				}
 			}
-		}					
+		}
 		this.counter ++;
 	}
-	
+
 });

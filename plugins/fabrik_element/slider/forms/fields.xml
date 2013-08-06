@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
-		<fieldset label="slider" name="plg-element-slider">
-		
+		<fieldset label="PLG_ELEMENT_SLIDER" name="plg-element-slider">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_SLIDER_HELP_SERVER" />
-				
+
 			<field name="eval"
 				type="radio"
 				default="0"
@@ -13,39 +13,42 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="default"
 				type="textarea"
 				cols="45"
 				label="PLG_ELEMENT_SLIDER_DEFAULT_LABEL"
 				rows="6"/>
-			
+
 		</fieldset>
 	</fields>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 
 		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-slider-params">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_SLIDER_HELP_SERVER" />
+
 			<field name="slider_width"
 				class="input-mini"
 				default="250"
 				label="PLG_ELEMENT_SLIDER_WIDTH_LABEL"
 				size="3"
 				type="text"/>
-				
+
 			<field name="slider-steps"
 				type="text"
 				class="input-mini"
 				default="100"
 				description="PLG_ELEMENT_SLIDER_STEPS_DESC"
 				label="PLG_ELEMENT_SLIDER_STEPS_LABEL"/>
-				
+
 			<field name="slider-labels"
 				type="text"
 				description="PLG_ELEMENT_SLIDER_LABELS_DESC"
 				label="PLG_ELEMENT_SLIDER_LABELS_LABEL"
 				size="30"/>
-				
+
 			<field name="slider-shownone"
 				type="radio"
 				default="0"
@@ -55,7 +58,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-				
+
 		</fieldset>
 
 	</fields>

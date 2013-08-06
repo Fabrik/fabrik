@@ -2,10 +2,10 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-element-captcha" label="COM_FABRIK_OPTIONS">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
-				
+
 			<field default="0"
 				name="captcha-showloggedin"
 				type="radio"
@@ -15,7 +15,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="captcha-method"
 				type="list"
 				default="standard"
@@ -26,34 +26,40 @@
 					<option value="playthru">PlayThru</option>
 			</field>
 		</fieldset>
-	
+
 		<fieldset label="PLG_ELEMENT_STANDARD_CAPTCHA_FIELDSET_LABEL" name="plg-captcha-standard">
-	
+
+			<field type="helplink"
+				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
+
 			<field class="input-mini" default="30" description="" label="PLG_ELEMENT_CAPTCHA_FONT_SIZE_LABEL" name="captcha-font-size" size="3" type="text"/>
-	
+
 			<field class="input-mini" default="0" description="" label="PLG_ELEMENT_CAPTCHA_ANGLE_LABEL" name="captcha-angle" size="3" type="text"/>
-	
+
 			<field class="input-mini" default="10" description="" label="PLG_ELEMENT_CAPTCHA_PADDING_LABEL" name="captcha-padding" size="3" type="text"/>
-	
+
 	<!--	<field default="120" description="" label="PLG_ELEMENT_CAPTCHA_WIDTH_LABEL" name="captcha-width" size="3" class="input-mini" type="text"/>    -->
-	
+
 	<!--	<field default="40" description="" label="PLG_ELEMENT_CAPTCHA_HEIGHT_LABEL" name="captcha-height" size="3" class="input-mini" type="text"/>   -->
-			
+
 			<field class="input-mini" default="6" description="" label="PLG_ELEMENT_CAPTCHA_NUMBER_OF_CHARS_LABEL" name="captcha-chars" size="3" type="text"/>
-			
-			<field default="ffffff" description="" label="PLG_ELEMENT_CAPTCHA_BACKGROUND_COLOR" name="captcha-bg" size="7" type="text"/>	
-			
+
+			<field default="ffffff" description="" label="PLG_ELEMENT_CAPTCHA_BACKGROUND_COLOR" name="captcha-bg" size="7" type="text"/>
+
 			<field default="0000ff" description="" label="PLG_ELEMENT_CAPTCHA_NOISE_COLOR" name="captcha-noise-color" size="7" type="text"/>
-			
+
 			<field default="0000ff" description="" label="PLG_ELEMENT_CAPTCHA_TEXT_COLOR" name="captcha-text-color" size="7" type="text"/>
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_RECAPTCHA_CAPTCHA_FIELDSET_LABEL" name="plg-captcha-recaptcha">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
+
 			<field description="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PUBLIC_KEY_LABEL" name="recaptcha_publickey" size="30" type="text"/>
-		
+
 			<field default="" descripton="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_RECAPTCHA_PRIVATE_KEY_LABEL" name="recaptcha_privatekey" size="30" type="text"/>
-		
+
 			<field name="recaptcha_theme"
 				type="list"
 				default="red"
@@ -64,17 +70,20 @@
 					<option value="blackglass">Black Glass</option>
 					<option value="clean">Clean</option>
 			</field>
-		
+
 			<field default="en" description="RECAPTCHA_LANG_DESC" label="PLG_ELEMENT_RECAPTCHA_LANG" name="recaptcha_lang" size="2" type="text"/>
-		
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_FIELDSET_LABEL" name="plg-captcha-playthru">
 
+			<field type="helplink"
+				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
+
 			<field description="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_LABEL" name="playthru_publisher_key" size="30" type="text"/>
-	
+
 			<field default="" descripton="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_DESC" label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_LABEL" name="playthru_scoring_key" size="30" type="text"/>
-			
+
 		</fieldset>
 
 	</fields>

@@ -2,10 +2,14 @@
 <form>
 	<fields name="params">
 		<fieldset name="plg-access">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_BUTTON_HELP_SERVER" />
-		
+
+			<field name="no_options"
+				type="spacer"
+				label="PLG_ELEMENT_BUTTON_NO_OPTIONS" />
+
 		</fieldset>
 	</fields>
 </form>

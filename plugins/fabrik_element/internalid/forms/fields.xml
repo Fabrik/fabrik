@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields name="params">
+		<fieldset name="plg-access">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_INTERNALID_HELP_SERVER" />
+
+			<field name="button_no_options"
+				type="spacer"
+				label="PLG_ELEMENT_INTERNALID_NO_OPTIONS" />
+
+		</fieldset>
+	</fields>
+</form>

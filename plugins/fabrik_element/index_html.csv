@@ -1,0 +1,4384 @@
+ Volume in drive D is D630-D
+ Volume Serial Number is 0FD2-B570
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element
+
+30/07/2013  16:55            23,207 copy_html.cmd
+24/07/2013  18:28                 0 index.html
+30/07/2013  17:00                 0 index_html.csv
+               3 File(s)         23,207 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access
+
+24/07/2013  18:28               114 access-min.js
+24/07/2013  18:28               174 access.js
+29/07/2013  17:45             3,958 access.php
+29/07/2013  21:44               876 access.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          5,122 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\forms
+
+24/07/2013  18:28               237 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            237 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language\de-DE
+
+24/07/2013  18:28               434 de-DE.plg_fabrik_element_access.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            434 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language\en
+
+24/07/2013  18:28               427 en.plg_fabrik_element_access.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            427 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language\en-GB
+
+30/07/2013  12:19               434 en-GB.plg_fabrik_element_access.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            434 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language\es-ES
+
+24/07/2013  18:28               451 es-ES.plg_fabrik_element_access.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            451 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\access\language\et-EE
+
+24/07/2013  18:28               435 et-EE.plg_fabrik_element_access.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            435 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\attending
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\attending\forms
+
+29/07/2013  17:45               235 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            235 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday
+
+24/07/2013  18:28               423 birthday-min.js
+24/07/2013  18:28               604 birthday.js
+24/07/2013  18:28            20,900 birthday.php
+29/07/2013  21:44               892 birthday.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         22,819 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\forms
+
+29/07/2013  17:45             3,819 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,819 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\da-DK
+
+24/07/2013  18:28             6,008 da-DK.plg_fabrik_element_birthday.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          6,008 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\de-DE
+
+24/07/2013  18:28             5,805 de-DE.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               459 de-DE.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,264 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\en
+
+24/07/2013  18:28             5,922 en.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               442 en.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,364 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\en-GB
+
+24/07/2013  18:28             5,922 en-GB.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               444 en-GB.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,366 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\es-ES
+
+24/07/2013  18:28             6,506 es-ES.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               463 es-ES.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,969 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\et-EE
+
+24/07/2013  18:28             5,856 et-EE.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               564 et-EE.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,420 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\fr-FR
+
+24/07/2013  18:28             6,480 fr-FR.plg_fabrik_element_birthday.ini
+24/07/2013  18:28               415 fr-FR.plg_fabrik_element_birthday.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,895 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,013 it-IT.plg_fabrik_element_birthday.ini
+               2 File(s)          6,013 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,018 nl-NL.plg_fabrik_element_birthday.ini
+               2 File(s)          6,018 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,006 pt-BR.plg_fabrik_element_birthday.ini
+               2 File(s)          6,006 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,005 ro-RO.plg_fabrik_element_birthday.ini
+               2 File(s)          6,005 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\birthday\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,012 ru-RU.plg_fabrik_element_birthday.ini
+               2 File(s)          6,012 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button
+
+24/07/2013  18:28               114 button-min.js
+24/07/2013  18:28               170 button.js
+29/07/2013  17:45             2,321 button.php
+29/07/2013  21:44               850 button.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          3,455 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\forms
+
+30/07/2013  16:10               329 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            329 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\de-DE
+
+24/07/2013  18:28               411 de-DE.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            411 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\en
+
+24/07/2013  18:28               407 en.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            407 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\en-GB
+
+30/07/2013  07:39               474 en-GB.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            474 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\es-ES
+
+24/07/2013  18:28               409 es-ES.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            409 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\et-EE
+
+24/07/2013  18:28               400 et-EE.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            400 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\fr-FR
+
+24/07/2013  18:28               410 fr-FR.plg_fabrik_element_button.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            410 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\button\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               411 pt-BR.plg_fabrik_element_button.sys.ini
+               2 File(s)            411 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc
+
+29/07/2013  17:45             2,082 calc-min.js
+29/07/2013  17:45             4,229 calc.js
+29/07/2013  17:45            20,653 calc.php
+29/07/2013  21:44               948 calc.xml
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               773 list-calc-min.js
+29/07/2013  17:45             1,204 list-calc.js
+               7 File(s)         29,889 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\forms
+
+29/07/2013  21:40             2,150 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,150 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\da-DK
+
+24/07/2013  18:28             2,356 da-DK.plg_fabrik_element_calc.ini
+24/07/2013  18:28               474 da-DK.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,830 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\de-DE
+
+24/07/2013  18:28             2,432 de-DE.plg_fabrik_element_calc.ini
+24/07/2013  18:28               491 de-DE.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,923 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\el-GR
+
+24/07/2013  18:28             2,286 el-GR.plg_fabrik_element_calc.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,286 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\en
+
+24/07/2013  18:28             2,248 en.plg_fabrik_element_calc.ini
+24/07/2013  18:28               467 en.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,715 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\en-GB
+
+24/07/2013  18:28             2,254 en-GB.plg_fabrik_element_calc.ini
+24/07/2013  18:28               467 en-GB.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,721 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\es-ES
+
+24/07/2013  18:28             1,940 es-ES.plg_fabrik_element_calc.ini
+24/07/2013  18:28               469 es-ES.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,409 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\et-EE
+
+24/07/2013  18:28             1,992 et-EE.plg_fabrik_element_calc.ini
+24/07/2013  18:28               549 et-EE.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,541 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\fr-FR
+
+24/07/2013  18:28             2,140 fr-FR.plg_fabrik_element_calc.ini
+24/07/2013  18:28               467 fr-FR.plg_fabrik_element_calc.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,607 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,113 it-IT.plg_fabrik_element_calc.ini
+24/07/2013  18:28               467 it-IT.plg_fabrik_element_calc.sys.ini
+               3 File(s)          2,580 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,272 nl-NL.plg_fabrik_element_calc.ini
+               2 File(s)          2,272 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,277 pt-BR.plg_fabrik_element_calc.ini
+               2 File(s)          2,277 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,282 ru-RU.plg_fabrik_element_calc.ini
+               2 File(s)          2,282 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\calc\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,276 zh-TW.plg_fabrik_element_calc.ini
+               2 File(s)          2,276 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha
+
+24/07/2013  18:28                88 captcha-min.js
+24/07/2013  18:28               136 captcha.js
+29/07/2013  17:45            12,012 captcha.php
+29/07/2013  21:44             1,027 captcha.xml
+24/07/2013  18:28             3,415 image.jpg
+29/07/2013  17:45             5,615 image.php
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28            41,036 monofont.ttf
+               8 File(s)         63,329 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\ayah_php_bundle_1.1.7
+
+24/07/2013  18:28            14,114 ayah.php
+24/07/2013  18:28               633 ayah_config.php
+24/07/2013  18:28             3,090 change_log.txt
+24/07/2013  18:28            34,777 json.php
+24/07/2013  18:28             1,966 sample.php
+               5 File(s)         54,580 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\forms
+
+29/07/2013  21:43             4,055 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,055 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\da-DK
+
+24/07/2013  18:28             2,493 da-DK.plg_fabrik_element_captcha.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,493 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\de-DE
+
+24/07/2013  18:28             2,963 de-DE.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               425 de-DE.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,388 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\el-GR
+
+24/07/2013  18:28             2,501 el-GR.plg_fabrik_element_captcha.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,501 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\en
+
+24/07/2013  18:28             2,440 en.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 en.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,872 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\en-GB
+
+24/07/2013  18:28             2,787 en-GB.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 en-GB.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,219 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\es-ES
+
+24/07/2013  18:28             3,013 es-ES.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               447 es-ES.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,460 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\et-EE
+
+24/07/2013  18:28             2,835 et-EE.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 et-EE.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,267 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\fr-FR
+
+24/07/2013  18:28             2,554 fr-FR.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 fr-FR.plg_fabrik_element_captcha.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,986 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,867 it-IT.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 it-IT.plg_fabrik_element_captcha.sys.ini
+               3 File(s)          3,299 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,900 nl-NL.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 nl-NL.plg_fabrik_element_captcha.sys.ini
+               3 File(s)          3,332 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,022 pt-BR.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 pt-BR.plg_fabrik_element_captcha.sys.ini
+               3 File(s)          3,454 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,592 ru-RU.plg_fabrik_element_captcha.ini
+24/07/2013  18:28               432 ru-RU.plg_fabrik_element_captcha.sys.ini
+               3 File(s)          4,024 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\recaptcha-php-1.11
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,137 LICENSE
+24/07/2013  18:28            11,756 recaptchalib.php
+               3 File(s)         12,893 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\captcha\recaptcha1.10
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            10,386 recaptchalib.php
+               2 File(s)         10,386 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown
+
+29/07/2013  17:45             4,779 cascadingdropdown-min.js
+29/07/2013  17:45             9,941 cascadingdropdown.js
+29/07/2013  17:45            37,638 cascadingdropdown.php
+30/07/2013  07:25             1,025 cascadingdropdown.xml
+24/07/2013  18:28             2,084 filter-min.js
+24/07/2013  18:28             2,898 filter.js
+24/07/2013  18:28                 0 index.html
+               7 File(s)         58,365 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\forms
+
+30/07/2013  07:42             5,711 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          5,711 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\da-DK
+
+24/07/2013  18:28             2,723 da-DK.plg_fabrik_element_cascadingdropdown.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,723 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\de-DE
+
+24/07/2013  18:28             2,792 de-DE.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               537 de-DE.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,329 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\el-GR
+
+24/07/2013  18:28             2,742 el-GR.plg_fabrik_element_cascadingdropdown.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,742 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\en
+
+24/07/2013  18:28             2,668 en.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               547 en.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,215 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\en-GB
+
+29/07/2013  17:45             3,702 en-GB.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:27               518 en-GB.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,220 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\es-ES
+
+24/07/2013  18:28             2,985 es-ES.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               578 es-ES.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,563 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\et-EE
+
+24/07/2013  18:28             3,368 et-EE.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               560 et-EE.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,928 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\fr-FR
+
+24/07/2013  18:28             3,023 fr-FR.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               547 fr-FR.plg_fabrik_element_cascadingdropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,570 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,711 it-IT.plg_fabrik_element_cascadingdropdown.ini
+30/07/2013  07:55               547 it-IT.plg_fabrik_element_cascadingdropdown.sys.ini
+               3 File(s)          3,258 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,735 nl-NL.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,735 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,723 pt-BR.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,723 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,723 ro-RO.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,723 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,769 ru-RU.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,769 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,750 uk-UA.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,750 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\cascadingdropdown\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,729 zh-TW.plg_fabrik_element_cascadingdropdown.ini
+               2 File(s)          2,729 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox
+
+29/07/2013  17:45             1,469 checkbox-min.js
+29/07/2013  17:45             2,143 checkbox.js
+29/07/2013  17:45             6,578 checkbox.php
+29/07/2013  21:44             1,203 checkbox.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         11,393 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\forms
+
+30/07/2013  01:18             2,655 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,655 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\da-DK
+
+24/07/2013  18:28               624 da-DK.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            624 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\de-DE
+
+29/07/2013  17:45             1,919 de-DE.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               598 de-DE.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,517 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\en
+
+24/07/2013  18:28             2,050 en.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               608 en.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,658 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\en-GB
+
+29/07/2013  17:45             1,885 en-GB.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               608 en-GB.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,493 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\es-ES
+
+24/07/2013  18:28             2,379 es-ES.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               650 es-ES.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,029 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\et-EE
+
+29/07/2013  17:45             1,930 et-EE.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               654 et-EE.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,584 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\fr-FR
+
+29/07/2013  17:45             2,215 fr-FR.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               651 fr-FR.plg_fabrik_element_checkbox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,866 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,115 it-IT.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               618 it-IT.plg_fabrik_element_checkbox.sys.ini
+               3 File(s)          2,733 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,235 nl-NL.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               617 nl-NL.plg_fabrik_element_checkbox.sys.ini
+               3 File(s)          2,852 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,181 pt-BR.plg_fabrik_element_checkbox.ini
+24/07/2013  18:28               619 pt-BR.plg_fabrik_element_checkbox.sys.ini
+               3 File(s)          2,800 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\checkbox\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               629 ru-RU.plg_fabrik_element_checkbox.sys.ini
+               2 File(s)            629 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker
+
+29/07/2013  17:45            10,158 colourpicker-min.js
+29/07/2013  17:45            15,663 colourpicker.js
+29/07/2013  17:45             5,434 colourpicker.php
+29/07/2013  21:44               974 colourpicker.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         32,229 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\forms
+
+24/07/2013  18:28               626 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            626 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\images
+
+24/07/2013  18:28                71 close.gif
+24/07/2013  18:28               110 handle.gif
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28                50 track.gif
+               4 File(s)            231 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\de-DE
+
+24/07/2013  18:28               572 de-DE.plg_fabrik_element_colourpicker.ini
+24/07/2013  18:28               447 de-DE.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,019 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\en
+
+24/07/2013  18:28               446 en.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            446 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\en-GB
+
+29/07/2013  17:45               693 en-GB.plg_fabrik_element_colourpicker.ini
+24/07/2013  18:28               446 en-GB.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,139 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\es-ES
+
+24/07/2013  18:28               652 es-ES.plg_fabrik_element_colourpicker.ini
+24/07/2013  18:28               454 es-ES.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,106 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\et-EE
+
+24/07/2013  18:28               663 et-EE.plg_fabrik_element_colourpicker.ini
+24/07/2013  18:28               504 et-EE.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,167 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\language\fr-FR
+
+24/07/2013  18:28               606 fr-FR.plg_fabrik_element_colourpicker.ini
+24/07/2013  18:28               380 fr-FR.plg_fabrik_element_colourpicker.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            986 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\colourpicker\swatches
+
+24/07/2013  18:28             1,717 default.js
+24/07/2013  18:28             1,149 dond.js
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,866 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count
+
+24/07/2013  18:28               112 count-min.js
+24/07/2013  18:28               166 count.js
+29/07/2013  17:45             5,515 count.php
+29/07/2013  21:44               873 count.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          6,666 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\forms
+
+30/07/2013  07:33               594 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            594 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\de-DE
+
+24/07/2013  18:28               613 de-DE.plg_fabrik_element_count.ini
+24/07/2013  18:28               495 de-DE.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,108 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\en
+
+24/07/2013  18:28               624 en.plg_fabrik_element_count.ini
+24/07/2013  18:28               469 en.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,093 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\en-GB
+
+24/07/2013  18:28               624 en-GB.plg_fabrik_element_count.ini
+30/07/2013  07:35               470 en-GB.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,094 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\es-ES
+
+24/07/2013  18:28               647 es-ES.plg_fabrik_element_count.ini
+24/07/2013  18:28               521 es-ES.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,168 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\et-EE
+
+24/07/2013  18:28               616 et-EE.plg_fabrik_element_count.ini
+24/07/2013  18:28               523 et-EE.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,139 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\count\language\fr-FR
+
+24/07/2013  18:28               690 fr-FR.plg_fabrik_element_count.ini
+24/07/2013  18:28               467 fr-FR.plg_fabrik_element_count.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,157 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin
+
+29/07/2013  17:45            12,876 databasejoin-min.js
+29/07/2013  17:45            23,898 databasejoin.js
+29/07/2013  17:45            92,137 databasejoin.php
+30/07/2013  07:49               922 databasejoin.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)        129,833 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\forms
+
+30/07/2013  07:48             7,916 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          7,916 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\da-DK
+
+24/07/2013  18:28             6,581 da-DK.plg_fabrik_element_databasejoin.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          6,581 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\de-DE
+
+24/07/2013  18:28             7,360 de-DE.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               497 de-DE.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          7,857 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\el-GR
+
+24/07/2013  18:28             6,646 el-GR.plg_fabrik_element_databasejoin.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          6,646 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\en
+
+24/07/2013  18:28             6,475 en.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               490 en.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,965 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\en-GB
+
+29/07/2013  17:45             7,346 en-GB.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:45               490 en-GB.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          7,836 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\es-ES
+
+24/07/2013  18:28             7,466 es-ES.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               511 es-ES.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          7,977 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\et-EE
+
+29/07/2013  17:45             7,117 et-EE.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               598 et-EE.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          7,715 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\fr-FR
+
+24/07/2013  18:28             7,761 fr-FR.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               439 fr-FR.plg_fabrik_element_databasejoin.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          8,200 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,651 it-IT.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,651 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\my_MM
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,624 my_MM.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,624 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,594 nl-NL.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,594 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             7,437 pt-BR.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               418 pt-BR.plg_fabrik_element_databasejoin.sys.ini
+               3 File(s)          7,855 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,600 ro-RO.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,600 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,080 ru-RU.plg_fabrik_element_databasejoin.ini
+30/07/2013  07:52               490 ru-RU.plg_fabrik_element_databasejoin.sys.ini
+               3 File(s)          9,570 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,621 uk-UA.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,621 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\databasejoin\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             6,597 zh-TW.plg_fabrik_element_databasejoin.ini
+               2 File(s)          6,597 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date
+
+29/07/2013  17:45            12,063 date-min.js
+29/07/2013  17:45            20,605 date.js
+29/07/2013  17:45            67,829 date.php
+29/07/2013  21:44               934 date.xml
+29/07/2013  17:45             2,883 filter-min.js
+29/07/2013  17:45             4,445 filter.js
+24/07/2013  18:28                 0 index.html
+               7 File(s)        108,759 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\forms
+
+30/07/2013  07:59             5,201 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          5,201 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\images
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,762 time.png
+               2 File(s)          3,762 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\da-DK
+
+24/07/2013  18:28             4,316 da-DK.plg_fabrik_element_date.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,316 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\de-DE
+
+29/07/2013  17:45             4,221 de-DE.plg_fabrik_element_date.ini
+24/07/2013  18:28               422 de-DE.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,643 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\el-GR
+
+24/07/2013  18:28             4,328 el-GR.plg_fabrik_element_date.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,328 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\en
+
+24/07/2013  18:28             4,246 en.plg_fabrik_element_date.ini
+24/07/2013  18:28               409 en.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,655 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\en-GB
+
+29/07/2013  17:45             4,416 en-GB.plg_fabrik_element_date.ini
+30/07/2013  12:21               408 en-GB.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,824 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\es-ES
+
+24/07/2013  18:28             5,042 es-ES.plg_fabrik_element_date.ini
+24/07/2013  18:28               420 es-ES.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,462 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\et-EE
+
+24/07/2013  18:28             4,644 et-EE.plg_fabrik_element_date.ini
+24/07/2013  18:28               499 et-EE.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,143 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\fr-FR
+
+29/07/2013  17:45             4,761 fr-FR.plg_fabrik_element_date.ini
+24/07/2013  18:28               391 fr-FR.plg_fabrik_element_date.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,152 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,315 it-IT.plg_fabrik_element_date.ini
+               2 File(s)          4,315 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\my_MM
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,343 my_MM.plg_fabrik_element_date.ini
+               2 File(s)          4,343 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,317 nl-NL.plg_fabrik_element_date.ini
+               2 File(s)          4,317 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             4,669 pt-BR.plg_fabrik_element_date.ini
+24/07/2013  18:28               364 pt-BR.plg_fabrik_element_date.sys.ini
+               3 File(s)          5,033 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,318 ro-RO.plg_fabrik_element_date.ini
+               2 File(s)          4,318 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,356 ru-RU.plg_fabrik_element_date.ini
+               2 File(s)          4,356 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\date\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,345 uk-UA.plg_fabrik_element_date.ini
+               2 File(s)          4,345 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display
+
+24/07/2013  18:28                88 display-min.js
+24/07/2013  18:28               136 display.js
+29/07/2013  17:45             4,391 display.php
+29/07/2013  21:44               813 display.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          5,428 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\forms
+
+30/07/2013  10:52             1,008 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,008 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\da-DK
+
+24/07/2013  18:28               362 da-DK.plg_fabrik_element_display.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            362 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\de-DE
+
+24/07/2013  18:28               371 de-DE.plg_fabrik_element_display.ini
+24/07/2013  18:28               426 de-DE.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            797 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\en
+
+24/07/2013  18:28               362 en.plg_fabrik_element_display.ini
+24/07/2013  18:28               426 en.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            788 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\en-GB
+
+24/07/2013  18:28               362 en-GB.plg_fabrik_element_display.ini
+30/07/2013  12:21               425 en-GB.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            787 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\es-ES
+
+24/07/2013  18:28               375 es-ES.plg_fabrik_element_display.ini
+24/07/2013  18:28               423 es-ES.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            798 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\et-EE
+
+24/07/2013  18:28               376 et-EE.plg_fabrik_element_display.ini
+24/07/2013  18:28               479 et-EE.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            855 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\fr-FR
+
+24/07/2013  18:28               388 fr-FR.plg_fabrik_element_display.ini
+24/07/2013  18:28               378 fr-FR.plg_fabrik_element_display.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            766 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               364 it-IT.plg_fabrik_element_display.ini
+               2 File(s)            364 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               364 nl-NL.plg_fabrik_element_display.ini
+               2 File(s)            364 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               373 pt-BR.plg_fabrik_element_display.ini
+24/07/2013  18:28               376 pt-BR.plg_fabrik_element_display.sys.ini
+               3 File(s)            749 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               366 ro-RO.plg_fabrik_element_display.ini
+               2 File(s)            366 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               380 ru-RU.plg_fabrik_element_display.ini
+               2 File(s)            380 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\display\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               390 uk-UA.plg_fabrik_element_display.ini
+               2 File(s)            390 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown
+
+24/07/2013  18:28             2,321 dropdown-min.js
+24/07/2013  18:28             3,414 dropdown.js
+29/07/2013  17:45             7,904 dropdown.php
+29/07/2013  21:44             1,206 dropdown.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         14,845 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\forms
+
+30/07/2013  08:02             3,038 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,038 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\da-DK
+
+24/07/2013  18:28             2,184 da-DK.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               639 da-DK.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,823 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\de-DE
+
+24/07/2013  18:28             2,175 de-DE.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               605 de-DE.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,780 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\en
+
+24/07/2013  18:28             2,149 en.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               623 en.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,772 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\en-GB
+
+24/07/2013  18:28             2,149 en-GB.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               623 en-GB.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,772 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\es-ES
+
+24/07/2013  18:28             2,332 es-ES.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               682 es-ES.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,014 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\et-EE
+
+24/07/2013  18:28             2,325 et-EE.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               672 et-EE.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,997 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\fr-FR
+
+24/07/2013  18:28             2,554 fr-FR.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               677 fr-FR.plg_fabrik_element_dropdown.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,231 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,273 it-IT.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               633 it-IT.plg_fabrik_element_dropdown.sys.ini
+               3 File(s)          2,906 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,300 nl-NL.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               632 nl-NL.plg_fabrik_element_dropdown.sys.ini
+               3 File(s)          2,932 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,393 pt-BR.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               634 pt-BR.plg_fabrik_element_dropdown.sys.ini
+               3 File(s)          3,027 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,185 ro-RO.plg_fabrik_element_dropdown.ini
+               2 File(s)          2,185 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,199 ru-RU.plg_fabrik_element_dropdown.ini
+24/07/2013  18:28               644 ru-RU.plg_fabrik_element_dropdown.sys.ini
+               3 File(s)          2,843 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\dropdown\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,209 uk-UA.plg_fabrik_element_dropdown.ini
+               2 File(s)          2,209 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed
+
+24/07/2013  18:28               122 fbactivityfeed-min.js
+24/07/2013  18:28               176 fbactivityfeed.js
+24/07/2013  18:28             2,499 fbactivityfeed.php
+30/07/2013  08:08               932 fbactivityfeed.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          3,729 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\forms
+
+30/07/2013  11:00             2,453 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,453 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\da-DK
+
+28/07/2013  16:16               856 da-DK.plg_fabrik_element_fbactivityfeed.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            856 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\de-DE
+
+28/07/2013  16:16               854 de-DE.plg_fabrik_element_fbactivityfeed.ini
+30/07/2013  08:07               473 de-DE.plg_fabrik_element_fbactivityfeed.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,327 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\el-GR
+
+28/07/2013  16:16               893 el-GR.plg_fabrik_element_fbactivityfeed.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            893 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\en
+
+28/07/2013  16:16               838 en.plg_fabrik_element_fbactivityfeed.ini
+30/07/2013  08:07               479 en.plg_fabrik_element_fbactivityfeed.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,317 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\en-GB
+
+28/07/2013  16:16               838 en-GB.plg_fabrik_element_fbactivityfeed.ini
+30/07/2013  12:23               478 en-GB.plg_fabrik_element_fbactivityfeed.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,316 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\es-ES
+
+28/07/2013  16:16               875 es-ES.plg_fabrik_element_fbactivityfeed.ini
+30/07/2013  08:07               537 es-ES.plg_fabrik_element_fbactivityfeed.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,412 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\et-EE
+
+28/07/2013  16:16               863 et-EE.plg_fabrik_element_fbactivityfeed.ini
+30/07/2013  08:07               490 et-EE.plg_fabrik_element_fbactivityfeed.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,353 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\fr-FR
+
+28/07/2013  16:16               904 fr-FR.plg_fabrik_element_fbactivityfeed.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            904 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+28/07/2013  16:16               861 it-IT.plg_fabrik_element_fbactivityfeed.ini
+               2 File(s)            861 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+28/07/2013  16:16               853 nl-NL.plg_fabrik_element_fbactivityfeed.ini
+               2 File(s)            853 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+28/07/2013  16:16               856 pt-BR.plg_fabrik_element_fbactivityfeed.ini
+               2 File(s)            856 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbactivityfeed\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+28/07/2013  16:16             1,024 ru-RU.plg_fabrik_element_fbactivityfeed.ini
+               2 File(s)          1,024 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment
+
+24/07/2013  18:28               112 fbcomment-min.js
+24/07/2013  18:28               166 fbcomment.js
+24/07/2013  18:28             3,073 fbcomment.php
+29/07/2013  21:44               900 fbcomment.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          4,251 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\forms
+
+30/07/2013  11:05             1,421 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,421 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\da-DK
+
+24/07/2013  18:28             1,356 da-DK.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,356 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\de-DE
+
+24/07/2013  18:28             1,371 de-DE.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               452 de-DE.plg_fabrik_element_fbcomment.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,823 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\el-GR
+
+24/07/2013  18:28             1,362 el-GR.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,362 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\en
+
+24/07/2013  18:28             1,333 en.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               447 en.plg_fabrik_element_fbcomment.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,780 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\en-GB
+
+24/07/2013  18:28             1,333 en-GB.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               447 en-GB.plg_fabrik_element_fbcomment.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,780 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\es-ES
+
+24/07/2013  18:28             1,501 es-ES.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               483 es-ES.plg_fabrik_element_fbcomment.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,984 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\et-EE
+
+24/07/2013  18:28             1,354 et-EE.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               458 et-EE.plg_fabrik_element_fbcomment.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,812 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\fr-FR
+
+24/07/2013  18:28             1,369 fr-FR.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,369 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,359 it-IT.plg_fabrik_element_fbcomment.ini
+               2 File(s)          1,359 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,362 nl-NL.plg_fabrik_element_fbcomment.ini
+               2 File(s)          1,362 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,357 pt-BR.plg_fabrik_element_fbcomment.ini
+               2 File(s)          1,357 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbcomment\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,577 ru-RU.plg_fabrik_element_fbcomment.ini
+24/07/2013  18:28               447 ru-RU.plg_fabrik_element_fbcomment.sys.ini
+               3 File(s)          3,024 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike
+
+24/07/2013  18:28               630 fblike-min.js
+24/07/2013  18:28               934 fblike.js
+29/07/2013  17:45             7,360 fblike.php
+29/07/2013  21:44               841 fblike.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          9,765 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\forms
+
+30/07/2013  11:24             4,982 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,982 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\da-DK
+
+24/07/2013  18:28             3,544 da-DK.plg_fabrik_element_fblike.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,544 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\de-DE
+
+24/07/2013  18:28             3,051 de-DE.plg_fabrik_element_fblike.ini
+24/07/2013  18:28               450 de-DE.plg_fabrik_element_fblike.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,501 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\el-GR
+
+24/07/2013  18:28             3,569 el-GR.plg_fabrik_element_fblike.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,569 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\en
+
+24/07/2013  18:28             3,472 en.plg_fabrik_element_fblike.ini
+24/07/2013  18:28               442 en.plg_fabrik_element_fblike.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,914 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\en-GB
+
+24/07/2013  18:28             3,472 en-GB.plg_fabrik_element_fblike.ini
+24/07/2013  18:28               442 en-GB.plg_fabrik_element_fblike.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,914 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\es-ES
+
+24/07/2013  18:28             3,584 es-ES.plg_fabrik_element_fblike.ini
+24/07/2013  18:28               459 es-ES.plg_fabrik_element_fblike.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,043 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\et-EE
+
+24/07/2013  18:28             3,327 et-EE.plg_fabrik_element_fblike.ini
+24/07/2013  18:28               451 et-EE.plg_fabrik_element_fblike.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,778 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\fr-FR
+
+24/07/2013  18:28             3,447 fr-FR.plg_fabrik_element_fblike.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,447 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,552 it-IT.plg_fabrik_element_fblike.ini
+               2 File(s)          3,552 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\my_MM
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,587 my_MM.plg_fabrik_element_fblike.ini
+               2 File(s)          3,587 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,555 nl-NL.plg_fabrik_element_fblike.ini
+               2 File(s)          3,555 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,546 pt-BR.plg_fabrik_element_fblike.ini
+               2 File(s)          3,546 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,555 ro-RO.plg_fabrik_element_fblike.ini
+               2 File(s)          3,555 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblike\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,735 ru-RU.plg_fabrik_element_fblike.ini
+               2 File(s)          3,735 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox
+
+24/07/2013  18:28               112 fblikebox-min.js
+24/07/2013  18:28               166 fblikebox.js
+24/07/2013  18:28             2,478 fblikebox.php
+29/07/2013  21:44               897 fblikebox.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          3,653 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\forms
+
+30/07/2013  11:26             1,290 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,290 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\da-DK
+
+24/07/2013  18:28               739 da-DK.plg_fabrik_element_fblikebox.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            739 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\de-DE
+
+24/07/2013  18:28               745 de-DE.plg_fabrik_element_fblikebox.ini
+30/07/2013  11:54               464 de-DE.plg_fabrik_element_fblikebox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,209 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\el-GR
+
+24/07/2013  18:28               813 el-GR.plg_fabrik_element_fblikebox.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            813 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\en
+
+24/07/2013  18:28               730 en.plg_fabrik_element_fblikebox.ini
+30/07/2013  11:53               454 en.plg_fabrik_element_fblikebox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,184 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\en-GB
+
+24/07/2013  18:28               730 en-GB.plg_fabrik_element_fblikebox.ini
+30/07/2013  12:24               454 en-GB.plg_fabrik_element_fblikebox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,184 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\es-ES
+
+24/07/2013  18:28               790 es-ES.plg_fabrik_element_fblikebox.ini
+30/07/2013  11:52               473 es-ES.plg_fabrik_element_fblikebox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,263 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\et-EE
+
+24/07/2013  18:28               748 et-EE.plg_fabrik_element_fblikebox.ini
+24/07/2013  18:28               460 et-EE.plg_fabrik_element_fblikebox.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,208 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\fr-FR
+
+24/07/2013  18:28               778 fr-FR.plg_fabrik_element_fblikebox.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            778 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               747 it-IT.plg_fabrik_element_fblikebox.ini
+               2 File(s)            747 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               757 nl-NL.plg_fabrik_element_fblikebox.ini
+               2 File(s)            757 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               740 pt-BR.plg_fabrik_element_fblikebox.ini
+               2 File(s)            740 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               745 ro-RO.plg_fabrik_element_fblikebox.ini
+               2 File(s)            745 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fblikebox\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               779 ru-RU.plg_fabrik_element_fblikebox.ini
+               2 File(s)            779 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations
+
+24/07/2013  18:28               128 fbrecommendations-min.js
+24/07/2013  18:28               182 fbrecommendations.js
+24/07/2013  18:28             2,563 fbrecommendations.php
+30/07/2013  11:28               953 fbrecommendations.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          3,826 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\forms
+
+30/07/2013  11:32             1,994 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,994 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\da-DK
+
+24/07/2013  18:28               960 da-DK.plg_fabrik_element_fbrecommendations.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            960 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\de-DE
+
+24/07/2013  18:28               956 de-DE.plg_fabrik_element_fbrecommendations.ini
+30/07/2013  11:54               480 de-DE.plg_fabrik_element_fbrecommendations.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,436 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\el-GR
+
+24/07/2013  18:28               997 el-GR.plg_fabrik_element_fbrecommendations.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            997 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\en
+
+24/07/2013  18:28               942 en.plg_fabrik_element_fbrecommendations.ini
+30/07/2013  11:53               491 en.plg_fabrik_element_fbrecommendations.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,433 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\en-GB
+
+24/07/2013  18:28               942 en-GB.plg_fabrik_element_fbrecommendations.ini
+30/07/2013  11:42               491 en-GB.plg_fabrik_element_fbrecommendations.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,433 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\es-ES
+
+24/07/2013  18:28               979 es-ES.plg_fabrik_element_fbrecommendations.ini
+30/07/2013  11:51               510 es-ES.plg_fabrik_element_fbrecommendations.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,489 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\et-EE
+
+24/07/2013  18:28               957 et-EE.plg_fabrik_element_fbrecommendations.ini
+30/07/2013  11:30               487 et-EE.plg_fabrik_element_fbrecommendations.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,444 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\fr-FR
+
+24/07/2013  18:28             1,008 fr-FR.plg_fabrik_element_fbrecommendations.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,008 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               965 it-IT.plg_fabrik_element_fbrecommendations.ini
+               2 File(s)            965 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               957 nl-NL.plg_fabrik_element_fbrecommendations.ini
+               2 File(s)            957 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               960 pt-BR.plg_fabrik_element_fbrecommendations.ini
+               2 File(s)            960 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fbrecommendations\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,128 ru-RU.plg_fabrik_element_fbrecommendations.ini
+               2 File(s)          1,128 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field
+
+24/07/2013  18:28               264 field-min.js
+24/07/2013  18:28               410 field.js
+29/07/2013  17:45             9,003 field.php
+29/07/2013  21:44               875 field.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         10,552 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\forms
+
+30/07/2013  12:01             6,316 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          6,316 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\da-DK
+
+29/07/2013  17:45             4,924 da-DK.plg_fabrik_element_field.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,924 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\de-DE
+
+29/07/2013  17:45             4,962 de-DE.plg_fabrik_element_field.ini
+24/07/2013  18:28               408 de-DE.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,370 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\el-GR
+
+29/07/2013  17:45             4,949 el-GR.plg_fabrik_element_field.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          4,949 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\en
+
+29/07/2013  17:45             4,853 en.plg_fabrik_element_field.ini
+24/07/2013  18:28               402 en.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,255 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\en-GB
+
+29/07/2013  17:45             4,989 en-GB.plg_fabrik_element_field.ini
+30/07/2013  12:25               409 en-GB.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,398 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\es-ES
+
+29/07/2013  17:45             5,352 es-ES.plg_fabrik_element_field.ini
+24/07/2013  18:28               402 es-ES.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,754 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\et-EE
+
+29/07/2013  17:45             4,749 et-EE.plg_fabrik_element_field.ini
+24/07/2013  18:28               438 et-EE.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          5,187 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\fr-FR
+
+29/07/2013  17:45             5,773 fr-FR.plg_fabrik_element_field.ini
+24/07/2013  18:28               354 fr-FR.plg_fabrik_element_field.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          6,127 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             4,924 it-IT.plg_fabrik_element_field.ini
+               2 File(s)          4,924 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             5,020 nl-NL.plg_fabrik_element_field.ini
+24/07/2013  18:28               401 nl-NL.plg_fabrik_element_field.sys.ini
+               3 File(s)          5,421 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             4,933 pt-BR.plg_fabrik_element_field.ini
+24/07/2013  18:28               357 pt-BR.plg_fabrik_element_field.sys.ini
+               3 File(s)          5,290 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             4,931 ro-RO.plg_fabrik_element_field.ini
+               2 File(s)          4,931 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             5,523 ru-RU.plg_fabrik_element_field.ini
+24/07/2013  18:28               402 ru-RU.plg_fabrik_element_field.sys.ini
+               3 File(s)          5,925 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             5,020 uk-UA.plg_fabrik_element_field.ini
+               2 File(s)          5,020 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\field\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             4,974 zh-TW.plg_fabrik_element_field.ini
+               2 File(s)          4,974 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload
+
+29/07/2013  17:45             5,860 adaptor.php
+29/07/2013  17:45            18,368 fileupload-min.js
+29/07/2013  17:45            30,542 fileupload.js
+29/07/2013  17:45            77,242 fileupload.php
+29/07/2013  21:44             1,051 fileupload.xml
+24/07/2013  18:28                 0 index.html
+               6 File(s)        133,063 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\adaptors
+
+24/07/2013  18:28            12,113 amazons3storage.php
+29/07/2013  17:45             8,987 filesystemstorage.php
+24/07/2013  18:28                 0 index.html
+               3 File(s)         21,100 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\element
+
+24/07/2013  18:28               356 allvideos.php
+29/07/2013  17:45               384 default.php
+29/07/2013  17:45               386 gif.php
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               380 jpeg.php
+29/07/2013  17:45               380 jpg.php
+29/07/2013  17:45               382 mov.php
+29/07/2013  17:45               380 mp3.php
+29/07/2013  17:45               380 mp4.php
+29/07/2013  17:45               378 mpeg.php
+29/07/2013  17:45               383 pdf.php
+29/07/2013  17:45               380 png.php
+29/07/2013  17:45               472 swf.php
+              13 File(s)          4,641 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\element\custom
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28                 0 README
+               2 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\forms
+
+30/07/2013  12:06            16,026 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)         16,026 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\da-DK
+
+29/07/2013  17:45            16,222 da-DK.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)         16,222 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\de-DE
+
+29/07/2013  17:45            16,202 de-DE.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               446 de-DE.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         16,648 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\el-GR
+
+29/07/2013  17:45            16,245 el-GR.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)         16,245 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\en
+
+29/07/2013  17:45            15,868 en.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               441 en.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         16,309 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\en-GB
+
+29/07/2013  17:45            16,637 en-GB.plg_fabrik_element_fileupload.ini
+30/07/2013  12:02               441 en-GB.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         17,078 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\es-ES
+
+29/07/2013  17:45            17,995 es-ES.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               456 es-ES.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         18,451 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\et-EE
+
+29/07/2013  17:45            16,105 et-EE.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               458 et-EE.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         16,563 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\fr-FR
+
+29/07/2013  17:45            18,575 fr-FR.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               396 fr-FR.plg_fabrik_element_fileupload.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         18,971 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            16,230 it-IT.plg_fabrik_element_fileupload.ini
+               2 File(s)         16,230 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            16,225 nl-NL.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               450 nl-NL.plg_fabrik_element_fileupload.sys.ini
+               3 File(s)         16,675 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            16,231 pt-BR.plg_fabrik_element_fileupload.ini
+24/07/2013  18:28               392 pt-BR.plg_fabrik_element_fileupload.sys.ini
+               3 File(s)         16,623 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            16,251 ru-RU.plg_fabrik_element_fileupload.ini
+               2 File(s)         16,251 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\lassocrop
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\lassocrop\images
+
+24/07/2013  18:28               329 crop.gif
+24/07/2013  18:28                 0 index.html
+               2 File(s)            329 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\lib
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\lib\plupload
+
+24/07/2013  18:28                 9 .gitignore
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28            18,326 license.txt
+               3 File(s)         18,335 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\lib\plupload\js
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45            10,972 plupload-min.js
+29/07/2013  17:45             3,410 plupload.browserplus-min.js
+24/07/2013  18:28             9,827 plupload.browserplus.js
+29/07/2013  17:45             5,359 plupload.flash-min.js
+24/07/2013  18:28            12,519 plupload.flash.js
+24/07/2013  18:28            18,752 plupload.flash.min.swf
+24/07/2013  18:28            18,752 plupload.flash.swf
+29/07/2013  17:45            50,563 plupload.full-min.js
+24/07/2013  18:28            50,563 plupload.full.js
+29/07/2013  17:45             4,532 plupload.html4-min.js
+24/07/2013  18:28            12,500 plupload.html4.js
+29/07/2013  17:45            16,398 plupload.html5-min.js
+29/07/2013  17:45            42,056 plupload.html5.js
+24/07/2013  18:28            44,146 plupload.js
+29/07/2013  17:45             5,475 plupload.silverlight-min.js
+24/07/2013  18:28            13,146 plupload.silverlight.js
+24/07/2013  18:28            43,675 plupload.silverlight.xap
+              18 File(s)        362,645 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\fileupload\models
+
+24/07/2013  18:28             2,552 allvideos.php
+24/07/2013  18:28             1,504 audio.php
+24/07/2013  18:28             2,603 file.php
+29/07/2013  17:45             4,602 flash.php
+29/07/2013  17:45             5,122 image.php
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             3,965 pdf.php
+24/07/2013  18:28             3,964 video.php
+               8 File(s)         24,312 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder
+
+24/07/2013  18:28               114 folder-min.js
+24/07/2013  18:28               168 folder.js
+29/07/2013  17:45             3,105 folder.php
+29/07/2013  21:44               859 folder.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)          4,246 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\forms
+
+30/07/2013  12:08             1,122 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,122 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\de-DE
+
+24/07/2013  18:28               540 de-DE.plg_fabrik_element_folder.ini
+24/07/2013  18:28               446 de-DE.plg_fabrik_element_folder.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            986 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\en
+
+24/07/2013  18:28               522 en.plg_fabrik_element_folder.ini
+24/07/2013  18:28               434 en.plg_fabrik_element_folder.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            956 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\en-GB
+
+24/07/2013  18:28               522 en-GB.plg_fabrik_element_folder.ini
+30/07/2013  12:26               446 en-GB.plg_fabrik_element_folder.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            968 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\es-ES
+
+24/07/2013  18:28               569 es-ES.plg_fabrik_element_folder.ini
+24/07/2013  18:28               451 es-ES.plg_fabrik_element_folder.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,020 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\et-EE
+
+24/07/2013  18:28               521 et-EE.plg_fabrik_element_folder.ini
+24/07/2013  18:28               446 et-EE.plg_fabrik_element_folder.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            967 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\fr-FR
+
+24/07/2013  18:28               564 fr-FR.plg_fabrik_element_folder.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            564 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\folder\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               442 nl-NL.plg_fabrik_element_folder.sys.ini
+               2 File(s)            442 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap
+
+29/07/2013  17:45            15,694 googlemap-min.js
+29/07/2013  17:45            23,907 googlemap.js
+29/07/2013  17:45            22,343 googlemap.php
+30/07/2013  12:27               924 googlemap.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         62,868 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\forms
+
+30/07/2013  12:46            14,850 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)         14,850 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\images
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               413 zoomin.png
+24/07/2013  18:28               381 zoomout.png
+               3 File(s)            794 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\da-DK
+
+24/07/2013  18:28             9,234 da-DK.plg_fabrik_element_googlemap.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          9,234 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\de-DE
+
+24/07/2013  18:28             8,527 de-DE.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               477 de-DE.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          9,004 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\el-GR
+
+24/07/2013  18:28             9,242 el-GR.plg_fabrik_element_googlemap.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          9,242 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\en
+
+29/07/2013  17:43             9,061 en.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               464 en.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          9,525 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\en-GB
+
+29/07/2013  17:43             9,061 en-GB.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               464 en-GB.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          9,525 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\es-ES
+
+24/07/2013  18:28             9,976 es-ES.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               469 es-ES.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         10,445 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\et-EE
+
+24/07/2013  18:28             8,858 et-EE.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               466 et-EE.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          9,324 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\fr-FR
+
+24/07/2013  18:28            10,108 fr-FR.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               468 fr-FR.plg_fabrik_element_googlemap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)         10,576 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             8,536 it-IT.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               464 it-IT.plg_fabrik_element_googlemap.sys.ini
+               3 File(s)          9,000 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\ja-JP
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,236 ja-JP.plg_fabrik_element_googlemap.ini
+               2 File(s)          9,236 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,237 nl-NL.plg_fabrik_element_googlemap.ini
+               2 File(s)          9,237 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,243 pt-BR.plg_fabrik_element_googlemap.ini
+30/07/2013  12:45               471 pt-BR.plg_fabrik_element_googlemap.sys.ini
+               3 File(s)          9,714 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,236 ro-RO.plg_fabrik_element_googlemap.ini
+               2 File(s)          9,236 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,253 ru-RU.plg_fabrik_element_googlemap.ini
+               2 File(s)          9,253 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googlemap\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             9,231 zh-TW.plg_fabrik_element_googlemap.ini
+               2 File(s)          9,231 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer
+
+24/07/2013  18:28             4,123 googleometer.php
+29/07/2013  21:44               837 googleometer.xml
+24/07/2013  18:28                 0 index.html
+               3 File(s)          4,960 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\forms
+
+30/07/2013  12:16             1,040 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,040 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\da-DK
+
+24/07/2013  18:28               553 da-DK.plg_fabrik_element_googleometer.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            553 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\de-DE
+
+24/07/2013  18:28               512 de-DE.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               482 de-DE.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            994 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\el-GR
+
+24/07/2013  18:28               823 el-GR.plg_fabrik_element_googleometer.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            823 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\en
+
+24/07/2013  18:28               542 en.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               481 en.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,023 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\en-GB
+
+24/07/2013  18:28               542 en-GB.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               473 en-GB.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,015 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\es-ES
+
+24/07/2013  18:28               563 es-ES.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               482 es-ES.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,045 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\et-EE
+
+24/07/2013  18:28               542 et-EE.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               487 et-EE.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,029 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\fr-FR
+
+24/07/2013  18:28               588 fr-FR.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               478 fr-FR.plg_fabrik_element_googleometer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,066 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               553 it-IT.plg_fabrik_element_googleometer.ini
+30/07/2013  12:50               478 it-IT.plg_fabrik_element_googleometer.sys.ini
+               3 File(s)          1,031 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               555 nl-NL.plg_fabrik_element_googleometer.ini
+               2 File(s)            555 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               555 pt-BR.plg_fabrik_element_googleometer.ini
+               2 File(s)            555 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               557 ro-RO.plg_fabrik_element_googleometer.ini
+               2 File(s)            557 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               575 ru-RU.plg_fabrik_element_googleometer.ini
+               2 File(s)            575 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\googleometer\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               557 zh-TW.plg_fabrik_element_googleometer.ini
+               2 File(s)            557 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image
+
+24/07/2013  18:28             1,851 image-min.js
+24/07/2013  18:28             2,684 image.js
+29/07/2013  17:45            13,440 image.php
+29/07/2013  21:44               871 image.xml
+24/07/2013  18:28                 0 index.html
+               5 File(s)         18,846 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\forms
+
+29/07/2013  17:45             1,593 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,593 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\da-DK
+
+24/07/2013  18:28             1,259 da-DK.plg_fabrik_element_image.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,259 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\de-DE
+
+24/07/2013  18:28             1,272 de-DE.plg_fabrik_element_image.ini
+24/07/2013  18:28               412 de-DE.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,684 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\en
+
+24/07/2013  18:28             1,234 en.plg_fabrik_element_image.ini
+30/07/2013  12:34               415 en.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,649 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\en-GB
+
+24/07/2013  18:28             1,349 en-GB.plg_fabrik_element_image.ini
+30/07/2013  12:34               415 en-GB.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,764 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\es-ES
+
+24/07/2013  18:28             1,453 es-ES.plg_fabrik_element_image.ini
+30/07/2013  12:34               418 es-ES.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,871 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\et-EE
+
+24/07/2013  18:28             1,293 et-EE.plg_fabrik_element_image.ini
+24/07/2013  18:28               450 et-EE.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,743 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\fr-FR
+
+24/07/2013  18:28             1,465 fr-FR.plg_fabrik_element_image.ini
+30/07/2013  12:34               355 fr-FR.plg_fabrik_element_image.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,820 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,268 it-IT.plg_fabrik_element_image.ini
+               2 File(s)          1,268 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,260 nl-NL.plg_fabrik_element_image.ini
+30/07/2013  12:34               428 nl-NL.plg_fabrik_element_image.sys.ini
+               3 File(s)          1,688 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,263 pt-BR.plg_fabrik_element_image.ini
+24/07/2013  18:28               358 pt-BR.plg_fabrik_element_image.sys.ini
+               3 File(s)          1,621 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\image\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,260 ru-RU.plg_fabrik_element_image.ini
+               2 File(s)          1,260 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\internalid
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               118 internalid-min.js
+24/07/2013  18:28               172 internalid.js
+24/07/2013  18:28             2,676 internalid.php
+29/07/2013  21:44               927 internalid.xml
+               5 File(s)          3,893 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\internalid\forms
+
+30/07/2013  12:39               344 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            344 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\internalid\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\internalid\language\en-GB
+
+30/07/2013  12:40               528 en-GB.plg_fabrik_element_internalid.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            528 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               102 ip-min.js
+29/07/2013  17:45               156 ip.js
+29/07/2013  17:45             4,706 ip.php
+29/07/2013  21:44               795 ip.xml
+               5 File(s)          5,759 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\forms
+
+30/07/2013  12:54             1,006 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,006 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\da-DK
+
+24/07/2013  18:28               615 da-DK.plg_fabrik_element_ip.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            615 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\de-DE
+
+24/07/2013  18:28               618 de-DE.plg_fabrik_element_ip.ini
+24/07/2013  18:28               441 de-DE.plg_fabrik_element_ip.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,059 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\en
+
+24/07/2013  18:28               609 en.plg_fabrik_element_ip.ini
+30/07/2013  12:52               446 en.plg_fabrik_element_ip.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,055 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\en-GB
+
+24/07/2013  18:28               609 en-GB.plg_fabrik_element_ip.ini
+30/07/2013  12:52               446 en-GB.plg_fabrik_element_ip.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,055 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\es-ES
+
+24/07/2013  18:28               635 es-ES.plg_fabrik_element_ip.ini
+24/07/2013  18:28               473 es-ES.plg_fabrik_element_ip.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,108 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\et-EE
+
+24/07/2013  18:28               539 et-EE.plg_fabrik_element_ip.ini
+24/07/2013  18:28               435 et-EE.plg_fabrik_element_ip.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            974 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\fr-FR
+
+24/07/2013  18:28               603 fr-FR.plg_fabrik_element_ip.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            603 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               615 it-IT.plg_fabrik_element_ip.ini
+               2 File(s)            615 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               618 nl-NL.plg_fabrik_element_ip.ini
+               2 File(s)            618 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               616 pt-BR.plg_fabrik_element_ip.ini
+               2 File(s)            616 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\ip\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               627 ru-RU.plg_fabrik_element_ip.ini
+               2 File(s)            627 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               310 jsperiodical-min.js
+29/07/2013  17:45               396 jsperiodical.js
+29/07/2013  17:45             3,827 jsperiodical.php
+29/07/2013  21:44               918 jsperiodical.xml
+               5 File(s)          5,451 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\forms
+
+30/07/2013  13:00               693 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            693 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\de-DE
+
+24/07/2013  18:28               501 de-DE.plg_fabrik_element_jsperiodical.ini
+30/07/2013  12:58               525 de-DE.plg_fabrik_element_jsperiodical.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,026 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\en
+
+24/07/2013  18:28               504 en.plg_fabrik_element_jsperiodical.ini
+30/07/2013  13:00               522 en.plg_fabrik_element_jsperiodical.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,026 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\en-GB
+
+24/07/2013  18:28               504 en-GB.plg_fabrik_element_jsperiodical.ini
+30/07/2013  13:00               522 en-GB.plg_fabrik_element_jsperiodical.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,026 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\es-ES
+
+24/07/2013  18:28               517 es-ES.plg_fabrik_element_jsperiodical.ini
+30/07/2013  12:58               536 es-ES.plg_fabrik_element_jsperiodical.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,053 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\et-EE
+
+24/07/2013  18:28               524 et-EE.plg_fabrik_element_jsperiodical.ini
+30/07/2013  12:58               537 et-EE.plg_fabrik_element_jsperiodical.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,061 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\fr-FR
+
+24/07/2013  18:28               509 fr-FR.plg_fabrik_element_jsperiodical.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            509 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\jsperiodical\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               508 pt-BR.plg_fabrik_element_jsperiodical.ini
+               2 File(s)            508 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               446 link-min.js
+29/07/2013  17:45               655 link.js
+29/07/2013  17:45            16,645 link.php
+29/07/2013  21:44               862 link.xml
+               5 File(s)         18,608 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\forms
+
+30/07/2013  13:40             2,749 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,749 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\da-DK
+
+24/07/2013  18:28             1,574 da-DK.plg_fabrik_element_link.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,574 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\de-DE
+
+24/07/2013  18:28             1,585 de-DE.plg_fabrik_element_link.ini
+24/07/2013  18:28               492 de-DE.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,077 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\el-GR
+
+24/07/2013  18:28             1,591 el-GR.plg_fabrik_element_link.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,591 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\en
+
+24/07/2013  18:28             1,537 en.plg_fabrik_element_link.ini
+24/07/2013  18:28               475 en.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,012 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\en-GB
+
+29/07/2013  17:45             1,569 en-GB.plg_fabrik_element_link.ini
+24/07/2013  18:28               475 en-GB.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,044 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\es-ES
+
+24/07/2013  18:28             1,720 es-ES.plg_fabrik_element_link.ini
+24/07/2013  18:28               491 es-ES.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,211 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\et-EE
+
+24/07/2013  18:28             1,594 et-EE.plg_fabrik_element_link.ini
+24/07/2013  18:28               531 et-EE.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,125 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\fr-FR
+
+24/07/2013  18:28             1,594 fr-FR.plg_fabrik_element_link.ini
+24/07/2013  18:28               436 fr-FR.plg_fabrik_element_link.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,030 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,583 it-IT.plg_fabrik_element_link.ini
+               2 File(s)          1,583 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,572 nl-NL.plg_fabrik_element_link.ini
+24/07/2013  18:28               500 nl-NL.plg_fabrik_element_link.sys.ini
+               3 File(s)          2,072 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,578 pt-BR.plg_fabrik_element_link.ini
+24/07/2013  18:28               440 pt-BR.plg_fabrik_element_link.sys.ini
+               3 File(s)          2,018 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,580 ro-RO.plg_fabrik_element_link.ini
+               2 File(s)          1,580 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,610 ru-RU.plg_fabrik_element_link.ini
+               2 File(s)          1,610 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\link\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,578 zh-TW.plg_fabrik_element_link.ini
+               2 File(s)          1,578 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,345 notes-min.js
+24/07/2013  18:28             2,029 notes.js
+29/07/2013  17:45            10,549 notes.php
+29/07/2013  21:44               869 notes.xml
+               5 File(s)         14,792 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\forms
+
+30/07/2013  13:43             2,728 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,728 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\da-DK
+
+24/07/2013  18:28             2,217 da-DK.plg_fabrik_element_notes.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,217 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\de-DE
+
+24/07/2013  18:28             2,339 de-DE.plg_fabrik_element_notes.ini
+24/07/2013  18:28               512 de-DE.plg_fabrik_element_notes.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,851 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\el-GR
+
+24/07/2013  18:28             2,245 el-GR.plg_fabrik_element_notes.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,245 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\en
+
+24/07/2013  18:28             2,171 en.plg_fabrik_element_notes.ini
+24/07/2013  18:28               482 en.plg_fabrik_element_notes.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,653 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\en-GB
+
+24/07/2013  18:28             2,171 en-GB.plg_fabrik_element_notes.ini
+24/07/2013  18:28               482 en-GB.plg_fabrik_element_notes.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,653 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\es-ES
+
+24/07/2013  18:28             2,379 es-ES.plg_fabrik_element_notes.ini
+24/07/2013  18:28               491 es-ES.plg_fabrik_element_notes.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,870 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\et-EE
+
+24/07/2013  18:28             2,309 et-EE.plg_fabrik_element_notes.ini
+24/07/2013  18:28               504 et-EE.plg_fabrik_element_notes.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,813 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\fr-FR
+
+24/07/2013  18:28             2,446 fr-FR.plg_fabrik_element_notes.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,446 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,236 it-IT.plg_fabrik_element_notes.ini
+               2 File(s)          2,236 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\my_MM
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,226 my_MM.plg_fabrik_element_notes.ini
+               2 File(s)          2,226 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,396 nl-NL.plg_fabrik_element_notes.ini
+24/07/2013  18:28               521 nl-NL.plg_fabrik_element_notes.sys.ini
+               3 File(s)          2,917 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,219 pt-BR.plg_fabrik_element_notes.ini
+               2 File(s)          2,219 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,217 ro-RO.plg_fabrik_element_notes.ini
+               2 File(s)          2,217 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,300 ru-RU.plg_fabrik_element_notes.ini
+               2 File(s)          2,300 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,241 uk-UA.plg_fabrik_element_notes.ini
+               2 File(s)          2,241 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\notes\language\zh-TW
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,221 zh-TW.plg_fabrik_element_notes.ini
+               2 File(s)          2,221 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\forms
+
+30/07/2013  14:14             3,404 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          3,404 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\da-DK
+
+25/06/2013  11:24             1,619 da-DK.plg_fabrik_element_openstreetmap.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,619 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\de-DE
+
+25/06/2013  11:24             1,589 de-DE.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:46               463 de-DE.plg_fabrik_element_openstreetmap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,052 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\en
+
+25/06/2013  11:24             1,570 en.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:46               448 en.plg_fabrik_element_openstreetmap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,018 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\en-GB
+
+25/06/2013  11:24             1,570 en-GB.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:46               448 en-GB.plg_fabrik_element_openstreetmap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,018 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\es-ES
+
+25/06/2013  11:24             1,693 es-ES.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:45               460 es-ES.plg_fabrik_element_openstreetmap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,153 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\et-EE
+
+25/06/2013  11:24             1,639 et-EE.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:45               459 et-EE.plg_fabrik_element_openstreetmap.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,098 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\fr-FR
+
+25/06/2013  11:24             1,618 fr-FR.plg_fabrik_element_openstreetmap.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,618 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+25/06/2013  11:24             1,592 it-IT.plg_fabrik_element_openstreetmap.ini
+30/07/2013  13:46               448 it-IT.plg_fabrik_element_openstreetmap.sys.ini
+               3 File(s)          2,040 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+25/06/2013  11:24             1,619 nl-NL.plg_fabrik_element_openstreetmap.ini
+               2 File(s)          1,619 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+25/06/2013  11:24             1,625 pt-BR.plg_fabrik_element_openstreetmap.ini
+               2 File(s)          1,625 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+25/06/2013  11:24             1,613 ro-RO.plg_fabrik_element_openstreetmap.ini
+               2 File(s)          1,613 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\openstreetmap\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+25/06/2013  11:24             1,634 ru-RU.plg_fabrik_element_openstreetmap.ini
+               2 File(s)          1,634 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,135 password-min.js
+29/07/2013  17:45             2,936 password.js
+29/07/2013  17:45             6,311 password.php
+29/07/2013  21:44               890 password.xml
+               5 File(s)         12,272 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\forms
+
+29/07/2013  17:45               498 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            498 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\da-DK
+
+24/07/2013  18:28               773 da-DK.plg_fabrik_element_password.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            773 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\de-DE
+
+24/07/2013  18:28               770 de-DE.plg_fabrik_element_password.ini
+30/07/2013  14:21               481 de-DE.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,251 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\en
+
+24/07/2013  18:28               753 en.plg_fabrik_element_password.ini
+30/07/2013  14:21               504 en.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,257 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\en-GB
+
+24/07/2013  18:28               753 en-GB.plg_fabrik_element_password.ini
+30/07/2013  14:21               504 en-GB.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,257 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\es-ES
+
+24/07/2013  18:28               780 es-ES.plg_fabrik_element_password.ini
+30/07/2013  14:21               489 es-ES.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,269 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\et-EE
+
+24/07/2013  18:28               743 et-EE.plg_fabrik_element_password.ini
+30/07/2013  14:21               484 et-EE.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,227 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\fr-FR
+
+24/07/2013  18:28               801 fr-FR.plg_fabrik_element_password.ini
+30/07/2013  14:21               504 fr-FR.plg_fabrik_element_password.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,305 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               762 it-IT.plg_fabrik_element_password.ini
+30/07/2013  14:21               504 it-IT.plg_fabrik_element_password.sys.ini
+               3 File(s)          1,266 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               746 nl-NL.plg_fabrik_element_password.ini
+30/07/2013  14:21               504 nl-NL.plg_fabrik_element_password.sys.ini
+               3 File(s)          1,250 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               768 pt-BR.plg_fabrik_element_password.ini
+               2 File(s)            768 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\password\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               784 ru-RU.plg_fabrik_element_password.ini
+               2 File(s)            784 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,278 picklist-min.js
+29/07/2013  17:45             3,536 picklist.js
+29/07/2013  17:45             5,775 picklist.php
+29/07/2013  21:44             1,203 picklist.xml
+               5 File(s)         12,792 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\forms
+
+30/07/2013  14:23             1,632 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,632 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\da-DK
+
+24/07/2013  18:28             1,543 da-DK.plg_fabrik_element_picklist.ini
+30/07/2013  14:29               448 da-DK.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,991 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\de-DE
+
+24/07/2013  18:28             1,550 de-DE.plg_fabrik_element_picklist.ini
+30/07/2013  14:29               448 de-DE.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,998 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\el-GR
+
+24/07/2013  18:28             1,545 el-GR.plg_fabrik_element_picklist.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,545 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\en
+
+24/07/2013  18:28             1,519 en.plg_fabrik_element_picklist.ini
+30/07/2013  14:28               445 en.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,964 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\en-GB
+
+24/07/2013  18:28             1,519 en-GB.plg_fabrik_element_picklist.ini
+30/07/2013  14:29               445 en-GB.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,964 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\es-ES
+
+24/07/2013  18:28             1,646 es-ES.plg_fabrik_element_picklist.ini
+30/07/2013  14:29               481 es-ES.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,127 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\et-EE
+
+24/07/2013  18:28             1,613 et-EE.plg_fabrik_element_picklist.ini
+30/07/2013  14:28               505 et-EE.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,118 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\fr-FR
+
+24/07/2013  18:28             1,764 fr-FR.plg_fabrik_element_picklist.ini
+30/07/2013  14:28               463 fr-FR.plg_fabrik_element_picklist.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,227 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,581 it-IT.plg_fabrik_element_picklist.ini
+30/07/2013  14:26               448 it-IT.plg_fabrik_element_picklist.sys.ini
+               3 File(s)          2,029 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,621 nl-NL.plg_fabrik_element_picklist.ini
+30/07/2013  14:26               448 nl-NL.plg_fabrik_element_picklist.sys.ini
+               3 File(s)          2,069 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,557 pt-BR.plg_fabrik_element_picklist.ini
+30/07/2013  14:26               448 pt-BR.plg_fabrik_element_picklist.sys.ini
+               3 File(s)          2,005 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,546 ro-RO.plg_fabrik_element_picklist.ini
+               2 File(s)          1,546 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\picklist\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,559 ru-RU.plg_fabrik_element_picklist.ini
+30/07/2013  14:29               448 ru-RU.plg_fabrik_element_picklist.sys.ini
+               3 File(s)          2,007 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,675 radiobutton-min.js
+29/07/2013  17:45             4,135 radiobutton.js
+29/07/2013  17:45             6,297 radiobutton.php
+30/07/2013  14:30             1,224 radiobutton.xml
+               5 File(s)         14,331 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\forms
+
+30/07/2013  14:49             1,959 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,959 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\da-DK
+
+30/07/2013  14:33               470 da-DK.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            470 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\de-DE
+
+29/07/2013  17:45             1,546 de-DE.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               467 de-DE.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,013 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\en
+
+24/07/2013  18:28             1,483 en.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               464 en.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,947 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\en-GB
+
+29/07/2013  17:45             1,507 en-GB.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               464 en-GB.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,971 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\es-ES
+
+24/07/2013  18:28             1,610 es-ES.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               473 es-ES.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,083 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\et-EE
+
+29/07/2013  17:45             1,537 et-EE.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               461 et-EE.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,998 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\fr-FR
+
+29/07/2013  17:45             1,845 fr-FR.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               464 fr-FR.plg_fabrik_element_radiobutton.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,309 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,549 it-IT.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               470 it-IT.plg_fabrik_element_radiobutton.sys.ini
+               3 File(s)          2,019 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,589 nl-NL.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               470 nl-NL.plg_fabrik_element_radiobutton.sys.ini
+               3 File(s)          2,059 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             1,858 pt-BR.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               470 pt-BR.plg_fabrik_element_radiobutton.sys.ini
+               3 File(s)          2,328 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\radiobutton\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,527 ru-RU.plg_fabrik_element_radiobutton.ini
+30/07/2013  14:33               470 ru-RU.plg_fabrik_element_radiobutton.sys.ini
+               3 File(s)          1,997 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             2,180 list-rating-min.js
+29/07/2013  17:45             3,164 list-rating.js
+29/07/2013  17:45             3,627 rating-min.js
+29/07/2013  17:45             5,116 rating.js
+29/07/2013  17:45            20,225 rating.php
+29/07/2013  21:44             1,407 rating.xml
+               7 File(s)         35,719 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\forms
+
+29/07/2013  17:45             1,351 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,351 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\images
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               351 remove-sign-on.png
+29/07/2013  17:45               329 remove-sign.png
+29/07/2013  17:45               653 star-empty.png
+29/07/2013  17:45               765 star.png
+               5 File(s)          2,098 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\de-DE
+
+30/07/2013  14:56             1,640 de-DE.plg_fabrik_element_rating.ini
+30/07/2013  14:45               444 de-DE.plg_fabrik_element_rating.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,084 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\en
+
+30/07/2013  14:58             1,520 en.plg_fabrik_element_rating.ini
+30/07/2013  14:45               436 en.plg_fabrik_element_rating.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,956 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\en-GB
+
+30/07/2013  14:56             1,377 en-GB.plg_fabrik_element_rating.ini
+30/07/2013  14:45               436 en-GB.plg_fabrik_element_rating.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,813 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\es-ES
+
+30/07/2013  14:58             1,715 es-ES.plg_fabrik_element_rating.ini
+30/07/2013  14:45               467 es-ES.plg_fabrik_element_rating.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,182 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\et-EE
+
+30/07/2013  14:58             1,553 et-EE.plg_fabrik_element_rating.ini
+30/07/2013  14:45               441 et-EE.plg_fabrik_element_rating.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,994 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  14:57             1,470 it-IT.plg_fabrik_element_rating.ini
+30/07/2013  14:45               436 it-IT.plg_fabrik_element_rating.sys.ini
+               3 File(s)          1,906 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  14:57             1,682 nl-NL.plg_fabrik_element_rating.ini
+30/07/2013  14:45               436 nl-NL.plg_fabrik_element_rating.sys.ini
+               3 File(s)          2,118 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\rating\sql
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               360 install.mysql.uft8.sql
+24/07/2013  18:28                41 uninstall.mysql.uft8.sql
+               3 File(s)            401 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45             1,736 slider-min.js
+24/07/2013  18:28               503 slider.css
+29/07/2013  17:45             2,353 slider.js
+29/07/2013  17:45             5,076 slider.php
+29/07/2013  21:44               940 slider.xml
+               6 File(s)         10,608 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\forms
+
+30/07/2013  15:19             1,698 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,698 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\images
+
+24/07/2013  18:28               196 area.png
+24/07/2013  18:28                81 clear_rating_in.gif
+24/07/2013  18:28               329 clear_rating_out.png
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               686 slider.png
+               5 File(s)          1,292 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\da-DK
+
+30/07/2013  15:13               977 da-DK.plg_fabrik_element_slider.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            977 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\de-DE
+
+30/07/2013  15:18             1,056 de-DE.plg_fabrik_element_slider.ini
+30/07/2013  15:04               447 de-DE.plg_fabrik_element_slider.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,503 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\el-GR
+
+30/07/2013  15:13               982 el-GR.plg_fabrik_element_slider.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            982 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\en
+
+30/07/2013  15:16             1,022 en.plg_fabrik_element_slider.ini
+30/07/2013  15:04               445 en.plg_fabrik_element_slider.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,467 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\en-GB
+
+30/07/2013  15:18             1,022 en-GB.plg_fabrik_element_slider.ini
+30/07/2013  15:04               445 en-GB.plg_fabrik_element_slider.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,467 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\es-ES
+
+30/07/2013  15:18             1,124 es-ES.plg_fabrik_element_slider.ini
+30/07/2013  15:04               466 es-ES.plg_fabrik_element_slider.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,590 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\et-EE
+
+30/07/2013  15:17             1,000 et-EE.plg_fabrik_element_slider.ini
+30/07/2013  15:04               551 et-EE.plg_fabrik_element_slider.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,551 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\fr-FR
+
+30/07/2013  15:10               982 fr-FR.plg_fabrik_element_slider.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            982 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:09               977 it-IT.plg_fabrik_element_slider.ini
+               2 File(s)            977 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:16               986 nl-NL.plg_fabrik_element_slider.ini
+               2 File(s)            986 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:09               982 pt-BR.plg_fabrik_element_slider.ini
+               2 File(s)            982 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:09               973 ro-RO.plg_fabrik_element_slider.ini
+               2 File(s)            973 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:09             1,018 ru-RU.plg_fabrik_element_slider.ini
+               2 File(s)          1,018 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\slider\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+30/07/2013  15:18               999 uk-UA.plg_fabrik_element_slider.ini
+               2 File(s)            999 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             4,469 textarea-min.js
+24/07/2013  18:28             7,391 textarea.js
+29/07/2013  17:45            13,517 textarea.php
+29/07/2013  21:44               894 textarea.xml
+               5 File(s)         26,271 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\forms
+
+30/07/2013  15:37             5,278 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          5,278 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\da-DK
+
+24/07/2013  18:28             2,904 da-DK.plg_fabrik_element_textarea.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,904 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\de-DE
+
+24/07/2013  18:28             2,848 de-DE.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               443 de-DE.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,291 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\el-GR
+
+24/07/2013  18:28             2,916 el-GR.plg_fabrik_element_textarea.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,916 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\en
+
+24/07/2013  18:28             2,849 en.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               434 en.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,283 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\en-GB
+
+29/07/2013  17:45             3,408 en-GB.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               434 en-GB.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,842 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\es-ES
+
+24/07/2013  18:28             2,854 es-ES.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               453 es-ES.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,307 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\et-EE
+
+24/07/2013  18:28             3,281 et-EE.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               455 et-EE.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,736 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\fr-FR
+
+24/07/2013  18:28             3,156 fr-FR.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               385 fr-FR.plg_fabrik_element_textarea.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          3,541 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,853 it-IT.plg_fabrik_element_textarea.ini
+               2 File(s)          2,853 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,906 nl-NL.plg_fabrik_element_textarea.ini
+               2 File(s)          2,906 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,919 pt-BR.plg_fabrik_element_textarea.ini
+30/07/2013  15:40               384 pt-BR.plg_fabrik_element_textarea.sys.ini
+               3 File(s)          3,303 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,909 ro-RO.plg_fabrik_element_textarea.ini
+               2 File(s)          2,909 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,930 ru-RU.plg_fabrik_element_textarea.ini
+               2 File(s)          2,930 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\textarea\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,933 uk-UA.plg_fabrik_element_textarea.ini
+               2 File(s)          2,933 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,065 list-thumbs-min.js
+24/07/2013  18:28             3,287 list-thumbs.js
+24/07/2013  18:28             2,356 thumbs-min.js
+24/07/2013  18:28             3,343 thumbs.js
+29/07/2013  17:45            18,279 thumbs.php
+29/07/2013  21:44             1,410 thumbs.xml
+               7 File(s)         30,740 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\forms
+
+24/07/2013  18:28               309 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            309 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\images
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               793 thumb_down_in.gif
+24/07/2013  18:28               318 thumb_down_out.gif
+24/07/2013  18:28               785 thumb_up_in.gif
+24/07/2013  18:28               433 thumb_up_out.gif
+               5 File(s)          2,329 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language\de-DE
+
+24/07/2013  18:28                93 de-DE.plg_fabrik_element_thumbs.ini
+24/07/2013  18:28               465 de-DE.plg_fabrik_element_thumbs.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            558 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language\en
+
+24/07/2013  18:28                83 en.plg_fabrik_element_thumbs.ini
+24/07/2013  18:28               441 en.plg_fabrik_element_thumbs.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            524 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language\en-GB
+
+24/07/2013  18:28                83 en-GB.plg_fabrik_element_thumbs.ini
+24/07/2013  18:28               439 en-GB.plg_fabrik_element_thumbs.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            522 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language\es-ES
+
+24/07/2013  18:28                97 es-ES.plg_fabrik_element_thumbs.ini
+24/07/2013  18:28               479 es-ES.plg_fabrik_element_thumbs.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            576 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\language\et-EE
+
+24/07/2013  18:28                83 et-EE.plg_fabrik_element_thumbs.ini
+24/07/2013  18:28               446 et-EE.plg_fabrik_element_thumbs.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            529 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\thumbs\sql
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               366 install.mysql.uft8.sql
+24/07/2013  18:28                40 uninstall.mysql.uft8.sql
+               3 File(s)            406 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               415 time-min.js
+24/07/2013  18:28               594 time.js
+29/07/2013  17:45            11,615 time.php
+29/07/2013  21:44               888 time.xml
+               5 File(s)         13,512 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\forms
+
+30/07/2013  15:53             2,740 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,740 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\da-DK
+
+24/07/2013  18:28             1,591 da-DK.plg_fabrik_element_time.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,591 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\de-DE
+
+29/07/2013  17:45             1,863 de-DE.plg_fabrik_element_time.ini
+24/07/2013  18:28               486 de-DE.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,349 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\en
+
+24/07/2013  18:28             1,560 en.plg_fabrik_element_time.ini
+24/07/2013  18:28               467 en.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,027 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\en-GB
+
+29/07/2013  17:45             1,929 en-GB.plg_fabrik_element_time.ini
+24/07/2013  18:28               467 en-GB.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,396 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\es-ES
+
+24/07/2013  18:28             1,719 es-ES.plg_fabrik_element_time.ini
+24/07/2013  18:28               476 es-ES.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,195 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\et-EE
+
+29/07/2013  17:45             1,883 et-EE.plg_fabrik_element_time.ini
+24/07/2013  18:28               565 et-EE.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,448 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\fr-FR
+
+29/07/2013  17:45             2,098 fr-FR.plg_fabrik_element_time.ini
+24/07/2013  18:28               529 fr-FR.plg_fabrik_element_time.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,627 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,589 it-IT.plg_fabrik_element_time.ini
+               2 File(s)          1,589 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,596 nl-NL.plg_fabrik_element_time.ini
+               2 File(s)          1,596 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,597 pt-BR.plg_fabrik_element_time.ini
+               2 File(s)          1,597 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,590 ro-RO.plg_fabrik_element_time.ini
+               2 File(s)          1,590 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,628 ru-RU.plg_fabrik_element_time.ini
+               2 File(s)          1,628 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\time\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,614 uk-UA.plg_fabrik_element_time.ini
+               2 File(s)          1,614 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             2,352 timer-min.js
+24/07/2013  18:28             3,398 timer.js
+29/07/2013  17:45             5,934 timer.php
+29/07/2013  21:44               869 timer.xml
+               5 File(s)         12,553 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\forms
+
+29/07/2013  17:45             1,468 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,468 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\da-DK
+
+24/07/2013  18:28               817 da-DK.plg_fabrik_element_timer.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            817 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\de-DE
+
+24/07/2013  18:28               804 de-DE.plg_fabrik_element_timer.ini
+24/07/2013  18:28               473 de-DE.plg_fabrik_element_timer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,277 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\el-GR
+
+24/07/2013  18:28               827 el-GR.plg_fabrik_element_timer.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            827 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\en
+
+24/07/2013  18:28               801 en.plg_fabrik_element_timer.ini
+24/07/2013  18:28               466 en.plg_fabrik_element_timer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,267 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\en-GB
+
+24/07/2013  18:28               801 en-GB.plg_fabrik_element_timer.ini
+24/07/2013  18:28               466 en-GB.plg_fabrik_element_timer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,267 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\es-ES
+
+24/07/2013  18:28               824 es-ES.plg_fabrik_element_timer.ini
+24/07/2013  18:28               506 es-ES.plg_fabrik_element_timer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,330 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\et-EE
+
+24/07/2013  18:28               853 et-EE.plg_fabrik_element_timer.ini
+24/07/2013  18:28               468 et-EE.plg_fabrik_element_timer.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,321 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\fr-FR
+
+24/07/2013  18:28               878 fr-FR.plg_fabrik_element_timer.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            878 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               800 it-IT.plg_fabrik_element_timer.ini
+               2 File(s)            800 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               819 nl-NL.plg_fabrik_element_timer.ini
+               2 File(s)            819 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               819 pt-BR.plg_fabrik_element_timer.ini
+               2 File(s)            819 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               819 ro-RO.plg_fabrik_element_timer.ini
+               2 File(s)            819 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               866 ru-RU.plg_fabrik_element_timer.ini
+               2 File(s)            866 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timer\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               843 uk-UA.plg_fabrik_element_timer.ini
+               2 File(s)            843 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               116 timestamp-min.js
+29/07/2013  17:45               170 timestamp.js
+29/07/2013  17:45             3,390 timestamp.php
+29/07/2013  21:44               819 timestamp.xml
+               5 File(s)          4,495 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\forms
+
+29/07/2013  17:45               976 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            976 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\de-DE
+
+24/07/2013  18:28               887 de-DE.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28               485 de-DE.plg_fabrik_element_timestamp.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,372 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\en
+
+24/07/2013  18:28               861 en.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28               474 en.plg_fabrik_element_timestamp.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,335 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\en-GB
+
+24/07/2013  18:28               861 en-GB.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28               474 en-GB.plg_fabrik_element_timestamp.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,335 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\es-ES
+
+24/07/2013  18:28               972 es-ES.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28               492 es-ES.plg_fabrik_element_timestamp.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,464 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\et-EE
+
+24/07/2013  18:28               855 et-EE.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28               488 et-EE.plg_fabrik_element_timestamp.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          1,343 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\fr-FR
+
+24/07/2013  18:28               892 fr-FR.plg_fabrik_element_timestamp.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            892 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\timestamp\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               876 pt-BR.plg_fabrik_element_timestamp.ini
+               2 File(s)            876 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45                43 user-min.js
+29/07/2013  17:45                54 user.js
+29/07/2013  17:45            29,765 user.php
+29/07/2013  21:44               865 user.xml
+               5 File(s)         30,727 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\forms
+
+30/07/2013  16:03             2,488 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,488 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\da-DK
+
+24/07/2013  18:28             1,682 da-DK.plg_fabrik_element_user.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,682 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\de-DE
+
+24/07/2013  18:28             1,727 de-DE.plg_fabrik_element_user.ini
+24/07/2013  18:28               490 de-DE.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,217 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\en
+
+24/07/2013  18:28             1,660 en.plg_fabrik_element_user.ini
+24/07/2013  18:28               467 en.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,127 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\en-GB
+
+24/07/2013  18:28             1,741 en-GB.plg_fabrik_element_user.ini
+24/07/2013  18:28               465 en-GB.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,206 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\es-ES
+
+24/07/2013  18:28             1,874 es-ES.plg_fabrik_element_user.ini
+24/07/2013  18:28               480 es-ES.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,354 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\et-EE
+
+24/07/2013  18:28             1,662 et-EE.plg_fabrik_element_user.ini
+24/07/2013  18:28               584 et-EE.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,246 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\fr-FR
+
+24/07/2013  18:28             2,091 fr-FR.plg_fabrik_element_user.ini
+24/07/2013  18:28               440 fr-FR.plg_fabrik_element_user.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,531 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,682 it-IT.plg_fabrik_element_user.ini
+               2 File(s)          1,682 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,685 nl-NL.plg_fabrik_element_user.ini
+               2 File(s)          1,685 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,690 pt-BR.plg_fabrik_element_user.ini
+24/07/2013  18:28               433 pt-BR.plg_fabrik_element_user.sys.ini
+               3 File(s)          2,123 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\user\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,736 ru-RU.plg_fabrik_element_user.ini
+               2 File(s)          1,736 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               120 usergroup-min.js
+24/07/2013  18:28               180 usergroup.js
+29/07/2013  17:45             7,554 usergroup.php
+30/07/2013  16:07               900 usergroup.xml
+               5 File(s)          8,754 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\forms
+
+30/07/2013  16:08               965 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            965 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\da-DK
+
+24/07/2013  18:28               457 da-DK.plg_fabrik_element_usergroup.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            457 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\de-DE
+
+24/07/2013  18:28               460 de-DE.plg_fabrik_element_usergroup.ini
+30/07/2013  16:06               478 de-DE.plg_fabrik_element_usergroup.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            938 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\en
+
+24/07/2013  18:28               453 en.plg_fabrik_element_usergroup.ini
+30/07/2013  16:06               463 en.plg_fabrik_element_usergroup.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            916 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\en-GB
+
+24/07/2013  18:28               453 en-GB.plg_fabrik_element_usergroup.ini
+30/07/2013  16:06               461 en-GB.plg_fabrik_element_usergroup.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            914 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\es-ES
+
+24/07/2013  18:28               484 es-ES.plg_fabrik_element_usergroup.ini
+30/07/2013  16:06               484 es-ES.plg_fabrik_element_usergroup.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            968 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\et-EE
+
+24/07/2013  18:28               475 et-EE.plg_fabrik_element_usergroup.ini
+30/07/2013  16:06               477 et-EE.plg_fabrik_element_usergroup.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            952 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\fr-FR
+
+24/07/2013  18:28               488 fr-FR.plg_fabrik_element_usergroup.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            488 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               457 it-IT.plg_fabrik_element_usergroup.ini
+               2 File(s)            457 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               468 nl-NL.plg_fabrik_element_usergroup.ini
+               2 File(s)            468 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               458 pt-BR.plg_fabrik_element_usergroup.ini
+               2 File(s)            458 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\usergroup\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               469 ru-RU.plg_fabrik_element_usergroup.ini
+               2 File(s)            469 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               120 viewlevel-min.js
+24/07/2013  18:28               180 viewlevel.js
+29/07/2013  17:45             3,098 viewlevel.php
+29/07/2013  21:44               872 viewlevel.xml
+               5 File(s)          4,270 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\forms
+
+30/07/2013  16:10               340 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            340 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language\de-DE
+
+29/07/2013  21:44               466 de-DE.plg_fabrik_element_viewlevel.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            466 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language\en
+
+29/07/2013  21:44               454 en.plg_fabrik_element_viewlevel.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            454 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language\en-GB
+
+30/07/2013  16:16               525 en-GB.plg_fabrik_element_viewlevel.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            525 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language\es-ES
+
+29/07/2013  21:44               487 es-ES.plg_fabrik_element_viewlevel.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            487 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\viewlevel\language\et-EE
+
+29/07/2013  21:44               475 et-EE.plg_fabrik_element_viewlevel.sys.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            475 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno
+
+24/07/2013  18:28                 0 index.html
+29/07/2013  17:45               106 yesno-min.js
+29/07/2013  17:45               160 yesno.js
+29/07/2013  17:45            10,726 yesno.php
+29/07/2013  21:44               899 yesno.xml
+               5 File(s)         11,891 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\forms
+
+24/07/2013  18:28               620 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)            620 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\images
+
+24/07/2013  18:28               910 0.png
+24/07/2013  18:28               951 0_8bit.png
+24/07/2013  18:28               931 1.png
+24/07/2013  18:28               947 1_8bit.png
+24/07/2013  18:28                 0 index.html
+               5 File(s)          3,739 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\da-DK
+
+24/07/2013  18:28               267 da-DK.plg_fabrik_element_yesno.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            267 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\de-DE
+
+24/07/2013  18:28               266 de-DE.plg_fabrik_element_yesno.ini
+24/07/2013  18:28               435 de-DE.plg_fabrik_element_yesno.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            701 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\en
+
+24/07/2013  18:28               266 en.plg_fabrik_element_yesno.ini
+24/07/2013  18:28               438 en.plg_fabrik_element_yesno.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            704 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\en-GB
+
+24/07/2013  18:28               319 en-GB.plg_fabrik_element_yesno.ini
+24/07/2013  18:28               434 en-GB.plg_fabrik_element_yesno.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            753 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\es-ES
+
+24/07/2013  18:28               266 es-ES.plg_fabrik_element_yesno.ini
+24/07/2013  18:28               437 es-ES.plg_fabrik_element_yesno.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            703 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\et-EE
+
+24/07/2013  18:28               273 et-EE.plg_fabrik_element_yesno.ini
+24/07/2013  18:28               451 et-EE.plg_fabrik_element_yesno.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)            724 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\fr-FR
+
+24/07/2013  18:28               266 fr-FR.plg_fabrik_element_yesno.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)            266 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               266 it-IT.plg_fabrik_element_yesno.ini
+               2 File(s)            266 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\nl-NL
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               268 nl-NL.plg_fabrik_element_yesno.ini
+               2 File(s)            268 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\pt-BR
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               266 pt-BR.plg_fabrik_element_yesno.ini
+               2 File(s)            266 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\ro-RO
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               266 ro-RO.plg_fabrik_element_yesno.ini
+               2 File(s)            266 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\ru-RU
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               282 ru-RU.plg_fabrik_element_yesno.ini
+               2 File(s)            282 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\yesno\language\uk-UA
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               290 uk-UA.plg_fabrik_element_yesno.ini
+               2 File(s)            290 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28               116 youtube-min.js
+24/07/2013  18:28               170 youtube.js
+29/07/2013  17:45             7,130 youtube.php
+29/07/2013  21:44               879 youtube.xml
+               5 File(s)          8,295 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\forms
+
+29/07/2013  17:45             2,933 fields.xml
+24/07/2013  18:28                 0 index.html
+               2 File(s)          2,933 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language
+
+24/07/2013  18:28                 0 index.html
+               1 File(s)              0 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\de-DE
+
+24/07/2013  18:28             1,703 de-DE.plg_fabrik_element_youtube.ini
+24/07/2013  18:28               461 de-DE.plg_fabrik_element_youtube.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,164 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\en
+
+24/07/2013  18:28             1,638 en.plg_fabrik_element_youtube.ini
+24/07/2013  18:28               469 en.plg_fabrik_element_youtube.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,107 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\en-GB
+
+24/07/2013  18:28             1,638 en-GB.plg_fabrik_element_youtube.ini
+24/07/2013  18:28               467 en-GB.plg_fabrik_element_youtube.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,105 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\es-ES
+
+24/07/2013  18:28             1,828 es-ES.plg_fabrik_element_youtube.ini
+24/07/2013  18:28               499 es-ES.plg_fabrik_element_youtube.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,327 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\et-EE
+
+24/07/2013  18:28             1,611 et-EE.plg_fabrik_element_youtube.ini
+24/07/2013  18:28               550 et-EE.plg_fabrik_element_youtube.sys.ini
+24/07/2013  18:28                 0 index.html
+               3 File(s)          2,161 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\fr-FR
+
+24/07/2013  18:28             1,827 fr-FR.plg_fabrik_element_youtube.ini
+24/07/2013  18:28                 0 index.html
+               2 File(s)          1,827 bytes
+
+ Directory of D:\Paul\GitHub\fabrik\plugins\fabrik_element\youtube\language\it-IT
+
+24/07/2013  18:28                 0 index.html
+24/07/2013  18:28             1,748 it-IT.plg_fabrik_element_youtube.ini
+               2 File(s)          1,748 bytes
+
+     Total Files Listed:
+            1746 File(s)      3,092,458 bytes
+               0 Dir(s)  234,317,705,216 bytes free

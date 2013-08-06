@@ -1,29 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="field" name="plg-element-fbactiviyfeed">
-		
+		<fieldset name="plg-element-fbactiviyfeed">
+
 			<field type="helplink"
-				url="PLG_ELEMENT_FBFEED_HELP_SERVER" />
-				
-			<field description="PLG_ELEMENT_FBFEED_APPLICATION_ID_DESC" label="PLG_ELEMENT_FBFEED_APPLICATION_ID_LABEL" name="opengraph_applicationid" type="text"/>
-				
-			<field description="PLG_ELEMENT_FBFEED_DOMAIN_DESC" label="PLG_ELEMENT_FBFEED_DOMAIN_LABEL" name="fbactivityfeed_domain" type="text"/>
-				
-			<field class="input-mini" default="300" label="PLG_ELEMENT_FBFEED_WIDTH_LABEL" name="fbactivityfeed_width" size="3" type="text"/>
-				
-			<field class="input-mini" default="300" label="PLG_ELEMENT_FBFEED_HEIGHT_LABEL" name="fbactivityfeed_height" size="3" type="text"/>
-				
-			<field default="true"
+				url="PLG_ELEMENT_FBACTIVITYFEED_HELP_SERVER" />
+
+			<field name="opengraph_applicationid"
+				type="text"
+				required="true"
+				class="input-medium"
+				size="10"
+				label="PLG_ELEMENT_FBFEED_APPLICATION_ID_LABEL"
+				description="PLG_ELEMENT_FBFEED_APPLICATION_ID_DESC"
+			/>
+
+			<field name="fbactivityfeed_domain"
+				type="text"
+				class="input-medium"
+				size="10"
+				label="PLG_ELEMENT_FBFEED_DOMAIN_LABEL"
+				description="PLG_ELEMENT_FBFEED_DOMAIN_DESC"
+			/>
+
+			<field name="fbactivityfeed_width"
+				type="text"
+				class="input-mini"
+				size="3"
+				default="300"
+				label="PLG_ELEMENT_FBFEED_WIDTH_LABEL"
+				description="PLG_ELEMENT_FBFEED_WIDTH_DESC"
+			/>
+
+			<field name="fbactivityfeed_height"
+				type="text"
+				class="input-mini"
+				size="3"
+				default="300"
+				label="PLG_ELEMENT_FBFEED_HEIGHT_LABEL"
+				description="PLG_ELEMENT_FBFEED_HEIGHT_DESC"
+			/>
+
+			<field name="fbactivityfeed header"
+				type="radio"
 				class="btn-group"
-				label="PLG_ELEMENT_FBFEED_HEADER_LABEL" name="fbactivityfeed header" type="radio">
+				default="1"
+				label="PLG_ELEMENT_FBFEED_HEADER_LABEL"
+				description="PLG_ELEMENT_FBFEED_HEADER_DESC"
+				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
-			<field label="PLG_ELEMENT_FBFEED_BORDER_LABEL" name="fbactivityfeed_border" size="7" type="text"/>
-				
-			<field default="arial" label="PLG_ELEMENT_FBFEED_FONT_LABEL" name="fbactivityfeed_font" type="list">
+
+			<field
+				name="fbactivityfeed_border"
+				type="text"
+				size="7"
+				label="PLG_ELEMENT_FBFEED_BORDER_LABEL"
+				description="PLG_ELEMENT_FBFEED_BORDER_DESC"
+			/>
+
+			<field name="fbactivityfeed_font"
+				type="list"
+				default="arial"
+				label="PLG_ELEMENT_FBFEED_FONT_LABEL"
+				description="PLG_ELEMENT_FBFEED_FONT_DESC"
+				>
 					<option value="arial">arial</option>
 					<option value="lucida grande">lucida grande</option>
 					<option value="segoe ui">segoe ui</option>
@@ -31,13 +73,17 @@
 					<option value="trebuchet ms">trebuchet ms</option>
 					<option value="verdana">verdana</option>
 			</field>
-			
-			<field default="light" label="PLG_ELEMENT_FBFEED_COLOR_SCHEME_LABEL" name="fbactivityfeed_colorscheme" type="list">
+
+			<field name="fbactivityfeed_colorscheme"
+				type="list"
+				default="light"
+				label="PLG_ELEMENT_FBFEED_COLOR_SCHEME_LABEL"
+				description="PLG_ELEMENT_FBFEED_COLOR_SCHEME_DESC"
+				>
 					<option value="light">light</option>
 					<option value="dark">dark</option>
 			</field>
-					
-		</fieldset>
 
-		</fields>
+		</fieldset>
+	</fields>
 </form>

@@ -28,7 +28,7 @@ foreach ($group->subgroups as $subgroup) :
 				endif;
 				if ($group->canDeleteRepeat) :?>
 					<a class="deleteGroup btn btn-small btn-danger" href="#">
-						<i class="icon-remove fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_DELETE_GROUP'); ?>"></i>
+						<i class="icon-minus fabrikTip tip-small" opts="{trigger: 'hover'}" title="<?php echo JText::_('COM_FABRIK_DELETE_GROUP'); ?>"></i>
 					</a>
 				<?php endif;?>
 			</div>

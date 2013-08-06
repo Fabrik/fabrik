@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="field" name="plg-element-folder">
-		
+		<fieldset name="plg-element-folder">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FOLDER_HELP_SERVER" />
-				
+
 			<field description="PLG_ELEMENT_FOLDER_PATH_DESC" label="PLG_ELEMENT_FOLDER_PATH_LABEL" name="fbfolder_path" size="20" type="text"/>
-				
+
 			<field default="1"
 				class="btn-group"
 				label="PLG_ELEMENT_FOLDER_LIST_FOLDERS_LABEL" name="folder_listfolders" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				label="PLG_ELEMENT_FOLDER_LIST_FILES_LABEL" name="folder_listfiles" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field default="1"
 				class="btn-group"
 				label="PLG_ELEMENT_FOLDER_ALLOW_NONE_LABEL" name="folder_allownone" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-					
+
 		</fieldset>
 
 		</fields>

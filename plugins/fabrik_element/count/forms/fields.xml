@@ -2,9 +2,12 @@
 <form>
 	<fields name="params">
 		<fieldset group="extra" name="plg-element-count">
+			<field type="helplink"
+				url="PLG_ELEMENT_COUNT_HELP_SERVER" />
+
 			<field description="PLG_ELEMENT_COUNT_FIELD_DESC" label="PLG_ELEMENT_COUNT_FIELD_LABEL" name="count_field" type="listfields" valueformat="tableelement"/>
-				
+
 			<field description="PLG_ELEMENT_COUNT_GROUP_BY_FIELD_DESC" label="PLG_ELEMENT_COUNT_GROUP_BY_FIELD_LABEL" name="count_groupbyfield" type="listfields" valueformat="tableelement"/>
-		</fieldset>	
+		</fieldset>
 	</fields>
 </form>

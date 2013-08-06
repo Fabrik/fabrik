@@ -2,35 +2,38 @@
 <form>
 	<fields>
 		<fieldset label="COM_FABRIK_DEFAULT" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_LINK_HELP_SERVER" />
-				
+
 			<field name="width"
 				type="text"
-				class="input-mini" 
+				class="input-mini"
 				size="3"
 				default="20"
 				label="PLG_ELEMENT_LINK_WIDTH_LABEL" />
-				
+
 			<field name="default"
 				type="textarea"
 				cols="45"
 				label="PLG_ELEMENT_LINK_DEFAULT_LABEL_LABEL"
 				rows="6" />
-		
+
 		</fieldset>
 	</fields>
-	
+
 	<fields name="params">
 		<fieldset label="COM_FABRIK_OPTIONS" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link-extra">
-			
+
+			<field type="helplink"
+				url="PLG_ELEMENT_LINK_HELP_SERVER" />
+
 			<field name="link_default_url"
 				type="text"
 				default="http://"
 				size="50"
 				label="PLG_ELEMENT_LINK_DEFAULT_URL_LABEL" />
-				
+
 			<field name="link_target"
 				type="list"
 				default="0" description="PLG_ELEMENT_LINK_TARGET_DESC"
@@ -41,7 +44,7 @@
 					<option value="_top">PLG_ELEMENT_LINK_TOP</option>
 					<option value="mediabox">PLG_ELEMENT_LINK_MEDIABOX</option>
 			</field>
-			
+
 			<field name="link_smart_link"
 				type="radio"
 				class="btn-group"
@@ -50,18 +53,21 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="maxlength"
 				type="maxlength"
 				class="input-mini"
 				default="255"
 				label="PLG_ELEMENT_LINK_MAX_LENGTH"
 				size="3"/>
-				
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_LINK_BITLY" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link-bitly">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_LINK_HELP_SERVER" />
+
 			<field name="use_bitly"
 				type="radio"
 				class="btn-group"
@@ -71,19 +77,19 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="bitly_login"
 				type="text"
 				description="PLG_ELEMENT_LINK_BITLY_LOGIN_DESC"
 				label="PLG_ELEMENT_LINK_BITLY_LOGIN_LABEL"
 				size="30" />
-				
+
 			<field name="bitly_apikey"
 				type="text"
 				description="PLG_ELEMENT_LINK_BITLY_API_KEY_DESC"
 				label="PLG_ELEMENT_LINK_BITLY_API_KEY_LABEL"
 				size="40"/>
-				
+
 		</fieldset>
 	</fields>
 </form>

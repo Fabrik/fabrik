@@ -1580,9 +1580,10 @@ class FabrikFEModelList extends JModelForm
 		$j3 = FabrikWorker::j3();
 		$text = $buttonAction == 'dropdown' ? $label : '<span class="hidden">' . $label . '</span>';
 		$btnClass = ($j3 && $buttonAction != 'dropdown') ? 'btn ' : '';
+		$iconClass = $j3 ? 'icon-remove' : 'icon-minus';
 		$label = $j3 ? ' ' . JText::_('COM_FABRIK_DELETE') : '<span>' . JText::_('COM_FABRIK_DELETE') . '</span>';
 		$btn = '<a href="#" class="' . $btnClass . 'delete" data-listRef="list_' . $this->getRenderContext() . '" title="' . JText::_('COM_FABRIK_DELETE') . '">'
-				. FabrikHelperHTML::image('delete.png', 'list', $tpl, array('alt' => $label, 'icon-class' => 'icon-minus')) . ' ' . $text . '</a>';
+				. FabrikHelperHTML::image('delete.png', 'list', $tpl, array('alt' => $label, 'icon-class' => $iconClass)) . ' ' . $text . '</a>';
 		return $j3 ? $btn : '<li class="fabrik_delete">' . $btn . '</li>';
 	}
 

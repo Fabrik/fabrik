@@ -3,8 +3,8 @@
 	<name>plg_fabrik_validationrule_isgreaterorlessthan</name>
 	<author>Rob Clayburn</author>
 	<creationDate>February 2013</creationDate>
-	<copyright>(C) 2005-2013 fabrikar.com</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005-2013 fabrikar.com - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
 	<version>3.1b</version>

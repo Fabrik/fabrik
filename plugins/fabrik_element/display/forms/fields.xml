@@ -2,15 +2,15 @@
 <form>
 	<fields>
 		<fieldset name="plg-element-display" label="COM_FABRIK_OPTIONS">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_DISPLAY_HELP_SERVER" />
-		
+
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"
 				label="PLG_ELEMENT_DISPLAY_DEFAULT_LABEL" />
-		
+
 			<field name="eval"
 				type="radio"
 				default="0"
@@ -19,13 +19,16 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-				
+
 		</fieldset>
 	</fields>
-	
+
 	<fields name="params">
 		<fieldset name="extra" label="COM_FABRIK_MORE">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_DISPLAY_HELP_SERVER" />
+
 			<field name="display_showlabel"
 				type="radio"
 				default="1"
@@ -34,7 +37,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </form>

@@ -2,11 +2,11 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="googlemap" name="plg-element-googlemap">
-			
+
 			<field type="helplink"
 				url="PLG_ELEMENT_GOOGLE_MAP_HELP_SERVER"
 			/>
-			
+
 			<field name="fb_gm_maptype"
 				type="list"
 				default="G_NORMAL_MAP"
@@ -18,7 +18,7 @@
 					<option value="G_HYBRID_MAP">PLG_ELEMENT_GOOGLE_MAP_HYBRID</option>
 					<option value="TERRAIN">PLG_ELEMENT_GOOGLE_MAP_TERRAIN</option>
 			</field>
-			
+
 			<field name="fb_gm_zoomlevel"
 				type="text"
 				class="input-mini"
@@ -27,7 +27,7 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
 			/>
-			
+
 			<field name="fb_gm_mapwidth"
 				type="text"
 				class="input-mini"
@@ -36,7 +36,7 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_WIDTH_DESC"
 			/>
-			
+
 			<field name="fb_gm_mapheight"
 				type="text"
 				class="input-mini"
@@ -45,12 +45,12 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_DESC"
 			/>
-			
-			<field name="gmap_styles"	
+
+			<field name="gmap_styles"
 				type="fabrikmodalrepeat"
 				label="PLG_ELEMENT_GOOGLE_MAP_STYLE_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_STYLE_DESC"
-			>
+				>
 				<fields name="params">
 					<fieldset modal="true" name="gmap_styles_modal">
 						<field name="style_feature"
@@ -92,7 +92,7 @@
 								<option value="transit.station.rail">transit.station.rail</option>
 								<option value="water">water</option>
 						</field>
-						
+
 						<field name="style_element"
 							type="list"
 							default="all"
@@ -107,7 +107,7 @@
 								<option value="labels.text.fill">labels.text.fill</option>
 								<option value="labels.text.stroke">labels.text.stroke</option>
 						</field>
-						
+
 						<field name="style_styler_key"
 							type="list"
 							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_STYLER_KEY_LABEL">
@@ -120,7 +120,7 @@
 								<option value="color">color (an RGB hex string)</option>
 								<option value="weight">weight (an integer value, greater than or equal to zero)</option>
 						</field>
-						
+
 						<field name="style_styler_value"
 							type="text"
 							label="PLG_ELEMENT_GOOGLE_MAP_STYLE_STYLER_VALUE_LABEL"
@@ -128,7 +128,7 @@
 					</fieldset>
 				</fields>
 			</field>
-				
+
 			<field name="fb_gm_mapcontrol"
 				type="list"
 				default="GSmallZoomControl"
@@ -140,7 +140,7 @@
 					<option value="GSmallMapControl">PLG_ELEMENT_GOOGLE_MAP_SMALL_MAP_CONTROL</option>
 					<option value="GSmallZoomControl">PLG_ELEMENT_GOOGLE_MAP_SMALL_ZOOM_CONTROL</option>
 			</field>
-			
+
 			<field name="fb_gm_scalecontrol"
 				type="radio"
 				default="0"
@@ -150,7 +150,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_maptypecontrol"
 				type="radio"
 				default="0"
@@ -160,7 +160,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_overviewcontrol"
 				type="radio"
 				default="0"
@@ -170,16 +170,16 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_staticmap"
 				type="list"
-				default="0"
+				default="1"
 				description="PLG_ELEMENT_GOOGLE_MAP_STATIC_MAP_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_STATIC_MAP_LABEL">
 					<option value="1">PLG_ELEMENT_GOOGLE_MAP_STATIC</option>
 					<option value="2">PLG_ELEMENT_GOOGLE_MAP_FULL</option>
 			</field>
-			
+
 			<field name="fb_gm_scroll_wheel"
 				type="radio"
 				default="0"
@@ -189,7 +189,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_street_view"
 				type="radio"
 				default="0"
@@ -199,7 +199,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_latlng"
 				type="radio"
 				default="0"
@@ -209,7 +209,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_latlng_dms"
 				type="radio"
 				default="0"
@@ -219,11 +219,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-					
+
 		</fieldset>
-		
+
 		<fieldset label="Default location" name="plg-element-googlemap-default">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER" />
+
 			<field name="fb_gm_defaultloc"
 				type="list"
 				default="0"
@@ -232,25 +235,28 @@
 					<option value="0">PLG_ELEMENT_GOOGLE_MAP_COORDS</option>
 					<option value="1">PLG_ELMENET_GOOGLE_MAP_GEOLOC</option>
 			</field>
-			
+
 			<field name="fb_gm_lat"
 				type="text"
 				default="53.2224"
 				description="PLG_ELEMENT_GOOGLE_MAP_LAT_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_LAT_LABEL"
 				size="10" />
-				
+
 			<field name="fb_gm_long"
 				type="text"
 				default="-4.2007"
 				description="PLG_ELEMENT_GOOGLE_MAP_LONG_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_LONG_LABEL"
 				size="10" />
-			
+
 		</fieldset>
-		
+
 		<fieldset label="Geocoding" name="plg-element-googlemap-geocoding">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER" />
+
 			<field name="fb_gm_geocode"
 				type="list"
 				default="0"
@@ -260,7 +266,7 @@
 					<option value="1">JYES</option>
 					<option value="2">PLG_ELEMENT_GOOGLE_MAP_USE_ELEMENTS</option>
 			</field>
-			
+
 			<field name="fb_gm_reverse_geocode"
 				type="radio"
 				default="0"
@@ -270,37 +276,37 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_geocode_addr1"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ADDR1_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ADDR1_LABEL" />
-				
-			<field name="fb_gm_geocode_addr2" 
+
+			<field name="fb_gm_geocode_addr2"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ADDR2_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ADDR2_LABEL" />
-				
+
 			<field name="fb_gm_geocode_city"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_CITY_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_CITY_LABEL" />
-				
+
 			<field name="fb_gm_geocode_state"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_STATE_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_STATE_LABEL" />
-				
+
 			<field name="fb_gm_geocode_zip"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ZIP_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ZIP_LABEL" />
-				
+
 			<field name="fb_gm_geocode_country"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_COUNTRY_DESC"
 				label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_COUNTRY_LABEL" />
-			
+
 			<field name="fb_gm_geocode_event"
 				type="list"
 				default="button"
@@ -309,10 +315,14 @@
 					<option value="button">PLG_ELEMENT_GOOGLE_MAP_BUTTON</option>
 					<option value="change">PLG_ELEMENT_GOOGLE_MAP_AS_YOU_TYPE</option>
 			</field>
-			
+
 		</fieldset>
 
 		<fieldset label="Radius Widget" name="plg-element-googlemap-radius">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER" />
+
 			<field name="fb_gm_radius"
 				type="radio"
 				default="0"
@@ -322,7 +332,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fb_gm_radius_unit"
 				type="list"
 				default="k"
@@ -331,17 +341,17 @@
 					<option value="m">Miles</option>
 					<option value="k">Kilometers</option>
 			</field>
-	
+
 			<field name="fb_gm_radius_write_element"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLEMAP_RADIUS_WRITE_ELEMENT_DESC"
 				label="PLG_ELEMENT_GOOGLEMAP_RADIUS_WRITE_ELEMENT_LABEL" />
-				
+
 			<field name="fb_gm_radius_read_element"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLEMAP_RADIUS_READ_ELEMENT_DESC"
 				label="PLG_ELEMENT_GOOGLEMAP_RADIUS_READ_ELEMENT_LABEL" />
-				
+
 			<field name="fb_gm_radius_default"
 				type="text"
 				class="input-mini"
@@ -349,7 +359,7 @@
 				description="PLG_ELEMENT_GOOGLEMAP_RADIUS_DEFAULT_DESC"
 				label="PLG_ELEMENT_GOOGLEMAP_RADIUS_DEFAULT_LABEL"
 				size="3" />
-			
+
 			<field name="fb_gm_radius_fitmap"
 				type="radio"
 				default="0"
@@ -359,10 +369,13 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 	 	</fieldset>
- 			
+
 		<fieldset label="List settings" name="plg-element-googlemap-table">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER" />
 
 			<field name="fb_gm_staticmap_tableview"
 				type="radio"
@@ -382,7 +395,7 @@
 					<option value="num">PLG_ELEMENT_GOOGLE_MAP_DECIMAL</option>
 					<option value="dms">PLG_ELEMENT_GOOGLE_MAP_DMS</option>
 			</field>
-			
+
 			<field name="fb_gm_table_mapwidth"
 				type="text"
 				class="input-mini"
@@ -391,7 +404,7 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_WIDTH_DESC"
 			/>
-				
+
 			<field name="fb_gm_table_mapheight"
 				type="text"
 				class="input-mini"
@@ -400,7 +413,7 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_HEIGHT_DESC"
 			/>
-				
+
 			<field name="fb_gm_table_zoomlevel"
 				type="text"
 				class="input-mini"
@@ -409,7 +422,7 @@
 				label="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_ZOOM_LEVEL_DESC"
 			/>
-			
+
 		</fieldset>
 	</fields>
 </form>

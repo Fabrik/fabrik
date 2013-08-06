@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension group="fabrik_element" method="upgrade" type="plugin" version="30">
-	<name>plg_fabrik_element_fbactivity</name>
+	<name>plg_fabrik_element_fbactivityfeed</name>
 	<author>Rob Clayburn</author>
 	<creationDate>February 2013</creationDate>
-	<copyright>(C) 2005-2013 fabrikar.com</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005-2013 fabrikar.com - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
 	<version>3.1b</version>
-	<help url="PLG_ELEMENT_FBFEED_HELP_SERVER"/>
-	<description>PLG_ELEMENT_FBFEED_DESCRIPTION</description>
+	<help url="PLG_ELEMENT_FBACTIVITYFEED_HELP_SERVER"/>
+	<description>PLG_ELEMENT_FBACTIVITYFEED_DESCRIPTION</description>
 	<files>
 		<filename plugin="fbactivityfeed">fbactivityfeed.php</filename>
 		<filename>index.html</filename>

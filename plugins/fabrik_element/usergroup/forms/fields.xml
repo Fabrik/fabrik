@@ -4,7 +4,7 @@
 		<fieldset label="PLG_ELEMENT_USERGROUP_HIDDEN_LABEL" name="plg-element-usergroup">
 		
 			<field type="helplink"
-				url="PLG_ELEMENT_USER_GROUP_HELP_SERVER" />
+				url="PLG_ELEMENT_USERGROUP_HELP_SERVER" />
 				
 			<field name="hidden"
 				type="radio"
@@ -22,6 +22,9 @@
 	
 		<fieldset label="COM_FABRIK_OPTIONS" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-user-params">
 			
+			<field type="helplink"
+				url="PLG_ELEMENT_USERGROUP_HELP_SERVER" />
+				
 			<field name="user_element"
 				type="listfields"
 				description="PLG_ELEMENT_USERGROUP_USER_ELEMENT_DESC"

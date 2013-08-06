@@ -6,6 +6,10 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_VIEWLEVEL_HELP_SERVER" />
 			
+			<field name="no_options"
+				type="spacer"
+				label="PLG_ELEMENT_VIEWLEVEL_NO_OPTIONS" />
+
 		</fieldset>
 	</fields>
 	

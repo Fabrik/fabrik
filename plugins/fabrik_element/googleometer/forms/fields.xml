@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset label="field" name="plg-element-googleometer">
-		
+		<fieldset name="plg-element-googleometer">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_GOOGLEOMETER_HELP_SERVER" />
-				
+
 			<field description="PLG_ELEMENT_GOOGLEOMETER_ELEMENT_DESC" label="PLG_ELEMENT_GOOGLEOMETER_ELEMENT_LABEL" name="googleometer_element" type="listfields" valueformat="id"/>
-				
+
 			<field class="input-mini" default="200" description="PLG_ELEMENT_GOOGLEOMETER_WIDTH_DESC" label="PLG_ELEMENT_GOOGLEOMETER_WIDTH_LABEL" name="googleometer_width" size="3" type="text"/>
-				
+
 			<field class="input-mini" default="125" description="PLG_ELEMENT_GOOGLEOMETER_HEIGHT_DESC" label="PLG_ELEMENT_GOOGLEOMETER_HEIGHT_LABEL" name="googleometer_height" size="3" type="text"/>
-				
+
 			<field description="PLG_ELEMENT_GOOGLEOMETER_LABEL_DESC" label="PLG_ELEMENT_GOOGLEOMETER_LABEL_LABEL" name="googleometer_label" size="20" type="text"/>
-					
+
 		</fieldset>
 
 		</fields>

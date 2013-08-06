@@ -135,7 +135,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 		$class = $j3 ? 'form-horizontal ' : 'adminform ';
 		$str = array();
 		$str[] = '<div class="pane-slider content pane-down accordion-inner">';
-		$str[] = '<fieldset class="' . $class . 'pluginContanier" id="formAction_' . $c . '"><ul>';
+		$str[] = '<fieldset class="' . $class . 'pluginContainer" id="formAction_' . $c . '"><ul>';
 		$formName = 'com_fabrik.' . $this->getState('type') . '-plugin';
 		$topForm = new JForm($formName, array('control' => 'jform'));
 		$topForm->repeatCounter = $c;
@@ -146,7 +146,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 
 		$topForm->bind($data);
 
-		// Filer the forms fieldsets for those starting with the correct $serachName prefix
+		// Filter the forms fieldsets for those starting with the correct $searchName prefix
 		foreach ($topForm->getFieldsets() as $fieldset)
 		{
 			if ($fieldset->label != '')
@@ -158,7 +158,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 			{
 				if (!$j3)
 				{
-				$str[] = '<li>' . $field->label . $field->input . '</li>';
+					$str[] = '<li>' . $field->label . $field->input . '</li>';
 				}
 				else
 				{
@@ -171,7 +171,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 		$str[] = '<div class="pluginOpts" style="clear:left"></div>';
 		if ($j3)
 		{
-			$str[] = '<a href="#" class="btn btn-danger" data-button="removeButton"><i class="icon-delete"></i> ' . JText::_('COM_FABRIK_DELETE') . '</a>';
+			$str[] = '<a href="#" class="btn btn-danger" data-button="removeButton"><i class="icon-delete"></i> ' . JText::_('COM_FABRIK_DELETE') . '</a><br/><br/>';
 		}
 		else
 		{

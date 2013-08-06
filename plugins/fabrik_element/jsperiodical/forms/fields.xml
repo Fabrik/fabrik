@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields name="params">
-		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-jsperiodical">
+		<fieldset name="plg-element-jsperiodical">
 		
 			<field type="helplink"
 				url="PLG_ELEMENT_JSPERIODICAL_HELP_SERVER" />

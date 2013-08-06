@@ -2,23 +2,23 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-fileupload" label="COM_FABRIK_OPTIONS">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
-				
+
 			<field name="ul_max_file_size"
 				type="uploadsize"
 				size="30"
 				class="input-mini"
 				description="PLG_ELEMENT_FILEUPLOAD_MAX_FILESIZE_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_MAX_FILESIZE_LABEL" />
-				
+
 			<field name="ul_file_types"
 				description="PLG_ELEMENT_FILEUPLOAD_FILE_TYPES_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_FILE_TYPES_LABEL"
 				size="30"
 				type="text"/>
-				
+
 			<field name="ul_directory"
 				type="text"
 				default="/images/stories/"
@@ -26,7 +26,7 @@
 				label="PLG_ELEMENT_FILEUPLOAD_UPLOAD_DIR_LABEL"
 				required="true"
 				size="30"/>
-				
+
 			<field name="ul_email_file"
 				type="radio"
 				default="0"
@@ -35,7 +35,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="random_filename"
 				type="radio"
 				default="0"
@@ -44,13 +44,13 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="length_random_filename"
 				type="text"
 				description="PLG_ELEMENT_FILEUPLOAD_LENGTH_RANDOM_FILENAME_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_LENGTH_RANDOM_FILENAME_LABEL"
 				size="3" />
-				
+
 			<field name="ul_file_increment"
 				type="list"
 				default="0"
@@ -60,7 +60,7 @@
 					<option value="1">PLG_ELEMENT_FILEUPLOAD_INCREMENT_NEW_FILENAME</option>
 					<option value="2">PLG_ELEMENT_FILEUPLOAD_DELETE_EXISTING_IMAGE</option>
 			</field>
-			
+
 			<field name="upload_allow_folderselect"
 				type="radio"
 				default="0"
@@ -69,7 +69,7 @@
 					<option value="0">PLG_ELEMENT_FILEUPLOAD_HIDE</option>
 					<option value="1">PLG_ELEMENT_FILEUPLOAD_SHOW</option>
 			</field>
-			 
+
 			<field name="upload_delete_image"
 				type="radio"
 				default="1"
@@ -79,24 +79,27 @@
 					<option value="1">JYES</option>
 			</field>
 		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_DISPLAY" name="plg-fileupload-display">
-		
+
+		<fieldset name="plg-fileupload-display" label="PLG_ELEMENT_FILEUPLOAD_DISPLAY">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field name="default_image"
 				type="text"
 				description="PLG_ELEMENT_FILEUPLOAD_DEFAULT_IMAGE_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_DEFAULT_IMAGE_LABEL" />
-				
+
 			<field name="make_link"
 				type="radio"
 				class="btn-group"
 				default="1"
-				description="PLG_ELEMENT_FILEUPLOAD_MAKE_LINK_IN_TABLE_DESC" 
+				description="PLG_ELEMENT_FILEUPLOAD_MAKE_LINK_IN_TABLE_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_MAKE_LINK_IN_TABLE_LABEL" >
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="fu_show_image_in_table"
 				type="radio"
 				class="btn-group"
@@ -104,10 +107,10 @@
 				description="PLG_ELEMENT_FILEUPLOAD_SHOW_IN_LIST_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_SHOW_IN_LIST_LABEL">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 					<option value="2">PLG_ELEMENT_FILEUPLOAD_SLIDESHOW</option>
 			</field>
-			
+
 			<field name="fu_show_image"
 				type="list"
 				default="0"
@@ -115,10 +118,10 @@
 				label="PLG_ELEMENT_FILEUPLOAD_SHOW_IN_FORM_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">PLG_ELEMENT_FILEUPLOAD_THUMBNAIL</option>
-					<option value="2">PLG_ELEMENT_FILEUPLOAD_FULL_SIZED</option>	
+					<option value="2">PLG_ELEMENT_FILEUPLOAD_FULL_SIZED</option>
 					<option value="3">PLG_ELEMENT_FILEUPLOAD_SLIDESHOW</option>
 			</field>
-			
+
 			<field name="fu_show_image_in_email"
 				type="radio"
 				class="btn-group"
@@ -126,14 +129,14 @@
 				description="PLG_ELEMENT_FILEUPLOAD_SHOW_IN_EMAIL_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_SHOW_IN_EMAIL_LABEL" >
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="image_library"
 				type="imagelibs"
 				default=""
 				label="PLG_ELEMENT_FILEUPLOAD_IMAGE_LIBRARY_LABEL" />
-				
+
 			<field name="fu_main_max_width"
 				type="text"
 				class="input-mini"
@@ -141,7 +144,7 @@
 				description="PLG_ELEMENT_FILEUPLOAD_MAX_WIDTH_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_MAX_WIDTH_LABEL"
 				size="3" />
-				
+
 			<field name="fu_main_max_height"
 				type="text"
 				class="input-mini"
@@ -149,38 +152,42 @@
 				description="PLG_ELEMENT_FILEUPLOAD_MAX_HEIGHT_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_MAX_HEIGHT_LABEL"
 				size="3" />
-				
+
 			<field name="fu_title_element"
 				type="listfields"
 				description="PLG_ELEMENT_FILEUPLOAD_TITLE_ELEMENT_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_TITLE_ELEMENT_LABEL"
 				valueformat="tableelement"/>
-				
+
 		</fieldset>
-			
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_THUMBNAILS" name="plg-fileupload-thumbnail">
+
+		<fieldset name="plg-fileupload-thumbnail" label="PLG_ELEMENT_FILEUPLOAD_THUMBNAILS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_FILEUPLOAD_MAKE_THUMBNAIL_DESC" label="PLG_ELEMENT_FILEUPLOAD_MAKE_THUMBNAIL_LABEL" name="make_thumbnail" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-		
+
 			<field name="thumb_dir"
 				type="text"
 				default="images/stories/thumbs"
 				description="PLG_ELEMENT_FILEUPLOAD_THUMB_DIR_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_THUMB_DIR_LABEL"
 				size="35" />
-				
+
 			<field name="thumb_prefix"
 				type="text"
 				description="PLG_ELEMENT_FILEUPLOAD_THUMB_PREFIX_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_THUMB_PREFIX_LABEL"
 				size="10"/>
-			
+
 			<field description="PLG_ELEMENT_FILEUPLOAD_THUMB_SUFFIX_DESC" label="PLG_ELEMENT_FILEUPLOAD_THUMB_SUFFIX_LABEL" name="thumb_suffix" size="10" type="text"/>
-			
+
 			<field name="thumb_max_width"
 				type="text"
 				default="200"
@@ -188,7 +195,7 @@
 				description="PLG_ELEMENT_FILEUPLOAD_THUMB_WIDTH_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_THUMB_WIDTH_LABEL"
 				size="3" />
-			
+
 			<field name="thumb_max_height"
 				type="text"
 				default="100"
@@ -197,9 +204,12 @@
 				label="PLG_ELEMENT_FILEUPLOAD_THUMB_HEIGHT_LABEL"
 				size="3"/>
 		</fieldset>
-	
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_CROP" name="plg-fileupload-crop">
-		
+
+		<fieldset name="plg-fileupload-crop" label="PLG_ELEMENT_FILEUPLOAD_CROP">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field name="fileupload_crop"
 				type="radio"
 				default="0"
@@ -207,9 +217,9 @@
 				description="PLG_ELEMENT_FILEUPLOAD_CROP_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_CROP_LABEL" >
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-		
+
 			<field name="fileupload_crop_dir"
 				type="text"
 				default="images/stories/crop"
@@ -232,95 +242,101 @@
 				label="PLG_ELEMENT_FILEUPLOAD_CROP_HEIGHT_LABEL"
 				default="100"
 				size="3"/>
-			
+
 			<field name="win_width"
 				type="text"
 				default="400"
 				size="3"
 				label="PLG_ELEMENT_FILEUPLOAD_WIN_WIDTH_LABEL" />
-				
+
 			<field name="win_height"
 				type="text"
 				default="400"
 				size="3"
-				label="PLG_ELEMENT_FILEUPLOAD_WIN_HEIGHT_LABEL" />			
+				label="PLG_ELEMENT_FILEUPLOAD_WIN_HEIGHT_LABEL" />
 
 		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_STORAGE" name="plg-fileupload-storage">
-		
+
+		<fieldset name="plg-fileupload-storage" label="PLG_ELEMENT_FILEUPLOAD_STORAGE">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field name="fileupload_storage_type"
 				type="list"
 				default="filesystemstorage"
 				description="PLG_ELEMENT_FILEUPLOAD_FILESTORAGE_TYPE_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_FILESTORAGE_TYPE_LABEL">
 					<option value="filesystemstorage">PLG_ELEMENT_FILEUPLOAD_FILE_SYSTEM</option>
-					<option value="amazons3storage">PLG_ELEMENT_FILEUPLOAD_AMAZONS3</option>	
+					<option value="amazons3storage">PLG_ELEMENT_FILEUPLOAD_AMAZONS3</option>
 			</field>
-		
+
 			<field type="spacer" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_STORAGE_TITLE" />
 			<field description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_ACCESSKEY_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_ACCESSKEY_LABEL" name="fileupload_aws_accesskey" size="40" type="text"/>
-				
+
 			<field description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_SECRETKEY_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_SECRETKEY_LABEL" name="fileupload_aws_secretkey" size="40" type="text"/>
-				
+
 			<field description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_STORAGE_LOCATION_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_STORAGE_LOCATION_LABEL" name="fileupload_aws_location" type="list">
 					<option value="">USA East</option>
 					<option value="us-west-1">USA West(Northern California)</option>
 					<option value="EU">Europe</option>
 					<option value="ap-southeast-1">APAC (Singapore)</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_FILEUPLOAD_SSL_DESC" label="PLG_ELEMENT_FILEUPLOAD_SSL_LABEL" name="fileupload_ssl" type="radio">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
 			<field description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_BUCKET_NAME_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_BUCKET_NAME_LABEL" name="fileupload_aws_bucketname" size="40" type="text"/>
-			
+
 			<field default="1"
 				class="btn-group"
 				description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_INCLUDE_SERVER_PATH_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_INCLUDE_SERVER_PATH_LABEL" name="fileupload_s3_serverpath" type="radio">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-				
+
 			<field default="2" description="PLG_ELEMENT_FILEUPLOAD_ACL_DESC" label="PLG_ELEMENT_FILEUPLOAD_ACL_LABEL" name="fileupload_amazon_acl" type="list">
 					<option value="1">PLG_ELEMENT_FILEUPLOAD_ACL_PRIVATE</option>
 					<option value="2">PLG_ELEMENT_FILEUPLOAD_ACL_PUBLIC_READ</option>
 					<option value="3">PLG_ELEMENT_FILEUPLOAD_ACL_PUBLIC_READ_WRITE</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_FILEUPLOAD_SKIP_CHECK_DESC" label="PLG_ELEMENT_FILEUPLOAD_SKIP_CHECK_LABEL" name="fileupload_skip_check" type="radio">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
 			<field class="input-mini" default="60" description="PLG_ELEMENT_FILEUPLOAD_AMAZON_AUTH_URL_DESC" label="PLG_ELEMENT_FILEUPLOAD_AMAZON_AUTH_URL_LABEL" name="fileupload_amazon_auth_url" size="3" type="text"/>
-				
+
 		</fieldset>
-		
+
 
 		<fieldset name="plg-fileupload-ajax-upload" label="PLG_ELEMENT_FILEUPLOAD_AJAX_UPLOADS">
-	
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field name="ajax_upload"
 				type="radio"
 				default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_FILEUPLOAD_AJAX_DESC" label="PLG_ELEMENT_FILEUPLOAD_AJAX_LABEL">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-		
+
 			<field name="ajax_runtime"
 				type="text"
 				default="html5,html4"
 				description="PLG_ELEMENT_FILEUPLOAD_AJAX_RUNTIME_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_AJAX_RUNTIME_LABEL" />
-			
+
 			<field name="ajax_max"
 				type="text"
 				default="4"
@@ -328,45 +344,51 @@
 				description="PLG_ELEMENT_FILEUPLOAD_AJAX_MAX_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_AJAX_MAX_LABEL"
 				size="2"/>
-				
+
 			<field default="400" class="input-mini" description="PLG_ELEMENT_FILEUPLOAD_AJAX_DROPBOX_WIDTH_DESC" label="PLG_ELEMENT_FILEUPLOAD_AJAX_DROPBOX_WIDTH_LABEL" name="ajax_dropbox_width" type="text"/>
-			
+
 			<field default="200" class="input-mini" description="PLG_ELEMENT_FILEUPLOAD_AJAX_DROPBOX_HEIGHT_DESC" label="PLG_ELEMENT_FILEUPLOAD_AJAX_DROPBOX_HEIGHT_LABEL" name="ajax_dropbox_height" type="text"/>
-				
+
 			<field default="0" class="input-mini" description="PLG_ELEMENT_FILEUPLOAD_AJAX_CHUNK_SIZE_DESC" label="PLG_ELEMENT_FILEUPLOAD_AJAX_CHUNK_SIZE_LABEL" name="ajax_chunk_size" size="4" type="text"/>
-				
+
 		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_DOWNLOADS" name="plg-fileupload-downloads">
-		
+
+		<fieldset name="plg-fileupload-downloads" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOADS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field default="0" description="PLG_ELEMENT_FILEUPLOAD_USE_DOWNLOAD_SCRIPT_DESC" label="PLG_ELEMENT_FILEUPLOAD_USE_DOWNLOAD_SCRIPT_LABEL" name="fu_use_download_script" type="list">
 					<option value="0">No</option>
 					<option value="1">List View Only</option>
 					<option value="2">Detail View Only</option>
 					<option value="3">Both</option>
 				</field>
-		
+
 				<field description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_DESC" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_LABEL" name="fu_download_acl" type="listfields" />
-					
+
 				<field description="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_DESC" directory="media/com_fabrik/images" hide_none="1" label="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_IMG_LABEL" name="fu_download_noaccess_image" type="imagelist"/>
-					
+
 				<field description="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_LINK_DESC" label="PLG_ELEMENT_FILEUPLOAD_NO_ACCESS_LINK_LABEL" name="fu_download_noaccess_url" type="text"/>
-					
+
 				<field description="PLG_ELEMENT_FILEUPLOAD_ACCESS_IMG_DESC" directory="media/com_fabrik/images" hide_none="1" label="PLG_ELEMENT_FILEUPLOAD_ACCESS_IMG_LABEL" name="fu_download_access_image" type="imagelist"/>
-				
+
 				<field description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_HIT_COUNTER_DESC" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_HIT_COUNTER_LABEL" name="fu_download_hit_counter" type="listfields" valueformat="tableelement"/>
-					
+
 				<field default="0"
 					class="btn-group"
 					description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_LOG_DESC" label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_LOG_LABEL" name="fu_download_log" type="radio">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 				</field>
-		
+
 		</fieldset>
-		
-		<fieldset label="PLG_ELEMENT_FILEUPLOAD_EXPORT" name="plg-fileupload-export">
-		
+
+		<fieldset name="plg-fileupload-export" label="PLG_ELEMENT_FILEUPLOAD_EXPORT">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER" />
+
 			<field default="0" description="PLG_ELEMENT_FILEUPLOAD_CSV_EXPORT_FORMAT_DESC" label="PLG_ELEMENT_FILEUPLOAD_CSV_EXPORT_FORMAT_LABEL" name="ul_export_encode_csv" type="list">
 					<option value="relative">PLG_ELEMENT_FILEUPLOAD_RELATIVE_PATH</option>
 					<option value="full">PLG_ELEMENT_FILEUPLOAD_FULL_PATH</option>
@@ -374,7 +396,7 @@
 					<option value="raw">PLG_ELEMENT_FILEUPLOAD_RAW_FILE_STREAM</option>
 					<option value="base64">PLG_ELEMENT_FILEUPLOAD_BASE64_FILE_STREAM</option>
 			</field>
-			
+
 			<field default="0" description="PLG_ELEMENT_FILEUPLOAD_JSON_EXPORT_FORMAT_DESC" label="PLG_ELEMENT_FILEUPLOAD_JSON_EXPORT_FORMAT_LABEL" name="ul_export_encode_json" type="list">
 					<option value="relative">PLG_ELEMENT_FILEUPLOAD_RELATIVE_PATH</option>
 					<option value="full">PLG_ELEMENT_FILEUPLOAD_FULL_PATH</option>

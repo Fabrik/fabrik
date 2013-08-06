@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <form>
-	<name>Package edit lost</name>
+	<name>Package edit list</name>
 	<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="details">
 			
 		

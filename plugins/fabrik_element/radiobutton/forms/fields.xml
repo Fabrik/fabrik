@@ -2,21 +2,21 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-radiobutton">
-		
+
 			<field type="helplink"
-				url="PLG_ELEMENT_RADIO_HELP_SERVER" />
-				
+				url="PLG_ELEMENT_RADIOBUTTON_HELP_SERVER" />
+
 			<field name="sub_options"
 				type="suboptions"
 				label="COM_FABRIK_SUBOPTIONS"/>
-				
+
 			<field name="options_per_row"
 				default="4"
 				class="input-mini"
 				label="PLG_ELEMENT_RADIO_OPTIONS_PER_ROW_LABEL"
 				size="2"
 				type="width"/>
-				
+
 			<field name="btnGroup"
 				type="radio"
 				class="btn-group"
@@ -24,13 +24,16 @@
 				label="PLG_ELEMENT_RADIO_BTN_GROUP_LABEL"
 				description="PLG_ELEMENT_RADIO_BTN_GROUP_DESC">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_RADIO_FRONT_END_ADDITIONS" name="plg-radiobutton-add">
-		
+
+			<field type="helplink"
+				url="PLG_ELEMENT_RADIOBUTTON_HELP_SERVER" />
+
 			<field name="allow_frontend_addtoradio"
 				type="radio"
 				default="0"
@@ -40,7 +43,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="rad-allowadd-onlylabel"
 				type="radio"
 				default="0"
@@ -50,7 +53,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="rad-savenewadditions"
 				type="radio"
 				default="0"
@@ -60,7 +63,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </form>
