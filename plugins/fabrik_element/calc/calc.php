@@ -37,7 +37,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$w = new FabrikWorker;
 			$element = $this->getElement();
 			$default = $w->parseMessageForPlaceHolder($element->default, $data, true, true);
-			if ($element->eval == '1')
+			/* calc in fabrik3.0/3.1 doesn't have eval, issues if F2.0 calc elements are migrated*/
+			/*if ($element->eval == '1')
 			{
 				if (FabrikHelperHTML::isDebug())
 				{
@@ -50,6 +51,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 				FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . '::getDefaultValue() : ' . $default . ' : %s');
 				$default = $res;
 			}
+			*/
 			$this->default = $default;
 		}
 		return $this->default;
