@@ -217,46 +217,68 @@ Array.prototype.searchFor = function (candid) {
 };
 
 /**
- * Loading aninimation class, either inline next to an element or
- * full screen
+ * Loading aninimation class, either inline next to an element or full screen
+ * Paul 20130809 Adding functionality to handle multiple simultaneous spinners on same field.
  */
-
 var Loader = new Class({
 
 	initialize: function (options) {
 		this.spinners = {};
-	},
-
-	getSpinner: function (inline, msg) {
-		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
-		if (typeOf(document.id(inline)) === 'null') {
-			inline = false;
-		}
-		inline = inline ? inline : false;
-		var target = inline ? inline : document.body;
-		if (!this.spinners[inline]) {
-			this.spinners[inline] = new Spinner(target, {'message': msg});
-		}
-		return this.spinners[inline];
+		this.spinnerCount = {};
 	},
 
 	start: function (inline, msg) {
-		this.getSpinner(inline, msg).position().show();
+		if (typeOf(document.id(inline)) === 'null') {
+			inline = false;
+		}
+		var inline = inline ? inline : document.body;
+		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
+		if (!this.spinners[inline]) {
+			this.spinners[inline] = new Spinner(inline, {'message': msg});
+		}
+		if (!this.spinnerCount[inline])
+		{
+			this.spinnerCount[inline] = 1;
+		} else {
+			this.spinnerCount[inline]++;
+		}
+		// If field is hidden we will get a TypeError
+		if (this.spinnerCount[inline] === 1) {
+			try {
+				this.spinners[inline].position().show();
+			} catch (err) {
+				// Do nothing
+			}
+		}
 	},
 
-	stop: function (inline, msg, keepOverlay) {
-		var s = this.getSpinner(inline, msg);
+	stop: function (inline) {
+		if (typeOf(document.id(inline)) === 'null') {
+			inline = false;
+		}
+		var inline = inline ? inline : document.body;
+		if (!this.spinners[inline] || !this.spinnerCount[inline])
+		{
+			return;
+		}
+		if (this.spinnerCount[inline] > 1)
+		{
+			this.spinnerCount[inline]--;
+			return;
+		}
+
+		var s = this.spinners[inline];
 
 		// Dont keep the spinner once stop is called - causes issue when loading ajax form for 2nd time
 		if (Browser.ie && Browser.version < 9) {
 
 			// Well ok we have to in ie8 ;( otherwise it give a js error somewhere in FX
-			s.clearChain(); // Tried this to remove FX but didnt seem to achieve anything
 			s.hide();
 		} else {
 			s.destroy();
+			delete this.spinnerCount[inline];
+			delete this.spinners[inline];
 		}
-		delete this.spinners[inline];
 	}
 });
 
@@ -287,7 +309,7 @@ if (typeof(Fabrik) === "undefined") {
 		Fabrik.blocks[blockid] = block;
 		Fabrik.fireEvent('fabrik.block.added', [block, blockid]);
 	};
-	
+
 	/**
 	 * Search for a block
 	 * 
@@ -319,7 +341,7 @@ if (typeof(Fabrik) === "undefined") {
 	Fabrik._getBlock = function (blockid, exact, cb) {
 		exact = exact ? exact : false;
 		if (Fabrik.blocks[blockid] !== undefined) {
-			
+
 			// Exact match
 			foundBlockId = blockid;
 		} else {
