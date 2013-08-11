@@ -2570,8 +2570,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$trigger = $params->get('database_join_display_type', 'dropdown') == 'dropdown' ? 'change' : 'click';
 		$id = $this->getHTMLId($repeatCounter);
-		$ar = array('id' => $id, 'triggerEvent' => $trigger);
-		return array($ar);
+		$ar = array();
+		$ar[] = array('id' => $id, 'triggerEvent' => $trigger);
+		$ar[] = array('id' => $id, 'triggerEvent' => 'blur');
+		return $ar;
 	}
 
 	/**
