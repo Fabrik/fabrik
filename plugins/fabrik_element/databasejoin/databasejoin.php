@@ -2645,11 +2645,28 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 	public function getValidationWatchElements($repeatCounter)
 	{
-		$params = $this->getParams();
-		$trigger = $params->get('database_join_display_type', 'dropdown') == 'dropdown' ? 'change' : 'click';
 		$id = $this->getHTMLId($repeatCounter);
-		$ar = array('id' => $id, 'triggerEvent' => $trigger);
-		return array($ar);
+		$params = $this->getParams();
+		switch ($params->get('database_join_display_type', 'dropdown'))
+		{
+			case 'dropdown':
+				$trigger = 'change';
+				break;
+			case 'auto-complete':
+				$trigger = '';
+				$id = str_replace('[]', '', $id) . '-auto-complete';
+				break;
+			default:
+				$trigger = 'click';
+				break;
+		}
+		$ar = array();
+		if ($trigger !== '')
+		{
+			$ar[] = array('id' => $id, 'triggerEvent' => $trigger);
+		}
+		$ar[] = array('id' => $id, 'triggerEvent' => 'blur');
+		return $ar;
 	}
 
 	/**
