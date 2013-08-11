@@ -168,7 +168,6 @@ var FbElement =  new Class({
 				eval(js);
 			} else {
 				(function () {
-					consolde.log('delayed.....');
 					eval(js);
 				}.bind(this)).delay(delay);
 			}
@@ -418,20 +417,22 @@ var FbElement =  new Class({
 		}
 	},
 
-	setErrorMessage: function (msg, classname) {
+	setErrorMessage: function (msg, classname, single) {
+		single = typeOf(single) !== 'null' ? single : false;
 		var container = this.getContainer();
 		if (container === false) {
 			fconsole('element.js: Could not display error msg for ' + msg + ' no container class found');
 			return;
 		}
 		var m;
-		var classes = ['fabrikValidating', 'fabrikError', 'fabrikSuccess'];
+		var classes = ['fabrikError', 'fabrikSuccess'];
 		classes.each(function (c) {
 			classname === c ? container.addClass(c) : container.removeClass(c);
 		});
 		var errorElements = this.getErrorElements();
 		errorElements.each(function (e) {
 			e.empty();
+			e.removeClass('text-error');
 		});
 		switch (classname) {
 			case 'fabrikError':
@@ -458,10 +459,11 @@ var FbElement =  new Class({
 					this.removeTipMsg(classname);
 				} else {
 					container.addClass('success').removeClass('info').removeClass('error');
-					errorElements.each(function (e) {
-						e.removeClass('text-error');
-						e.adopt(this.successImage);
-					}.bind(this));
+					if (!single) {
+						errorElements.each(function (e) {
+							e.adopt(this.successImage);
+						}.bind(this));
+					}
 					var delfn = function () {
 						var container = this.getContainer();
 						if (container.hasClass('fabrikSuccess')) {
@@ -475,18 +477,11 @@ var FbElement =  new Class({
 					window.setTimeout(delfn, 5000);
 				}
 				break;
-
-			case 'fabrikValidating':
-				container.removeClass('success').addClass('info').removeClass('error');
-				//errorElements[0].adopt(this.loadingImage);
-				Fabrik.loader.start(this.element, msg);
-				break;
 		}
 
 		/* The following code can be reintegrated into the above code if we want to fade in / out messages
 		var fx = this.getValidationFx();
 		switch (classname) {
-			case 'fabrikValidating':
 			case 'fabrikError':
 				var fx = this.getValidationFx();
 				fx.start({
@@ -523,7 +518,7 @@ var FbElement =  new Class({
 		//if (this.options.repeatCounter > 0) {
 		if (this.options.inRepeatGroup) {
 			var e = this.options.element;
-			this.origId = e.substring(0, e.length - 1 - this.options.repeatCounter.toString().length);
+			this.origid = e.substring(0, e.length - 1 - this.options.repeatCounter.toString().length);
 		}
 	},
 
@@ -658,6 +653,85 @@ var FbElement =  new Class({
 	 */
 	getCloneName: function () {
 		return this.options.element;
+	},
+
+	/** Paul
+	 * This has been moved from form.js in order to allow multiple single-field validations to
+	 * run in parallel if user tabs through validated fields rapidly.
+	 *
+	 * Note: This method has been split in such a way that doValidation can be called by those
+	 * elements which call doElementValidation explicitly (calc, date, password).
+	 * Once this has been done for all elements, this can be cleaned up to remove replacetxt hacks.
+	 * It should also have a better interface for dealing with elements such as date and dbjoin
+	 * where the actual input (raw) field is hidden and a UI input field is presented to the user.
+	 **/
+	doValidation: function (e, subEl, id, spinId) {
+
+		var d = $H(this.form.getFormData());
+		d.set('task', 'form.ajax_validate');
+		d.set('fabrik_ajax', '1');
+		d.set('format', 'raw');
+
+		d = this.form.prepareRepeatsForAjax(d);
+
+		// $$$ hugh - nasty hack, because validate() in form model will always use _0 for
+		// repeated id's
+		var origid = id;
+		el = this.form.formElements.get(id);
+		if (el.origid) {
+			origid = el.origid + '_0';
+		}
+		//var origid = el.origid ? el.origid : id;
+		el.options.repeatCounter = el.options.repeatCounter ? el.options.repeatCounter : 0;
+		var url = 'index.php?option=com_fabrik&form_id=' + this.id;
+		Fabrik.fireEvent('fabrik.form.element.validation.start', [this.form, el, event]);
+		if (this.form.result === false) {
+			this.form.result = true;
+			return;
+		}
+		if (this.ajax) {
+			Fabrik.loader.stop(this.spinId);
+			this.ajax.cancel();
+			this.ajax = null;
+		}
+		this.spinId = spinId;
+		Fabrik.loader.start(this.spinId, Joomla.JText._('COM_FABRIK_VALIDATING'));
+		this.ajax = new Request({
+			url: url,
+			method: this.form.options.ajaxmethod,
+			data: d,
+			onComplete: function (r) {
+				Fabrik.loader.stop(this.spinId);
+				r = JSON.decode(r);
+				if (typeOf(r) === 'null') {
+					this.setErrorMessage('Validation ajax call failed', 'fabrikError');
+					this.form.result = true;
+					return;
+				}
+				this.form.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
+				Fabrik.fireEvent('fabrik.form.element.validation.complete', [this.form, r, id, origid]);
+				if (this.form.result === false) {
+					this.form.result = true;
+					return;
+				}
+				var el = this.form.formElements.get(id);
+				if ((typeOf(r.modified[origid]) !== 'null')) {
+					el.update(r.modified[origid]);
+				}
+				if (typeOf(r.errors[origid]) !== 'null') {
+					var msg = r.errors[origid].flatten().join('<br />');
+					if (msg !== '') {
+						this.setErrorMessage(msg, 'fabrikError', true);
+					} else {
+						this.setErrorMessage(Joomla.JText._('COM_FABRIK_SUCCESS'), 'fabrikSuccess', true);
+					}
+				} else {
+					this.setErrorMessage(Joomla.JText._('COM_FABRIK_SUCCESS'), 'fabrikSuccess', true);
+				}
+			}.bind(this)
+		}).send();
 	}
 });
 
@@ -665,8 +739,6 @@ var FbElement =  new Class({
  * @author Rob
  * contains methods that are used by any element which manipulates files/folders
  */
-
-
 var FbFileElement = new Class({
 
 	Extends: FbElement,

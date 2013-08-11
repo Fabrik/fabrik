@@ -501,23 +501,23 @@ var FbForm = new Class({
 		if (typeOf(document.getElement('.tool-tip')) !== 'null') {
 			document.getElement('.tool-tip').setStyle('top', 0);
 		}
-		// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors if you are on www and livesite is not on www.
-		var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
-
-		Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
 
 		// Only validate the current groups elements, otherwise validations on
 		// other pages cause the form to show an error.
-
 		var groupId = this.options.pages.get(this.currentPage.toInt());
 
 		var d = $H(this.getFormData());
 		d.set('task', 'form.ajax_validate');
 		d.set('fabrik_ajax', '1');
 		d.set('format', 'raw');
-		d = this._prepareRepeatsForAjax(d);
+		d = this.prepareRepeatsForAjax(d);
 
-		var ajaxError = true;
+		// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors
+		// if you are on www and livesite is not on www.
+		var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
+
+		Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
+		var validError = true;
 		var myAjax = new Request({
 			'url': url,
 			method: this.options.ajaxmethod,
@@ -526,16 +526,15 @@ var FbForm = new Class({
 				Fabrik.loader.stop(this.getBlock());
 				r = JSON.decode(r);
 				// Show error fields
-				ajaxError = this.showGroupError(r, d);
+				validError = this.showGroupError(r, d);
 				new Fx.Scroll(window).toElement(this.form);
 			}.bind(this)
 		}).send();
-		this.updateMainError(false);
-		return !ajaxError;
+		this.updateMainError();
+		return !validError;
 	},
 
 	showGroupError: function (r, d) {
-		var tmperr;
 		var gids = Array.from(this.options.pages.get(this.currentPage.toInt()));
 		var err = false;
 		$H(d).each(function (v, k) {
@@ -565,7 +564,7 @@ var FbForm = new Class({
 			}
 		}.bind(this));
 
-		this.updateMainError(true);
+		this.updateMainError();
 
 		return err;
 	},
@@ -584,15 +583,17 @@ var FbForm = new Class({
 		this.form.getElement('input[name=format]').value = 'raw';
 		this.form.getElement('input[name=task]').value = 'form.savepage';
 
-		var url = 'index.php?option=com_fabrik&format=raw&page=' + this.currentPage;
-		Fabrik.loader.start(this.getBlock(), 'saving page');
 		var data = this.getFormData();
 		data.fabrik_ajax = 1;
+
+		var url = 'index.php?option=com_fabrik&format=raw&page=' + this.currentPage;
+		Fabrik.loader.start(this.getBlock(), 'COM_FABRIK_SAVING');
 		new Request({
 			url: url,
 			method: this.options.ajaxmethod,
 			data: data,
 			onComplete: function (r) {
+				Fabrik.loader.stop(this.getBlock());
 				Fabrik.fireEvent('fabrik.form.groups.save.completed', [this]);
 				if (this.result === false) {
 					this.result = true;
@@ -603,7 +604,6 @@ var FbForm = new Class({
 				if (this.options.ajax) {
 					Fabrik.fireEvent('fabrik.form.groups.save.end', [this, r]);
 				}
-				Fabrik.loader.stop(this.getBlock());
 			}.bind(this)
 		}).send();
 	},
@@ -832,8 +832,8 @@ var FbForm = new Class({
 		if (el.className === 'fabrikSubElementContainer') {
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
-				i.addEvent(triggerEvent, function (e) {
-					this.doElementValidation(e, true);
+			i.addEvent(triggerEvent, function (e) {
+				this.doElementValidation(e, true);
 				}.bind(this));
 			}.bind(this));
 			return;
@@ -910,19 +910,28 @@ var FbForm = new Class({
 		if (this.options.ajaxValidation === false) {
 			return;
 		}
+
+		// $$$ Paul - We should not assume that replacetxt comes from date.js - date.js should provide replacement
+		// text explicitly.
 		replacetxt = typeOf(replacetxt) === 'null' ? '_time' : replacetxt;
 		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
 			id = e.target.id;
+			// In case validation field is not displayed field (e.g. autocomplete),
+			// we want spinner to be shown against displayed field.
+			spinId = id;
+			// Check for dbjoin autocomplete label field and replace with value field
+			if (e.target.hasClass('autocomplete-trigger')) {
+				id = id.replace('-auto-complete','');
+			}
 			// for elements with subelements eg checkboxes radiobuttons
 			if (subEl === true) {
 				id = document.id(e.target).getParent('.fabrikSubElementContainer').id;
 			}
 		} else {
-			// hack for closing date picker where it seems the event object isnt
-			// available
+			// hack for closing date picker where it seems the event object isn't available
+			// $$$ Paul - date.js should use mock events (see autocomplete*.js for example
 			id = e;
 		}
-
 		if (typeOf(document.id(id)) === 'null') {
 			return;
 		}
@@ -934,74 +943,78 @@ var FbForm = new Class({
 		if (!el) {
 			//silly catch for date elements you cant do the usual method of setting the id in the
 			//fabrikSubElementContainer as its required to be on the date element for the calendar to work
+			// Paul - To Do - Now that the actual validation is done in element.js (which is extended for each
+			// element plugin), tweaks to the data can be done as overrides within the specific plugin js.
 			id = id.replace(replacetxt, '');
 			el = this.formElements.get(id);
 			if (!el) {
 				return;
 			}
 		}
-		Fabrik.fireEvent('fabrik.form.element.validation.start', [this, el, e]);
-		if (this.result === false) {
-			this.result = true;
-			return;
-		}
-		el.setErrorMessage(Joomla.JText._('COM_FABRIK_VALIDATING'), 'fabrikValidating');
+
+		this.formElements.get(id).doValidation(e, subEl, id, spinId); 
+
+		/**
+		 * Paul - The following code has been moved inside element.js in order to be able to do multiple single
+		 * validations in parallel. 
 
 		var d = $H(this.getFormData());
 		d.set('task', 'form.ajax_validate');
 		d.set('fabrik_ajax', '1');
 		d.set('format', 'raw');
 
-		d = this._prepareRepeatsForAjax(d);
+		d = this.prepareRepeatsForAjax(d);
 
 		// $$$ hugh - nasty hack, because validate() in form model will always use _0 for
 		// repeated id's
 		var origid = id;
-		if (el.origId) {
-			origid = el.origId + '_0';
+		if (el.origid) {
+			origid = el.origid + '_0';
 		}
-		//var origid = el.origId ? el.origId : id;
+		//var origid = el.origid ? el.origid : id;
 		el.options.repeatCounter = el.options.repeatCounter ? el.options.repeatCounter : 0;
 		var url = 'index.php?option=com_fabrik&form_id=' + this.id;
-		var myAjax = new Request({
-			url: url,
-			method: this.options.ajaxmethod,
-			data: d,
-			onComplete: function (e) {
-				this._completeValidation(e, id, origid);
-			}.bind(this)
-		}).send();
-	},
-
-	_completeValidation: function (r, id, origid) {
-		r = JSON.decode(r);
-		if (typeOf(r) === 'null') {
-			this.showElementError('Validation ajax call failed', id);
-			this.result = true;
-			return;
-		}
-		this.formElements.each(function (el, key) {
-			el.afterAjaxValidation();
-		});
-		Fabrik.fireEvent('fabrik.form.element.validation.complete', [this, r, id, origid]);
+		Fabrik.fireEvent('fabrik.form.element.validation.start', [this, el, e]);
 		if (this.result === false) {
 			this.result = true;
 			return;
 		}
-		var el = this.formElements.get(id);
-		if ((typeOf(r.modified[origid]) !== 'null')) {
-			el.update(r.modified[origid]);
-		}
-		if (typeOf(r.errors[origid]) !== 'null') {
-		  // $$$ Paul - This looks wrong!! The r.errors[originid] should be an array containing validation errors from
-			// each of the validation plugins. So use of [el.options.repeatCounter] to index into this seems wrong.
-			this.showElementError(r.errors[origid][el.options.repeatCounter].flatten().join('<br />'), id);
-		} else {
-			this.showElementError('', id);
-		}
+		Fabrik.loader.start(spinId, Joomla.JText._('COM_FABRIK_VALIDATING'));
+		var myAjax = new Request({
+			url: url,
+			method: this.options.ajaxmethod,
+			data: d,
+			onComplete: function (r) {
+				Fabrik.loader.stop(spinId);
+				r = JSON.decode(r);
+				if (typeOf(r) === 'null') {
+					this.showElementError('Validation ajax call failed', id);
+					this.result = true;
+					return;
+				}
+				this.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
+				Fabrik.fireEvent('fabrik.form.element.validation.complete', [this, r, id, origid]);
+				if (this.result === false) {
+					this.result = true;
+					return;
+				}
+				var el = this.formElements.get(id);
+				if ((typeOf(r.modified[origid]) !== 'null')) {
+					el.update(r.modified[origid]);
+				}
+				if (typeOf(r.errors[origid]) !== 'null') {
+					this.showElementError(r.errors[origid][el.options.repeatCounter].flatten().join('<br />'), id, true);
+				} else {
+					this.showElementError('', id, true);
+				}
+			}.bind(this)
+		}).send(); 
+		**/
 	},
 
-	_prepareRepeatsForAjax: function (d) {
+	prepareRepeatsForAjax: function (d) {
 		this.getForm();
 		if (!this.form) {
 			return;
@@ -1024,33 +1037,35 @@ var FbForm = new Class({
 		return d;
 	},
 
-	showElementError: function (msg, id) {
+	showElementError: function (msg, id, single) {
+		// Optional parameter single=true is used to avoid displaying success messages for single fields
+		// in order to avoid unsightly layout jumps as messages are inserted and removed on a timer.
+		single = typeOf(single) !== 'null' ? single : false;
 		// msg should be the errors for the specific element, down to its repeat group id.
 		var classname = (msg === '') ? 'fabrikSuccess' : 'fabrikError';
 		if (msg === '') {
 			msg = Joomla.JText._('COM_FABRIK_SUCCESS');
 		}
-		this.formElements.get(id).setErrorMessage(msg, classname);
+		this.formElements.get(id).setErrorMessage(msg, classname, single);
 		return (classname === 'fabrikSuccess') ? false : true;
 	},
 
-	updateMainError: function (single) {
-		single = (typeOf(single) !== 'null') ? single : true;
+	updateMainError: function () {
 		var mainErr = this.form.getElement('.fabrikMainError');
 		var activeValidations = this.form.getElements('.fabrikError').filter(
 				function (e, index) {
 			return !e.hasClass('fabrikMainError');
 		});
-		if (activeValidations.length > 1 || (activeValidations.length = 1 && single)) {
+		if (activeValidations.length > 1 || (activeValidations.length = 1 && !single)) {
 			if (mainErr.hasClass('fabrikHide')) {
-				this.showmainErrror(this.options.error);
+				this.showMainError(this.options.error);
 			}
 		} else {
 			this.hideMainError();
 		}
 	},
 
-	showmainErrror: function (msg) {
+	showMainError: function (msg) {
 		// If we are in j3 and ajax validations are on - dont show main error as it makes the form 'jumpy'
 		// Paul - rather than avoid displaying - we now avoid calling
 		/* if (Fabrik.bootstrapped && this.options.ajaxValidation) {
@@ -1087,7 +1102,7 @@ var FbForm = new Class({
 			this.result = true;
 			e.stop();
 			// Update global status error
-			this.updateMainError(true);
+			this.updateMainError();
 
 			// Return otherwise ajax upload may still occur.
 			return;
@@ -1099,13 +1114,13 @@ var FbForm = new Class({
 		if (this.options.ajax) {
 			// Do ajax val only if onSubmit val ok
 			if (this.form) {
-				Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_LOADING'));
+				Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_SAVING'));
 				// $$$ hugh - we already did elementsBeforeSubmit() this at the start of this func?
 				// (and we're going to call it again in getFormData()!)
 				//this.elementsBeforeSubmit(e);
 				// get all values from the form
 				var data = $H(this.getFormData());
-				data = this._prepareRepeatsForAjax(data);
+				data = this.prepareRepeatsForAjax(data);
 				if (btn.name === 'Copy') {
 					data.Copy = 1;
 					e.stop();
@@ -1119,13 +1134,13 @@ var FbForm = new Class({
 
 					onError: function (text, error) {
 						fconsole('form.js:doSubmit Ajax error: ' + text + ": " + error);
-						this.showmainErrror(error);
+						this.showMainError(error);
 						Fabrik.loader.stop(this.getBlock(), 'Ajax error');
 					}.bind(this),
 
 					onFailure: function (xhr) {
 						fconsole('form.js:doSubmit Ajax failure:', xhr);
-						this.showmainErrror('Ajax failure');
+						this.showMainError('Ajax failure');
 						Fabrik.loader.stop(this.getBlock(), 'Ajax failure');
 					}.bind(this),
 
@@ -1133,10 +1148,11 @@ var FbForm = new Class({
 						if (typeOf(json) === 'null') {
 							// Stop spinner
 							fconsole('form.js:doSubmit Error in returned json', json, txt);
-							this.showmainErrror('Error in returned JSON');
+							this.showMainError('Error in returned JSON');
 							Fabrik.loader.stop(this.getBlock(), 'Error in returned JSON');
 							return;
 						}
+						Fabrik.loader.stop(this.getBlock());
 						// Process errors if there are some
 						var errfound = false;
 						if (json.errors !== undefined) {
@@ -1165,7 +1181,7 @@ var FbForm = new Class({
 							}.bind(this));
 						}
 						// Update global status error
-						this.updateMainError(true);
+						this.updateMainError();
 
 						if (errfound === false) {
 							var clear_form = false;
@@ -1173,7 +1189,6 @@ var FbForm = new Class({
 								// We're submitting a new form - so always clear
 								clear_form = true;
 							}
-							Fabrik.loader.stop(this.getBlock());
 							var savedMsg = (typeOf(json.msg) !== 'null' && json.msg !== undefined && json.msg !== '') ? json.msg : Joomla.JText._('COM_FABRIK_FORM_SAVED');
 							if (json.baseRedirect !== true) {
 								clear_form = json.reset_form;
@@ -1226,7 +1241,7 @@ var FbForm = new Class({
 			this.result = true;
 			e.stop();
 			// Update global status error
-			this.updateMainError(true);
+			this.updateMainError();
 		} else {
 			// Enables the list to clean up the form and custom events
 			if (this.options.ajax) {
@@ -1799,6 +1814,8 @@ var FbForm = new Class({
 		}.bind(this));
 	},
 
+	// Paul - There is no reference to this function anywhere in Fabrik 3.0 or 3.1
+	// so it looks like this code is obsolete and has been replaced by showGroupError, showMainError etc.
 	showErrors: function (data) {
 		var d = null;
 		if (data.id === this.id) {
