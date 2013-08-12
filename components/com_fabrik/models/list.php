@@ -5539,7 +5539,9 @@ class FabrikFEModelList extends JModelForm
 		$filters = $this->getFilterArray();
 
 		$params = $this->getParams();
-		if ($params->get('search-mode', 'AND') == 'OR')
+		// Paul Switch to 0/1 for NO/YES from AND/OR so that bootstrap classes work but support legacy values
+		if (($params->get('search-mode', '0') == '1')
+		 || ($params->get('search-mode', '0') == 'OR'))
 		{
 			// One field to search them all (and in the darkness bind them)
 			$requestKey = $this->getFilterModel()->getSearchAllRequestKey();
