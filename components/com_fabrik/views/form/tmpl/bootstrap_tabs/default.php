@@ -132,10 +132,11 @@ echo $this->plugintop;
 	</div>
 </div>
 <?php
-if ($model->editable) :
-	echo '<div class="fabrikHiddenFields">';
-	echo $this->hiddenFields;
-	echo '</div>';
+if ($model->editable) : ?>
+<div class="fabrikHiddenFields">
+	<?php echo $this->hiddenFields; ?>
+</div>
+<?php
 endif;
 
 echo $this->pluginbottom;

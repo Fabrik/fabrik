@@ -78,8 +78,11 @@ foreach ($this->groups as $group) :
 	</fieldset>
 <?php
 endforeach;
-if ($model->editable) :
-	echo $this->hiddenFields;
+if ($model->editable) : ?>
+<div class="fabrikHiddenFields">
+	<?php echo $this->hiddenFields; ?>
+</div>
+<?php
 endif;
 
 echo $this->pluginbottom;
