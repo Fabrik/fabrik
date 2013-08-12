@@ -203,6 +203,18 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		{
 			$email_from_name = $config->get('fromname', $email_from);
 		}
+		
+		// Changes by JFQ
+		@list($return_path, $return_path_name) = explode(":", $w->parseMessageForPlaceholder($params->get('return_path'), $this->data, false), 2);		
+		if (empty($return_path))
+		{
+			$return_path = NULL;
+		}
+		if (empty($return_path_name))
+		{
+			$return_path_name = NULL;
+		}
+		// End changes
 		$subject = $params->get('email_subject');
 		if ($subject == '')
 		{
@@ -266,7 +278,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 				}
 				// Get a JMail instance (have to get a new instance otherwise the receipients are appended to previously added recipients)
 				$mail = JFactory::getMailer();
-				$res = $mail->sendMail($email_from, $email_from_name, $email, $thisSubject, $thisMessage, $htmlEmail, $cc, $bcc, $thisAttachments);
+				$res = $mail->sendMail($email_from, $email_from_name, $email, $thisSubject, $thisMessage, $htmlEmail, $cc, $bcc, $thisAttachments, $return_path, $return_path_name);
 
 				/*
 				 * $$$ hugh - added some error reporting, but not sure if 'invalid address' is the appropriate message,

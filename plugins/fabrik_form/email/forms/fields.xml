@@ -35,6 +35,13 @@
 				repeat="true"
 				size="97" />
 				
+			<field name="return_path"
+				type="text"
+				description="PLG_FABRIK_EMAIL_RETURN_PATH_DESC"
+				label="PLG_FABRIK_EMAIL_RETURN_PATH_LABEL"
+				repeat="true"
+				size="97" />
+				
 			<field name="email_subject"
 				type="text"
 				description="PLG_FABRIK_FORM_EMAIL_SUBJECT_DESC"
