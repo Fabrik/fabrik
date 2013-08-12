@@ -258,10 +258,10 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 				$objtype = "VARCHAR(" . $p->get('maxlength', 255) . ")";
 				break;
 			case 'integer':
-				$objtype = "INT(" . $p->get('integer_length', 10) . ")";
+				$objtype = "INT(" . $p->get('integer_length', 11) . ")";
 				break;
 			case 'decimal':
-				$total = (int) $p->get('integer_length', 10) + (int) $p->get('decimal_length', 2);
+				$total = (int) $p->get('integer_length', 11) + (int) $p->get('decimal_length', 2);
 				$objtype = "DECIMAL(" . $total . "," . $p->get('decimal_length', 2) . ")";
 				break;
 		}

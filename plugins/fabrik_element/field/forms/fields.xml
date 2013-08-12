@@ -2,25 +2,25 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
 		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-field">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
-				
+
 			<field name="hidden"
 				type="radio"
-				default="0" 
+				default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_FIELD_HIDDEN_DESC"
 				label="PLG_ELEMENT_FIELD_HIDDEN_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"
 				label="PLG_ELEMENT_FIELD_DEFAULT_LABEL" />
-							
+
 			<field name="eval"
 				type="radio"
 				default="0"
@@ -29,22 +29,22 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
-	
+
 	<fields name="params">
 		<fieldset name="plg-element-field-params" label="COM_FABRIK_ADVANCED">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
-				
+
 		<field name="placeholder"
 			type="text"
 			description="PLG_ELEMENT_FIELD_PLACEHOLDER_DESC"
 			label="PLG_ELEMENT_FIELD_PLACEHOLDER_LABEL"
 			size="60" />
-				
+
 			<field name="password"
 				type="list"
 				default="0"
@@ -57,13 +57,13 @@
 					<option value="4">PLG_ELEMENT_INPUTTYPE_SEARCH</option>
 					<option value="5">PLG_ELEMENT_INPUTTYPE_URL</option>
 			</field>
-			
+
 			<field name="maxlength"
 				type="maxlength"
 				class="input-mini"
 				default="255" label="PLG_ELEMENT_FIELD_MAX_LENGTH_LABEL"
 				size="3" />
-				
+
 			<field name="disable"
 				type="radio"
 				default="0"
@@ -73,7 +73,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="readonly"
 				type="radio"
 				default="0"
@@ -83,7 +83,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="autocomplete"
 				type="radio"
 				default="1"
@@ -93,7 +93,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="speech"
 				type="radio"
 				default="0"
@@ -101,22 +101,22 @@
 				description="PLG_ELEMENT_FIELD_SPEECH_DESC"
 				label="PLG_ELEMENT_FIELD_SPEECH_LABEL">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-				
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_FIELD_FORMATTING" name="plg-field-formatting">
 
 			<field type="helplink"
 				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
-				
+
 			<field name="bootstrap_class"
 				type="bootstrapfieldclass"
 				default="input-medium"
 				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
 				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
-			
+
 			<field name="text_format"
 				type="list"
 				default="text"
@@ -126,21 +126,21 @@
 					<option value="integer">PLG_ELEMENT_FIELD_INTEGER</option>
 					<option value="decimal">PLG_ELEMENT_FIELD_WIDTH_DECIMAL</option>
 			</field>
-			
+
 			<field name="integer_length"
 				type="text"
-				default="6"
-				class="input-mini" 
+				default="11"
+				class="input-mini"
 				description="PLG_ELEMENT_FIELD_INTEGER_LENGTH_DESC"
 				label="PLG_ELEMENT_FIELD_INTEGER_LENGTH_LABEL"/>
-				
+
 			<field name="decimal_length"
 				type="text"
 				default="2"
-				class="input-mini" 
+				class="input-mini"
 				description="PLG_ELEMENT_FIELD_DECIMAL_LENGTH_DESC"
 				label="PLG_ELEMENT_FIELD_DECIMAL_LENGTH_LABEL"/>
-			
+
 			<field name="field_use_number_format"
 				type="radio"
 				default="0"
@@ -150,15 +150,15 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-		
+
 			<field name="field_thousand_sep"
-				type="text" 
+				type="text"
 				class="input-mini"
 				default=","
 				description="PLG_ELEMENT_FIELD_THOUSAND_SEP_DESC"
 				label="PLG_ELEMENT_FIELD_THOUSAND_SEP_LABEL"
 				size="3" />
-		
+
 			<field name="field_decimal_sep"
 				type="text"
 				class="input-mini"
@@ -166,20 +166,20 @@
 				description="PLG_ELEMENT_FIELD_DECIMAL_SEP_DESC"
 				label="PLG_ELEMENT_FIELD_DECIMAL_SEP_LABEL"
 				size="3" />
-			
+
 			<field name="text_format_string"
 				type="text"
 				description="PLG_ELEMENT_FIELD_FORMAT_STRING_DESC"
 				label="PLG_ELEMENT_FIELD_FORMAT_STRING_LABEL"
 				size="60" />
-				
+
 		</fieldset>
-		
+
 		<fieldset label="PLG_ELEMENT_FIEILD_GUESS_LINK" name="plg-field-guesslink">
-		
+
 			<field type="helplink"
 				url="PLG_ELEMENT_FIELD_HELP_SERVER" />
-				
+
 			<field name="guess_linktype"
 				type="radio"
 				default="0"
@@ -189,7 +189,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="link_target_options"
 				type="list"
 				default="default"
@@ -200,9 +200,9 @@
 					<option value="_blank">PLG_ELEMENT_FIELD_TARGET_BLANK</option>
 					<option value="_parent">PLG_ELEMENT_FIELD_TARGET_PARENT</option>
 					<option value="_top">PLG_ELEMENT_FIELD_TARGET_TOP</option>
-					<option value="lightbox">PLG_ELEMENT_FIELD_LIGHTBOX</option>	
+					<option value="lightbox">PLG_ELEMENT_FIELD_LIGHTBOX</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </form>
