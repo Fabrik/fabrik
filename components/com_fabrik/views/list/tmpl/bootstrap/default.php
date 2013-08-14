@@ -52,8 +52,8 @@ endif;
 //for some really ODD reason loading the headings template inside the group
 //template causes an error as $this->_path['template'] doesnt cotain the correct
 // path to this template - go figure!
-$this->headingstmpl =  $this->loadTemplate('headings');
-
+$headingsHtml = $this->loadTemplate('headings');
+echo $this->loadTemplate('tabs');
 ?>
 
 <div class="fabrikDataContainer">
@@ -63,7 +63,7 @@ $this->headingstmpl =  $this->loadTemplate('headings');
 endforeach;
 ?>
 	<table class="<?php echo $this->list->class;?>" id="list_<?php echo $this->table->renderid;?>" >
-		 <thead><?php echo $this->headingstmpl?></thead>
+		 <thead><?php echo $headingsHtml?></thead>
 		 <tfoot>
 			<tr class="fabrik___heading">
 				<td colspan="<?php echo count($this->headings);?>">

@@ -20,7 +20,7 @@
 			type="accesslevel"
 			default="1"
 			label="COM_FABRIK_FIELD_VIEW_LIST_LABEL"
-			description="COM_FABRIK_FIELD_VIEW_LIST_DESC" 
+			description="COM_FABRIK_FIELD_VIEW_LIST_DESC"
 		/>
 		
 	</fieldset>
@@ -33,7 +33,7 @@
 			readonly="true"
 			class="readonly input-mini"
 			size="3"
-			label="JGLOBAL_FIELD_ID_LABEL" 
+			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 		/>
 		
@@ -43,7 +43,7 @@
 			size="40"
 			label="COM_FABRIK_FIELD_LABEL_LABEL"
 			description="COM_FABRIK_FIELD_LABEL_DESC"
-			required="true" 
+			required="true"
 		/>
 		
 		<field name="introduction"
@@ -67,7 +67,7 @@
 			class="input-mini"
 			size="3"
 			label="COM_FABRIK_FIELD_ROWS_PER_PAGE_LABEL"
-			description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC" 
+			description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC"
 		/>
 		
 	</fieldset>
@@ -93,9 +93,9 @@
 			label="COM_FABRIK_FIELD_GROUP_BY_LABEL"
 			description="COM_FABRIK_FIELD_GROUP_BY_DESC"
 		/>
-			
-		</fieldset>
 		
+	</fieldset>
+	
 	<fieldset name="main_data">
 		
 		<field name="connection_id"
@@ -128,7 +128,7 @@
 			type="listfields"
 			valueformat="tableelement"
 			nojoins="true"
-			filter="internalid|field" 
+			filter="internalid|field"
 			label="COM_FABRIK_FIELD_PRIMARY_KEY_LABEL"
 			description="COM_FABRIK_FIELD_PRIMARY_KEY_DESC"
 		/>
@@ -173,7 +173,7 @@
 			type="calendar"
 			class="input-medium"
 			label="JGLOBAL_FIELD_CREATED_LABEL"
-			description="JGLOBAL_FIELD_CREATED_DESC" 
+			description="JGLOBAL_FIELD_CREATED_DESC"
 		/>
 		
 		<field name="publish_up"
@@ -369,7 +369,6 @@
 				label="COM_FABRIK_FIELD_SEARCH_ELEMENTS_LABEL"
 				description="COM_FABRIK_FIELD_SEARCH_ELEMENTS_DESC"
 			>
-			
 				<fields name="params">
 					<fieldset modal="true" name="list_search_elements_modal" repeat="true">
 						<field name="search_elements"
@@ -484,7 +483,7 @@
 				<option value="1">JYES</option>
 			</field>
 			
-			<field name="sef-slug" 
+			<field name="sef-slug"
 				type="listfields"
 				raw="1"
 				valueformat="tableelement"
@@ -516,7 +515,7 @@
 				type="listfields"
 				label="COM_FABRIK_FIELD_FEED_DATE_LABEL"
 			/>
-			
+				
 			<field name="rsslimit"
 				type="text"
 				default="150"
@@ -551,7 +550,7 @@
 			<field name="csv_export_frontend"
 				type="accesslevel"
 				default="2"
-				label="COM_FABRIK_FIELD_CSV_EXPORT_LABEL" 
+				label="COM_FABRIK_FIELD_CSV_EXPORT_LABEL"
 				description="COM_FABRIK_FIELD_CSV_EXPORT_DESC"
 			/>
 			
@@ -731,8 +730,39 @@
 				description="COM_FABRIK_FIELD_ADMIN_TEMPLATE_DESC"
 			/>
 			
+			<field name="tabs_field"
+				type="listfields"
+				valueformat="tableelement"
+				nojoins="true"
+				filter="field|calc"
+				label="COM_FABRIK_LIST_TABS_FIELD_LABEL"
+				description="COM_FABRIK_LIST_TABS_FIELD_DESC"
+			/>
+			
+			<field name="tabs_max"
+				type="text"
+				default="10"
+				filter="integer"
+				class="input-mini"
+				size="3"
+				label="COM_FABRIK_LIST_TABS_MAX_LABEL"
+				description="COM_FABRIK_LIST_TABS_MAX_DESC"
+			/>
+			
+			<field name="tabs_all"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="COM_FABRIK_LIST_TABS_ALL_LABEL"
+				description="COM_FABRIK_LIST_TABS_ALL_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			
 			<field name="empty_data_msg"
 				type="text"
+				class="input-xxlarge"
 				size="70"
 				label="COM_FABRIK_FIELD_EMPTY_DATA_MESSAGE_LABEL"
 				description="COM_FABRIK_FIELD_EMPTY_DATA_MESSAGE_DESC"
@@ -925,19 +955,19 @@
 				description="COM_FABRIK_DETAIL_DESC"
 			/>
 			
-			<field name="editurl" 
+			<field name="editurl"
 				type="text"
 				class="input-xlarge"
 				size="50"
-				label="COM_FABRIK_EDIT_URL_LABEL" 
+				label="COM_FABRIK_EDIT_URL_LABEL"
 				description="COM_FABRIK_EDIT_URL_DESC"
 			/>
 			
 			<field name="editlabel"
-				type="text" 
+				type="text"
 				class="input-large"
 				size="30"
-				label="COM_FABRIK_EDIT_LABEL" 
+				label="COM_FABRIK_EDIT_LABEL"
 				description="COM_FABRIK_EDIT_DESC"
 			/>
 			
@@ -955,7 +985,7 @@
 			<field name="addurl"
 				type="text"
 				class="input-xlarge"
-				size="50" 
+				size="50"
 				label="COM_FABRIK_FIELD_ADD_URL_LABEL"
 				description="COM_FABRIK_FIELD_ADD_URL_DESC"
 			/>
@@ -963,7 +993,7 @@
 			<field name="addlabel"
 				type="text"
 				class="input-large"
-				size="30" 
+				size="30"
 				label="COM_FABRIK_FIELD_ADD_BUTTON_LABEL_LABEL"
 				description="COM_FABRIK_FIELD_ADD_BUTTON_LABEL_DESC"
 			/>
@@ -1006,7 +1036,7 @@
 				type="text"
 				class="input-xlarge"
 				size="30"
-				label="COM_FABRIK_EDIT_LABEL" 
+				label="COM_FABRIK_EDIT_LABEL"
 				description="COM_FABRIK_EDIT_DESC"
 			/>
 			
@@ -1092,7 +1122,7 @@
 		</fieldset>
 		
 		<fieldset name="notes">
-		
+			
 			<field name="note"
 				type="textarea"
 				cols="40"
@@ -1128,11 +1158,11 @@
 				<option value="1">JYES</option>
 			</field>
 			
-			<field name="enable_single_sorting" 
-				type="radio" 
-				class="btn-group" 
+			<field name="enable_single_sorting"
+				type="radio"
+				class="btn-group"
 				default="default"
-				label="COM_FABRIK_FIELD_ENABLE_SINGLE_ORDERING_LABEL" 
+				label="COM_FABRIK_FIELD_ENABLE_SINGLE_ORDERING_LABEL"
 				description="COM_FABRIK_FIELD_ENABLE_SINGLE_ORDERING_DESC"
 			>
 				<option value="default">JGLOBAL_USE_GLOBAL</option>
@@ -1186,7 +1216,6 @@
 		</fieldset>
 		
 		<fieldset name="prefilters2">
-			
 			<field name="filter-grouped" type="text"/>
 			<field name="filter-join" type="text"/>
 			<field name="filter-fields" type="text"/>
@@ -1226,13 +1255,13 @@
 			>
 				<option value="1">JNO</option>
 				<option value="0">JYES</option>
-				<option value="2">COM_FABRIK_ONLY_IF_NOT_EMPTY</option>        
+				<option value="2">COM_FABRIK_ONLY_IF_NOT_EMPTY</option>       
 			</field>
 			
 		</fieldset>
 		
 		<fieldset name="factedlinks">
-		
+			
 			<field name="factedlinks"
 				type="factedlinks"
 				label="COM_FABRIK_MY_RELATED_DATA_LABEL"

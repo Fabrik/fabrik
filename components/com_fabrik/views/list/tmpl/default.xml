@@ -30,8 +30,8 @@
 				label="COM_FABRIK_MENU_LIST_RELOAD_CALCS_LABEL"
 				description="COM_FABRIK_MENU_LIST_RELOAD_CALCS_DESC"
 			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 			
 			<field name="listlayout"
@@ -48,8 +48,8 @@
 				description="COM_FABRIK_FIELD_RESET_FILTERS_DESC"
 				label="COM_FABRIK_FIELD_RESET_FILTERS_LABEL"
 			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 		
 			<field name="list_elements" 
@@ -83,8 +83,8 @@
 							default="OR" 
 							label=""
 						>
-							<option value="AND">AND</option>
-							<option value="OR">OR</option>
+								<option value="AND">AND</option>
+								<option value="OR">OR</option>
 						</field>
 						
 						<field name="filter-fields" 
@@ -98,26 +98,26 @@
 							type="list" 
 							label="COM_FABRIK_LIST_CONDITION_LABEL"
 						>
-							<option value="equals">EQUALS</option>
-							<option value="notequals">NOT EQUAL TO</option>
-							<option value="begins">BEGINS WITH</option>
-							<option value="contains">CONTAINS</option>
-							<option value="ends">ENDS WITH</option>
-							<option value="greaterthan">GREATER THAN</option>
-							<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
-							<option value="lessthan">LESS THAN</option>
-							<option value="IS NULL">IS NULL</option>
-							<option value="lessthanequals">LESS THAN OR EQUALS</option>
-							<option value="in">IN</option>
-							<option value="not_in">NOT IN</option>
-							<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
-							<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
-							<option value="yesterday">COM_FABRIK_YESTERDAY</option>
-							<option value="today">COM_FABRIK_TODAY</option>
-							<option value="tomorrow">COM_FABRIK_TOMORROW</option>
-							<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
-							<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
-							<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+								<option value="equals">EQUALS</option>
+								<option value="notequals">NOT EQUAL TO</option>
+								<option value="begins">BEGINS WITH</option>
+								<option value="contains">CONTAINS</option>
+								<option value="ends">ENDS WITH</option>
+								<option value="greaterthan">GREATER THAN</option>
+								<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
+								<option value="lessthan">LESS THAN</option>
+								<option value="IS NULL">IS NULL</option>
+								<option value="lessthanequals">LESS THAN OR EQUALS</option>
+								<option value="in">IN</option>
+								<option value="not_in">NOT IN</option>
+								<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
+								<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
+								<option value="yesterday">COM_FABRIK_YESTERDAY</option>
+								<option value="today">COM_FABRIK_TODAY</option>
+								<option value="tomorrow">COM_FABRIK_TOMORROW</option>
+								<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
+								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
+								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
 						</field>
 						
 						<field name="filter-value"
@@ -129,10 +129,10 @@
 							type="list"
 							label="COM_FABRIK_TYPE"
 						>
-							<option value="0">COM_FABRIK_TEXT</option>
-							<option value="1">COM_FABRIK_EVAL</option>
-							<option value="2">COM_FABRIK_QUERY</option>
-							<option value="3">COM_FABRIK_NO_QUOTES</option>
+								<option value="0">COM_FABRIK_TEXT</option>
+								<option value="1">COM_FABRIK_EVAL</option>
+								<option value="2">COM_FABRIK_QUERY</option>
+								<option value="3">COM_FABRIK_NO_QUOTES</option>
 						</field>
 						
 						<field name="filter-access"
@@ -152,6 +152,15 @@
 				label="COM_FABRIK_FIELD_ROWS_PER_PAGE_LABEL"
 				description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC"
 			/>
+			
+			<field name="query_string"
+				type="text"
+				class="input-xlarge"
+				size="40"
+				label="COM_FABRIK_MENU_LIST_QUERY_STRING_LABEL"
+				description="COM_FABRIK_MENU_LIST_QUERY_STRING_DESC"
+			/>
+			
 		</fieldset>
 	</fields>
 </metadata>
