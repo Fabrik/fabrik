@@ -25,8 +25,7 @@ var FbForm = new Class({
 		'ajaxValidation': false,
 		'customJsAction': '',
 		'plugins': [],
-//		'ajaxmethod': 'post',
-		'ajaxmethod': 'get',
+		'ajaxmethod': 'post',
 		'inlineMessage': true,
 		'images': {
 			'alert': '',
@@ -263,6 +262,32 @@ var FbForm = new Class({
 	},
 
 	setupTabs: function () {
+		this.form.getElement('.nav-tabs').getElements('a').each(function (a) {
+			jQuery(a).on('show', function (e) {
+				this.tabValidate(e, e.target, e.relatedTarget);
+			}.bind(this));
+		}.bind(this));
+	},
+
+	tabValidate: function (e, targetTo, targetFrom) {
+//	console.log(e,targetTo,targetFrom);
+		// Get current tab div and validate it with ajax
+		if (this.options.editable) {
+			e.preventDefault();
+			this.validateByAjax(targetTo);
+		}
+		// If not editable click does the tab change anyway.
+	},
+
+	tabShow: function (targetTab) {
+		var currentTab =  this.form.getElement('.nav-tabs').getElement('li.active');
+		var currentPage = this.form.getElement('.tab-pane.active');
+		var targetPage = document.id(targetTab.getProperty('href').substring(1));
+		var targetTab = targetTab.getParent('li');
+		currentTab.removeClass('active');
+		currentPage.removeClass('active');
+		targetTab.addClass('active');
+		targetPage.addClass('active');
 	},
 
 	setupPages: function () {
@@ -366,7 +391,7 @@ var FbForm = new Class({
 		var k, groupfx, fx, fxElement;
 
 		// Could be the source element is in a repeat group but the target is not.
-		var target = this.formElements.get(id.replace('fabrik_trigger_element_', '')),
+		var target = this.formElements.get(id.replace('fabrik_trigger_element_', ''));
 		targetInRepeat = true;
 		if (target) {
 			targetInRepeat = target.options.inRepeatGroup;
@@ -470,21 +495,12 @@ var FbForm = new Class({
 	 * @param   int    dir  1/-1
 	 */
 	doPageNav: function (e, dir) {
+		e.stop();
 		if (this.options.editable) {
-			if (this.validateByAjax()) {
-				this.saveGroupsToDb();
-				this.changePage(dir);
-			} else {
-				this.disableSubmitApply();
-				// Next only if no errors, Prev regardless
-				if (dir === -1) {
-					this.changePage(dir);
-				}
-			}
+			this.validateByAjax(dir);
 		} else {
 			this.changePage(dir);
 		}
-		e.stop();
 	},
 
 	/**
@@ -493,7 +509,7 @@ var FbForm = new Class({
 	 * @return false if errors found, true if OK
 	 *
 	 */
-	validateByAjax: function () {
+	validateByAjax: function (target) {
 		this.hideMainError();
 
 		// If tip shown at bottom of long page and next page shorter we need to move the tip to
@@ -501,10 +517,6 @@ var FbForm = new Class({
 		if (typeOf(document.getElement('.tool-tip')) !== 'null') {
 			document.getElement('.tool-tip').setStyle('top', 0);
 		}
-
-		// Only validate the current groups elements, otherwise validations on
-		// other pages cause the form to show an error.
-		var groupId = this.options.pages.get(this.currentPage.toInt());
 
 		var d = $H(this.getFormData());
 		d.set('task', 'form.ajax_validate');
@@ -517,25 +529,52 @@ var FbForm = new Class({
 		var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
 
 		Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
-		var validError = true;
 		var myAjax = new Request({
 			'url': url,
 			method: this.options.ajaxmethod,
 			data: d,
 			onComplete: function (r) {
 				Fabrik.loader.stop(this.getBlock());
+				// new Fx.Scroll(window).toElement(this.form);
+				var formPosition = this.form.getPosition();
+				if (this.options.admin) {
+					document.id(window).scrollTo(formPosition.x, formPosition.y - 70); // J3 has fixed nav bars 60px tall
+				} else {
+					document.id(window).scrollTo(formPosition.x, formPosition.y - 10); // Allow a 10px top margin displayed.
+				}
 				r = JSON.decode(r);
 				// Show error fields
-				validError = this.showGroupError(r, d);
-				new Fx.Scroll(window).toElement(this.form);
+				var validationError = this.showGroupError(r, d);
+				if (validationError) {
+					this.disableSubmitApply();
+					if (this.tabbed) {
+					} else {
+						// Next only if no errors, Prev regardless
+						if (target === -1) {
+							this.changePage(target);
+						}
+					}
+				} else {
+					this.saveGroupsToDb();
+					if (this.tabbed) {
+						this.tabShow(target); // Show the tab.
+					} else {
+						this.changePage(target);
+					}
+				}
 			}.bind(this)
 		}).send();
-		this.updateMainError();
-		return !validError;
 	},
 
 	showGroupError: function (r, d) {
-		var gids = Array.from(this.options.pages.get(this.currentPage.toInt()));
+		// Only validate the current groups elements, otherwise validations on
+		// other pages cause the form to show an error.
+		if (this.tabbed) {
+			var currentTab = this.form.getElement('.tab-pane.active').id;
+			var gids = this.options.pages.get(currentTab.replace('group-tab','').toInt());
+		} else {
+			var gids = Array.from(this.options.pages.get(this.currentPage.toInt()));
+		}
 		var err = false;
 		$H(d).each(function (v, k) {
 			k = k.replace(/\[(.*)\]/, '').replace(/%5B(.*)%5D/, '');// for dropdown validations
@@ -547,7 +586,7 @@ var FbForm = new Class({
 						if (typeOf(r.errors[k]) !== 'null') {
 							var msg = r.errors[k].flatten().join('<br />');
 							if (msg !== '') {
-								err = this.showElementError(msg, k) || err;
+							err = this.showElementError(msg, k) || err;
 							} else {
 								el.setErrorMessage('', 'fabrikSuccess');
 							}
@@ -563,9 +602,7 @@ var FbForm = new Class({
 				}
 			}
 		}.bind(this));
-
 		this.updateMainError();
-
 		return err;
 	},
 
@@ -821,9 +858,10 @@ var FbForm = new Class({
 	 * @param   string  triggerEvent  Event type to add
 	 */
 	watchValidation: function (id, triggerEvent) {
-		if (this.options.ajaxValidation === false) {
-			return;
-		}
+		this.options.ajaxValidation === true ? this.addValidationEvents(id, triggerEvent) : this.addClearErrorEvents(id, triggerEvent);
+	},
+
+	addValidationEvents: function (id, triggerEvent) {
 		var el = document.id(id);
 		if (typeOf(el) === 'null') {
 			fconsole('form.js:watchValidation: Could not find element ' + id);
@@ -832,14 +870,34 @@ var FbForm = new Class({
 		if (el.className === 'fabrikSubElementContainer') {
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
-			i.addEvent(triggerEvent, function (e) {
-				this.doElementValidation(e, true);
+				i.addEvent(triggerEvent, function (e) {
+					this.doElementValidation(e, true);
 				}.bind(this));
 			}.bind(this));
 			return;
 		}
 		el.addEvent(triggerEvent, function (e) {
 			this.doElementValidation(e, false);
+		}.bind(this));
+	},
+
+	addClearErrorEvents: function (id, triggerEvent) {
+		var el = document.id(id);
+		if (typeOf(el) === 'null') {
+			fconsole('form.js:watchValidation: Could not find element ' + id);
+			return;
+		}
+		if (el.className === 'fabrikSubElementContainer') {
+			// check for things like radio buttons & checkboxes
+			el.getElements('.fabrikinput').each(function (i) {
+				i.addEvent('change', function (e) {
+					this.doElementClearError(e);
+				}.bind(this));
+			}.bind(this));
+			return;
+		}
+		el.addEvent('change', function (e) {
+			this.doElementClearError(e);
 		}.bind(this));
 	},
 
@@ -952,11 +1010,11 @@ var FbForm = new Class({
 			}
 		}
 
-		this.formElements.get(id).doValidation(e, subEl, id, spinId); 
+		this.formElements.get(id).doValidation(e, subEl, id, spinId);
 
 		/**
 		 * Paul - The following code has been moved inside element.js in order to be able to do multiple single
-		 * validations in parallel. 
+		 * validations in parallel.
 
 		var d = $H(this.getFormData());
 		d.set('task', 'form.ajax_validate');
@@ -1010,8 +1068,14 @@ var FbForm = new Class({
 					this.showElementError('', id, true);
 				}
 			}.bind(this)
-		}).send(); 
+		}).send();
 		**/
+	},
+
+	// If not doing ajax validation, then clear error messages for a field on same events
+	doElementClearError: function (e) {
+		this.showElementError('', e.target.id, true);
+		this.updateMainError();
 	},
 
 	prepareRepeatsForAjax: function (d) {
@@ -1056,7 +1120,7 @@ var FbForm = new Class({
 				function (e, index) {
 			return !e.hasClass('fabrikMainError');
 		});
-		if (activeValidations.length > 1 || (activeValidations.length = 1 && !single)) {
+		if (activeValidations.length > 0) {
 			if (mainErr.hasClass('fabrikHide')) {
 				this.showMainError(this.options.error);
 			}
@@ -1517,14 +1581,8 @@ var FbForm = new Class({
 		notice.inject(sge, 'after');
 	},
 
-	isFirstRepeatSubGroup: function (group) {
-		var subgroups = group.getElements('.fabrikSubGroup');
-		return subgroups.length === 1 && group.getElement('.fabrikNotice');
-	},
-
-	getSubGroupToClone: function (groupid) {
+	getClone: function (groupid, subgroup) {
 		var group = document.id('group' + groupid);
-		var subgroup = group.getElement('.fabrikSubGroup');
 		if (!subgroup) {
 			subgroup = this.subGroups.get(groupid);
 		}
@@ -1532,17 +1590,14 @@ var FbForm = new Class({
 		var clone = null;
 		var found = false;
 		if (this.duplicatedGroups.has(groupid)) {
-			found = true;
-		}
-		if (!found) {
-			clone = subgroup.cloneNode(true);
-			this.duplicatedGroups.set(groupid, clone);
-		} else {
 			if (!subgroup) {
 				clone = this.duplicatedGroups.get(groupid);
 			} else {
 				clone = subgroup.cloneNode(true);
 			}
+		} else {
+			clone = subgroup.cloneNode(true);
+			this.duplicatedGroups.set(groupid, clone);
 		}
 		return clone;
 	},
@@ -1574,40 +1629,23 @@ var FbForm = new Class({
 		if (e) {
 			e.stop();
 		}
-		var i = e.target.getParent('.fabrikGroup').id.replace('group', '');
-		var group_id = i.toInt();
-		var group = document.id('group' + i);
-		var c = this.repeatGroupMarkers.get(i);
-		var repeats = document.id('fabrik_repeat_group_' + i + '_counter').get('value').toInt();
-		if (repeats >= this.options.maxRepeat[i] && this.options.maxRepeat[i] !== 0) {
+
+		var subgroup = e.target.getParent('.fabrikSubGroup');
+		var group = e.target.getParent('.fabrikGroup');
+		var group_id = group.id.replace('group', '').toInt();
+console.log("Duplicate group:",e.target.getParent('.fabrikGroup').id);
+		var repeats = document.id('fabrik_repeat_group_' + group_id + '_counter').get('value').toInt();
+		if (this.options.maxRepeat[group_id] !== 0 && repeats >= this.options.maxRepeat[group_id]) {
 			return;
 		}
-		document.id('fabrik_repeat_group_' + i + '_counter').value = repeats + 1;
+		document.id('fabrik_repeat_group_' + group_id + '_counter').value = repeats + 1;
 
 		if (this.isFirstRepeatSubGroup(group)) {
-			var subgroups = group.getElements('.fabrikSubGroup');
-			// user has removed all repeat groups and now wants to add it back in
-			// remove the 'no groups' notice
-
-			var sub = subgroups[0].getElement('.fabrikSubGroupElements');
-			if (typeOf(sub) === 'null') {
-				group.getElement('.fabrikNotice').dispose();
-				sub = subgroups[0];
-
-				// Table group
-				var add = group.getElement('.addGroup');
-				add.inject(sub.getElement('td.fabrikGroupRepeater'));
-				sub.setStyle('display', '');
-			} else {
-				subgroups[0].getElement('.fabrikNotice').dispose();
-				subgroups[0].getElement('.fabrikSubGroupElements').show();
-			}
-
-			this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
+			this.showFirstSubGroup(group);
 			return;
 		}
 
-		var clone = this.getSubGroupToClone(i);
+		var clone = this.getClone(group_id, subgroup);
 		var tocheck = this.repeatGetChecked(group);
 
 		if (group.getElement('table.repeatGroupTable')) {
@@ -1619,12 +1657,15 @@ var FbForm = new Class({
 		tocheck.each(function (i) {
 			i.setProperty('checked', true);
 		});
+
 		// Remove values and increment ids
 		var newElementControllers = [];
 		this.subelementCounter = 0;
 		var hasSubElements = false;
 		var inputs = clone.getElements('.fabrikinput');
 		var lastinput = null;
+		var c = this.repeatGroupMarkers.get(group_id);
+console.log("c:",c);
 		this.formElements.each(function (el) {
 			var formElementFound = false;
 			subElementContainer = null;
@@ -1637,7 +1678,7 @@ var FbForm = new Class({
 				var testid = (hasSubElements && container) ? container.id : input.id;
 				var cloneName = el.getCloneName();
 
-				// Looser test that previous === to catch db join rendered as checkbox
+				// Looser test than previous === to catch db join rendered as checkbox
 				if (testid.contains(cloneName)) {
 					lastinput = input;
 					formElementFound = true;
@@ -1709,6 +1750,65 @@ var FbForm = new Class({
 			}
 		}.bind(this));
 
+		this.duplicateResetElements(newElementControllers, group_id);
+		var o = {};
+		o[group_id] = newElementControllers;
+		this.addElements(o);
+
+		this.duplicateScrollToClone(clone);
+
+		var myFx = new Fx.Tween(clone, { 'property': 'opacity',
+			duration: 500
+		}).set(0);
+		clone.fade(1);
+
+		// $$$ hugh - added groupid (i) and repeatCounter (c) as args
+		// note I commented out the increment of c a few lines above//duplicate
+		Fabrik.fireEvent('fabrik.form.group.duplicate.end', [this, e, i, c]);
+		this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
+	},
+
+	isFirstRepeatSubGroup: function (group) {
+		var subgroups = group.getElements('.fabrikSubGroup');
+		return subgroups.length === 1 && group.getElement('.fabrikNotice');
+	},
+
+	showFirstSubGroup: function (group) {
+		var subgroups = group.getElements('.fabrikSubGroup');
+		// user has removed all repeat groups and now wants to add it back in
+		// remove the 'no groups' notice
+
+		var sub = subgroups[0].getElement('.fabrikSubGroupElements');
+		if (typeOf(sub) === 'null') {
+			group.getElement('.fabrikNotice').dispose();
+			sub = subgroups[0];
+
+			// Table group
+			var add = group.getElement('.addGroup');
+			add.inject(sub.getElement('td.fabrikGroupRepeater'));
+			sub.setStyle('display', '');
+		} else {
+			subgroups[0].getElement('.fabrikNotice').dispose();
+			subgroups[0].getElement('.fabrikSubGroupElements').show();
+		}
+		this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
+	},
+
+	duplicateScrollToClone: function (clone) {
+		// Only scroll the window if the new element is not visible
+		var win_size = window.getHeight();
+		var win_scroll = document.id(window).getScroll().y;
+		var obj = clone.getCoordinates();
+		// If the bottom of the new repeat goes below the bottom of the visible window,
+		// scroll up just enough to show it.
+		if (obj.bottom > (win_scroll + win_size)) {
+			var new_win_scroll = obj.bottom - win_size;
+			this.winScroller.start(0, new_win_scroll);
+		}
+	},
+
+	duplicateResetElements: function (newElementControllers, group_id) {
+		// Reset either events or both events and data depending on whether repeat group is set to copy or not.
 		newElementControllers.each(function (newEl) {
 			newEl.cloned(c);
 			// $$$ hugh - moved reset() from end of loop above, otherwise elements with un-cloneable object
@@ -1720,7 +1820,8 @@ var FbForm = new Class({
 			// name in regular full format, which we need to test against the join string name.
 			//var pk_re = new RegExp('\\[' + this.options.group_pk_ids[group_id] + '\\]');
 			var pk_re = new RegExp(this.options.group_pk_ids[group_id]);
-			if (!this.options.group_copy_element_values[group_id] || (this.options.group_copy_element_values[group_id] && newEl.element.name && newEl.element.name.test(pk_re))) {
+			if (!this.options.group_copy_element_values[group_id]
+			|| (this.options.group_copy_element_values[group_id] && newEl.element.name && newEl.element.name.test(pk_re))) {
 				// Call reset method that resets both events and value back to default.
 				newEl.reset();
 			}
@@ -1729,31 +1830,6 @@ var FbForm = new Class({
 				newEl.resetEvents();
 			}
 		}.bind(this));
-		var o = {};
-		o[i] = newElementControllers;
-		this.addElements(o);
-
-		// Only scroll the window if the new element is not visible
-		var win_size = window.getHeight();
-		var win_scroll = document.id(window).getScroll().y;
-		var obj = clone.getCoordinates();
-		// If the bottom of the new repeat goes below the bottom of the visible
-		// window,
-		// scroll up just enough to show it.
-		if (obj.bottom > (win_scroll + win_size)) {
-			var new_win_scroll = obj.bottom - win_size;
-			this.winScroller.start(0, new_win_scroll);
-		}
-
-		var myFx = new Fx.Tween(clone, { 'property': 'opacity',
-			duration: 500
-		}).set(0);
-
-		clone.fade(1);
-		// $$$ hugh - added groupid (i) and repeatCounter (c) as args
-		// note I commented out the increment of c a few lines above//duplicate
-		Fabrik.fireEvent('fabrik.form.group.duplicate.end', [this, e, i, c]);
-		this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
 	},
 
 	update: function (o) {
