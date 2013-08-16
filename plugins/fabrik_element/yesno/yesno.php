@@ -71,7 +71,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/yesno/images/', 'image', 'list', false);
 
 		// Check if the data is in csv format, if so then the element is a multi drop down
-		$raw = $this->getFullName() . '_raw';
+		$raw = $this->getFullName(true, false) . '_raw';
 		$data = $thisRow->$raw;
 		$j3 = FabrikWorker::j3();
 		if ($data == '1')
