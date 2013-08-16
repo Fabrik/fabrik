@@ -520,138 +520,140 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		/*
 		 * Time for the email magic so get ready to sprinkle the magic dust...
 		 */
-
-		$emailSubject = '';
-		if ($isNew)
+		if ($params->get('juser_use_email_plugin') != 1)
 		{
-			// Compile the notification mail values.
-			$data = $user->getProperties();
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
-			$data['siteurl'] = JUri::base();
-
-			$uri = JURI::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-
-			// Handle account activation/confirmation emails.
-			if ($useractivation == 2 && !$bypassActivation && !$autoLogin)
+			$emailSubject = '';
+			if ($isNew)
 			{
-				// Set the link to confirm the user email.
-				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
-
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
-
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY', $data['name'], $data['sitename'],
-					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
-					$data['username'], $data['password_clear']
-				);
-			}
-			elseif ($useractivation == 1 && !$bypassActivation && !$autoLogin)
-			{
-				// Set the link to activate the user account.
-				$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
-
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
-
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY', $data['name'], $data['sitename'],
-					$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
-					$data['username'], $data['password_clear']
-				);
-			}
-			elseif ($autoLogin)
-			{
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
-
-				$emailBody = JText::sprintf('PLG_FABRIK_FORM_JUSER_AUTO_LOGIN_BODY', $data['name'], $data['sitename'],
-					$data['siteurl'],
-					$data['username'], $data['password_clear']
-				);
-			}
-			elseif ($params->get('juser_bypass_accountdetails') != 1)
-			{
-				$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
-
-				$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_BODY', $data['name'], $data['sitename'], $data['siteurl']);
-			}
-
-			// Send the registration email.
-			if ($emailSubject !== '')
-			{
-				$return = $mail->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-
-				$db = JFactory::getDBO();
-				/*
-				 * Added email to admin code, but haven't had a chance to test it yet.
-				 */
-				/*
-				// Send Notification mail to administrators
-				if (($usersConfig->get('useractivation') < 2) && ($usersConfig->get('mail_to_admin') == 1))
+				// Compile the notification mail values.
+				$data = $user->getProperties();
+				$data['fromname'] = $config->get('fromname');
+				$data['mailfrom'] = $config->get('mailfrom');
+				$data['sitename'] = $config->get('sitename');
+				$data['siteurl'] = JUri::base();
+	
+				$uri = JURI::getInstance();
+				$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+	
+				// Handle account activation/confirmation emails.
+				if ($useractivation == 2 && !$bypassActivation && !$autoLogin)
 				{
-				    $emailSubject = JText::sprintf(
-				        'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				        $data['name'],
-				        $data['sitename']
-				    );
-
-				    $emailBodyAdmin = JText::sprintf(
-				        'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
-				        $data['name'],
-				        $data['username'],
-				        $data['siteurl']
-				    );
-
-				    // Get all admin users
-				    $query = 'SELECT name, email, sendEmail' .
-				        ' FROM #__users' .
-				        ' WHERE sendEmail=1';
-
-				    $db->setQuery($query);
-				    $rows = $db->loadObjectList();
-
-				    // Send mail to all superadministrators id
-				    foreach ($rows as $row)
-				    {
-				        $return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
-
-				        // Check for an error.
-				        if ($return !== true)
-				        {
-				            // $$$ hugh - should probably log this rather than enqueue it
-				            $app->enqueueMessage(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-				        }
-				    }
+					// Set the link to confirm the user email.
+					$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+	
+					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+	
+					$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY', $data['name'], $data['sitename'],
+						$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
+						$data['username'], $data['password_clear']
+					);
 				}
-				 */
-
-				// Check for an error.
-				if ($return !== true)
+				elseif ($useractivation == 1 && !$bypassActivation && !$autoLogin)
 				{
-					$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
-
-					// Send a system message to administrators receiving system mails
-					$query = $db->getQuery(true);
-					$query->select('id')->from('#__users')->where('block = 0 AND sendEmail = 1');
-					$db->setQuery($query);
-					$sendEmail = $db->loadColumn();
-					if (count($sendEmail) > 0)
+					// Set the link to activate the user account.
+					$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+	
+					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+	
+					$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY', $data['name'], $data['sitename'],
+						$data['siteurl'] . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], $data['siteurl'],
+						$data['username'], $data['password_clear']
+					);
+				}
+				elseif ($autoLogin)
+				{
+					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+	
+					$emailBody = JText::sprintf('PLG_FABRIK_FORM_JUSER_AUTO_LOGIN_BODY', $data['name'], $data['sitename'],
+						$data['siteurl'],
+						$data['username'], $data['password_clear']
+					);
+				}
+				elseif ($params->get('juser_bypass_accountdetails') != 1)
+				{
+					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+	
+					$emailBody = JText::sprintf('COM_USERS_EMAIL_REGISTERED_BODY', $data['name'], $data['sitename'], $data['siteurl']);
+				}
+	
+				// Send the registration email.
+				if ($emailSubject !== '')
+				{
+					$return = $mail->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+	
+					$db = JFactory::getDBO();
+					/*
+					 * Added email to admin code, but haven't had a chance to test it yet.
+					 */
+					/*
+					// Send Notification mail to administrators
+					if (($usersConfig->get('useractivation') < 2) && ($usersConfig->get('mail_to_admin') == 1))
 					{
-						$jdate = new JDate;
-
-						// Build the query to add the messages
-						$q = "INSERT INTO `#__messages` (`user_id_from`, `user_id_to`, `date_time`, `subject`, `message`)
-									VALUES ";
-						$messages = array();
-						foreach ($sendEmail as $userid)
+					    $emailSubject = JText::sprintf(
+						'COM_USERS_EMAIL_ACCOUNT_DETAILS',
+						$data['name'],
+						$data['sitename']
+					    );
+	
+					    $emailBodyAdmin = JText::sprintf(
+						'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
+						$data['name'],
+						$data['username'],
+						$data['siteurl']
+					    );
+	
+					    // Get all admin users
+					    $query = 'SELECT name, email, sendEmail' .
+						' FROM #__users' .
+						' WHERE sendEmail=1';
+	
+					    $db->setQuery($query);
+					    $rows = $db->loadObjectList();
+	
+					    // Send mail to all superadministrators id
+					    foreach ($rows as $row)
+					    {
+						$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+	
+						// Check for an error.
+						if ($return !== true)
 						{
-							$messages[] = "(" . $userid . ", " . $userid . ", '" . $jdate->toSql() . "', "
-								. $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')) . ", "
-								. $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])) . ")";
-
+						    // $$$ hugh - should probably log this rather than enqueue it
+						    $app->enqueueMessage(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 						}
-						$q .= implode(',', $messages);
-						$db->setQuery($q);
-						$db->execute();
+					    }
+					}
+					 */
+	
+					// Check for an error.
+					if ($return !== true)
+					{
+						$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+	
+						// Send a system message to administrators receiving system mails
+						$query = $db->getQuery(true);
+						$query->select('id')->from('#__users')->where('block = 0 AND sendEmail = 1');
+						$db->setQuery($query);
+						$sendEmail = $db->loadColumn();
+						if (count($sendEmail) > 0)
+						{
+							$jdate = new JDate;
+	
+							// Build the query to add the messages
+							$q = "INSERT INTO `#__messages` (`user_id_from`, `user_id_to`, `date_time`, `subject`, `message`)
+										VALUES ";
+							$messages = array();
+							foreach ($sendEmail as $userid)
+							{
+								$messages[] = "(" . $userid . ", " . $userid . ", '" . $jdate->toSql() . "', "
+									. $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')) . ", "
+									. $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])) . ")";
+	
+							}
+							$q .= implode(',', $messages);
+							$db->setQuery($q);
+							$db->execute();
+						}
 					}
 				}
 			}

@@ -46,6 +46,13 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			
+			<field default="0"
+				class="btn-group"
+				description="PLG_FABRIK_FORM_JUSER_USE_EMAIL_PLUGIN_DESC" label="PLG_FABRIK_FORM_JUSER_USE_EMAIL_PLUGIN_LABEL" name="juser_use_email_plugin" repeat="true" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
 				
 			<field default="0"
 				class="btn-group"
