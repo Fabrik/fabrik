@@ -1707,7 +1707,7 @@ class FabrikFEModelList extends JModelForm
 		$db->setQuery($query);
 		$this->recordCounts[$k] = $db->loadObjectList('id');
 		$this->recordCounts[$k]['linkKey'] = FabrikString::safeColNameToArrayKey($key);
-		FabrikHelperHTML::debug($db->getQuery()->dump(), 'getRecordCounts query: ' . $linkKey);
+		FabrikHelperHTML::debug($query->dump(), 'getRecordCounts query: ' . $linkKey);
 		FabrikHelperHTML::debug($this->recordCounts[$k], 'getRecordCounts data: ' . $linkKey);
 		$input->set('fabrik_incsessionfilters', $origIncSesssionFilters);
 		return $this->recordCounts[$k];
@@ -2129,7 +2129,8 @@ class FabrikFEModelList extends JModelForm
 		$input = $app->input;
 		JDEBUG ? $profiler->mark('buildQuery: start') : null;
 		$query = array();
-		$this->mergeQuery = '';
+		// Deprecated? Not referenced anywhere
+		//$this->mergeQuery = '';
 		$table = $this->getTable();
 		if ($this->mergeJoinedData())
 		{
@@ -2259,8 +2260,9 @@ class FabrikFEModelList extends JModelForm
 			// Can't limit the query here as this gives incorrect _data array.
 			// $db->setQuery($squery, $this->limitStart, $this->limitLength);
 			$db->setQuery($squery);
-			$this->mergeQuery = $db->getQuery();
-			FabrikHelperHTML::debug($db->getQuery(), 'table:mergeJoinedData get ids');
+			// Deprecated? Not referenced anywhere
+			// $this->mergeQuery = $db->getQuery();
+			FabrikHelperHTML::debug($squery, 'table:mergeJoinedData get ids');
 			$ids = array();
 			$idRows = $db->loadObjectList();
 			$maxPossibleIds = count($idRows);
@@ -2275,7 +2277,7 @@ class FabrikFEModelList extends JModelForm
 			$mainKeys = array_slice(array_unique($mainKeys), $this->limitStart, $this->limitLength);
 			/**
 			 * $$$ rob get an array containing the PRIMARY key values for each joined tables data.
-			 * Stop as soon as we have a set of ids totaling the sum of records contained in $this->mergeQuery / $idRows
+			 * Stop as soon as we have a set of ids totaling the sum of records contained in $idRows
 			*/
 
 			while (count($ids) < $maxPossibleIds && $lookupC >= 0)
@@ -5008,7 +5010,7 @@ class FabrikFEModelList extends JModelForm
 		$totalSql .= ' ' . $this->buildQueryGroupBy();
 		$totalSql = $this->pluginQuery($totalSql);
 		$db->setQuery($totalSql);
-		FabrikHelperHTML::debug($db->getQuery(), 'table getJoinMergeTotalRecords');
+		FabrikHelperHTML::debug($totalSql, 'table getJoinMergeTotalRecords');
 		$total = $db->loadResult();
 		return $total;
 	}
@@ -10526,7 +10528,7 @@ class FabrikFEModelList extends JModelForm
 		 $this->buildQueryWhere($app->input->getInt('incfilters', 1), $query, false);
 		 **/
 		$db->setQuery($query);
-		FabrikHelperHTML::debug($db->getQuery()->dump(), 'list getTabCategories query:' . $table->label);
+		FabrikHelperHTML::debug($query->dump(), 'list getTabCategories query:' . $table->label);
 		$profiler = JProfiler::getInstance('Application');
 		JDEBUG ? $profiler->mark('before fabrik list tabs query run') : null;
 		$db->execute();
