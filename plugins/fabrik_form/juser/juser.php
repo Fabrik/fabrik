@@ -106,6 +106,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 
 	private function getFieldValue($pname, $data, $default = '')
 	{
+		$params = $this->getParams();
 		if ($params->get($pname) == '')
 		{
 			return $default;
