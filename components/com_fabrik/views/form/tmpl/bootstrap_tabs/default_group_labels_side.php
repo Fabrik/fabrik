@@ -1,6 +1,6 @@
 <?php
 /**
- * Bootstrap Tabs Form Template - group labels to side
+ * Bootstrap Tabs Form Template: Group Labels Side
  *
  * @package     Joomla
  * @subpackage  Fabrik
@@ -14,30 +14,27 @@ defined('_JEXEC') or die('Restricted access');
 
 $element = $this->element;
 ?>
-<div class="control-group <?php echo $element->containerClass . $element->span; ?>" <?php echo $element->containerProperties?>>
-	<?php echo $element->label;?>
+<?php echo $element->label;?>
 
-	<div class="controls">
-		<?php if ($this->tipLocation == 'above') : ?>
-			<p class="help-block"><?php echo $element->tipAbove ?></p>
-		<?php endif ?>
-
-		<div class="fabrikElement">
-			<?php echo $element->element;?>
-		</div>
-
-		<span class="<?php echo $this->class?>">
-			<?php echo $element->error ?>
-		</span>
-
-		<?php if ($this->tipLocation == 'side') : ?>
-			<div class="help-block"><?php echo $element->tipSide ?></div>
-		<?php endif ?>
-
-	</div>
-
-	<?php if ($this->tipLocation == 'below') :?>
-		<div class="help-block"><?php echo $element->tipBelow ?></div>
+<div class="controls">
+	<?php if ($this->tipLocation == 'above') : ?>
+		<span class="help-block"><?php echo $element->tipAbove ?></span><!-- end help-block -->
 	<?php endif ?>
 
-</div><!--  end span -->
+	<div class="fabrikElement">
+		<?php echo $element->element;?>
+	</div><!-- end fabrikElement -->
+
+	<div class="<?php echo $this->class?>">
+		<?php echo $element->error ?>
+	</div><!-- end element error -->
+
+	<?php if ($this->tipLocation == 'side') : ?>
+		<span class="help-block"><?php echo $element->tipSide ?></span><!-- end help-block -->
+	<?php endif ?>
+
+</div><!--  end controls -->
+
+<?php if ($this->tipLocation == 'below') :?>
+	<span class="help-block"><?php echo $element->tipBelow ?></span><!--  end help-block -->
+<?php endif ?>

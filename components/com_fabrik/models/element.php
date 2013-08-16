@@ -1,6 +1,6 @@
 <?php
 /**
- * Fabrik Elemenet Model
+ * Fabrik Element Model
  *
  * @package     Joomla
  * @subpackage  Fabrik
@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 /**
- * Fabrik Elemenet Model
+ * Fabrik Element Model
  *
  * @package  Fabrik
  * @since    3.0
@@ -1941,8 +1941,6 @@ class PlgFabrik_Element extends FabrikPlugin
 				$element->tipSide = $tip;
 				break;
 		}
-		// Did contain tip html but that was just to intrusive as tips appeared all ove the place
-		$element->containerProperties = '';
 		return $element;
 	}
 
@@ -2064,7 +2062,9 @@ class PlgFabrik_Element extends FabrikPlugin
 			// $$$ rob changed from span wrapper to div wrapper as element's content may contain divs which give html error
 
 			// Placeholder to be updated by ajax code
-			return '<div id="' . $htmlid . '">' . $this->getROElement($data, $repeatCounter) . '</div>';
+			$v = $this->getROElement($data, $repeatCounter);
+			$v = $v == '' ? '&nbsp;' : $v;
+			return '<div id="' . $htmlid . '">' . $v . '</div>';
 		}
 	}
 

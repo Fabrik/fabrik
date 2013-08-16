@@ -23,7 +23,7 @@ $group = $this->group;
 	foreach ($firstGroup as $el) :
 		$style = $el->hidden ? 'style="display:none"' : '';
 		?>
-		<th <?php echo $style . ' ' . $el->containerProperties; ?> class="<?php echo $el->containerClass?>">
+		<th <?php echo $style; ?> class="<?php echo $el->containerClass?>">
 			<?php echo $el->label?>
 		</th>
 		<?php

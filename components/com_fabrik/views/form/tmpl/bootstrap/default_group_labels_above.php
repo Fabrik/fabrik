@@ -12,29 +12,26 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-$element = $this->element;?>
-<div class="control-group <?php echo $element->containerClass . $element->span; ?>" <?php echo $element->containerProperties?>>
-	<?php echo $element->label;?>
+$element = $this->element;
+?>
+<?php echo $element->label;?>
 
-	<?php if ($this->tipLocation == 'above') : ?>
-		<span class="help-block"><?php echo $element->tipAbove ?></span>
-	<?php endif ?>
+<?php if ($this->tipLocation == 'above') : ?>
+	<span class="help-block"><?php echo $element->tipAbove ?></span><!-- end help-block -->
+<?php endif ?>
 
-	<div class="fabrikElement">
-		<?php echo $element->element;?>
-	</div>
+<div class="fabrikElement">
+	<?php echo $element->element;?>
+</div><!-- end fabrikElement -->
 
-	<div class="<?php echo $this->class?>">
-		<?php echo $element->error ?>
-	</div>
+<div class="<?php echo $this->class?>">
+	<?php echo $element->error ?>
+</div><!-- end element error -->
 
-	<?php if ($this->tipLocation == 'side') : ?>
-		<div class="help-block"><?php echo $element->tipSide ?></div>
-	<?php endif ?>
+<?php if ($this->tipLocation == 'side') : ?>
+	<span class="help-block"><?php echo $element->tipSide ?></span><!-- end help-block -->
+<?php endif ?>
 
-	<?php if ($this->tipLocation == 'below') :?>
-		<div class="help-block"><?php echo $element->tipBelow ?></div>
-	<?php endif ?>
-</div><!-- end control-group -->
-
-
+<?php if ($this->tipLocation == 'below') :?>
+	<span class="help-block"><?php echo $element->tipBelow ?></span><!-- end help-block -->
+<?php endif ?>

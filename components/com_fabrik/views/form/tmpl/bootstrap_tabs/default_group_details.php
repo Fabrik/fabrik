@@ -13,13 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 foreach ($this->elements as $element) :
-	 if (!$element->hidden) :
-		if ($element->startRow) :?>
-			<div class="row-fluid">
-		<?php
-		endif;
-		?>
+	if ($element->startRow) :?>
+		<div class="row-fluid">
+	<?php
+	endif;
 
+	if (!$element->hidden) :?>
 		<div class="<?php echo $element->span;?>">
 			<div class="row-fluid">
 				<div class="span4"><em><?php echo $element->label_raw ?></em></div>
@@ -27,11 +26,10 @@ foreach ($this->elements as $element) :
 			</div>
 		</div>
 
-<?php
-		if ($element->endRow) :
-?>
+	<?php
+	endif;
+	if ($element->endRow) :?>
 		</div>
 	<?php
-		endif;
 	endif;
 endforeach;

@@ -395,79 +395,74 @@ class FabrikFEModelGroup extends FabModel
 	}
 
 	/**
-	 * Set the element column css allows for group colum settings to be applied
+	 * Set the element column css allows for group column settings to be applied
 	 *
 	 * @param   object  &$element  prerender element properties
-	 * @param   int     $elCount   current key when looping over elements.
+	 * @param   int     $rowIx   current key when looping over elements.
 	 *
 	 * @since 	Fabrik 3.0.5.2
 	 *
 	 * @return  int  the next column count
 	 */
 
-	public function setColumnCss(&$element, $elCount)
+	public function setColumnCss(&$element, $rowIx)
 	{
 		$params = $this->getParams();
-		$element->column = '';
 		$colcount = (int) $params->get('group_columns');
-
-		// Bootstrap grid formatting
-		$spans = $this->columnSpans();
 		if ($colcount === 0)
 		{
 			$colcount = 1;
 		}
-		$spanKey = ($elCount - 1) % $colcount;
-
-		$element->span = $colcount == 0 ? 'span12' : JArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colcount));
-
-		$element->span = ' ' . $element->span;
 		$element->offset = $params->get('group_offset', 0);
+
+		// Bootstrap grid formatting
+		if ($colcount === 1) // Single column
+		{
+			$element->startRow = true;
+			$element->endRow = true;
+			$element->span = ' span12';
+			$element->column = ' style="clear:both;width:100%;"';
+			$rowIx = -1;
+			return $rowIx;
+		}
+
+		// Multi-column
+		$widths = $params->get('group_column_widths', '');
+		$w = floor((100 - ($colcount * 6)) / $colcount) . '%';
+		if ($widths !== '')
+		{
+			$widths = explode(',', $widths);
+			$w = JArrayHelper::getValue($widths, ($rowIx) % $colcount, $w);
+		}
+		$element->column = ' style="float:left;width:' . $w . ';';
 
 		$element->startRow = false;
 		$element->endRow = false;
-		if ($colcount > 1)
+		// $rowIx == -1 indicates a new row = distinguish from 0 to allow hidden fields at start of row.
+		if ($rowIx < 0)
 		{
-			$widths = $params->get('group_column_widths', '');
-			$w = floor((100 - ($colcount * 6)) / $colcount) . '%';
-			if ($widths !== '')
-			{
-				$widths = explode(',', $widths);
-				$w = JArrayHelper::getValue($widths, ($elCount - 1) % $colcount, $w);
-			}
-			$element->column = ' style="float:left;width:' . $w . ';';
-			if ($elCount !== 0 && (($elCount - 1) % $colcount == 0) || $element->hidden)
-			{
-				$element->startRow = 1;
-				$element->column .= "clear:both;";
-			}
+			$rowIx = 0;
+			$element->startRow = true;
+			$element->column .= "clear:both;";
+		}
+		$element->column .= '" ';
 
-			if ($element->hidden)
-			{
-				$element->endRow = 1;
-			}
-			else
-			{
-				if ((($elCount - 1) % $colcount === $colcount - 1))
-				{
-					$element->endRow = 1;
-				}
-			}
-			$element->column .= '" ';
-		}
-		else
-		{
-			$element->startRow = 1;
-			$element->endRow = 1;
-			$element->span = '';
-			$element->column .= ' style="clear:both;width:100%;"';
-		}
-		// $$$ rob only advance in the column count if the element is not hidden
+		$spans = $this->columnSpans();
+		$spanKey = $rowIx % $colcount;
+		$element->span = JArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colcount));
+
 		if (!$element->hidden)
 		{
-			$elCount++;
+			$rowIx++;
 		}
-		return $elCount;
+
+		if (($rowIx % $colcount === 0))
+		{
+			$element->endRow = true;
+			// Reset rowIx to indicate a new row.
+			$rowIx = -1;
+		}
+		return $rowIx;
 	}
 
 	/**

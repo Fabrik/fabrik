@@ -37,28 +37,37 @@ echo $form->intro;
 <?php
 echo $this->plugintop;
 ?>
+
 <div class="fabrikMainError alert alert-error fabrikError<?php echo $active?>">
 	<button class="close" data-dismiss="alert">×</button>
 	<?php echo $form->error; ?>
 </div>
 
+<div class="row-fluid nav">
+	<div class="span12">
+		<?php
+		echo $this->loadTemplate('buttons');
+		echo $this->loadTemplate('relateddata');
+		?>
+	</div>
+</div>
+
 <?php
-echo $this->loadTemplate('buttons');
-echo $this->loadTemplate('relateddata');
 foreach ($this->groups as $group) :
 	$this->group = $group;
 	?>
 
-		<fieldset class="fabrikGroup row-fluid" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
-
-		<?php if (trim($group->title) !== '') :
-		?>
-
-			<legend class="legend">
-				<span><?php echo $group->title;?></span>
-			</legend>
-
-		<?php endif;
+	<fieldset class="fabrikGroup" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
+	<?php
+		$allHidden = true;
+		foreach ($group->elements as $element)
+		{
+			$allHidden &= $element->hidden;
+		}
+		if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+			<legend class="legend"><?php echo $group->title;?></legend>
+		<?php
+		endif;
 
 		if (!empty($group->intro)) : ?>
 			<div class="groupintro"><?php echo $group->intro ?></div>
@@ -70,11 +79,9 @@ foreach ($this->groups as $group) :
 		 *  * default_repeatgroup.php - repeat group rendered as an unordered list
 		 *  * default_repeatgroup.table.php - repeat group rendered in a table.
 		 */
-
 		$this->elements = $group->elements;
 		echo $this->loadTemplate($group->tmpl);
-
-?>
+	?>
 	</fieldset>
 <?php
 endforeach;

@@ -4347,10 +4347,10 @@ class FabrikFEModelForm extends FabModelForm
 				if ($groupModel->canRepeat())
 				{
 					// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
-					$ix = 1;
+					$rowix = -1;
 					foreach ($aSubGroupElements as $elKey => $element)
 					{
-						$ix = $groupModel->setColumnCss($element, $ix);
+						$rowix = $groupModel->setColumnCss($element, $rowix);
 					}
 					$aSubGroups[] = $aSubGroupElements;
 				}
@@ -4358,10 +4358,10 @@ class FabrikFEModelForm extends FabModelForm
 			$groupModel->randomiseElements($aElements);
 
 			// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
-			$ix = 1;
+			$rowix = -1;
 			foreach ($aElements as $elKey => $element)
 			{
-				$ix = $groupModel->setColumnCss($element, $ix);
+				$rowix = $groupModel->setColumnCss($element, $rowix);
 			}
 			$group->elements = $aElements;
 			$group->subgroups = $aSubGroups;

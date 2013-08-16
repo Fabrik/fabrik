@@ -710,21 +710,24 @@ class FabrikViewFormBase extends JViewLegacy
 		$canDelete = $listModel->canDelete($row);
 		$params = $model->getParams();
 		$task = 'form.process';
-		$reffer = $input->server->get('HTTP_REFERER', '', 'string');
+		$refer = $input->server->get('HTTP_REFERER', '', 'string');
 
 		// $$$rob - if returning from a failed validation then we should use the fabrik_referrer post var
-		$reffer = str_replace('&', '&amp;', $input->get('fabrik_referrer', $reffer, 'string'));
+		$refer = str_replace('&', '&amp;', $input->get('fabrik_referrer', $refer, 'string'));
 
 		$this_rowid = is_array($model->getRowId()) ? implode('|', $model->getRowId()) : $model->getRowId();
-		$fields = array('<input type="hidden" name="listid" value="' . $listModel->getId() . '" />',
-				'<input type="hidden" name="listref" value="' . $listModel->getId() . '" />',
-				'<input type="hidden" name="rowid" value="' . $this_rowid . '" />', '<input type="hidden" name="Itemid" value="' . $Itemid . '" />',
-				'<input type="hidden" name="option" value="com_' . $package . '" />', '<input type="hidden" name="task" value="' . $task . '" />',
-				'<input type="hidden" name="isMambot" value="' . $this->isMambot . '" />',
-				'<input type="hidden" name="formid" value="' . $model->get('id') . '" />', '<input type="hidden" name="returntoform" value="0" />',
-				'<input type="hidden" name="fabrik_referrer" value="' . $reffer . '" />',
-				'<input type="hidden" name="fabrik_ajax" value="' . (int) $model->isAjax() . '" />');
-
+		$fields = array();
+		$fields[] = '<input type="hidden" name="listid" value="' . $listModel->getId() . '" />';
+		$fields[] = '<input type="hidden" name="listref" value="' . $listModel->getId() . '" />';
+		$fields[] = '<input type="hidden" name="rowid" value="' . $this_rowid . '" />';
+		$fields[] = '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
+		$fields[] = '<input type="hidden" name="option" value="com_' . $package . '" />';
+		$fields[] = '<input type="hidden" name="task" value="' . $task . '" />';
+		$fields[] = '<input type="hidden" name="isMambot" value="' . $this->isMambot . '" />';
+		$fields[] = '<input type="hidden" name="formid" value="' . $model->get('id') . '" />';
+		$fields[] = '<input type="hidden" name="returntoform" value="0" />';
+		$fields[] = '<input type="hidden" name="fabrik_referrer" value="' . $refer . '" />';
+		$fields[] = '<input type="hidden" name="fabrik_ajax" value="' . (int) $model->isAjax() . '" />';
 		$fields[] = '<input type="hidden" name="package" value="' . $app->getUserState('com_fabrik.package', 'fabrik') . '" />';
 		$fields[] = '<input type="hidden" name="packageId" value="' . $model->packageId . '" />';
 
