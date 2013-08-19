@@ -362,19 +362,17 @@
 		<fieldset name="admintemplates">
 		
 			<field name="admin_form_template"
-				type="folderlist"
-				default=""
-				description="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_DESC"
-				directory="/components/com_fabrik/views/form/tmpl/"
+				type="fabriktemplate"
+				view="form"
 				hide_default="0" hide_none="1"
+				description="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_DESC"
 				label="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_LABEL" />
 				
-			<field name="admin_details_template"	
-				type="folderlist"
-				default=""
-				description="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_DESC"
-				directory="/components/com_fabrik/views/form/tmpl/"
+			<field name="admin_details_template"
+				type="fabriktemplate"
+				view="details"
 				hide_default="0" hide_none="1"
+				description="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_DESC"
 				label="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_LABEL"/>
 				
 		</fieldset>
