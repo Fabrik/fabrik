@@ -179,23 +179,10 @@ var FbAutocomplete = new Class({
 			if (i >=0)
 			{
 				var ie = this.getInputElement();
-				// We should have focus anyway, but just in case...
 				ie.value = r;
-				if (ie.createTextRange) {
-					var range = ie.createTextRange();
-					range.collapse(true);
-					range.moveStart('character', i + v.length);
-					range.moveEnd('character', r.length);
-					range.select();
-					ie.focus();
-				} else if (ie.setSelectionRange) {
-					ie.focus();
-					ie.setSelectionRange(i + v.length, r.length);
-				} else if (typeof ie.selectionStart != 'undefined') {
-					ie.selectionStart = i + v.length;
-					ie.selectionEnd = r.length;
-					ie.focus();
-				}
+				// We should have focus anyway, but just in case...
+				ie.focus();
+				ie.selectRange(i + v.length, r.length);
 				this.element.value = data[0].value;
 				this.menuClose();
 				this.fireEvent('selection', [this, this.element.value]);
