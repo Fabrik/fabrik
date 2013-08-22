@@ -3,7 +3,7 @@
 	<name>Scheduled Tasks Edit Form</name>
 
 	<fieldset label="details" name="details">
-				
+
 		<field name="id"
 			type="text"
 			class="input-mini readonly"
@@ -11,37 +11,40 @@
 			description="JGLOBAL_FIELD_ID_DESC"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" />
-		
+
 		<field name="label"
 			type="text"
 			label="COM_FABRIK_CRON_FIELD_LABEL_LABEL"
 			required="true" />
-			
+
 		<field name="lastrun"
 			type="calendar"
 			class="input-medium"
 			label="COM_FABRIK_CRON_FIELD_LAST_RUN_LABEL" />
-		
+
 		<field name="published"
 			type="radio"
 			class="btn-group"
 			default="0"
-			label="JSTATUS" >
-				<option value="0">JUNPUBLISHED</option>
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			>
 				<option value="1">JPUBLISHED</option>
+				<option value="0">JUNPUBLISHED</option>
+				<option value="-2">JTRASHED</option>
 		</field>
-		
+
 		<field name="plugin"
 			type="pluginlist"
 			description="COM_FABRIK_FIELD_CRON_PLUGIN_DESC"
 			label="COM_FABRIK_FIELD_CRON_PLUGIN_LABEL"
 			plugin="fabrik_cron"
 			required="true" />
-		
+
 	</fieldset>
-	
+
 		<fieldset label="run" name="run">
-	
+
 			<field name="frequency"
 				type="text"
 				default="5"
@@ -50,7 +53,7 @@
 				label="COM_FABRIK_CRON_FIELD_EVERY_LABEL"
 				required="true"
 				size="3" />
-				
+
 			<field name="unit"
 				type="list"
 				default="minute"
@@ -65,13 +68,13 @@
 					<option value="month">COM_FABRIK_CRON_MONTH</option>
 					<option value="year">COM_FABRIK_CRON_YEAR</option>
 			</field>
-				
+
 		</fieldset>
-	
+
 	<fields name="params">
-		
+
 		<fieldset label="log" name="log">
-			
+
 			<field name="log"
 				type="radio"
 				class="btn-group"
@@ -81,39 +84,39 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="log_email"
 				type="field"
 				default=""
 				label="COM_FABRIK_FIELD_CRON_LOG_EMAIL_LABEL"
 				size="50"
 				description="COM_FABRIK_FIELD_CRON_LOG_EMAIL_DESC" />
-				
+
 			<field name="require_qs"
 				type="radio"
-				class="btn-group" 
+				class="btn-group"
 				default="0"
 				description="COM_FABRIK_CRON_FIELD_REQUIRE_QS_DESC"
 				label="COM_FABRIK_CRON_FIELD_REQUIRE_QS_LABEL">
 				<option value="0">JNO</option>
-				<option value="1">JYES</option>	
+				<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
-			
+
 		<fieldset label="connection" name="connection">
-			
+
 			<field name="connection"
 				type="connections"
 				description="COM_FABRIK_CRON_FIELD_CONNECTION_DESC"
 				label="COM_FABRIK_CRON_FIELD_CONNECTION_LABEL" />
-				
+
 			<field name="table"
 				type="fabriktables"
 				connection_in_repeat="false"
 				label="COM_FABRIK_CRON_FIELD_TABLE_LABEL"
 				observe="params_connection" />
-				
+
 		</fieldset>
 	</fields>
 </form>

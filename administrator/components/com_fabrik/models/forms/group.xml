@@ -3,51 +3,50 @@
 	<name>Group Edit Form</name>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
 	<fieldset name="details">
-	
+
 		<field name="id"
 			type="text"
 			class="readonly input-mini"
 			default="0"
 			description="JGLOBAL_FIELD_ID_DESC" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true"/>
-			
+
 		<field name="name"
 			type="text"
 			description="COM_FABRIK_FIELD_NAME_DESC"
 			label="COM_FABRIK_FIELD_NAME_LABEL"
 			required="true" size="40" />
-			
+
 		<field name="label"
 			type="text"
 			description="COM_FABRIK_FIELD_TITLE_DESC"
 			label="COM_FABRIK_FIELD_TITLE_LABEL"  size="40" />
-		
+
 		<field name="form"
 			type="formlist"
 			description="COM_FABRIK_FIELD_GROUP_FORM_DESC"
 			label="COM_FABRIK_FIELD_GROUP_FORM_LABEL"
 			showtrashed="true" />
-		
+
 		<field name="published"
-			class="inputbox input-small"
+			type="radio"
+			class="btn-group"
 			default="1"
-			description="JFIELD_PUBLISHED_DESC"
-			filter="intval"
 			label="JSTATUS"
-			size="1"
-			type="list">
+			description="JFIELD_PUBLISHED_DESC"
+			>
 				<option value="1">JPUBLISHED</option>
 				<option value="0">JUNPUBLISHED</option>
 				<option value="-2">JTRASHED</option>
 		</field>
-			
+
 		<field default="0" label="" name="is_join" type="hidden"/>
-			
+
 	</fieldset>
 	</fields>
 	<fields name="params">
 		<fieldset legend="test" name="pagination">
-			
+
 			<field name="split_page"
 				type="radio"
 				class="btn-group"
@@ -57,17 +56,17 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
-		
+
 		<fieldset name="details2">
-		
-			<field name="access" 
+
+			<field name="access"
 				type="accesslevel"
 				default="1"
-				label="COM_FABRIK_FIELD_GROUP_ACCESS_LABEL" 
+				label="COM_FABRIK_FIELD_GROUP_ACCESS_LABEL"
 				description="COM_FABRIK_FIELD_GROUP_ACCESS_DESC" />
-				
+
 			<field name="intro"
 				type="editor"
 				filter="FabrikAdminHelper::filterText"
@@ -75,7 +74,7 @@
 				cols="20"
 				label="COM_FABRIK_FIELD_GROUP_INTRO_LABEL"
 				description="COM_FABRIK_FIELD_GROUP_INTRO_DESC" />
-			
+
 			<field name="outro"
 				type="editor"
 				filter="FabrikAdminHelper::filterText"
@@ -83,12 +82,12 @@
 				cols="20"
 				label="COM_FABRIK_FIELD_GROUP_OUTRO_LABEL"
 				description="COM_FABRIK_FIELD_GROUP_OUTRO_DESC" />
-			
+
 		</fieldset>
-	
+
 	<fieldset name="repeat">
-	
-		<field name="repeat_group_button" 
+
+		<field name="repeat_group_button"
 			type="grouprepeat"
 			default="0" class="radio btn-group"
 			description="COM_FABRIK_REPEAT_GROUP_BUTTON_DESC"
@@ -96,7 +95,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="repeat_template"
 				type="list"
 				default="repeatgroup"
@@ -112,52 +111,52 @@
 				size="2"
 				description="COM_FABRIK_REPEAT_GROUP_MAX_DESC"
 				label="COM_FABRIK_REPEAT_GROUP_MAX_LABEL" />
-			
+
 			<field name="repeat_min"
 				type="text"
 				class="input-mini"
 				label="COM_FABRIK_REPEAT_GROUP_MIN_LABEL"
 				description="COM_FABRIK_REPEAT_GROUP_MIN_DESC"
 				size="2" />
-			
-			<field name="repeat_add_access" 
+
+			<field name="repeat_add_access"
 				type="accesslevel"
 				default="1"
 				description="COM_FABRIK_ACCESS_ADD_REPEAT_GROUP_DESC"
 				label="COM_FABRIK_ACCESS_ADD_REPEAT_GROUP_LABEL" />
-			
+
 			<field name="repeat_delete_access"
 				type="accesslevel"
 				default="1"
 				description="COM_FABRIK_ACCESS_DELETE_REPEAT_GROUP_DESC"
-				label="COM_FABRIK_ACCESS_DELETE_REPEAT_GROUP_LABEL" />	
-			
+				label="COM_FABRIK_ACCESS_DELETE_REPEAT_GROUP_LABEL" />
+
 			<field name="repeat_delete_access_user"
 				type="listfields"
 				description="COM_FABRIK_FIELD_OR_USE_FIELD_DELETE_LABEL"
 				label="COM_FABRIK_FIELD_OR_USE_FIELD_LABEL"
 				valueformat="tableelement"/>
-				
+
 			<!--  not yet implemented but used in calc element huh!? (copied over from f2)
-			<field name="show_repeat_max" 
-				type="radio" 
+			<field name="show_repeat_max"
+				type="radio"
 				default="0"
 				description="COM_FABRIK_REPEAT_GROUP_SHOW_MAX_DESC"
 				label="COM_FABRIK_REPEAT_GROUP_SHOW_MAX_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			 -->	
-			 
+			 -->
+
 			<field default="0" class="radio btn-group" description="COM_FABRIK_REPEAT_GROUP_COPY_ELEMENT_VALUES_DESC" label="COM_FABRIK_REPEAT_GROUP_COPY_ELEMENT_VALUES_LABEL" name="repeat_copy_element_values" type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			
+
 	</fieldset>
-	
+
 	<fieldset name="layout">
-	
+
 			<field name="group_columns"
 				type="text"
 				class="input-mini"
@@ -165,13 +164,13 @@
 				description="COM_FABRIK_COLUMNS_DESC"
 				label="COM_FABRIK_COLUMNS_LABEL"
 				size="2"/>
-		
-			<field name="group_column_widths" 
+
+			<field name="group_column_widths"
 				type="text"
-				default="" 
-				label="COM_FABRIK_FIELD_COLUMN_WIDTHS_LABEL" 
+				default=""
+				label="COM_FABRIK_FIELD_COLUMN_WIDTHS_LABEL"
 				description="COM_FABRIK_FIELD_COLUMN_WIDTHS_DESC" />
-			
+
 			<field default="1" description="COM_FABRIK_SHOW_GROUP_DESC" label="COM_FABRIK_SHOW_GROUP_LABEL" name="repeat_group_show_first" type="list">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -181,7 +180,7 @@
 					<option value="4">COM_FABRIK_SHOW_GROUP_USABLE_ELEMENTS_ONLY</option>
 					<option value="5">COM_FABRIK_SHOW_GROUP_ALWAYS_READ_ONLY</option>
 			</field>
-			
+
 			<field class="btn-group" default="0" description="COM_FABRIK_RANDOMISE_ELEMENTS_DESC" label="COM_FABRIK_RANDOMISE_ELEMENTS_LABEL" name="random" type="radio">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

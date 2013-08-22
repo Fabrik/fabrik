@@ -38,9 +38,16 @@
 
 	<fieldset name="publishing">
 
-		<field class="btn-group" default="0" label="JSTATUS" name="published" type="radio">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+		<field name="published"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			>
+				<option value="1">JPUBLISHED</option>
+				<option value="0">JUNPUBLISHED</option>
+				<option value="-2">JTRASHED</option>
 		</field>
 
 		<field
