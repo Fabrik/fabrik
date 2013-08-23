@@ -902,7 +902,7 @@ EOD;
 
 				$liveSiteSrc = array();
 				$liveSiteSrc[] = "window.addEvent('fabrik.loaded', function () {";
-				$liveSiteSrc[] = "\tFabrik.liveSite = '" . COM_FABRIK_LIVESITE . "';";
+				$liveSiteSrc[] = "\tFabrik.liveSite = '" . COM_FABRIK_LIVESITE_FULL . "';";
 				if ($bootstrapped)
 				{
 					$liveSiteSrc[] = "\tFabrik.bootstrapped = true;";
