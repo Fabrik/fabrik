@@ -96,7 +96,8 @@ class PlgFabrik_ValidationrulePhp extends PlgFabrik_Validationrule
 		$phpCode = $params->get('php-code');
 		$phpCode = $w->parseMessageForPlaceHolder($phpCode, $formData, true, true);
 		$retval = @eval($phpCode);
-		FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(true, false) . ': %s');
+		// @TODO: find a solution to distinguish if the eval function return false because of the script php or because of a syntax error.
+		//FabrikWorker::logEval($retval, 'Caught exception on php validation of ' . $elementModel->getFullName(true, false) . ': %s');
 		return $retval;
 	}
 }
