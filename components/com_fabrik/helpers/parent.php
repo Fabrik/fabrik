@@ -1163,7 +1163,6 @@ class FabrikWorker
 		}
 		$enqMsgType = 'error';
 		$indentHTML = '<br/>&nbsp;&nbsp;&nbsp;&nbsp;Debug:&nbsp;';
-		$app = JFactory::getApplication();
 		$errString = JText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING');
 
 		// Give a technical error message to the developer
@@ -1176,10 +1175,24 @@ class FabrikWorker
 			$errString .= $indentHTML . sprintf($msg, "unknown error - php version < 5.2.0");
 		}
 
+		FabrikWorker::logError($errString, $enqMsgType);
+	}
+
+	/**
+	 * Raise a J Error notice if in dev mode or log a J error otherwise
+	 *
+	 * @param   string  $errorString  Message to display / log
+	 * @param   string  $msgType      Joomla enqueueMessage message type e.g. 'error', 'warning' etc.
+	 *
+	 * @return  void
+	 */
+
+	public static function logError($errString, $msgType)
+	{
 		if (FabrikHelperHTML::isDebug())
 		{
-
-			$app->enqueueMessage($errString, $enqMsgType);
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($errString, $msgType);
 		}
 		else
 		{
