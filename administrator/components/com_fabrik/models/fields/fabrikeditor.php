@@ -90,10 +90,8 @@ class JFormFieldFabrikeditor extends JFormFieldTextArea
 			MyEditor.setWrapBehavioursEnabled(true);
 			MyEditor.getSession().setUseWrapMode(true);
 			MyEditor.getSession().setTabSize(2);
-			window.addEvent("form.save", function () {
-				if (typeOf(document.id("' . $this->id . '")) !== "null") {
-					document.id("' . $this->id . '").value = MyEditor.getValue();
-				}
+			MyEditor.on("blur", function () {
+				document.id("' . $this->id . '").value = MyEditor.getValue();
 			});
 			';
 
