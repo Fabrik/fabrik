@@ -23,6 +23,14 @@ jimport('joomla.filesystem.file');
 
 class PlgFabrik_Element extends FabrikPlugin
 {
+
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = null;
+
 	/**
 	 * Element id
 	 *
