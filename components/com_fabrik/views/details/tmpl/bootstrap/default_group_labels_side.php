@@ -14,8 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $element = $this->element;
 ?>
-<div class="<?php echo $element->span; ?>">
-	<div class="span4">
+<div class="<?php echo $element->containerClass . $element->span;?>">
+	<div class="span4 fabrikLabel">
 		<?php echo $element->label_raw;?>
 	</div>
 	<div class="span8">
