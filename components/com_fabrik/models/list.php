@@ -1762,7 +1762,7 @@ class FabrikFEModelList extends JModelForm
 		if (!$facetTable->canAdd())
 		{
 			return '<div style="text-align:center"><a title="' . JText::_('JERROR_ALERTNOAUTHOR')
-			. '"><img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
+			. '"><img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
 		}
 		if ($app->isAdmin())
 		{
@@ -1885,7 +1885,7 @@ class FabrikFEModelList extends JModelForm
 		if (!$facetTable->canView())
 		{
 			return '<div style="text-align:center"><a title="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN')
-			. '"><img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/login.png" alt="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN') . '" /></a></div>';
+			. '"><img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/login.png" alt="' . JText::_('COM_FABRIK_NO_ACCESS_PLEASE_LOGIN') . '" /></a></div>';
 		}
 		$showRelated = (int) $params->get('show_related_info', 0);
 		$emptyLabel = $showRelated === 1 ? JText::_('COM_FABRIK_NO_RECORDS') : '';
@@ -5700,7 +5700,7 @@ class FabrikFEModelList extends JModelForm
 		$app = JFactory::getApplication();
 		$table = $this->getTable();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=list&amp;layout=_advancedsearch&amp;tmpl=component&amp;listid='
+		$url = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&amp;view=list&amp;layout=_advancedsearch&amp;tmpl=component&amp;listid='
 				. $table->id . '&amp;nextview=' . $app->input->get('view', 'list');
 
 		// Defines if we are in a module or in the component.
