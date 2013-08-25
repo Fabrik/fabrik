@@ -1,4 +1,3 @@
-'fabrik
 <?php
 /**
  * Fabrik Element Model
@@ -1875,6 +1874,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		$element->plugin = $elementTable->plugin;
 		$element->hidden = $this->isHidden();
 		$element->id = $this->getHTMLId($c);
+		$element->className = 'fb_el_' . $element->id;
 		$element->containerClass = $this->containerClass($element);
 		$element->element = $this->preRenderElement($model->data, $c);
 		$element->label_raw = $this->element->label;
