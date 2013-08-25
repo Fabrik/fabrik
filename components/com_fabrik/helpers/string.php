@@ -240,6 +240,7 @@ class FabrikString extends JString
 		// Replace umlauts
 		$out = '';
 		for ($i = 0; $i < JString::strlen($str); $i++)
+		for ($i = 0; $i < strlen($str); $i++)
 		{
 			$ch = ord($str{$i});
 			switch ($ch)
