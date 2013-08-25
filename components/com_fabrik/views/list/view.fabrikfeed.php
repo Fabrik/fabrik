@@ -162,7 +162,7 @@ class FabrikViewList extends FabrikViewListBase
 		$csspath = COM_FABRIK_FRONTEND . 'views/list/tmpl/' . $tmpl . '/feed.css';
 		if (file_exists($csspath))
 		{
-			$document->addStyleSheet(COM_FABRIK_LIVESITE . 'components/com_fabrik/views/list/tmpl/' . $tmpl . '/feed.css');
+			$document->addStyleSheet(COM_FABRIK_LIVESITE_PATH . 'components/com_fabrik/views/list/tmpl/' . $tmpl . '/feed.css');
 		}
 
 		$view = $model->canEdit() ? 'form' : 'details';
@@ -198,14 +198,23 @@ class FabrikViewList extends FabrikViewListBase
 							$remote_file = false;
 
 							// Element value should either be a full path, or relative to J! base
-							if (strstr($enclosure_url, 'http://') && !strstr($enclosure_url, COM_FABRIK_LIVESITE))
+							// $$$ paul - Need to test start of URL not anywhere in URL and test for LIVESITE_PATH and https://
+							//if (strstr($enclosure_url, 'http://') && !strstr($enclosure_url, COM_FABRIK_LIVESITE))
+							if ((!JString::strcasecmp(JString::substr($enclosure_url, 0, 7), 'http://')
+							  || !JString::strcasecmp(JString::substr($enclosure_url, 0, 8), 'https://')
+							&& JString::strcmp(JString::substr($enclosure_url, 0, JString::strlen(COM_FABRIK_LIVESITE)), COM_FABRIK_LIVESITE))
 							{
 								$enclosure_file = $enclosure_url;
 								$remote_file = true;
 							}
-							elseif (strstr($enclosure_url, COM_FABRIK_LIVESITE))
+							// elseif (strstr($enclosure_url, COM_FABRIK_LIVESITE))
+							elseif (!JString::strcmp(JString::substr($enclosure_url, 0, JString::strlen(COM_FABRIK_LIVESITE)), COM_FABRIK_LIVESITE))
 							{
 								$enclosure_file = str_replace(COM_FABRIK_LIVESITE, COM_FABRIK_BASE, $enclosure_url);
+							}
+							elseif (!JString::strcmp(JString::substr($enclosure_url, 0, JString::strlen(COM_FABRIK_LIVESITE_PATH)), COM_FABRIK_LIVESITE_PATH))
+							{
+								$enclosure_file = str_replace(COM_FABRIK_LIVESITE_PATH, COM_FABRIK_BASE, $enclosure_url);
 							}
 							elseif (preg_match('#^' . COM_FABRIK_BASE . "#", $enclosure_url))
 							{
@@ -215,7 +224,7 @@ class FabrikViewList extends FabrikViewListBase
 							else
 							{
 								$enclosure_file = COM_FABRIK_BASE . $enclosure_url;
-								$enclosure_url = COM_FABRIK_LIVESITE . str_replace('\\', '/', $enclosure_url);
+								$enclosure_url = COM_FABRIK_LIVESITE_PATH . str_replace('\\', '/', $enclosure_url);
 							}
 							if ($remote_file || (file_exists($enclosure_file) && !is_dir($enclosure_file)))
 							{
@@ -293,7 +302,7 @@ class FabrikViewList extends FabrikViewListBase
 
 				// Url link to article
 				$link = JRoute::_('index.php?option=com_' . $package . '&view=' . $view . '&listid=' . $table->id . '&formid=' . $form->id . '&rowid=' . $row->slug);
-				$guid = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&view=' . $view . '&listid=' . $table->id . '&formid=' . $form->id . '&rowid=' . $row->slug;
+				$guid = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&view=' . $view . '&listid=' . $table->id . '&formid=' . $form->id . '&rowid=' . $row->slug;
 
 				// Strip html from feed item description text
 				$author = @$row->created_by_alias ? @$row->created_by_alias : @$row->author;
