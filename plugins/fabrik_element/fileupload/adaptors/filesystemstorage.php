@@ -247,10 +247,8 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function getFileUrl($file)
 	{
-		$livesite = COM_FABRIK_LIVESITE;
-		$livesite = rtrim($livesite, '/\\');
 		$file = JString::ltrim($file, '/\\');
-		return str_replace("\\", "/", $livesite . '/' . $file);
+		return str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 	}
 
 	/**
@@ -359,7 +357,16 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function urlToPath($url)
 	{
-		return str_replace(COM_FABRIK_LIVESITE, COM_FABRIK_BASE, $url);
+		// Paul - we should not replace the string anywhere - only if at the beginning
+		if (!JString:strcmp(JString::substr($url, JString::strlen(COM_FABRIK_LIVESITE), COM_FABRIK_LIVESITE)
+		{
+			$url = JString::substr_replace(COM_FABRIK_LIVESITE, COM_FABRIK_BASE, $url);
+		}
+		elseif (!JString:strcmp(JString::substr($url, JString::strlen(COM_FABRIK_LIVESITE_PATH), COM_FABRIK_LIVESITE_PATH)
+		{
+			$url = JString::substr_replace(COM_FABRIK_LIVESITE_PATH, COM_FABRIK_BASE, $url);
+		}
+		return $url;
 	}
 
 	/**
