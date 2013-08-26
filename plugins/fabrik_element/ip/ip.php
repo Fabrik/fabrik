@@ -23,6 +23,13 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'ip';
+
+	/**
 	 * Draws the html form element
 	 *
 	 * @param   array  $data           to preopulate element with

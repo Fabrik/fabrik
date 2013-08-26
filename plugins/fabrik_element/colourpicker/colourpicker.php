@@ -23,6 +23,13 @@ class PlgFabrik_ElementColourpicker extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'colourpicker';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

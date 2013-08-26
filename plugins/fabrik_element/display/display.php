@@ -23,6 +23,13 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'display';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var  string

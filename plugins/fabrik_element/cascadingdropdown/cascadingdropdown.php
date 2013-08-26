@@ -25,6 +25,13 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'cascadingdropdown';
+
+	/**
 	 * J Paramter name for the field containing the label value
 	 *
 	 * @var string

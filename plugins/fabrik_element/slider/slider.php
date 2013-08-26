@@ -27,6 +27,13 @@ class PlgFabrik_ElementSlider extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'slider';
+
+	/**
 	 * If the element 'Include in search all' option is set to 'default' then this states if the
 	 * element should be ignored from search all.
 	 * @var bool  True, ignore in extended search all.

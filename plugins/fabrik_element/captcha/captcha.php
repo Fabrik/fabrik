@@ -24,6 +24,13 @@ require_once JPATH_SITE . '/plugins/fabrik_element/captcha/recaptcha-php-1.11/re
 class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 {
 
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'captcha';
+
 	protected $font = 'monofont.ttf';
 
 	/**

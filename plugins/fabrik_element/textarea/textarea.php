@@ -23,6 +23,13 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'textarea';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

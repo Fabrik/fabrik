@@ -26,6 +26,11 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
 class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 {
 
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
 	protected $pluginName = 'youtube';
 
 	/**

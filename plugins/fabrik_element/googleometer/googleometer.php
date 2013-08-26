@@ -25,6 +25,13 @@ class PlgFabrik_ElementGoogleometer extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'googleometer';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

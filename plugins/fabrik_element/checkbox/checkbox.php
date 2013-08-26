@@ -22,6 +22,18 @@ defined('_JEXEC') or die('Restricted access');
 class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 {
 
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'checkbox';
+
+	/**
+	 * Db table field size
+	 *
+	 * @var  string
+	 */
 	protected $inputType = 'checkbox';
 
 	/**

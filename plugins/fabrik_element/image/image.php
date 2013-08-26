@@ -28,6 +28,13 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'image';
+
+	/**
 	 * Ignored folders
 	 *
 	 * @var array

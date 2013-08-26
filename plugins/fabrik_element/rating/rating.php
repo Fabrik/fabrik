@@ -27,6 +27,13 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'rating';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

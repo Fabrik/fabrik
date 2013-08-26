@@ -27,6 +27,13 @@ class PlgFabrik_ElementFblikebox extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'fblikebox';
+
+	/**
 	 * Does the element have a label
 	 *
 	 * @var bool

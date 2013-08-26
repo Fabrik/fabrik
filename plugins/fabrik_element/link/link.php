@@ -23,6 +23,13 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'link';
+
+	/**
 	 * Does the element contain sub elements e.g checkboxes radiobuttons
 	 *
 	 * @var bool

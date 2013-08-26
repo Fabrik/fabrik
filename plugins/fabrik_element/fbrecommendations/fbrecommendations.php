@@ -27,6 +27,13 @@ class PlgFabrik_ElementFbrecommendations extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'fbrecommendations';
+
+	/**
 	 * Does the element have a label
 	 *
 	 * @var bool

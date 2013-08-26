@@ -27,6 +27,13 @@ class PlgFabrik_ElementFbactivityfeed extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'fbactivityfeed';
+
+	/**
 	 * Does the element have a label
 	 *
 	 * @var bool

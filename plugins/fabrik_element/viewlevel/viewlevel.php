@@ -23,6 +23,13 @@ class PlgFabrik_ElementViewlevel extends PlgFabrik_ElementList
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'viewlevel';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

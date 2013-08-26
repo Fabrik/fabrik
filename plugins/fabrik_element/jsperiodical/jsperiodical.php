@@ -21,6 +21,14 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
 
 class PlgFabrik_ElementJSPeriodical extends PlgFabrik_Element
 {
+
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'jsperiodical';
+
 	/**
 	 * Shows the data formatted for the list view
 	 *

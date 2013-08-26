@@ -23,6 +23,13 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'usergroup';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

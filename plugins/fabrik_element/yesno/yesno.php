@@ -26,6 +26,13 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'yesno';
+
+	/**
 	 * Db table field type
 	 *
 	 * @var string

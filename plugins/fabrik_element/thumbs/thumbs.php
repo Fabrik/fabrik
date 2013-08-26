@@ -25,6 +25,14 @@ require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
 
 class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 {
+
+	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'thumbs';
+
 	/**
 	 * States the element should be ignored from advanced search all queryes.
 	 *
