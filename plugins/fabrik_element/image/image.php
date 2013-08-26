@@ -156,7 +156,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			if ($showImage)
 			{
 				// $$$ rob 30/06/2011 - say if we import via csv a url to the image check that and use that rather than the relative path
-				$src = JString::substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE . $selectImage_root_folder . $data[$i];
+				$src = JString::substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE_PATH . $selectImage_root_folder . $data[$i];
 				$data[$i] = '<img src="' . $src . '" alt="' . $data[$i] . '" />';
 			}
 			if ($linkURL)
@@ -246,7 +246,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$selectImage_root_folder = JString::ltrim($selectImage_root_folder, '/');
 		$selectImage_root_folder = JString::rtrim($selectImage_root_folder, '/');
 		$selectImage_root_folder = $selectImage_root_folder === '' ? '' : $selectImage_root_folder . '/';
-		return '<img src="' . COM_FABRIK_LIVESITE . $selectImage_root_folder . $data . '" />';
+		return '<img src="' . COM_FABRIK_LIVESITE_PATH . $selectImage_root_folder . $data . '" />';
 	}
 
 	/**
@@ -276,7 +276,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$rootFolder = $rootFolder === '' ? '' : $rootFolder . '/';
 
 		// $$$ rob - 30/062011 allow for full urls in the image. (e.g from csv import)
-		$defaultImage = JString::substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE . $rootFolder . $value;
+		$defaultImage = JString::substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE_PATH . $rootFolder . $value;
 
 		$float = $params->get('image_float');
 		$float = $float != '' ? "style='float:$float;'" : '';
