@@ -67,7 +67,7 @@ class FileRender
 
 			// Trim / or \ off the start of $file
 			$file = JString::ltrim($file, '/\\');
-			$file = COM_FABRIK_LIVESITE . $file;
+			$file = COM_FABRIK_LIVESITE_PATH . $file;
 		}
 		$file = str_replace("\\", "/", $file);
 		$file = $model->storage->preRenderPath($file);
@@ -77,7 +77,7 @@ class FileRender
 		// instead of just putting the filename.
 		if ($params->get('make_thumbnail', false) && JFile::exists($thumb_path))
 		{
-			$thumb_file = COM_FABRIK_LIVESITE . "media/com_fabrik/images/" . $ext . ".png";
+			$thumb_file = COM_FABRIK_LIVESITE_PATH . "media/com_fabrik/images/" . $ext . ".png";
 			$this->output .= "<a class=\"download-archive fabrik-filetype-$ext\" title=\"$file\" href=\"$file\"><img src=\"$thumb_file\" alt=\"$filename\"></a>";
 		}
 		else
