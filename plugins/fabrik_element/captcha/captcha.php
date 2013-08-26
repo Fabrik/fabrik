@@ -249,7 +249,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			 *	because everybody can enlarge image size and set noise color to
 			 *	background color to OCR captcha values without problems
 			*/
-			$str[] = '<img src="' . COM_FABRIK_LIVESITE . 'plugins/fabrik_element/captcha/image.php?foo=' . rand() . '" alt="'
+			$str[] = '<img src="' . COM_FABRIK_LIVESITE_PATH . 'plugins/fabrik_element/captcha/image.php?foo=' . rand() . '" alt="'
 			. JText::_('security image') . '" />';
 
 			$str[] = '<br />';
