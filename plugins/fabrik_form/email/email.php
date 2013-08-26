@@ -135,9 +135,9 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		// $$$ hugh - test stripslashes(), should be safe enough.
 		$message = stripslashes($message);
 
-		$editURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=form&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
+		$editURL = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&amp;view=form&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
 			. $input->get('rowid', '', 'string');
-		$viewURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
+		$viewURL = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
 			. $input->get('rowid', '', 'string');
 		$editlink = '<a href="' . $editURL . '">' . JText::_('EDIT') . '</a>';
 		$viewlink = '<a href="' . $viewURL . '">' . JText::_('VIEW') . '</a>';
@@ -201,9 +201,9 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		{
 			$email_from_name = $config->get('fromname', $email_from);
 		}
-		
+
 		// Changes by JFQ
-		@list($return_path, $return_path_name) = explode(":", $w->parseMessageForPlaceholder($params->get('return_path'), $this->data, false), 2);		
+		@list($return_path, $return_path_name) = explode(":", $w->parseMessageForPlaceholder($params->get('return_path'), $this->data, false), 2);
 		if (empty($return_path))
 		{
 			$return_path = NULL;
@@ -344,7 +344,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 				$elName = $elementModel->getFullName(true, false);
 				if (array_key_exists($elName, $this->data))
 				{
-					if (method_exists($elementModel, 'addEmailAttachement'))
+					if (method_exists($elementModel, 'addEmailAttachment'))
 					{
 						if (array_key_exists($elName . '_raw', $data))
 						{
@@ -369,7 +369,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 						$aVals = FabrikWorker::JSONtoData($val, true);
 						foreach ($aVals as $v)
 						{
-							$file = $elementModel->addEmailAttachement($v);
+							$file = $elementModel->addEmailAttachment($v);
 							if ($file !== false)
 							{
 								$this->attachments[] = $file;
