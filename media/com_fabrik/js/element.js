@@ -358,8 +358,12 @@ var FbElement =  new Class({
 	 * @return array of tips
 	 */
 	tips: function () {
+		var container = this.getContainer();
 		return Fabrik.tips.elements.filter(function (t) {
-			if (t === this.getContainer() || t.getParent() === this.getContainer()) {
+			if (!t.hasClass('fabrikElementContainer')) {
+				t = t.getParent('.fabrikElementContainer');
+			}
+			if (t === container) {
 				return true;
 			}
 		}.bind(this));
@@ -369,51 +373,47 @@ var FbElement =  new Class({
 	 * In 3.1 show error messages in tips - avoids jumpy pages with ajax validations
 	 */
 	addTipMsg: function (msg, klass) {
-		// Append notice to tip
-		klass = klass ? klass : 'error';
-		var ul, a, t = this.tips();
+		var t = this.tips();
 		if (t.length === 0) {
 			return;
 		}
 		t = jQuery(t[0]);
-
-		if (t.attr(klass) === undefined) {
-			t.data('popover').show();
-			t.attr(klass, msg);
-			a = t.data('popover').tip().find('.popover-content');
-
-			var d = new Element('div');
-			d.set('html', a.html());
-			var li = new Element('li.' + klass);
-			li.set('html', msg);
-			new Element('i.' + this.form.options.images.alert).inject(li, 'top');
-			d.getElement('ul').adopt(li);
-			t.attr('data-content', unescape(d.get('html')));
-			t.data('popover').setContent();
-			t.data('popover').hide();
+		if (typeOf(t.data('popover-saved')) === 'null') {
+			t.data('popover-saved',t.data('popover').options.content);
 		}
+		var li = new Element('li');
+		li.set('html', '&nbsp;' + msg);
+		klass = klass === null ? 'fabrikError' : klass;
+		switch (klass) {
+			case 'fabrikError':
+				var colour = 'text-error.error';
+				li.grab(this.alertImage, 'top');
+				break;
+			case 'fabrikSuccess':
+				var colour = 'text-success.success';
+				li.grab(this.successImage, 'top');
+				break;
+		}
+		// var d = new Element('div');
+		// new Element('ul.validation-notices.' + colour).setProperty("style","list-style:none").adopt(li).inject(d);
+		var ul = new Element('ul.validation-notices.' + colour).setProperty("style","list-style:none").adopt(li);
+		t.data('popover').options.content = ul.outerHTML;
+		t.data('popover').manualShow();
 	},
 
 	/**
 	 * In 3.1 show/hide error messages in tips - avoids jumpy pages with ajax validations
 	 */
-	removeTipMsg: function (klass) {
-		var klass = klass ? klass : 'error',
-		t = this.tips();
+	removeTipMsg: function () {
+		var t = this.tips();
+		if (t.length === 0) {
+			return;
+		}
 		t = jQuery(t[0]);
-		if (t.attr(klass) !== undefined) {
-			t.data('popover').show();
-			a = t.data('popover').tip().find('.popover-content');
-			var d = new Element('div');
-			d.set('html', a.html());
-			var li = d.getElement('li.error');
-			if (li) {
-				li.destroy();
-			}
-			t.attr('data-content', d.get('html'));
-			t.data('popover').setContent();
-			t.data('popover').hide();
-			t.removeAttr(klass);
+		t.data('popover').manualHide();
+		if (typeOf(t.data('popover-saved')) !== 'null') {
+			t.data('popover').options.content = t.data('popover-saved');
+			t.data('popover-saved',null);
 		}
 	},
 
@@ -424,7 +424,6 @@ var FbElement =  new Class({
 			fconsole('element.js: Could not display error msg for ' + msg + ' no container class found');
 			return;
 		}
-		var m;
 		var classes = ['fabrikError', 'fabrikSuccess'];
 		classes.each(function (c) {
 			classname === c ? container.addClass(c) : container.removeClass(c);
@@ -432,14 +431,17 @@ var FbElement =  new Class({
 		var errorElements = this.getErrorElements();
 		errorElements.each(function (e) {
 			e.empty();
-			e.removeClass('text-error');
+			e.removeClass('text-error').removeClass('text-success');
 		});
+		if (this.successTimer !== null) {
+			window.clearTimeout(this.successTimer);
+			this.successTimer = null;
+		}
 		switch (classname) {
 			case 'fabrikError':
 				Fabrik.loader.stop(this.element);
 				container.removeClass('success').removeClass('info').addClass('error');
-				// Temporarily disabling tooltips so we can test normal validation
-				if (Fabrik.bootstrapped && false) {
+				if (Fabrik.bootstrapped && single) {
 					this.addTipMsg(msg, classname);
 				} else {
 					errorElements.each(function (e) {
@@ -452,30 +454,30 @@ var FbElement =  new Class({
 				break;
 
 			case 'fabrikSuccess':
-				// Temporarily disabling tooltips so we can test normal validation
-				if (Fabrik.bootstrapped && false) {
-					container.removeClass('success').removeClass('info').removeClass('error');
-					Fabrik.loader.stop(this.element);
-					this.removeTipMsg(classname);
-				} else {
-					container.addClass('success').removeClass('info').removeClass('error');
-					if (!single) {
-						errorElements.each(function (e) {
-							e.adopt(this.successImage);
-						}.bind(this));
-					}
-					var delfn = function () {
-						var container = this.getContainer();
-						if (container.hasClass('fabrikSuccess')) {
-							errorElements.each(function (e) {
-								e.empty();
-								e.addClass('fabrikHide');
-							});
-							container.removeClass('success');
+				if (Fabrik.bootstrapped && single && msg !== '') {
+					this.removeTipMsg();
+				} else if (!single) {
+					errorElements.each(function (e) {
+						if (msg !== '') {
+							e.addClass('text-success');
+							e.set('html', '&nbsp;' + msg);
 						}
-					}.bind(this);
-					window.setTimeout(delfn, 5000);
+						e.grab(this.successImage, 'top');
+					}.bind(this));
 				}
+				container.addClass('success').removeClass('info').removeClass('error');
+				var delfn = function () {
+					this.successTimer = null;
+					var container = this.getContainer();
+					if (container.hasClass('fabrikSuccess')) {
+						errorElements.each(function (e) {
+							e.empty();
+							e.removeClass('text-success').addClass('fabrikHide');
+						});
+						container.removeClass('success');
+					}
+				}.bind(this);
+				this.successTimer = window.setTimeout(delfn, 5000);
 				break;
 		}
 
@@ -666,7 +668,6 @@ var FbElement =  new Class({
 	 * where the actual input (raw) field is hidden and a UI input field is presented to the user.
 	 **/
 	doValidation: function (e, subEl, id, spinId) {
-
 		var d = $H(this.form.getFormData());
 		d.set('task', 'form.ajax_validate');
 		d.set('fabrik_ajax', '1');
@@ -683,7 +684,7 @@ var FbElement =  new Class({
 		}
 		//var origid = el.origid ? el.origid : id;
 		el.options.repeatCounter = el.options.repeatCounter ? el.options.repeatCounter : 0;
-		var url = 'index.php?option=com_fabrik&form_id=' + this.id;
+		var url = 'index.php?option=com_fabrik&form_id=' + this.form.id;
 		Fabrik.fireEvent('fabrik.form.element.validation.start', [this.form, el, event]);
 		if (this.form.result === false) {
 			this.form.result = true;
@@ -705,7 +706,7 @@ var FbElement =  new Class({
 				r = JSON.decode(r);
 				if (typeOf(r) === 'null') {
 					this.setErrorMessage('Validation ajax call failed', 'fabrikError');
-					this.form.result = true;
+					this.ajax = null;
 					return;
 				}
 				this.form.formElements.each(function (el, key) {
@@ -714,6 +715,7 @@ var FbElement =  new Class({
 				Fabrik.fireEvent('fabrik.form.element.validation.complete', [this.form, r, id, origid]);
 				if (this.form.result === false) {
 					this.form.result = true;
+					this.ajax = null;
 					return;
 				}
 				var el = this.form.formElements.get(id);
@@ -730,6 +732,7 @@ var FbElement =  new Class({
 				} else {
 					this.setErrorMessage(Joomla.JText._('COM_FABRIK_SUCCESS'), 'fabrikSuccess', true);
 				}
+				this.ajax = null;
 			}.bind(this)
 		}).send();
 	}
@@ -760,7 +763,6 @@ var FbFileElement = new Class({
 		}.bind(this));
 		this.watchAjaxFolderLinks();
 	},
-
 
 	watchAjaxFolderLinks: function ()
 	{

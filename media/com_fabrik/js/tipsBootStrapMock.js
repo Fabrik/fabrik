@@ -10,7 +10,7 @@
  */
 var FloatingTips = new Class({
 	Implements: [Options, Events],
-	
+
 	options: {
 		fxProperties: {transition: Fx.Transitions.linear, duration: 500},
 		position: 'top',
@@ -45,24 +45,29 @@ var FloatingTips = new Class({
 			}
 		}
 	},
-	
+
 	initialize: function (elements, options) {
 		this.setOptions(options);
 		this.options.fxProperties = {transition: eval(this.options.tipfx), duration: this.options.duration};
-		
+
 		// Any tip (not necessarily in this instance has asked for all other tips to be hidden.
-		window.addEvent('tips.hideall', function (e, trigger) {
-			this.hideOthers(trigger);
+		window.addEvent('tips.hideall', function (e, element) {
+			if (typeOf(element) === 'null') {
+				this.hideAll();
+			} else {
+				this.hideOthers(element);
+			}
 		}.bind(this));
 		if (elements) {
 			this.attach(elements);
 		}
 	},
-	
+
 	attach: function (elements) {
+		this.selector = elements;
 		this.elements = $$(elements);
-		this.elements.each(function (trigger) {
-			var thisOpts = JSON.decode(trigger.get('opts', '{}').opts);
+		this.elements.each(function (element) {
+			var thisOpts = JSON.decode(element.get('opts', '{}').opts);
 			thisOpts = thisOpts ? thisOpts : {};
 			if (thisOpts.position) {
 				thisOpts.defaultPos = thisOpts.position;
@@ -70,56 +75,69 @@ var FloatingTips = new Class({
 			}
 			var opts = Object.merge(Object.clone(this.options), thisOpts);
 			if (opts.content === 'title') {
-				opts.content = trigger.get('title');
-				trigger.erase('title');
+				opts.content = element.get('title');
+				element.erase('title');
 			} else if (typeOf(opts.content) === 'function') {
-				var c = opts.content(trigger);
+				var c = opts.content(element);
 				opts.content = typeOf(c) === 'null' ? '' : c.innerHTML;
 			}
-			// Should always use the default placement function which can then via the Fabrik event allow for custom tip placement
+			/**
+			 * Should always use the default placement function which can then,
+			 * via the Fabrik event, allow for custom tip placement
+			 **/
 			opts.placement = this.options.placement;
 			opts.title = opts.heading;
-			
-			if (trigger.hasClass('tip-small')) {
+
+			if (element.hasClass('tip-small')) {
 				opts.title = opts.content;
-				jQuery(trigger).tooltip(opts);
+				jQuery(element).tooltip(opts);
 			} else {
 				if (!opts.notice) {
-					opts.title += '<button class="close" data-popover="' + trigger.id + '">&times;</button>';
+					opts.title += '<button class="close" data-popover="' + element.id + '">&times;</button>';
 				}
-				jQuery(trigger).popoverex(opts);
+				jQuery(element).popoverex(opts);
 			}
-			
+
 		}.bind(this));
-	
+
 	},
-	
-	addStartEvent: function (trigger, evnt) {
-		
+
+	addStartEvent: function (element, evnt) {
+
 	},
-	
-	addEndEvent: function (trigger, evnt) {
-		
+
+	addEndEvent: function (element, evnt) {
+
 	},
-	
-	getTipContent: function (trigger, evnt) {
-		
+
+	getTipContent: function (element, evnt) {
+
 	},
-	
-	show: function (trigger, evnt) {
-		
+
+	show: function (element, evnt) {
+
 	},
-	
-	hide: function (trigger, evnt) {
-		
+
+	hide: function (element, evnt) {
+
 	},
-	
+
 	hideOthers: function (except) {
-		
+		this.elements.each(function (element) {
+			element = jQuery(element);
+			if (typeOf(element) !== 'null' && element !== except && typeOf(element.data('popover')) !== 'null') {
+				element.data('popover').hide();
+			}
+		}.bind(this));
 	},
-	
+
 	hideAll: function () {
-		
+		this.elements.each(function (element) {
+			element = jQuery(element);
+			if (typeOf(element) !== 'null' && typeOf(element.data('popover')) !== 'null') {
+				element.data('popover').hide();
+			}
+		}.bind(this));
 	}
 
 });
@@ -129,7 +147,27 @@ var FloatingTips = new Class({
  */
 (function ($) {
 	var PopoverEx = function (element, options) {
+		// Save trigger options
+		this.triggers = options.trigger.split(' ');
+		this.isManualShow = false;
+		this.hasFocus = false;
+		this.manualShowTimer = null;
+		this.$element = jQuery(element);
+		this.placement = '';
+		this.position = {top: -1, left: -1};
+		this.inside = null;
+		// Reset trigger options
+		options.trigger = 'manual';
+		options.showOn = options.hideOn = null;
 		this.init('popover', element, options);
+		// Bind our own events - mouse events on the label, focus events on the field.
+		jQuery(element)
+			.mouseenter(this.mouseenter)
+			.mouseleave(this.mouseleave)
+			.click(this.click);
+		jQuery('#'+jQuery(element).attr('for'))
+			.focus(this.focus)
+			.blur(this.blur);
 	};
 	PopoverEx.prototype = $.extend({}, $.fn.popover.Constructor.prototype, {
 
@@ -141,53 +179,64 @@ var FloatingTips = new Class({
 					this.$tip.addClass(this.options.modifier);
 				}
 			}
-			return this.$tip; 
+			return this.$tip;
 		},
-		
+
 		show: function () {
 			var $tip, inside, pos, actualWidth, actualHeight, placement, tp;
 			if (this.hasContent() && this.enabled) {
 				$tip = this.tip();
-				this.setContent();
+
+				placement = typeof this.options.placement === 'function' ? this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
+				inside = /in/.test(placement);
+				placement = inside ? placement.split(' ')[1] : placement;
+				place = placement.split('-')[0];
+
+				if (!$tip.hasClass('in')) {
+					this.setContent();
+				}
+
+				$tip.attr('for',this.$element.attr('for'));
 
 				if (this.options.animation) {
 					$tip.addClass('fade');
 				}
-				placement = typeof this.options.placement === 'function' ? this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
-				inside = /in/.test(placement);
 
-				$tip
-				.remove()
-				.css({ top: 0, left: 0, display: 'block' })
-				.appendTo(inside ? this.$element : document.body);
-				
+				if (!$tip.hasClass('in') || this.inside !== inside) {
+					$tip
+						.detach()
+						.appendTo(inside ? this.$element : document.body);
+				}
+				if (!$tip.hasClass('in') || this.placement !== placement) {
+					$tip
+						.removeClass('top bottom left right')
+						.addClass(place)
+						.css({ top: 0, left: 0, display: 'block' });
+				}
+
 				pos = this.getPosition(inside);
 
 				actualWidth = $tip[0].offsetWidth;
 				actualHeight = $tip[0].offsetHeight;
 
-				switch (inside ? placement.split(' ')[1] : placement) {
+				switch (placement) {
 				case 'bottom':
 					tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
 					break;
 				case 'bottom-left':
 					tp = {top: pos.top + pos.height, left: pos.left};
-					placement = 'bottom';
 					break;
 				case 'bottom-right':
 					tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth};
-					placement = 'bottom';
 					break;
 				case 'top':
 					tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
 					break;
 				case 'top-left':
 					tp = {top: pos.top - actualHeight, left: pos.left};
-					placement = 'top';
 					break;
 				case 'top-right':
 					tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth};
-					placement = 'top';
 					break;
 				case 'left':
 					tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
@@ -197,12 +246,124 @@ var FloatingTips = new Class({
 					break;
 				}
 
-				$tip
-				.css(tp)
-				.addClass(placement)
-				.addClass('in');
+				if (!$tip.hasClass('in') || this.placement !== placement || this.position.top !== tp.top || this.position.left !== tp.left) {
+					$tip
+						.css(tp)
+						.addClass('in');
+				}
+				this.placement = placement;
+				this.position = tp;
+				this.inside = inside;
+
+				return this;
 			}
+		},
+
+		manualShow: function(delay) {
+			/**
+			 * This is intended for use by single alement ajax validation - element.js addTipMsg
+			 * Initially the tip on a timer (as fully sticky tips can hide other element)
+			 * and during the timeout mouseleave is prevented from hiding it i.e. it is sticky.
+			 * Manual tips are limited to one to prevent an epidemic of tips.
+			 * Manual tips are also shown on focus and hidden on blur to provide help on correcting
+			 * a field that has failed validation.
+			 **/
+			delay = typeOf(delay) !== 'null' ? delay : 5000;
+			this.isManualShow = true;
+			this.show();
+			this.manualShowTimer = window.setTimeout(function () {
+				this.manualShowTimeout();
+			}.bind(this), delay)
+			return this;
+		},
+
+		manualShowTimeout: function() {
+			this.manualShowTimer = null;
+			if (!this.isManualShow) {
+				return;
+			}
+			this.hide();
+		},
+
+		manualShowCancel: function() {
+			if (!this.isManualShow) {
+				return;
+			}
+			if (this.manualShowTimer !== null) {
+				window.clearTimeout(this.manualShowTimer);
+				this.manualShowTimer = null;
+			}
+			this.hide();
+			return this;
+		},
+
+		manualHide: function() {
+			this.manualShowCancel();
+			this.isManualShow = false;
+			return this;
+		},
+
+		mouseenter: function () {
+			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
+				return;
+			}
+			$tip = jQuery(this).data('popover');
+			if ($tip.triggers.indexOf("hover") < 0) {
+				return;
+			}
+			$tip.show();
+		},
+
+		mouseleave: function () {
+			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
+				return;
+			}
+			$tip = jQuery(this).data('popover');
+			if ($tip.triggers.indexOf("hover") < 0
+			|| ($tip.isManualShow
+					&& ($tip.manualShowTimer !== null || $tip.hasFocus))) {
+				return;
+			}
+			$tip.hide();
+		},
+
+		focus: function () {
+			$label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
+			if (typeOf($label) === 'null' || typeOf($label.data('popover')) === 'null') {
+				return;
+			}
+			$tip = $label.data('popover');
+			$tip.hasFocus = true;
+			if ($tip.triggers.indexOf("focus") < 0 && !$tip.isManualShow) {
+				return;
+			}
+			$tip.show();
+		},
+
+		blur: function () {
+			$label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
+			if (typeOf($label) === 'null' || typeOf($label.data('popover')) === 'null') {
+				return;
+			}
+			$tip = $label.data('popover');
+			$tip.hasFocus = false;
+			if ($tip.triggers.indexOf("focus") < 0 && !$tip.isManualShow) {
+				return;
+			}
+			$tip.hide();
+		},
+
+		click: function (e) {
+			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
+				return;
+			}
+			$tip = jQuery(this).data('popover');
+			if ($tip.triggers.indexOf("click") < 0) {
+				return;
+			}
+			$tip.toggle();
 		}
+
 	});
 
 	$.fn.popoverex = function (option) {
