@@ -4247,7 +4247,7 @@ class FabrikFEModelForm extends FabModelForm
 
 			$aElements = array();
 
-			// Check if group is acutally a table join
+			// Check if group is actually a table join
 			if (array_key_exists($groupTable->id, $this->aJoinGroupIds))
 			{
 				$aElements[] = $this->_makeJoinIdElement($groupTable);
@@ -4357,26 +4357,33 @@ class FabrikFEModelForm extends FabModelForm
 					{
 						$elCount++;
 					}
-				}
+				} // foreach elementModel
 				// If its a repeatable group put in subgroup
 				if ($groupModel->canRepeat())
 				{
-					// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
-					$rowix = -1;
-					foreach ($aSubGroupElements as $elKey => $element)
-					{
-						$rowix = $groupModel->setColumnCss($element, $rowix);
-					}
 					$aSubGroups[] = $aSubGroupElements;
 				}
-			}
+			} // for c
 			$groupModel->randomiseElements($aElements);
 
-			// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
+			// Style attribute for group columns (need to occur after randomisation
+			// of the elements otherwise clear's are not ordered correctly)
 			$rowix = -1;
 			foreach ($aElements as $elKey => $element)
 			{
-				$rowix = $groupModel->setColumnCss($element, $rowix);
+				// Paul - Handle psuedo elements created by _makeJoinIdElement specially otherwise they will
+				// screw up the startRow / endRow.
+				if (is_numeric($elKey))
+				{
+					if ($rowix < 0)
+					{
+						$element->startRow = $element->endRow = true;
+					}
+				}
+				else
+				{
+					$rowix = $groupModel->setColumnCss($element, $rowix);
+				}
 			}
 			$group->elements = $aElements;
 			$group->subgroups = $aSubGroups;
@@ -4711,8 +4718,6 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			return '';
 		}
-
-
 	}
 
 	/**
