@@ -29,7 +29,7 @@ div.calendar table {
 	margin-top: -3px;
 }
 
-/* Otherwise <a> can have a smaller height than the image (or other content) it contains, 
+/* Otherwise <a> can have a smaller height than the image (or other content) it contains,
 which means the tip appears too low and is hence toggled off again, if the mouse cursor is on
 the part of the image 'above' the top of the <a>'
 */
@@ -187,8 +187,8 @@ div.popover {
 	background: #ccc;
 	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
 	filter: progid:    DXImageTransform.Microsoft.gradient(    startColorstr=
-		
-		 
+
+
 		'#cccccc', endColorstr=    '#666666' ); /* for IE < 10 */
 	background: -webkit-gradient(linear, left top, left bottom, from(#eee),
 		to(#ccc) ); /* for webkit browsers */
@@ -576,7 +576,6 @@ td.repeat-reduce ul.fabrikRepeatData li {
 /*********************************************************/
 
 /** Workaround for Gantry's date class stomping on our date element class **/
-
 .fabrikGroup ul li.date {
 	font-weight: normal;
 	text-align: left;
@@ -588,7 +587,7 @@ td.repeat-reduce ul.fabrikRepeatData li {
 /** Bootstrap google maps fun */
 
 .fabrikElement .map img,
-.fabrik_visualization .mapviz img { 
+.fabrik_visualization .mapviz img {
   max-width: none;
 }
 
@@ -596,8 +595,8 @@ td.repeat-reduce ul.fabrikRepeatData li {
 	font-size: 10px;
 }
 
-.fabrikElement .map label { 
-  width: auto; display:inline; 
+.fabrikElement .map label {
+  width: auto; display:inline;
 }
 
 img[src*="gstatic.com/"], img[src*="googleapis.com/"]  {
@@ -609,7 +608,6 @@ img[src*="gstatic.com/"], img[src*="googleapis.com/"]  {
 fieldset.row-fluid:before {
     content: normal;
 }
-
 
 .fabrikElement select[multiple], .fabrikElement select[size] {
     height: auto !important;
@@ -633,8 +631,18 @@ fieldset.row-fluid:before {
 	background: url("../../../plugins/fabrik_element/fileupload/lib/plupload/img/done.gif") repeat scroll 0 0 transparent;
 }
 
-
 select.fabrikinput[multiple],
 select.fabrik_filter[multiple] {
 	height: auto;
+}
+
+/** Fix pointer for form labels which are form labels without tooltips - checkbox / radio labels stay pointer **/
+form.fabrikForm label {
+	cursor: default;
+}
+
+form.fabrikForm label.fabrikTip,
+form.fabrikForm label.checkbox,
+form.fabrikForm label.radio {
+	cursor: pointer;
 }
