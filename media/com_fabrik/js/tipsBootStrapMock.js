@@ -165,9 +165,11 @@ var FloatingTips = new Class({
 			.mouseenter(this.mouseenter)
 			.mouseleave(this.mouseleave)
 			.click(this.click);
-		jQuery('#'+jQuery(element).attr('for'))
-			.focus(this.focus)
-			.blur(this.blur);
+		jQuery(element).parents('.control-group')
+			.on('focus', 'input[type!=hidden]', this.focus)
+			.on('focus', 'select', this.focus)
+			.on('blur', 'input[type!=hidden]', this.blur)
+			.on('blur', 'select', this.blur);
 	};
 	PopoverEx.prototype = $.extend({}, $.fn.popover.Constructor.prototype, {
 

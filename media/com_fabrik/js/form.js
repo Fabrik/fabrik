@@ -140,7 +140,7 @@ var FbForm = new Class({
 	},
 
 	stopEnterSubmitting: function () {
-		var inputs = this.form.getElements('input.fabrikinput');
+		var inputs = this.form.getElements('input.fabrikinput[type!=hidden]');
 		inputs.each(function (el, i) {
 			el.addEvent('keypress', function (e) {
 				if (e.key === 'enter') {
@@ -360,15 +360,15 @@ var FbForm = new Class({
 		if (el.className === 'fabrikSubElementContainer') {
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
-				i.addEvent(triggerEvent, function (e) {
-					this.doElementValidation(e, true);
-				}.bind(this));
+					i.addEvent(triggerEvent, function (e) {
+						this.doElementValidation.delay(500, this, e, true);
+					}.bind(this));
 			}.bind(this));
-			return;
+		} else {
+			el.addEvent(triggerEvent, function (e) {
+				this.doElementValidation.delay(500, this, e, false);
+			}.bind(this));
 		}
-		el.addEvent(triggerEvent, function (e) {
-			this.doElementValidation(e, false);
-		}.bind(this));
 	},
 
 	addClearErrorEvents: function (id, triggerEvent) {
@@ -1731,6 +1731,7 @@ var delIndex2 = e.target.getParent('.fabrikSubGroup');
 		var inputs = clone.getElements('.fabrikinput');
 		var lastinput = null;
 		var c = this.repeatGroupMarkers.get(group_id);
+//console.log("c:",c);
 		this.formElements.each(function (el) {
 			var formElementFound = false;
 			subElementContainer = null;
