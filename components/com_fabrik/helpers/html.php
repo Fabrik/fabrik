@@ -1541,6 +1541,7 @@ EOD;
 		$json = self::autoCompleteOptions($htmlid, $elementid, $formid, $plugin, $opts);
 		$str = json_encode($json);
 		JText::script('COM_FABRIK_NO_RECORDS');
+		JText::script('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR');
 		$class = $plugin === 'cascadingdropdown' ? 'FabCddAutocomplete' : 'FbAutocomplete';
 		$jsFile = FabrikWorker::j3() ? 'autocomplete-bootstrap' : 'autocomplete';
 		self::addScriptDeclaration(

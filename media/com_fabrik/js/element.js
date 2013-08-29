@@ -668,6 +668,7 @@ var FbElement =  new Class({
 	 * where the actual input (raw) field is hidden and a UI input field is presented to the user.
 	 **/
 	doValidation: function (e, subEl, id, spinId) {
+		this.spinId = spinId;
 		var d = $H(this.form.getFormData());
 		d.set('task', 'form.ajax_validate');
 		d.set('fabrik_ajax', '1');
@@ -695,7 +696,6 @@ var FbElement =  new Class({
 			this.ajax.cancel();
 			this.ajax = null;
 		}
-		this.spinId = spinId;
 		Fabrik.loader.start(this.spinId, Joomla.JText._('COM_FABRIK_VALIDATING'));
 		this.ajax = new Request({
 			url: url,
