@@ -62,6 +62,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			// But ... if the root folder option is set, we need to strip it.
 			$rootFolder = $params->get('selectImage_root_folder', '/');
 			$rootFolder = JString::ltrim($rootFolder, '/');
+			$rootFolder = JString::rtrim($rootFolder, '/') . '/';
 			$this->default = preg_replace("#^$rootFolder#", '', $this->default);
 			$this->default = $w->parseMessageForPlaceHolder($this->default, $data);
 			if ($element->eval == "1")
@@ -142,6 +143,8 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		// $$$ hugh - tidy up a bit so we don't have so many ///'s in the URL's
 		$selectImage_root_folder = JString::ltrim($selectImage_root_folder, '/');
 		$selectImage_root_folder = JString::rtrim($selectImage_root_folder, '/');
+		$selectImage_root_folder = $selectImage_root_folder === '' ? '' : $selectImage_root_folder . '/';
+
 		$showImage = $params->get('show_image_in_table', 0);
 		$linkURL = $params->get('link_url', '');
 		if (empty($data) || $data[0] == '')
@@ -153,7 +156,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			if ($showImage)
 			{
 				// $$$ rob 30/06/2011 - say if we import via csv a url to the image check that and use that rather than the relative path
-				$src = JString::substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE . $selectImage_root_folder . '/' . $data[$i];
+				$src = JString::substr($data[$i], 0, 4) == 'http' ? $data[$i] : COM_FABRIK_LIVESITE . $selectImage_root_folder . $data[$i];
 				$data[$i] = '<img src="' . $src . '" alt="' . $data[$i] . '" />';
 			}
 			if ($linkURL)
@@ -240,7 +243,10 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 	{
 		$params = $this->getParams();
 		$selectImage_root_folder = $params->get('selectImage_root_folder', '');
-		return '<img src="' . COM_FABRIK_LIVESITE . $selectImage_root_folder . '/' . $data . '" />';
+		$selectImage_root_folder = JString::ltrim($selectImage_root_folder, '/');
+		$selectImage_root_folder = JString::rtrim($selectImage_root_folder, '/');
+		$selectImage_root_folder = $selectImage_root_folder === '' ? '' : $selectImage_root_folder . '/';
+		return '<img src="' . COM_FABRIK_LIVESITE . $selectImage_root_folder . $data . '" />';
 	}
 
 	/**
@@ -267,9 +273,10 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		// $$$ hugh - tidy up a bit so we don't have so many ///'s in the URL's
 		$rootFolder = JString::ltrim($rootFolder, '/');
 		$rootFolder = JString::rtrim($rootFolder, '/');
+		$rootFolder = $rootFolder === '' ? '' : $rootFolder . '/';
 
 		// $$$ rob - 30/062011 allow for full urls in the image. (e.g from csv import)
-		$defaultImage = JString::substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE . $rootFolder . '/' . $value;
+		$defaultImage = JString::substr($value, 0, 4) == 'http' ? $value : COM_FABRIK_LIVESITE . $rootFolder . $value;
 
 		$float = $params->get('image_float');
 		$float = $float != '' ? "style='float:$float;'" : '';
