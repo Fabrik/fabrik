@@ -22,12 +22,6 @@ defined('_JEXEC') or die('Restricted access');
 class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 {
 
-	/**
-	 * Does the element have a label
-	 * @var bool
-	 */
-	protected $hasLabel = false;
-
 	protected $inputType = 'checkbox';
 
 	/**

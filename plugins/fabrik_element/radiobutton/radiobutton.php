@@ -23,12 +23,6 @@ class PlgFabrik_ElementRadiobutton extends PlgFabrik_ElementList
 {
 
 	/**
-	 * Does the element have a label
-	 * @var bool
-	 */
-	protected $hasLabel = true;
-
-	/**
 	* Method to set the element id
 	*
 	* @param   int  $id  element ID number
