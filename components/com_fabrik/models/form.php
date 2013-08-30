@@ -4241,6 +4241,7 @@ class FabrikFEModelForm extends FabModelForm
 		$groups = $this->getGroupsHiarachy();
 		foreach ($groups as $gkey => $groupModel)
 		{
+			// TODO Paul - I think that the contents of this loop should perhaps be in group.php
 			$groupTable = $groupModel->getGroup();
 			$group = $groupModel->getGroupProperties($this);
 			$groupParams = $groupModel->getParams();
@@ -4288,10 +4289,11 @@ class FabrikFEModelForm extends FabModelForm
 								}
 							}
 						} */
-					}
+					} // end-else
 
-				}
-			}
+				} // end-if is_object($joinTable)
+			} // end-if $groupModel->canRepeat()
+
 			// Test failed validated forms, repeat group counts are in request
 			$repeatGroups = $input->get('fabrik_repeat_group', array(), 'array');
 			if (!empty($repeatGroups))
@@ -4361,6 +4363,12 @@ class FabrikFEModelForm extends FabModelForm
 				// If its a repeatable group put in subgroup
 				if ($groupModel->canRepeat())
 				{
+					// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
+					$rowix = -1;
+					foreach ($aSubGroupElements as $elKey => $element)
+					{
+						$rowix = $groupModel->setColumnCss($element, $rowix);
+					}
 					$aSubGroups[] = $aSubGroupElements;
 				}
 			} // for c
@@ -4371,8 +4379,10 @@ class FabrikFEModelForm extends FabModelForm
 			$rowix = -1;
 			foreach ($aElements as $elKey => $element)
 			{
-				// Paul - Handle psuedo elements created by _makeJoinIdElement specially otherwise they will
-				// screw up the startRow / endRow.
+				/**
+				 * Paul - Handle psuedo elements created by _makeJoinIdElement specially
+				 * otherwise they will screw up the startRow / endRow.
+				 **/
 				if (is_numeric($elKey))
 				{
 					if ($rowix < 0)
@@ -4394,6 +4404,15 @@ class FabrikFEModelForm extends FabModelForm
 			{
 				// 28/01/2011 $$$rob and if it is published
 				$showGroup = (int) $groupParams->get('repeat_group_show_first');
+				/**
+				 *  0 = JNO
+				 *  1 = JYES
+				 * -1 = COM_FABRIK_YES_BUT_HIDDEN
+				 *  2 = COM_FABRIK_DETAILS_VIEW_ONLY
+				 *  3 = COM_FABRIK_FORM_VIEW_ONLY
+				 *  4 = COM_FABRIK_SHOW_GROUP_USABLE_ELEMENTS_ONLY
+				 *  5 = COM_FABRIK_SHOW_GROUP_ALWAYS_READ_ONLY
+				 **/
 				if ($showGroup !== 0)
 				{
 					// $$$ - hugh - testing new 'hide if no usable elements' option (4)
@@ -4404,8 +4423,8 @@ class FabrikFEModelForm extends FabModelForm
 						$this->groupView[$group->name] = $group;
 					}
 				}
-			}
-		}
+			} // end-if (count($aElements) != 0 && $groupModel->canView() !== false)
+		} // end foreach $groups
 		return $this->groupView;
 	}
 
