@@ -14,6 +14,7 @@ var FbCalc = new Class({
 	},
 
 	attachedToForm : function () {
+		this.attachedToFormParent();
 		if (this.options.ajax) {
 			var o2;
 			// @TODO - might want to think about firing ajaxCalc here as well, if we've just been added to the form

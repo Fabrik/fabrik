@@ -74,8 +74,11 @@ var FbElement =  new Class({
 		return elId;
 	},
 
-	attachedToForm: function ()
-	{
+	attachedToForm: function () {
+		this.attachedToFormParent();
+	},
+
+	attachedToFormParent: function () {
 		this.setElement();
 		if (Fabrik.bootstrapped) {
 			this.alertImage = new Element('i.' + this.form.options.images.alert);
@@ -96,7 +99,10 @@ var FbElement =  new Class({
 		//is only set when the element is assigned to the form.
 	},
 
-	/** allows you to fire an array of events to element /  subelements, used in calendar to trigger js events when the calendar closes **/
+	/**
+	 * Allows you to fire an array of events to element /  subelements,
+	 * used in calendar to trigger js events when the calendar closes
+	 **/
 	fireEvents: function (evnts) {
 		if (this.hasSubElements()) {
 			this._getSubElements().each(function (el) {
@@ -387,15 +393,13 @@ var FbElement =  new Class({
 		switch (klass) {
 			case 'fabrikError':
 				var colour = 'text-error.error';
-				li.grab(this.alertImage, 'top');
+				li.grab(this.alertImage.clone(), 'top');
 				break;
 			case 'fabrikSuccess':
 				var colour = 'text-success.success';
-				li.grab(this.successImage, 'top');
+				li.grab(this.successImage.clone(), 'top');
 				break;
 		}
-		// var d = new Element('div');
-		// new Element('ul.validation-notices.' + colour).setProperty("style","list-style:none").adopt(li).inject(d);
 		var ul = new Element('ul.validation-notices.' + colour).setProperty("style","list-style:none").adopt(li);
 		t.data('popover').options.content = ul.outerHTML;
 		t.data('popover').manualShow();
@@ -424,14 +428,10 @@ var FbElement =  new Class({
 			fconsole('element.js: Could not display error msg for ' + msg + ' no container class found');
 			return;
 		}
-		var classes = ['fabrikError', 'fabrikSuccess'];
-		classes.each(function (c) {
-			classname === c ? container.addClass(c) : container.removeClass(c);
-		});
 		var errorElements = this.getErrorElements();
 		errorElements.each(function (e) {
 			e.empty();
-			e.removeClass('text-error').removeClass('text-success');
+			e.removeClass('fabrikHide').removeClass('text-error').removeClass('text-success');
 		});
 		if (this.successTimer !== null) {
 			window.clearTimeout(this.successTimer);
@@ -439,33 +439,37 @@ var FbElement =  new Class({
 		}
 		switch (classname) {
 			case 'fabrikError':
-				Fabrik.loader.stop(this.element);
-				container.removeClass('success').removeClass('info').addClass('error');
+				container
+					.removeClass('success').addClass('error')
+					.removeClass('fabrikSuccess').addClass('fabrikError');
 				if (Fabrik.bootstrapped && single) {
 					this.addTipMsg(msg, classname);
 				} else {
 					errorElements.each(function (e) {
 						e.addClass('text-error');
 						e.set('html', '&nbsp;' + msg);
-						e.grab(this.alertImage, 'top');
-						e.removeClass('fabrikHide');
+						e.grab(this.alertImage.clone(), 'top');
 					}.bind(this));
 				}
 				break;
 
 			case 'fabrikSuccess':
-				if (Fabrik.bootstrapped && single && msg !== '') {
-					this.removeTipMsg();
+				container
+					.addClass('success').removeClass('error')
+					.addClass('FabrikSuccess').removeClass('FabrikError');
+				if (Fabrik.bootstrapped && single) {
+					if (msg !== '') {
+					this.addTipMsg(msg, classname);
+					} else {
+						this.removeTipMsg();
+					}
 				} else if (!single) {
 					errorElements.each(function (e) {
-						if (msg !== '') {
-							e.addClass('text-success');
-							e.set('html', '&nbsp;' + msg);
-						}
-						e.grab(this.successImage, 'top');
+						e.addClass('text-success');
+						e.set('html', '&nbsp;' + msg);
+						e.grab(this.successImage.clone(), 'top');
 					}.bind(this));
 				}
-				container.addClass('success').removeClass('info').removeClass('error');
 				var delfn = function () {
 					this.successTimer = null;
 					var container = this.getContainer();
@@ -474,7 +478,8 @@ var FbElement =  new Class({
 							e.empty();
 							e.removeClass('text-success').addClass('fabrikHide');
 						});
-						container.removeClass('success');
+						container.removeClass('success').removeClass('fabrikSuccess');
+						this.removeTipMsg();
 					}
 				}.bind(this);
 				this.successTimer = window.setTimeout(delfn, 5000);
@@ -692,30 +697,47 @@ var FbElement =  new Class({
 			return;
 		}
 		if (this.ajax) {
-			Fabrik.loader.stop(this.spinId);
 			this.ajax.cancel();
-			this.ajax = null;
 		}
-		Fabrik.loader.start(this.spinId, Joomla.JText._('COM_FABRIK_VALIDATING'));
 		this.ajax = new Request({
 			url: url,
-			method: this.form.options.ajaxmethod,
 			data: d,
-			onComplete: function (r) {
+
+			onRequest: function(){
+				Fabrik.loader.start(this.spinId, Joomla.JText._('COM_FABRIK_VALIDATING'));
+			}.bind(this),
+
+			onCancel: function(){
 				Fabrik.loader.stop(this.spinId);
-				r = JSON.decode(r);
+				this.ajax = null;
+			}.bind(this),
+
+			onComplete: function(){
+				Fabrik.loader.stop(this.spinId);
+				this.ajax = null;
+			}.bind(this),
+
+			onFailure: function(xhr){
+				console.log('Fabrik element::doValidation Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				this.setErrorMessage('Validation ajax call failed', 'fabrikError');
+				this.form.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
+			}.bind(this),
+
+			onSuccess: function (r) {
 				if (typeOf(r) === 'null') {
-					this.setErrorMessage('Validation ajax call failed', 'fabrikError');
-					this.ajax = null;
+					console.log('Fabrik element::doValidation Ajax response empty.');
+					this.setErrorMessage('Validation ajax call response empty', 'fabrikError');
 					return;
 				}
 				this.form.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
 				});
+				r = JSON.decode(r);
 				Fabrik.fireEvent('fabrik.form.element.validation.complete', [this.form, r, id, origid]);
 				if (this.form.result === false) {
 					this.form.result = true;
-					this.ajax = null;
 					return;
 				}
 				var el = this.form.formElements.get(id);
@@ -727,12 +749,11 @@ var FbElement =  new Class({
 					if (msg !== '') {
 						this.setErrorMessage(msg, 'fabrikError', true);
 					} else {
-						this.setErrorMessage(Joomla.JText._('COM_FABRIK_SUCCESS'), 'fabrikSuccess', true);
+						this.setErrorMessage('', 'fabrikSuccess', true);
 					}
 				} else {
-					this.setErrorMessage(Joomla.JText._('COM_FABRIK_SUCCESS'), 'fabrikSuccess', true);
+					this.setErrorMessage('', 'fabrikSuccess', true);
 				}
-				this.ajax = null;
 			}.bind(this)
 		}).send();
 	}
@@ -820,7 +841,7 @@ var FbFileElement = new Class({
 		};
 		new Request({ url: '',
 			data: data,
-			onComplete: function (r) {
+			onSuccess: function (r) {
 				r = JSON.decode(r);
 				this.folderdiv.empty();
 
