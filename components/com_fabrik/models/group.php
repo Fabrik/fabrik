@@ -439,8 +439,20 @@ class FabrikFEModelGroup extends FabModel
 		$element->startRow = false;
 		$element->endRow = false;
 
-		// $rowIx == -1 indicates a new row = distinguish from 0 to allow hidden fields at start of row.
-		if ($rowIx < 0)
+		/**
+		 * Hidden fields at start of row will be grouped on a separate row to avoid
+		 * issues with css selector :first-child.
+		 * $rowIx == -1 indicates a new row to distinguish it from
+		 * $rowIx = 0 which indicates hidden fields already processed at start of row.
+		 **/
+		if ($rowIx === 0 && !$element->hidden)
+		{
+			// Previous element must have been hidden - so set end of row on that and new row on this
+			$this->setColumnCssLastElement->endRow = true;
+			$rowIx = - 1;
+		}
+
+		 if ($rowIx < 0)
 		{
 			$rowIx = 0;
 			$element->startRow = true;
@@ -450,20 +462,23 @@ class FabrikFEModelGroup extends FabModel
 
 		$spans = $this->columnSpans();
 		$spanKey = $rowIx % $colcount;
-		$element->span = JArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colcount));
+		$element->span = $element->hidden ? '' : JArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colcount));
 
 		if (!$element->hidden)
 		{
 			$rowIx++;
 		}
 
-		if (($rowIx % $colcount === 0))
+		if ($rowIx !== 0 && ($rowIx % $colcount === 0))
 		{
 			$element->endRow = true;
 
 			// Reset rowIx to indicate a new row.
 			$rowIx = -1;
 		}
+
+		// Save this so we can set endRow on previous element if it was hidden and this element isn't.
+		$this->setColumnCssLastElement = $element;
 		return $rowIx;
 	}
 
