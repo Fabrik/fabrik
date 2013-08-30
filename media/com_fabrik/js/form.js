@@ -25,7 +25,6 @@ var FbForm = new Class({
 		'ajaxValidation': false,
 		'customJsAction': '',
 		'plugins': [],
-		'ajaxmethod': 'post',
 		'inlineMessage': true,
 		'images': {
 			'alert': '',
@@ -361,12 +360,12 @@ var FbForm = new Class({
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
 					i.addEvent(triggerEvent, function (e) {
-						this.doElementValidation.delay(500, this, e, true);
+						this.doElementValidation.delay(250, this, e, true);
 					}.bind(this));
 			}.bind(this));
 		} else {
 			el.addEvent(triggerEvent, function (e) {
-				this.doElementValidation.delay(500, this, e, false);
+				this.doElementValidation.delay(250, this, e, false);
 			}.bind(this));
 		}
 	},
@@ -417,7 +416,7 @@ var FbForm = new Class({
 		// $$$ hugh - moved attachedToForm calls out of addElement to separate loop, to fix forward reference issue,
 		// i.e. calc element adding events to other elements which come after itself, which won't be in formElements
 		// yet if we do it in the previous loop ('cos the previous loop is where elements get added to formElements)
-		for (i = 0; i < added.length; i ++) {
+		for (i = 0; i < added.length; i++) {
 			if (typeOf(added[i]) !== 'null') {
 				try {
 					added[i].attachedToForm();
@@ -758,13 +757,14 @@ var FbForm = new Class({
 		if (this.options.ajax) {
 			// Do ajax val only if onSubmit val ok
 			if (this.form) {
-				Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_SAVING'));
 				// $$$ hugh - we already did elementsBeforeSubmit() this at the start of this func?
 				// (and we're going to call it again in getFormData()!)
 				//this.elementsBeforeSubmit(e);
 				// get all values from the form
 				var data = $H(this.getFormData());
 				data = this.prepareRepeatsForAjax(data);
+				data.fabrik_ajax = '1';
+				data.format = 'raw';
 				if (btn.name === 'Copy') {
 					data.Copy = 1;
 					e.stop();
@@ -774,29 +774,35 @@ var FbForm = new Class({
 				var myajax = new Request.JSON({
 					'url': this.form.action,
 					'data': data,
-					'method': this.options.ajaxmethod,
+
+					onRequest: function(){
+						Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_SAVING'));
+					}.bind(this),
+
+					onCancel: function(){
+						Fabrik.loader.stop(this.getBlock());
+					}.bind(this),
+
+					onComplete: function(){
+						Fabrik.loader.stop(this.getBlock());
+					}.bind(this),
 
 					onError: function (text, error) {
-						fconsole('form.js:doSubmit Ajax error: ' + text + ": " + error);
-						this.showMainError(error);
-						Fabrik.loader.stop(this.getBlock(), 'Ajax error');
+						fconsole('Fabrik form::doSubmit Ajax JSON error: ' + error + ": " + text);
+						this.showMainError('Ajax error on partial save: ' + error);
 					}.bind(this),
 
 					onFailure: function (xhr) {
-						fconsole('form.js:doSubmit Ajax failure:', xhr);
-						this.showMainError('Ajax failure');
-						Fabrik.loader.stop(this.getBlock(), 'Ajax failure');
+						fconsole('Fabrik form::doSubmit Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+						this.showMainError('Ajax failure on partial save.');
 					}.bind(this),
 
-					onComplete: function (json, txt) {
+					onSuccess: function (json, txt) {
 						if (typeOf(json) === 'null') {
-							// Stop spinner
-							fconsole('form.js:doSubmit Error in returned json', json, txt);
-							this.showMainError('Error in returned JSON');
-							Fabrik.loader.stop(this.getBlock(), 'Error in returned JSON');
+							fconsole('Fabrik form::doSubmit Ajax response empty.');
+							this.showMainError('Ajax response empty on partial save.');
 							return;
 						}
-						Fabrik.loader.stop(this.getBlock());
 						// Process errors if there are some
 						var errfound = false;
 						if (json.errors !== undefined) {
@@ -955,28 +961,52 @@ var FbForm = new Class({
 			document.getElement('.tool-tip').setStyle('top', 0);
 		}
 
-		var d = $H(this.getFormData());
-		d.set('task', 'form.ajax_validate');
-		d.set('fabrik_ajax', '1');
-		d.set('format', 'raw');
-		d = this.prepareRepeatsForAjax(d);
+		var data = $H(this.getFormData());
+		data = this.prepareRepeatsForAjax(data);
+		data.fabrik_ajax = '1';
+		data.format = 'raw';
+		data.task = 'form.ajax_validate';
+
 
 		// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors
 		// if you are on www and livesite is not on www.
 		var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
 
 		if (this.ajax) {
-			Fabrik.loader.stop(this.getBlock());
 			this.ajax.cancel();
-			this.ajax = null;
 		}
-		Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
 		this.Ajax = new Request({
 			'url': url,
-			method: this.options.ajaxmethod,
-			data: d,
-			onComplete: function (r) {
+			'data': data,
+
+			onRequest: function(){
+				Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
+			}.bind(this),
+
+			onCancel: function(){
 				Fabrik.loader.stop(this.getBlock());
+				this.ajax = null;
+			}.bind(this),
+
+			onComplete: function(){
+				Fabrik.loader.stop(this.getBlock());
+				this.ajax = null;
+			}.bind(this),
+
+			onFailure: function(xhr){
+				console.log('Fabrik form::doSubmit Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				this.showMainError('Validation ajax call failed');
+				this.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
+			}.bind(this),
+
+			onSuccess: function (r) {
+				if (typeOf(r) === 'null') {
+					fconsole('Fabrik form::doSubmit Ajax response empty.');
+					this.showMainError('Validation ajax response empty');
+					return;
+				}
 				// new Fx.Scroll(window).toElement(this.form);
 				this.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
@@ -988,13 +1018,8 @@ var FbForm = new Class({
 					document.id(window).scrollTo(formPosition.x, formPosition.y - 10); // Allow a 10px top margin displayed.
 				}
 				r = JSON.decode(r);
-				if (typeOf(r) === 'null') {
-					this.showMainError('Validation ajax call failed');
-					this.ajax = null;
-					return;
-				}
 				// Show error fields
-				var validationError = this.showGroupError(r, d);
+				var validationError = this.showGroupError(r, data);
 				if (validationError) {
 					this.disableSubmitApply();
 					if (this.tabbed) {
@@ -1037,12 +1062,12 @@ var FbForm = new Class({
 						if (typeOf(r.errors[k]) !== 'null') {
 							var msg = r.errors[k].flatten().join('<br />');
 							if (msg !== '') {
-							err = this.showElementError(msg, k) || err;
+								err = this.showElementError(msg, k) || err;
 							} else {
-								el.setErrorMessage('', 'fabrikSuccess');
+								this.showElementError('', k);
 							}
 						} else {
-								el.setErrorMessage('', 'fabrikSuccess');
+							this.showElementError('', k);
 						}
 					}
 					if (r.modified[k]) {
@@ -1066,29 +1091,47 @@ var FbForm = new Class({
 			this.result = true;
 			return;
 		}
-		var orig = this.form.getElement('input[name=format]').value;
-		var origprocess = this.form.getElement('input[name=task]').value;
-		this.form.getElement('input[name=format]').value = 'raw';
-		this.form.getElement('input[name=task]').value = 'form.savepage';
 
-		var data = this.getFormData();
-		data.fabrik_ajax = 1;
+		var data = $H(this.getFormData());
+		data = this.prepareRepeatsForAjax(data);
+		data.fabrik_ajax = '1';
+		data.format = 'raw';
+		data.task = 'form.savepage';
 
 		var url = 'index.php?option=com_fabrik&format=raw&page=' + this.currentPage;
-		Fabrik.loader.start(this.getBlock(), 'COM_FABRIK_SAVING');
 		new Request({
 			url: url,
-			method: this.options.ajaxmethod,
 			data: data,
-			onComplete: function (r) {
+
+			onRequest: function(){
+				Fabrik.loader.start(this.getBlock(), 'COM_FABRIK_SAVING');
+			}.bind(this),
+
+			onCancel: function(){
 				Fabrik.loader.stop(this.getBlock());
+			}.bind(this),
+
+			onComplete: function(){
+				Fabrik.loader.stop(this.getBlock());
+			}.bind(this),
+
+			onFailure: function(xhr){
+				console.log('Fabrik form::saveGroupsToDb Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				this.showMainError('Partial save ajax call failed');
+				this.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
+			}.bind(this),
+
+			onSuccess: function (r) {
+				this.formElements.each(function (el, key) {
+					el.afterAjaxValidation();
+				});
 				Fabrik.fireEvent('fabrik.form.groups.save.completed', [this]);
 				if (this.result === false) {
 					this.result = true;
 					return;
 				}
-				this.form.getElement('input[name=format]').value = orig;
-				this.form.getElement('input[name=task]').value = origprocess;
 				if (this.options.ajax) {
 					Fabrik.fireEvent('fabrik.form.groups.save.end', [this, r]);
 				}
@@ -1101,7 +1144,6 @@ var FbForm = new Class({
 	 * element js actions, e.g. date picker closing
 	 **/
 	doElementValidation: function (e, subEl, replacetxt) {
-		var id;
 		if (this.options.ajaxValidation === false) {
 			return;
 		}
@@ -1110,10 +1152,9 @@ var FbForm = new Class({
 		// text explicitly.
 		replacetxt = typeOf(replacetxt) === 'null' ? '_time' : replacetxt;
 		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
-			id = e.target.id;
 			// In case validation field is not displayed field (e.g. autocomplete),
 			// we want spinner to be shown against displayed field.
-			spinId = id;
+			var spinId = id = e.target.id;
 			// Check for dbjoin autocomplete label field and replace with value field
 			if (e.target.hasClass('autocomplete-trigger')) {
 				id = id.replace('-auto-complete','');
@@ -1244,9 +1285,6 @@ var FbForm = new Class({
 		single = typeOf(single) !== 'null' ? single : false;
 		// msg should be the errors for the specific element, down to its repeat group id.
 		var classname = (msg === '') ? 'fabrikSuccess' : 'fabrikError';
-		if (msg === '') {
-			msg = Joomla.JText._('COM_FABRIK_SUCCESS');
-		}
 		this.formElements.get(id).setErrorMessage(msg, classname, single);
 		return (classname === 'fabrikSuccess') ? false : true;
 	},
@@ -1731,7 +1769,6 @@ var delIndex2 = e.target.getParent('.fabrikSubGroup');
 		var inputs = clone.getElements('.fabrikinput');
 		var lastinput = null;
 		var c = this.repeatGroupMarkers.get(group_id);
-//console.log("c:",c);
 		this.formElements.each(function (el) {
 			var formElementFound = false;
 			subElementContainer = null;
@@ -1958,7 +1995,6 @@ var delIndex2 = e.target.getParent('.fabrikSubGroup');
 
 				var myAjax = new Request({
 					url: 'index.php',
-					method: this.options.ajaxmethod,
 					data: editopts,
 					onComplete: function (r) {
 						Fabrik.loader.stop(this.getBlock());
