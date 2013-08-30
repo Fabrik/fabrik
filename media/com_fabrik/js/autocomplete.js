@@ -104,21 +104,22 @@ var FbAutocomplete = new Class({
 					}.bind(this),
 
 					onCancel: function(){
-						this.ajax = null;
 						Fabrik.loader.stop(this.getInputElement());
+						this.ajax = null;
+					}.bind(this),
+
+					onComplete: function(){
+						Fabrik.loader.stop(this.getInputElement());
+						this.ajax = null;
 					}.bind(this),
 
 					onFailure: function(xhr){
-						this.ajax = null;
-						Fabrik.loader.stop(this.getInputElement());
 						console.log('Fabrik autocomplete: Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
 						elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
 						elModel.setErrorMessage(Joomla.JText._('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR'), 'fabrikError', true);
 					}.bind(this),
 
 					onSuccess: function (r) {
-						this.ajax = null;
-						Fabrik.loader.stop(this.getInputElement());
 						if (typeOf(r) === 'null') {
 							console.log('Fabrik autocomplete: Ajax response empty');
 							elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
