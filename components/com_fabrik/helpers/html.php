@@ -900,8 +900,19 @@ EOD;
 
 				self::styleSheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/css/fabrik.css');
 
+
+				$liveSiteReq = array();
+				$liveSiteReq[] = 'media/com_fabrik/js/fabrik' . $ext;
+				if ($bootstrapped)
+				{
+					$liveSiteReq[] = 'media/com_fabrik/js/tipsBootStrapMock' . $ext;
+				}
+				else
+				{
+					$liveSiteReq[] = 'media/com_fabrik/js/tips' . $ext;
+				}
+
 				$liveSiteSrc = array();
-				$liveSiteSrc[] = "window.addEvent('fabrik.loaded', function () {";
 				$liveSiteSrc[] = "\tFabrik.liveSite = '" . COM_FABRIK_LIVESITE . "';";
 				if ($bootstrapped)
 				{
@@ -913,9 +924,8 @@ EOD;
 					$liveSiteSrc[] = "\tFabrik.bootstrapped = false;";
 				}
 				$liveSiteSrc[] = self::tipInt();
-				$liveSiteSrc[] = "});";
-				self::addScriptDeclaration(implode("\n", $liveSiteSrc));
-
+				$liveSiteSrc = implode("\n", $liveSiteSrc);
+				self::script($liveSiteReq, $liveSiteSrc);
 			}
 			self::$framework = $src;
 		}
@@ -1034,7 +1044,7 @@ EOD;
 
 		$pathString = '{' . implode(',', $pathBits) . '}';
 		$config = array();
-		$config[] = "require.config({";
+		$config[] = "requirejs.config({";
 		$config[] = "\tbaseUrl: '" . COM_FABRIK_LIVESITE . "',";
 		$config[] = "\tpaths: " . $pathString . ",";
 		$config[] = "\tshim: " . $shim . ',';
@@ -1228,32 +1238,21 @@ EOD;
 		$files = (array) $file;
 
 		// Replace with minified files if found
-		foreach ($files as &$f)
-		{
-			if (!(JString::stristr($f, 'http://') || JString::stristr($f, 'https://')))
-			{
-				if (!JFile::exists(COM_FABRIK_BASE . '/' . $f))
-				{
-					continue;
-				}
-			}
-			if (JString::stristr($f, 'http://') || JString::stristr($f, 'https://'))
-			{
-				$f = $f;
-			}
-			else
-			{
-				$compressedFile = str_replace('.js', $ext, $f);
-				if (JFile::exists(JPATH_SITE . '/' . $compressedFile) || JFile::exists($compressedFile))
-				{
-					$f = $compressedFile;
-				}
-			}
-		}
-
-		// Set file name based on requirejs basePath
 		foreach ($files as &$file)
 		{
+			if (!(JString::stristr($file, 'http://') || JString::stristr($file, 'https://')))
+			{
+				if (JFile::exists(COM_FABRIK_BASE . $file))
+				{
+					$compressedFile = str_replace('.js', $ext, $file);
+					if (JFile::exists(COM_FABRIK_BASE . $compressedFile))
+					{
+						$file = $compressedFile;
+					}
+				}
+			}
+
+			// Set file name based on requirejs basePath
 			$pathMatched = false;
 			foreach ($paths as $requireKey => $path)
 			{
@@ -1273,6 +1272,7 @@ EOD;
 				}
 			}
 		}
+
 		// Need to load element for ajax popup forms in IE.
 		$needed = array();
 		if (!FabrikWorker::j3())
@@ -1289,7 +1289,7 @@ EOD;
 		}
 		$files = array_unique($files);
 		$files = "['" . implode("', '", $files) . "']";
-		$require[] = 'require(' . ($files) . ', function () {';
+		$require[] = 'requirejs(' . ($files) . ', function () {';
 		$require[] = $onLoad;
 		$require[] = '});';
 		$require[] = "\n";
@@ -1541,6 +1541,7 @@ EOD;
 		$json = self::autoCompleteOptions($htmlid, $elementid, $formid, $plugin, $opts);
 		$str = json_encode($json);
 		JText::script('COM_FABRIK_NO_RECORDS');
+		JText::script('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR');
 		$class = $plugin === 'cascadingdropdown' ? 'FabCddAutocomplete' : 'FbAutocomplete';
 		$jsFile = FabrikWorker::j3() ? 'autocomplete-bootstrap' : 'autocomplete';
 		self::addScriptDeclaration(
