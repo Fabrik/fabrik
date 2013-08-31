@@ -65,35 +65,34 @@ class PlgSystemFabrik extends JPlugin
 	{
 		$document = JFactory::getDocument();
 		$session = JFactory::getSession();
-		$shim = $session->get('fabrik.js.config', array());
-		$shim = implode("\n", $shim);
+		$config = $session->get('fabrik.js.config', array());
+		$config = implode("\n", $config);
 		$js = $session->get('fabrik.js.scripts', array());
 		$js = implode("\n", $js);
-
-		$script = '';
 
 		$session->clear('fabrik.js.scripts');
 		$session->clear('fabrik.js.config');
 		$session->clear('fabrik.js.shim');
 
 		$content = JResponse::getBody();
+		$script = '<script type="text/javascript">' . "\n" . $config . "\n" . $js . "\n" . '</script>';
 		if (stristr($content, '</head>'))
 		{
 			// In preg_replace \\ is replaced with \, doubling up the quotes keeps \\ as \\.
 			$js = str_replace("\\", "\\\\", $js);
-			if ($shim !== '' && $js !== '')
+			// $$$ Paul - Not sure what happens if only one of $config and $js is set.
+			if ($config !== '' && $js !== '')
 			{
-				$script = '<script type="text/javascript">' . "\n" . $shim . "\n" . $js . "\n" . '</script>';
+				$content = preg_replace('#(</head>)#', $script . '</head>', $content);
 			}
-			$content = preg_replace('#(</head>)#', $script . '</head>', $content);
 		}
 		else
 		{
+			// $$$ Paul - Not sure why this is different to above or what happens to $config if $js is blank.
 			if ($js !== '')
 			{
-				$script = '<script type="text/javascript">' . "\n" . $shim . "\n" . $js . "\n" . '</script>';
+				$content .= $script;
 			}
-			$content .= $script;
 		}
 		JResponse::setBody($content);
 	}
