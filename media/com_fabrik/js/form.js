@@ -56,6 +56,7 @@ var FbForm = new Class({
 		this.formElements = $H({});
 		this.elements = this.formElements;
 		this.duplicatedGroups = $H({});
+		this.grpValidation = {};
 		this.fx = {};
 		this.fx.elements = [];
 		this.fx.validations = {};
@@ -360,12 +361,12 @@ var FbForm = new Class({
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
 					i.addEvent(triggerEvent, function (e) {
-						this.doElementValidation.delay(250, this, e, true);
+						this.doElementValidation.delay(500, this, e, true);
 					}.bind(this));
 			}.bind(this));
 		} else {
 			el.addEvent(triggerEvent, function (e) {
-				this.doElementValidation.delay(250, this, e, false);
+				this.doElementValidation.delay(500, this, e, false);
 			}.bind(this));
 		}
 	},
@@ -380,13 +381,13 @@ var FbForm = new Class({
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
 				i.addEvent('change', function (e) {
-					this.doElementClearError(e);
+					this.doElementClearError(e, true);
 				}.bind(this));
 			}.bind(this));
 			return;
 		}
 		el.addEvent('change', function (e) {
-			this.doElementClearError(e);
+			this.doElementClearError(e, false);
 		}.bind(this));
 	},
 
@@ -421,7 +422,7 @@ var FbForm = new Class({
 				try {
 					added[i].attachedToForm();
 				} catch (err) {
-					fconsole(added[i].options.element + ' attach to form:' + err);
+					fconsole('Fabrik formm.js::addElements Error attaching ' + added[i].options.element + ' to form:' + err);
 				}
 			}
 		}
@@ -437,6 +438,7 @@ var FbForm = new Class({
 		var ro = elId.substring(elId.length - 3, elId.length) === '_ro';
 		oEl.form = this;
 		oEl.groupid = gid;
+		this.grpValidation[gid] = this.grpValidation[gid] || oEl.options.validations;
 		this.formElements.set(elId, oEl);
 		Fabrik.fireEvent('fabrik.form.element.added', [this, elId, oEl]);
 		if (ro) {
@@ -451,7 +453,8 @@ var FbForm = new Class({
 	 *
 	 * @param   string  id            Element id to run the effect on
 	 * @param   string  method        Method to run
-	 * @param   object  elementModel  The element JS object which is calling the fx, this is used to work ok which repeat group the fx is applied on
+	 * @param   object  elementModel  The element JS object which is calling the fx,
+	                                  this is used to work ok which repeat group the fx is applied on
 	 */
 	doElementFX: function (id, method, elementModel) {
 		var k, groupfx, fx, fxElement;
@@ -947,6 +950,21 @@ var FbForm = new Class({
 //***********************************************************/
 
 	/**
+	 * Check whether a page or tab needs to be validated when switching to another page / tab
+	 *
+	 * @param  array    An array of gids contained in the page / tab we are currently on
+	 * @return boolean  true if any of the gids has an element with validation, false otherwise
+	 *
+	 */
+	 gidsValidation: function (gids) {
+		var hasValidation = false;
+		gids.each(function (gid) {
+			hasValidation = hasValidation || this.grpValidation[gid];
+		}.bind(this));
+		return hasValidation;
+	},
+
+	/**
 	 * Validate the form by ajax
 	 *
 	 * @return false if errors found, true if OK
@@ -994,7 +1012,7 @@ var FbForm = new Class({
 			}.bind(this),
 
 			onFailure: function(xhr){
-				console.log('Fabrik form::doSubmit Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				fconsole('Fabrik form::doSubmit Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
 				this.showMainError('Validation ajax call failed');
 				this.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
@@ -1116,7 +1134,7 @@ var FbForm = new Class({
 			}.bind(this),
 
 			onFailure: function(xhr){
-				console.log('Fabrik form::saveGroupsToDb Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				fconsole('Fabrik form::saveGroupsToDb Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
 				this.showMainError('Partial save ajax call failed');
 				this.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
@@ -1124,6 +1142,7 @@ var FbForm = new Class({
 			}.bind(this),
 
 			onSuccess: function (r) {
+				fconsole('Fabrik form::saveGroupsToDb Ajax response: ' + r);
 				this.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
 				});
@@ -1140,58 +1159,50 @@ var FbForm = new Class({
 	},
 
 	/**
-	 * as well as being called from watchValidation can be called from other
-	 * element js actions, e.g. date picker closing
+	 * Do validation for a single element based on a change or blur event from that elementFromPoint
+	 * Can also be called from other element js actions, e.g. date picker closing.
 	 **/
 	doElementValidation: function (e, subEl, replacetxt) {
 		if (this.options.ajaxValidation === false) {
 			return;
 		}
 
-		// $$$ Paul - We should not assume that replacetxt comes from date.js - date.js should provide replacement
-		// text explicitly.
-		replacetxt = typeOf(replacetxt) === 'null' ? '_time' : replacetxt;
-		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
-			// In case validation field is not displayed field (e.g. autocomplete),
-			// we want spinner to be shown against displayed field.
-			var spinId = id = e.target.id;
-			// Check for dbjoin autocomplete label field and replace with value field
-			if (e.target.hasClass('autocomplete-trigger')) {
-				id = id.replace('-auto-complete','');
-			}
-			// for elements with subelements eg checkboxes radiobuttons
-			if (subEl === true) {
-				id = document.id(e.target).getParent('.fabrikSubElementContainer').id;
-			}
-		} else {
-			// hack for closing date picker where it seems the event object isn't available
-			// $$$ Paul - date.js should use mock events (see autocomplete*.js for example
-			id = e;
-		}
+		id = _getValidationElId(e, subEl);
 		if (typeOf(document.id(id)) === 'null') {
+			fconsole("Fabrik form.js::doElementValidation: Cannot find the field: " + id);
 			return;
 		}
 		if (document.id(id).getProperty('readonly') === true || document.id(id).getProperty('readonly') === 'readonly') {
 			// stops date element being validated
 			// return;
 		}
+		var spinId = e.target.id;
 		var el = this.formElements.get(id);
 		if (!el) {
-			//silly catch for date elements you cant do the usual method of setting the id in the
-			//fabrikSubElementContainer as its required to be on the date element for the calendar to work
-			// Paul - To Do - Now that the actual validation is done in element.js (which is extended for each
-			// element plugin), tweaks to the data can be done as overrides within the specific plugin js.
+			/**
+			 * Hugh/Rob - silly catch for date elements you cant do the usual method of setting the id in the
+			 * fabrikSubElementContainer as its required to be on the date element for the calendar to work
+			 *
+			 * $$$ Paul - We should not assume that replacetxt comes from date.js - date.js should provide replacement
+			 * text explicitly or even better use a Mock event to specify the correct element.
+			 *
+			 * Paul - To Do - Now that the actual validation is done in element.js (which is extended for each
+			 * element plugin), tweaks to the data can be done as overrides within the specific plugin js.
+			 **/
+			replacetxt = typeOf(replacetxt) === 'null' ? '_time' : replacetxt;
 			id = id.replace(replacetxt, '');
 			el = this.formElements.get(id);
 			if (!el) {
+				fconsole("Fabrik form.js::doElementValidation: Cannot find the formElement: " + id);
 				return;
 			}
 		}
 
-		this.formElements.get(id).doValidation(e, subEl, id, spinId);
+		el.doValidation(e, subEl, id, spinId);
 
 		/**
-		 * Paul - In order to be able to do multiple single validations in parallel,
+		 * Paul - In order to be able to do multiple single validations in parallel
+		 * e.g. tabbing through fields in quick succession,
 		 * the following code has been moved inside element.js which is called above.
 
 		var d = $H(this.getFormData());
@@ -1250,10 +1261,35 @@ var FbForm = new Class({
 		**/
 	},
 
-	doElementClearError: function (e) {
+	doElementClearError: function (e, subEl) {
 		// If not doing ajax validation, then clear error messages for a field on same events
-		this.showElementError('', e.target.id, true);
+		id = _getValidationElId(e, subEl);
+		this.showElementError('', id, true);
 		this.updateMainError();
+	},
+
+	/**
+	 * Helper function to get the formElement id
+	 **/
+	_getValidationElId: function (e, subEl) {
+		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
+			// In case validation field is not displayed field (e.g. autocomplete),
+			// we want spinner to be shown against displayed field.
+			var id = e.target.id;
+			// Check for dbjoin autocomplete label field and replace with value field
+			if (e.target.hasClass('autocomplete-trigger')) {
+				id = id.replace('-auto-complete','');
+			}
+			// for elements with subelements e.g. checkboxes radiobuttons
+			if (subEl === true) {
+				id = document.id(e.target).getParent('.fabrikSubElementContainer').id;
+			}
+		} else {
+			// hack for closing date picker where it seems the event object isn't available
+			// $$$ Paul - date.js should use mock events (see autocomplete*.js for example
+			var id = e;
+		}
+		return id;
 	},
 
 	prepareRepeatsForAjax: function (d) {
@@ -1429,7 +1465,12 @@ var FbForm = new Class({
 	doPageNav: function (e, dir) {
 		e.stop();
 		if (this.options.editable) {
-			this.validateByAjax(dir);
+			var gids = Array.from(this.options.pages.get(this.currentPage.toInt()));
+			if (this.gidsValidation(gids)) {
+				this.validateByAjax(dir);
+			} else {
+				this.changePage(dir);
+			}
 		} else {
 			this.changePage(dir);
 		}
@@ -1515,8 +1556,12 @@ var FbForm = new Class({
 	tabValidate: function (e, targetTo, targetFrom) {
 		// Get current tab div and validate it with ajax
 		if (this.options.editable) {
-			e.preventDefault();
-			this.validateByAjax(targetTo);
+			var currentTab = this.form.getElement('.tab-pane.active').id;
+			var gids = this.options.pages.get(currentTab.replace('group-tab','').toInt());
+			if (this.gidsValidation(gids)) {
+				e.preventDefault();
+				this.validateByAjax(targetTo);
+			}
 		}
 		// If not editable click does the tab change anyway.
 	},
@@ -1769,6 +1814,7 @@ var delIndex2 = e.target.getParent('.fabrikSubGroup');
 		var inputs = clone.getElements('.fabrikinput');
 		var lastinput = null;
 		var c = this.repeatGroupMarkers.get(group_id);
+//console.log("c:",c);
 		this.formElements.each(function (el) {
 			var formElementFound = false;
 			subElementContainer = null;
