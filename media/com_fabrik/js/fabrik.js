@@ -6,7 +6,7 @@
  */
 
 /*jshint mootools: true */
-/*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true $H:true,unescape:true,Asset:true,FloatingTips:true,head:true,IconGenerator:true */
+/*global Fabrik:true, fconsole:true, Joomla:true, $H:true, FbForm:true */
 
 /**
  * Console.log wrapper
@@ -50,8 +50,7 @@ RequestQueue = new Class({
 		if (Object.keys(this.queue).length === 0) {
 			return;
 		}
-		var xhr = {},
-		running = false;
+		var running = false;
 
 		// Remove successfuly completed xhr
 		$H(this.queue).each(function (xhr, k) {
@@ -227,36 +226,58 @@ var Loader = new Class({
 		this.spinners = {};
 	},
 
-	getSpinner: function (inline, msg) {
-		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
+	start: function (inline, msg) {
 		if (typeOf(document.id(inline)) === 'null') {
 			inline = false;
 		}
-		inline = inline ? inline : false;
-		var target = inline ? inline : document.body;
+		inline = inline ? inline : document.body;
+		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
 		if (!this.spinners[inline]) {
-			this.spinners[inline] = new Spinner(target, {'message': msg});
+			this.spinners[inline] = new Spinner(inline, {'message': msg});
 		}
-		return this.spinners[inline];
+		if (!this.spinnerCount[inline])
+		{
+			this.spinnerCount[inline] = 1;
+		} else {
+			this.spinnerCount[inline]++;
+		}
+		// If field is hidden we will get a TypeError
+		if (this.spinnerCount[inline] === 1) {
+			try {
+				this.spinners[inline].position().show();
+			} catch (err) {
+				// Do nothing
+			}
+		}
 	},
 
-	start: function (inline, msg) {
-		this.getSpinner(inline, msg).position().show();
-	},
+	stop: function (inline) {
+		if (typeOf(document.id(inline)) === 'null') {
+			inline = false;
+		}
+		inline = inline ? inline : document.body;
+		if (!this.spinners[inline] || !this.spinnerCount[inline])
+		{
+			return;
+		}
+		if (this.spinnerCount[inline] > 1)
+		{
+			this.spinnerCount[inline]--;
+			return;
+		}
 
-	stop: function (inline, msg, keepOverlay) {
-		var s = this.getSpinner(inline, msg);
+		var s = this.spinners[inline];
 
 		// Dont keep the spinner once stop is called - causes issue when loading ajax form for 2nd time
 		if (Browser.ie && Browser.version < 9) {
 
 			// Well ok we have to in ie8 ;( otherwise it give a js error somewhere in FX
-			s.clearChain(); // Tried this to remove FX but didnt seem to achieve anything
 			s.hide();
 		} else {
 			s.destroy();
+			delete this.spinnerCount[inline];
+			delete this.spinners[inline];
 		}
-		delete this.spinners[inline];
 	}
 });
 
@@ -532,6 +553,7 @@ if (typeof(Fabrik) === "undefined") {
 	 * @since 3.0.7
 	 */
 	Fabrik.watchEdit = function (e, target) {
+		var url, loadMethod, a;
 		var listRef = target.get('data-list');
 		var list = Fabrik.blocks[listRef];
 		var row = list.getActiveRow(e);
@@ -597,8 +619,8 @@ if (typeof(Fabrik) === "undefined") {
 	 */
 
 	Fabrik.watchView = function (e, target) {
+		var url, loadMethod, a;
 		var listRef = target.get('data-list');
-		var a;
 		var list = Fabrik.blocks[listRef];
 		if (!list.options.ajax_links) {
 			return;

@@ -6,7 +6,7 @@
  */
 
 /*jshint mootools: true */
-/*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true,Asset:true */
+/*global Fabrik:true, fconsole:true, Joomla:true, $H:true, Asset:true */
 
 var FbElement =  new Class({
 
@@ -203,8 +203,8 @@ var FbElement =  new Class({
 	},
 
 	addNewEventAux: function (action, js) {
-		this.element.addEvent(action, function (e) {
-			// Don't stop event - means fx's onchange events wouldnt fire.
+		this.element.addEvent(action, function () {
+			// Don't stop event - means fx's onChange events wouldn't fire.
 			typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
 		}.bind(this));
 	},
@@ -327,7 +327,7 @@ var FbElement =  new Class({
 	},
 
 	/**
-	 * Run when the element is decloled from the form as part of a deleted repeat group
+	 * Run when the element is decloned from the form as part of a deleted repeat group
 	 */
 	decloned: function (groupid) {
 	},
@@ -379,6 +379,7 @@ var FbElement =  new Class({
 	 * In 3.1 show error messages in tips - avoids jumpy pages with ajax validations
 	 */
 	addTipMsg: function (msg, klass) {
+		var colour;
 		var t = this.tips();
 		if (t.length === 0) {
 			return;
@@ -392,11 +393,11 @@ var FbElement =  new Class({
 		klass = klass === null ? 'fabrikError' : klass;
 		switch (klass) {
 			case 'fabrikError':
-				var colour = 'text-error.error';
+				colour = 'text-error.error';
 				li.grab(this.alertImage.clone(), 'top');
 				break;
 			case 'fabrikSuccess':
-				var colour = 'text-success.success';
+				colour = 'text-success.success';
 				li.grab(this.successImage.clone(), 'top');
 				break;
 		}
@@ -590,7 +591,7 @@ var FbElement =  new Class({
 
 	_decreaseName: function (n, delIndex, suffix) {
 
-		suffixFound = false;
+		var suffixFound = false;
 		suffix = suffix ? suffix : false;
 		if (suffix !== false) {
 			if (n.contains(suffix)) {
@@ -684,7 +685,7 @@ var FbElement =  new Class({
 		// $$$ hugh - nasty hack, because validate() in form model will always use _0 for
 		// repeated id's
 		var origid = id;
-		el = this.form.formElements.get(id);
+		var el = this.form.formElements.get(id);
 		if (el.origid) {
 			origid = el.origid + '_0';
 		}
@@ -807,10 +808,9 @@ var FbFileElement = new Class({
 	useBreadcrumbs: function (e)
 	{
 		e.stop();
-		var found = false;
 		var c = e.target.className;
 		this.folderlist = [];
-		var res = this.breadcrumbs.getElements('a').every(function (link) {
+		this.breadcrumbs.getElements('a').every(function (link) {
 			if (link.className === c) {
 				return false;
 			}

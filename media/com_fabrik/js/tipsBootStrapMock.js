@@ -5,6 +5,9 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
+/*jshint mootools: true */
+/*global Fabrik:true, fconsole:true, Joomla:true */
+
 /**
  * Enable us to use the same class interface for tips.js but use Bootrap popovers (Joomla 3)
  */
@@ -185,14 +188,13 @@ var FloatingTips = new Class({
 		},
 
 		show: function () {
-			var $tip, inside, pos, actualWidth, actualHeight, placement, tp;
 			if (this.hasContent() && this.enabled) {
-				$tip = this.tip();
+				var $tip = this.tip();
 
-				placement = typeof this.options.placement === 'function' ? this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
-				inside = /in/.test(placement);
+				var placement = typeof this.options.placement === 'function' ? this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
+				var inside = /in/.test(placement);
 				placement = inside ? placement.split(' ')[1] : placement;
-				place = placement.split('-')[0];
+				var place = placement.split('-')[0];
 
 				if (!$tip.hasClass('in')) {
 					this.setContent();
@@ -216,11 +218,12 @@ var FloatingTips = new Class({
 						.css({ top: 0, left: 0, display: 'block' });
 				}
 
-				pos = this.getPosition(inside);
+				var pos = this.getPosition(inside);
 
-				actualWidth = $tip[0].offsetWidth;
-				actualHeight = $tip[0].offsetHeight;
+				var actualWidth = $tip[0].offsetWidth;
+				var actualHeight = $tip[0].offsetHeight;
 
+				var tp;
 				switch (placement) {
 				case 'bottom':
 					tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
@@ -275,7 +278,7 @@ var FloatingTips = new Class({
 			this.show();
 			this.manualShowTimer = window.setTimeout(function () {
 				this.manualShowTimeout();
-			}.bind(this), delay)
+			}.bind(this), delay);
 			return this;
 		},
 
@@ -309,7 +312,7 @@ var FloatingTips = new Class({
 			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
 				return;
 			}
-			$tip = jQuery(this).data('popover');
+			var $tip = jQuery(this).data('popover');
 			if ($tip.triggers.indexOf("hover") < 0) {
 				return;
 			}
@@ -320,7 +323,7 @@ var FloatingTips = new Class({
 			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
 				return;
 			}
-			$tip = jQuery(this).data('popover');
+			var $tip = jQuery(this).data('popover');
 			if ($tip.triggers.indexOf("hover") < 0
 			|| ($tip.isManualShow
 					&& ($tip.manualShowTimer !== null || $tip.hasFocus))) {
@@ -330,11 +333,11 @@ var FloatingTips = new Class({
 		},
 
 		focus: function () {
-			$label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
+			var $label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
 			if (typeOf($label) === 'null' || typeOf($label.data('popover')) === 'null') {
 				return;
 			}
-			$tip = $label.data('popover');
+			var $tip = $label.data('popover');
 			$tip.hasFocus = true;
 			if ($tip.triggers.indexOf("focus") < 0 && !$tip.isManualShow) {
 				return;
@@ -343,11 +346,11 @@ var FloatingTips = new Class({
 		},
 
 		blur: function () {
-			$label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
+			var $label = jQuery(this).parents('.control-group').find(Fabrik.tips.selector);
 			if (typeOf($label) === 'null' || typeOf($label.data('popover')) === 'null') {
 				return;
 			}
-			$tip = $label.data('popover');
+			var $tip = $label.data('popover');
 			$tip.hasFocus = false;
 			if ($tip.triggers.indexOf("focus") < 0 && !$tip.isManualShow) {
 				return;
@@ -359,7 +362,7 @@ var FloatingTips = new Class({
 			if (typeOf(jQuery(this)) === 'null' || typeOf(jQuery(this).data('popover')) === 'null') {
 				return;
 			}
-			$tip = jQuery(this).data('popover');
+			var $tip = jQuery(this).data('popover');
 			if ($tip.triggers.indexOf("click") < 0) {
 				return;
 			}

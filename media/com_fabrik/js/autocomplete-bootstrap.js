@@ -6,7 +6,7 @@
  */
 
 /*jshint mootools: true */
-/*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true, $H:true,unescape:true */
+/*global Fabrik:true, fconsole:true, Joomla:true, $H:true, Encoder:true */
 
 var FbAutocomplete = new Class({
 
@@ -115,14 +115,14 @@ var FbAutocomplete = new Class({
 
 					onFailure: function(xhr){
 						fconsole('Fabrik autocomplete: Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
-						elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
+						var elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
 						elModel.setErrorMessage(Joomla.JText._('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR'), 'fabrikError', true);
 					}.bind(this),
 
 					onSuccess: function (r) {
 						if (typeOf(r) === 'null') {
 							fconsole('Fabrik autocomplete: Ajax response empty');
-							elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
+							var elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
 							elModel.setErrorMessage(Joomla.JText._('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR'), 'fabrikError', true);
 							return;
 						}
@@ -135,7 +135,7 @@ var FbAutocomplete = new Class({
 	},
 
 	completeAjax: function (r, v) {
-		this.searchText = u = v.toLowerCase();
+		var u = this.searchText = v.toLowerCase();
 		this.cache['$' + u + '$'] = r;
 		if (r.length === 1) {
 			// Cache additional v with remaining characters appended one by one because we know the answer already
@@ -184,7 +184,6 @@ var FbAutocomplete = new Class({
 
 	positionMenu: function () {
 		var coords = this.getInputElement().getCoordinates();
-		var pos = this.getInputElement().getPosition();
 		this.menu.setStyles({ 'left': coords.left, 'top': (coords.top + coords.height) - 1, 'width': coords.width});
 	},
 
@@ -216,7 +215,7 @@ var FbAutocomplete = new Class({
 		if (data.length === 1 && this.options.autoLoadSingleResult) {
 			var v = this.getInputElement().get('value');
 			var r = data[0].text;
-			var i = r.toLowerCase().indexOf(v.toLowerCase());
+			i = r.toLowerCase().indexOf(v.toLowerCase());
 			if (i >=0)
 			{
 				var ie = this.getInputElement();
@@ -380,23 +379,21 @@ var FabCddAutocomplete = new Class({
 	Extends: FbAutocomplete,
 
 	search: function (e) {
-		var key;
 		var v = this.getInputElement().get('value');
 		if (v === '') {
 			this.element.value = '';
 		}
 		if (v.toLowerCase() !== this.searchText && v !== '') {
 			var observer = document.id(this.options.observerid);
-			if (typeOf(observer) !== 'null') {
-				if (this.options.formRef) {
-					observer = Fabrik.blocks[this.options.formRef].formElements[this.options.observerid];
-				}
-				key = observer.get('value') + '.' + v;
-			} else {
+			if (typeOf(observer) === 'null') {
 				this.parent(e);
 				return;
 			}
+			if (this.options.formRef) {
+				observer = Fabrik.blocks[this.options.formRef].formElements[this.options.observerid];
+			}
 			this.searchText = v.toLowerCase();
+			var key = observer.get('value') + '.' + v;
 			if (this.cache['$' + key + '$']) {
 				this.menuPopulateOpen(this.cache['$' + key + '$']);
 			} else {
