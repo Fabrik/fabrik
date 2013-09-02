@@ -84,9 +84,9 @@ var FbAutocomplete = new Class({
 				 * In which case we can simply loop through the results of the last search and
 				 * delete results where this search is not inside. And we can then cache this.
 				 **/
-				r = this.cache['$' + this.searchText + '$'];
-				u = v.toLowerCase();
-				for (i=r.length - 1; i >= 0; i--) {
+				var r = this.cache['$' + this.searchText + '$'];
+				var u = v.toLowerCase();
+				for (var i=r.length - 1; i >= 0; i--) {
 					if (r[i].text.toLowerCase().indexOf(u) < 0) {
 						r.splice(i, 1);
 					}
@@ -215,8 +215,8 @@ var FbAutocomplete = new Class({
 		}
 		if (data.length === 1 && this.options.autoLoadSingleResult) {
 			var v = this.getInputElement().get('value');
-			r = data[0].text;
-			i = r.toLowerCase().indexOf(v.toLowerCase());
+			var r = data[0].text;
+			var i = r.toLowerCase().indexOf(v.toLowerCase());
 			if (i >=0)
 			{
 				var ie = this.getInputElement();
