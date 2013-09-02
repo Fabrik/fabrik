@@ -718,7 +718,7 @@ var FbElement =  new Class({
 			}.bind(this),
 
 			onFailure: function(xhr){
-				console.log('Fabrik element::doValidation Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+				fconsole('Fabrik element::doValidation Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
 				this.setErrorMessage('Validation ajax call failed', 'fabrikError');
 				this.form.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
@@ -727,7 +727,7 @@ var FbElement =  new Class({
 
 			onSuccess: function (r) {
 				if (typeOf(r) === 'null') {
-					console.log('Fabrik element::doValidation Ajax response empty.');
+					fconsole('Fabrik element::doValidation Ajax response empty.');
 					this.setErrorMessage('Validation ajax call response empty', 'fabrikError');
 					return;
 				}
