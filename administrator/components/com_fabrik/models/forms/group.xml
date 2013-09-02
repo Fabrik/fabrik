@@ -182,8 +182,8 @@
 			</field>
 
 			<field class="btn-group" default="0" description="COM_FABRIK_RANDOMISE_ELEMENTS_DESC" label="COM_FABRIK_RANDOMISE_ELEMENTS_LABEL" name="random" type="radio">
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 	</fieldset>
 	</fields>
