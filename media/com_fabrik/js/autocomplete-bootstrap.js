@@ -334,6 +334,7 @@ var FbAutocomplete = new Class({
 					break;
 				case 13: // enter
 					e.stop();
+					/* falls through */
 				case 9:  // tab
 					if (this.shown) {
 						this.makeSelection(new Event.Mock(this.getSelected(), 'click'), this.getSelected());
