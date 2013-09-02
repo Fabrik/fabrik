@@ -756,15 +756,16 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$opts->align = "Tl";
 		$opts->singleClick = true;
 		$opts->firstDay = intval($params->get('date_firstday'));
-		$validations = $this->validator->findAll();
 		$opts->ifFormat = $params->get('date_form_format', $params->get('date_table_format', '%Y-%m-%d'));
 		$opts->timeFormat = 24;
 		FabDate::dateFormatToStrftimeFormat($opts->ifFormat);
+		// $$$ Paul - opts->validations is set identically (in elements.php) - and this is not used anywhere else
+		$validations = $this->validator->findAll();
 		$opts->hasValidations = empty($validations) ? false : true;
 		$opts->dateAllowFunc = $params->get('date_allow_func');
 
 		// Test
-		$opts->range = array(1066, 2999);
+		// $opts->range = array(1066, 2999);
 		return $opts;
 	}
 
@@ -788,8 +789,6 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$opts->timelabel = JText::_('time');
 		$opts->typing = (bool) $params->get('date_allow_typing_in_field', true);
 		$opts->timedisplay = $params->get('date_timedisplay', 1);
-		$validations = $this->getValidations();
-		$opts->validations = empty($validations) ? false : true;
 		$opts->dateTimeFormat = $params->get('date_time_format', '');
 
 		// For reuse if element is duplicated in repeat group
