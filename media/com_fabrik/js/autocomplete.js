@@ -114,14 +114,14 @@ var FbAutocomplete = new Class({
 					}.bind(this),
 
 					onFailure: function(xhr){
-						console.log('Fabrik autocomplete: Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
+						fconsole('Fabrik autocomplete: Ajax failure: Code ' + xhr.status + ': ' + xhr.statusText);
 						elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
 						elModel.setErrorMessage(Joomla.JText._('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR'), 'fabrikError', true);
 					}.bind(this),
 
 					onSuccess: function (r) {
 						if (typeOf(r) === 'null') {
-							console.log('Fabrik autocomplete: Ajax response empty');
+							fconsole('Fabrik autocomplete: Ajax response empty');
 							elModel = Fabrik.blocks[this.options.formRef].formElements.get(this.element.id);
 							elModel.setErrorMessage(Joomla.JText._('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR'), 'fabrikError', true);
 							return;
@@ -427,10 +427,10 @@ var FabCddAutocomplete = new Class({
 					}.bind(this),
 
 					onError: function (text, error) {
-						console.log(text, error);
+						fconsole(text, error);
 					},
 					onFailure: function (xhr) {
-						console.log(xhr);
+						fconsole(xhr);
 					}
 				}).send();
 			}
