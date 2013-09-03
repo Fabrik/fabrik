@@ -151,7 +151,7 @@ var FloatingTips = new Class({
 (function ($) {
 	var PopoverEx = function (element, options) {
 		// Save trigger options
-		this.triggers = options.trigger.split(' ');
+		this.triggers = options.trigger ? options.trigger.split(' ') : [];
 		this.isManualShow = false;
 		this.hasFocus = false;
 		this.manualShowTimer = null;
