@@ -35,6 +35,7 @@ var FbElement =  new Class({
 		this.loadEvents = []; // need to store these for use if the form is reset
 		this.events = $H({}); // was changeEvents
 		this.setOptions(options);
+		this.successTimer = null;
 		return this.setElement();
 	},
 
@@ -429,20 +430,21 @@ var FbElement =  new Class({
 			fconsole('element.js: Could not display error msg for ' + msg + ' no container class found');
 			return;
 		}
+		if (this.successTimer !== null) {
+			window.clearTimeout(this.successTimer);
+			this.successTimer = null;
+		}
 		var errorElements = this.getErrorElements();
 		errorElements.each(function (e) {
 			e.empty();
 			e.removeClass('fabrikHide').removeClass('text-error').removeClass('text-success');
 		});
-		if (this.successTimer !== null) {
-			window.clearTimeout(this.successTimer);
-			this.successTimer = null;
-		}
+		container
+			.removeClass('error').removeClass('success')
+			.removeClass('fabrikError').removeClass('fabrikSuccess');
 		switch (classname) {
 			case 'fabrikError':
-				container
-					.removeClass('success').addClass('error')
-					.removeClass('fabrikSuccess').addClass('fabrikError');
+				container.addClass('error').addClass('fabrikError');
 				if (Fabrik.bootstrapped && single) {
 					this.addTipMsg(msg, classname);
 				} else {
@@ -455,9 +457,7 @@ var FbElement =  new Class({
 				break;
 
 			case 'fabrikSuccess':
-				container
-					.addClass('success').removeClass('error')
-					.addClass('FabrikSuccess').removeClass('FabrikError');
+				container.addClass('success').addClass('fabrikSuccess');
 				if (Fabrik.bootstrapped && single) {
 					if (msg !== '') {
 					this.addTipMsg(msg, classname);
@@ -472,7 +472,6 @@ var FbElement =  new Class({
 					}.bind(this));
 				}
 				var delfn = function () {
-					this.successTimer = null;
 					var container = this.getContainer();
 					if (container.hasClass('fabrikSuccess')) {
 						errorElements.each(function (e) {
@@ -482,6 +481,7 @@ var FbElement =  new Class({
 						container.removeClass('success').removeClass('fabrikSuccess');
 						this.removeTipMsg();
 					}
+					this.successTimer = null;
 				}.bind(this);
 				this.successTimer = window.setTimeout(delfn, 5000);
 				break;
