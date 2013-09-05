@@ -80,6 +80,13 @@
 				label="PLG_FORM_LIMIT_MAX_ELEMENT_LABEL"
 				repeat="true"
 				table="params_limit_table" />
+				
+			<field name="limit_condition"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_FORM_LIMIT_CONDITION_DESC"
+				label="PLG_FORM_LIMIT_CONDITION_LABEL"
+				repeat="true" />
 		
 		</fieldset>
 	

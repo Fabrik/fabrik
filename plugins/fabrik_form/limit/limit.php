@@ -44,6 +44,13 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		$params = $this->getParams();
 		$app = JFactory::getApplication();
 		$formModel = $this->getModel();
+		
+		$this->data = $this->getProcessData();
+		if (!$this->shouldProcess('limit_condition', null))
+		{
+			return;
+		}
+		
 		if ($params->get('limit_allow_anonymous'))
 		{
 			return true;
@@ -65,7 +72,7 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		{
 			$msg = $params->get('limit_reached_message', JText::sprintf('PLG_FORM_LIMIT_LIMIT_REACHED', $limit));
 			$msg = str_replace('{limit}', $limit, $msg);
-			$app->enqueueMessage($msg, 'notice');
+			$app->enqueueMessage(JText::_( $msg ), 'notice');
 			return false;
 		}
 		else
