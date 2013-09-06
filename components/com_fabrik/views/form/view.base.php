@@ -763,24 +763,58 @@ class FabrikViewFormBase extends JViewLegacy
 		$fields[] = JHTML::_('form.token');
 
 		$resetLabel = JText::_($params->get('reset_button_label'));
+		$resetIcon = $params->get('reset_icon', '');
 		$copyLabel = JText::_($params->get('copy_button_label'));
+		$copyIcon = $params->get('copy_icon', '');
 		$applyLabel = JText::_($params->get('apply_button_label'));
+		$applyIcon = $params->get('apply_icon', '');
 		$deleteLabel = JText::_($params->get('delete_button_label', 'Delete'));
+		$deleteIcon = $params->get('delete_icon', '');
 		$goBackLabel = JText::_($params->get('goback_button_label'));
+		$goBackIcon = $params->get('goback_icon', '');
 
+		if ($resetIcon !== '')
+		{
+			$resetIcon = '<i class="' . $resetIcon . '"></i>';
+			$resetLabel = $params->get('reset_icon_location', 0) == 'before' ? $resetIcon . '&nbsp;' . $resetLabel : $resetLabel . '&nbsp;' . $resetIcon;
+		}
 		$form->resetButton = $params->get('reset_button', 0) && $this->editable == "1"
-				? '<input type="reset" class="btn button" name="Reset" value="' .$resetLabel  . '" />' : '';
+			? '<button type="reset" class="btn btn-warning button" name="Reset">' . $resetLabel  . '</button>' : '';
+
+		if ($copyIcon !== '')
+		{
+			$copyIcon = '<i class="' . $copyIcon . '"></i>';
+			$copyLabel = $params->get('copy_icon_location', 0) == 'before' ? $copyIcon . '&nbsp;' . $copyLabel : $copyLabel . '&nbsp;' . $copyIcon;
+		}
 		$form->copyButton = $params->get('copy_button', 0) && $this->editable && $model->getRowId() != ''
-				? '<input type="submit" class="btn button" name="Copy" value="' . $copyLabel . '" />' : '';
+			? '<button type="submit" class="btn button" name="Copy">' . $copyLabel  . '</button>' : '';
+
+		if ($applyIcon !== '')
+		{
+			$applyIcon = '<i class="' . $applyIcon . '"></i>';
+			$applyLabel = $params->get('apply_icon_location', 0) == 'before' ? $applyIcon . '&nbsp;' . $applyLabel : $applyLabel . '&nbsp;' . $applyIcon;
+		}
 		$applyButtonType = $model->isAjax() ? 'button' : 'submit';
 		$form->applyButton = $params->get('apply_button', 0) && $this->editable
-		? '<input type="' . $applyButtonType . '" class="btn button" name="apply" value="' . $applyLabel . '" />' : '';
+			? '<button type="' . $applyButtonType . '" class="btn button" name="apply">' . $applyLabel . '</button>' : '';
+
+		if ($deleteIcon !== '')
+		{
+			$deleteIcon = '<i class="' . $deleteIcon . '"></i>';
+			$deleteLabel = $params->get('delete_icon_location', 0) == 'before' ? $deleteIcon . '&nbsp;' . $deleteLabel : $deleteLabel . '&nbsp;' . $deleteIcon;
+		}
 		$form->deleteButton = $params->get('delete_button', 0) && $canDelete && $this->editable && $this_rowid != ''
-		? '<input type="submit" value="' . $deleteLabel . '" class="btn button btn-danger" name="delete" />' : '';
+			? '<button type="submit" class="btn btn-danger button" name="delete">' . $deleteLabel . '</button>' : '';
+
+		if ($goBackIcon !== '')
+		{
+			$goBackIcon = '<i class="' . $goBackIcon . '"></i>';
+			$goBackLabel = $params->get('goback_icon_location', 0) == 'before' ? $goBackIcon . '&nbsp;' . $goBackLabel : $goBackLabel . '&nbsp;' . $goBackIcon;
+		}
 		$goBack = $model->isAjax() ? '' : FabrikWorker::goBackAction();
-		$form->gobackButton = $params->get('goback_button', 0) == "1"
-				? '<input type="button" class="btn button" name="Goback" ' . $goBack . ' value="' . $goBackLabel
-				. '" />' : '';
+		$form->gobackButton = $params->get('goback_button', 0)
+			? '<button type="button" class="btn btn-primary button" name="Goback" ' . $goBack . '>' . $goBackLabel . '</button>' : '';
+
 		if ($model->isEditable() && $params->get('submit_button', 1))
 		{
 			$button = $model->isAjax() ? "button" : "submit";
@@ -790,21 +824,22 @@ class FabrikViewFormBase extends JViewLegacy
 			if ($submitIcon !== '')
 			{
 				$submitIcon = '<i class="' . $submitIcon . '"></i>';
-				$submitLabel = $params->get('save_icon_location') == 'before' ? $submitIcon . ' ' . $submitLabel : $submitLabel . ' ' . $submitIcon;
+				$submitLabel = $params->get('save_icon_location') == 'before' ? $submitIcon . '&nbsp;' . $submitLabel : $submitLabel . '&nbsp;' . $submitIcon;
 			}
-			$form->submitButton = '<button type="' . $button . '" class="btn-primary btn button ' . $submitClass . '" name="submit">'
+			$form->submitButton = '<button type="' . $button . '" class="btn btn-success button ' . $submitClass . '" name="submit">'
 				. $submitLabel . '</button>';
 		}
 		else
 		{
 			$form->submitButton = '';
 		}
+
 		if ($this->isMultiPage)
 		{
-			$form->prevButton = '<input type="button" class="btn fabrikPagePrevious button" name="fabrikPagePrevious" value="'
-					. JText::_('COM_FABRIK_PREVIOUS') . '" />';
-			$form->nextButton = '<input type="button" class="btn fabrikPageNext button" name="fabrikPageNext" value="' . JText::_('COM_FABRIK_NEXT')
-			. '" />';
+			$form->prevButton = '<button type="button" class="btn fabrikPagePrevious button" name="fabrikPagePrevious"><i class="icon-previous"></i>&nbsp;'
+				. JText::_('COM_FABRIK_PREV') . '</button>';
+			$form->nextButton = '<button type="button" class="btn fabrikPageNext button" name="fabrikPageNext">'
+				. JText::_('COM_FABRIK_NEXT') . '&nbsp;<i class="icon-next"></i></button>';
 		}
 		else
 		{

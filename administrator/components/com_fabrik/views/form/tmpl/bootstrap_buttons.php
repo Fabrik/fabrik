@@ -18,8 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="row-fluid">
 		<div class="span6">
 			<fieldset class="form-horizontal">
-				<legend><?php echo JText::_('COM_FABRIK_RESET');?></legend>
-				<?php foreach ($this->form->getFieldset('buttons-reset') as $this->field) :
+				<legend><?php echo JText::_('COM_FABRIK_COPY');?></legend>
+				<?php foreach ($this->form->getFieldset('buttons-copy') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
 				?>
@@ -28,8 +28,8 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="span6">
 			<fieldset class="form-horizontal">
-				<legend><?php echo JText::_('COM_FABRIK_COPY');?></legend>
-				<?php foreach ($this->form->getFieldset('buttons-copy') as $this->field) :
+				<legend><?php echo JText::_('COM_FABRIK_RESET');?></legend>
+				<?php foreach ($this->form->getFieldset('buttons-reset') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
 				?>
@@ -41,8 +41,8 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="row-fluid">
 		<div class="span6">
 			<fieldset class="form-horizontal">
-				<legend><?php echo JText::_('COM_FABRIK_BACK');?></legend>
-				<?php foreach ($this->form->getFieldset('buttons-goback') as $this->field) :
+				<legend><?php echo JText::_('COM_FABRIK_APPLY');?></legend>
+				<?php foreach ($this->form->getFieldset('buttons-apply') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
 				?>
@@ -51,8 +51,8 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="span6">
 			<fieldset class="form-horizontal">
-				<legend><?php echo JText::_('COM_FABRIK_APPLY');?></legend>
-				<?php foreach ($this->form->getFieldset('buttons-apply') as $this->field) :
+				<legend><?php echo JText::_('COM_FABRIK_BACK');?></legend>
+				<?php foreach ($this->form->getFieldset('buttons-goback') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
 				?>

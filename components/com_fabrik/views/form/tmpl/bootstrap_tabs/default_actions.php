@@ -17,17 +17,16 @@ if ($this->hasActions) : ?>
 <div class="fabrikActions form-actions">
 	<div class="row-fluid">
 		<div class="span4">
-			<div class="btn-group">
 			<?php
-			echo $form->submitButton;
-			echo $form->applyButton;
+			echo $form->submitButton. ' ';
+			echo $form->applyButton . ' ';
 			echo $form->copyButton;
 			?>
-			</div>
 		</div>
 		<?php if ($form->gobackButton . $form->resetButton . $form->deleteButton !== '') : ?>
+		<div class="span4"><!-- No Page buttons --></div>
 		<div class="span4">
-			<div class="btn-group">
+			<div class="pull-right">
 				<?php
 				echo $form->gobackButton . ' ' . $this->message;
 				echo $form->resetButton . ' ';

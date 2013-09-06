@@ -119,6 +119,7 @@
 				type="radio"
 				class="btn-group"
 				default="0"
+				description="COM_FABRIK_FIELD_RESET_BUTTON_DESC"
 				label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -126,9 +127,24 @@
 
 			<field name="reset_button_label"
 				type="text"
-				default="Reset"
+				default="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DEFAULT"
 				description="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_LABEL"/>
+
+			<field name="reset_icon"
+				type="text"
+				label="COM_FABRIK_FIELD_RESET_ICON_LABEL"
+				description="COM_FABRIK_FIELD_RESET_ICON_DESC" />
+
+			<field name="reset_icon_location"
+				type="radio"
+				class="btn-group"
+				default="after"
+				description="COM_FABRIK_FIELD_RESET_ICON_LOC_DESC"
+				label="COM_FABRIK_FIELD_RESET_ICON_LOC_LABEL">
+					<option value="before">COM_FABRIK_BEFORE</option>
+					<option value="after">COM_FABRIK_AFTER</option>
+			</field>
 
 		</fieldset>
 
@@ -146,9 +162,24 @@
 
 			<field name="copy_button_label"
 				type="text"
-				default="Save as a copy"
-				description="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_LABEL"
+				default="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DEFAULT"
+				description="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_LABEL"/>
+
+			<field name="copy_icon"
+				type="text"
+				label="COM_FABRIK_FIELD_COPY_ICON_LABEL"
+				description="COM_FABRIK_FIELD_COPY_ICON_DESC" />
+
+			<field name="copy_icon_location"
+				type="radio"
+				class="btn-group"
+				default="after"
+				description="COM_FABRIK_FIELD_COPY_ICON_LOC_DESC"
+				label="COM_FABRIK_FIELD_COPY_ICON_LOC_LABEL">
+					<option value="before">COM_FABRIK_BEFORE</option>
+					<option value="after">COM_FABRIK_AFTER</option>
+			</field>
 
 		</fieldset>
 
@@ -158,6 +189,7 @@
 				type="radio"
 				class="btn-group"
 				default="0"
+				description="COM_FABRIK_FIELD_GO_BACK_BUTTON_DESC"
 				label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -165,8 +197,24 @@
 
 			<field name="goback_button_label"
 				type="text"
-				default="Go back"
+				default="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DEFAULT"
+				description="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_LABEL"/>
+
+			<field name="goback_icon"
+				type="text"
+				label="COM_FABRIK_FIELD_GO_BACK_ICON_LABEL"
+				description="COM_FABRIK_FIELD_GO_BACK_ICON_DESC" />
+
+			<field name="goback_icon_location"
+				type="radio"
+				class="btn-group"
+				default="after"
+				description="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_DESC"
+				label="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_LABEL">
+					<option value="before">COM_FABRIK_BEFORE</option>
+					<option value="after">COM_FABRIK_AFTER</option>
+			</field>
 
 		</fieldset>
 
@@ -184,9 +232,24 @@
 
 			<field name="apply_button_label"
 				type="text"
-				default="Apply"
+				default="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DEFAULT"
 				description="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_LABEL"/>
+
+			<field name="apply_icon"
+				type="text"
+				label="COM_FABRIK_FIELD_APPLY_ICON_LABEL"
+				description="COM_FABRIK_FIELD_APPLY_ICON_DESC" />
+
+			<field name="apply_icon_location"
+				type="radio"
+				class="btn-group"
+				default="after"
+				description="COM_FABRIK_FIELD_APPLY_ICON_LOC_DESC"
+				label="COM_FABRIK_FIELD_APPLY_ICON_LOC_LABEL">
+					<option value="before">COM_FABRIK_BEFORE</option>
+					<option value="after">COM_FABRIK_AFTER</option>
+			</field>
 
 		</fieldset>
 
@@ -204,9 +267,24 @@
 
 			<field name="delete_button_label"
 				type="text"
-				default="Delete"
+				default="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DEFAULT"
 				description="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_LABEL" />
+
+			<field name="delete_icon"
+				type="text"
+				label="COM_FABRIK_FIELD_DELETE_ICON_LABEL"
+				description="COM_FABRIK_FIELD_DELETE_ICON_DESC" />
+
+			<field name="delete_icon_location"
+				type="radio"
+				class="btn-group"
+				default="after"
+				description="COM_FABRIK_FIELD_DELETE_ICON_LOC_DESC"
+				label="COM_FABRIK_FIELD_DELETE_ICON_LOC_LABEL">
+					<option value="before">COM_FABRIK_BEFORE</option>
+					<option value="after">COM_FABRIK_AFTER</option>
+			</field>
 
 		</fieldset>
 
@@ -224,7 +302,7 @@
 
 			<field name="submit_button_label"
 				type="text"
-				default="Save"
+				default="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DEFAULT"
 				description="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_LABEL"/>
 
