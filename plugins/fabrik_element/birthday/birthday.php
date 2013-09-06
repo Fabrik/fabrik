@@ -214,7 +214,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 		}
 		else
 		{
-			// Wierdness for failed validaion
+			// Weirdness for failed validation
 			$value = strstr($value, ',') ? array_reverse(explode(',', $value)) : explode('-', $value);
 			$yearvalue = JArrayHelper::getValue($value, 0);
 			$monthvalue = JArrayHelper::getValue($value, 1);
@@ -249,18 +249,18 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$str[] = '<div class="fabrikSubElementContainer" id="' . $id . '">';
 
 			// $name already suffixed with [] as element hasSubElements = true
-			$str[] = JHTML::_('select.genericlist', $days, preg_replace('#(\[\])$#', '[0]', $name), $attribs, 'value', 'text', $dayvalue);
+			$str[] = JHTML::_('select.genericlist', $days, preg_replace('#(\[\])$#', '[0]', $name), $attribs, 'value', 'text', $dayvalue, $id . '_0');
 			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' '
-				. JHTML::_('select.genericlist', $months, preg_replace('#(\[\])$#', '[1]', $name), $attribs, 'value', 'text', $monthvalue);
+				. JHTML::_('select.genericlist', $months, preg_replace('#(\[\])$#', '[1]', $name), $attribs, 'value', 'text', $monthvalue, $id . '_1');
 			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' '
-				. JHTML::_('select.genericlist', $years, preg_replace('#(\[\])$#', '[2]', $name), $attribs, 'value', 'text', $yearvalue);
+				. JHTML::_('select.genericlist', $years, preg_replace('#(\[\])$#', '[2]', $name), $attribs, 'value', 'text', $yearvalue, $id . '_2');
 			$str[] = '</div>';
 			return implode("\n", $str);
 		}
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   this elements posted form data
 	 * @param   array  $data  posted form data
@@ -284,6 +284,8 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 *
 	 * @TODO: if NULL value is the first in repeated group then in list view whole group is empty.
 	 * Could anyone find a solution? I give up :-(
+	 * Paul 20130904 I fixed the id fields and I am getting a string passed in as $val here yyyy-m-d.
+	 *
 	 *
 	 * @return  string	yyyy-mm-dd
 	 */
@@ -291,16 +293,15 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	private function _indStoreDBFormat($val)
 	{
 		$params = $this->getParams();
-		if ($params->get('empty_is_null') == 1)
-		{
-			if (is_array($val) && !in_array('', $val))
+		if (is_array($val)) {
+			if ($params->get('empty_is_null', '0') == 0 || !in_array('',$val))
 			{
 				return $val[2] . '-' . $val[1] . '-' . $val[0];
 			}
 		}
 		else
 		{
-			return is_array($val) ? $val[2] . '-' . $val[1] . '-' . $val[0] : '';
+			return $val;
 		}
 	}
 

@@ -57,6 +57,7 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 	public function render($data, $repeatCounter = 0)
 	{
 		$name = $this->getHTMLName($repeatCounter);
+		$id = $this->getHTMLId($repeatCounter);
 
 		$arSelected = array('');
 
@@ -78,7 +79,7 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 			$row = new stdClass;
 			return $this->renderListData($arSelected[0], $row);
 		}
-		return JHTML::_('select.genericlist', $gtree, $name, 'class="inputbox" size="6"', 'value', 'text', $arSelected[0]);
+		return JHTML::_('select.genericlist', $gtree, $name, 'class="inputbox" size="6"', 'value', 'text', $arSelected[0], $id);
 	}
 
 	/**

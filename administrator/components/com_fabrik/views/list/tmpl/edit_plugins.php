@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<?php echo JHtml::_('tabs.panel',JText::_('COM_FABRIK_GROUP_LABAEL_PLUGINS_DETAILS'), 'list-plugins-panel');?>
+<?php echo JHtml::_('tabs.panel',JText::_('COM_FABRIK_GROUP_LABEL_PLUGINS_DETAILS'), 'list-plugins-panel');?>
 
 <fieldset class="adminform">
 	<div id="plugins" class="pane-sliders"></div>

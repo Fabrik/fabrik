@@ -1653,6 +1653,23 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
+	 * Used in things like date when its id is suffixed with _cal
+	 * called from getLabel();
+	 *
+	 * @param   string  &$id  Initial id
+	 *
+	 * @return  void
+	 */
+
+	protected function modHTMLId(&$id)
+	{
+		$displayType = $this->getDisplayType();
+		if ($displayType === 'auto-complete') {
+			$id = $id . '-auto-complete';
+		}
+	}
+
+	/**
 	 * Get the default value for the list filter
 	 *
 	 * @param   bool  $normal   is the filter a normal or advanced filter

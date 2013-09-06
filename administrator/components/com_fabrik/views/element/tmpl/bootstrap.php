@@ -78,7 +78,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 			    </li>
 			    <li>
 			    	<a data-toggle="tab" href="#tab-access">
-			    		<?php echo JText::_('COM_FABRIK_GROUP_LABAEL_RULES_DETAILS')?>
+			    		<?php echo JText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS')?>
 			    	</a>
 			    </li>
 			    <li>

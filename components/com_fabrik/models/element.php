@@ -2209,10 +2209,10 @@ class PlgFabrik_Element extends FabrikPlugin
 	 * @return string
 	 */
 
-	protected function getHiddenField($name, $value, $id = '', $class = '')
+	protected function getHiddenField($name, $value, $id = '', $class = 'fabrikinput inputbox hidden')
 	{
 		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-		$opts = array('class' => 'fabrikinput inputbox', 'type' => 'hidden', 'name' => $name, 'value' => $value, 'id' => $id);
+		$opts = array('class' => $class, 'type' => 'hidden', 'name' => $name, 'value' => $value, 'id' => $id);
 		return $this->buildInput('input', $opts);
 	}
 
@@ -2230,7 +2230,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		$str = '<' . $node . ' ';
 		foreach ($bits as $key => $val)
 		{
-			$str .= $key . ' = "' . $val . '" ';
+			$str .= $key . '="' . $val . '" ';
 		}
 		$str .= '/>';
 		return $str;
