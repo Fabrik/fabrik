@@ -23,6 +23,13 @@ class PlgFabrik_ElementButton extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'button';
+
+	/**
 	 * Draws the html form element
 	 *
 	 * @param   array  $data           to preopulate element with

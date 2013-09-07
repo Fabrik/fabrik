@@ -23,6 +23,13 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'calc';
+
+	/**
 	 * This really does get just the default value (as defined in the element's settings)
 	 *
 	 * @param   array  $data  Form data

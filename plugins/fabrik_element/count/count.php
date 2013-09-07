@@ -31,6 +31,13 @@ class PlgFabrik_ElementCount extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'count';
+
+	/**
 	 * Get group by query
 	 * @see PlgFabrik_Element::getGroupByQuery()
 	 */

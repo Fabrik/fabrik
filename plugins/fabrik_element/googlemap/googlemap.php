@@ -26,6 +26,13 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'googlemap';
+
+	/**
 	 * Has the geoJS been loaded
 	 *
 	 * @var bool

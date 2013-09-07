@@ -25,6 +25,13 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'user';
+
+	/**
 	 * Is a join element
 	 *
 	 * @var bool

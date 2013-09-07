@@ -23,6 +23,13 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'password';
+
+	/**
 	 * States if the element contains data which is recorded in the database
 	 * some elements (eg buttons) dont
 	 *

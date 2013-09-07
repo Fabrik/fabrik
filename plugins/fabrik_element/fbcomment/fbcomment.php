@@ -27,6 +27,13 @@ class PlgFabrik_ElementFbcomment extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'fbcomment';
+
+	/**
 	 * Does the element have a label
 	 *
 	 * @var bool

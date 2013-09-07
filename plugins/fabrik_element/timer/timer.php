@@ -28,6 +28,13 @@ class PlgFabrik_ElementTimer extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'timer';
+
+	/**
 	 * Does the element contain sub elements e.g checkboxes radiobuttons
 	 *
 	 * @var bool

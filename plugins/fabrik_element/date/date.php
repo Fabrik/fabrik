@@ -23,6 +23,13 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'date';
+
+	/**
 	 * States the element should be ignored from advanced search all queryes.
 	 *
 	 * @var bool  True, ignore in extended search all.

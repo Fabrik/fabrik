@@ -25,6 +25,13 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'field';
+
+	/**
 	 * Shows the data formatted for the list view
 	 *
 	 * @param   string    $data      elements data

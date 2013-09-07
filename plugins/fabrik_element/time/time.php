@@ -24,6 +24,13 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'time';
+
+	/**
 	 * Does the element contain sub elements e.g checkboxes radiobuttons
 	 *
 	 * @var bool

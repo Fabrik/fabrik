@@ -25,6 +25,13 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'notes';
+
+	/**
 	 * Last row id to be inserted via ajax call
 	 *
 	 * @var int

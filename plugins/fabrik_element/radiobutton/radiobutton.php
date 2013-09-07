@@ -23,6 +23,13 @@ class PlgFabrik_ElementRadiobutton extends PlgFabrik_ElementList
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'radiobutton';
+
+	/**
 	* Method to set the element id
 	*
 	* @param   int  $id  element ID number

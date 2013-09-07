@@ -24,6 +24,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'databasejoin';
+
+	/** @var object connection */
 	 * connection
 	 *
 	 * @var FabrikFEModelConnection

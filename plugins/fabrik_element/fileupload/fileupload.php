@@ -30,6 +30,13 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 {
 
 	/**
+	 * Plugin name
+	 *
+	 * @var string
+	 */
+	protected $pluginName = 'fileupload';
+
+	/**
 	 * Storage method adaptor object (filesystem/amazon s3)
 	 * needs to be public as models have to see it
 	 *
