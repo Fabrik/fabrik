@@ -117,7 +117,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 		$params = $this->getParams();
 		$v = $params->get($this->pluginName . '-message');
-		if ($v === '')
+		if (empty($v))
 		{
 			$v = 'COM_FABRIK_FAILED_VALIDATION';
 		}
