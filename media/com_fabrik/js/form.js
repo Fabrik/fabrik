@@ -92,7 +92,7 @@ var FbForm = new Class({
 		// Prev/Next RECORD buttons (as opposed to PAGE) appears obsolete as the classes
 		// referred to (.previous-record and .next-record) are not now used anywhere in Fabrik.
 		// this.testPrevNext();
-		this.setMozBoxWidths();
+		this._setMozBoxWidths();
 		this.watchGroupButtons();
 		this.duplicateGroupsToMin();
 	},
@@ -292,7 +292,7 @@ var FbForm = new Class({
 		}.bind(this));
 	},
 
-	setMozBoxWidths: function () {
+	_setMozBoxWidths: function () {
 		if (Browser.firefox && this.form) {
 			// firefox treats display:-moz-box as display:-moz-box-inline we have to explicitly set widths
 			this.getForm().getElements('.fabrikElementContainer > .displayBox').each(function (b) {
@@ -1225,6 +1225,7 @@ var FbForm = new Class({
 				this.formElements.each(function (el, key) {
 					el.afterAjaxValidation();
 				});
+				Fabrik.fireEvent('fabrik.form.elemnet.validation.complete', [this, r, id, origid]);
 				Fabrik.fireEvent('fabrik.form.element.validation.complete', [this, r, id, origid]);
 				if (this.result === false) {
 					this.result = true;
@@ -1460,6 +1461,7 @@ var FbForm = new Class({
 	},
 
 	changePage: function (dir) {
+		Fabrik.fireEvent('fabrik.form.page.change', [this]);
 		Fabrik.fireEvent('fabrik.form.page.change.start', [this]);
 		if (this.result === false) {
 			this.result = true;
@@ -1475,8 +1477,9 @@ var FbForm = new Class({
 
 		this.setPageButtons();
 		document.id('page_' + this.currentPage).setStyle('display', '');
-		this.setMozBoxWidths();
+		this._setMozBoxWidths();
 		this.hideOtherPages();
+		Fabrik.fireEvent('fabrik.form.page.chage.end', [this]);
 		Fabrik.fireEvent('fabrik.form.page.change.end', [this]);
 		if (this.result === false) {
 			this.result = true;
@@ -1614,6 +1617,7 @@ var FbForm = new Class({
 	},
 
 	deleteGroup: function (e) {
+		Fabrik.fireEvent('fabrik.form.group.delete', [this, e]);
 		Fabrik.fireEvent('fabrik.form.group.delete.start', [this, e]);
 		if (this.result === false) {
 			this.result = true;
@@ -1757,6 +1761,7 @@ var FbForm = new Class({
 	 */
 	duplicateGroup: function (e) {
 		var subElementContainer, container;
+		Fabrik.fireEvent('fabrik.form.group.duplicate', [this, e]);
 		Fabrik.fireEvent('fabrik.form.group.duplicate.start', [this, e]);
 		if (this.result === false) {
 			this.result = true;
