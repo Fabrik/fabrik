@@ -348,10 +348,6 @@ var FbForm = new Class({
 	 * @param   string  triggerEvent  Event type to add
 	 */
 	watchValidation: function (id, triggerEvent) {
-		this.options.ajaxValidation === true ? this.addValidationEvents(id, triggerEvent) : this.addClearErrorEvents(id);
-	},
-
-	addValidationEvents: function (id, triggerEvent) {
 		var el = document.id(id);
 		if (typeOf(el) === 'null') {
 			fconsole('form.js:watchValidation: Could not find element ' + id);
@@ -361,34 +357,14 @@ var FbForm = new Class({
 			// check for things like radio buttons & checkboxes
 			el.getElements('.fabrikinput').each(function (i) {
 					i.addEvent(triggerEvent, function (e) {
-						this.doElementValidation.delay(500, this, e, true);
+						this.doElementEvent.delay(500, this, [e, true]);
 					}.bind(this));
 			}.bind(this));
 		} else {
 			el.addEvent(triggerEvent, function (e) {
-				this.doElementValidation.delay(500, this, e, false);
+				this.doElementEvent.delay(500, this, [e, false]);
 			}.bind(this));
 		}
-	},
-
-	addClearErrorEvents: function (id) {
-		var el = document.id(id);
-		if (typeOf(el) === 'null') {
-			fconsole('form.js:watchValidation: Could not find element ' + id);
-			return;
-		}
-		if (el.className === 'fabrikSubElementContainer') {
-			// check for things like radio buttons & checkboxes
-			el.getElements('.fabrikinput').each(function (i) {
-				i.addEvent('change', function (e) {
-					this.doElementClearError(e, true);
-				}.bind(this));
-			}.bind(this));
-			return;
-		}
-		el.addEvent('change', function (e) {
-			this.doElementClearError(e, false);
-		}.bind(this));
 	},
 
 	/**
@@ -1158,7 +1134,11 @@ var FbForm = new Class({
 		}).send();
 	},
 
-	/**
+	doElementEvent:  function (e, subEl) {
+		this.options.ajaxValidation === true ? this.doElementValidation(e, subEl) : this.doElementClearError(e, subEl);
+	},
+
+		/**
 	 * Do validation for a single element based on a change or blur event from that elementFromPoint
 	 * Can also be called from other element js actions, e.g. date picker closing.
 	 **/
@@ -1167,16 +1147,19 @@ var FbForm = new Class({
 			return;
 		}
 
-		var id = this._getValidationElId(e, subEl);
+		var spinId = id = this._getValidationElId(e, subEl);
 		if (typeOf(document.id(id)) === 'null') {
 			fconsole("Fabrik form.js::doElementValidation: Cannot find the field: " + id);
 			return;
+		}
+		// Check for dbjoin autocomplete label field and replace with value field
+		if (e.target.hasClass('autocomplete-trigger')) {
+			id = id.replace('-auto-complete','');
 		}
 		if (document.id(id).getProperty('readonly') === true || document.id(id).getProperty('readonly') === 'readonly') {
 			// stops date element being validated
 			// return;
 		}
-		var spinId = e.target.id;
 		var el = this.formElements.get(id);
 		if (!el) {
 			/**
@@ -1274,20 +1257,19 @@ var FbForm = new Class({
 	_getValidationElId: function (e, subEl) {
 		var id;
 		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
-			// In case validation field is not displayed field (e.g. autocomplete),
-			// we want spinner to be shown against displayed field.
-			id = e.target.id;
-			// Check for dbjoin autocomplete label field and replace with value field
-			if (e.target.hasClass('autocomplete-trigger')) {
-				id = id.replace('-auto-complete','');
-			}
 			// for elements with subelements e.g. checkboxes radiobuttons
 			if (subEl === true) {
 				id = document.id(e.target).getParent('.fabrikSubElementContainer').id;
 			}
+			else
+			{
+				// In case validation field is not displayed field (e.g. autocomplete),
+				// we want spinner to be shown against displayed field.
+				id = e.target.id;
+			}
 		} else {
 			// hack for closing date picker where it seems the event object isn't available
-			// $$$ Paul - date.js should use mock events (see autocomplete*.js for example
+			// $$$ Paul - date.js should use mock events (see autocomplete*.js for example)
 			id = e;
 		}
 		return id;

@@ -154,6 +154,7 @@ var FloatingTips = new Class({
 		this.triggers = options.trigger ? options.trigger.split(' ') : [];
 		this.isManualShow = false;
 		this.hasFocus = false;
+		this.hasMouseOver = false;
 		this.manualShowTimer = null;
 		this.$element = jQuery(element);
 		this.placement = '';
@@ -287,10 +288,15 @@ var FloatingTips = new Class({
 			if (!this.isManualShow) {
 				return;
 			}
+			if ((this.triggers.indexOf("hover") >= 0 && this.hasMouseOver)
+			 || (this.triggers.indexOf("focus") >= 0 && this.hasFocus)) {
+				return;
+			}
 			this.hide();
 		},
 
-		manualShowCancel: function() {
+		manualShowCancel: function(force) {
+			force = typeOf(force) === 'null' ? false : force;
 			if (!this.isManualShow) {
 				return;
 			}
@@ -313,6 +319,7 @@ var FloatingTips = new Class({
 				return;
 			}
 			var $tip = jQuery(this).data('popover');
+			$tip.hasMouseOver = true;
 			if ($tip.triggers.indexOf("hover") < 0) {
 				return;
 			}
@@ -324,9 +331,10 @@ var FloatingTips = new Class({
 				return;
 			}
 			var $tip = jQuery(this).data('popover');
+			$tip.hasMouseOver = false;
 			if ($tip.triggers.indexOf("hover") < 0
-			|| ($tip.isManualShow
-					&& ($tip.manualShowTimer !== null || $tip.hasFocus))) {
+			|| ($tip.isManualShow && $tip.manualShowTimer !== null)
+			|| ($tip.isManualShow && $tip.hasFocus)) {
 				return;
 			}
 			$tip.hide();
@@ -352,7 +360,9 @@ var FloatingTips = new Class({
 			}
 			var $tip = $label.data('popover');
 			$tip.hasFocus = false;
-			if ($tip.triggers.indexOf("focus") < 0 && !$tip.isManualShow) {
+			if ($tip.triggers.indexOf("focus") < 0
+			|| ($tip.isManualShow && $tip.manualShowTimer !== null)
+			|| ($tip.isManualShow && $tip.triggers.indexOf("hover") >= 0 && $tip.hasMouseOver)) {
 				return;
 			}
 			$tip.hide();
