@@ -3224,7 +3224,7 @@ class FabrikFEModelForm extends FabModelForm
 
 	public function _buildQuery($opts = array())
 	{
-		return $this->buildQuery($opts = array());
+		return $this->buildQuery($opts);
 	}
 
 	/**
@@ -4241,13 +4241,14 @@ class FabrikFEModelForm extends FabModelForm
 		$groups = $this->getGroupsHiarachy();
 		foreach ($groups as $gkey => $groupModel)
 		{
+			// TODO Paul - I think that the contents of this loop should perhaps be in group.php
 			$groupTable = $groupModel->getGroup();
 			$group = $groupModel->getGroupProperties($this);
 			$groupParams = $groupModel->getParams();
 
 			$aElements = array();
 
-			// Check if group is acutally a table join
+			// Check if group is actually a table join
 			if (array_key_exists($groupTable->id, $this->aJoinGroupIds))
 			{
 				$aElements[] = $this->_makeJoinIdElement($groupTable);
@@ -4292,6 +4293,7 @@ class FabrikFEModelForm extends FabModelForm
 
 				}
 			}
+
 			// Test failed validated forms, repeat group counts are in request
 			$repeatGroups = $input->get('fabrik_repeat_group', array(), 'array');
 			if (!empty($repeatGroups))
@@ -4372,11 +4374,26 @@ class FabrikFEModelForm extends FabModelForm
 			}
 			$groupModel->randomiseElements($aElements);
 
-			// Style attribute for group columns (need to occur after randomisation of the elements otherwise clear's are not ordered correctly)
+			// Style attribute for group columns (need to occur after randomisation
+			// of the elements otherwise clear's are not ordered correctly)
 			$rowix = -1;
 			foreach ($aElements as $elKey => $element)
 			{
-				$rowix = $groupModel->setColumnCss($element, $rowix);
+				/**
+				 * Paul - Handle psuedo elements created by _makeJoinIdElement specially
+				 * otherwise they will screw up the startRow / endRow.
+				 **/
+				if (is_numeric($elKey))
+				{
+					if ($rowix < 0)
+					{
+						$element->startRow = $element->endRow = true;
+					}
+				}
+				else
+				{
+					$rowix = $groupModel->setColumnCss($element, $rowix);
+				}
 			}
 			$group->elements = $aElements;
 			$group->subgroups = $aSubGroups;
@@ -4387,6 +4404,15 @@ class FabrikFEModelForm extends FabModelForm
 			{
 				// 28/01/2011 $$$rob and if it is published
 				$showGroup = (int) $groupParams->get('repeat_group_show_first');
+				/**
+				 *  0 = JNO
+				 *  1 = JYES
+				 * -1 = COM_FABRIK_YES_BUT_HIDDEN
+				 *  2 = COM_FABRIK_DETAILS_VIEW_ONLY
+				 *  3 = COM_FABRIK_FORM_VIEW_ONLY
+				 *  4 = COM_FABRIK_SHOW_GROUP_USABLE_ELEMENTS_ONLY
+				 *  5 = COM_FABRIK_SHOW_GROUP_ALWAYS_READ_ONLY
+				 **/
 				if ($showGroup !== 0)
 				{
 					// $$$ - hugh - testing new 'hide if no usable elements' option (4)
@@ -4711,8 +4737,6 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			return '';
 		}
-
-
 	}
 
 	/**

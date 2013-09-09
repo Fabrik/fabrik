@@ -301,7 +301,7 @@ var FbGoogleMap = new Class({
 			}
 		}
 		this.watchTab();
-		Fabrik.addEvent('fabrik.form.page.chage.end', function (form) {
+		Fabrik.addEvent('fabrik.form.page.change.end', function (form) {
 			this.redraw();
 		}.bind(this));
 	},

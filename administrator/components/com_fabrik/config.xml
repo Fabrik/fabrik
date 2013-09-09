@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <config>
 	<fieldset label="COM_FABRIK_GLOBAL" name="global">
-	
+
 		<field name="enable_big_selects"
 			class="radio btn-group"
-			type="radio" 
+			type="radio"
 			default="0"
-			label="COM_FABRIK_FIELD_ENABLE_BIG_SELECTS_LABEL" 
+			label="COM_FABRIK_FIELD_ENABLE_BIG_SELECTS_LABEL"
 			description="COM_FABRIK_FIELD_ENABLE_BIG_SELECTS_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -16,17 +16,17 @@
 			type="text"
 			label="COM_FABRIK_GOOGLE_API_KEY_LABEL"
 			description="COM_FABRIK_GOOGLE_API_KEY_DESC" />
-		
+
 		<field name="google_buisness_client_id"
 			type="text"
 			label="COM_FABRIK_GOOGLE_BUSINESS_CLIENT_ID_LABEL"
 			description="COM_FABRIK_GOOGLE_BUSINESS_CLIENT_ID_DESC" />
-			
+
 		<field name="google_buisness_signature"
 			type="text"
 			label="COM_FABRIK_GOOGLE_BUSINESS_SIGNATURE_LABEL"
 			description="COM_FABRIK_GOOGLE_BUSINESS_SIGNATURE_DESC" />
-			
+
 	</fieldset>
 	<fieldset label="COM_FABRIK_LISTS" name="lists">
 
@@ -49,13 +49,13 @@
 				<option value="1">COM_FABRIK_SHOW_DATA_RECORDED_IN_TABLE</option>
 				<option value="2">COM_FABRIK_SHOW_ALL_OPTIONS</option>
 		</field>
-		
+
 		<field name="filter_list_max"
 			default="100"
 			description="COM_FABRIK_FILTER_LIST_MAX_DESC"
 			label="COM_FABRIK_FILTER_LIST_MAX_LABEL"
 			type="text"/>
-		
+
 		<field name="enable_single_sorting"
 			default="0"
 			class="radio btn-group"
@@ -75,7 +75,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="list_pdf"
 			type="radio"
 			default="0"
@@ -86,7 +86,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="actionMethod"
 			default="floating"
 			type="list"
@@ -101,117 +101,117 @@
 
 	<fieldset label="COM_FABRIK_ELEMENTS" name="elements" addfieldpath="/administrator/components/com_fabrik/models/fields">
 
-		<field name="default_element_plugins" 
+		<field name="default_element_plugins"
 			type="spacer"
 			label="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS"/>
 
-		<field name="default_element_plugins_desc" 
+		<field name="default_element_plugins_desc"
 			type="spacer"
 			label="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS_DESC"/>
 
 		<field name="int"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="INT"/>
 
 		<field name="decimal"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="DECIMAL"/>
 
 		<field name="tinyint"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="TINYINT"
 			description="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS_TINYINT_DESC"/>
 
 		<field name="smallint"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="SMALLINT"/>
 
 		<field name="mediumint"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="MEDIUMINT"/>
 
 		<field name="bigint"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="BIGINT"/>
 
 		<field name="varchar"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="VARCHAR"/>
 
 		<field name="text"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="textarea"
 			label="TEXT"/>
 
 		<field name="tinytext"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="textarea"
 			label="TINYTEXT"/>
 
 		<field name="mediumtext"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="textarea"
 			label="MEDIUMTEXT"/>
 
 		<field name="longtext"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="textarea"
 			label="LONGTEXT"/>
 
 		<field name="datetime"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="date"
 			label="DATETIME"/>
 
 		<field name="date"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="date"
 			label="DATE"
 			description="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS_DATE_DESC"/>
 
 		<field name="timestamp"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="date"
 			label="TIMESTAMP"/>
 
 		<field name="time"
-			type="pluginlist" 
-			plugin="fabrik_element" 
+			type="pluginlist"
+			plugin="fabrik_element"
 			required="true"
 			default="field"
 			label="TIME"
@@ -241,7 +241,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="form_print"
 			type="radio"
 			default="0"
@@ -252,7 +252,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="form_email"
 			type="radio"
 			default="0"
@@ -263,7 +263,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="form_pdf"
 			type="radio"
 			default="0"
@@ -274,11 +274,11 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="error_icon"
 			type="text"
 			menu="hide"
-			default="exclamation-sign"
+			default="warning"
 			description="COM_FABRIK_FIELD_ERROR_ICON_DESC"
 			label="COM_FABRIK_FIELD_ERROR_ICON_LABEL" />
 
@@ -294,7 +294,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field name="mediabox_style"
 			type="list"
 			default="Dark"
@@ -303,7 +303,7 @@
 				<option value="Dark">Dark</option>
 				<option value="Light">Light</option>
 				<option value="Smooth">Smooth</option>
-				<option value="Minimal">Minimal</option>	
+				<option value="Minimal">Minimal</option>
 		</field>
 
 		<field name="include_lightbox_js"
@@ -315,7 +315,7 @@
 				<option value="1">Auto</option>
 				<option value="2">JYES</option>
 		</field>
-		
+
 		<field name="tipfx"
 			description="COM_FABRIK_TIP_FX_DESC"
 			label="COM_FABRIK_TIP_FX_LABEL"
@@ -333,7 +333,7 @@
 				<option value="Bounce">Bounce</option>
 				<option value="Elastic">Elastic</option>
 		</field>
-		
+
 		<field name="tipfx_ease"
 			default="easeIn"
 			description="COM_FABRIK_TIP_EASE_DESC"
@@ -343,19 +343,19 @@
 				<option value="easeOut">Out</option>
 				<option value="easeInOut">InOut</option>
 		</field>
-		
+
 		<field name="tipfx_duration"
 			size="3"
 			description="COM_FABRIK_TIP_FX_DURATION_DESC"
 			label="COM_FABRIK_TIP_FX_DURATION_LABEL"
 			default="500" />
-			
+
 		<field name="tipfx_distance"
 			size="3"
 			default="50"
 			description="COM_FABRIK_TIP_FX_DISTANCE_DESC"
 			label="COM_FABRIK_TIP_FX_DISTANCE_LABEL" />
-		
+
 		<field name="tipfx_fadein"
 			default="0"
 			class="radio btn-group"
@@ -378,14 +378,14 @@
 				<option value="1">JYES</option>
 				<option value="2">COM_FABRIK_FABRIK_DEBUG_JS</option>
 		</field>
-		
+
 		<field name="pdf_debug"
 			type="radio"
 			default="0"
 			description="COM_FABRIK_PDF_DEBUG_DESC"
 			label="COM_FABRIK_PDF_DEBUG_LABEL">
 				<option value="0">JNO</option>
-				<option value="1">JYES</option>	
+				<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -428,7 +428,7 @@
 			type="text"
 			description="COM_FABRIK_SEF_CUSTOMTXT_FORM_DESC"
 			label="COM_FABRIK_SEF_CUSTOMTXT_FORM_LABEL" />
-			
+
 		<field name="fabrik_sef_customtxt_new"
 			type="text"
 			description="COM_FABRIK_SEF_CUSTOMTXT_NEW_DESC"
@@ -438,12 +438,12 @@
 			type="text"
 			description="COM_FABRIK_SEF_CUSTOMTXT_EDIT_DESC"
 			label="COM_FABRIK_SEF_CUSTOMTXT_EDIT_LABEL" />
-			
+
 		<field name="fabrik_sef_customtxt_details"
 			type="text"
 			description="COM_FABRIK_SEF_CUSTOMTXT_DETAILS_DESC"
 			label="COM_FABRIK_SEF_CUSTOMTXT_DETAILS_LABEL" />
-			
+
 		<field name="fabrik_sef_customtxt_own"
 			type="text"
 			description="COM_FABRIK_SEF_CUSTOMTXT_OWN_DESC"
@@ -468,7 +468,7 @@
 			label="COM_FABRIK_SEF_CUSTOMTXT_VIZ_LABEL" />
 
 	</fieldset>
-	
+
 	<fieldset description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL" name="permissions">
 
 		<field name="rules"

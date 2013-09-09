@@ -1,33 +1,41 @@
+<pre>
 //////////////////////////////////////////////////////////////
 /////////     FABRIK 3.0 VS 2.X README!    ///////////////////
 //////////////////////////////////////////////////////////////
 
-we've changed the way form JS is handled in fabrik3.0
-This plugin no longer is supported, instead add event 
+We have changed the way form JS is handled in fabrik 3.0+.
+This plugin no longer is supported, instead add event
 listeners in components/com_fabrik/js/X.js
 where X is your form id.
-Alternaitvely write your js inside your form templates.
+Alternatively write your js inside your form templates.
 Below is a brief explaination of the changes:
 
 //////////////////////////////////////////////////////////////
 
 window.addEvent(fnc, function(form){
-	
+
 })
 
 
 //possible options for fnc (passed in variables shown in square brackets)
 
 /*
+ * 'fabrik.form.delete' [form, rowID]
  * 'fabrik.form.doelementfx' [form]
- * 'fabrik.form.groups.save' [form]
- * ''fabrik.form.groups.save.start' [form]
+ * 'fabrik.form.element.added' [form, elID, oEl]
+ * 'fabrik.form.elements.added' [form]
+ * 'fabrik.form.groups.save.start' [form]
+ * 'fabrik.form.groups.save.completed' [form]
  * 'fabrik.form.groups.save.end'[form, json]
- * 'fabrik.form.group.delete' [form, event]
+ * 'fabrik.form.group.delete.start' [form, event]
  * 'fabrik.form.group.delete.end', [this, event, groupd, repeatCounter]
- * 'fabrik.form.group.duplicate' [form, event]
+ * 'fabrik.form.group.duplicate.start' [form, event]
+ * 'fabrik.form.group.duplicate.end' [form, event]
+ * 'fabrik.form.page.change.start' [form]
+ * 'fabrik.form.page.change.end' [form]
  * 'fabrik.form.submit.start' [form, event, button]
  * 'fabrik.form.submitted' [form, json to update] (only called when form is saving using ajax)
+ * 'fabrik.form.submit.failed' [form, json to update] (only called when form is saving using ajax)
  * 'fabrik.form.submit.end' [form]
  * 'fabrik.form.update' [form, json]
  * 'fabrik.form.reset' [form]
@@ -41,6 +49,6 @@ window.addEvent(fnc, function(form){
 
 Fabrik.addEvent('fabrik.form.submit.start', function(form, event, button){
 	alert('aha! you really should not press that button');
-	form.result = false;	
+	form.result = false;
 })
-
+</pre>

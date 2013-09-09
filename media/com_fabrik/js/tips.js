@@ -256,7 +256,7 @@ var FloatingTips = new Class({
 	},
 
 	hideOthers: function (except) {
-		if (this.element) {
+		if (this.elements) {
 			this.elements.each(function (element) {
 				if (element !== except) {
 					var tips = element.retrieve('tip');

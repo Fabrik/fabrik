@@ -67,7 +67,7 @@ echo $this->plugintop;
 		if (!$model->isMultiPage() || $i == 0 || $group->splitPage) :
 			?>
 				<li <?php if ($i == 0) echo 'class="active"'?>>
-					<a href="#group-tab<?php echo $group->id;?>" data-toggle="tab">
+					<a href="#group-tab<?php echo $i;?>" data-toggle="tab">
 						<?php
 							if (!empty($group->title))
 							{
@@ -98,8 +98,9 @@ echo $this->plugintop;
 				echo '</div>';
 			}
 			?>
-			<div class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $group->id;?>">
-		<?php
+			<div class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $i;?>">
+			<?php
+			$i++;
 		endif; ?>
 			<fieldset class="fabrikGroup" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
 				<?php
@@ -133,7 +134,6 @@ echo $this->plugintop;
 			?>
 			</fieldset>
 		<?php
-		$i++;
 	endforeach;
 	?>
 	</div>
