@@ -18,5 +18,6 @@
 		<filename>paginate.css</filename>
 		<folder>forms</folder>
 		<folder>language</folder>
+		<folder>tmpl</folder>
 	</files>
 </extension>

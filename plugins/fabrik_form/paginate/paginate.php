@@ -52,6 +52,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		{
 			return;
 		}
+		$j3 = FabrikWorker::j3();
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -68,26 +69,43 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		{
 			$url = 'index.php?option=com_' . $package . '&view=' . $mode . '&formid=' . $formId . '&rowid=';
 		}
-		$ajax = (bool) $params->get('paginate_ajax', true);
-		$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . JText::_('COM_FABRIK_START')
-			: '<a href="' . JRoute::_($url . $this->ids->first) . '" class="pagenav paginateFirst ' . $linkStartPrev . '"><span>&lt;&lt;</span>'
-				. JText::_('COM_FABRIK_START') . '</a>';
-		$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . JText::_('COM_FABRIK_PREV')
-			: '<a href="' . JRoute::_($url . $this->ids->prev) . '" class="pagenav paginatePrevious ' . $linkStartPrev . '"><span>&lt;</span>'
-				. JText::_('COM_FABRIK_PREV') . '</a>';
 
-		$nextLink = ($linkNextEnd) ? JText::_('COM_FABRIK_NEXT') . '<span>&gt;</span>'
-			: '<a href="' . JRoute::_($url . $this->ids->next) . '" class="pagenav paginateNext' . $linkNextEnd . '">' . JText::_('COM_FABRIK_NEXT')
-				. '<span>&gt;</span></a>';
-		$endLink = ($linkNextEnd) ? JText::_('COM_FABRIK_END') . '<span>&gt;&gt;</span>'
-			: '<a href="' . JRoute::_($url . $this->ids->last) . '" class="pagenav paginateLast' . $linkNextEnd . '">' . JText::_('COM_FABRIK_END')
-				. '<span>&gt;&gt;</span></a>';
-		$this->data = '<ul id="fabrik-from-pagination" class="pagination">
-				<li>' . $firstLink . '</li>
-				<li>' . $prevLink . '</li>
-				<li>' . $nextLink . '</li>
-				<li>' . $endLink . '</li>
-		</ul>';
+		$links = array();
+		$links['first'] = JRoute::_($url . $this->ids->first);
+		$links['first-active'] = $linkStartPrev;
+		$links['last-active'] = $linkNextEnd;
+		$links['prev'] = JRoute::_($url . $this->ids->prev);
+		$links['next'] = JRoute::_($url . $this->ids->next);
+		$links['last'] = JRoute::_($url . $this->ids->last);
+
+		if ($j3)
+		{
+			$layout = new JLayoutFile('plugins.fabrik_form.paginate.layouts.default_paginate', JPATH_BASE);
+			$this->data = $layout->render($links);
+		}
+		else
+		{
+			$ajax = (bool) $params->get('paginate_ajax', true);
+			$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . JText::_('COM_FABRIK_START')
+				: '<a href="' . $links['first'] . '" class="pagenav paginateFirst ' . $linkStartPrev . '"><span>&lt;&lt;</span>'
+					. JText::_('COM_FABRIK_START') . '</a>';
+			$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . JText::_('COM_FABRIK_PREV')
+				: '<a href="' . $lins['prev'] . '" class="pagenav paginatePrevious ' . $linkStartPrev . '"><span>&lt;</span>'
+					. JText::_('COM_FABRIK_PREV') . '</a>';
+
+			$nextLink = ($linkNextEnd) ? JText::_('COM_FABRIK_NEXT') . '<span>&gt;</span>'
+				: '<a href="' . $links['next'] . '" class="pagenav paginateNext' . $linkNextEnd . '">' . JText::_('COM_FABRIK_NEXT')
+					. '<span>&gt;</span></a>';
+			$endLink = ($linkNextEnd) ? JText::_('COM_FABRIK_END') . '<span>&gt;&gt;</span>'
+				: '<a href="' . $links['last'] . '" class="pagenav paginateLast' . $linkNextEnd . '">' . JText::_('COM_FABRIK_END')
+					. '<span>&gt;&gt;</span></a>';
+			$this->data = '<ul id="fabrik-from-pagination" class="pagination">
+					<li>' . $firstLink . '</li>
+					<li>' . $prevLink . '</li>
+					<li>' . $nextLink . '</li>
+					<li>' . $endLink . '</li>
+			</ul>';
+		}
 		FabrikHelperHTML::stylesheet('plugins/fabrik_form/paginate/paginate.css');
 		return true;
 	}
@@ -104,14 +122,13 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$listModel = $formModel->getListModel();
 		$table = $listModel->getTable();
 		$db = $listModel->getDb();
+		$query = $db->getQuery(true);
 
-		$join = $listModel->buildQueryJoin();
-		$where = $listModel->buildQueryWhere();
-		$order = $listModel->buildQueryOrder();
-
-		// @ rob as we are selecting on primary key we can select all rows - 3000 records load in 0.014 seconds
-		$query = "SELECT $table->db_primary_key FROM $table->db_table_name $join $where $order";
-
+		// As we are selecting on primary key we can select all rows - 3000 records load in 0.014 seconds
+		$query->select($table->db_primary_key)->from($table->db_table_name);
+		$query = $listModel->buildQueryJoin($query);
+		$query = $listModel->buildQueryWhere(true, $query);
+		$query = $listModel->buildQueryOrder($query);
 		$db->setQuery($query);
 		$rows = $db->loadColumn();
 		$keys = array_flip($rows);
@@ -184,12 +201,9 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$opts->ids = $this->ids;
 		$opts->pkey = FabrikString::safeColNameToArrayKey($formModel->getTableModel()->getTable()->db_primary_key);
 		$opts = json_encode($opts);
-		$form = $formModel->getForm();
-		$container = $formModel->isEditable() ? 'form' : 'details';
-		$container .= '_' . $form->id;
-
+		$container = $formModel->jsKey();
 		$this->formJavascriptClass($params, $formModel);
-		$formModel->formPluginJS .= "\n" . "$container.addPlugin(new FabRecordSet($container, $opts));";
+		$formModel->formPluginJS .= "\n var " . $container . "_paginate = new FabRecordSet($container, $opts);";
 	}
 
 	/**
@@ -208,12 +222,13 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$mode = $input->get('mode', 'details');
 		$model = JModelLegacy::getInstance('Form', 'FabrikFEModel');
 		$model->setId($formid);
+		$this->setModel($model);
 		$model->rowId = $rowid;
 		$ids = $this->getNavIds();
 		$url = COM_FABRIK_LIVESITE
 			. 'index.php?option=com_' . $package . '&format=raw&controller=plugin&g=form&task=pluginAjax&plugin=paginate&method=xRecord&formid=' . $formid
 			. '&rowid=' . $rowid;
-		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&c=form&view=' . $mode . '&fabrik=' . $formid . '&rowid=' . $rowid . '&format=raw';
+		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&view=' . $mode . '&formid=' . $formid . '&rowid=' . $rowid . '&format=raw';
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
