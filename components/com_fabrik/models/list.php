@@ -2454,14 +2454,14 @@ class FabrikFEModelList extends JModelForm
 	 *
 	 * @param   mixed  $query  False or a query object
 	 *
-	 * @return  string	Ordering part of sql statement
+	 * @return  mixed  string or query object - Ordering part of sql statement
 	 */
 
 	public function buildQueryOrder($query = false)
 	{
 		if (isset($this->orderBy))
 		{
-			return $this->orderBy;
+			return $query ? $query : $this->orderBy;
 		}
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -2714,7 +2714,7 @@ class FabrikFEModelList extends JModelForm
 	 *
 	 * @param   mixed  $query  JQuery object or false
 	 *
-	 * @return  string	join sql
+	 * @return  mixed  string or join query - join sql
 	 */
 
 	public function buildQueryJoin($query = false)
