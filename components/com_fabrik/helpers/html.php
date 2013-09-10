@@ -1635,6 +1635,10 @@ EOD;
 		$typeFound = false;
 		foreach ($meta as $k => $v)
 		{
+			if (is_array($v))
+			{
+				$v = implode(',', $v);
+			}
 			$v = strip_tags($v);
 
 			// $$$ rob og:type required

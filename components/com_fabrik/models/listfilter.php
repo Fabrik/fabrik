@@ -784,7 +784,8 @@ class FabrikFEModelListfilter extends FabModel
 					else
 					{
 						// If sent from a search form - the table name will be blank
-						$key = $tablename . '.' . array_pop(explode('.', $key));
+						$key = explode('.', $key);
+						$key = $tablename . '.' . array_pop($key);
 						if (array_key_exists($key, $filter_elements))
 						{
 							$found = true;
@@ -806,7 +807,7 @@ class FabrikFEModelListfilter extends FabModel
 							}
 						}
 					}
-					if (!is_a($elementModel, 'plgFabrik_Element') || $found === false)
+					if (!isset($elementModel) || !is_a($elementModel, 'plgFabrik_Element') || $found === false)
 					{
 						// Could be looking for an element which exists in a join
 						continue;
