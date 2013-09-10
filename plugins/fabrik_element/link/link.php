@@ -162,7 +162,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	public function renderListData_csv($data, &$thisRow)
 	{
 		$o = json_decode($data);
-		return $o->link;
+		return isset($o->link) ? $o->link : '';
 	}
 
 	/**
