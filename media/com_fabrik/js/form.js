@@ -122,51 +122,6 @@ var FbForm = new Class({
 				}
 				this.repeatGroupMarkers.set(id, c);
 			}.bind(this));
-
-
-			// IE8 if rowid isnt set here its most likely because you are rendering as a J article plugin and have done:
-			// <p>{fabrik view=form id=1}</p>
-			// form block level elements should not be encased in <p>'s
-
-			// testing prev/next buttons
-			var v = this.options.editable === true ? 'form' : 'details';
-			var rowInput = this.form.getElement('input[name=rowid]');
-			var rowId = typeOf(rowInput) === 'null' ? '' : rowInput.value;
-			var editopts = {
-				option : 'com_fabrik',
-				'view' : v,
-				'controller' : 'form',
-				'fabrik' : this.id,
-				'rowid' : rowId,
-				'format' : 'raw',
-				'task' : 'paginate',
-				'dir' : 1
-			};
-			[ '.previous-record', '.next-record' ].each(function (b, dir) {
-				editopts.dir = dir;
-				if (this.form.getElement(b)) {
-
-					var myAjax = new Request({
-						url : 'index.php',
-						method : this.options.ajaxmethod,
-						data : editopts,
-						onComplete : function (r) {
-							Fabrik.loader.stop(this.getBlock());
-							r = JSON.decode(r);
-							this.update(r);
-							this.form.getElement('input[name=rowid]').value = r.post.rowid;
-						}.bind(this)
-					});
-
-					this.form.getElement(b).addEvent('click', function (e) {
-						myAjax.options.data.rowid = this.form.getElement('input[name=rowid]').value;
-						e.stop();
-						Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_LOADING'));
-						myAjax.send();
-					}.bind(this));
-				}
-			}.bind(this));
-
 			this.watchGoBackButton();
 		}
 	},
