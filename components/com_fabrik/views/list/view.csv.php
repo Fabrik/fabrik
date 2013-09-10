@@ -53,6 +53,10 @@ class FabrikViewList extends FabrikViewListBase
 		// the list total
 		$selectedFields = $input->get('fields', array(), 'array');
 		$model->setHeadingsForCSV($selectedFields);
+		if (empty($model->asfields))
+		{
+			throw new LengthException('CSV Export - no fields found', 500);
+		}
 
 		$request = $model->getRequestData();
 		$model->storeRequestData($request);
