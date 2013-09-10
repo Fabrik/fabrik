@@ -814,7 +814,7 @@ class FabrikViewFormBase extends JViewLegacy
 		}
 		$goBack = $model->isAjax() ? '' : FabrikWorker::goBackAction();
 		$form->gobackButton = $params->get('goback_button', 0)
-			? '<button type="button" class="btn btn-primary button" name="Goback" ' . $goBack . '>' . $goBackLabel . '</button>' : '';
+			? '<button type="button" class="btn button" name="Goback" ' . $goBack . '>' . $goBackLabel . '</button>' : '';
 
 		if ($model->isEditable() && $params->get('submit_button', 1))
 		{
@@ -827,7 +827,7 @@ class FabrikViewFormBase extends JViewLegacy
 				$submitIcon = '<i class="' . $submitIcon . '"></i>';
 				$submitLabel = $params->get('save_icon_location') == 'before' ? $submitIcon . '&nbsp;' . $submitLabel : $submitLabel . '&nbsp;' . $submitIcon;
 			}
-			$form->submitButton = '<button type="' . $button . '" class="btn btn-success button ' . $submitClass . '" name="Submit">'
+			$form->submitButton = '<button type="' . $button . '" class="btn btn-primary button ' . $submitClass . '" name="Submit">'
 				. $submitLabel . '</button>';
 		}
 		else
