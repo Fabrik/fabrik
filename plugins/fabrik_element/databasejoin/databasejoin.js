@@ -488,6 +488,15 @@ var FbDatabasejoin = new Class({
 		return this.element.id + '-popupwin-select';
 	},
 
+	numChecked: function () {
+		if (this.options.displayType !== 'checkbox') {
+			return null;
+		}
+		return this._getSubElements().filter(function (c) {
+			return c.value !== "0" ? c.checked : false;
+		}).length;
+	},
+
 	update: function (val) {
 		console.log('update', val);
 		this.getElement();
@@ -711,7 +720,7 @@ var FbDatabasejoin = new Class({
 
 				// Fired when form submitted - enables element to update itself with any new submitted data
 				if (this.options.popupform === form.id) {
-					
+
 					// Only set the value if this element has triggered the pop up (ie could not be if in a repeat group)
 					if (this.activePopUp) {
 						this.options.value = json.rowid;
