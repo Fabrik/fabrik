@@ -40,6 +40,7 @@ plugins/*
 plugins/search/*
 !plugins/search/fabrik
 plugins/system/*
+plugins/fabrik_list/sphera_php_events
 !plugins/system/fabrik/
 !plugins/fabrik_element/
 plugins/fabrik_element/mytristate/
