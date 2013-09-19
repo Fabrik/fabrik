@@ -275,7 +275,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 			{
 				$table = $listModel->getTable();
 				$tmpl = $listModel->getTmpl();
-				$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=list&amp;layout=_advancedsearch&amp;tmpl=component&amp;listid='
+				$url = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&amp;view=list&amp;layout=_advancedsearch&amp;tmpl=component&amp;listid='
 					. $table->id . '&amp;nextview=' . $app->input->get('view', 'list')
 					. '&scope&amp;=' . $app->scope;
 

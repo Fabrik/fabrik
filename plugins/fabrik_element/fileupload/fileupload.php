@@ -655,7 +655,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 					}
 					else
 					{
-						$img = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
+						$img = '<img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/' . $img . '" alt="'
 								. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
 					}
 					return $a . $img . $a2;
@@ -687,14 +687,14 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			if ($downloadImg !== '' && JFile::exists(JPATH_ROOT . '/media/com_fabrik/images/' . $downloadImg))
 			{
 				$aClass = '';
-				$title = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $downloadImg . '" alt="' . $title . '" />';
+				$title = '<img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/' . $downloadImg . '" alt="' . $title . '" />';
 			}
 			else
 			{
 				$aClass = 'class="btn btn-primary button"';
 				$title = '<i class="icon-download icon-white"></i> ' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
 			}
-			$link = COM_FABRIK_LIVESITE
+			$link = COM_FABRIK_LIVESITE_PATH
 				. 'index.php?option=com_' . $package . '&amp;task=plugin.pluginAjax&amp;plugin=fileupload&amp;method=ajax_download&amp;format=raw&amp;element_id='
 				. $elementid . '&amp;formid=' . $formid . '&amp;rowid=' . $rowid . '&amp;repeatcount=' . $i;
 			$url = '<a href="' . $link . '"' . $aClass . '>' . $title . '</a>';
@@ -1949,7 +1949,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			{
 				$img = $params->get('fu_download_noaccess_image');
 				return $img == '' ? ''
-						: '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
+						: '<img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/' . $img . '" alt="'
 								. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
 			}
 		}
@@ -1982,14 +1982,14 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		if ($downloadImg !== '' && JFile::exists('media/com_fabrik/images/' . $downloadImg))
 		{
 			$aClass = '';
-			$title = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $downloadImg . '" alt="' . $title . '" />';
+			$title = '<img src="' . COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/images/' . $downloadImg . '" alt="' . $title . '" />';
 		}
 		else
 		{
 			$aClass = 'class="btn btn-primary button"';
 			$title = '<i class="icon-download icon-white"></i> ' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
 		}
-		$link = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&task=plugin.pluginAjax&plugin=fileupload&method=ajax_download&format=raw&element_id='
+		$link = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&task=plugin.pluginAjax&plugin=fileupload&method=ajax_download&format=raw&element_id='
 			. $elementid . '&formid=' . $formid . '&rowid=' . $rowid . '&repeatcount=' . $repeatCounter;
 		$url = '<a href="' . $link . '"' . $aClass . '>' . $title . '</a>';
 		return $url;
@@ -2022,7 +2022,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 	protected function plupload($str, $repeatCounter, $values)
 	{
-		FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/css/slider.css');
+		FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/css/slider.css');
 		$id = $this->getHTMLId($repeatCounter);
 		$params = $this->getParams();
 		$winWidth = $params->get('win_width', 400);
@@ -2202,7 +2202,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	 * @return  string  Formatted value
 	 */
 
-	public function addEmailAttachement($data)
+	public function addEmailAttachment($data)
 	{
 		if (is_object($data))
 		{
@@ -2212,11 +2212,18 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$params = $this->getParams();
 		if ($params->get('ul_email_file'))
 		{
-			$config = JFactory::getConfig();
+			// Paul - $config is never used.
+			//$config = JFactory::getConfig();
 			if (empty($data))
 			{
 				$data = $params->get('default_image');
 			}
+			// Paul - The next few lines look odd - if the file contains (should be "starts with")
+			// the site FILE base, then we replace the FILE base with a URL base, but ...
+			// if it doesn't start with the FILE base, we don't prepend the URL based but instead
+			// prepend the FILE base. I think that the second option should read:
+			//     $p = COM_FABRIK_LIVESITE . $data;
+			// but do not know enough to be sure.
 			if (strstr($data, JPATH_SITE))
 			{
 				$p = str_replace(COM_FABRIK_LIVESITE, JPATH_SITE, $data);

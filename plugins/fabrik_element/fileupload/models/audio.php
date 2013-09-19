@@ -56,7 +56,7 @@ class AudioRender
 
 	public function render(&$model, &$params, $file)
 	{
-		$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$file = str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 		$this->output = "<embed src=\"$file\" autostart=\"false\" playcount=\"true\" loop=\"false\" height=\"50\" width=\"200\">";
 	}
 }

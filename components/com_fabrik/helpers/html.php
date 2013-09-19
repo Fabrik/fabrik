@@ -452,7 +452,7 @@ EOD;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$table = $formModel->getTable();
 
-		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&tmpl=component&view=details&formid=' . $form->id . '&listid=' . $table->id
+		$url = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&tmpl=component&view=details&formid=' . $form->id . '&listid=' . $table->id
 		. '&rowid=' . $formModel->getRowId() . '&iframe=1&print=1';
 
 		/* $$$ hugh - @TODO - FIXME - if they were using rowid=-1, we don't need this, as rowid has already been transmogrified
@@ -601,9 +601,12 @@ EOD;
 	public static function stylesheet($file, $attribs = array())
 	{
 		// $$$ hugh - moved this to top of function, as we now apply livesite in either usage cases below.
-		if (!strstr($file, COM_FABRIK_LIVESITE))
+		// $$$ paul - we should check only at beginning of string and check for both LIVESITE and LIVESITE_PATH
+		// if (!strstr($file, COM_FABRIK_LIVESITE))
+		if (JString::strcmp(JString::substr($file, 0, JString::strlen(COM_FABRIK_LIVESITE)), COM_FABRIK_LIVESITE)
+		&& JString::strcmp(JString::substr($file, 0, JString::strlen(COM_FABRIK_LIVESITE_PATH)), COM_FABRIK_LIVESITE_PATH))
 		{
-			$file = COM_FABRIK_LIVESITE . $file;
+			$file = COM_FABRIK_LIVESITE_PATH . $file;
 		}
 		if (self::cssAsAsset())
 		{
@@ -892,13 +895,13 @@ EOD;
 
 			if (!self::inAjaxLoadedPage())
 			{
-				$document->addScript(COM_FABRIK_LIVESITE . 'media/com_fabrik/js/lib/require/require.js');
+				$document->addScript(COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/js/lib/require/require.js');
 
 				JText::script('COM_FABRIK_LOADING');
 				$src[] = 'media/com_fabrik/js/fabrik' . $ext;
 				$src[] = 'media/com_fabrik/js/window' . $ext;
 
-				self::styleSheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/css/fabrik.css');
+				self::styleSheet(COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/css/fabrik.css');
 
 				$liveSiteSrc = array();
 				$liveSiteSrc[] = "window.addEvent('fabrik.loaded', function () {";
@@ -1035,7 +1038,7 @@ EOD;
 		$pathString = '{' . implode(',', $pathBits) . '}';
 		$config = array();
 		$config[] = "requirejs.config({";
-		$config[] = "\tbaseUrl: '" . COM_FABRIK_LIVESITE . "',";
+		$config[] = "\tbaseUrl: '" . COM_FABRIK_LIVESITE_PATH . "',";
 		$config[] = "\tpaths: " . $pathString . ",";
 		$config[] = "\tshim: " . $shim . ',';
 		$config[] = "\twaitSeconds: 30,";
@@ -1234,7 +1237,9 @@ EOD;
 		{
 			if (!(JString::stristr($f, 'http://') || JString::stristr($f, 'https://')))
 			{
-				if (!JFile::exists(COM_FABRIK_BASE . '/' . $f))
+				// $$$ paul - COM_FABRIK_BASE already as DS appended
+				// if (!JFile::exists(COM_FABRIK_BASE . '/' . $f))
+				if (!JFile::exists(COM_FABRIK_BASE . $f))
 				{
 					continue;
 				}
@@ -1269,7 +1274,10 @@ EOD;
 			}
 			if (!$pathMatched)
 			{
-				if (!(JString::stristr($file, 'http://') || JString::stristr($file, 'https://')))
+				// $$$ paul - should only check the first characters of $file rather than anywhere in the string
+				// if (!(JString::stristr($file, 'http://') || JString::stristr($file, 'https://')))
+				if (JString::strcasecmp(JString::substr($file, 0, 7), 'http://')
+				 && JString::strcasecmp(JString::substr($file, 0, 8), 'https://')))
 				{
 					$file = COM_FABRIK_LIVESITE . $file;
 				}
@@ -1571,7 +1579,7 @@ EOD;
 		$json = new stdClass;
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
+		$json->url = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
 			. '&formid=' . $formid . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
 		$c = JArrayHelper::getValue($opts, 'onSelection');
 		if ($c != '')
@@ -1778,7 +1786,7 @@ EOD;
 			}
 		}
 		$src = self::getImagePath($file, $type, $tmpl);
-		$src = str_replace(COM_FABRIK_BASE, COM_FABRIK_LIVESITE, $src);
+		$src = str_replace(COM_FABRIK_BASE, COM_FABRIK_LIVESITE_PATH, $src);
 		$src = str_replace("\\", "/", $src);
 
 		if ($srcOnly)

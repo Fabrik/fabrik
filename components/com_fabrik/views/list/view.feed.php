@@ -124,7 +124,7 @@ class FabrikViewList extends JViewLegacy
 		$csspath = COM_FABRIK_FRONTEND . '/views/list/tmpl/' . $tmpl . '/feed.css';
 		if (file_exists($csspath))
 		{
-			$document->addStyleSheet(COM_FABRIK_LIVESITE . 'components/com_fabrik/views/list/tmpl/' . $tmpl . '/feed.css');
+			$document->addStyleSheet(COM_FABRIK_LIVESITE_PATH . 'components/com_fabrik/views/list/tmpl/' . $tmpl . '/feed.css');
 		}
 
 		$titleEl = $params->get('feed_title');

@@ -44,7 +44,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 		if ($params->get('media_which_player', 'jw') == 'xspf')
 		{
 			$player_type = "Extended";
-			$player_url = COM_FABRIK_LIVESITE . $this->srcBase . "media/libs/xspf/$player_type/xspf_player.swf";
+			$player_url = COM_FABRIK_LIVESITE_PATH . $this->srcBase . "media/libs/xspf/$player_type/xspf_player.swf";
 			$playlist_url = 'index.php?option=com_' . $package . '&controller=visualization.media&view=visualization&task=getPlaylist&format=raw&Itemid='
 				. $Itemid . '&visualizationid=' . $this->getId();
 			$playlist_url = urlencode($playlist_url);
@@ -138,7 +138,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 					}
 					$location = str_replace('\\', '/', $location);
 					$location = JString::ltrim($location, '/');
-					$location = COM_FABRIK_LIVESITE . $location;
+					$location = COM_FABRIK_LIVESITE_PATH . $location;
 					$retstr .= "		<track>\n";
 					$retstr .= "			<location>" . $location . "</location>\n";
 					if (!empty($titleElement))
@@ -153,7 +153,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 						{
 							$image = str_replace('\\', '/', $image);
 							$image = JString::ltrim($image, '/');
-							$image = COM_FABRIK_LIVESITE . $image;
+							$image = COM_FABRIK_LIVESITE_PATH . $image;
 							$retstr .= "			<image>" . $image . "</image>\n";
 						}
 					}
@@ -199,7 +199,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 					}
 					$location = str_replace('\\', '/', $location);
 					$location = JString::ltrim($location, '/');
-					$location = COM_FABRIK_LIVESITE . $location;
+					$location = COM_FABRIK_LIVESITE_PATH . $location;
 					$retstr .= "		<item>\n";
 					$retstr .= '			<media:content url="' . $location . '" />' . "\n";
 					if (!empty($titleElement))
@@ -214,7 +214,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 						{
 							$image = str_replace('\\', '/', $image);
 							$image = JString::ltrim($image, '/');
-							$image = COM_FABRIK_LIVESITE . $image;
+							$image = COM_FABRIK_LIVESITE_PATH . $image;
 							$retstr .= '			<media:thumbnail url="' . $image . '" />' . "\n";
 						}
 					}
@@ -279,11 +279,11 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 		$opts->which_player = $params->get('media_which_player', 'jw');
 		if ($params->get('media_which_player', 'jw') == 'jw')
 		{
-			$opts->jw_swf_url = COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/media/libs/jw/player.swf';
-			$opts->jw_playlist_url = COM_FABRIK_LIVESITE
+			$opts->jw_swf_url = COM_FABRIK_LIVESITE_PATH . 'plugins/fabrik_visualization/media/libs/jw/player.swf';
+			$opts->jw_playlist_url = COM_FABRIK_LIVESITE_PATH
 				. 'index.php?option=com_' . $package . '&controller=visualization.media&view=visualization&task=getPlaylist&format=raw&visualizationid='
 				. $this->getId();
-			$opts->jw_skin = COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/media/libs/jw/skins/' . $params->get('media_jw_skin', 'snel.zip');
+			$opts->jw_skin = COM_FABRIK_LIVESITE_PATH . 'plugins/fabrik_visualization/media/libs/jw/skins/' . $params->get('media_jw_skin', 'snel.zip');
 		}
 		$opts->width = (int) $params->get('media_width', '350');
 		$opts->height = (int) $params->get('media_height', '250');

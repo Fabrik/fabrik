@@ -111,23 +111,23 @@ class FlashRender
 				$thumb_path = COM_FABRIK_BASE . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
 				if (JFile::exists($thumb_path))
 				{
-					$thumb_file = COM_FABRIK_LIVESITE . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
+					$thumb_file = COM_FABRIK_LIVESITE_PATH . $thumb_dir . '/' . $pathinfo['filename'] . '.png';
 				}
 				else
 				{
-					$thumb_file = COM_FABRIK_LIVESITE . "media/com_fabrik/images/flash.jpg";
+					$thumb_file = COM_FABRIK_LIVESITE_PATH . "media/com_fabrik/images/flash.jpg";
 				}
 			}
 			else
 			{
-				$thumb_file = COM_FABRIK_LIVESITE . "media/com_fabrik/images/flash.jpg";
+				$thumb_file = COM_FABRIK_LIVESITE_PATH . "media/com_fabrik/images/flash.jpg";
 			}
-			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 			$this->output .= "<a href='$file' rel='lightbox[flash $w $h]'><img src='$thumb_file' alt='Full Size'></a>";
 		}
 		elseif ($model->inDetailedView)
 		{
-			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 			$this->output = "<object width=\"$w\" height=\"$h\">
 				<param name=\"movie\" value=\"$file\">
 				<embed src=\"$file\" width=\"$w\" height=\"$h\">
@@ -136,7 +136,7 @@ class FlashRender
 		}
 		else
 		{
-			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+			$file = str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 			$this->output = "<object width=\"$w\" height=\"$h\">
 				<param name=\"movie\" value=\"$file\">
 				<embed src=\"$file\" width=\"$w\" height=\"$h\">

@@ -106,7 +106,7 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 				}
 				$location = str_replace('\\', '/', $location);
 				$location = JString::ltrim($location, '/');
-				$location = COM_FABRIK_LIVESITE . $location;
+				$location = COM_FABRIK_LIVESITE_PATH . $location;
 				$retstr .= "		<track>\n";
 				$retstr .= "			<location>" . $location . "</location>\n";
 				if (!empty($titleElement))

@@ -277,7 +277,7 @@ class Fabimage
 			// No cached image, grab image from remote URI and store locally
 			file_put_contents($cacheFile, file_get_contents($src));
 		}
-		$src = COM_FABRIK_LIVESITE . $path . $file;
+		$src = COM_FABRIK_LIVESITE_PATH . $path . $file;
 		return $src;
 	}
 }

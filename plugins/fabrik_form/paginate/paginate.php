@@ -225,17 +225,18 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$this->setModel($model);
 		$model->rowId = $rowid;
 		$ids = $this->getNavIds();
-		$url = COM_FABRIK_LIVESITE
-			. 'index.php?option=com_' . $package . '&format=raw&controller=plugin&g=form&task=pluginAjax&plugin=paginate&method=xRecord&formid=' . $formid
-			. '&rowid=' . $rowid;
-		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&view=' . $mode . '&formid=' . $formid . '&rowid=' . $rowid . '&format=raw';
+		// Paul - following two lines both set $url so first is commented
+		//$url = COM_FABRIK_LIVESITE_PATH
+		//	. 'index.php?option=com_' . $package . '&format=raw&controller=plugin&g=form&task=pluginAjax&plugin=paginate&method=xRecord&formid=' . $formid
+		//	. '&rowid=' . $rowid;
+		$url = COM_FABRIK_LIVESITE_PATH . 'index.php?option=com_' . $package . '&view=' . $mode . '&formid=' . $formid . '&rowid=' . $rowid . '&format=raw';
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		$data = curl_exec($ch);
 		curl_close($ch);
 
-		// Apend the ids to the json array
+		// Append the ids to the json array
 		$data = json_decode($data);
 		$data->ids = $ids;
 		echo json_encode($data);

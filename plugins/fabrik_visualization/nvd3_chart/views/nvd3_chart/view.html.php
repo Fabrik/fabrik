@@ -49,7 +49,7 @@ class FabrikViewNvd3_Chart extends JViewLegacy
 		$srcs[] = 'media/com_fabrik/js/listfilter.js';
 		$srcs[] = 'media/com_fabrik/js/advanced-search.js';
 
-		$lib = COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/nvd3_chart/lib/novus-nvd3/';
+		$lib = COM_FABRIK_LIVESITE_PATH . 'plugins/fabrik_visualization/nvd3_chart/lib/novus-nvd3/';
 		$document->addScript($lib . 'lib/d3.v2.js');
 		$document->addScript($lib . 'nv.d3.js');
 		$document->addScript($lib . 'src/tooltip.js');

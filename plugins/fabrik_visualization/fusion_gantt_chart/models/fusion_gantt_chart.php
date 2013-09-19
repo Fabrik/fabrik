@@ -53,7 +53,7 @@ class FabrikModelFusion_Gantt_Chart extends FabrikFEModelVisualization
 		$this->fc = new FusionCharts("GANTT", "$w", "$h");
 
 		// Define path to FC's SWF
-		$this->fc->setSWFPath(COM_FABRIK_LIVESITE . $this->srcBase . 'fusion_gantt_chart/lib/FCCharts/');
+		$this->fc->setSWFPath(COM_FABRIK_LIVESITE_PATH . $this->srcBase . 'fusion_gantt_chart/lib/FCCharts/');
 
 		$this->fc->setChartParam('dateFormat', 'yyyy-mm-dd');
 		$this->fc->setChartParam('showTaskNames', 1);

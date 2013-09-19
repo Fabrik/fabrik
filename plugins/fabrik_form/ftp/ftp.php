@@ -91,8 +91,8 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 		// $$$ hugh - test stripslashes(), should be safe enough.
 		$message = stripslashes($message);
 
-		$editURL = COM_FABRIK_LIVESITE . "index.php?option=com_fabrik&amp;view=form&amp;fabrik=" . $formModel->get('id') . "&amp;rowid=" . $input->get('rowid', '', 'string');
-		$viewURL = COM_FABRIK_LIVESITE . "index.php?option=com_fabrik&amp;view=details&amp;fabrik=" . $formModel->get('id') . "&amp;rowid=" . $input->get('rowid', '', 'string');
+		$editURL = COM_FABRIK_LIVESITE_PATH . "index.php?option=com_fabrik&amp;view=form&amp;fabrik=" . $formModel->get('id') . "&amp;rowid=" . $input->get('rowid', '', 'string');
+		$viewURL = COM_FABRIK_LIVESITE_PATH . "index.php?option=com_fabrik&amp;view=details&amp;fabrik=" . $formModel->get('id') . "&amp;rowid=" . $input->get('rowid', '', 'string');
 		$editlink = "<a href=\"$editURL\">" . JText::_('EDIT') . "</a>";
 		$viewlink = "<a href=\"$viewURL\">" . JText::_('VIEW') . "</a>";
 		$message = str_replace('{fabrik_editlink}', $editlink, $message);

@@ -58,7 +58,7 @@ class PlgFabrik_ElementSlider extends PlgFabrik_Element
 
 	public function render($data, $repeatCounter = 0)
 	{
-		FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/css/slider.css');
+		FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE_PATH . 'media/com_fabrik/css/slider.css');
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
 		$params = $this->getParams();

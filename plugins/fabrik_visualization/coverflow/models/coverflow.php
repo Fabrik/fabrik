@@ -83,7 +83,7 @@ class FabrikModelCoverflow extends FabrikFEModelVisualization
 										$rootFolder = $imageElement->getParams()->get('selectImage_root_folder');
 										$rootFolder = JString::ltrim($rootFolder, '/');
 										$rootFolder = JString::rtrim($rootFolder, '/');
-										$event->image = COM_FABRIK_LIVESITE . 'images/stories/' . $rootFolder . '/' . $row->{$image . '_raw'};
+										$event->image = COM_FABRIK_LIVESITE_PATH . 'images/stories/' . $rootFolder . '/' . $row->{$image . '_raw'};
 										break;
 									default:
 										$event->image = isset($row->{$image . '_raw'}) ? $row->{$image . '_raw'} : '';

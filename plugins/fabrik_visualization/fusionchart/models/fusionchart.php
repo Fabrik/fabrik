@@ -389,19 +389,19 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 		{
 			require_once $free22;
 			$document->addScript($this->srcBase . "fusionchart/lib/FusionChartsFree/JSClass/FusionCharts.js");
-			$fc_swf_path = COM_FABRIK_LIVESITE . $this->srcBase . "fusionchart/lib/FusionChartsFree/Charts/";
+			$fc_swf_path = COM_FABRIK_LIVESITE_PATH . $this->srcBase . "fusionchart/lib/FusionChartsFree/Charts/";
 		}
 		elseif ($fc_version == 'pro_30' && JFile::exists($pro30))
 		{
 			require_once $pro30;
 			$document->addScript($this->srcBase . "fusionchart/lib/FusionCharts/Charts/FusionCharts.js");
-			$fc_swf_path = COM_FABRIK_LIVESITE . $this->srcBase . "fusionchart/lib/FusionCharts/Charts/";
+			$fc_swf_path = COM_FABRIK_LIVESITE_PATH . $this->srcBase . "fusionchart/lib/FusionCharts/Charts/";
 		}
 		else
 		{
 			require_once $this->pathBase . 'fusionchart/lib/FCclass/FusionCharts_Gen.php';
 			$document->addScript($this->srcBase . "fusionchart/lib/FCcharts/FusionCharts.js");
-			$fc_swf_path = COM_FABRIK_LIVESITE . $this->srcBase . "fusionchart/lib/FCcharts/";
+			$fc_swf_path = COM_FABRIK_LIVESITE_PATH . $this->srcBase . "fusionchart/lib/FCcharts/";
 		}
 
 		$calc_prefixes = array('sum___', 'avg___', 'med___', 'cnt___');

@@ -61,7 +61,7 @@ class AllVideosRender
 
 	public function render(&$model, &$params, $file, $thisRow = null)
 	{
-		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE_PATH . $file);
 		$ext = JString::strtolower(JFile::getExt($file));
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
 		{

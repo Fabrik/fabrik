@@ -159,7 +159,7 @@ class FabrikAdminModelPackages extends FabModelList
 		{
 			$n = $i->component_name . '_' . $i->version;
 			$file = JPATH_ROOT . '/tmp/' . $i->component_name . '/pkg_' . $n . '.zip';
-			$url = COM_FABRIK_LIVESITE . 'tmp/' . $i->component_name . '/pkg_' . $n . '.zip';
+			$url = COM_FABRIK_LIVESITE_PATH . 'tmp/' . $i->component_name . '/pkg_' . $n . '.zip';
 			if (JFile::exists($file))
 			{
 				$i->file = '<a href="' . $url . '"><span class="icon-download"></span> pkg_' . $n . '.zip</a>';

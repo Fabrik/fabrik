@@ -97,9 +97,9 @@ class PlgFabrik_FormReceipt extends PlgFabrik_Form
 		$data = $this->getProcessData();
 
 		$message = $params->get('receipt_message');
-		$editURL = COM_FABRIK_LIVESITE . "index.php?option=com_" . $package . "&amp;view=form&amp;fabrik=" . $formModel->get('id') . "&amp;rowid="
+		$editURL = COM_FABRIK_LIVESITE_PATH . "index.php?option=com_" . $package . "&amp;view=form&amp;fabrik=" . $formModel->get('id') . "&amp;rowid="
 			. $rowid;
-		$viewURL = COM_FABRIK_LIVESITE . "index.php?option=com_" . $package . "&amp;view=details&amp;fabrik=" . $formModel->get('id') . "&amp;rowid="
+		$viewURL = COM_FABRIK_LIVESITE_PATH . "index.php?option=com_" . $package . "&amp;view=details&amp;fabrik=" . $formModel->get('id') . "&amp;rowid="
 			. $rowid;
 		$editlink = "<a href=\"$editURL\">" . JText::_('EDIT') . "</a>";
 		$viewlink = "<a href=\"$viewURL\">" . JText::_('VIEW') . "</a>";
