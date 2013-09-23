@@ -162,7 +162,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		 */
 		if (!$this->inJDb())
 		{
-			return $this->_getHiddenField($name, $user->get('id'), $html_id);
+			return $this->getHiddenField($name, $user->get('id'), $html_id);
 		}
 		$str = '';
 		if ($this->isEditable())
