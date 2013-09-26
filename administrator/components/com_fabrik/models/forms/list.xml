@@ -1261,6 +1261,17 @@
 				<option value="2">COM_FABRIK_ONLY_IF_EMPTY</option>
 			</field>
 
+			<field name="show_lock_add"
+				type="radio"
+				class="btn-group"
+				default="0"
+				label="COM_FABRIK_SHOW_LOCK_ADD_LABEL"
+				description="COM_FABRIK_SHOW_LOCK_ADD_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="show_related_info"
 				type="list"
 				default="0"

@@ -1761,8 +1761,15 @@ class FabrikFEModelList extends JModelForm
 		$facetTable = $this->facetedTable($listid);
 		if (!$facetTable->canAdd())
 		{
-			return '<div style="text-align:center"><a title="' . JText::_('JERROR_ALERTNOAUTHOR')
-			. '"><img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
+			if ($params->get('show_lock_add', '0') == '1')
+			{
+				return '<div style="text-align:center"><a title="' . JText::_('JERROR_ALERTNOAUTHOR')
+				. '"><img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/login.png" alt="' . JText::_('JERROR_ALERTNOAUTHOR') . '" /></a></div>';
+			}
+			else
+			{
+				return '';
+			}
 		}
 		if ($app->isAdmin())
 		{
