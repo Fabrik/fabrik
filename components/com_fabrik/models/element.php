@@ -2550,7 +2550,8 @@ class PlgFabrik_Element extends FabrikPlugin
 				}
 				if ($jsAct->action != '' && $js !== '')
 				{
-					$jsStr .= $jsControllerKey . ".dispatchEvent('$element->plugin', '$elId', '$jsAct->action', '$js');\n";
+					$jsSlashes = addslashes($js);
+					$jsStr .= $jsControllerKey . ".dispatchEvent('$element->plugin', '$elId', '$jsAct->action', '$jsSlashes');\n";
 				}
 				else
 				{
