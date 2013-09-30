@@ -1546,10 +1546,16 @@ EOD;
 		JText::script('COM_FABRIK_NO_RECORDS');
 		$class = $plugin === 'cascadingdropdown' ? 'FabCddAutocomplete' : 'FbAutocomplete';
 		$jsFile = FabrikWorker::j3() ? 'autocomplete-bootstrap' : 'autocomplete';
+		$needed = array();
+		$needed[] = self::isDebug() ? 'fab/fabrik' : 'fab/fabrik-min';
+		$needed[] = self::isDebug() ? 'fab/' . $jsFile : 'fab/' . $jsFile . '-min';
+		$needed[] = self::isDebug() ? 'fab/encoder' : 'fab/encoder-min';
+		$needed[] = 'fab/lib/Event.mock';
+		$needed = implode("', '", $needed);
 		self::addScriptDeclaration(
-				"requirejs(['fab/fabrik', 'fab/$jsFile', 'fab/encoder', 'fab/lib/Event.mock'], function () {
-				new $class('$htmlid', $str);
-	});"
+"requirejs(['$needed'], function () {
+	new $class('$htmlid', $str);
+});"
 			);
 	}
 
