@@ -11,6 +11,15 @@
 				default="input-medium"
 				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
 				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
+			
+		<field name="maxlength"
+			type="text"
+			class="input-mini"
+			default="255"
+			description=""
+			label="PLG_ELEMENT_PASSWORD_MAXLENGTH_LABEL"
+			size="3" />
+				
 		</fieldset>
 	</fields>
 </form>
