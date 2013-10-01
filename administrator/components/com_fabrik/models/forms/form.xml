@@ -305,15 +305,6 @@
 				default="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DEFAULT"
 				description="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DESC"
 				label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_LABEL"/>
-				
-			<field name="save_button_large"
-				type="radio"
-				class="btn-group" default="after"
-				description="COM_FABRIK_FIELD_SUBMIT_BUTTON_LRG_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LRG_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
 
 			<field name="save_icon"
 				type="text"
