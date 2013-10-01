@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset name="plg-element-password">
-		
+	<fields name="params">		
+		<fieldset label="PLG_ELEMENT_PASSWORD_FORMATTING" name="plg-field-formatting">
+
 			<field type="helplink"
 				url="PLG_ELEMENT_PASSWORD_HELP_SERVER" />
-				
-			<field name="maxlength"
-				type="text"
-				class="input-mini"
-				default="255"
-				description=""
-				label="PLG_ELEMENT_PASSWORD_MAXLENGTH_LABEL"
-				size="3" />
-				
+
+			<field name="bootstrap_class"
+				type="bootstrapfieldclass"
+				default="input-medium"
+				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
+				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
 		</fieldset>
 	</fields>
 </form>
