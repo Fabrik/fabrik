@@ -293,7 +293,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		{
 			foreach ($val as $v)
 			{
-				$this->_appendQS($queryvars, "{$key}[value]", $v);
+				$this->_appendQS($queryvars, "{$key}[]", $v);
 			}
 		}
 		else
