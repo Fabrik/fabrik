@@ -3,7 +3,7 @@
  *
  * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
+ **/
 
 var FbCalc = new Class({
 	Extends: FbElement,
@@ -11,9 +11,6 @@ var FbCalc = new Class({
 		this.plugin = 'calc';
 		this.oldAjaxCalc = null;
 		this.parent(element, options);
-		if (this.element) {
-			this.spinner = new Spinner(this.element.getParent());
-		}
 	},
 
 	attachedToForm : function () {
@@ -64,7 +61,6 @@ var FbCalc = new Class({
 	},
 
 	calc: function () {
-		this.spinner.show();
 		var formdata = this.form.getFormElementData();
 		var testdata = $H(this.form.getFormData(false));
 
@@ -104,9 +100,10 @@ var FbCalc = new Class({
 				'formid': this.form.id
 			};
 		data = Object.append(formdata, data);
+		Fabrik.loader.start(this.element.getParent(), Joomla.JText._('COM_FABRIK_VALIDATING'));
 		var myAjax = new Request({'url': '', method: 'post', 'data': data,
 		onComplete: function (r) {
-			this.spinner.hide();
+			Fabrik.loader.stop(this.element.getParent());
 			this.update(r);
 			if (this.options.validations) {
 

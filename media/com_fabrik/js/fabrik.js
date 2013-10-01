@@ -6,7 +6,7 @@
  */
 
 /*jshint mootools: true */
-/*global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true $H:true,unescape:true,Asset:true,FloatingTips:true,head:true,IconGenerator:true */
+/*global Fabrik:true, fconsole:true, Joomla:true, $H:true, FbForm:true */
 
 /**
  * Console.log wrapper
@@ -50,8 +50,7 @@ RequestQueue = new Class({
 		if (Object.keys(this.queue).length === 0) {
 			return;
 		}
-		var xhr = {},
-		running = false;
+		var running = false;
 
 		// Remove successfuly completed xhr
 		$H(this.queue).each(function (xhr, k) {
@@ -217,46 +216,68 @@ Array.prototype.searchFor = function (candid) {
 };
 
 /**
- * Loading aninimation class, either inline next to an element or
- * full screen
+ * Loading aninimation class, either inline next to an element or full screen
+ * Paul 20130809 Adding functionality to handle multiple simultaneous spinners on same field.
  */
-
 var Loader = new Class({
 
 	initialize: function (options) {
 		this.spinners = {};
-	},
-
-	getSpinner: function (inline, msg) {
-		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
-		if (typeOf(document.id(inline)) === 'null') {
-			inline = false;
-		}
-		inline = inline ? inline : false;
-		var target = inline ? inline : document.body;
-		if (!this.spinners[inline]) {
-			this.spinners[inline] = new Spinner(target, {'message': msg});
-		}
-		return this.spinners[inline];
+		this.spinnerCount = {};
 	},
 
 	start: function (inline, msg) {
-		this.getSpinner(inline, msg).position().show();
+		if (typeOf(document.id(inline)) === 'null') {
+			inline = false;
+		}
+		inline = inline ? inline : document.body;
+		msg = msg ? msg : Joomla.JText._('COM_FABRIK_LOADING');
+		if (!this.spinners[inline]) {
+			this.spinners[inline] = new Spinner(inline, {'message': msg});
+		}
+		if (!this.spinnerCount[inline])
+		{
+			this.spinnerCount[inline] = 1;
+		} else {
+			this.spinnerCount[inline]++;
+		}
+		// If field is hidden we will get a TypeError
+		if (this.spinnerCount[inline] === 1) {
+			try {
+				this.spinners[inline].position().show();
+			} catch (err) {
+				// Do nothing
+			}
+		}
 	},
 
-	stop: function (inline, msg, keepOverlay) {
-		var s = this.getSpinner(inline, msg);
+	stop: function (inline) {
+		if (typeOf(document.id(inline)) === 'null') {
+			inline = false;
+		}
+		inline = inline ? inline : document.body;
+		if (!this.spinners[inline] || !this.spinnerCount[inline])
+		{
+			return;
+		}
+		if (this.spinnerCount[inline] > 1)
+		{
+			this.spinnerCount[inline]--;
+			return;
+		}
+
+		var s = this.spinners[inline];
 
 		// Dont keep the spinner once stop is called - causes issue when loading ajax form for 2nd time
 		if (Browser.ie && Browser.version < 9) {
 
 			// Well ok we have to in ie8 ;( otherwise it give a js error somewhere in FX
-			s.clearChain(); // Tried this to remove FX but didnt seem to achieve anything
 			s.hide();
 		} else {
 			s.destroy();
+			delete this.spinnerCount[inline];
+			delete this.spinners[inline];
 		}
-		delete this.spinners[inline];
 	}
 });
 
@@ -287,16 +308,16 @@ if (typeof(Fabrik) === "undefined") {
 		Fabrik.blocks[blockid] = block;
 		Fabrik.fireEvent('fabrik.block.added', [block, blockid]);
 	};
-	
+
 	/**
 	 * Search for a block
-	 * 
-	 * @param   string    blockid  Block id 
+	 *
+	 * @param   string    blockid  Block id
 	 * @param   bool      exact    Exact match - default false. When false, form_8 will match form_8 & form_8_1
-	 * @param   function  cb       Call back function - if supplied a periodical check is set to find the block and once 
+	 * @param   function  cb       Call back function - if supplied a periodical check is set to find the block and once
 	 *                             found then the cb() is run, passing the block back as an parameter
-	 * 
-	 * @return  mixed  false if not found | Fabrik block 
+	 *
+	 * @return  mixed  false if not found | Fabrik block
 	 */
 	Fabrik.getBlock = function (blockid, exact, cb) {
 		cb = cb ? cb : false;
@@ -305,21 +326,21 @@ if (typeof(Fabrik) === "undefined") {
 		}
 		return Fabrik._getBlock(blockid, exact, cb);
 	};
-	
+
 	/**
 	 * Private Search for a block
-	 * 
-	 * @param   string    blockid  Block id 
+	 *
+	 * @param   string    blockid  Block id
 	 * @param   bool      exact    Exact match - default false. When false, form_8 will match form_8 & form_8_1
-	 * @param   function  cb       Call back function - if supplied a periodical check is set to find the block and once 
+	 * @param   function  cb       Call back function - if supplied a periodical check is set to find the block and once
 	 *                             found then the cb() is run, passing the block back as an parameter
-	 * 
-	 * @return  mixed  false if not found | Fabrik block 
+	 *
+	 * @return  mixed  false if not found | Fabrik block
 	 */
 	Fabrik._getBlock = function (blockid, exact, cb) {
 		exact = exact ? exact : false;
 		if (Fabrik.blocks[blockid] !== undefined) {
-			
+
 			// Exact match
 			foundBlockId = blockid;
 		} else {
@@ -532,6 +553,7 @@ if (typeof(Fabrik) === "undefined") {
 	 * @since 3.0.7
 	 */
 	Fabrik.watchEdit = function (e, target) {
+		var url, loadMethod, a;
 		var listRef = target.get('data-list');
 		var list = Fabrik.blocks[listRef];
 		var row = list.getActiveRow(e);
@@ -597,8 +619,8 @@ if (typeof(Fabrik) === "undefined") {
 	 */
 
 	Fabrik.watchView = function (e, target) {
+		var url, loadMethod, a;
 		var listRef = target.get('data-list');
-		var a;
 		var list = Fabrik.blocks[listRef];
 		if (!list.options.ajax_links) {
 			return;
