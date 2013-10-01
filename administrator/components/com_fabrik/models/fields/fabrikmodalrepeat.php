@@ -261,8 +261,8 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			$str[] = '<div class="button2-left">';
 			$str[] = '	<div class="blank">';
 			$str[] = '<a id="' . $modalid . '_button" data-modal="' . $modalid . '">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
-			$str[] = '	</div>';
-			$str[] = '</div>';
+			$html[] = '	</div>';
+			$html[] = '</div>';
 		}
 
 		if (is_array($this->value))
