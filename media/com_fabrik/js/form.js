@@ -58,10 +58,10 @@ var FbForm = new Class({
 		(function () {
 			this.duplicateGroupsToMin();
 		}.bind(this)).delay(1000);
-		
+
 		// Delegated element events
 		this.events = {};
-		
+
 		this.submitBroker = new FbFormSubmit();
 	},
 
@@ -419,9 +419,9 @@ var FbForm = new Class({
 			if (typeOf(document.getElement('.tool-tip')) !== 'null') {
 				document.getElement('.tool-tip').setStyle('top', 0);
 			}
-			// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors if you are on www and livesite is not on www. 
+			// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors if you are on www and livesite is not on www.
 			var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
-			
+
 			Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
 
 			// Only validate the current groups elements, otherwise validations on
@@ -970,7 +970,7 @@ var FbForm = new Class({
 				}.bind(this));
 			}
 		}.bind(this));
-		
+
 		this.form.addEvent('submit', function (e) {
 			this.doSubmit(e);
 		}.bind(this));
@@ -988,7 +988,7 @@ var FbForm = new Class({
 				e.stop();
 				// Update global status error
 				this.updateMainError();
-	
+
 				// Return otherwise ajax upload may still occur.
 				return;
 			}
@@ -1000,7 +1000,7 @@ var FbForm = new Class({
 				// Do ajax val only if onSubmit val ok
 				if (this.form) {
 					Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_LOADING'));
-				
+
 					// Get all values from the form
 					var data = $H(this.getFormData());
 					data = this._prepareRepeatsForAjax(data);
@@ -1020,7 +1020,7 @@ var FbForm = new Class({
 							this.showMainError(error);
 							Fabrik.loader.stop(this.getBlock(), 'Error in returned JSON');
 						}.bind(this),
-	
+
 						onFailure: function (xhr) {
 							fconsole(xhr);
 							Fabrik.loader.stop(this.getBlock(), 'Ajax failure');
@@ -1035,7 +1035,7 @@ var FbForm = new Class({
 							// Process errors if there are some
 							var errfound = false;
 							if (json.errors !== undefined) {
-	
+
 								// For every element of the form update error message
 								$H(json.errors).each(function (errors, key) {
 									if (this.formElements.has(key) && errors.flatten().length > 0) {
@@ -1056,7 +1056,7 @@ var FbForm = new Class({
 							}
 							// Update global status error
 							this.updateMainError();
-	
+
 							if (errfound === false) {
 								var clear_form = false;
 								if (this.options.rowid === '' && btn.name !== 'apply') {
@@ -1250,38 +1250,57 @@ var FbForm = new Class({
 		if (!this.form) {
 			return;
 		}
-		// Check for new form
-		if (this.options.rowid === '') {
-			// $$$ hugh - added ability to override min count
-			// http://fabrikar.com/forums/index.php?threads/how-to-initially-show-repeat-group.32911/#post-170147
-			Fabrik.fireEvent('fabrik.form.group.duplicate.min', [this]);
-			Object.each(this.options.minRepeat, function (min, groupId) {
-				// $$$ hugh - trying out min of 0 for Troester
-				// http://fabrikar.com/forums/index.php?threads/how-to-start-a-new-record-with-empty-repeat-group.34666/#post-175408
-				if (min === 0) {
-					// Create mock event
-					var del_btn = this.form.getElement('#group' + groupId + ' .deleteGroup');
-					if (typeOf(del_btn) !== 'null') {
-						var del_e = new Event.Mock(del_btn, 'click');
+		Fabrik.fireEvent('fabrik.form.group.duplicate.min', [this]);
+		Object.each(this.options.group_repeats, function (canRepeat, groupId) {
+			if (canRepeat !== "1") {
+				return;
+			}
+			var repeat_counter = this.form.getElement('#fabrik_repeat_group_' + groupId + '_counter');
+			if (typeOf(repeat_counter) === 'null') {
+				return;
+			}
+			var repeat_rows, repeat_real;
+			repeat_rows = repeat_real = repeat_counter.value;
+			if (repeat_rows === "1") {
+				var repeat_id_0 = this.form.getElement('#' + this.options.group_pk_ids[groupId] + '_0');
+				if (typeOf(repeat_id_0) !== 'null' && repeat_id_0.value === '') {
+					repeat_real = 0;
+				}
+			}
+			var min = this.options.minRepeat[groupId];
 
-						// Remove group
-						this.deleteGroup(del_e);
+			/**
+			 * $$$ hugh - added ability to override min count
+			 * http://fabrikar.com/forums/index.php?threads/how-to-initially-show-repeat-group.32911/#post-170147
+			 * $$$ hugh - trying out min of 0 for Troester
+			 * http://fabrikar.com/forums/index.php?threads/how-to-start-a-new-record-with-empty-repeat-group.34666/#post-175408
+			 * $$$ paul - fixing min of 0 for Jaanus
+			 * http://fabrikar.com/forums/index.php?threads/couple-issues-with-protostar-template.35917/
+			 **/
+			if (min === 0 && repeat_real === 0) {
+
+				// Create mock event
+				var del_btn = this.form.getElement('#group' + groupId + ' .deleteGroup');
+				if (typeOf(del_btn) !== 'null') {
+
+					// Remove only group
+					var del_e = new Event.Mock(del_btn, 'click');
+					this.deleteGroup(del_e);
+				}
+			}
+			else if (repeat_rows < min) {
+				// Create mock event
+				var add_btn = this.form.getElement('#group' + groupId + ' .addGroup');
+				if (typeOf(add_btn) !== 'null') {
+					var add_e = new Event.Mock(add_btn, 'click');
+
+					// Duplicate group
+					for (var i = repeat_rows; i < min; i ++) {
+						this.duplicateGroup(add_e);
 					}
 				}
-				else {
-					// Create mock event
-					var add_btn = this.form.getElement('#group' + groupId + ' .addGroup');
-					if (typeOf(add_btn) !== 'null') {
-						var add_e = new Event.Mock(add_btn, 'click');
-
-						// Duplicate group
-						for (var i = 0; i < min - 1; i ++) {
-							this.duplicateGroup(add_e);
-						}
-					}
-				}
-			}.bind(this));
-		}
+			}
+		}.bind(this));
 	},
 
 	deleteGroup: function (e) {
