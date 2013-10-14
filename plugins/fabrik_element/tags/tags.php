@@ -299,7 +299,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 		$query = $this->buildQueryWhere($data, $incWhere, null, $opts, $query);
 		$query->select('DISTINCT(t.id) AS value,' . $db->quoteName('title') . ' AS text')
 		->from($db->quoteName($join->table_join) . ' AS ' . $db->quoteName($join->table_join_alias))
-		->join('LEFT', 'h1qku_tags AS t ON t.id = ' . $db->quoteName($join->table_join_alias . '.' . $join->table_key));
+		->join('LEFT', '#__tags AS t ON t.id = ' . $db->quoteName($join->table_join_alias . '.' . $join->table_key));
 
 		return $query;
 	}
