@@ -885,7 +885,6 @@ class FabrikViewFormBase extends JViewLegacy
 				$submitIcon = '<i class="' . $submitIcon . '"></i>';
 				$submitLabel = $params->get('save_icon_location') == 'before' ? $submitIcon . '&nbsp;' . $submitLabel : $submitLabel . '&nbsp;' . $submitIcon;
 			}
-
 			$form->submitButton = '<button type="' . $button . '" class="btn btn-primary button ' . $submitClass . '" name="Submit">'
 				. $submitLabel . '</button>';
 		}
