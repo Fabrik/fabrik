@@ -1499,7 +1499,8 @@ class PlgFabrik_Element extends FabrikPlugin
 			{
 				$str .= '<span class="' . $labelClass . ' faux-label">';
 			}
-			$l = htmlspecialchars($element->label);
+			//$l = htmlspecialchars($element->label);
+			$l = $config->get('fbConf_wysiwyg_label', false) ? $element->label : htmlspecialchars(JText::_($element->label));
 			if ($rollOver)
 			{
 				$l .= FabrikHelperHTML::image('questionmark.png', 'form', $tmpl);
