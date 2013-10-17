@@ -461,7 +461,14 @@
 					<option value="1">Small</option>
 					<option value="2">Large</option>
 			</field>
-
+			
+			<field default="0"
+				class="btn-group"
+				description="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_LABEL" name="fb_gm_scrollwheelcontrol" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field
 				default="0"
 				class="btn-group"
