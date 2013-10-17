@@ -4390,7 +4390,11 @@ class FabrikFEModelForm extends FabModelForm
 				/* $$$ hugh - changed to use _raw as key, see:
 				 * http://fabrikar.com/forums/showthread.php?t=20020
 				 */
-				$linkKey = $element->db_table_name . '___' . $element->name;
+				// Jaanus: added following 3 lines as it's the only way ATM to get a real full name to the element in joined group
+				$eid = $element->element_id;
+				$db->setQuery("SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(#__fabrik_groups.name, ']', 1), '[', -1) FROM #__fabrik_groups, #__fabrik_elements WHERE #__fabrik_elements.group_id = #__fabrik_groups.id AND #__fabrik_elements.id = $eid AND #__fabrik_groups.name LIKE '%[%]'");
+				$el_table = $db->loadResult() ? $db->loadResult() : $element->db_table_name;				
+				$linkKey = $el_table . '___' . $element->name;
 				$linkKeyRaw = $linkKey . '_raw';
 				$popUpLink = JArrayHelper::getValue($linkedtable_linktype->$key, $f, false);
 
@@ -4427,14 +4431,20 @@ class FabrikFEModelForm extends FabModelForm
 					{
 						// $$$rob moved these two lines here as there were giving warnings since Hugh commented out the if ($element != '') {
 						// $$$ hugh - what?  Eh?  WhaddidIdo?  Anyway, we use $linkKey up ^^ there somewhere, so we need to define it earlier!
-						$linkKey = @$element->db_table_name . '___' . @$element->name;
+						// Jaanus: added & modified following lines as it's the only way ATM to get a real full name to the element in joined group
+						$eid = $element->element_id;
+						$db->setQuery("SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(#__fabrik_groups.name, ']', 1), '[', -1) FROM #__fabrik_groups, #__fabrik_elements WHERE #__fabrik_elements.group_id = #__fabrik_groups.id AND #__fabrik_elements.id = $eid AND #__fabrik_groups.name LIKE '%[%]'");
+						$el_table = $db->loadResult() ? $db->loadResult() : @$element->db_table_name;				
+						$linkKey = $el_table . '___' . @$element->name;
 						$val = JRequest::getVar($linkKey);
 						if ($val == '')
 						{
 							$val = JRequest::getVar($qsKey . '_raw', JRequest::getVar('rowid'));
 						}
-						$label = $factedLinks->linkedformheader->$key;
-						$links[$element->list_id][] = $label . ': ' . $referringTable->viewFormLink($popUpLink, $element, null, $linkKey, $val, false, $f);
+						// Jaanus: when no link to list and no formheaders then people still know where they add data
+						$label = $factedLinks->linkedformheader->$key != '' ? ': ' . $factedLinks->linkedformheader->$key : (isset($linkedLists->$key) && $linkedLists->$key != 0 ? '' : ': ' . $element->listlabel);
+						// Jaanus: label after add link if no list link helps to make difference between data view links and only add links.
+						$links[$element->list_id][] =  $referringTable->viewFormLink($popUpLink, $element, null, $linkKey, $val, false, $f) . $label;
 					}
 				}
 				$f++;
