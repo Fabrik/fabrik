@@ -1277,8 +1277,8 @@ class FabrikAdminModelList extends FabModelAdmin
 					}
 				}
 				// Then alter if defined in Fabrik global config
-				$plugin = $fbConfig->get($type, $plugin);
-			}
+        			// Jaanus: but first check if there are any pk field and if yes then create as internalid
+        			$plugin = ($key[0]['colname'] == $label && JString::strtolower(substr($key[0]['type'], 0, 3)) === 'int') ? 'internalid' : $fbConfig->get($type, $plugin);			}
 
 			$element->plugin = $plugin;
 			$element->hidden = $element->label == 'id' ? '1' : '0';
