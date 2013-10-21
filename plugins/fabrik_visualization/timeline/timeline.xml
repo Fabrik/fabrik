@@ -13,6 +13,10 @@
 	<files>
 		<filename plugin="timeline">timeline.js</filename>
 		<filename>index.html</filename>
+		<filename>timeline.php</filename>
+		<filename>timeline.js</filename>
+		<filename>timeline-min.js</filename>
+		<filename>index.html</filename>
 		<folder>controllers</folder>
 		<folder>forms</folder>
 		<folder>language</folder>
