@@ -297,7 +297,7 @@ class PlgContentFabrik extends JPlugin
 		 */
 		if (!$layoutFound)
 		{
-			if ($input->get('option') === 'com_content' && $input->get('layout') === 'blog')
+			if ($input->get('option') === 'com_content')
 			{
 				$layout = 'default';
 				$input->set('layout', $layout);
