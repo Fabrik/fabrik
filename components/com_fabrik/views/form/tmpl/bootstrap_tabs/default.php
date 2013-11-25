@@ -63,7 +63,7 @@ echo $this->plugintop;
 		// So we should only show a tab if: it is first tab, or if it is a page break
 		if (!$model->isMultiPage() || $i == 0 || $group->splitPage) :
 			?>
-				<li <?php if ($i == 0) echo 'class="active"'?>>
+				<li <?php if ($i == 0) echo 'class="active"'?> id="tab-group<?php echo $group->id;?>">
 					<a href="#group-tab<?php echo $i;?>" data-toggle="tab">
 						<?php
 							if (!empty($group->title))
