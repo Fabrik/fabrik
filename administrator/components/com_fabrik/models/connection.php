@@ -157,8 +157,10 @@ class FabrikAdminModelConnection extends FabModelAdmin
 	protected function matchesDefault($item)
 	{
 		$config = JFactory::getConfig();
+		$crypt = FabrikWorker::getCrypt();
+		$pwMatch = $config->get('password') == $item->password || $crypt->encrypt($config->get('password')) == $item->password;
 
-		return $config->get('host') == $item->host && $config->get('user') == $item->user && $config->get('password') == $item->password
+		return $config->get('host') == $item->host && $config->get('user') == $item->user && $pwMatch
 			&& $config->get('db') == $item->database;
 	}
 
