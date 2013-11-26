@@ -944,6 +944,7 @@ if (!$j3)
 
 				$liveSiteReq = array();
 				$liveSiteReq[] = 'media/com_fabrik/js/fabrik' . $ext;
+				$liveSiteReq[] = 'media/com_fabrik/js/window' . $ext;				
 				if ($bootstrapped)
 				{
 					$liveSiteReq[] = 'media/com_fabrik/js/tipsBootStrapMock' . $ext;
