@@ -4,10 +4,12 @@
  * Author : Jean-François Questiaux - based on peamak's work (tom@spierckel.net)
  * contact : info@betterliving.be
  *
- * sh404SEF version : 3.4.6.1269 - February 2012
+ * Joomla! 3.2.x
+ * sh404SEF version : 4.2.1.1586 - November 2013
+ * Fabrik 3.1 RC2
  *
  * This is a sh404SEF native plugin file for Fabrik component (http://fabrikar.com)
- * Plugin version 1.4 - October 2012
+ * Plugin version 2.0 - November 2013
  *
  * @package     Joomla
  * @subpackage  Fabrik
@@ -31,15 +33,17 @@ if (!function_exists('shFetchFormName'))
 	{
 		if (empty($formid))
 		{
+			echo 'KO'; exit;
 			return null;
 		}
 
-		$database = FabrikWorker::getDbo();
-		$sqlform = 'SELECT label, id FROM #__{package}_forms WHERE id = \'' . $formid . '\'';
+		
+		$database = JFactory::getDBO();
+		$sqlform = 'SELECT label, id FROM #__fabrik_forms WHERE id = \'' . $formid . '\'';
 		$database->setQuery($sqlform);
 		$formName = $database->loadResult('label', false);
 
-		return isset($formName) ? $formName : '';
+		return isset($formName) ? JText::_($formName) : '';
 	}
 }
 
@@ -64,7 +68,7 @@ if (!function_exists('shFetchListName'))
 		$database->setQuery($sqltable);
 		$listName = $database->loadResult('label', false);
 
-		return isset($listName) ? $listName : '';
+		return isset($listName) ? JText::_($listName) : '';
 	}
 }
 
@@ -88,7 +92,7 @@ if (!function_exists('shFetchSlug'))
 		{
 			$slug = shFetchRecordName($rowid, $formid);
 
-			return isset($slug) ? $slug : '';
+			return isset($slug) ? $slug : 'id';
 		}
 	}
 }
@@ -176,17 +180,17 @@ if (!function_exists('shFetchVizName'))
 		$database->setQuery($sqlviz);
 		$vizName = $database->loadResult('label', false);
 
-		return isset($vizName) ? $vizName : '';
+		return isset($vizName) ? JText::_($vizName) : '';
 	}
 }
 
 // ------------------  standard plugin initialize function - don't change ---------------------------
 global $sh_LANG, $sefConfig;
-$shLangName = '';
-$shLangIso = '';
-$title = array();
+$shLangName     = '';
+$shLangIso      = '';
+$title          = array();
 $shItemidString = '';
-$dosef = shInitializePlugin($lang, $shLangName, $shLangIso, $option);
+$dosef          = shInitializePlugin($lang, $shLangName, $shLangIso, $option);
 
 if ($dosef == false)
 {
@@ -199,24 +203,41 @@ if ($dosef == false)
 
 // ------------------  load language file - adjust as needed ----------------------------------------
 
-$task = isset($task) ? @$task : null;
-$Itemid = isset($Itemid) ? @$Itemid : null;
+// $task   = isset($task) ? @$task : null;
+// $Itemid = isset($Itemid) ? @$Itemid : null;
 $listid = isset($listid) ? @$listid : null;
-$id = isset($id) ? @$id : null;
-$view = isset($view) ? @$view : null;
+$id     = isset($id) ? @$id : null;
+$view   = isset($view) ? @$view : null;
 $formid = isset($formid) ? @$formid : null;
-$rowid = isset($rowid) ? @$rowid : null;
+$rowid  = isset($rowid) ? @$rowid : null;
 
 // Get fabrik SEF configuration - used to include/exclude list's names in SEF urls
+
 $config = JComponentHelper::getParams('com_fabrik');
 
 switch ($view)
 {
 	case 'form':
-		return false;
+		if (isset($formid))
+		{
+			$title[] = shFetchFormName($formid);
+		}
+		else {
+			return false;
+		}
 		break;
 
 	case 'details':
+		// Insert menu name if set so in Fabrik's options		
+		if ($config->get('fabrik_sef_prepend_menu_title') == 1)
+		{
+			$app     = JFactory::getApplication();
+			$menus   = $app->getMenu();
+			$menusId = $menus->getMenu();
+			$itemId  = $app->input->getInt('Itemid');
+
+			$title[] = $menusId[$itemId]->title;  
+		}
 		// Insert table name if set so in Fabrik's options
 		if ($config->get('fabrik_sef_tablename_on_forms') == 1)
 		{
@@ -224,21 +245,46 @@ switch ($view)
 			{
 				$title[] = shFetchListName($formid);
 			}
+			else
+			{
+				$title[] = '';
+			}
 		}
 
 		if (isset($rowid))
 		{
-			$title[] = shFetchSlug($rowid, $formid);
-			shRemoveFromGETVarsList('rowid');
+			switch($config->get('fabrik_sef_format_records'))
+			{
+				case 'param_id':
+					$title[] = '';
+					break;
+				case 'id_only':
+					$title[] = $rowid;
+					shRemoveFromGETVarsList('rowid');
+					break;
+				case 'id_slug':
+					$title[] = $rowid . '-' . shFetchSlug($rowid, $formid);
+					shRemoveFromGETVarsList('rowid');
+					break;
+				case 'slug_id':
+					$title[] = shFetchSlug($rowid, $formid) . '-' . $rowid;
+					shRemoveFromGETVarsList('rowid');
+					break;
+				case 'slug_only':
+					$title[] = shFetchSlug($rowid, $formid);
+					shRemoveFromGETVarsList('rowid');
+					break;
+			}
+			
 			shMustCreatePageId('set', true);
 		}
 		else
 		{
 			// Case of link to details from menu item
 			// First get the Itemid from the menu link URL
-			$pos = strpos($string, 'Itemid=');
+			$pos    = strpos($string, 'Itemid=');
 			$itemId = substr($string, $pos + 7);
-			$pos = strpos($itemId, '&');
+			$pos    = strpos($itemId, '&');
 			$itemId = substr($itemId, 0, $pos);
 
 			$app = JFactory::getApplication();
@@ -259,6 +305,7 @@ switch ($view)
 		break;
 
 	case 'list':
+		
 		if ($config->get('fabrik_sef_prepend_menu_title') == 1)
 		{
 			// When different views are requested to the same list from a menu item
