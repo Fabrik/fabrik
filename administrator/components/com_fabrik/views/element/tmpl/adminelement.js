@@ -208,7 +208,7 @@ var fabrikAdminElement = new Class({
 		var header = c.getElement('span.pluginTitle');
 		var action = c.getElement('select[id^="jform_action-"]');
 		if (action.value === '') {
-			header.set('text', Joomla.JText._('COM_FABRIK_PLEASE_SELECT'));
+			header.set('html', '<span style="color:red;">' + Joomla.JText._('COM_FABRIK_JS_SELECT_EVENT') + '</span>');
 			return;
 		}
 		var s = 'on ' + action.getSelected()[0].text + ' : ';

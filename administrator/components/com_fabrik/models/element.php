@@ -271,6 +271,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$opts->deleteButton .= JText::_('COM_FABRIK_DELETE') . '</a>';
 		$opts = json_encode($opts);
 		JText::script('COM_FABRIK_PLEASE_SELECT');
+		JText::script('COM_FABRIK_JS_SELECT_EVENT');
 		JText::script('COM_FABRIK_JS_INLINE_JS_CODE');
 		JText::script('COM_FABRIK_JS_INLINE_COMMENT_WARNING');
 		JText::script('COM_FABRIK_JS_WHEN_ELEMENT');
