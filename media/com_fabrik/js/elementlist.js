@@ -49,8 +49,6 @@ FbElementList = new Class({
 			this.loadEvents.push(js);
 			this.runLoadEvent(js);
 		} else {
-			c = this.form.form;
-
 			// Addded name^= for http://fabrikar.com/forums/showthread.php?t=30563 (js events to show hide multiple groups)
 			delegate = action + ':relay(input[type=' + this.type + '][name^=' + this.options.fullName + '])';
 			if (typeOf(this.form.events[action]) === 'null') {
@@ -60,15 +58,15 @@ FbElementList = new Class({
 			uid = delegate + js.replace(r, '');
 			if (typeOf(this.form.events[action][uid]) === 'null') {
 				this.form.events[action][uid] = true;
-				
-				c.addEvent(delegate, function (event, target) {
+
+				this.element.addEvent(delegate, function (event, target) {
 					// As we are delegating the event, and reference to 'this' in the js will refer to the first element
 					// When in a repeat group we want to replace that with a reference to the current element.
 					var elid = target.getParent('.fabrikSubElementContainer').id;
 					var that = this.form.formElements[elid];
 					var subEls = that._getSubElements();
 					if (subEls.contains(target)) {
-						
+
 						// Replace this with that so that the js code runs on the correct element
 						js = js.replace(/this/g, 'that');
 						typeOf(js) === 'function' ? js.delay(0) : eval(js);
