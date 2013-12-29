@@ -155,11 +155,10 @@ window.addEvent('domready', function () {
 							echo  $item->name;
 						else :
 						?>
-						<span class="editlinktip hasTip"
-						title="<?php echo $item->name . "::" . $item->tip; ?>">
-						<a href="<?php echo $link; ?>">
-							<?php echo $item->name; ?>
-						</a>
+						<span class="editlinktip hasTip" title="<?php echo $item->name . "::" . $item->tip; ?>">
+							<a href="<?php echo $link; ?>">
+								<?php echo $item->name; ?>
+							</a>
 						</span>
 					<?php endif;
 					?>

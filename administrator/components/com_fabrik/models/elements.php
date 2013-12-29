@@ -194,17 +194,22 @@ class FabrikAdminModelElements extends FabModelList
 			{
 				$item->full_element_name = $item->db_table_name . '___' . $item->name;
 			}
+
 			// Add a tip containing the access level information
 			$params = new JRegistry($item->params);
 
-			$accessTitle = JArrayHelper::getValue($viewLevels, $item->access);
-			$accessTitle = is_object($accessTitle) ? $accessTitle->title : 'n/a';
+			$addAccessTitle = JArrayHelper::getValue($viewLevels, $item->access);
+			$addAccessTitle = is_object($addAccessTitle) ? $addAccessTitle->title : 'n/a';
+
+			$editAccessTitle = JArrayHelper::getValue($viewLevels, $params->get('edit_access', 1));
+			$editAccessTitle = is_object($editAccessTitle) ? $editAccessTitle->title : 'n/a';
 
 			$viewAccessTitle = JArrayHelper::getValue($viewLevels, $params->get('view_access', 1));
 			$viewAccessTitle = is_object($viewAccessTitle) ? $viewAccessTitle->title : 'n/a';
 
-			$item->tip = JText::_('COM_FABRIK_ACCESS_EDITABLE_ELEMENT') . ': ' . $accessTitle .
-			'<br />' . JText::_('COM_FABRIK_ACCESS_VIEWABLE_ELEMENT') . ': ' . $viewAccessTitle;
+			$item->tip = JText::_('COM_FABRIK_ACCESS_EDITABLE_ELEMENT') . ': ' . $addAccessTitle
+				. '<br />' . JText::_('COM_FABRIK_ELEMENT_EDIT_ACCESS_LABEL') . ': ' . $editAccessTitle
+				. '<br />' . JText::_('COM_FABRIK_ACCESS_VIEWABLE_ELEMENT') . ': ' . $viewAccessTitle;
 
 			$validations = $params->get('validations');
 			$v = array();
@@ -240,8 +245,8 @@ class FabrikAdminModelElements extends FabModelList
 						$published = $validations->plugin_published[$i] ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
 					}
 
-					$v[] = '<b>' . $pname . '</b><i> ' . $published . '</i>'
-					. '<br />' . JText::_('COM_FABRIK_FIELD_ERROR_MSG_LABEL') . ': <i>' . JArrayHelper::getValue($msgs, $i, 'n/a') . '</i>';
+					$v[] = '&nbsp;&nbsp;<strong>' . $pname . ': <em>' . $published . '</em></strong>'
+						. '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . JText::_('COM_FABRIK_FIELD_ERROR_MSG_LABEL') . ': <em>' . htmlspecialchars(JArrayHelper::getValue($msgs, $i, 'n/a')) . '</em>';
 				}
 			}
 
