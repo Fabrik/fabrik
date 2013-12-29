@@ -113,7 +113,7 @@ $listDirn = $this->state->get('list.direction');
 					<td>
 						<?php echo $item->file?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'packages.', $canChange);?>
 					</td>
 				</tr>

@@ -74,11 +74,11 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="16%">
 					<?php echo JText::_('COM_FABRIK_VIEW_DATA');?>
 				</th>
-				<th width="5%">
-					<?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'published', $listDirn, $listOrder); ?>
-				</th>
 				<th width="20%">
 					<?php echo JText::_('COM_FABRIK_VIEW_DETAILS'); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'published', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -140,12 +140,12 @@ $listDirn	= $this->state->get('list.direction');
 					</a>
 				</td>
 				<td>
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'lists.', $canChange);?>
-				</td>
-				<td>
 					<a href="#showlinkedelements" onclick="return listItemTask('cb<?php echo $i;?>','list.showLinkedElements');">
 						<?php echo JText::_('COM_FABRIK_VIEW_DETAILS');?>
 					</a>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'lists.', $canChange);?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

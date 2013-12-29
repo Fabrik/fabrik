@@ -162,7 +162,7 @@ $states	= array(
 				<?php if ($item->parent_id != 0) :
 					echo "<a href='index.php?option=com_fabrik&task=element.edit&id=" . $item->parent_id . "'>"
 					. JHTML::image('media/com_fabrik/images/child_element.png', JText::_('COM_FABRIK_LINKED_ELEMENT'), 'title="' . JText::_('COM_FABRIK_LINKED_ELEMENT') . '"')
-					. '</a>&nbsp';
+					. '</a>&nbsp;';
 				else :
 					echo JHTML::image('media/com_fabrik/images/parent_element.png', JText::_('COM_FABRIK_PARENT_ELEMENT'), 'title="' . JText::_('COM_FABRIK_PARENT_ELEMENT') . '"') . '&nbsp;';
 				endif;
@@ -192,7 +192,7 @@ $states	= array(
 				<td>
 					<?php echo $item->full_element_name; ?>
 				</td>
-				<td>
+				<td class="center">
 					<span class="hasTooltip" title="<?php echo $extraTip ?>">
 						<?php echo $item->numValidations . '/' . $item->numJs; ?>
 					</span>
@@ -205,12 +205,12 @@ $states	= array(
 				<td>
 					<?php echo $item->plugin; ?>
 				</td>
-				<td>
+				<td class="center">
 					<?php
 					echo JHtml::_('jgrid.state', $states, $item->show_in_list_summary, $i, 'elements.', true, true);
 					?>
 				</td>
-				<td>
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'elements.', $canChange);?>
 				</td>
 			</tr>

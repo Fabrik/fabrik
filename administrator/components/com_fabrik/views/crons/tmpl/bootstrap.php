@@ -66,7 +66,7 @@ $tasks = array('publish', 'unpublish', 'publish');
 				<th width="80%">
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_LABEL', 'c.label', $listDirn, $listOrder); ?>
 				</th>
-				<th width="12%">
+				<th width="20%">
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_CRON_FIELD_LAST_RUN_LABEL', 'c.lastrun', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
@@ -113,8 +113,8 @@ $tasks = array('publish', 'unpublish', 'publish');
 					<td>
 						<?php echo $item->lastrun; ?>
 					</td>
-					<td>
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'crons.', $canChange);?>
+					<td class="center">
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'crons.', $canChange);?>
 					</td>
 				</tr>
 

@@ -59,14 +59,18 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="35%" >
 					<?php echo JHTML::_( 'grid.sort',  'COM_FABRIK_LABEL', 'f.label', $listDirn, $listOrder); ?>
 				</th>
+				<th width="10%">
+					<?php echo JText::_('COM_FABRIK_ELEMENT');?>
+				</th>
+				<th width="15%">
+					<?php echo JText::_('COM_FABRIK_UPDATE_DATABASE'); ?>
+				</th>
+				<th width="12%">
+					<?php echo JText::_('COM_FABRIK_VIEW_DATA'); ?>
+				</th>
 				<th width="5%">
 					<?php echo JHTML::_( 'grid.sort',  'JPUBLISHED', 'f.published', $listDirn, $listOrder); ?>
 				</th>
-				<th width="14%">
-					<?php echo JText::_('COM_FABRIK_ELEMENT');?>
-				</th>
-				<th></th>
-				<th></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -105,9 +109,6 @@ $listDirn	= $this->state->get('list.direction');
 					<?php } ?>
 					</td>
 					<td>
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'forms.', $canChange);?>
-					</td>
-					<td>
 						<a href="<?php echo $elementLink?>">
 							<i class="icon-plus"></i> <?php echo JText::_('COM_FABRIK_ADD');?>
 						</a>
@@ -121,6 +122,9 @@ $listDirn	= $this->state->get('list.direction');
 						<a href="index.php?option=com_fabrik&task=list.view&listid=<?php echo $item->list_id?>">
 						<i class="icon-list-view"></i> <?php echo JText::_('COM_FABRIK_VIEW_DATA')?>
 						</a>
+					</td>
+					<td class="center">
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'forms.', $canChange);?>
 					</td>
 				</tr>
 

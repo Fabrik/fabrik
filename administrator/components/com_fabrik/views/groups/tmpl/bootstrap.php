@@ -128,7 +128,7 @@ $listDirn = $this->state->get('list.direction');
 						</a>
 						<span class="badge badge-info"><?php echo $item->_elementCount; ?></span>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'groups.', $canChange); ?>
 					</td>
 				</tr>
