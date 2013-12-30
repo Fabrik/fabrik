@@ -287,7 +287,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 			}
 		}
 
-		// Defining the date to use - Not used anymore as logs should really only record the current time_date
+		// Defining the date to use - Not used any more as logs should really only record the current time_date
 		if ($date_now != '')
 		{
 			$date = date("$date_now");
@@ -355,7 +355,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 				$clabels_createdb .= ', ' . $db->quoteName(JText::_('COMPARE_DATA_LABEL_DB')) . ' text NOT NULL';
 			}
 
-			// @todo - what if we use differnt db driver which doesnt name quote with `??
+			// @todo - what if we use different db driver which doesn't name quote with `??
 			$clabels_db_imp = implode("`,`", $clabels);
 			$clabels_db_p1 = preg_replace('/^(`,)/', '', $clabels_db_imp);
 			$clabels_db = preg_replace('/(,`)$/', '', $clabels_db_p1);

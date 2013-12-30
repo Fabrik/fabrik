@@ -152,7 +152,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -237,7 +237,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$code = $this->_generateCode($characters);
 
 			// $$$ hugh - code that generates image now in image.php
-			$session->set('com_' . $package . '.element.captach.security_code', $code);
+			$session->set('com_' . $package . '.element.captcha.security_code', $code);
 
 			// ***** e-kinst
 
@@ -253,13 +253,13 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			// Let's keep all params in relatively safe place not only captcha value
 			// Felixkat - Add
-			$session->set('com_' . $package . '.element.captach.fontsize', $fontsize);
-			$session->set('com_' . $package . '.element.captach.angle', $angle);
-			$session->set('com_' . $package . '.element.captach.padding', $padding);
-			$session->set('com_' . $package . '.element.captach.noise_color', $noise_color);
-			$session->set('com_' . $package . '.element.captach.text_color', $text_color);
-			$session->set('com_' . $package . '.element.captach.bg_color', $bg_color);
-			$session->set('com_' . $package . '.element.captach.font', $this->font);
+			$session->set('com_' . $package . '.element.captcha.fontsize', $fontsize);
+			$session->set('com_' . $package . '.element.captcha.angle', $angle);
+			$session->set('com_' . $package . '.element.captcha.padding', $padding);
+			$session->set('com_' . $package . '.element.captcha.noise_color', $noise_color);
+			$session->set('com_' . $package . '.element.captcha.text_color', $text_color);
+			$session->set('com_' . $package . '.element.captcha.bg_color', $bg_color);
+			$session->set('com_' . $package . '.element.captcha.font', $this->font);
 
 			// $$$ hugh - changed from static image path to using simple image.php script, to get round IE caching images
 
@@ -296,7 +296,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 * Internal element validation
 	 *
 	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  repeeat group counter
+	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return bool
 	 */
@@ -348,7 +348,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$elName = $this->getFullName(true, false);
 			$session = JFactory::getSession();
 
-			if ($session->get('com_' . $package . '.element.captach.security_code', null) != $data)
+			if ($session->get('com_' . $package . '.element.captcha.security_code', null) != $data)
 			{
 				return false;
 			}
@@ -425,7 +425,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	}
 
 	/**
-	 * $$$ e-kinst Convert a hext colour to RGB
+	 * $$$ e-kinst Convert a hex colour to RGB
 	 *
 	 * @param   string  $hexColor  3- or 6-digits hex color with optional leading '#'
 	 * @param   string  $default   default hex color if first param invalid

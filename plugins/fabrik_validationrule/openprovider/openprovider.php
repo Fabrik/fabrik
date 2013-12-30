@@ -3,7 +3,7 @@
  * Domain name look up against open provider service
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.validationrule.openprodiver
+ * @subpackage  Fabrik.validationrule.openprovider
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
@@ -21,7 +21,7 @@ require_once JPATH_SITE . '/plugins/fabrik_validationrule/openprovider/libs/api.
  * Domain name look up against open provider service
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.validationrule.openprodiver
+ * @subpackage  Fabrik.validationrule.openprovider
  * @since       3.0
  */
 

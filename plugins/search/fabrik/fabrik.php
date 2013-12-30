@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Serach.fabrik
+ * @subpackage  Search.fabrik
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
  * Content Search plugin
  *
  * @package     Joomla.Plugin
- * @subpackage  Serach.fabrik
+ * @subpackage  Search.fabrik
  * @since       3.0
  */
 
@@ -43,7 +43,7 @@ class PlgSearchFabrik extends JPlugin
 	 * browsernav
 	 *
 	 * @param   string  $text      Target search string
-	 * @param   string  $phrase    Mathcing option, exact|any|all
+	 * @param   string  $phrase    Matching option, exact|any|all
 	 * @param   string  $ordering  Ordering option, newest|oldest|popular|alpha|category
 	 * @param   mixed   $areas     An array if restricted to areas, null if search all
 	 *

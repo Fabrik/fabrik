@@ -142,7 +142,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 			$data = $this->tagify($data);
 		}
 
-		// $$$rob dont strip slashes here - this is done when saving to db now
+		// $$$rob don't strip slashes here - this is done when saving to db now
 		if (!$this->useWysiwyg())
 		{
 			if (is_array($data))
@@ -200,7 +200,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 	}
 
 	/**
-	 * Does the element use the WYSWYG editor
+	 * Does the element use the WYSIWYG editor
 	 *
 	 * @return  mixed	False if not using the wysiwyg editor. String (element name) if it is
 	 */
@@ -263,7 +263,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	Elements html
@@ -402,7 +402,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 
 	/**
 	 * Used by radio and dropdown elements to get a dropdown list of their unique
-	 * unique values OR all options - basedon filter_build_method
+	 * unique values OR all options - based on filter_build_method
 	 *
 	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
 	 * @param   string  $tableName  Table name to use - defaults to element's current table
@@ -506,7 +506,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 	 * Internal element validation
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  Repeeat group counter
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return bool
 	 */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Fabrik Converflow Viz - default filter tmpl
+ * Fabrik Coverflow Viz - default filter tmpl
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.coverflow

@@ -459,7 +459,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 
 		/* $$$ hugh - fixing issue with new redirect, which now needs to be an array.
 		 * Not sure if we need to preserve existing session data, or just create a new surl array,
-		 * to force ONLY recirect to PayPal?
+		 * to force ONLY redirect to PayPal?
 		 */
 		$surl = (array) $session->get($context . 'url', array());
 		$surl[$this->renderOrder] = $url;
@@ -936,7 +936,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 	 * Get the custom IPN class
 	 *
 	 * @param   object  $params       plugin params
-	 * @param   int     $renderOrder  plguitn render order
+	 * @param   int     $renderOrder  plugin render order
 	 *
 	 * @return  mixed	false or class instance
 	 */

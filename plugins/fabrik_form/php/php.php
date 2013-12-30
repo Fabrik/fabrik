@@ -357,7 +357,7 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 
 			if ($method == 'getBottomContent' || $method == 'getTopContent' || $method == 'getEndContent')
 			{
-				/* For these types of scripts any out put you want to inject into the form should be echo'd out
+				/* For these types of scripts any out put you want to inject into the form should be echoed out
 				 * $$$ hugh - the tooltip on the PHP plugin says specifically NOT to echo, but to return the content.
 				 * Rather than break any existing code by changing this code to do what the tooltip says, here's a
 				 * Horrible Hack so either way should work.
@@ -395,7 +395,7 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 		else
 		{
 			// Added require_once param, for (kinda) corner case of having a file that defines functions, which gets used
-			// nore than once on the same page.
+			// more than once on the same page.
 			$require_once = $params->get('form_php_require_once', '0') == '1';
 
 			/* $$$ hugh - give them some way of getting at form data
@@ -418,10 +418,10 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 
 			if (!JFile::exists($php_file))
 			{
-				throw new RuntimeException('Mssing PHP form plugin file');
+				throw new RuntimeException('Missing PHP form plugin file');
 			}
 
-			// If it's a form load method, needs to be handled thisaway
+			// If it's a form load method, needs to be handled this way
 			if ($method == 'getBottomContent' || $method == 'getTopContent' || $method == 'getEndContent')
 			{
 				/*
@@ -452,7 +452,7 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 				return '';
 			}
 
-			// OK, it's a form submit method, so handle it thisaway
+			// OK, it's a form submit method, so handle it this way
 			$php_result = $require_once ? require_once $php_file : require $php_file;
 
 			// Bail out if code specifically returns false

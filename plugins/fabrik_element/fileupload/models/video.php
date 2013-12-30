@@ -69,7 +69,7 @@ class VideoRender
 		$password = $config->get('password');
 		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
 
-		// Analyze file and store returned data in $ThisFileInfo
+		// Analyse file and store returned data in $ThisFileInfo
 		$relPath = JPATH_SITE . $file;
 		$thisFileInfo = $getID3->analyze($relPath);
 
@@ -104,7 +104,7 @@ class VideoRender
 		{
 			case 'asf':
 				$this->output = '<object id="MediaPlayer" width=' . $w . ' height=' . $h
-				. ' classid="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" standby="Loading Windows Media Player components�"
+				. ' classid="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" standby="Loading Windows Media Player components"
 					type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
 
 <param name="filename" value="http://yourdomain/yourmovie.wmv">

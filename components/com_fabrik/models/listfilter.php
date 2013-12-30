@@ -474,7 +474,7 @@ class FabrikFEModelListfilter extends FabModel
 			$search = '+(a* b* c* d* e* f* g* h* i* j* k* l* m* n* o* p* q* r* s* t* u* v* w* x* y* z*) ' . $search;
 		}
 
-		$input->set('overide_join_val_column_concat', 1);
+		$input->set('override_join_val_column_concat', 1);
 		$names = $this->listModel->getSearchAllFields();
 
 		if (empty($names))
@@ -482,7 +482,7 @@ class FabrikFEModelListfilter extends FabModel
 			return;
 		}
 
-		$input->set('overide_join_val_column_concat', 0);
+		$input->set('override_join_val_column_concat', 0);
 		$names = implode(", ", $names);
 		$filters['value'][9999] = $search;
 		$filters['condition'][9999] = 'AGAINST';

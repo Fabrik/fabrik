@@ -124,7 +124,7 @@ abstract class FabrikStorageAdaptor
 	public abstract function clean($path);
 
 	/**
-	 * Clean a fle name
+	 * Clean a file name
 	 *
 	 * @param   string  $filename       File name to clean
 	 * @param   int     $repeatCounter  Repeat group counter
@@ -214,7 +214,7 @@ abstract class FabrikStorageAdaptor
 	/**
 	 * Make recursive folders
 	 *
-	 * @param   string   $folderPath  Path to folder - eg /images/stories
+	 * @param   string   $folderPath  Path to folder - e.g. /images/stories
 	 * @param   bitmask  $mode        Permissions
 	 *
 	 * @return  mixed JError|void

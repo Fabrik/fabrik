@@ -141,7 +141,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 			{
 				$calckey = $this->calc_prefixmap[$pref];
 				/*
-				 * you shouldnt mix calculation elements with normal elements when creating the chart
+				 * you shouldn't mix calculation elements with normal elements when creating the chart
 				 * so if ONE calculation element is found we use the calculation data rather than normal element data
 				 * this is because a calculation element only generates one value, if want to compare two averages then
 				 * they get rendered as two groups of data and on bar charts this overlays one average over the other, rather than next to it
@@ -179,7 +179,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 					{
 						if (!array_key_exists($column, $row))
 						{
-							// Didn't find a _raw column - revent to orig
+							// Didn't find a _raw column - revert to orig
 							$column = $origColumn;
 
 							if (!array_key_exists($column, $row))
@@ -420,7 +420,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Grab the tables and get their data, calculations etc
+	 * Grab the tables and get their data, calculations etc.
 	 *
 	 * @return array table info and data.
 	 */
@@ -594,7 +594,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Test if caclulations exist
+	 * Test if calculations exist
 	 *
 	 * @return boolean
 	 */
@@ -644,7 +644,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 		if ($c > 1)
 		{
 			/*
-			 * mutiple table/elements, so use the sums
+			 * multiple table/elements, so use the sums
 			 * need to scale our data into percentages
 			 */
 			$tot_sum = array_sum($gsums);
@@ -709,7 +709,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */

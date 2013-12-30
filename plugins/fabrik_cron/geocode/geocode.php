@@ -73,7 +73,7 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 		$db->setQuery($query);
 		$mydata[0] = $db->loadObjectList();
 
-		// Grab all the params, like GMaps key, field names to use, etc
+		// Grab all the params, like GMaps key, field names to use, etc.
 
 		$geocode_batch_limit = (int) $params->get('geocode_batch_limit', '0');
 		$geocode_delay = (int) $params->get('geocode_delay', '0');

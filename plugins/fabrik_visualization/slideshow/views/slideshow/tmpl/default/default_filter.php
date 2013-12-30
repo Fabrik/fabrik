@@ -3,7 +3,7 @@
  * Slideshow vizualization: default filter template
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.visualization.slideshos
+ * @subpackage  Fabrik.visualization.slideshow
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */

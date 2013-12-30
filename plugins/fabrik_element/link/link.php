@@ -80,7 +80,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	}
 
 	/**
-	 * Redinder Individual parts of the cell data.
+	 * Render Individual parts of the cell data.
 	 * Called from renderListData();
 	 *
 	 * @param   string  $data     cell data
@@ -172,7 +172,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -294,7 +294,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   this elements posted form data
 	 * @param   array  $data  posted form data
@@ -328,8 +328,8 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 					if ($params->get('use_bitly'))
 					{
 						/* bitly will return an error if you try and shorten a shortened link,
-						* and the class file we are using doesn't check for this
-						*/
+						 * and the class file we are using doesn't check for this
+						 */
 						if (!strstr($v['link'], 'bit.ly/') && $v['link'] !== '')
 						{
 							$v['link'] = $bitly->shorten($v['link']);
@@ -450,7 +450,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 			*$formdata = $this->getForm()->getData();
 			* $$$ rob only parse for place holder if we can use the element
 			* otherwise for encrypted values store raw, and they are parsed when the
-			* form in processsed in form::addEncrytedVarsToArray();
+			* form is processed in form::addEncrytedVarsToArray();
 			*/
 			if ($this->canUse())
 			{
@@ -472,7 +472,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           data to test against
@@ -518,7 +518,7 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 
 	public function formJavascriptClass(&$srcs, $script = '', &$shim = array())
 	{
-		// Whilst link isnt really an element list we can use its js AddNewEvent method
+		// Whilst link isn't really an element list we can use its js AddNewEvent method
 		$s = new stdClass;
 		$s->deps = array('fab/elementlist');
 		$shim['element/link/link'] = $s;

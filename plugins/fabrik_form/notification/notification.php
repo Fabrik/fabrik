@@ -157,7 +157,7 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 				}
 				catch (Exception $e)
 				{
-					// Supress notice if duplicate
+					// Suppress notice if duplicate
 					$ok = false;
 				}
 

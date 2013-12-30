@@ -3,7 +3,7 @@
  * Is Greater or Less than Validation Rule
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.validationrule.isgreatorlessthan
+ * @subpackage  Fabrik.validationrule.isgreaterorlessthan
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
@@ -18,7 +18,7 @@ require_once COM_FABRIK_FRONTEND . '/models/validation_rule.php';
  * Is Greater or Less than Validation Rule
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.validationrule.isgreatorlessthan
+ * @subpackage  Fabrik.validationrule.isgreaterorlessthan
  * @since       3.0
  */
 
@@ -101,7 +101,7 @@ class PlgFabrik_ValidationruleIsgreaterorlessthan extends PlgFabrik_Validationru
 
 	/**
 	 * Does the validation allow empty value?
-	 * Default is false, can be overrideen on per-validation basis (such as isnumeric)
+	 * Default is false, can be overridden on per-validation basis (such as isnumeric)
 	 *
 	 * @return	bool
 	 */

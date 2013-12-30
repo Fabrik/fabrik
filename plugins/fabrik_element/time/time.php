@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin element to render time dropdowns - derivated from birthday element
+ * Plugin element to render time dropdowns - derived from birthday element
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.time
@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Plugin element to render time dropdowns - derivated from birthday element
+ * Plugin element to render time dropdowns - derived from birthday element
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.time
@@ -39,7 +39,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	/**
 	 * Draws the form element
 	 *
-	 * @param   array  $data           Dat to prepopulate element with
+	 * @param   array  $data           Data to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string  returns element html
@@ -119,7 +119,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		}
 		else
 		{
-			// Wierdness for failed validaion
+			// Weirdness for failed validation
 			if (is_string($value))
 			{
 				$value = strstr($value, ',') ? (explode(',', $value)) : explode(':', $value);
@@ -141,6 +141,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 			$increment = (int) $params->get('minutes_increment', 1);
 
 			// Siin oli enne $monthlabels, viisin ülespoole
+			// google translation: "this was before the $monthlabels, took up the"
 			for ($i = 0; $i < 60; $i += $increment)
 			{
 				$i = str_pad($i, 2, '0', STR_PAD_LEFT);
@@ -182,7 +183,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   this elements posted form data
 	 * @param   array  $data  posted form data
@@ -222,7 +223,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	 * this function to convert back to human readable format. E.g. time element
 	 * calcs in seconds but we'd want to convert back into h:m:s
 	 *
-	 * @param   array  &$rows  Calculaton values
+	 * @param   array  &$rows  Calculation values
 	 *
 	 * @return  void
 	 */
@@ -354,8 +355,8 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		$groupModel = $this->getGroup();
 		/*
 		 * Jaanus: removed condition canrepeat() from renderListData:
-		* weird result such as ["00:03:45","00 when not repeating but still join and merged. Using isJoin() instead
-		*/
+		 * weird result such as ["00:03:45","00 when not repeating but still join and merged. Using isJoin() instead
+		 */
 		$data = $groupModel->isJoin() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array) $data;
 		$ft = $params->get('list_time_format', 'H:i:s');

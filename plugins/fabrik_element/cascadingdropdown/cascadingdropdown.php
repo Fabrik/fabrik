@@ -24,14 +24,14 @@ require_once JPATH_SITE . '/plugins/fabrik_element/databasejoin/databasejoin.php
 class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 {
 	/**
-	 * J Paramter name for the field containing the label value
+	 * J Parameter name for the field containing the label value
 	 *
 	 * @var string
 	 */
 	protected $labelParam = 'cascadingdropdown_label';
 
 	/**
-	 * J Parameter name for the field containiing the concat label
+	 * J Parameter name for the field containing the concat label
 	 *
 	 * @var string
 	 */
@@ -117,7 +117,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$join = $this->getJoin();
 		$db = $this->getDb();
 
-		if (($params->get('cascadingdropdown_label_concat') != '') && $app->input->get('overide_join_val_column_concat') != 1)
+		if (($params->get('cascadingdropdown_label_concat') != '') && $app->input->get('override_join_val_column_concat') != 1)
 		{
 			$val = $params->get('cascadingdropdown_label_concat');
 
@@ -136,7 +136,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 		if ($label == '')
 		{
-			// This is being raised with checkbox rendering and using dropdown filter, everything seems to be working with using hte element name though!
+			// This is being raised with checkbox rendering and using dropdown filter, everything seems to be working with using the element name though!
 			// JError::raiseWarning(500, 'Could not find the join label for ' . $this->getElement()->name . ' try unlinking and saving it');
 			$label = $this->getElement()->name;
 		}
@@ -172,7 +172,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -359,7 +359,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 	}
 
 	/**
-	 * Get the display type (list,checkbox,mulitselect etc)
+	 * Get the display type (list,checkbox,multiselect etc.)
 	 *
 	 * @since  3.0.7
 	 *
@@ -406,7 +406,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 		/**
 		 * $$$ hugh -added test for $filterview, and only do filtery stuff if we are being
-		 * calledin a filter context, not in a regular form display context.
+		 * called in a filter context, not in a regular form display context.
 		 */
 
 		if (!empty($filterview) && $this->getFilterBuildMethod() == 1)
@@ -522,7 +522,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 	 * @param   array  $data           Data
 	 * @param   int    $repeatCounter  Repeat group counter
 	 * @param   bool   $incWhere       Do we add custom where statement into sql
-	 * @param   array  $opts           Addtional options passed into buildQuery()
+	 * @param   array  $opts           Additional options passed into buildQuery()
 	 *
 	 * @return  array	option values
 	 */
@@ -768,7 +768,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 			}
 			else
 			{
-				// $$$ hugh - prolly rendering table view ...
+				// $$$ hugh - probably rendering table view ...
 				$watch_raw = $watch . '_raw';
 
 				if (isset($data[$watch_raw]))
@@ -1050,7 +1050,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$formModel = $this->getFormModel();
 		$formId = $formModel->get('id');
 
-		// 3.1 Cdd filter set up eleswhere
+		// 3.1 Cdd filter set up elsewhere
 		if ($element->filter_type == 'dropdown')
 		{
 			$default = $this->getDefaultFilterVal($normal);
@@ -1207,7 +1207,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 	/**
 	 * Return an array of parameter names which should not get updated if a linked element's parent is saved
-	 * notably any paramter which references another element id should be returned in this array
+	 * notably any parameter which references another element id should be returned in this array
 	 * called from admin element model updateChildIds()
 	 * see cascadingdropdown element for example
 	 *
@@ -1232,7 +1232,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 	/**
 	 * Should the 'label' field be quoted.  Overridden by databasejoin and extended classes,
-	 * which may use a CONCAT'ed label which musn't be quoted.
+	 * which may use a CONCAT'ed label which mustn't be quoted.
 	 *
 	 * @since	3.0.6
 	 *

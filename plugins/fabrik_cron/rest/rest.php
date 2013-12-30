@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once COM_FABRIK_FRONTEND . '/models/plugin-cron.php';
 
 /**
- *  Determines if a row is deleteable
+ *  Determines if a row is deletable
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.cron.rest

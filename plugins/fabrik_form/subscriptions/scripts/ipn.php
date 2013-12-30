@@ -77,7 +77,7 @@ class FabrikSubscriptionsIPN
 		$invoice = $this->checkInvoice($request);
 		if ($invoice === false)
 		{
-			$this->reportError('activate subscription: failed invoice check');
+			$this->reportError('Activate subscription: failed invoice check');
 			return false;
 		}
 
@@ -85,14 +85,14 @@ class FabrikSubscriptionsIPN
 		$inv = $this->getInvoice($invoice);
 		if ($inv === false)
 		{
-			$this->reportError('activate subscription: didnt load invoice id: ' . $invoice);
+			$this->reportError('Activate subscription: didn\'t load invoice id: ' . $invoice);
 			return false;
 		}
 
 		$sub = $this->getSubscriptionFromInvoice($invoice);
 		if ($sub === false)
 		{
-			$this->reportError('activate subscription: didnt load sub for invoice id: ' . $invoice);
+			$this->reportError('Activate subscription: didn\'t load sub for invoice id: ' . $invoice);
 			return false;
 		}
 		$sub->activate();
@@ -104,7 +104,7 @@ class FabrikSubscriptionsIPN
 		$subUser = $this->setUserGroup($sub);
 		if (!$subUser)
 		{
-			$this->reportError('couldnt load or set groups on user');
+			$this->reportError('Activate subscription: couldn\'t load or set groups on user');
 			return false;
 		}
 
@@ -194,7 +194,7 @@ class FabrikSubscriptionsIPN
 
 		if (count($rows) > 1)
 		{
-			// User can have up to one active subscirption - if theres more we're going to expire the older ones
+			// User can have up to one active subscription - if there's more we're going to expire the older ones
 			for ($i = 1; $i < count($rows); $i++)
 			{
 				$sub = JTable::getInstance('Subscription', 'FabrikTable');
@@ -357,7 +357,7 @@ class FabrikSubscriptionsIPN
 	}
 
 	/**
-	 * Transcation web accept
+	 * Transaction web accept
 	 *
 	 * @param   object  $listModel  List model
 	 * @param   array   $request    Request data
@@ -380,7 +380,7 @@ class FabrikSubscriptionsIPN
 	/**
 	 * Occurs when someone first signs up for a subscription,
 	 * you should get a subscr_payment about 3 seconds afterwards.
-	 * So again i dont think we need to do anything here
+	 * So again I don't think we need to do anything here
 	 *
 	 * @param   object  $listModel  List model
 	 * @param   array   $request    Request data
@@ -507,8 +507,8 @@ class FabrikSubscriptionsIPN
 
 	/**
 	 * Seems to get called when you do a silver paypal payment (not sub)
-	 * but as it occurs before anything else (eg. form.paypal.ipn.Completed the expired invoice doesnt
-	 * rest expired but shows as active
+	 * but as it occurs before anything else (e.g. form.paypal.ipn.completed 
+	 * the expired invoice doesn't rest expired but shows as active
 	 *
 	 * @param   object  $listModel  List model
 	 * @param   array   $request    Request data
@@ -657,7 +657,7 @@ class FabrikSubscriptionsIPN
 
 	/**
 	 * If the plan has a fall back plan -
-	 * e.g. original subscription was broze, updates to silver and silver expires - should fall back to bronze
+	 * e.g. original subscription was bronze, updates to silver and silver expires - should fall back to bronze
 	 * we want to change the user type
 	 *
 	 * @param   object  $sub  Subscription
@@ -701,7 +701,7 @@ class FabrikSubscriptionsIPN
 		{
 			// Create new subscription for fall back plan
 
-			// Get the expration date (length of new plan - that of previous plan)
+			// Get the expiration date (length of new plan - that of previous plan)
 			$newLength = $this->charToPeriod($newPlan->period_unit);
 			$oldLength = $this->charToPeriod($plan->period_unit);
 			$expDate = strtotime("+{$newPlan->duration} $newLength	");

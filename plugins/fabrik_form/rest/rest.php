@@ -148,7 +148,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 			return;
 		}
 
-		// POST new records, PUT exisiting records
+		// POST new records, PUT existing records
 		$method = $this->requestMethod();
 
 		$fkData = $this->fkData();
@@ -188,7 +188,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 		{
 			curl_close($chandle);
 
-			// Return true otherwise form processing interupted
+			// Return true otherwise form processing interrupted
 			return true;
 		}
 
@@ -229,7 +229,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 	 *
 	 * @param   string  $include    list of fields to include
 	 * @param   xml     $xmlParent  Parent node if rendering as xml (ignored if include is json and prob something i want to deprecate)
-	 * @param   array   &$headers   Headeres
+	 * @param   array   &$headers   Headers
 	 *
 	 * @return mixed
 	 */
@@ -605,7 +605,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 	}
 
 	/**
-	 * Step 2: Get the acces token
+	 * Step 2: Get the access token
 	 *
 	 * @return boolean|array
 	 */
@@ -636,7 +636,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 	}
 
 	/**
-	 * Perform a curl request to GET from teh web service
+	 * Perform a curl request to GET from the web service
 	 *
 	 * @param   string  $url  GET endpoint
 	 *
@@ -646,7 +646,7 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 	 */
 	protected function doGet($url)
 	{
-		// Make the docs requestrequest.
+		// Make the docs request.
 		$curlOpts = array(CURLOPT_SSL_VERIFYPEER => false);
 		$request = new XingOAuthRequester($url, 'GET', array());
 

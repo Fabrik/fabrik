@@ -66,7 +66,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -248,6 +248,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$months = array(JHTML::_('select.option', '', $params->get('birthday_monthlabel', JText::_('MONTH'))));
 
 			// Siin oli enne $monthlabels, viisin ülespoole
+			// google translation: this was before the $monthlabels, took up the
 			for ($i = 0; $i < count($monthlabels); $i++)
 			{
 				$months[] = JHTML::_('select.option', $i + 1, $monthlabels[$i]);
@@ -332,7 +333,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           data to test against
@@ -572,7 +573,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 	/**
 	 * Used by radio and dropdown elements to get a dropdown list of their unique
-	 * unique values OR all options - basedon filter_build_method
+	 * unique values OR all options - based on filter_build_method
 	 *
 	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
 	 * @param   string  $tableName  Table name to use - defaults to element's current table
@@ -641,7 +642,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 				$thisMonth = $today->format('m');
 				$thisDay = $today->format('d');
 
-				// Set start date todays month/day of start year
+				// Set start date today's month/day of start year
 				$startYear = JFactory::getDate($value[0])->format('Y');
 				$startDate = JFactory::getDate();
 				$startDate->setDate($startYear, $thisMonth, $thisDay)->setTime(0, 0, 0);

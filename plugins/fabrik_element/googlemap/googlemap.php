@@ -72,7 +72,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 
 			if ($params->get('icon_folder') == '1')
 			{
-				// $$$ rob was returning here but that stoped us being able to use links and icons together
+				// $$$ rob was returning here but that stopped us being able to use links and icons together
 				$d = $this->replaceWithIcons($d, 'list', $listModel->getTmpl());
 			}
 			else
@@ -189,7 +189,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	}
 
 	/**
-	 * As different map instances may or may not load geo.js we shouldnt put it in
+	 * As different map instances may or may not load geo.js we shouldn't put it in
 	 * formJavascriptClass() but call this code from elementJavascript() instead.
 	 * The files are still only loaded when needed and only once
 	 *
@@ -213,7 +213,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	}
 
 	/**
-	 * As different map instances may or may not load radius widget JS we shouldnt put it in
+	 * As different map instances may or may not load radius widget JS we shouldn't put it in
 	 * formJavascriptClass() but call this code from elementJavascript() instead.
 	 * The files are still only loaded when needed and only once
 	 *
@@ -692,7 +692,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string  elements html
@@ -722,7 +722,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 
 			$str = '<div class="fabrikSubElementContainer" id="' . $id . '">';
 
-			// If its not editable and theres no val don't show the map
+			// If its not editable and there's no val don't show the map
 			$geoCodeEvent = $params->get('fb_gm_geocode_event', 'button');
 
 			if ((!$this->isEditable() && $val != '') || $this->isEditable())
@@ -838,7 +838,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		{
 			$params = $this->getParams();
 
-			// $$$ hugh - added parens around lat,long for consistancy!
+			// $$$ hugh - added parens around lat,long for consistency!
 			$this->default = '(' . $params->get('fb_gm_lat') . ',' . $params->get('fb_gm_long') . ')' . ':' . $params->get('fb_gm_zoomlevel');
 		}
 

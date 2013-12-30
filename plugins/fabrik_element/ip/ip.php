@@ -24,7 +24,7 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -145,7 +145,7 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  when repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           options
 	 *
 	 * @return  string	value
@@ -153,7 +153,7 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 
 	public function getValue($data, $repeatCounter = 0, $opts = array())
 	{
-		// Cludge for 2 scenarios
+		// Kludge for 2 scenarios
 		if (array_key_exists('rowid', $data))
 		{
 			// When validating the data on form submission

@@ -105,7 +105,7 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -192,7 +192,7 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 		{
 			if (!strstr($url, COM_FABRIK_LIVESITE))
 			{
-				// $$$ rob doesnt work with sef urls as $url already contains site folder.
+				// $$$ rob doesn't work with sef urls as $url already contains site folder.
 				// $url = COM_FABRIK_LIVESITE.$url;
 				$ex = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
 				$url = $ex . $_SERVER['SERVER_NAME'] . $url;
@@ -237,7 +237,7 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 	}
 
 	/**
-	 * Called via Facebook event subscription (useful for odering)
+	 * Called via Facebook event subscription (useful for ordering)
 	 *
 	 * @return  null
 	 */

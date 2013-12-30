@@ -69,7 +69,7 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */
@@ -523,7 +523,7 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 	}
 
 	/**
-	 * Get the name of the colum to update
+	 * Get the name of the column to update
 	 *
 	 * @return string
 	 */

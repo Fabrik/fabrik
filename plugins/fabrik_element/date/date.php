@@ -22,14 +22,14 @@ defined('_JEXEC') or die('Restricted access');
 class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 {
 	/**
-	 * States the element should be ignored from advanced search all queryes.
+	 * States the element should be ignored from advanced search all queries.
 	 *
 	 * @var bool  True, ignore in extended search all.
 	 */
 	protected $ignoreSearchAllDefault = true;
 
 	/**
-	 * Toggle to determine if storedatabaseformat resets the date to GMT
+	 * Toggle to determine if storeDatabaseFormat resets the date to GMT
 	 *
 	 * @var bool
 	 */
@@ -245,7 +245,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -397,7 +397,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * Should we apply the users timezone offset to the date for display purposes
 	 *
 	 * This is a bit long winded and could be reduced. BUT the logic is such that I think the
-	 * verbositiy maintains the readability of the logic
+	 * verbosity maintains the readability of the logic
 	 *
 	 * @param   string  $view  Component view [list/form]
 	 *
@@ -461,7 +461,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 *
 	 * @param   string  $val  Value
 	 *
-	 * @return  string	mySQL formatted date
+	 * @return  string	MySQL formatted date
 	 */
 
 	private function _indStoreDBFormat($val)
@@ -516,11 +516,11 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * reset the date to GMT - inversing the offset
+	 * reset the date to GMT - reversing the offset
 	 *
 	 * @param   object  $date  Date to convert
 	 *
-	 * @return  string	mysql formatted GMT date
+	 * @return  string	MySQL formatted GMT date
 	 */
 
 	protected function toMySQLGMT($date)
@@ -536,7 +536,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			{
 				$invert = true;
 
-				// Intervals can only be positive - set invert propery
+				// Intervals can only be positive - set invert property
 				$hours = $hours * -1;
 			}
 			// 5.3 only
@@ -558,7 +558,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   This elements posted form data
 	 * @param   array  $data  Posted form data
@@ -658,7 +658,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * in the form/detail views
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	Text to add to the browser's title
@@ -884,7 +884,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Element plugin specific method for setting unecrypted values baack into post data
+	 * Element plugin specific method for setting unencrypted values back into post data
 	 *
 	 * @param   array   &$post  Data passed by ref
 	 * @param   string  $key    Key
@@ -920,7 +920,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * Get the GMT Date time - tz offset applied in render() if needed
 	 *
 	 * @param   array  $data           Form data date will be GMT if store as local OFF, otherwise as local time
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	value  Date as GMT time
@@ -938,7 +938,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 		if (is_array($value))
 		{
-			// Submission posted as array but date & time in date key. Can be key'd to 0 if parent class casts string to array.
+			// Submission posted as array but date & time in date key. Can be keyed to 0 if parent class casts string to array.
 			$value = JArrayHelper::getValue($value, 'date', JArrayHelper::getValue($value, 0));
 		}
 
@@ -969,7 +969,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$timeZone = new DateTimeZone(JFactory::getConfig()->get('offset'));
 		$date = JFactory::getDate($value, $timeZone);
 
-		// If value = '' dont offset it (not sure what the logic is but testing seems to indicate this to be true)
+		// If value = '' don't offset it (not sure what the logic is but testing seems to indicate this to be true)
 		$local = $formModel->hasErrors() || $value == '' || $params->get('date_store_as_local', 0) == 1 ? false : true;
 		$value = $date->toSQL($local);
 
@@ -1024,7 +1024,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * Builds an array containing the filters value and condition
 	 *
 	 * @param   string  $value      Initial value
-	 * @param   string  $condition  Intial $condition
+	 * @param   string  $condition  Initial $condition
 	 * @param   string  $eval       How the value should be handled
 	 *
 	 * @return  array	(value condition)
@@ -1039,7 +1039,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		{
 			if (($this->rangeFilterSet))
 			{
-				// Its alreay been set as a range expression - so split that into an array
+				// It's already been set as a range expression - so split that into an array
 				$condition = 'between';
 				$value = explode(' AND ', $value);
 
@@ -1075,11 +1075,11 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			case 'dropdown':
 			case 'auto-complete':
 			default:
-			// Odity when filtering from qs
+			// Oddity when filtering from qs
 				$value = str_replace("'", '', $value);
 
 				/**
-				 *  parse through JDate, to allow for special filters such as 'now' 'tomorrow' etc
+				 *  parse through JDate, to allow for special filters such as 'now' 'tomorrow' etc.
 				 *  for searches on simply the year - JDate will presume its a timestamp and mung the results
 				 *  so we have to use this specific format string to get now and next
 				 */
@@ -1148,7 +1148,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 					$this->resetToGMT = false;
 				}
 
-				// Only set to a range if condition is matching (so dont set to range for < or > conditions)
+				// Only set to a range if condition is matching (so don't set to range for < or > conditions)
 				if ($condition == 'contains' || $condition == '=' || $condition == 'REGEXP')
 				{
 					if (!$params->get('date_showtime', 0) || $exactTime == false)
@@ -1288,7 +1288,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$v = $this->filterName($counter, $normal);
 		$class = $this->filterClass();
 
-		// Corect default got
+		// Correct default got
 		$default = $this->getDefaultFilterVal($normal, $counter);
 		$format = $params->get('date_table_format', 'Y-m-d');
 
@@ -1299,7 +1299,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 		foreach ($joins as $aJoin)
 		{
-			// Not sure why the group id key wasnt found - but put here to remove error
+			// Not sure why the group id key wasn't found - but put here to remove error
 			if (array_key_exists('group_id', $aJoin))
 			{
 				if ($aJoin->group_id == $element->group_id && $aJoin->element_id == 0)
@@ -1355,7 +1355,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 					$default[1] = $d->format($format);
 				}
 
-				// Add wrapper div for list filter toggeling
+				// Add wrapper div for list filter toggling
 				$return[] = '<div class="fabrik_filter_container">';
 
 				if ($fType === 'range-hidden')
@@ -1379,7 +1379,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			case 'multiselect':
 							/**
 							  *  cant do the format in the MySQL query as its not the same formatting
-							  *  e.g. M in mysql is month and J's date code its minute
+							  *  e.g. M in MySQL is month and J's date code its minute
 							  */
 
 				$max = count($rows) < 7 ? count($rows) : 7;
@@ -1429,7 +1429,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 					$default = $d->format($format);
 				}
 
-				// Add wrapper div for list filter toggeling
+				// Add wrapper div for list filter toggling
 				$return[] = '<div class="fabrik_filter_container">';
 				$return[] = $this->calendar($default, $v, $this->getFilterHtmlId(0), $format, $calOpts);
 				$return[] = '</div>';
@@ -1448,7 +1448,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 				$default = htmlspecialchars($default);
 
-				// Dont add id as caused issues with inline edit plugin and clashing ids.
+				// Don't add id as caused issues with inline edit plugin and clashing ids.
 				$return[] = '<input type="hidden" name="' . $v . '" class="' . $class . '" value="' . $default . '" />';
 				break;
 
@@ -1586,7 +1586,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           Data to test against
@@ -1617,8 +1617,8 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		 * $$$ hugh - not any more, since we changed to always submit in MySQL format
 		 * $$$ hugh - removing the MySQL conversion has broken 'special' range handling,
 		 * which used to happen in the MySQL conversion function.  So ...
-		 * Created new helper funcion specialStrToMySQL() which turns things
-		 * like 'midnight yesterday' etc into MySQL dates, defaulting to GMT.
+		 * Created new helper function specialStrToMySQL() which turns things
+		 * like 'midnight yesterday' etc. into MySQL dates, defaulting to GMT.
 		 * This lets us do ranged query string and content plugin filters like ...
 		 * table___date[value][]=midnight%20yesterday&table___date[value][]=midnight%20today&table___date[condition]=BETWEEN
 		 */
@@ -1687,7 +1687,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 *
 	 * @param   string  $date  In MySQL format
 	 *
-	 * @return  string	mysql formatted date with time set to 0
+	 * @return  string	MySQL formatted date with time set to 0
 	 */
 
 	protected function setMySQLTimeToZero($date)
@@ -1702,9 +1702,9 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * Add days to a date
 	 *
 	 * @param   mixed    $date  The initial time for the FabDate object
-	 * @param   integer  $add   Number of days to add (negtive to remove days)
+	 * @param   integer  $add   Number of days to add (negative to remove days)
 	 *
-	 * @return  string	mysql formatted date
+	 * @return  string	MySQL formatted date
 	 */
 
 	protected function addDays($date, $add = 0)
@@ -1758,7 +1758,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$whereSQL = $listModel->buildQueryWhere();
 		$name = $this->getFullName(false, false);
 
-		// $$$rob not actaully likely to work due to the query easily exceeding mySQL's TIMESTAMP_MAX_VALUE value but the query in itself is correct
+		// $$$rob not actually likely to work due to the query easily exceeding MySQL's TIMESTAMP_MAX_VALUE value but the query in itself is correct
 		return 'SELECT FROM_UNIXTIME(SUM(UNIX_TIMESTAMP(' . $name . '))) AS value, ' . $label . ' FROM '
 			. $db->quoteName($table->db_table_name) . ' ' . $joinSQL . ' ' . $whereSQL;
 	}
@@ -1816,9 +1816,9 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 	/**
 	 * Takes strftime time formatting - http://fr.php.net/manual/en/function.strftime.php
-	 * and converts to format used in mySQL DATE_FORMAT http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html
+	 * and converts to format used in MySQL DATE_FORMAT http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html
 	 *
-	 * @param   string  &$format  PHP date format string => mysql string format
+	 * @param   string  &$format  PHP date format string => MySQL string format
 	 *
 	 * @return  void
 	 */
@@ -1974,7 +1974,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * Used by validations
 	 *
 	 * @param   string  $data     This elements data
-	 * @param   string  $cond     What condiion to apply
+	 * @param   string  $cond     What condition to apply
 	 * @param   string  $compare  Data to compare element's data to (if date already set to Y-m-d H:I:S so no need to apply storeDatabaseForm() on it
 	 *
 	 * @return bool
@@ -2002,7 +2002,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * @param   string  $month  Original month name
 	 * @param   bool    $abbr   Is the month abbreviated
 	 *
-	 * @return  string  english month name
+	 * @return  string  English month name
 	 */
 
 	private function _monthToEnglish($month, $abbr = false)
@@ -2136,7 +2136,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Load a new set of default properites and params for the element
+	 * Load a new set of default properties and params for the element
 	 *
 	 * @return object Element (id = 0)
 	 */
@@ -2243,7 +2243,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	{
 		$key = 'element/date/date';
 
-		// Ensure that we keep advanced dependancies from previous date elements regardless of current elements settings.
+		// Ensure that we keep advanced dependencies from previous date elements regardless of current elements settings.
 		$deps = array_key_exists($key, $shim) ? $shim[$key]->deps : array('fab/element');
 		$params = $this->getParams();
 
@@ -2266,7 +2266,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 }
 
 /**
- * very small override to JDate to stop 500 errors occuring (when Jdebug is on) if $date is not a valid date string
+ * very small override to JDate to stop 500 errors occurring (when Jdebug is on) if $date is not a valid date string
  *
  * @package  Fabrik
  * @since    3.0
@@ -2311,7 +2311,7 @@ class FabDate extends JDate
 		}
 		catch (Exception $e)
 		{
-			JDEBUG ? $app->enqueueMessage('date format unknown for ' . $orig . ' replacing with todays date', 'notice') : '';
+			JDEBUG ? $app->enqueueMessage('date format unknown for ' . $orig . ' replacing with today\'s date', 'notice') : '';
 			$date = 'now';
 			/* catches 'Failed to parse time string (ublingah!) at position 0 (u)' exception.
 			 * don't use this object
@@ -2420,7 +2420,7 @@ class FabDate extends JDate
 				'%y', '%P', '%p', '', '%l', '%H', '%I', '%H', '%M', '%S', '',
 				'', '', '', '%z', '', '%c', '%a, %d %b %Y %H:%M:%S %z', '%s');
 
-		// Removed e => %z as that meant, j => %e => %%z (prob could re-implement with a regex if really needed
+		// Removed e => %z as that meant, j => %e => %%z (prob could re-implement with a regex if really needed)
 		$format = str_replace($search, $replace, $format);
 	}
 

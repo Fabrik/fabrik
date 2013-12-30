@@ -365,7 +365,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			$this->useridfield = $this->getFieldName('juser_field_userid');
 
 			/*
-			 * This test would cause a fail if you were editing a record which contained hte user data in a join
+			 * This test would cause a fail if you were editing a record which contained the user data in a join
 			 * E.g. Fabrikar.com/subscribe - user logged in but adding a new subscription
 			 * $$$ hugh - AOOOOGA!  Removing the rowId test means that when an admin creates a new
 			 * user when logged in, the admin's row in #__users will get overwritten with the new user
@@ -971,7 +971,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 	}
 
 	/**
-	 * Raise an error - depends on whether ur in admin or not as to what to do
+	 * Raise an error - depends on whether you are in admin or not as to what to do
 	 *
 	 * @param   array   &$err   Form models error array
 	 * @param   string  $field  Name

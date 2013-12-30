@@ -117,7 +117,7 @@ class PlgFabrik_Crongmail extends PlgFabrik_Cron
 
 				$thisData[$fromField] = (empty($matches)) ? $overview->from : "<a href=\"mailto:$matches[1]\">$overview->from</a>";
 
-				// Use server time for all incomming messages.
+				// Use server time for all incoming messages.
 				$date = JFactory::getDate();
 
 				$thisData['processed_date'] = $date->toSql();
@@ -192,7 +192,7 @@ class PlgFabrik_Crongmail extends PlgFabrik_Cron
 					$content = imap_qprint($content);
 
 					/*
-					 * Hmm this seemed to include encoded text which imap_base64 couldnt sort out
+					 * Hmm this seemed to include encoded text which imap_base64 couldn't sort out
 					 * as the encoding was too long for insert query - shouts were not getting through
 					 * think it might be to do with $part being type 5 (image)
 					 * now only adding if part type is 0
@@ -268,7 +268,7 @@ class PlgFabrik_Crongmail extends PlgFabrik_Cron
 		$content = implode("\n", $content);
 
 		/*
-		 * Test for date and message that preceeds reply text
+		 * Test for date and message that precedes reply text
 		 * e.g. "2009/9/2 Dev Site for Play Simon Games "
 		 */
 		$matches = array();
@@ -325,7 +325,7 @@ function Create_Part_array($structure, $prefix = "")
 	}
 	else
 	{
-		// Email does not have a seperate mime attachment for text
+		// Email does not have a separate mime attachment for text
 		$part_array[] = array('part_number' => $prefix . '1', 'part_object' => $structure);
 	}
 
@@ -364,7 +364,7 @@ function Add_Part_To_array($obj, $partno, &$part_array)
 				}
 				else
 				{
-					// Attached email does not have a seperate mime attachment for text
+					// Attached email does not have a separate mime attachment for text
 					$part_array[] = array('part_number' => $partno . '.' . ($count + 1), 'part_object' => $obj);
 				}
 			}

@@ -351,7 +351,7 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 		$w = new FabrikWorker;
 		jimport('string.normalise');
 
-		// The similie jQuery autodetect and load code is broken as it tests for $ (for which mootools gives a false positive) so include
+		// The simile jQuery autodetect and load code is broken as it tests for $ (for which mootools gives a false positive) so include
 		$document->addScript('http://code.jquery.com/jquery-1.9.1.min.js');
 		$document->addScript('http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js?bundle=true');
 		$c = 0;
@@ -400,7 +400,7 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 
 	protected function toVariable($input)
 	{
-		// Should simply be (except theres a bug in J)
+		// Should simply be (except there's a bug in J)
 		// JStringNormalise::toVariable($event->className);
 
 		$input = trim($input);

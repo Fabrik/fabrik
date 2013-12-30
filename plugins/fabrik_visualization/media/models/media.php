@@ -26,7 +26,7 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
 class FabrikModelMedia extends FabrikFEModelVisualization
 {
 	/**
-	 * Get Medda
+	 * Get Media
 	 *
 	 * @return string
 	 */
@@ -275,7 +275,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */

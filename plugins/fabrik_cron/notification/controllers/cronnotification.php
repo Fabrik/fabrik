@@ -54,7 +54,7 @@ class FabrikControllerCroncronnotification extends JControllerLegacy
 	}
 
 	/**
-	 * Delee a notification
+	 * Delete a notification
 	 *
 	 * @return false
 	 */

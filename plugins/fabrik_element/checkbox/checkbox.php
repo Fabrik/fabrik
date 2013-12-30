@@ -138,7 +138,7 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * If the search value isnt what is stored in the database, but rather what the user
+	 * If the search value isn't what is stored in the database, but rather what the user
 	 * sees then switch from the search string to the db value here
 	 * overwritten in things like checkbox and radio plugins
 	 *
@@ -167,7 +167,7 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 	 * If no filter condition supplied (either via querystring or in posted filter data
 	 * return the most appropriate filter option for the element.
 	 *
-	 * @return  string	default filter condition ('=', 'REGEXP' etc)
+	 * @return  string	default filter condition ('=', 'REGEXP' etc.)
 	 */
 
 	public function getDefaultFilterCondition()
@@ -176,7 +176,7 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   this elements posted form data
 	 * @param   array  $data  posted form data
@@ -211,12 +211,12 @@ class PlgFabrik_ElementCheckbox extends PlgFabrik_ElementList
 				if (!preg_match('#["\[\]]#', $val))
 				{
 					// No ", [ or ], so lets see if wrapping it up in JSON array format
-					// produces vlaid JSON
+					// produces valid JSON
 					$json_val = '["' . $val . '"]';
 
 					if (FabrikWorker::isJSON($json_val))
 					{
-						// Looks ike we we have a valid JSON array, so return that
+						// Looks like we we have a valid JSON array, so return that
 						return $json_val;
 					}
 					else

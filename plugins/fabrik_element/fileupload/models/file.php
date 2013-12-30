@@ -63,7 +63,7 @@ class FileRender
 
 		if (!strstr($file, 'http://') && !strstr($file, 'https://'))
 		{
-			// $$$rob only add in livesite if we dont already have a full url (eg from amazons3)
+			// $$$rob only add in livesite if we don't already have a full url (e.g. from amazons3)
 
 			// Trim / or \ off the start of $file
 			$file = JString::ltrim($file, '/\\');

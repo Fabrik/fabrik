@@ -205,7 +205,7 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 				if ($slideElement->isJoin())
 				{
 					/*
-					 * For ajax multi uplads we need to get the src from the image html itself
+					 * For ajax multi uploads we need to get the src from the image html itself
 					 * and add all the images to the js options class
 					 */
 					$el = $params->get('slideshow_viz_file', '');
@@ -348,7 +348,7 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */

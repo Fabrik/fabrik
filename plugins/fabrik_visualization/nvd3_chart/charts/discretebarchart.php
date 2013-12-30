@@ -177,7 +177,7 @@ class DiscreteBarChart {
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		// Reset list/forms incase they are embedded in a content plugin
+		// Reset list/forms in case they are embedded in a content plugin
 		$input->set('fabrik_show_in_list', $fabrik_show_in_list);
 		$listModel->reset();
 		$formModel->unsetData(true);

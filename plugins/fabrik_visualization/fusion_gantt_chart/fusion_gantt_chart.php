@@ -1,9 +1,9 @@
 <?php
 /**
- * Fabrik Gannt Chart Plug-in
+ * Fabrik Gantt Chart Plug-in
  *
  * @package     Joomla
- * @subpackage  Fabrik.visualization.fusionganntchart
+ * @subpackage  Fabrik.visualization.fusionganttchart
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
@@ -15,10 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 require_once COM_FABRIK_FRONTEND . '/models/visualization.php';
 
 /**
- * Fabrik Gannt Chart Plug-in
+ * Fabrik Gantt Chart Plug-in
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.visualization.fusionganntchart
+ * @subpackage  Fabrik.visualization.fusionganttchart
  * @since       3.0
  */
 

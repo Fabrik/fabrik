@@ -98,7 +98,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -394,7 +394,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   This elements posted form data
 	 * @param   array  $data  Posted form data
@@ -422,7 +422,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates individual values posted form data for insertion into database
+	 * Manipulates individual values posted form data for insertion into database
 	 *
 	 * @param   string  $val  This elements posted form data
 	 *

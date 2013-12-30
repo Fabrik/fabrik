@@ -155,9 +155,9 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 
 	protected function show()
 	{
-		/* Nobody except form model constuctor sets editable property yet -
+		/* Nobody except form model constructor sets editable property yet -
 		 * it sets in view.html.php only and after render() - too late I think
-		 * so no pagination output for frontend details veiw for example.
+		 * so no pagination output for frontend details view for example.
 		 * Let's set it here before use it
 		 */
 		$params = $this->getParams();
@@ -243,7 +243,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$data = curl_exec($ch);
 		curl_close($ch);
 
-		// Apend the ids to the json array
+		// Append the ids to the json array
 		$data = json_decode($data);
 		$data->ids = $ids;
 		echo json_encode($data);

@@ -57,6 +57,6 @@ if ($forum_name && $forum_parent)
 	else
 	{
 		$forumid = $dataman->save();
-		echo "Forum created succesfully";
+		echo "Forum created successfully";
 	}
 }

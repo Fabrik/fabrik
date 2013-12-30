@@ -120,7 +120,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 
 		if (strstr($url, $prefix))
 		{
-			// We've got the full url to the image - remove the bucket name etc to get file name
+			// We've got the full url to the image - remove the bucket name etc. to get file name
 			$url = str_replace($prefix, '', $url);
 			$url = str_replace($bucket . '.' . $this->domain, '', $url);
 		}
@@ -353,7 +353,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 
 		if (strstr($path, $prefix))
 		{
-			// If we are cleaning up a full url then check that fabrik hasnt unwittingly prepended the JPATH_SITE to the start of the url
+			// If we are cleaning up a full url then check that fabrik hasn't unwittingly prepended the JPATH_SITE to the start of the url
 			$path = $this->removePrependedURL($path);
 			$part = Fabrikstring::ltrimword($path, $prefix);
 			$path = $prefix . JPath::clean($part);
@@ -369,7 +369,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 	}
 
 	/**
-	 * Clean a fle name
+	 * Clean a file name
 	 *
 	 * @param   string  $filename       File name to clean
 	 * @param   int     $repeatCounter  Repeat group counter
@@ -450,7 +450,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 		$f = basename($file);
 		$dir = dirname($file);
 
-		// Jaanus added: create also thumb suffix as for filesystemstrage
+		// Jaanus added: create also thumb suffix as for filesystemstorage
 		$ext = JFile::getExt($f);
 		$fclean = JFile::stripExt($f);
 		$file = $dir . '/' . $params->get('thumb_prefix') . $fclean . $params->get('thumb_suffix') . '.' . $ext;
@@ -504,7 +504,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 	/**
 	 * Make a nested folder structure - not applicable for S3 storaga
 	 *
-	 * @param   string  $folderPath  path to folder - eg /images/stories
+	 * @param   string  $folderPath  path to folder - e.g. /images/stories
 	 * @param   int     $mode        folder permissions
 	 *
 	 * @return  void

@@ -41,7 +41,7 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */
@@ -301,7 +301,7 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 	}
 
 	/**
-	 * Get fileystem storage class
+	 * Get filesystem storage class
 	 *
 	 * @return  object  Filesystem storage
 	 */

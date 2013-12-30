@@ -1,7 +1,7 @@
 <?php
 /**
  * Required System plugin if using Fabrik
- * Enbles Fabrik to override some J classes
+ * Enables Fabrik to override some J classes
  *
  * @package     Joomla.Plugin
  * @subpackage  System
@@ -28,7 +28,7 @@ class PlgSystemFabrik extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * For php4 compatibility we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
@@ -42,7 +42,7 @@ class PlgSystemFabrik extends JPlugin
 	{
 		/**
 		 * Moved these from defines.php to here, to fix an issue with Kunena.  Kunena imports the J!
-		 * JForm class in their system plugin, in the class constructure.  So if we wait till onAfterInitialize
+		 * JForm class in their system plugin, in the class constructor  So if we wait till onAfterInitialize
 		 * to do this, we blow up.  So, import them here, and make sure the Fabrik plugin has a lower ordering
 		 * than Kunena's.  We might want to set our default to -1.
 		 */
@@ -233,7 +233,7 @@ class PlgSystemFabrik extends JPlugin
 	 *
 	 * @param   string     $text      Target search string
 	 * @param   JRegistry  $params    Search plugin params
-	 * @param   string     $phrase    Mathcing option, exact|any|all
+	 * @param   string     $phrase    Matching option, exact|any|all
 	 * @param   string     $ordering  Option, newest|oldest|popular|alpha|category
 	 *
 	 * @return  array
@@ -306,7 +306,7 @@ class PlgSystemFabrik extends JPlugin
 		// $$$ rob remove previous search results?
 		$input->set('resetfilters', 1);
 
-		// Ensure search doesnt go over memory limits
+		// Ensure search doesn't go over memory limits
 		$memory = ini_get('memory_limit');
 		$memory = (int) FabrikString::rtrimword($memory, 'M') * 1000000;
 		$usage = array();
