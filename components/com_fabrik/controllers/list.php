@@ -134,7 +134,7 @@ class FabrikControllerList extends JControllerLegacy
 
 		/**
 		 * $$$ rob 07/02/2012 if reset filters set in the menu options then filters not cleared
-		 * so instead use replacefilters which doesnt look at the menu item parameters.
+		 * so instead use replacefilters which doesn't look at the menu item parameters.
 		 */
 		$app->input->set('replacefilters', 1);
 		$this->filter();

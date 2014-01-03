@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.pagination');
 
 /**
- * Extension to the normal pagenav functions
+ * Extension to the normal page-nav functions
  * $total, $limitstart, $limit
  *
  * @package  Fabrik
@@ -194,7 +194,7 @@ class FPagination extends JPagination
 	}
 
 	/**
-	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+	 * Create and return the pagination page list string, i.e. Previous, Next, 1 2 3 ... x.
 	 *
 	 * @param   string  $listRef  unique list reference
 	 * @param   string  $tmpl     list template name
@@ -354,12 +354,12 @@ class FPagination extends JPagination
 
 	/**
 	 * THIS SEEMS GOOFY TO HAVE TO OVERRIDE DEFAULT FUNCTION - BUT!
-	 * THE ORIGINAL SETS THE PAGE TO EMPTY IF ITS 0 - APPARENTTLY TO DO WITH
+	 * THE ORIGINAL SETS THE PAGE TO EMPTY IF ITS 0 - APPARENTLY TO DO WITH
 	 * ROUTING - THIS HAS BEEN REMOVED HERE
 	 *
-	 * PERHAPS THE FABRIK ROUTING ISNT RIGHT?
+	 * PERHAPS THE FABRIK ROUTING ISN'T RIGHT?
 	 *
-	 * oCCURRS EVEN WITHOUT SEF URLS ON THOUGH? :s
+	 * OCCURS EVEN WITHOUT SEF URLS ON THOUGH? :s
 	 *
 	 * Create and return the pagination data object
 	 *

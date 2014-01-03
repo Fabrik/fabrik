@@ -16,7 +16,7 @@ var tablesElement = new Class({
 	initialize: function (el, options) {
 		this.el = el;
 		this.setOptions(options);
-		// If loading in a form plugin then the connect is not yet avaiable in the dom
+		// If loading in a form plugin then the connect is not yet available in the dom
 		if (typeOf(document.id(this.options.conn)) === 'null') {
 			this.periodical = this.getCnn.periodical(500, this);
 		} else {

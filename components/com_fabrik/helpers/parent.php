@@ -90,7 +90,7 @@ class FabrikWorker
 	 *
 	 * @param   string  $file  Filename
 	 *
-	 * @deprecated - doesnt seem to be used
+	 * @deprecated - doesn't seem to be used
 	 *
 	 * @return	bool
 	 */
@@ -107,7 +107,7 @@ class FabrikWorker
 	 *
 	 * @param   string  $file  Filename
 	 *
-	 * @deprecated - doesnt seem to be used
+	 * @deprecated - doesn't seem to be used
 	 *
 	 * @return	bool
 	 */
@@ -124,7 +124,7 @@ class FabrikWorker
 	 *
 	 * @param   string  $file  Filename
 	 *
-	 * @deprecated - doesnt seem to be used
+	 * @deprecated - doesn't seem to be used
 	 *
 	 * @return  bool
 	 */
@@ -146,7 +146,7 @@ class FabrikWorker
 	 *
 	 * @param   string  $file  Filename
 	 *
-	 * @deprecated - doesnt seem to be used
+	 * @deprecated - doesn't seem to be used
 	 *
 	 * @return  bool
 	 */
@@ -168,7 +168,7 @@ class FabrikWorker
 	 *
 	 * @param   string  $file  Filename
 	 *
-	 * @deprecated - doesnt seem to be used
+	 * @deprecated - doesn't seem to be used
 	 *
 	 * @return  bool
 	 */
@@ -276,7 +276,7 @@ class FabrikWorker
 	}
 
 	/**
-	 * Check for, and convert, any 'special' formats for strtotime, like 'yesterday', etc
+	 * Check for, and convert, any 'special' formats for strtotime, like 'yesterday', etc.
 	 *
 	 * @param   string  $date  Date to check
 	 * @param   bool    $gmt   Set date to universal time?
@@ -287,7 +287,7 @@ class FabrikWorker
 	public static function specialStrToMySQL($date, $gmt = true)
 	{
 		/**
-		 * $$$ hugh - if date is empty, just return todays date
+		 * $$$ hugh - if date is empty, just return today's date
 		 */
 		if (empty($date))
 		{
@@ -307,13 +307,13 @@ class FabrikWorker
 		$matches2 = array();
 		$matches3 = array();
 
-		// Eg now
+		// E.g. now
 		preg_match("/[now|ago|midnight|yesterday|today]/i", $date, $matches);
 
-		// Eg +2 Week
+		// E.g. +2 Week
 		preg_match("/[+|-][0-9]* (week\b|year\b|day\b|month\b)/i", $date, $matches2);
 
-		// Eg next wednesday
+		// E.g. next Wednesday
 		preg_match("/[next|last]* (\monday\b|tuesday\b|wednesday\b|thursday\b|friday\b|saturday\b|sunday\b)/i", $date, $matches3);
 		$matches = array_merge($matches, $matches2, $matches3);
 
@@ -346,13 +346,13 @@ class FabrikWorker
 		$matches2 = array();
 		$matches3 = array();
 
-		// Eg now
+		// E.g. now
 		preg_match("/[now|ago|midnight|yesterday|today]/i", $date, $matches);
 
-		// Eg +2 Week
+		// E.g. +2 Week
 		preg_match("/[+|-][0-9]* (week\b|year\b|day\b|month\b)/i", $date, $matches2);
 
-		// Eg next wednesday
+		// E.g. next Wednesday
 		preg_match("/[next|last]* (\monday\b|tuesday\b|wednesday\b|thursday\b|friday\b|saturday\b|sunday\b)/i", $date, $matches3);
 		$matches = array_merge($matches, $matches2, $matches3);
 
@@ -389,7 +389,7 @@ class FabrikWorker
 				$date = self::monthToInt($date, $month == '%B' ? false : true);
 			}
 		}
-		// @TODO: some of these arent right for strftime
+		// @TODO: some of these aren't right for strftime
 		self::$finalformat = $format;
 		$search = array('%d', '%e', '%D', '%j', '%m', '%b', '%Y', '%y', '%g', '%H', '%h', '%i', '%s', '%S', '%M');
 
@@ -400,7 +400,7 @@ class FabrikWorker
 
 		if (!preg_match("#$pattern#", $date, $matches))
 		{
-			// Lets allow for partial date formats - eg just the date and ignore the time
+			// Lets allow for partial date formats - e.g. just the date and ignore the time
 			$format = explode('%', $format);
 
 			if (empty($format))
@@ -537,7 +537,7 @@ class FabrikWorker
 	 * Check a string is not reserved by Fabrik
 	 *
 	 * @param   string  $str     To check
-	 * @param   bool    $strict  Incude things like rowid, listid in the reserved words, defaults to true
+	 * @param   bool    $strict  Include things like rowid, listid in the reserved words, defaults to true
 	 *
 	 * @return bool
 	 */
@@ -547,7 +547,7 @@ class FabrikWorker
 		$_reservedWords = array("task", "view", "layout", "option", "formid", "submit", "ul_max_file_size"
 				, "ul_file_types", "ul_directory", 'adddropdownvalue', 'adddropdownlabel', 'ul_end_dir');
 		/*
-		 * $$$ hugh - a little arbitrary, but need to be able to exlude these so people can create lists from things like
+		 * $$$ hugh - a little arbitrary, but need to be able to exclude these so people can create lists from things like
 		 * log files, which include field names like rowid and itemid.  So when saving an element, we now set strict mode
 		 * to false if it's not a new element.
 		 */
@@ -683,7 +683,7 @@ class FabrikWorker
 	 * Called from parseMessageForPlaceHolder to iterate through string to replace
 	 * {placeholder} with user ($my) data
 	 * AND
-	 * {$their->var->email} placeholderse
+	 * {$their->var->email} placeholders
 	 *
 	 * @param   string  $msg     Message to parse
 	 * @param   object  $user    Joomla user object
@@ -855,7 +855,7 @@ class FabrikWorker
 
 		if (!strstr($match, '.'))
 		{
-			// For some reason array_key_exists wasnt working for nested arrays??
+			// For some reason array_key_exists wasn't working for nested arrays??
 			$aKeys = array_keys($this->_searchData);
 
 			// Remove the table prefix from the post key
@@ -890,7 +890,7 @@ class FabrikWorker
 				{
 					$newmatch = '';
 
-					// Deal with radio boxes etc inside repeat groups
+					// Deal with radio boxes etc. inside repeat groups
 					foreach ($match as $m)
 					{
 						if (is_array($m))
@@ -913,7 +913,7 @@ class FabrikWorker
 		}
 		else
 		{
-			// Could be looking for URL field type eg for $_POST[url][link] the match text will be url.link
+			// Could be looking for URL field type e.g. for $_POST[url][link] the match text will be url.link
 			$aMatch = explode(".", $match);
 			$aPost = $this->_searchData;
 
@@ -1077,7 +1077,7 @@ class FabrikWorker
 	}
 
 	/**
-	 * Get the contetn filter used both in form and admin pages for content filter
+	 * Get the content filter used both in form and admin pages for content filter
 	 * takes values from J content filtering options
 	 *
 	 * @return   array  (bool should the filter be used, object the filter to use)
@@ -1170,7 +1170,7 @@ class FabrikWorker
 				}
 
 				// Collect the black or white list tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType == 'BL')
 				{
 					$blackList = true;
@@ -1197,7 +1197,7 @@ class FabrikWorker
 		{
 			$dofilter = false;
 
-			// Dont apply filtering.
+			// Don't apply filtering.
 		}
 		else
 		{
@@ -1227,7 +1227,7 @@ class FabrikWorker
 	}
 
 	/**
-	 * Clear PHP errors prior to running eval'ed code
+	 * Clear PHP errors prior to running eval'd code
 	 *
 	 * @return  void
 	 */
@@ -1235,8 +1235,8 @@ class FabrikWorker
 	public static function clearEval()
 	{
 		/**
-		 * "Clear" PHP's errors.  NOTE that error_get_last() wil still return non-null after this
-		 * if there were any errors, but $error['mesage'] will be empty.  See comment in logEval()
+		 * "Clear" PHP's errors.  NOTE that error_get_last() will still return non-null after this
+		 * if there were any errors, but $error['message'] will be empty.  See comment in logEval()
 		 * below for details.
 		 */
 		@trigger_error("");
@@ -1246,7 +1246,7 @@ class FabrikWorker
 	 * Raise a J Error notice if the eval'd result is false and there is a error
 	 *
 	 * @param   mixed   $val  Evaluated result
-	 * @param   string  $msg  Error message, should contain %s as we spintf in the error_get_last()'s message property
+	 * @param   string  $msg  Error message, should contain %s as we sprintf in the error_get_last()'s message property
 	 *
 	 * @return  void
 	 */
@@ -1264,7 +1264,7 @@ class FabrikWorker
 		 * @trigger_error('');
 		 * ... prior to eval'ing code if we want to "clear" anything pitched prior
 		 * to the eval.  For instance, in the PHP validation plugin.  If we don't "clear"
-		 * the errors before running the eval'ed validation code, we end up reporting any
+		 * the errors before running the eval'd validation code, we end up reporting any
 		 * warnings or notices pitched in our code prior to the validation running, which
 		 * can be REALLY confusing.  After a trigger_error(), error_get_last() won't return null,
 		 * but 'message' will be empty.
@@ -1399,7 +1399,7 @@ class FabrikWorker
 			$dbprefix = $conf->get('dbprefix');
 			$driver = $conf->get('dbtype');
 
-			// Test for sawpping db table names
+			// Test for swapping db table names
 			$driver .= '_fab';
 			$debug = $conf->get('debug');
 			$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database,
@@ -1509,16 +1509,16 @@ class FabrikWorker
 		{
 			if (!strstr($data, '{'))
 			{
-				// Was messng up date rendering @ http://www.podion.eu/dev2/index.php/2011-12-19-10-33-59/actueel
+				// Was messing up date rendering @ http://www.podion.eu/dev2/index.php/2011-12-19-10-33-59/actueel
 				// return $toArray ? (array) $data : $data;
 			}
 
-			// Repeat elements are concatned with the GROUPSPLITTER - conver to json string  before continuing.
+			// Repeat elements are concatenated with the GROUPSPLITTER - convert to json string  before continuing.
 			if (strstr($data, GROUPSPLITTER))
 			{
 				$data = json_encode(explode(GROUPSPLITTER, $data));
 			}
-			/* half hearted attempt to see if string is acutally json or not.
+			/* half hearted attempt to see if string is actually json or not.
 			 * issue was that if you try to decode '000123' its turned into '123'
 			 */
 			if (strstr($data, '{') || strstr($data, '['))
@@ -1530,7 +1530,7 @@ class FabrikWorker
 				if (is_null($json))
 				{
 					/*
-					 * if coming back froma  failed validation - the json string may habe been htmlspecialchars_encoded in
+					 * if coming back from a failed validation - the json string may have been htmlspecialchars_encoded in
 					 * the form model getGroupView method
 					 */
 					$json = json_decode(stripslashes(htmlspecialchars_decode($data, ENT_QUOTES)));
@@ -1624,7 +1624,7 @@ class FabrikWorker
 
 		if ($mailer === 'mail')
 		{
-			// Sendmail and Joomla isEmailAddress dont use the same conditions
+			// Sendmail and Joomla isEmailAddress don't use the same conditions
 			return (JMailHelper::isEmailAddress($email) && PHPMailer::ValidateAddress($email));
 		}
 
@@ -1763,11 +1763,11 @@ class FabrikWorker
 	 * Access control function for determining if the user can perform
 	 * a designated function on a specific row
 	 *
-	 * @param   object  $params  Item parasm to test
+	 * @param   object  $params  Item params to test
 	 * @param   object  $row     Data
 	 * @param   string  $col     Access control setting to compare against
 	 *
-	 * @return	mixed	- if ACL setting defined here return blo, otherwise return -1 to contiune with default acl setting
+	 * @return	mixed	- if ACL setting defined here return bool, otherwise return -1 to continue with default acl setting
 	 */
 
 	public static function canUserDo($params, $row, $col)
@@ -1842,7 +1842,7 @@ class FabrikWorker
 	}
 
 	/**
-	 * Get a cachec handler
+	 * Get a cache handler
 	 * $$$ hugh - added $listModel arg, needed so we can see if they have set "Disable Caching" on the List
 	 *
 	 * @param   object  $listModel  List Model
@@ -1876,7 +1876,7 @@ class FabrikWorker
 	/**
 	 * Get the default values for a given JForm
 	 *
-	 * @param   string  $form  Form name e.g. list, form etc
+	 * @param   string  $form  Form name e.g. list, form etc.
 	 *
 	 * @since   3.0.7
 	 *

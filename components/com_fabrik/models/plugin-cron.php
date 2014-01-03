@@ -83,7 +83,7 @@ class PlgFabrik_Cron extends FabrikPlugin
 	/**
 	 * Only applicable to cron plugins but as there's no sub class for them
 	 * the methods here for now
-	 * deterimes if the cron plug-in should be run - if require_qs is true
+	 * Determines if the cron plug-in should be run - if require_qs is true
 	 * then fabrik_cron=1 needs to be in the querystring
 	 *
 	 * @return  bool

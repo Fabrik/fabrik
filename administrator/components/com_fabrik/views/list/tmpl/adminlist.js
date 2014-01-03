@@ -84,7 +84,7 @@ var ListForm = new Class({
 		}.bind(this));
 
 	},
-	
+
 	watchOrderButtons: function () {
 		document.getElements('.addOrder').removeEvents('click');
 		document.getElements('.deleteOrder').removeEvents('click');
@@ -361,7 +361,7 @@ var ListForm = new Class({
 			var d = new Element('div', {'id': 'join'}).adopt(sContent);
 			d.inject(document.id('joindtd'));
 			if (thisKey !== '') {
-				
+
 				var myFx = new Fx.Slide(tbody, {duration: 500});
 				Browser.ie ? tbody.hide() : myFx.slideIn();
 				//tbody.hide();
@@ -496,9 +496,9 @@ var adminFilters = new Class({
 		if (this.counter === 0) {
 			tbl.hide();
 		}
-	
+
 		if (this.options.j3) {
-			// in 3.1 we have to hide the rows rather than destroy otherwise the form doesnt submit!!!
+			// in 3.1 we have to hide the rows rather than destroy otherwise the form doesn't submit!!!
 			t.getElements('input, select, textarea').dispose();
 			t.hide();
 		} else {
@@ -526,7 +526,7 @@ var adminFilters = new Class({
 		var and, or, joinDd, groupedNo, groupedYes, i, sels;
 		if (this.counter <= 0) {
 			if (this.el.getParent('table').getElement('thead')) {
-				// We've already added the thead - in 3.1 we have to hide the rows rather than destroy otherwise the form doesnt submit!!!
+				// We've already added the thead - in 3.1 we have to hide the rows rather than destroy otherwise the form doesn't submit!!!
 			} else {
 				this.addHeadings();
 			}

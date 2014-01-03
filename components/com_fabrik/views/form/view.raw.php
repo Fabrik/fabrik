@@ -101,7 +101,7 @@ class FabrikViewForm extends JViewLegacy
 			$groupParams = $groupModel->getParams();
 			$aElements = array();
 
-			// Check if group is acutally a table join
+			// Check if group is actually a table join
 			$repeatGroup = 1;
 			$foreignKey = null;
 

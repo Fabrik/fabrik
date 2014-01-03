@@ -82,7 +82,7 @@ class FabrikString extends JString
 
 	/**
 	 * UTF-8 aware - remove the first word
-	 * CASE INSENSETIVE
+	 * CASE INSENSITIVE
 	 *
 	 * @param   string  $str   The string to be trimmed
 	 * @param   string  $word  The word to trim
@@ -103,8 +103,8 @@ class FabrikString extends JString
 	}
 
 	/**
-	 * Formats a string to return a safe db col name - eg
-	 * table.field is returned as `table`.field`
+	 * Formats a string to return a safe db col name e.g.
+	 * table.field is returned as `table`.`field`
 	 * table is return as `table`
 	 *
 	 * @param   string  $col  Col name to format
@@ -217,7 +217,7 @@ class FabrikString extends JString
 	}
 
 	/**
-	 * Santize db fields names, can't just do regex on A-Z as languages like Chinese should be allowed
+	 * Sanitize db fields names, can't just do regex on A-Z as languages like Chinese should be allowed
 	 *
 	 * @param   string  $str  Field name
 	 *
@@ -300,7 +300,7 @@ class FabrikString extends JString
 
 		if (function_exists('iconv'))
 		{
-			/* $$$ rob added @ incase its farsi which creates a notice:
+			/* $$$ rob added @ in case its farsi which creates a notice:
 			 * https://github.com/Fabrik/fabrik/issues/72
 			 */
 
@@ -581,7 +581,7 @@ class FabrikString extends JString
 
 	/**
 	 * Translator JText wrapper - removes tags and compares raw text
-	 * so "<p>STRING_TO_TRANLATE</p>" is tranlated even if wrapped in a <p> tag.
+	 * so "<p>STRING_TO_TRANSLATE</p>" is translated even if wrapped in a <p> tag.
 	 *
 	 * @param   string  $text  Text to translate
 	 *

@@ -51,7 +51,7 @@ FbElementList = new Class({
 		} else {
 			c = this.form.form;
 
-			// Addded name^= for http://fabrikar.com/forums/showthread.php?t=30563 (js events to show hide multiple groups)
+			// Added name^= for http://fabrikar.com/forums/showthread.php?t=30563 (js events to show hide multiple groups)
 			delegate = action + ':relay(input[type=' + this.type + '][name^=' + this.options.fullName + '])';
 			if (typeOf(this.form.events[action]) === 'null') {
 				this.form.events[action] = {};

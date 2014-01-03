@@ -63,7 +63,7 @@ Encoder = {
 			return "";
 		}
 
-		// convert HTML entites back to numerical entites first
+		// convert HTML entities back to numerical entities first
 		d = this.HTML2Numerical(d);
 
 		// look for numerical entities &#34;
@@ -73,7 +73,7 @@ Encoder = {
 		if (arr !== null) {
 			for (var x = 0; x < arr.length; x++) {
 				m = arr[x];
-				c = m.substring(2, m.length - 1); //get numeric part which is refernce to unicode character
+				c = m.substring(2, m.length - 1); //get numeric part which is reference to unicode character
 				// if its a valid number we can decode
 				if (c >= -32768 && c <= 65535) {
 					// decode every single match within string
@@ -194,7 +194,7 @@ Encoder = {
 	},
 
 
-	// Function to loop through an array swaping each item with the value from another array e.g swap HTML entities with Numericals
+	// Function to loop through an array swapping each item with the value from another array e.g swap HTML entities with Numericals
 	swapArrayVals : function (s, arr1, arr2) {
 		if (this.isEmpty(s)) {
 			return "";

@@ -8,7 +8,7 @@
 /* jshint mootools: true */
 /*
  * global Fabrik:true, fconsole:true, Joomla:true, CloneObject:true,
- * $H:true,unescape:true,head:true,FbListActions:true,FbGroupedToggler:true,FbListKeys:true
+ * $H:true,unescape:true,head:true,FbListActions:true,FbGroupedToggler:true,f:true
  */
 
 var FbListPlugin = new Class({
@@ -20,12 +20,12 @@ var FbListPlugin = new Class({
 	initialize: function (options) {
 		this.setOptions(options);
 		this.result = true; // set this to false in window.fireEvents to stop
-												// current action (eg stop ordering when
+												// current action (e.g. stop ordering when
 												// fabrik.list.order run)
 		if (typeOf(this.getList()) === 'null') {
 			return;
 		} else {
-			// Viz dont have getForm methid;
+			// Viz doesn't have getForm method;
 			if (typeof this.getList().getForm === 'function') {
 				this.listform = this.getList().getForm();
 				var l = this.listform.getElement('input[name=listid]');

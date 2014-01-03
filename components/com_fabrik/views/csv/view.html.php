@@ -122,7 +122,7 @@ class FabrikViewCsv extends JViewLegacy
 		JText::script('COM_FABRIK_INCLUDE_FILTERS');
 		JText::script('COM_FABRIK_INCLUDE_RAW_DATA');
 		JText::script('COM_FABRIK_INCLUDE_DATA');
-		JText::script('COM_FABRIK_INLCUDE_CALCULATIONS');
+		JText::script('COM_FABRIK_INCLUDE_CALCULATIONS');
 		JText::script('COM_FABRIK_EXPORT');
 		JText::script('COM_FABRIK_LOADING');
 		JText::script('COM_FABRIK_RECORDS');

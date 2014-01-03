@@ -115,7 +115,7 @@ var FbElement =  new Class({
 	
 	getElement: function ()
 	{
-		//use this in mocha forms whose elements (such as database jons) arent loaded
+		//use this in mocha forms whose elements (such as database joins) aren't loaded
 		//when the class is ini'd
 		if (typeOf(this.element) === 'null') {
 			this.element = document.id(this.options.element); 
@@ -147,7 +147,7 @@ var FbElement =  new Class({
 	},
 	
 	/**
-	 * Set names/ids/elements ect when the elements group is cloned
+	 * Set names/ids/elements etc. when the elements group is cloned
 	 * 
 	 * @param   int  id  element id
 	 * @since   3.0.7
@@ -178,12 +178,12 @@ var FbElement =  new Class({
 	/** 
 	 * called from list when ajax form closed
 	 * fileupload needs to remove its onSubmit event
-	 * othewise 2nd form submission will use first forms event
+	 * otherwise 2nd form submission will use first forms event
 	 */
 	removeCustomEvents: function () {},
 	
 	/**
-	 * Was renewChangeEvents() but dont see why change events should be treated
+	 * Was renewChangeEvents() but don't see why change events should be treated
 	 * differently to other events?
 	 * 
 	 * @since 3.0.7
@@ -199,7 +199,7 @@ var FbElement =  new Class({
 	
 	addNewEventAux: function (action, js) {
 		this.element.addEvent(action, function (e) {
-			// Don't stop event - means fx's onchange events wouldnt fire.
+			// Don't stop event - means fx's onchange events wouldn't fire.
 			typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
 		}.bind(this));
 	},
@@ -222,7 +222,7 @@ var FbElement =  new Class({
 		}
 	},
 	
-	// Alais to addNewEvent.
+	// Alias to addNewEvent.
 	addEvent: function (action, js) {
 		this.addNewEvent(action, js);
 	},
@@ -270,7 +270,7 @@ var FbElement =  new Class({
 	 * $$$ hugh - testing something for join elements, where in some corner cases,
 	 * like reverse Geocoding in the map element, we need to update elements that might be
 	 * joins, and all we have is the label (like "Austria" for country).  So am overriding this
-	 * new function in the join element, with code that finds the first occurence of the label,
+	 * new function in the join element, with code that finds the first occurrence of the label,
 	 * and sets the value accordingly.  But all we need to do here is make it a wrapper for update().
 	 */
 	updateByLabel: function (label) {
@@ -640,7 +640,7 @@ var FbElement =  new Class({
 	
 	/**
 	 * determine which duplicated instance of the repeat group the
-	 * element belongs to, returns false if not in a repeat gorup
+	 * element belongs to, returns false if not in a repeat group
 	 * other wise an integer
 	 */
 	getRepeatNum: function () {

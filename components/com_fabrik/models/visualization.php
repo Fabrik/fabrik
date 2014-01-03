@@ -67,7 +67,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */
@@ -95,7 +95,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 	}
 
 	/**
-	 * Deprecated use getParams() insteead
+	 * Deprecated use getParams() instead
 	 *
 	 * @deprecated  since 3.1b
 	 *
@@ -317,7 +317,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 	}
 
 	/**
-	 * Get Viz render contenxt
+	 * Get Viz render context
 	 *
 	 * @since   3.0.6
 	 *
@@ -392,7 +392,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 
 		$action = $page . implode("&amp;", $qs);
 
-		// Limitstart gets added in the pageination model
+		// Limitstart gets added in the pagination model
 		$action = preg_replace("/limitstart" . $this->getState('id') . "}=(.*)?(&|)/", '', $action);
 		$action = FabrikString::rtrimword($action, "&");
 		$this->getFilterFormURL = JRoute::_($action);
@@ -421,7 +421,7 @@ class FabrikFEModelVisualization extends JModelLegacy
 	}
 
 	/**
-	 * Set visualiazation prefilters
+	 * Set visualization prefilters
 	 *
 	 * @return  void
 	 */

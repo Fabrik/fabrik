@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
  *   $input = $app->input;
  *   $input->get('variablename'),
  *
- * as per the $myUsername exmaple in userExists() below.
+ * as per the $myUsername example in userExists() below.
  *
  * The userExists() example is designed to test if a username given in a text element
  * exists.  If it does, an alert will pop up, then the field will be cleared and the cursor re-focused to it.

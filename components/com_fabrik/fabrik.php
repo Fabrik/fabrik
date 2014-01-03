@@ -102,7 +102,7 @@ else
 	/**
 	 * $$$ rob was a simple $controller = view, which was giving an error when trying to save a popup
 	 * form to the calendar viz
-	 * May simply be the best idea to remove main contoller and have different controllers for each view
+	 * May simply be the best idea to remove main controller and have different controllers for each view
 	 */
 
 	// Hack for package
@@ -129,7 +129,7 @@ else
 
 /**
  * Create the controller if the task is in the form view.task then get
- * the specific controller for that class - otherwse use $controller to load
+ * the specific controller for that class - otherwise use $controller to load
  * required controller class
  */
 if (strpos($input->getCmd('task'), '.') !== false)

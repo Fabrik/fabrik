@@ -28,7 +28,7 @@ class FabrikControllerPlugin extends JControllerLegacy
 	 * now be changed to 'onAjax_upload'
 	 * ajax action called from element
 	 *
-	 * 11/07/2011 - ive updated things so that any plugin ajax call uses 'view=plugin' rather than controller=plugin
+	 * 11/07/2011 - I've updated things so that any plugin ajax call uses 'view=plugin' rather than controller=plugin
 	 * this means that the controller used is now plugin.php and not plugin.raw.php
 	 *
 	 * @return  null

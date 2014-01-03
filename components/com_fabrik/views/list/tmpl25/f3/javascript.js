@@ -207,7 +207,7 @@ var FabrikGrid = new Class({
 			if (fs[i] !== 'fabrik_element') {
 				var cells = $$('.' + fs[i]);
 
-				// dont ask why but when heading has a long title and no content in cells
+				// don't ask why but when heading has a long title and no content in cells
 				// have to do this three times before all cells have the same width!?!?!
 				var max = cells.getWidth().max();
 				if (max > this.maxWidth) { max = this.maxWidth; }

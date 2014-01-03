@@ -27,7 +27,7 @@ if (!function_exists('shFetchFormName'))
 	 *
 	 * @param   number  $formid  Form id
 	 *
-	 * @return NULL|Ambigous <string, unknown>
+	 * @return NULL|Ambiguous <string, unknown>
 	 */
 	function shFetchFormName($formid)
 	{
@@ -55,7 +55,7 @@ if (!function_exists('shFetchListName'))
 	 *
 	 * @param   int  $formid  Form id
 	 *
-	 * @return NULL|Ambigous <string, unknown>
+	 * @return NULL|Ambiguous <string, unknown>
 	 */
 	function shFetchListName($formid)
 	{
@@ -84,7 +84,7 @@ if (!function_exists('shFetchSlug'))
 	 * @param   string  $rowid   Row id
 	 * @param   number  $formid  Form id
 	 *
-	 * @return NULL|Ambigous <string, NULL, Ambigous, unknown>
+	 * @return NULL|Ambiguous <string, NULL, Ambiguous, unknown>
 	 */
 	function shFetchSlug($rowid, $formid)
 	{
@@ -108,7 +108,7 @@ if (!function_exists('shFetchTableName'))
 	 *
 	 * @param   int  $listid  List id
 	 *
-	 * @return NULL|Ambigous <string, unknown>
+	 * @return NULL|Ambiguous <string, unknown>
 	 */
 	function shFetchTableName($listid)
 	{
@@ -137,7 +137,7 @@ if (!function_exists('shFetchRecordName'))
 	 * @param   string  $rowid   Rowid
 	 * @param   number  $formid  Form id
 	 *
-	 * @return NULL|Ambigous <string, unknown>
+	 * @return NULL|Ambiguous <string, unknown>
 	 */
 	function shFetchRecordName($rowid, $formid)
 	{
@@ -179,7 +179,7 @@ if (!function_exists('shFetchVizName'))
 	 *
 	 * @param   int  $id  Id
 	 *
-	 * @return NULL|Ambigous <string, unknown>
+	 * @return NULL|Ambiguous <string, unknown>
 	 */
 	function shFetchVizName($id)
 	{

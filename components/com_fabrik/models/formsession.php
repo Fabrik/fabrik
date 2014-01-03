@@ -31,7 +31,7 @@ class FabrikFEModelFormsession extends FabModel
 	protected $userid = null;
 
 	/**
-	 * Unique reference for the form sesson
+	 * Unique reference for the form session
 	 *
 	 * @var string
 	 */
@@ -103,7 +103,7 @@ class FabrikFEModelFormsession extends FabModel
 	}
 
 	/**
-	 * Save the form data to #__{package}_form_sesson
+	 * Save the form data to #__{package}_form_session
 	 *
 	 * @param   object  &$formModel  form model
 	 *

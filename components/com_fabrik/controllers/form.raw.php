@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  Fabrik
  * @since       3.0
  *
- * @deprecated? Don't think this is used, code seems out of date, cetainly for process anyway - redirect urls are
+ * @deprecated? Don't think this is used, code seems out of date, certainly for process anyway - redirect urls are
  * for Fabrik 2 !
  */
 

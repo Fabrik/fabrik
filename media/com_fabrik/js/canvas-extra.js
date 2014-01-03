@@ -100,7 +100,7 @@
 		return this.width < this.height;
 	};
 
-	// Drag'n Drop
+	// Drag'n'Drop
 	CanvasRenderingContext2D.prototype._urlDropped = function (url, x, y, drawBorder) {
 		var self = this;
 		var img = document.createElement("img");

@@ -21,8 +21,7 @@ var fabriktablesElement = new Class({
 		this.elements = [];
 		this.elementLists = $H({}); // keyed on specific element options
 		this.waitingElements = $H({}); // keyed on specific element options
-		// if loading in a form plugin then the connect is not yet avaiable in the
-		// dom
+		// if loading in a form plugin then the connect is not yet available in the dom
 		if (typeOf(document.id(this.options.conn)) === 'null') {
 			this.periodical = this.getCnn.periodical(500, this);
 		} else {
@@ -71,7 +70,7 @@ var fabriktablesElement = new Class({
 			e.stop();
 		}
 		var cid = this.cnn.get('value');
-		// keep repeating the perioical untill the cnn drop down is completed
+		// keep repeating the periodical until the cnn drop down is completed
 		if (!cid) {
 			return;
 		}
@@ -134,7 +133,7 @@ var fabriktablesElement = new Class({
 			var opts = element.getOpts();
 			var table = this.el.get('value');
 			if (table === '') {
-				// $$$ rob dont empty as this messes up parameter saving in paypal
+				// $$$ rob don't empty as this messes up parameter saving in paypal
 				// plugin
 				// element.el.empty();
 				return;
@@ -231,11 +230,11 @@ var fabriktablesElement = new Class({
 			var o = {
 				'value': v
 			};
-			
+
 			if (v === element.options.value || v === dotValue) {
 				o.selected = 'selected';
 			}
-			
+
 			new Element('option', o).set('text', opt.label).inject(target);
 		}.bind(this));
 		if (this.loader) {

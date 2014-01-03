@@ -27,9 +27,9 @@ function fconsole() {
  * code: https://github.com/joomla/joomla-platform/pull/1209/files Its purpose
  * is to queue ajax requests so they are not all fired at the same time - which
  * result in db session errors.
- * 
+ *
  * Currently this is called from: fabriktables.js
- * 
+ *
  */
 
 RequestQueue = new Class({
@@ -53,7 +53,7 @@ RequestQueue = new Class({
 		}
 		var running = false;
 
-		// Remove successfuly completed xhr
+		// Remove successfully completed xhr
 		$H(this.queue).each(function (xhr, k) {
 			if (xhr.isSuccess()) {
 				delete (this.queue[k]);
@@ -140,13 +140,13 @@ Request.HTML = new Class({
  * scriptadd = "requirejs(['" + urls.join("','") + "'], function () {})";
  * Browser.exec(scriptadd); } response.html = text.stripScripts(function
  * (script) { response.javascript = script; });
- * 
+ *
  * var match = response.html.match(/<body[^>]*>([\s\S]*?)<\/body>/i); if
  * (match) { response.html = match[1]; } var temp = new
  * Element('div').set('html', response.html);
- * 
+ *
  * response.tree = temp.childNodes; response.elements = temp.getElements('*');
- * 
+ *
  * if (options.filter) { response.tree =
  * response.elements.filter(options.filter); } if (options.update) {
  * document.id(options.update).empty().set('html', response.html); } else if
@@ -154,14 +154,14 @@ Request.HTML = new Class({
  * if (options.evalScripts) { // response.javascript = "(function ()
  * {"+response.javascript+"}).delay(6000)"; console.log(response.javascript);
  * //Browser.exec(response.javascript); eval(response.javascript); }
- * 
+ *
  * this.onSuccess(response.tree, response.elements, response.html,
  * response.javascript); }
  */
 });
 
 /**
- * Keeps the element posisiton in the center even when scroll/resizing
+ * Keeps the element position in the centre even when scroll/resizing
  */
 
 Element.implement({
@@ -186,7 +186,7 @@ Element.implement({
 
 /**
  * Extend the Array object
- * 
+ *
  * @param candid
  *            The string to search for
  * @returns Returns the index of the first match or -1 if not found
@@ -202,7 +202,7 @@ Array.prototype.searchFor = function (candid) {
 };
 
 /**
- * Loading aninimation class, either inline next to an element or full screen
+ * Loading animation class, either inline next to an element or full screen
  * Paul 20130809 Adding functionality to handle multiple simultaneous spinners
  * on same field.
  */
@@ -254,7 +254,7 @@ var Loader = new Class({
 
 		var s = this.spinners[inline];
 
-		// Dont keep the spinner once stop is called - causes issue when loading
+		// Don't keep the spinner once stop is called - causes issue when loading
 		// ajax form for 2nd time
 		if (Browser.ie && Browser.version < 9) {
 
@@ -299,7 +299,7 @@ if (typeof (Fabrik) === "undefined") {
 
 	/**
 	 * Search for a block
-	 * 
+	 *
 	 * @param string
 	 *            blockid Block id
 	 * @param bool
@@ -309,7 +309,7 @@ if (typeof (Fabrik) === "undefined") {
 	 *            cb Call back function - if supplied a periodical check is set
 	 *            to find the block and once found then the cb() is run, passing
 	 *            the block back as an parameter
-	 * 
+	 *
 	 * @return mixed false if not found | Fabrik block
 	 */
 	Fabrik.getBlock = function (blockid, exact, cb) {
@@ -322,7 +322,7 @@ if (typeof (Fabrik) === "undefined") {
 
 	/**
 	 * Private Search for a block
-	 * 
+	 *
 	 * @param string
 	 *            blockid Block id
 	 * @param bool
@@ -332,7 +332,7 @@ if (typeof (Fabrik) === "undefined") {
 	 *            cb Call back function - if supplied a periodical check is set
 	 *            to find the block and once found then the cb() is run, passing
 	 *            the block back as an parameter
-	 * 
+	 *
 	 * @return mixed false if not found | Fabrik block
 	 */
 	Fabrik._getBlock = function (blockid, exact, cb) {
@@ -378,7 +378,7 @@ if (typeof (Fabrik) === "undefined") {
 		}
 		Fabrik.watchView(e, target);
 	});
-	
+
 	// Related data links
 	document.addEvent('click:relay(*[data-fabrik-view])', function (e, target) {
 		if (e.rightClick) {
@@ -424,7 +424,7 @@ if (typeof (Fabrik) === "undefined") {
 
 	// Events test: replacing window.addEvents as they are reset when you reload
 	// mootools in ajax window.
-	// need to load mootools in ajax window otherwise Fabrik classes dont
+	// need to load mootools in ajax window otherwise Fabrik classes don't
 	// correctly load
 	Fabrik.addEvent = function (type, fn) {
 		if (!Fabrik.events[type]) {
@@ -470,13 +470,13 @@ if (typeof (Fabrik) === "undefined") {
 
 	/**
 	 * Load the google maps API once
-	 * 
+	 *
 	 * @param bool
 	 *            s Sensor
 	 * @param mixed
 	 *            cb Callback method function or function name (assinged to
 	 *            window)
-	 * 
+	 *
 	 */
 
 	Fabrik.loadGoogleMap = function (s, cb) {
@@ -576,7 +576,7 @@ if (typeof (Fabrik) === "undefined") {
 				}
 
 				l = Fabrik.blocks[ref];
-				// Depreacted in 3.1 // should only check all for floating tips
+				// Deprecated in 3.1 // should only check all for floating tips
 				if (l.options.actionMethod === 'floating' && !this.bootstrapped) {
 					l.form.getElements('input[type=checkbox][name*=id], input[type=checkbox][name=checkAll]').each(function (c) {
 						c.checked = true;
@@ -592,12 +592,12 @@ if (typeof (Fabrik) === "undefined") {
 
 	/**
 	 * Globally watch list edit links
-	 * 
+	 *
 	 * @param event
 	 *            e relayed click event
 	 * @param domnode
 	 *            target <a> link
-	 * 
+	 *
 	 * @since 3.0.7
 	 */
 	Fabrik.watchEdit = function (e, target) {
@@ -606,19 +606,19 @@ if (typeof (Fabrik) === "undefined") {
 
 	/**
 	 * Globally watch list view links
-	 * 
+	 *
 	 * @param event
 	 *            e relayed click event
 	 * @param domnode
 	 *            target <a> link
-	 * 
+	 *
 	 * @since 3.0.7
 	 */
 
 	Fabrik.watchView = function (e, target) {
 		Fabrik.openSingleView('details', e, target);
 	};
-	
+
 	/**
 	 * Open a single details/form view
 	 * @param view - details or form
@@ -680,7 +680,7 @@ if (typeof (Fabrik) === "undefined") {
 				}
 			}
 		};
-		winOpts.id = view === 'details' ? 'view.' + winOpts.id : 'add.' + winOpts.id; 
+		winOpts.id = view === 'details' ? 'view.' + winOpts.id : 'add.' + winOpts.id;
 		if (typeOf(list.options.popup_offset_x) !== 'null') {
 			winOpts.offset_x = list.options.popup_offset_x;
 		}

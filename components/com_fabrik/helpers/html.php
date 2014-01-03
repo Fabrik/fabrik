@@ -36,7 +36,7 @@ class FabrikHelperHTML
 	protected static $framework = null;
 
 	/**
-	 * Is the MLC JavaScript library loaded
+	 * Is the MCL JavaScript library loaded
 	 *
 	 * @var  bool
 	 */
@@ -143,10 +143,10 @@ class FabrikHelperHTML
 	}
 
 	/**
-	 * Build a datatoggling dropdown
+	 * Build a data-toggling dropdown
 	 *
 	 * @param   array   $lis    Array of links to create dropdown from
-	 * @param   string  $align  Should the drop down be left or right aligned - If right then the dropdown content's end is right algined to the button
+	 * @param   string  $align  Should the drop down be left or right aligned - If right then the dropdown content's end is right aligned to the button
 	 *
 	 * @return  string
 	 */
@@ -380,7 +380,7 @@ if (!$j3)
 	}
 
 	/**
-	 * Once email has been sent to a frind show this message
+	 * Once email has been sent to a friend show this message
 	 *
 	 * @return  void
 	 */
@@ -480,7 +480,7 @@ if (!$j3)
 
 		$url = JRoute::_($url);
 
-		// $$$ rob for some reason JRoute wasnt doing this ???
+		// $$$ rob for some reason JRoute wasn't doing this ???
 		$url = str_replace('&', '&amp;', $url);
 		self::$printURL = $url;
 
@@ -571,7 +571,7 @@ if (!$j3)
 	 * @return  string	html select list
 	 */
 
-	public static function conditonList($listid, $sel = '')
+	public static function conditionList($listid, $sel = '')
 	{
 		$conditions = array();
 		$conditions[] = JHTML::_('select.option', 'AND', JText::_('COM_FABRIK_AND'));
@@ -661,7 +661,7 @@ if (!$j3)
 	}
 
 	/**
-	 * Will the CSS be loaded js Assest.css()
+	 * Will the CSS be loaded as Asset.css()
 	 *
 	 * @since   3.0.6
 	 *
@@ -847,7 +847,7 @@ if (!$j3)
 
 	public static function keepalive()
 	{
-		// Test since 2.0b3 dont do anything if loading from Fabrik win
+		// Test since 2.0b3 don't do anything if loading from Fabrik win
 		if (self::inAjaxLoadedPage())
 		{
 			return;
@@ -1005,7 +1005,7 @@ if (!$j3)
 	}
 
 	/**
-	 * Ini the require JS conifguration
+	 * Ini the require JS configuration
 	 * Stores the shim and config to the session, which Fabrik system plugin
 	 * then uses to inject scripts into document.
 	 *
@@ -1185,7 +1185,7 @@ if (!$j3)
 	}
 
 	/**
-	 * Add a CSS style declaration, either to the head or iinline if format=raw
+	 * Add a CSS style declaration, either to the head or inline if format=raw
 	 *
 	 * @param   string  $style  CSS
 	 *
@@ -1207,8 +1207,8 @@ if (!$j3)
 	}
 
 	/**
-	 * Dometimes you want to load a page in an iframe and want to use tmpl=component - in this case
-	 * append iframe=1 to the url to ensure that we dont try to add the scripts via FBAsset()
+	 * Sometimes you want to load a page in an iframe and want to use tmpl=component - in this case
+	 * append iframe=1 to the url to ensure that we don't try to add the scripts via FBAsset()
 	 *
 	 * @return  bool
 	 */
@@ -1461,7 +1461,7 @@ if (!$j3)
 	 * Attach tooltips to document
 	 *
 	 * @param   string  $selector        String class name of tips
-	 * @param   array   $params          Array paramters
+	 * @param   array   $params          Array parameters
 	 * @param   string  $selectorPrefix  Limit the tips selection to those contained within an id
 	 *
 	 * @return  void
@@ -2008,7 +2008,7 @@ if (!$j3)
 	 * @param   array   $labels              Option labels
 	 * @param   array   $selected            Selected options
 	 * @param   string  $name                Input name
-	 * @param   string  $type                Checkbox/radio etc
+	 * @param   string  $type                Checkbox/radio etc.
 	 * @param   bool    $elementBeforeLabel  Element before or after the label - deprecated - not used in Joomla 3
 	 * @param   int     $optionsPerRow       Number of suboptions to show per row
 	 * @param   array   $classes             Label classes
@@ -2073,7 +2073,7 @@ if (!$j3)
 	 *
 	 * @param   array   $items      Content to wrap
 	 * @param   int     $columns    Number of columns in the grid
-	 * @param   string  $spanClass  Additonal class to add to cells
+	 * @param   string  $spanClass  Additional class to add to cells
 	 * @param   bool    $explode    Should the results be exploded to a string or returned as an array
 	 *
 	 * @return mixed  string/array based on $explode parameter
@@ -2197,11 +2197,11 @@ if (!$j3)
 	}
 
 	/**
-	 * Run a PHP tmeplate as a require.  Return buffered output, or false if require returns false.
+	 * Run a PHP template as a require.  Return buffered output, or false if require returns false.
 	 *
 	 * @param   string  $tmpl   Path to template
-	 * @param   array   $data   Optional element data in standard format, for eval'ed code to use
-	 * @param   object  $model  Optional model object, depending on context, for eval'ed code to use
+	 * @param   array   $data   Optional element data in standard format, for eval'd code to use
+	 * @param   object  $model  Optional model object, depending on context, for eval'd code to use
 	 *
 	 * @return   mixed  email message or false
 	 */

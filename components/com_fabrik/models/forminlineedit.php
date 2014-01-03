@@ -39,7 +39,7 @@ class FabrikFEModelFormInlineEdit extends FabModelForm
 		$input = $app->input;
 		$j3 = FabrikWorker::j3();
 
-		// Need to render() with all element ids in case canEditRow plugins etc use the row data.
+		// Need to render() with all element ids in case canEditRow plugins etc. use the row data.
 		$elids = $input->get('elementid', array(), 'array');
 		$input->set('elementid', null);
 
@@ -88,7 +88,7 @@ class FabrikFEModelFormInlineEdit extends FabModelForm
 	}
 
 	/**
-	 * Create markup for boostrap inline editor
+	 * Create markup for bootstrap inline editor
 	 *
 	 * @since   3.1b
 	 *
@@ -147,7 +147,7 @@ class FabrikFEModelFormInlineEdit extends FabModelForm
 	}
 
 	/**
-	 * Create markup for old skool 2.5 inline editor
+	 * Create markup for old school 2.5 inline editor
 	 *
 	 * @since   3.1b
 	 *
@@ -266,7 +266,7 @@ class FabrikFEModelFormInlineEdit extends FabModelForm
 		$html .= $elmentModel->renderListData($data->$key, $data);
 		$listRef = 'list_' . $input->get('listref');
 		$doCalcs = "\nFabrik.blocks['" . $listRef . "'].updateCals(" . json_encode($listModel->getCalculations()) . ")";
-		$html .= '<script type="text/javasript">';
+		$html .= '<script type="text/javascript">';
 		$html .= $doCalcs;
 		$html .= "</script>\n";
 

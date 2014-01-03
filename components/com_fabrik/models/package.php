@@ -92,7 +92,7 @@ class FabrikFEModelPackage extends FabModel
 
 	/**
 	 * Method to get package data.
-	 * Packages are all stored in jos_fabrik_packages - so dont use {package} in the query to load them
+	 * Packages are all stored in jos_fabrik_packages - so don't use {package} in the query to load them
 	 *
 	 * @param   int  $pk  The id of the package.
 	 *

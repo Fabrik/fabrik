@@ -66,9 +66,9 @@ class FabrikFEModelConnection extends JModelLegacy
 	}
 
 	/**
-	 * Is the conenction table the default connection
+	 * Is the connection table the default connection
 	 *
-	 * @deprecated - dont think its used
+	 * @deprecated - don't think its used
 	 *
 	 * @return  bool
 	 */
@@ -164,7 +164,7 @@ class FabrikFEModelConnection extends JModelLegacy
 			}
 			else
 			{
-				$tableOptions[] = JHTML::_('select.option', 'couldnt connect');
+				$tableOptions[] = JHTML::_('select.option', 'couldn\'t connect');
 			}
 		}
 		else
@@ -297,7 +297,7 @@ class FabrikFEModelConnection extends JModelLegacy
 					self::$dbs[$cn->id] = FabrikWorker::getDbo();
 
 					// $$$rob remove the error from the error stack
-					// if we dont do this the form is not rendered
+					// if we don't do this the form is not rendered
 					JError::getError(true);
 				}
 				else
@@ -391,7 +391,7 @@ class FabrikFEModelConnection extends JModelLegacy
 		 * http://fabrikar.com/forums/showthread.php?t=26898
 		 * I've contacted the docman folk to see if they have any J! 2.5 product
 		 * out there that still requires this workaround, but for now I'm just commenting
-		 * it out, as we've had several folk htuting this while testing the new DOCman
+		 * it out, as we've had several folk testing this while testing the new DOCman
 		/*
 		if (defined('KOOWA'))
 		{
@@ -405,7 +405,7 @@ class FabrikFEModelConnection extends JModelLegacy
 		$prefix = $conf->get('dbprefix');
 		$driver = $conf->get('dbtype');
 
-		// Test for sawpping db table names
+		// Test for swapping db table names
 		$driver .= '_fab';
 		$debug = $conf->get('debug');
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);

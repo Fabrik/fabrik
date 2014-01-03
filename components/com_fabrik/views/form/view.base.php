@@ -404,7 +404,7 @@ class FabrikViewFormBase extends JViewLegacy
 
 		$aWYSIWYGNames = array();
 
-		// $$$ hugh - yeat another one where if we =, the $groups array pointer get buggered up and it
+		// $$$ hugh - yet another one where if we =, the $groups array pointer get buggered up and it
 		// skips a group
 		$groups = $model->getGroupsHiarachy();
 
@@ -473,8 +473,8 @@ class FabrikViewFormBase extends JViewLegacy
 			JText::script('COM_FABRIK_CONFIRM_DELETE_1');
 		}
 
-		// $$$ rob dont declare as var $bkey, but rather assign to window, as if loaded via ajax window the function is wrapped
-		// inside an anoymous function, and therefore $bkey wont be available as a global var in window
+		// $$$ rob don't declare as var $bkey, but rather assign to window, as if loaded via ajax window the function is wrapped
+		// inside an anonymous function, and therefore $bkey wont be available as a global var in window
 		$script = array();
 		/* $script[] = "\twindow.$bkey = new FbForm(" . $model->getId() . ", $opts);";
 		$script[] = "\tif(typeOf(Fabrik) !== 'null') {";
@@ -483,7 +483,7 @@ class FabrikViewFormBase extends JViewLegacy
 
 		$script[] = "\t\tvar $bkey = Fabrik.form('$bkey', " . $model->getId() . ", $opts);";
 
-		// Instantaite js objects for each element
+		// Instantiate js objects for each element
 		$vstr = "\n";
 		$groups = $model->getGroupsHiarachy();
 		$script[] = "\tFabrik.blocks['{$bkey}'].addElements(";
@@ -553,7 +553,7 @@ class FabrikViewFormBase extends JViewLegacy
 		$script[] = $actions;
 		$script[] = $vstr;
 
-		// Placholder
+		// Placeholder
 		$script[] = "\tnew Form.Placeholder('.fabrikForm input');";
 		$this->_addJavascriptSumbit($script, $listId, $aWYSIWYGNames);
 
@@ -616,7 +616,7 @@ class FabrikViewFormBase extends JViewLegacy
 
 		if ($start_page !== 0)
 		{
-			$app->enqueueMessage(JText::_('COM_FABRIK_RESTARTING_MUTLIPAGE_FORM'));
+			$app->enqueueMessage(JText::_('COM_FABRIK_RESTARTING_MULTIPAGE_FORM'));
 		}
 		else
 		{
@@ -627,7 +627,7 @@ class FabrikViewFormBase extends JViewLegacy
 		$opts->start_page = $start_page;
 		$opts->inlineMessage = (bool) $this->isMambot;
 
-		// $$$rob dont int this as keys may be string
+		// $$$rob don't int this as keys may be string
 		$opts->rowid = (string) $model->getRowId();
 
 		// 3.0 needed for ajax requests
@@ -651,7 +651,7 @@ class FabrikViewFormBase extends JViewLegacy
 		$opts->fabrik_window_id = $input->get('fabrik_window_id', '');
 		$opts->submitOnEnter = (bool) $params->get('submit_on_enter', false);
 
-		// For editing groups with joined data and an empty joined record (ie no joined records)
+		// For editing groups with joined data and an empty joined record (i.e. no joined records)
 		$hidden = array();
 		$maxRepeat = array();
 		$minRepeat = array();
@@ -743,7 +743,7 @@ class FabrikViewFormBase extends JViewLegacy
 	/**
 	 * Create the form bottom hidden fields
 	 *
-	 * @param   object  &$form  Object containg form view properties
+	 * @param   object  &$form  Object containing form view properties
 	 *
 	 * @return  void
 	 */
@@ -783,7 +783,7 @@ class FabrikViewFormBase extends JViewLegacy
 
 		if ($usekey = FabrikWorker::getMenuOrRequestVar('usekey', ''))
 		{
-			// $$$rob v's been set from -1 to the actual row id - so ignore usekyey not sure if we should comment this out
+			// $$$rob v's been set from -1 to the actual row id - so ignore usekey not sure if we should comment this out
 			// see http://fabrikar.com/forums/showthread.php?t=10297&page=5
 
 			$fields[] = '<input type="hidden" name="usekey" value="' . $usekey . '" />';
@@ -1079,7 +1079,7 @@ class FabrikViewFormBase extends JViewLegacy
 
 			$safeKey = FabrikString::rtrimword($key, "[]");
 
-			// $$$ rob - no dont do below as it will strip out join names join[x][fullname] => join
+			// $$$ rob - no don't do below as it will strip out join names join[x][fullname] => join
 			// $key = preg_replace("/\[(.*)\]/", '', $key);
 			if (!array_key_exists($safeKey, $fields))
 			{

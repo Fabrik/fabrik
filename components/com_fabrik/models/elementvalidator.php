@@ -146,7 +146,7 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	/**
 	 * Get the icon
 	 * - If showIcon() false - show question-sign for hover tip txt indicator
-	 * - If one validation - use the icon specified in the J fabrik_validation settiings (default to star)
+	 * - If one validation - use the icon specified in the J fabrik_validation settings (default to star)
 	 * - If more than one return default j2.5/j3 img
 	 *
 	 * @param   int  $c  Validation plugin render order

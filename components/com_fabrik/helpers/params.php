@@ -26,7 +26,7 @@ jimport('joomla.html.parameter');
 
 class FabrikParams extends JForm
 {
-	/** @var bool duplicatable param (if true add []" to end of element name)*/
+	/** @var bool duplicate-able param (if true add []" to end of element name)*/
 	protected $duplicate = false;
 
 	/** used by form plugins - to set id in name of radio buttons **/
@@ -97,10 +97,10 @@ class FabrikParams extends JForm
 	/**
 	 * get a groups parameters
 	 *
-	 * @param   string  $name         name
-	 * @param   string  $group        name
-	 * @param   string  $ouputformat  output format
-	 * @param   int     $counter      repeat counter
+	 * @param   string  $name          name
+	 * @param   string  $group         name
+	 * @param   string  $outputFormat  output format
+	 * @param   int     $counter       repeat counter
 	 *
 	 * @return string|multitype:
 	 */
@@ -154,18 +154,18 @@ class FabrikParams extends JForm
 	 * @param   object  &$node         A param tag node
 	 * @param   string  $control_name  The control name
 	 * @param   string  $group         parameter group
-	 * @param   string  $outPutFormat  output format
+	 * @param   string  $outputFormat  output format
 	 * @param   mixed   $counter       repeat group counter??? /how about repeating plugins is this the same??
 	 *
 	 * @return  array Any array of the label, the form element and the tooltip
 	 */
 
-	public function getParam(&$node, $control_name = 'params', $group = '_default', $outPutFormat = 'string', $counter = null)
+	public function getParam(&$node, $control_name = 'params', $group = '_default', $outputFormat = 'string', $counter = null)
 	{
 		// Get the type of the parameter
 		$type = $node->attributes('type');
 
-		// Remove any occurance of a mos_ prefix
+		// Remove any occurrence of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
 		$element = $this->loadElement($type);
 
@@ -181,7 +181,7 @@ class FabrikParams extends JForm
 		}
 
 		// Get value
-		if ($outPutFormat == 'array' && !is_null($counter))
+		if ($outputFormat == 'array' && !is_null($counter))
 		{
 			$nodeName = str_replace("[]", "", $node->attributes('name'));
 		}
@@ -190,9 +190,9 @@ class FabrikParams extends JForm
 			$nodeName = $node->attributes('name');
 		}
 
-		$value = $this->get($nodeName, $node->attributes('default'), $group, $outPutFormat, $counter);
+		$value = $this->get($nodeName, $node->attributes('default'), $group, $outputFormat, $counter);
 
-		if ($outPutFormat == 'array' && !is_null($counter))
+		if ($outputFormat == 'array' && !is_null($counter))
 		{
 			$value = JArrayHelper::getValue($value, $counter, '');
 		}
@@ -248,7 +248,7 @@ class FabrikParams extends JForm
 		/**
 		 * Problem - when rendering plugin params - e.g. calendar vis - params like the table drop down
 		 * are repeated n times. I think the best way to deal with this is to get the data recorded for
-		 * the viz and udpate this objects _xml array duplicate the relavent JSimpleXMLElement Objects
+		 * the viz and update this objects _xml array duplicate the relevant JSimpleXMLElement Objects
 		 * for the required number of table drop downs
 		 */
 

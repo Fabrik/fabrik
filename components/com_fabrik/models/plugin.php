@@ -263,7 +263,7 @@ class FabrikPlugin extends JPlugin
 				}
 				else
 				{
-					// Textarea now stores width/height in params, dont want to copy over old w/h values into the params array
+					// Textarea now stores width/height in params, don't want to copy over old w/h values into the params array
 					if (!in_array($key, $dontMove))
 					{
 						$data['params'][$key] = $val;
@@ -275,7 +275,7 @@ class FabrikPlugin extends JPlugin
 		$form->bind($data);
 
 		// $$$ rob 27/04/2011 - listfields element needs to know things like the group_id, and
-		// as bind() onlys saves the values from $data with a corresponding xml field we set the raw data as well
+		// as bind() only saves the values from $data with a corresponding xml field we set the raw data as well
 		$form->rawData = $data;
 		$str = array();
 		$repeatGroupCounter = 0;
@@ -290,7 +290,7 @@ class FabrikPlugin extends JPlugin
 
 			/**
 			 * $$$ hugh - this was blowing up with the massively useful error "Cannot parse
-			 * XML 0" and refusing to load the plugin if the description ahs any non-XML-ish HTML
+			 * XML 0" and refusing to load the plugin if the description has any non-XML-ish HTML
 			 * markup, or if there was some malformed HTML.  So redoing it with a regular expression,
 			 * which may not match on some formats, as I haven't done a huge amount of testing,
 			 * but at least it won't error out!
@@ -854,7 +854,7 @@ class FabrikPlugin extends JPlugin
 						{
 							/*
 							 * @TODO if in repeat group this is going to add [] to name - is this really
-							* what we want? In timeline viz options i've simply stripped out the [] off the end
+							* what we want? In timeline viz options I've simply stripped out the [] off the end
 							* as a temp hack
 							*/
 							$useStep = $keyType === 2 ? true : false;

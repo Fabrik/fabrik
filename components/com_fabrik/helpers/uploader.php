@@ -49,7 +49,7 @@ class FabrikUploader extends JObject
 	/**
 	 * Perform upload of files
 	 *
-	 * @return  bool true if error occured
+	 * @return  bool true if error occurred
 	 */
 
 	public function upload()
@@ -77,7 +77,7 @@ class FabrikUploader extends JObject
 	 * @param   string  $pathTo     Location to move file to
 	 * @param   bool    $overwrite  Should we overwrite existing files
 	 *
-	 * @deprecated (dont think its used)
+	 * @deprecated (don't think its used)
 	 *
 	 * @return  bool  do we overwrite any existing files found at pathTo?
 	 */
@@ -107,7 +107,7 @@ class FabrikUploader extends JObject
 	/**
 	 * Make a recursive folder structure
 	 *
-	 * @param   string  $folderPath  Path to folder - eg /images/stories
+	 * @param   string  $folderPath  Path to folder - e.g. /images/stories
 	 * @param   hex     $mode        Folder permissions
 	 *
 	 * @return  void
@@ -127,7 +127,7 @@ class FabrikUploader extends JObject
 	/**
 	 * Iterates through $_FILE data to see if any files have been uploaded
 	 *
-	 * @deprecated (dont see it being used)
+	 * @deprecated (don't see it being used)
 	 *
 	 * @return  bool  true if files uploaded
 	 */
@@ -169,7 +169,7 @@ class FabrikUploader extends JObject
 
 		if (!is_uploaded_file($file['tmp_name']))
 		{
-			// Handle potential malicous attack
+			// Handle potential malicious attack
 			$err = JText::_('File has not been uploaded');
 
 			return false;
@@ -246,10 +246,10 @@ class FabrikUploader extends JObject
 	}
 
 	/**
-	 * Recursive file name incrementation untill no file with exsiting name
+	 * Recursive file name incrementation until no file with existing name
 	 * exists
 	 *
-	 * @param   string  $origFileName  Intial file name
+	 * @param   string  $origFileName  Initial file name
 	 * @param   string  $newFileName   This recursions file name
 	 * @param   int     $version       File version
 	 *

@@ -75,7 +75,7 @@ class FabrikControllerElement extends JControllerLegacy
 
 	/**
 	 * Save an individual element value to the fabrik db
-	 * used in inline edit table plguin
+	 * used in inline edit table plugin
 	 *
 	 * @return  null
 	 */

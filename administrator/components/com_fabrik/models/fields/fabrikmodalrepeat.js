@@ -22,7 +22,7 @@ var FabrikModalRepeat = new Class({
 		this.field = {};
 		this.options = Object.append(this.options, opts);
 
-		// If the parent field is inserted via js then we delay the loading untill the html is present
+		// If the parent field is inserted via js then we delay the loading until the html is present
 		if (!this.ready()) {
 			this.timer = this.testReady.periodical(500, this);
 		} else {

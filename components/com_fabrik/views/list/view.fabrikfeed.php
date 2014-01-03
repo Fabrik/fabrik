@@ -175,7 +175,7 @@ class FabrikViewList extends FabrikViewListBase
 		$view = $model->canEdit() ? 'form' : 'details';
 
 		// List of tags to look for in the row data
-		// If they are there don't put them in the desc but put them in as a seperate item param
+		// If they are there don't put them in the desc but put them in as a separate item param
 		$rsstags = array(
 				'<georss:point>' => 'xmlns:georss="http://www.georss.org/georss"'
 		);
@@ -196,7 +196,7 @@ class FabrikViewList extends FabrikViewListBase
 				{
 					if ($dbcolname['enclosure'])
 					{
-						// $$$ hugh - diddling aorund trying to add enclosures
+						// $$$ hugh - diddling around trying to add enclosures
 						$colName = $dbcolname['colName'] . '_raw';
 						$enclosure_url = $row->$colName;
 
@@ -253,7 +253,7 @@ class FabrikViewList extends FabrikViewListBase
 						$title = $row->$dbcolname['colName'];
 					}
 
-					// Rob - was stripping tags - but arent they valid in the content?
+					// Rob - was stripping tags - but aren't they valid in the content?
 					$rsscontent = $row->$dbcolname['colName'];
 					$found = false;
 

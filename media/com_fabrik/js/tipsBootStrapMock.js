@@ -6,7 +6,7 @@
  */
 
 /**
- * Enable us to use the same class interface for tips.js but use Bootrap popovers (Joomla 3)
+ * Enable us to use the same class interface for tips.js but use Bootstrap popovers (Joomla 3)
  */
 var FloatingTips = new Class({
 	Implements: [Options, Events],

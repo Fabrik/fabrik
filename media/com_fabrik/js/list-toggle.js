@@ -1,7 +1,14 @@
+/**
+ * List Toggle
+ *
+ * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+
 var FbListToggle = new Class({
-	
+
 	initialize: function (form) {
-		
+
 		// Stop dropdown closing on click
 		jQuery('#' + form.id + ' .togglecols .dropdown-menu a, #' + form.id + ' .togglecols .dropdown-menu li').click(function (e) {
 			e.stopPropagation();
@@ -36,7 +43,7 @@ var FbListToggle = new Class({
 
 	/**
 	 * Toggle column
-	 *  
+	 *
 	 * @param col   Element name
 	 * @param state Open/closed
 	 * @param btn   Button/link which initiated the toggle
@@ -44,7 +51,7 @@ var FbListToggle = new Class({
 	toggleColumn: function (col, state, btn) {
 		var muted;
 		state = state === 'open' ? 'close' : 'open';
-	
+
 		if (state === 'open') {
 			document.getElements('.fabrik___heading .' + col).show();
 			document.getElements('.fabrik_row  .' + col).show();
@@ -54,7 +61,7 @@ var FbListToggle = new Class({
 			document.getElements('.fabrik_row  .' + col).hide();
 			muted = ' muted';
 		}
-	
+
 		btn.getElement('i').className = 'icon-eye-' + state + muted;
 		btn.set('data-toggle-state', state);
 	}

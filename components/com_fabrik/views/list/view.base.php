@@ -203,7 +203,7 @@ class FabrikViewListBase extends JViewLegacy
 		JText::script('COM_FABRIK_INCLUDE_FILTERS');
 		JText::script('COM_FABRIK_INCLUDE_DATA');
 		JText::script('COM_FABRIK_INCLUDE_RAW_DATA');
-		JText::script('COM_FABRIK_INLCUDE_CALCULATIONS');
+		JText::script('COM_FABRIK_INCLUDE_CALCULATIONS');
 		JText::script('COM_FABRIK_EXPORT');
 		JText::script('COM_FABRIK_START');
 		JText::script('COM_FABRIK_NEXT');
@@ -257,11 +257,11 @@ class FabrikViewListBase extends JViewLegacy
 		$this->pluginBeforeList = $pluginManager->data;
 		$script[] = $model->filterJs;
 
-		// Was seperate but should now load in with the rest of the require js code
+		// Was separate but should now load in with the rest of the require js code
 		$model = $this->getModel();
 		$script[] = $model->getElementJs($src);
 
-		// End domredy wrapper
+		// End domready wrapper
 		$script[] = '})';
 		$script = implode("\n", $script);
 		FabrikHelperHTML::iniRequireJS($shim);
@@ -375,7 +375,7 @@ class FabrikViewListBase extends JViewLegacy
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$this->setTitle($w, $params, $model);
 
-		// Depreciated (keep in case ppl use them in old tmpls)
+		// Deprecated (keep in case people use them in old templates)
 		$this->table = new stdClass;
 		$this->table->label = FabrikString::translate($w->parseMessageForPlaceHolder($item->label, $_REQUEST));
 		$this->table->intro = $params->get('show_into', 1) == 0 ? '' : FabrikString::translate($w->parseMessageForPlaceHolder($item->introduction));
@@ -457,7 +457,7 @@ class FabrikViewListBase extends JViewLegacy
 
 			if (!$this->nodata)
 			{
-				// If some data is shown then ensure that menu links reset filters (combined with require filters) doesnt produce an empty data set for the pdf
+				// If some data is shown then ensure that menu links reset filters (combined with require filters) doesn't produce an empty data set for the pdf
 				$pdfLink .= '&resetfilters=0';
 			}
 
@@ -623,7 +623,7 @@ class FabrikViewListBase extends JViewLegacy
 		$buttonProperties['alt'] = JText::_('COM_FABRIK_IMPORT_TO_CSV');
 		$this->buttons->csvimport = FabrikHelperHTML::image('csv-import.png', 'list', $this->tmpl, $buttonProperties);
 		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_SUBSCRIBE_RSS') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_SUBSCIBE_RSS');
+		$buttonProperties['alt'] = JText::_('COM_FABRIK_SUBSCRIBE_RSS');
 		$this->buttons->feed = FabrikHelperHTML::image('feed.png', 'list', $this->tmpl, $buttonProperties);
 		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_EMPTY') . '</span>';
 		$buttonProperties['alt'] = JText::_('COM_FABRIK_EMPTY');
@@ -828,7 +828,7 @@ class FabrikViewListBase extends JViewLegacy
 		$this->hiddenFields[] = '<input type="hidden" name="listref" value="' . $this->renderContext . '"/>';
 		$this->hiddenFields[] = '<input type="hidden" name="Itemid" value="' . $Itemid . '"/>';
 
-		// Removed in favour of using list_{id}_limit dorop down box
+		// Removed in favour of using list_{id}_limit dropdown box
 		$this->hiddenFields[] = '<input type="hidden" name="fabrik_referrer" value="' . $reffer . '" />';
 		$this->hiddenFields[] = JHTML::_('form.token');
 		$this->hiddenFields[] = '<input type="hidden" name="format" value="html" />';
@@ -882,7 +882,7 @@ class FabrikViewListBase extends JViewLegacy
 		$model->setRenderContext($id);
 		$this->listref = $model->getRenderContext();
 
-		// Advanced search script loaded in list view - avoids timing issues with ie loading the ajax content and script
+		// Advanced search script loaded in list view - avoids timing issues with i.e. loading the ajax content and script
 		$this->rows = $model->getAdvancedSearchRows();
 		$action = $input->server->get('HTTP_REFERER', 'index.php?option=com_' . $package, 'string');
 		$this->action = $action;

@@ -34,7 +34,7 @@ class FabrikViewEmailform extends JViewLegacy
 	/**
 	 * Display
 	 *
-	 * @param   striing  $tpl  Template
+	 * @param   string  $tpl  Template
 	 *
 	 * @return  void
 	 */

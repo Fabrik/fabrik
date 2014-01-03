@@ -159,7 +159,7 @@ var FbListFilter = new Class({
 		this.container.getElements('.fabrik_filter').each(function (f) {
 			if (f.id.test(/value$/)) {
 				var key = f.id.match(/(\S+)value$/)[1];
-				// $$$ rob added check that something is select - possbly causes js
+				// $$$ rob added check that something is select - possibly causes js
 				// error in ie
 				if (f.get('tag') === 'select' && f.selectedIndex !== -1) {
 					h[key] = document.id(f.options[f.selectedIndex]).get('text');

@@ -41,7 +41,7 @@ var FbForm = new Class({
 			options.rowid = '';
 		}
 		this.id = id;
-		this.result = true; //set this to false in window.fireEvents to stop current action (eg stop form submission)
+		this.result = true; //set this to false in window.fireEvents to stop current action (e.g. stop form submission)
 		this.setOptions(options);
 		this.plugins = this.options.plugins;
 		this.options.pages = $H(this.options.pages);
@@ -108,8 +108,8 @@ var FbForm = new Class({
 		}.bind(this));
 
 		// get an int from which to start incrementing for each repeated group id
-		// dont ever decrease this value when deleteing a group as it will cause all sorts of
-		// reference chaos with cascading dropdowns etc
+		// don't ever decrease this value when deleting a group as it will cause all sorts of
+		// reference chaos with cascading dropdowns etc.
 		this.repeatGroupMarkers = $H({});
 		if (this.form) {
 			this.form.getElements('.fabrikGroup').each(function (group) {
@@ -204,7 +204,7 @@ var FbForm = new Class({
 	 * Attach an effect to an elements
 	 *
 	 * @param   string  id      Element or group to apply the fx TO, triggered from another element
-	 * @param   string  method  JS event which triggers the effect (click,change etc)
+	 * @param   string  method  JS event which triggers the effect (click,change etc.)
 	 *
 	 * @return false if no element found or element fx
 	 */
@@ -240,10 +240,9 @@ var FbForm = new Class({
 		}
 		if (c) {
 			// c will be the <li> element - you can't apply fx's to this as it makes the
-			// DOM squiffy with
-			// multi column rows, so get the li's content and put it inside a div which
-			// is injected into c
-			// apply fx to div rather than li - damn im good
+			// DOM squiffy with multi column rows, so get the li's content and put it
+			// inside a div which is injected into c
+			// apply fx to div rather than li - damn I'm good
 			var tag = (c).get('tag');
 			if (tag === 'li' || tag === 'td') {
 				fxdiv = new Element('div', {'style': 'width:100%'}).adopt(c.getChildren());
@@ -300,7 +299,7 @@ var FbForm = new Class({
 		id = id.replace('fabrik_trigger_', '');
 		if (id.slice(0, 6) === 'group_') {
 			id = id.slice(6, id.length);
-			// wierd fix?
+			// weird fix?
 			if (id.slice(0, 6) === 'group_') {
 				id = id.slice(6, id.length);
 			}
@@ -703,7 +702,7 @@ var FbForm = new Class({
 	 *
 	 * @param   string  elementType  Deprecated
 	 * @param   string  elementId    Element key to look up in this.formElements
-	 * @param   string  action       Event chage/click etc
+	 * @param   string  action       Event change/click etc.
 	 * @param   mixed   js           String or function
 	 */
 
@@ -778,12 +777,12 @@ var FbForm = new Class({
 		replacetxt = typeOf(replacetxt) === 'null' ? '_time' : replacetxt;
 		if (typeOf(e) === 'event' || typeOf(e) === 'object' || typeOf(e) === 'domevent') { // type object in
 			id = e.target.id;
-			// for elements with subelements eg checkboxes radiobuttons
+			// for elements with subelements e.g. checkboxes radiobuttons
 			if (subEl === true) {
 				id = document.id(e.target).getParent('.fabrikSubElementContainer').id;
 			}
 		} else {
-			// hack for closing date picker where it seems the event object isnt
+			// hack for closing date picker where it seems the event object isn't
 			// available
 			id = e;
 		}
@@ -870,7 +869,7 @@ var FbForm = new Class({
 		if (typeOf(d) === 'hash') {
 			d = d.getClean();
 		}
-		//data should be key'd on the data stored in the elements name between []'s which is the group id
+		//data should be keyed on the data stored in the elements name between []'s which is the group id
 		this.form.getElements('input[name^=fabrik_repeat_group]').each(
 				function (e) {
 					// $$$ hugh - had a client with a table called fabrik_repeat_group, which was hosing up here,
@@ -894,7 +893,7 @@ var FbForm = new Class({
 				var el = this.formElements.get(k);
 				if (gids.contains(el.groupid.toInt())) {
 					if (r.errors[k]) {
-					// prepare error so that it only triggers for real errors and not sucess
+					// prepare error so that it only triggers for real errors and not success
 					// msgs
 
 						var msg = '';
@@ -965,7 +964,7 @@ var FbForm = new Class({
 	},
 
 	showMainError: function (msg) {
-		// If we are in j3 and ajax validations are on - dont show main error as it makes the form 'jumpy'
+		// If we are in j3 and ajax validations are on - don't show main error as it makes the form 'jumpy'
 		if (Fabrik.bootstrapped && this.options.ajaxValidation) {
 			return;
 		}
@@ -1049,7 +1048,7 @@ var FbForm = new Class({
 				// Return otherwise ajax upload may still occur.
 				return;
 			}
-			// Insert a hidden element so we can reload the last page if validation vails
+			// Insert a hidden element so we can reload the last page if validation fails
 			if (this.options.pages.getKeys().length > 1) {
 				this.form.adopt(new Element('input', {'name': 'currentPage', 'value': this.currentPage.toInt(), 'type': 'hidden'}));
 			}
@@ -1267,7 +1266,7 @@ var FbForm = new Class({
 	// can use {placeholders}. Initially tried to use getFormData for this, but because
 	// it adds ALL the query string args from the page, the AJAX call from cascade ended
 	// up trying to submit the form. So, this func does what the commented out code in
-	// getFormData used to do, and only fecthes actual form element data.
+	// getFormData used to do, and only fetches actual form element data.
 
 	getFormElementData : function () {
 		var h = {};
@@ -1456,7 +1455,7 @@ var FbForm = new Class({
 		}
 		// Update the hidden field containing number of repeat groups
 		document.id('fabrik_repeat_group_' + i + '_counter').value = document.id('fabrik_repeat_group_' + i + '_counter').get('value').toInt() - 1;
-		// $$$ hugh - no, musn't decrement this!  See comment in setupAll
+		// $$$ hugh - no, mustn't decrement this!  See comment in setupAll
 		this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) - 1);
 	},
 
@@ -1609,7 +1608,7 @@ var FbForm = new Class({
 						if (document.id(testid).getElement('input')) {
 							input.cloneEvents(document.id(testid).getElement('input'));
 						}
-						// Note: Radio's etc now have their events delegated from the form - so no need to duplicate them
+						// Note: Radio's etc. now have their events delegated from the form - so no need to duplicate them
 
 					} else {
 						input.cloneEvents(el.element);

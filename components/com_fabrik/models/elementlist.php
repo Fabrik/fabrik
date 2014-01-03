@@ -63,7 +63,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 * in the form/detail views
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	Text to add to the browser's title
@@ -109,7 +109,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           Data to test against
@@ -193,7 +193,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
 	 *
 	 * @param   string  $key            Element name in format `tablename`.`elementname`
-	 * @param   string  $condition      =/like etc
+	 * @param   string  $condition      =/like etc.
 	 * @param   string  $value          Search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  Original filter value without quotes or %'s applied
 	 * @param   string  $type           Filter type advanced/normal/prefilter/search/querystring/searchall
@@ -265,7 +265,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 			$originalValue = trim($value, "'");
 
 			/*
-			 * JSON stored values will back slash "/". So wwe need to add "\\\\"
+			 * JSON stored values will back slash "/". So we need to add "\\\\"
 			* before it to escape it for the query.
 			*/
 			$originalValue = str_replace("/", "\\\\/", $originalValue);
@@ -497,7 +497,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 
 	/**
 	 * Used by radio and dropdown elements to get a dropdown list of their unique
-	 * unique values OR all options - basedon filter_build_method
+	 * unique values OR all options - based on filter_build_method
 	 *
 	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
 	 * @param   string  $tableName  Table name to use - defaults to element's current table
@@ -733,7 +733,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	Elements html
@@ -904,7 +904,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	value
@@ -985,7 +985,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 				$opts->sub_values = $values;
 				$opts->sub_labels = $labels;
 
-				// $$$ rob dont json_encode this - the params object has its own toString() magic method
+				// $$$ rob don't json_encode this - the params object has its own toString() magic method
 				$element->params = (string) $params;
 				$element->store();
 			}

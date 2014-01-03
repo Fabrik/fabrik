@@ -141,7 +141,7 @@ class FabrikViewList extends JViewLegacy
 		$view = $model->canEdit() ? 'form' : 'details';
 
 		// List of tags to look for in the row data
-		// If they are there don't put them in the desc but put them in as a seperate item param
+		// If they are there don't put them in the desc but put them in as a separate item param
 		$rsstags = array('<georss:point>' => 'xmlns:georss="http://www.georss.org/georss"');
 
 		foreach ($rows as $group)

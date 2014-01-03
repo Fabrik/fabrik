@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 class FabimageHelper
 {
 	/**
-	 * Get an array of avaialble graphics libraries
+	 * Get an array of available graphics libraries
 	 *
 	 * @return  array
 	 */
@@ -114,7 +114,7 @@ class FabimageHelper
 	}
 
 	/**
-	 * Test if Imagemagic is installed on the server
+	 * Test if Imagemagick is installed on the server
 	 *
 	 * @return  array
 	 */
@@ -167,7 +167,7 @@ class Fabimage
 	protected $thumbPath = null;
 
 	/**
-	 * Storage class file/amazons3 etc
+	 * Storage class file/amazons3 etc.
 	 *
 	 * @var object
 	 */
@@ -219,7 +219,7 @@ class Fabimage
 	 *
 	 * @param   int     $maxWidth   maximum image Width (px)
 	 * @param   int     $maxHeight  maximum image Height (px)
-	 * @param   string  $origFile   current images folder pathe (must have trailing end slash)
+	 * @param   string  $origFile   current images folder path (must have trailing end slash)
 	 * @param   string  $destFile   destination folder path for resized image (must have trailing end slash)
 	 *
 	 * @return  object  image
@@ -230,7 +230,7 @@ class Fabimage
 	}
 
 	/**
-	 * Grab an image from a remote URI and store in cache, then servered cached image
+	 * Grab an image from a remote URI and store in cache, then serve cached image
 	 *
 	 * @param   string  $src       Remote URI to image
 	 * @param   string  $path      Local folder to store the image in e.g. 'cache/com_fabrik/images'
@@ -259,7 +259,7 @@ class Fabimage
 		 * center=34.732267,-86.587593.zoom=10.size=300x250.maptype=roadmap.mobile=true.markers=34.732267,-86.587593.sensor=false.png
 		 *
 		 * ... we should probably clean $file, replace non alphanumeric chars with
-		 * underscores, as filenames with things like commas, = signs etc could be problematic, both in
+		 * underscores, as filenames with things like commas, = signs etc. could be problematic, both in
 		 * the file system, and on the IMG URL.
 		 */
 		$folder = JPATH_SITE . '/' . ltrim($path, '/');
@@ -490,7 +490,7 @@ class FabimageGD extends Fabimage
 	 *
 	 * @param   int     $maxWidth   maximum image Width (px)
 	 * @param   int     $maxHeight  maximum image Height (px)
-	 * @param   string  $origFile   current images folder pathe (must have trailing end slash)
+	 * @param   string  $origFile   current images folder path (must have trailing end slash)
 	 * @param   string  $destFile   destination folder path for resized image (must have trailing end slash)
 	 *
 	 * @return  object  image
@@ -516,7 +516,7 @@ class FabimageGD extends Fabimage
 		// If an image was successfully loaded, test the image for size
 		if ($img)
 		{
-			// Handle image transpacency for original image
+			// Handle image transparency for original image
 			if (function_exists('imagealphablending'))
 			{
 				imagealphablending($img, false);
@@ -680,7 +680,7 @@ class FabimageGD2 extends FabimageGD
 	 *
 	 * @param   int     $maxWidth   maximum image Width (px)
 	 * @param   int     $maxHeight  maximum image Height (px)
-	 * @param   string  $origFile   current images folder pathe (must have trailing end slash)
+	 * @param   string  $origFile   current images folder path (must have trailing end slash)
 	 * @param   string  $destFile   destination folder path for resized image (must have trailing end slash)
 	 *
 	 * @return  object  image
@@ -766,7 +766,7 @@ class FabimageGD2 extends FabimageGD
 		}
 
 		/* save the file
-		 * wite them out to output buffer first so that we can use JFile to write them
+		 * write them out to output buffer first so that we can use JFile to write them
 		 to the server (potential using J ftp layer)  */
 		if ($header == "image/jpeg")
 		{
@@ -826,7 +826,7 @@ class FabimageIM extends Fabimage
 	 *
 	 * @param   int     $maxWidth   maximum image Width (px)
 	 * @param   int     $maxHeight  maximum image Height (px)
-	 * @param   string  $origFile   current images folder pathe (must have trailing end slash)
+	 * @param   string  $origFile   current images folder path (must have trailing end slash)
 	 * @param   string  $destFile   destination folder path for resized image (must have trailing end slash)
 	 *
 	 * @return  object  image
@@ -881,7 +881,7 @@ class FabimageIM extends Fabimage
 					$thumb_file = JFile::stripExt($destFile) . '.' . $pdf_thumb_type;
 				}
 				// Now just load it, set format, resize, save and garbage collect.
-				// Hopefully IM will call the right delagate (ghostscript) to load the PDF.
+				// Hopefully IM will call the right delegate (ghostscript) to load the PDF.
 				$im = new Imagick($pdf_file);
 				$im->setImageFormat($pdf_thumb_type);
 				$im->thumbnailImage($maxWidth, $maxHeight, true);
@@ -898,7 +898,7 @@ class FabimageIM extends Fabimage
 				/* Thumbnail the image ( width 100, preserve dimensions ) */
 				$im->thumbnailImage($maxWidth, $maxHeight, true);
 
-				/* Write the thumbail to disk */
+				/* Write the thumbnail to disk */
 				$im->writeImage($destFile);
 
 				/* Free resources associated to the Imagick object */

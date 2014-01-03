@@ -264,7 +264,7 @@ class FabrikFEModelGroup extends FabModel
 		{
 			$this->canView = in_array($groupAccess, $groups);
 
-			// If the user can't access the group return that and ingore repeat_group_show_first option
+			// If the user can't access the group return that and ignore repeat_group_show_first option
 			if (!$this->canView)
 			{
 				return $this->canView;
@@ -400,7 +400,7 @@ class FabrikFEModelGroup extends FabModel
 	/**
 	 * Set the element column css allows for group column settings to be applied
 	 *
-	 * @param   object  &$element  Prerender element properties
+	 * @param   object  &$element  Pre-render element properties
 	 * @param   int     $rowIx     Current key when looping over elements.
 	 *
 	 * @since 	Fabrik 3.0.5.2
@@ -653,7 +653,7 @@ class FabrikFEModelGroup extends FabModel
 			* $$$ Paul - it is possible that the user has set Include in List Query
 			* to No for table primary key or join foreign key. If List is then set
 			* to Merge and Reduce, this causes a problem because the pk/fk
-			* placeholder is not set. We therefor include the table PK and join FK
+			* placeholder is not set. We therefore include the table PK and join FK
 			* regardless of Include in List Query settings if any elements in the
 			* group have Include in List Query = Yes.
 			* In order to avoid iterating over the elements twice, we save the

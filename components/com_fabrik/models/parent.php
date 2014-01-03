@@ -8,7 +8,7 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-// ROB dont think this is used - use fabrik.php model instead
+// ROB don't think this is used - use fabrik.php model instead
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');

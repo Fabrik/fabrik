@@ -27,7 +27,7 @@ class FabrikFEModelExport
 	/**
 	 * Label
 	 *
-	 * @var striing
+	 * @var string
 	 */
 	public $label = '';
 
@@ -195,7 +195,7 @@ class FabrikFEModelExport
 		$strXML .= "<authorEmail>" . $input->get('authoremail') . "</authorEmail>\n";
 		$strXML .= "<authorUrl>" . $input->get('authorurl') . "</authorUrl>\n";
 		$strXML .= "<version>" . $input->get('version') . "</version>\n";
-		$strXML .= "<liscence>" . $input->get('license') . "</liscence>\n";
+		$strXML .= "<licence>" . $input->get('license') . "</licence>\n";
 		$strXML .= "<description>" . $input->get('description') . "</description>\n";
 		$aTableObjs = array();
 		$tables = $this->packageModel->_tables;
@@ -259,7 +259,7 @@ class FabrikFEModelExport
 
 					foreach ($vars as $key => $val)
 					{
-						// Dont insert join_id as this isnt in the group table
+						// Don't insert join_id as this isn't in the group table
 						if ($key != "join_id")
 						{
 							if (substr($key, 0, 1) != '_')
@@ -374,7 +374,7 @@ class FabrikFEModelExport
 
 	public function setBufferFile()
 	{
-		// Doesnt work in windowz
+		// Doesn't work in windowz
 		// $this->_bufferFile = '/tmp/fabrik_package-' . $this->label . '.xml';
 		$this->_bufferFile = JPATH_SITE . "/administrator/components/com_fabrik/fabrik_package-" . $this->label . '.xml';
 	}
@@ -386,19 +386,19 @@ class FabrikFEModelExport
 	 *
 	 * @deprecated
 	 *
-	 * @return Ambigous <object, mixed, reference>
+	 * @return Ambiguous <object, mixed, reference>
 	 */
 
 	protected function writeExportBuffer($str)
 	{
 		$filename = $this->_bufferFile;
 
-		// Let's make sure the file exists and is writable first.
+		// Let's make sure the file exists and is writeable first.
 		if (JFile::exists($filename))
 		{
 			if (!is_writable($filename))
 			{
-				throw new RuntimeException(JText::sprintf("FILE NOT WRITABLE", $filename), 500);
+				throw new RuntimeException(JText::sprintf("FILE NOT WRITEABLE", $filename), 500);
 			}
 		}
 
@@ -547,7 +547,7 @@ class FabrikFEModelExport
 			$UserBrowser = '';
 		}
 
-		// Important for download im most browser
+		// Important for download in most browsers
 		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
 		@ob_end_clean();
 

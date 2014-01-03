@@ -323,7 +323,7 @@ class FabrikFEModelImportcsv extends JModelForm
 					foreach ($arr_data as &$d)
 					{
 						/**
-						 * strip any none uft-8 characters from the import data
+						 * strip any none utf-8 characters from the import data
 						 * if we don't do this then the site's session is destroyed and you are logged out
 						 */
 						$d = iconv("utf-8", "utf-8//IGNORE", $d);
@@ -471,7 +471,7 @@ class FabrikFEModelImportcsv extends JModelForm
 	}
 
 	/**
-	 * Determine if the imported data has exisiting correlating elements
+	 * Determine if the imported data has existing correlating elements
 	 *
 	 * @return  null
 	 */
@@ -871,8 +871,8 @@ class FabrikFEModelImportcsv extends JModelForm
 	}
 
 	/**
-	 * Once we have itterated over all of the csv file and recreated
-	 * the join data, we can finally allow the lists form to proces it
+	 * Once we have iterated over all of the csv file and recreated
+	 * the join data, we can finally allow the lists form to process it
 	 *
 	 * @param   array  $joindata  data
 	 *
@@ -1117,7 +1117,7 @@ class FabrikFEModelImportcsv extends JModelForm
 	}
 
 	/**
-	 * Determine if the chooselementtypes view should contain a column where
+	 * Determine if the choose-element-types view should contain a column where
 	 * the user selects the field to be the pk
 	 *
 	 * @return  bool	true if column shown
@@ -1129,13 +1129,13 @@ class FabrikFEModelImportcsv extends JModelForm
 		$input = $app->input;
 
 		// $$$ rob 30/01/2012 - if in csvimport cron plugin then we have to return true here
-		// otherwise a blank column is added to the import data meaniing overwrite date dunna workie
+		// otherwise a blank column is added to the import data meaning overwrite date dunna workie
 		if ($input->getBool('cron_csvimport'))
 		{
 			return true;
 		}
 
-		// $$$ rob 13/03/2012 - reimporting into exisiting list - should return true
+		// $$$ rob 13/03/2012 - reimporting into existing list - should return true
 		if ($input->getInt('listid') !== 0)
 		{
 			return true;
@@ -1176,7 +1176,7 @@ class FabrikFEModelImportcsv extends JModelForm
  *
  * It can deal with:
  * - Line breaks within quoted fields
- * - Character seperator (usually a comma or semicolon) in quoted fields
+ * - Character separator (usually a comma or semicolon) in quoted fields
  * - Can leave or remove leading and trailing \s or \t
  * - Can leave or skip empty rows.
  * - Windows and Unix line breaks dealt with automatically. Care must be taken with Macintosh format.
@@ -1219,7 +1219,7 @@ class FabrikFEModelImportcsv extends JModelForm
  *
  * The coding standards used in this file can be found here: http://www.dagbladet.no/development/phpcodingstandard/
  *
- *    All commets and suggestions are welcomed.
+ *    All comments and suggestions are welcomed.
  *
  * SUPPORT: Visit http://vhd.com.au/forum/
  *
@@ -1387,7 +1387,7 @@ class Csv_Bv
 				$this->mSkippedRowCount++;
 				$arr_row = $this->NextLine();
 
-				// This is to avoid a warning when empty lines are found at the bvery end of a file.
+				// This is to avoid a warning when empty lines are found at the very end of a file.
 				if (!is_array($arr_row))
 				{
 					// This will only happen if we are at the end of a file.

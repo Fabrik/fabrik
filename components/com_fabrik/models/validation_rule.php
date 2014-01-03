@@ -75,8 +75,8 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	}
 
 	/**
-	 * Looks at the validation condition & evaulates it
-	 * if evaulation is true then the validation rule is applied
+	 * Looks at the validation condition & evaluates it
+	 * if evaluation is true then the validation rule is applied
 	 *
 	 * @param   string  $data  Elements data
 	 *
@@ -226,7 +226,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 
 	/**
 	 * Does the validation allow empty value?
-	 * Default is false, can be overrideen on per-validation basis (such as isnumeric)
+	 * Default is false, can be overridden on per-validation basis (such as isnumeric)
 	 *
 	 * @return  bool
 	 */

@@ -79,7 +79,7 @@ var fabrikTableModule = new Class({
 
 	watchEditLinks: function () {
 		// not sure why this is needed but if you edit and save a record then the
-		// table doesnt attach the watchRows events to the new edit links (even
+		// table doesn't attach the watchRows events to the new edit links (even
 		// though it calls
 		// watchRows() when it updates itself.
 		this.blocks[0].getElements('.fabrik___rowlink').removeEvents();

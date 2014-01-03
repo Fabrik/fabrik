@@ -217,7 +217,7 @@ class PlgFabrik_Form extends FabrikPlugin
 
 		$model->isAjax();
 		/* $$$rob don't render the form - there's no need and it gives a warning about an unfound rowid
-		 * $$$ rob also it sets teh fromModels rowid to an + int even if we are submitting a new form
+		 * $$$ rob also it sets the fromModels rowid to an + int even if we are submitting a new form
 		 * which means that form plug-ins set to run on new only don't get triggered if they appear after
 		 * fabrikemail/fabrikreceipt
 		 * Now instead the pk value is taken from the tableModel->lastInsertId and inserted at the end of this method
@@ -245,7 +245,7 @@ class PlgFabrik_Form extends FabrikPlugin
 		{
 			$groupParams = $groupModel->getParams();
 
-			// Check if group is acutally a table join
+			// Check if group is actually a table join
 			$repeatGroup = 1;
 			$foreignKey = null;
 

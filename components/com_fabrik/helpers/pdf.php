@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Send sms's
+ * PDF Set up helper
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers

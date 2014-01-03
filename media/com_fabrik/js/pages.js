@@ -34,7 +34,7 @@ var Pages = new Class({
 		}.bind(this));
 	},
 	
-	/* todo perhaps makecive and clearActive should be a mixin? */
+	/* todo perhaps makeActive and clearActive should be a mixin? */
 	makeActive: function (c) {
 		this.clearActive();
 		c.addClass('active');

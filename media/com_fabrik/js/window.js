@@ -35,7 +35,7 @@ Fabrik.getWindow = function (opts) {
 Fabrik.Window = new Class({
 
 	Implements: [Events, Options],
-	
+
 	options: {
 		id: 'FabrikWindow',
 		title: '&nbsp;',
@@ -57,19 +57,19 @@ Fabrik.Window = new Class({
 		},
 		destroy: true
 	},
-	
+
 	modal: false,
-	
+
 	classSuffix: '',
-	
+
 	expanded: false,
-	
+
 	initialize: function (opts)
 	{
 		this.setOptions(opts);
 		this.makeWindow();
 	},
-	
+
 	/**
 	 * Tabs can resize content area
 	 */
@@ -79,7 +79,7 @@ Fabrik.Window = new Class({
 			this.drawWindow();
 		}.bind(this));
 	},
-	
+
 	deleteButton: function () {
 		var delClick = function (e) {
 			this.close(e);
@@ -95,7 +95,7 @@ Fabrik.Window = new Class({
 		}
 		return del;
 	},
-	
+
 	center: function () {
 		var pxWidth = this.windowWidthInPx(),
 		w = this.window.getStyle('width'),
@@ -108,7 +108,7 @@ Fabrik.Window = new Class({
 		if (!(Fabrik.bootstrapped && this.modal)) {
 			var yy = window.getSize().y / 2 + window.getScroll().y - (h / 4);
 			d.top = typeOf(this.options.offset_y) !== 'null' ? window.getScroll().y + this.options.offset_y : yy;
-			var xx = window.getSize().x / 2  + window.getScroll().x - w / 2; 
+			var xx = window.getSize().x / 2  + window.getScroll().x - w / 2;
 			d.left = typeOf(this.options.offset_x) !== 'null' ? window.getScroll().x + this.options.offset_x : xx;
 		} else {
 			// Fileupload crop uses this
@@ -117,35 +117,35 @@ Fabrik.Window = new Class({
 		}
 		this.window.setStyles(d);
 	},
-	
+
 	/**
 	 * Work out the window width either from px or % variable
-	 * 
+	 *
 	 * @deprecated use this.windowDimenionInPx('width') instead
-	 *  
-	 * @return  int  Px widht of window
+	 *
+	 * @return  int  Px width of window
 	 */
-	
+
 	windowWidthInPx: function () {
 		return this.windowDimenionInPx('width');
 	},
-	
+
 	/**
 	 * Work out the window width or height either from px or % variable
-	 * 
+	 *
 	 * @param   string  dir  Width or height.
-	 * 
-	 * @return  int  Px widht of window
+	 *
+	 * @return  int  Px width of window
 	 */
 	windowDimenionInPx: function (dir) {
-		var coord = dir === 'height' ? 'y' : 'x'; 
+		var coord = dir === 'height' ? 'y' : 'x';
 		var dim = this.options[dir] + '';
 		if (dim.indexOf('%') !== -1) {
 			return Math.floor(window.getSize()[coord] * (dim.toFloat() / 100));
 		}
 		return dim.toInt();
 	},
-	
+
 	/**
 	 * Build the window HTML
 	 */
@@ -156,7 +156,7 @@ Fabrik.Window = new Class({
 		this.center();
 		this.contentWrapperEl = this.window;
 		var del = this.deleteButton();
-		
+
 		var hclass = 'handlelabel';
 		if (!this.modal) {
 			hclass += ' draggable';
@@ -167,7 +167,7 @@ Fabrik.Window = new Class({
 				resizeIcon = new Element('i.icon-expand');
 			} else {
 				resizeIcon = Fabrik.iconGen.create(icon.resize, {
-					scale: 0.8, 
+					scale: 0.8,
 					rotate: 0,
 					shadow: {
 						color: '#fff',
@@ -181,18 +181,18 @@ Fabrik.Window = new Class({
 			resizeIcon.inject(dragger);
 			draggerC.adopt(dragger);
 		}
-		
+
 		if (Fabrik.bootstrapped) {
 			expandIcon = new Element('i.icon-out-2.icon-fullscreen');
 			label = new Element('h3', {'class': hclass}).set('text', this.options.title);
-			
+
 		} else {
 			expandIcon = Fabrik.iconGen.create(icon.expand, {scale: 0.4, fill: {
 				color: ['#666666', '#999999']
 			}});
 			label = new Element('span', {'class': hclass}).set('text', this.options.title);
 		}
-		
+
 		handleParts.push(label);
 		if (this.options.expandable && this.modal === false) {
 			expandButton = new Element('a', {'href': '#', 'class': 'expand', 'events': {
@@ -202,10 +202,10 @@ Fabrik.Window = new Class({
 			}}).adopt(expandIcon);
 			handleParts.push(expandButton);
 		}
-		
+
 		handleParts.push(del);
 		this.handle = this.getHandle().adopt(handleParts);
-		
+
 		var bottomBarHeight = 15;
 		var topBarHeight = 15;
 		var contentHeight = this.options.height - bottomBarHeight - topBarHeight;
@@ -250,7 +250,7 @@ Fabrik.Window = new Class({
 			this.window.hide();
 		}.bind(this));*/
 	},
-	
+
 	/**
 	 * toggle the window full screen
 	 */
@@ -268,21 +268,21 @@ Fabrik.Window = new Class({
 		}
 		this.drawWindow();
 	},
-	
+
 	getHandle: function () {
 		var c = this.handleClass();
 		return new Element('div', {'class': 'draggable ' + c});
 	},
-	
+
 	handleClass: function () {
 		return Fabrik.bootstrapped ? 'modal-header' : 'handle';
 	},
-	
+
 	loadContent: function () {
 		var u;
 		window.fireEvent('tips.hideall');
 		switch (this.options.loadMethod) {
-		
+
 		case 'html':
 			if (typeOf(this.options.content) === 'null') {
 				fconsole('no content option set for window.html');
@@ -309,7 +309,7 @@ Fabrik.Window = new Class({
 					Fabrik.loader.stop(u);
 					this.fireEvent('onContentLoaded', [this]);
 					this.watchTabs();
-					
+
 					// Ini any Fabrik JS code that was loaded with the ajax request
 					// window.fireEvent('fabrik.loaded');
 				}.bind(this)
@@ -320,7 +320,7 @@ Fabrik.Window = new Class({
 			var w = this.contentEl.getScrollSize().x + 40 < window.getWidth() ? this.contentEl.getScrollSize().x + 40 : window.getWidth();
 			u = this.window.getElement('.itemContent');
 			Fabrik.loader.start(u);
-			
+
 			if (this.iframeEl) {
 				this.iframeEl.dispose();
 			}
@@ -348,27 +348,27 @@ Fabrik.Window = new Class({
 			break;
 		}
 	},
-	
+
 	drawWindow: function () {
 		var titleHeight = this.window.getElement('.' + this.handleClass());
 		titleHeight = titleHeight ? titleHeight.getSize().y : 25;
 		var footer = this.window.getElement('.bottomBar').getSize().y;
 		this.contentWrapperEl.setStyle('height', this.window.getDimensions().height - (titleHeight + footer));
 		this.contentWrapperEl.setStyle('width', this.window.getDimensions().width - 2);
-		
+
 		// Resize iframe when window is resized
 		if (this.options.loadMethod === 'iframe') {
 			this.iframeEl.setStyle('height', this.contentWrapperEl.offsetHeight - 40);
 			this.iframeEl.setStyle('width', this.contentWrapperEl.offsetWidth - 10);
 		}
 	},
-	
+
 	fitToContent: function (scroll, center) {
 		scroll = scroll === undefined ? true : scroll;
 		center = center === undefined ? true : center;
-		
+
 		if (this.options.loadMethod !== 'iframe') {
-			// As iframe content may not be on the same domain we CAN'T guarentee access to its body element to work out its dimensions
+			// As iframe content may not be on the same domain we CAN'T guarantee access to its body element to work out its dimensions
 			this.fitToHeight();
 			this.fitToWidth();
 		}
@@ -382,12 +382,12 @@ Fabrik.Window = new Class({
 			this.window.position();
 		}
 	},
-	
+
 	/**
 	 * Fit the window height to the min of either its content height or the window height
 	 */
 	fitToHeight: function () {
-		// Add the top and bottom barrs to the content size
+		// Add the top and bottom bars to the content size
 		var titleHeight = this.window.getElement('.' + this.handleClass());
 		titleHeight = titleHeight ? titleHeight.getSize().y : 25;
 		var footer = this.window.getElement('.bottomBar').getSize().y;
@@ -396,7 +396,7 @@ Fabrik.Window = new Class({
 		var h = testH < window.getHeight() ? testH : window.getHeight();
 		this.window.setStyle('height', h);
 	},
-	
+
 	/**
 	 * Fit the window width to the min of either its content width or the window width
 	 */
@@ -405,7 +405,7 @@ Fabrik.Window = new Class({
 		var w = contentEl.getScrollSize().x + 25 < window.getWidth() ? contentEl.getScrollSize().x + 25 : window.getWidth();
 		this.window.setStyle('width', w);
 	},
-	
+
 	close: function (e)
 	{
 		if (this.modal) {
@@ -415,11 +415,11 @@ Fabrik.Window = new Class({
 			e.stop();
 		}
 		//this.options.destroy = true;
-		
+
 		// By default cant destroy as we want to be able to reuse them (see crop in fileupload element)
 		if (this.options.destroy) {
-	
-			// However db join add (in repeating group) has a fit if we don't remove its content 
+
+			// However db join add (in repeating group) has a fit if we don't remove its content
 			this.window.destroy();
 			delete(Fabrik.Windows[this.options.id]);
 		} else {
@@ -427,9 +427,9 @@ Fabrik.Window = new Class({
 		}
 		this.fireEvent('onClose', [this]);
 	},
-	
+
 	open: function (e) {
-		// Crop fileupload interface doesnt like window scrolling when open, so stop it
+		// Crop fileupload interface doesn't like window scrolling when open, so stop it
 		if (this.modal) {
 			//document.body.setStyle('overflow', 'hidden');
 		}
@@ -439,16 +439,16 @@ Fabrik.Window = new Class({
 		this.window.fade('show');
 		this.fireEvent('onOpen', [this]);
 	}
-	
+
 });
 
 Fabrik.Modal = new Class({
 	Extends: Fabrik.Window,
-	
+
 	modal: true,
-	
+
 	classSuffix: 'fabrikWindow-modal',
-	
+
 	getHandle: function () {
 		var c = this.handleClass();
 		return new Element('div', {'class': c});
@@ -466,7 +466,7 @@ Fabrik.RedirectWindow = new Class({
 			'height': opts.height ? opts.height : 320,
 			'minimizable': false,
 			'collapsible': true
-			
+
 		};
 		opts2.id = 'redirect';
 		opts = Object.merge(opts2, opts);

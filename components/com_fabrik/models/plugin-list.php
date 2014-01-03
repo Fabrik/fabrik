@@ -100,7 +100,7 @@ class PlgFabrik_List extends FabrikPlugin
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @since  3.0.6.2
 	 *
@@ -191,7 +191,7 @@ class PlgFabrik_List extends FabrikPlugin
 	/**
 	 * onGetData method
 	 *
-	 * @return bol currently ignored
+	 * @return bool currently ignored
 	 */
 
 	public function onLoadData()
@@ -202,7 +202,7 @@ class PlgFabrik_List extends FabrikPlugin
 	/**
 	 * onFiltersGot method - run after the list has created filters
 	 *
-	 * @return bol currently ignored
+	 * @return bool currently ignored
 	 */
 
 	public function onFiltersGot()
@@ -239,7 +239,7 @@ class PlgFabrik_List extends FabrikPlugin
 	}
 
 	/**
-	 * Prefilght check to ensure that the list plugin should process
+	 * Preflight check to ensure that the list plugin should process
 	 *
 	 * @return	string|boolean
 	 */
@@ -290,7 +290,7 @@ class PlgFabrik_List extends FabrikPlugin
 	}
 
 	/**
-	 * Plugins should use their own name space for storing their sesssion data
+	 * Plugins should use their own name space for storing their session data
 	 * e.g radius search plugin stores its search values here
 	 *
 	 * @return  string
@@ -319,7 +319,7 @@ class PlgFabrik_List extends FabrikPlugin
 	/**
 	 * Allows to to alter the table's select query
 	 *
-	 * @param   array  &$args  Arguements - first value is an object with a JQuery object
+	 * @param   array  &$args  Arguments - first value is an object with a JQuery object
 	 * contains the current query:
 	 * $args[0]->query
 	 *
@@ -359,7 +359,7 @@ class PlgFabrik_List extends FabrikPlugin
 	}
 
 	/**
-	 * Shouldnt do anything here - but needed for the result return
+	 * Shouldn't do anything here - but needed for the result return
 	 *
 	 * @since   3.1b
 	 *
@@ -389,7 +389,7 @@ class PlgFabrik_List extends FabrikPlugin
 	}
 
 	/**
-	 * Overridden by plugins if neceesary.
+	 * Overridden by plugins if necessary.
 	 * If the plugin is a filter plugin, return true if it needs the 'form submit'
 	 * method, i.e. the Go button.  Implemented specifically for radius search plugin.
 	 *
@@ -401,7 +401,7 @@ class PlgFabrik_List extends FabrikPlugin
 	}
 
 	/**
-	 * Overridden by plugins if neceesary.
+	 * Overridden by plugins if necessary.
 	 * If the plugin is a filter plugin, return true if it needs the 'form submit'
 	 * method, i.e. the Go button.  Implemented specifically for radius search plugin.
 	 *

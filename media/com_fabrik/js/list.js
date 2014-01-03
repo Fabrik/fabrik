@@ -258,7 +258,7 @@ var FbList = new Class({
 			'type': 'radio',
 			'name': 'incraw',
 			'value': '0'
-		}), new Element('span').set('text', Joomla.JText._('JNO'))]), new Element('br'), new Element('div', divopts).appendText(Joomla.JText._('COM_FABRIK_INLCUDE_CALCULATIONS')), new Element('label').set('html', rad3), new Element('label').adopt([new Element('input', {
+		}), new Element('span').set('text', Joomla.JText._('JNO'))]), new Element('br'), new Element('div', divopts).appendText(Joomla.JText._('COM_FABRIK_INCLUDE_CALCULATIONS')), new Element('label').set('html', rad3), new Element('label').adopt([new Element('input', {
 			'type': 'radio',
 			'name': 'inccalcs',
 			'value': '0'

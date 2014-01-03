@@ -6182,7 +6182,7 @@ class FabrikFEModelList extends JModelForm
 
 		$list = $this->getTable();
 		$listRef = $this->getRenderContext();
-		$opts->conditionList = FabrikHelperHTML::conditonList($listRef, '');
+		$opts->conditionList = FabrikHelperHTML::conditionList($listRef, '');
 		list($fieldNames, $firstFilter) = $this->getAdvancedSearchElementList();
 		$statements = $this->getStatementsOpts();
 		$opts->elementList = JHTML::_('select.genericlist', $fieldNames, 'fabrik___filter[list_' . $listRef . '][key][]',
@@ -6399,7 +6399,7 @@ class FabrikFEModelList extends JModelForm
 				}
 				else
 				{
-					$join = FabrikHelperHTML::conditonList($this->getRenderContext(), $join);
+					$join = FabrikHelperHTML::conditionList($this->getRenderContext(), $join);
 				}
 
 				$lineElname = FabrikString::safeColName($elementModel->getFullName(true, false));
@@ -6480,7 +6480,7 @@ class FabrikFEModelList extends JModelForm
 
 	/**
 	 * returns the table headings, seperated from writetable function as
-	 * when group_by is selected mutliple tables are written
+	 * when group_by is selected multiple tables are written
 	 * 09/07/2011 moved headingClass into arry rather than string
 	 *
 	 * @return  array  (table headings, array columns, $aLinkElements)
