@@ -35,13 +35,13 @@ class FabrikControllerListemail extends JControllerLegacy
 	/**
 	 * default display mode
 	 *
-	 * @param   bool   $cacheable  Cacheable
+	 * @param   bool   $cachable   Cacheable
 	 * @param   array  $urlparams  Params
 	 *
 	 * @return null
 	 */
 
-	public function display($cacheable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = array())
 	{
 		echo "display";
 	}
