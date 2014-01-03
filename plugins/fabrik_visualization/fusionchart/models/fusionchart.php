@@ -573,7 +573,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 
 			if (in_array($pref, $calc_prefixes))
 			{
-				/* you shouldnt mix calculation elements with normal elements when creating the chart
+				/* you shouldn't mix calculation elements with normal elements when creating the chart
 				 * so if ONE calculation element is found we use the calculation data rather than normal element data
 				* this is because a calculation element only generates one value, if want to compare two averages then
 				* they get rendered as tow groups of data and on bar charts this overlays one average over the other, rather than next to it
@@ -622,7 +622,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 					{
 						if (!array_key_exists($column, $row))
 						{
-							// Didn't find a _raw column - revent to orig
+							// Didn't find a _raw column - revert to orig
 							$column = $origColumn;
 
 							if (!array_key_exists($column, $row))
@@ -741,7 +741,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 						$labelStep = (int) (count($gsums) / $label_step_ratio);
 						$strParam .= ';labelStep=' . $labelStep;
 					}
-					/* $$$tom: inversing array_combine as identical values in gsums will be
+					/* $$$tom: inverting array_combine as identical values in gsums will be
 					 * dropped otherwise. Should I do that differently?
 					* $$$ hugh - can't use array_combine, as empty labels end up dropping values
 					* $arrComb = array_combine($labels, $gsums);
@@ -994,7 +994,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 
 					if ($cumulative == '1')
 					{
-						// Using cumulative values, so need to reset minmax to use those
+						// Using cumulative values, so need to reset min & max to use those
 						$min = min($this->gcumulatives[$nbe]);
 						$max = max($this->gcumulatives[$nbe]);
 					}
@@ -1043,11 +1043,11 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Build the trendlne
+	 * Build the trendline
 	 *
 	 * @param   int     $startval  trendline startValue
 	 * @param   int     $endval    trendline endValue
-	 * @param   string  $nbe       key used to get trendline displayvalue from $this->axixLables
+	 * @param   string  $nbe       key used to get trendline display value from $this->axixLables
 	 *
 	 * @return  void
 	 */
@@ -1075,7 +1075,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */
@@ -1090,11 +1090,11 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Get the trend line min and max vclues
+	 * Get the trend line min and max values
 	 *
 	 * @param   int     $min  trendline startValue
 	 * @param   int     $max  trendline endValue
-	 * @param   string  $nbe  key used to get trendline displayvalue from $this->axixLables
+	 * @param   string  $nbe  key used to get trendline display value from $this->axixLables
 	 *
 	 * @return  array  (start, end)
 	 */
@@ -1130,7 +1130,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Returns maximum datapoints used by any dataset.
+	 * Returns maximum data points used by any dataset.
 	 * Used by 'trendonly' graphs, to work out how many null
 	 * data points to insert between min and max.
 	 *

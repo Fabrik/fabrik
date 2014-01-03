@@ -24,7 +24,7 @@ $app->initialise();
 $package = $app->getUserState('com_fabrik.package', 'fabrik');
 $session = JFactory::getSession();
 
-$code = $session->get('com_' . $package . '.element.captach.security_code', false);
+$code = $session->get('com_' . $package . '.element.captcha.security_code', false);
 
 if (!($code))
 {
@@ -32,18 +32,18 @@ if (!($code))
 }
 
 // Width and height used as back up if imagettfbbox not available
-$width = $session->get('com_' . $package . '.element.captach.width', 100);
-$height = $session->get('com_' . $package . '.element.captach.height', 50);
+$width = $session->get('com_' . $package . '.element.captcha.width', 100);
+$height = $session->get('com_' . $package . '.element.captcha.height', 50);
 
-$fontsize = $session->get('com_' . $package . '.element.captach.fontsize', 30);
-$angle = $session->get('com_' . $package . '.element.captach.angle', 0);
-$padding  = $session->get('com_' . $package . '.element.captach.padding', 10);
-$font = $session->get('com_' . $package . '.element.captach.font', 'monofont.ttf');
-$b_color = $session->get('com_' . $package . '.element.captach.bg_color', '255+255+255');
+$fontsize = $session->get('com_' . $package . '.element.captcha.fontsize', 30);
+$angle = $session->get('com_' . $package . '.element.captcha.angle', 0);
+$padding  = $session->get('com_' . $package . '.element.captcha.padding', 10);
+$font = $session->get('com_' . $package . '.element.captcha.font', 'monofont.ttf');
+$b_color = $session->get('com_' . $package . '.element.captcha.bg_color', '255+255+255');
 $bc = explode('+', $b_color);
-$n_color = $session->get('com_' . $package . '.element.captach.noise_color', '0+0+255');
+$n_color = $session->get('com_' . $package . '.element.captcha.noise_color', '0+0+255');
 $nc = explode('+', $n_color);
-$t_color = $session->get('com_' . $package . '.element.captach.text_color', '0+0+255');
+$t_color = $session->get('com_' . $package . '.element.captcha.text_color', '0+0+255');
 $tc = explode('+', $t_color);
 
 // Create textbox and add text

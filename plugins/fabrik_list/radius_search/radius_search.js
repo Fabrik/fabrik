@@ -206,7 +206,7 @@ var FbListRadiusSearch = new Class({
 	 * Moves the interface into a window and injects a search button to open it.
 	 */
 	makeWin: function (mapid) {
-		var c = document.id(mapid).getParent('.radus_search');
+		var c = document.id(mapid).getParent('.radius_search');
 		var b = new Element('button.btn.button').set('html', '<i class="icon-location"></i> ' + Joomla.JText._('COM_FABRIK_SEARCH'));
 		c.getParent().adopt(b);
 		var winOpts = {

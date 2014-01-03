@@ -69,7 +69,7 @@ class FlashRender
 		$password = $config->get('password');
 		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
 
-		// Analyze file and store returned data in $ThisFileInfo
+		// Analyse file and store returned data in $ThisFileInfo
 		$relPath = str_replace("\\", "/", JPATH_SITE . $file);
 		$thisFileInfo = $getID3->analyze($relPath);
 
@@ -105,7 +105,7 @@ class FlashRender
 				$file = str_replace("\\", "/", $file);
 				$pathinfo = pathinfo($file);
 
-				// $$$ hugh - apparently filename ocnstant only added in PHP 5.2
+				// $$$ hugh - apparently filename constant only added in PHP 5.2
 				if (!isset($pathinfo['filename']))
 				{
 					$pathinfo['filename'] = explode('.', $pathinfo['basename']);

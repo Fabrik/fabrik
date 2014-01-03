@@ -1,6 +1,6 @@
 <?php
 /**
- * Add an action button to run webg service
+ * Add an action button to run web service
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.webservice
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once COM_FABRIK_FRONTEND . '/models/plugin-list.php';
 
 /**
- * Add an action button to run webg service
+ * Add an action button to run web service
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.webservice
@@ -65,7 +65,7 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */
@@ -184,7 +184,7 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 	}
 
 	/**
-	 * Get an array of key/value filters to send to the web serive
+	 * Get an array of key/value filters to send to the web service
 	 *
 	 * @param   FabrikWebService  $service  The current web service being used
 	 *

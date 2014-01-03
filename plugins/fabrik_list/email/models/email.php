@@ -55,7 +55,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */
@@ -214,7 +214,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	}
 
 	/**
-	 * Are attachements allowed?
+	 * Are attachments allowed?
 	 *
 	 * @return bool
 	 */
@@ -379,7 +379,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		JClientHelper::setCredentialsFromRequest('ftp');
-		$files = $input->files->get('attachement', array());
+		$files = $input->files->get('attachment', array());
 		$folder = JPATH_ROOT . '/images/stories';
 		$this->filepath = array();
 

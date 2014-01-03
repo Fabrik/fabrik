@@ -1,6 +1,6 @@
 <?php
 /**
- * Determines if a row is deleteable
+ * Determines if a row is deletable
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.candeleterow
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once COM_FABRIK_FRONTEND . '/models/plugin-list.php';
 
 /**
- *  Determines if a row is deleteable
+ *  Determines if a row is deletable
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.candeleterow
@@ -36,7 +36,7 @@ class PlgFabrik_ListCandeleterow extends PlgFabrik_List
 	}
 
 	/**
-	 * Can the row be deleteed
+	 * Can the row be deleted
 	 *
 	 * @param   object  $row  Current row to test
 	 *

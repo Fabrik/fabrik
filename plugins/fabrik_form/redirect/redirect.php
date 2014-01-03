@@ -25,7 +25,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 class PlgFabrik_FormRedirect extends PlgFabrik_Form
 {
 	/**
-	 * Process the plugin, called afer form is submitted
+	 * Process the plugin, called after form is submitted
 	 *
 	 * @return  bool
 	 */
@@ -111,7 +111,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 
 	/**
 	 * Called via ajax
-	 * displays thanks mesasge
+	 * displays thanks message
 	 *
 	 * @return  void
 	 */
@@ -122,11 +122,11 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 	}
 
 	/**
-	 * Once the form has been sucessfully completed, and if no jump page is
+	 * Once the form has been successfully completed, and if no jump page is
 	 * specified then show the thanks message
 	 *
-	 * @param   string  $title    Thanks message title @depreicated - set in session in onLastProcess
-	 * @param   string  $message  Thanks message string @depreicated - set in session in onLastProcess
+	 * @param   string  $title    Thanks message title @deprecated - set in session in onLastProcess
+	 * @param   string  $message  Thanks message string @deprecated - set in session in onLastProcess
 	 *
 	 * @return  void
 	 */
@@ -170,7 +170,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 	 *
 	 * @param   string  $method  Plugin method
 	 *
-	 * @return bol
+	 * @return bool
 	 */
 
 	public function customProcessResult($method)
@@ -287,7 +287,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 	}
 
 	/**
-	 * Apped data to query string array
+	 * Append data to query string array
 	 *
 	 * @param   array   &$queryvars  Previously added querystring variables
 	 * @param   string  $key         Key
@@ -418,12 +418,12 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 	 *
 	 * @param   object  $params  Plugin params
 	 *
-	 * @return bol true if you should redirect, false ignores redirect
+	 * @return bool true if you should redirect, false ignores redirect
 	 */
 
 	protected function shouldRedirect($params)
 	{
-		// If we are applying the form dont run redirect
+		// If we are applying the form don't run redirect
 		if (array_key_exists('apply', $this->formModel->formData))
 		{
 			return false;

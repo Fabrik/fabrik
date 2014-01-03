@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 
 /**
- * Insert points into the Alpha User Points http://http://www.alphaplug.com component
+ * Insert points into the Alpha User Points http://www.alphaplug.com component
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.alphauserpoints

@@ -28,7 +28,7 @@ class FabrikControllerVisualizationcalendar extends FabrikControllerVisualizatio
 	/**
 	 * Display the view
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cachable   If true, the view output will be cached - NOTE does not actually control caching !!!
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  A JController object to support chaining.

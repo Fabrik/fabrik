@@ -298,7 +298,7 @@ class PlgFabrik_CronGcalsync extends PlgFabrik_Cron
 				$config = JFactory::getConfig();
 				$tz = new DateTimeZone($config->get('offset'));
 
-				// Loop thru the array we built earlier of events we have that aren't in gcal
+				// Loop through the array we built earlier of events we have that aren't in gcal
 				foreach ($our_upload_ids as $id => $event)
 				{
 					if (!empty($gcal_id_element_long))

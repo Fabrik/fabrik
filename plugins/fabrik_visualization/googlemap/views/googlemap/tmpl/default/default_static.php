@@ -1,6 +1,6 @@
 <?php
 /**
- * Default staic map view
+ * Default static map view
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap

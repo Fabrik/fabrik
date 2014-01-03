@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * You should copy this file, and use it as your starting point.  You must not change the class name.
  * During IPN processing, the PayPal plugin will create an instance of this class, and if there is a method
  * named after the 'payment_status' or 'txn_type' specified by PayPal, with payment_status_ or txn_type_ prepended
- * (like payment_type_Completed), the plugin will call your method, passing it a refernce to the current Fabrik tableModel,
+ * (like payment_type_Completed), the plugin will call your method, passing it a reference to the current Fabrik tableModel,
  * the request params, the 'set_list' and 'err_msg'.
  *
  * The $listModel allows you to access all the usual data about the table.  See the Fabrik code for details on
@@ -55,9 +55,9 @@ class fabrikPayPalIPN
 
 	/**
 	 *
-	 * In this example, we are assuming you have a form witha  JUser and a PayPal plugin on it.,
+	 * In this example, we are assuming you have a form with a JUser and a PayPal plugin on it.,
 	 * where you want people to pay for signing up.  Because the JUser plugin creates the user BEFORE
-	 * the PayPal plugin wuns, we don't know if the user ever hit "Pay" in PayPal.  So, we initially set
+	 * the PayPal plugin runs, we don't know if the user ever hit "Pay" in PayPal.  So, we initially set
 	 * the user to be blocked (inactive, see Juser plugin settings).  We then use this IPN 'completed' method
 	 * to unblock the user when the payment confirmation IPN response arrive from PayPal.
 	 *
@@ -81,7 +81,7 @@ class fabrikPayPalIPN
 		list($formid, $rowid, $ipn_value) = explode(":", $custom);
 		$amount_paid = $request['mc_gross'];
 		$db = $listModel->getDb();
-		// See if we can find the coresponding row from our registration table,
+		// See if we can find the corresponding row from our registration table,
 		// and fetch our userid element from it.  The PayPal plugin will have written
 		// the newly created userid in to it during the original form submission.
 		$db->setQuery("SELECT `userid` FROM `registration_individual` WHERE `id` = " . $db->quote($rowid));

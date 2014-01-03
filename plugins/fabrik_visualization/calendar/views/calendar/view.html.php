@@ -109,7 +109,7 @@ class FabrikViewCalendar extends JViewLegacy
 			$options->listid = $o->id;
 		}
 
-		// $$$rob @TODO not sure this is need - it isnt in the timeline viz
+		// $$$rob @TODO not sure this is need - it isn't in the timeline viz
 		$model->setRequestFilters();
 		$options->filters = $model->filters;
 

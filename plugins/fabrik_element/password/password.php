@@ -23,7 +23,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 {
 	/**
 	 * States if the element contains data which is recorded in the database
-	 * some elements (eg buttons) dont
+	 * some elements (e.g. buttons) don't
 	 *
 	 * @param   array  $data  Posted data
 	 *
@@ -51,7 +51,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   This elements posted form data
 	 * @param   array  $data  Posted form data
@@ -86,7 +86,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -152,7 +152,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 	 * Internal element validation
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  Repeeat group counter
+	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return bool
 	 */
@@ -172,7 +172,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		$origname = $element->name;
 
 		/**
-		 * $$$ hugh - need to fetch the value for the main data, as well as the confirmatoin,
+		 * $$$ hugh - need to fetch the value for the main data, as well as the confirmation,
 		 * rather than using $data, to avoid issues with things like "foo%20bar" getting incorrectly
 		 * decoded as "foo bar" in $data.
 		 */

@@ -58,7 +58,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -92,7 +92,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			{
 				$userid = (int) $this->getValue($data, $repeatCounter);
 
-				// On failed validtion value is 1 - user ids are always more than that so dont load userid=1 otherwise an error is generated
+				// On failed validation value is 1 - user ids are always more than that so don't load userid=1 otherwise an error is generated
 				$user = $userid <= 1 ? JFactory::getUser() : JFactory::getUser($userid);
 			}
 		}
@@ -121,7 +121,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 					 *  $$$ rob 31/07/2011 not sure this is right - causes js error when field is hidden in form
 					 *  $$$ hugh 10/31/2011 - but if we don't do it, $id is the label not the value (like 'username')
 					 *  so wrong uid is written to form, and wipes out real ID when form is submitted.
-					 *  OK, problem was we were using $id firther on as the html ID, so if we added _raw, element
+					 *  OK, problem was we were using $id further on as the html ID, so if we added _raw, element
 					 *  on form had wrong ID.  Added $html_id above, to use as (duh) html ID instead of $id.
 					 */
 					if (!strstr($id, '_raw') && array_key_exists($id . '_raw', $data))
@@ -189,7 +189,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			}
 			else
 			{
-				JError::raiseWarning(E_NOTICE, "didnt load for $element->default");
+				JError::raiseWarning(E_NOTICE, "Didn't load for $element->default");
 			}
 		}
 
@@ -198,7 +198,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 	/**
 	 * Is the element hidden or not - if not set then return false
-	 * If the table db isnt the same as the joomla db the element
+	 * If the table db isn't the same as the joomla db the element
 	 *
 	 * @return  bool
 	 */
@@ -358,7 +358,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			}
 		}
 
-		// $$$ rob also check we aren't importing from CSV - if we are ingore
+		// $$$ rob also check we aren't importing from CSV - if we are ignore
 		if ($input->getString('rowid', '', 'string') == '' && $input->get('task') !== 'doimport')
 		{
 			// $$$ rob if we cant use the element or its hidden force the use of current logged in user
@@ -375,7 +375,9 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		// $$$ rob NOOOOOO!!!!! - if its HIDDEN OR set to READ ONLY then yes
 		// otherwise selected dropdown option is not taken into account
 
-		// $$$ hugh - so how come we don't do the same thing on a new row?  Seems inconsistant to me?
+		// $$$ hugh - so how come we don't do the same thing on a new row?  Seems inconsistent to me?
+
+		// $$$ paul - seems bonkers to me to use source code comments like an instant messaging system!
 		else
 		{
 			if ($this->updateOnEdit())
@@ -619,7 +621,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  when repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           options
 	 *
 	 * @return  string	value
@@ -630,7 +632,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
-		// Cludge for 2 scenarios
+		// Kludge for 2 scenarios
 		if (array_key_exists('rowid', $data))
 		{
 			// When validating the data on form submission
@@ -649,7 +651,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		if (empty($data) || !array_key_exists($key, $data))
 		{
 			// $$$ rob - added check on task to ensure that we are searching and not submitting a form
-			// as otherwise not empty valdiation failed on user element
+			// as otherwise not empty validation failed on user element
 			if (!in_array($input->get('task'), array('processForm', 'view', '', 'form.process')))
 			{
 				return '';
@@ -690,7 +692,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		$htmlid = $this->getHTMLId() . 'value';
 		$v = $this->filterName($counter, $normal);
 
-		// Corect default got
+		// Correct default got
 		$default = $this->getDefaultFilterVal($normal, $counter);
 		$return = array();
 		$tabletype = $this->getLabelOrConcatVal();
@@ -797,7 +799,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
 	 *
 	 * @param   string  $key            element name in format `tablename`.`elementname`
-	 * @param   string  $condition      =/like etc
+	 * @param   string  $condition      =/like etc.
 	 * @param   string  $value          search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  original filter value without quotes or %'s applied
 	 * @param   string  $type           filter type advanced/normal/prefilter/search/querystring/searchall

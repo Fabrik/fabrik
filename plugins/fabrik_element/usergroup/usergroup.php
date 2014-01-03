@@ -45,7 +45,7 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -233,7 +233,7 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	value

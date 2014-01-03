@@ -81,7 +81,7 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 
 		if ($input->getInt('fabrik_ignorevalidation') === 1 || $input->getInt('fabrik_ajax') === 1)
 		{
-			// Saving via inline edit - dont want to confirm
+			// Saving via inline edit - don't want to confirm
 			return true;
 		}
 
@@ -114,7 +114,7 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 		// Initialize some variables
 		$form = $formModel->getForm();
 
-		// Save the posted form data to the form session, for retrival later
+		// Save the posted form data to the form session, for retrieval later
 		$sessionModel = JModelLegacy::getInstance('Formsession', 'FabrikFEModel');
 		$sessionModel->setFormId($formModel->getId());
 		$rowid = $input->get('rowid', 0);
@@ -189,7 +189,7 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 			 * load in the posted values as hidden fields so that if we
 			 * return to the form to edit it it will populate with our data
 			 */
-			// $$$ 24/10/2011 testing removing this as data is retrieved via the session not thorugh posted data
+			// $$$ 24/10/2011 testing removing this as data is retrieved via the session not through posted data
 			foreach ($post as $key => $val)
 			{
 				$noneraw = JString::substr($key, 0, JString::strlen($key) - 4);
@@ -208,7 +208,7 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 				{
 					$key = $formModel->getElement($noneraw)->getHTMLName(0);
 
-					// $$$ rob include both raw and non-raw keys (non raw for radios etc, _raw for db joins)
+					// $$$ rob include both raw and non-raw keys (non raw for radios etc., _raw for db joins)
 					if (is_array($val))
 					{
 						foreach ($val as $val2)

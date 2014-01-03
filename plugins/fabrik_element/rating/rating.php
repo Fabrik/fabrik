@@ -61,7 +61,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	protected $creatorIds = null;
 
 	/**
-	 * States the element should be ignored from advanced search all queryes.
+	 * States the element should be ignored from advanced search all queries.
 	 *
 	 * @var bool  True, ignore in advanced search all.
 	 */
@@ -305,7 +305,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -321,7 +321,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 
 		if ($input->get('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
 		{
-			return JText::_('PLG_ELEMENT_RATING_ONLY_ACCESSIBLE_IN_DETALS_VIEW');
+			return JText::_('PLG_ELEMENT_RATING_ONLY_ACCESSIBLE_IN_DETAILS_VIEW');
 		}
 
 		$element = $this->getElement();
@@ -382,7 +382,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	}
 
 	/**
-	 * Manupulates posted form data for insertion into database
+	 * Manipulates posted form data for insertion into database
 	 *
 	 * @param   mixed  $val   this elements posted form data
 	 * @param   array  $data  posted form data
@@ -650,7 +650,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 
 	/**
 	 * Used by radio and dropdown elements to get a dropdown list of their unique
-	 * unique values OR all options - basedon filter_build_method
+	 * unique values OR all options - based on filter_build_method
 	 *
 	 * @param   bool    $normal     Do we render as a normal filter or as an advanced search filter
 	 * @param   string  $tableName  Table name to use - defaults to element's current table

@@ -34,7 +34,7 @@ class PlgFabrik_ListArticle extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array   &$args   arguements
+	 * @param   array   &$args   Arguments
 	 *
 	 * @return  bool;
 	 */
@@ -98,7 +98,7 @@ class PlgFabrik_ListArticle extends PlgFabrik_List
 		$origRowId = $input->get('rowid');
 		$pluginManager = JModelLegacy::getInstance('Pluginmanager', 'FabrikFEModel');
 
-		// Abstract verson of the form article plugin
+		// Abstract version of the form article plugin
 		$articlePlugin = $pluginManager->getPlugin('article', 'form');
 
 		$formModel = $model->getFormModel();

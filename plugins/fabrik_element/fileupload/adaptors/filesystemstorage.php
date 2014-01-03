@@ -57,7 +57,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	/**
 	 * Create empty index.html for security
 	 *
-	 * @param   strng  $path  path to folder
+	 * @param   string  $path  path to folder
 	 *
 	 * @return bool success
 	 */
@@ -98,7 +98,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	/**
 	 * Make recursive folders
 	 *
-	 * @param   string   $folderPath  Path to folder - eg /images/stories
+	 * @param   string   $folderPath  Path to folder - e.g. /images/stories
 	 * @param   bitmask  $mode        Permissions
 	 *
 	 * @return  mixed JError|void
@@ -157,7 +157,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	}
 
 	/**
-	 * Clean a fle name
+	 * Clean a file name
 	 *
 	 * @param   string  $filename       file name to clean
 	 * @param   int     $repeatCounter  repeat group counter
@@ -167,7 +167,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function cleanName($filename, $repeatCounter)
 	{
-		// Replace any non-alnum chars (except _ and - and .) with _
+		// Replace any non-alphanumeric chars (except _ and - and .) with _
 		$filename = preg_replace('#[^a-zA-Z0-9_\-\.]#', '_', $filename);
 		$this->randomizeName($filename);
 
@@ -292,7 +292,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 		$params = $this->getParams();
 		$w = new FabrikWorker;
 
-		// $$$ rob wasnt working when getting thumb path on upload
+		// $$$ rob wasn't working when getting thumb path on upload
 		$ulDir = JPath::clean($params->get('ul_directory'));
 		$ulDir = str_replace("\\", "/", $ulDir);
 
@@ -321,7 +321,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 		$ulDir = str_replace($match, $replace, $ulDir);
 
-		// $$$ rob wasnt working when getting thumb path on upload
+		// $$$ rob wasn't working when getting thumb path on upload
 		$typeDir = $type == 'thumb' ? $params->get('thumb_dir') : $params->get('fileupload_crop_dir');
 		$thumbdir = str_replace($match, $replace, $typeDir);
 		$ulDir = $w->parseMessageForPlaceHolder($ulDir);
@@ -386,9 +386,9 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function finalFilePathParse(&$filepath)
 	{
-		/* $$$ hugh - ooop!  Double Plus Ungood if JPATH_SITE is just /,
+		/* $$$ hugh - oops!  Double Plus Ungood if JPATH_SITE is just /,
 		 * which happens on some shared hosts which are chrooted (jailed)
-		 * 'cos then we just strip out all the /'s in gthe path!
+		 * 'cos then we just strip out all the /'s in the path!
 		 *$filepath = str_replace(JPATH_SITE, '', $filepath);
 		 */
 		$filepath = preg_replace('#^' . preg_quote(JPATH_SITE, '#') . '#', '', $filepath);

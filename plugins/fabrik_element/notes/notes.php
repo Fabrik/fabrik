@@ -52,7 +52,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -200,7 +200,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	 *
 	 * @param   array           $data            Current row data to use in placeholder replacements
 	 * @param   bool            $incWhere        Should the additional user defined WHERE statement be included
-	 * @param   string          $thisTableAlias  Db table alais
+	 * @param   string          $thisTableAlias  Db table alias
 	 * @param   array           $opts            Options
 	 * @param   JDatabaseQuery  $query           Append where to JDatabaseQuery object or return string (false)
 	 *
@@ -217,7 +217,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		$rowid = $this->getFormModel()->getRowId();
 		$where = array();
 
-		// Jaanus: here we can choose whether WHERE has to have single or (if field is the same as FK then only) custom (single or multiple) criterias,
+		// Jaanus: here we can choose whether WHERE has to have single or (if field is the same as FK then only) custom (single or multiple) criteria,
 		if ($value != '')
 		{
 			if ($field != '' && $field !== $fk)
@@ -259,7 +259,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Get options order by
 	 *
-	 * @param   string         $view   Ciew mode '' or 'filter'
+	 * @param   string         $view   View mode '' or 'filter'
 	 * @param   JDatabasQuery  $query  Set to false to return a string
 	 *
 	 * @return  string  order by statement

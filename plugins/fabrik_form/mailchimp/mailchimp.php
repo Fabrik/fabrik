@@ -160,17 +160,17 @@ class PlgFabrik_FormMailchimp extends PlgFabrik_Form
 				{
 					$groupOpt->groups = $w->parseMessageForPlaceHolder($groupOpt->groups, $emailData);
 
-					// An arry of additonal options: array('name'=>'Your Interests:', 'groups'=>'Bananas,Apples')
+					// An array of additional options: array('name'=>'Your Interests:', 'groups'=>'Bananas,Apples')
 					$groups[] = JArrayHelper::fromObject($groupOpt);
 				}
 				else
 				{
 					foreach ($groupOpt as $k => $v)
 					{
-						// DOn't use emailData as that contains html markup which is not shown in the list view
+						// Don't use emailData as that contains html markup which is not shown in the list view
 						$opts[strtoupper($k)] = $w->parseMessageForPlaceHolder($v, $formModel->formData);
 
-						// But... labels for db joins etc are not availabel in formData
+						// But... labels for db joins etc. are not available in formData
 						$opts[strtoupper($k)] = $w->parseMessageForPlaceHolder($v, $emailData);
 					}
 

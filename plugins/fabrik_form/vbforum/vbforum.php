@@ -62,7 +62,7 @@ class PlgFabrik_FormVbForum extends PlgFabrik_Form
 	}
 
 	/**
-	 * Perform curl post ot forum
+	 * Perform curl post to forum
 	 *
 	 * @param   string  $method  post/get
 	 * @param   url     $url     url to post to

@@ -50,7 +50,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 	/**
 	 * Get HTML text
 	 *
-	 * @return  strng
+	 * @return  string
 	 */
 
 	public function getText()
@@ -138,7 +138,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */
@@ -269,7 +269,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		// Image from marker data
 		$markerImages = (array) $params->get('fb_gm_iconimage2');
 
-		// Specifed letter
+		// Specified letter
 		$letters = (array) $params->get('fb_gm_icon_letter');
 		$aFirstIcons = (array) $params->get('fb_gm_first_iconimage');
 		$aLastIcons = (array) $params->get('fb_gm_last_iconimage');
@@ -359,7 +359,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 
 					if (empty($html) && (array_key_exists('fabrik_view', $rowdata) || array_key_exists('fabrik_edit', $rowdata)))
 					{
-						// Don't insert linebreak in empty bubble without links $html .= "<br />";
+						// Don't insert line break in empty bubble without links $html .= "<br />";
 
 						// Use edit link by preference
 						if (array_key_exists('fabrik_edit', $rowdata))
@@ -480,7 +480,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 					}
 					else
 					{
-						// Default icon - lets see if we need to use a letterd icon instead
+						// Default icon - lets see if we need to use a letter icon instead
 						if (JArrayHelper::getValue($letters, $c, '') != '')
 						{
 							$iconImg = $uri->getScheme() . '://www.google.com/mapfiles/marker' . JString::strtoupper($letters[$c]) . '.png';
@@ -565,7 +565,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 			$width = is_array($size) ? $size[0] : 25;
 			$height = is_array($size) ? $size[1] : 25;
 
-			// Ensure icons arent too big (25 is max)
+			// Ensure icons aren't too big (25 is max)
 			$scale = min(25 / $width, 25 / $height);
 
 			// If the image is larger than the max shrink it
@@ -695,7 +695,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Get wheter the map side bar should be shown
+	 * Get whether the map side bar should be shown
 	 *
 	 * @return  bool
 	 */

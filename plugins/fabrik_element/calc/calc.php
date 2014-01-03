@@ -187,7 +187,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	value
@@ -321,8 +321,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	}
 
 	/**
-	 * Allows the element to pre-process a rows data before and join mergeing of rows
-	 * occurs. Used in calc element to do cals on actual row rather than merged row
+	 * Allows the element to pre-process a rows data before and join merging of rows
+	 * occurs. Used in calc element to do calcs on actual row rather than merged row
 	 *
 	 * @param   string  $data  Elements data for the current row
 	 * @param   object  $row   Current row's data
@@ -409,7 +409,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -729,7 +729,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		$return = new stdClass;
 		$w = new FabrikWorker;
 		/**
-		 * $$$ hugh ... no, we never need to store in this context.  The 'calc_on_save_only' param simply distates
+		 * $$$ hugh ... no, we never need to store in this context.  The 'calc_on_save_only' param simply dictates
 		 * whether we re-calc when displaying the element, or just use the stored value.  So if calc_on_save_only is
 		 * set, then when displaying in lists, we don't execute the calc, we just used the stored value fro the database.
 		 * And that logic is handled in _getV(), so we don't need to do the $store stuff.
@@ -772,7 +772,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 	/**
 	 * Turn form value into email formatted value
 	 * $$$ hugh - I added this as for reasons I don't understand, something to do with
-	 * how the value gets calc'ed durind preProcess, sometimes the calc is "right" when
+	 * how the value gets calc'ed during preProcess, sometimes the calc is "right" when
 	 * it's submitted to the database, but wrong during form email plugin processing.  So
 	 * I gave up trying to work out why, and now just re-calc it during getEmailData()
 	 *

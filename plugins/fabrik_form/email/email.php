@@ -23,7 +23,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 class PlgFabrik_FormEmail extends PlgFabrik_Form
 {
 	/**
-	 * Attachement files
+	 * Attachment files
 	 *
 	 * @var array
 	 */
@@ -42,7 +42,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 	 * determines if a condition has been set and decides if condition is matched
 	 *
 	 * @param object $params
-	 * @return  bool true if you sould send the email, false stops sending of eaml
+	 * @return  bool true if you should send the email, false stops sending of email
 	 */
 
 	/*function shouldSend(&$params)
@@ -84,7 +84,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		$contentTemplate = $params->get('email_template_content');
 		$content = $contentTemplate != '' ? $this->_getConentTemplate($contentTemplate) : '';
 
-		// Always send as html as even text email can contain html from wysiwg editors
+		// Always send as html as even text email can contain html from wysiwyg editors
 		$htmlEmail = true;
 
 		$messageTemplate = '';
@@ -296,7 +296,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 				$this->pdfAttachement($thisAttachments, $this->data, $thisUser);
 
-				// Get a JMail instance (have to get a new instance otherwise the receipients are appended to previously added recipients)
+				// Get a JMail instance (have to get a new instance otherwise the recipients are appended to previously added recipients)
 				$mail = JFactory::getMailer();
 				$res = $mail->sendMail(
 					$email_from, $email_from_name, $email, $thisSubject, $thisMessage,
@@ -329,7 +329,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 	/**
 	 * Attach the details view as a PDF to the email
 	 *
-	 * @param   array  &$thisAttachments  Attachements
+	 * @param   array  &$thisAttachments  Attachments
 	 *
 	 * @throws  RuntimeException
 	 *
@@ -411,12 +411,12 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			$input->set($key, $val);
 		}
 
-		// Reset docuemnt type
+		// Reset document type
 		$document->setType($docType);
 	}
 
 	/**
-	 * Use a php template for advanced email templates, partularly for forms with repeat group data
+	 * Use a php template for advanced email templates, particularly for forms with repeat group data
 	 *
 	 * @param   string  $tmpl  Path to template
 	 *
@@ -501,7 +501,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			}
 		}
 		// $$$ hugh - added an optional eval for adding attachments.
-		// Eval'ed code should just return an array of file paths which we merge with $this->attachments[]
+		// Eval'd code should just return an array of file paths which we merge with $this->attachments[]
 		$w = new FabrikWorker;
 		$email_attach_eval = $w->parseMessageForPlaceholder($params->get('email_attach_eval', ''), $this->data, false);
 
@@ -518,7 +518,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 	}
 
 	/**
-	 * Get an array of keys we dont want to email to the user
+	 * Get an array of keys we don't want to email to the user
 	 *
 	 * @return  array
 	 */

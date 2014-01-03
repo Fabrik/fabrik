@@ -65,9 +65,7 @@ class AllVideosRender
 
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
 		{
-			$this->output = JText::_(
-				'to display this media files types you need to install the all videos plugin - http://www.joomlaworks.gr/content/view/35/41/');
-
+			$this->output = JText::_('PLG_ELEMENT_FILEUPLOAD_INSTALL_ALL_VIDEOS');
 			return;
 		}
 

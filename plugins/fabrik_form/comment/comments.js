@@ -217,11 +217,11 @@ var FabrikComment = new Class({
 		if (replyform.getElement('select[name=rating]')) {
 			this.ajax.addComment.options.data.rating = replyform.getElement('select[name=rating]').get('value');
 		}
-		if (replyform.getElement('input[name^=annonymous]')) {
-			var sel = replyform.getElements('input[name^=annonymous]').filter(function (i) {
+		if (replyform.getElement('input[name^=anonymous]')) {
+			var sel = replyform.getElements('input[name^=anonymous]').filter(function (i) {
 				return i.checked === true;
 			});
-			this.ajax.addComment.options.data.annonymous = sel[0].get('value');
+			this.ajax.addComment.options.data.anonymous = sel[0].get('value');
 		}
 
 		this.ajax.addComment.options.data.reply_to = replyto;

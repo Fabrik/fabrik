@@ -68,7 +68,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	/**
 	 * Determines if the data in the form element is used when updating a record
 	 *
-	 * @param   mixed  $val  Element forrm data
+	 * @param   mixed  $val  Element form data
 	 *
 	 * @return  bool  True if ignored on update, default = false
 	 */
@@ -333,7 +333,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 					{
 						if (is_object($value[$x]))
 						{
-							// S Fngle crop image (not sure about the 0 settings in here)
+							// Single crop image (not sure about the 0 settings in here)
 							$parts = explode(DIRECTORY_SEPARATOR, $value[$x]->file);
 							$o = new stdClass;
 							$o->id = 'alreadyuploaded_' . $element->id . '_0';
@@ -493,7 +493,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$rendered = '';
 		static $id_num = 0;
 
-		// $$$ hugh - have to run thru rendering even if data is empty, in case default image is being used.
+		// $$$ hugh - have to run through rendering even if data is empty, in case default image is being used.
 		if (empty($data))
 		{
 			$data[0] = $this->_renderListData('', $thisRow, 0);
@@ -614,7 +614,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Element plugin specific method for setting unecrypted values baack into post data
+	 * Element plugin specific method for setting unecrypted values back into post data
 	 *
 	 * @param   array   &$post  Data passed by ref
 	 * @param   string  $key    Key
@@ -888,7 +888,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Do we need to include the lighbox js code
+	 * Do we need to include the lightbox js code
 	 *
 	 * @return	bool
 	 */
@@ -930,13 +930,13 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Checks the posted form data against elements INTERNAL validataion rule
+	 * Checks the posted form data against elements INTERNAL validation rule
 	 * e.g. file upload size / type
 	 *
 	 * @param   string  $data           Elements data
 	 * @param   int     $repeatCounter  Repeat group counter
 	 *
-	 * @return  bool	True if passes / false if falise validation
+	 * @return  bool	True if passes / false if fails validation
 	 */
 
 	public function validate($data = array(), $repeatCounter = 0)
@@ -961,7 +961,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			$file = $files;
 		}
 
-		// Perhaps an ajax upload? In anay event $file empty was giving errors with upload element in multipage form.
+		// Perhaps an ajax upload? In any event $file empty was giving errors with upload element in multipage form.
 		if (!array_key_exists('name', $file))
 		{
 			return true;
@@ -1059,7 +1059,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * This checks that thte fileupload size is not greater than that specified in
+	 * This checks that the fileupload size is not greater than that specified in
 	 * the upload element
 	 *
 	 * @param   string  $myFileSize  File size
@@ -1296,7 +1296,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 				{
 					if (!$storage->write($destCropFile, $imgData))
 					{
-						throw new RuntimeException('couldnt write image, ' . $destCropFile, 500);
+						throw new RuntimeException('Couldn\'t write image, ' . $destCropFile, 500);
 					}
 				}
 
@@ -1398,7 +1398,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			// Inline edit for example no $_FILE data sent
 			return;
 		}
-		/* If we've turnd on crop but not set ajax upload then the cropping wont work so we shouldnt return
+		/* If we've turned on crop but not set ajax upload then the cropping wont work so we shouldn't return
 		 * otherwise no standard image processed
 		 */
 		if ($this->crop($name) && $params->get('ajax_upload'))
@@ -1597,7 +1597,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           Data to test against
@@ -1901,7 +1901,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		/**
 		 * $$$ hugh - if we use the @ way of doing this, and one of the array keys doesn't exist,
-		 * PHP still sets an error, even though it doesn't toss it.  So if we then have some eval'ed
+		 * PHP still sets an error, even though it doesn't toss it.  So if we then have some eval'd
 		 * code, like a PHP validation, and do the logError() thing, that will pick up and report this error,
 		 * and fail the validation.  Which is VERY hard to track.  So we'll have to do it long hand.
 		 */
@@ -1964,7 +1964,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	Elements html
@@ -2144,7 +2144,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Check if a single crop iamge has been uploaded and set the value accordingly
+	 * Check if a single crop image has been uploaded and set the value accordingly
 	 *
 	 * @param   array  $value  Uploaded files
 	 *
@@ -2741,7 +2741,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 *
 	 * @return  string	Value
 	 */
@@ -3029,7 +3029,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           Element value
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return	string	Value
@@ -3043,7 +3043,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	}
 
 	/**
-	 * Build 'slideshow' / carusel.  What gets built will depend on content type,
+	 * Build 'slideshow' / carousel.  What gets built will depend on content type,
 	 * using the first file in the data array as the type.  So if the first file is
 	 * an image, a Bootstrap carousel will be built.
 	 *

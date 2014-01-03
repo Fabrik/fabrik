@@ -134,9 +134,9 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 		$geocodeSelected = $params->get('geocode', 1);
 		$totalOpts = $params->get('myloc', 1) + $params->get('place', 1) + $params->get('coords', 1) + $geocodeSelected;
 		$activeDef = array($params->get('start_active', 0));
-		$active = $app->getUserStateFromRequest($baseContext . 'radius_serach_active', 'radius_search_active' . $this->renderOrder, $activeDef);
+		$active = $app->getUserStateFromRequest($baseContext . 'radius_search_active', 'radius_search_active' . $this->renderOrder, $activeDef);
 
-		$str .= '<div class="radus_search" id="radius_search' . $this->renderOrder . '" style="left:-100000px;position:absolute;">';
+		$str .= '<div class="radius_search" id="radius_search' . $this->renderOrder . '" style="left:-100000px;position:absolute;">';
 		$str .= '<input type="hidden" name="radius_search_active' . $this->renderOrder . '[]" value="' . $active[0] . '" />';
 
 		$str .= '<div class="radius_search_options">';
@@ -191,7 +191,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 	}
 
 	/**
-	 * Create the geocode widget to determine search center.
+	 * Create the geocode widget to determine search centre.
 	 *
 	 * @param   array  $type  Search type
 	 *
@@ -265,7 +265,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 		else
 		{
 			// No exact match lets unset the query and try to find a partial match
-			// (perhaps the user didnt select anything from the dropdown?)
+			// (perhaps the user didn't select anything from the dropdown?)
 			unset($model->getForm()->query);
 			$row = $model->findRow($placeElement->name, $place);
 
@@ -380,7 +380,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 	/**
 	 * onFiltersGot method - run after the list has created filters
 	 *
-	 * @return bol currently ignored
+	 * @return bool currently ignored
 	 */
 
 	public function onFiltersGot()
@@ -616,7 +616,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 	}
 
 	/**
-	 * Overridden by plugins if neceesary.
+	 * Overridden by plugins if necessary.
 	 * If the plugin is a filter plugin, return true if it needs the 'form submit'
 	 * method, i.e. the Go button.  Implemented specifically for radius search plugin.
 	 *
@@ -628,7 +628,7 @@ class PlgFabrik_ListRadius_Search extends PlgFabrik_List
 	}
 
 	/**
-	 * Overridden by plugins if neceesary.
+	 * Overridden by plugins if necessary.
 	 * If the plugin is a filter plugin, return true if it needs the 'form submit'
 	 * method, i.e. the Go button.  Implemented specifically for radius search plugin.
 	 *

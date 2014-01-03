@@ -29,7 +29,7 @@ define("FABRIKFILTER_EVAL", 1);
 define("FABRIKFILTER_QUERY", 2);
 define("FABRKFILTER_NOQUOTES", 3);
 
-/** @var delimiter used to define seperator in csv export */
+/** @var delimiter used to define separator in csv export */
 define("COM_FABRIK_CSV_DELIMITER", ",");
 define("COM_FABRIK_EXCEL_CSV_DELIMITER", ";");
 
@@ -47,7 +47,7 @@ JHTML::addIncludePath(JPATH_SITE . '/components/com_fabrik/jhelpers/' . $version
 JLoader::register('JElement', JPATH_SITE . '/administrator/components/com_fabrik/element.php');
 
 /**
- * Moved these to the plugin constructur, fixing a compat issue with Kunena, see comments there.
+ * Moved these to the plugin constructor, fixing a compat issue with Kunena, see comments there.
  */
 // JLoader::import('components.com_fabrik.classes.field', JPATH_SITE . '/administrator', 'administrator.');
 // JLoader::import('components.com_fabrik.classes.form', JPATH_SITE . '/administrator', 'administrator.');

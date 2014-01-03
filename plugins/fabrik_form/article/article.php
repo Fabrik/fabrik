@@ -475,7 +475,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	}
 
 	/**
-	 * Use a php template for advanced email templates, partularly for forms with repeat group data
+	 * Use a php template for advanced email templates, particularly for forms with repeat group data
 	 *
 	 * @param   string  $tmpl  Path to template
 	 *

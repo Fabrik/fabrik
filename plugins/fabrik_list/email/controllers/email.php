@@ -35,7 +35,7 @@ class FabrikControllerListemail extends JControllerLegacy
 	/**
 	 * default display mode
 	 *
-	 * @param   bool   $cachable   Cachable
+	 * @param   bool   $cachable   Cacheable
 	 * @param   array  $urlparams  Params
 	 *
 	 * @return null

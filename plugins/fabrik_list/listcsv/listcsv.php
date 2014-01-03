@@ -27,7 +27,7 @@ class PlgFabrik_ListListcsv extends PlgFabrik_List
 	/**
 	 * determine if the table plugin is a button and can be activated only when rows are selected
 	 *
-	 * @return bol
+	 * @return bool
 	 */
 
 	public function canSelectRows()
@@ -38,7 +38,7 @@ class PlgFabrik_ListListcsv extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */

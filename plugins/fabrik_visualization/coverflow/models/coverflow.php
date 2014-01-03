@@ -115,7 +115,7 @@ class FabrikModelCoverflow extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */

@@ -27,7 +27,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	/**
 	 * onFiltersGot method - run after the list has created filters
 	 *
-	 * @return bol currently ignored
+	 * @return bool currently ignored
 	 */
 
 	public function onFiltersGot()
@@ -81,7 +81,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	/**
 	 * onGetData method
 	 *
-	 * @return bol currently ignored
+	 * @return bool currently ignored
 	 */
 
 	public function onLoadData()
@@ -107,7 +107,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	/**
 	 * Prep the button if needed
 	 *
-	 * @param   array  &$args  Arguements
+	 * @param   array  &$args  Arguments
 	 *
 	 * @return  bool;
 	 */

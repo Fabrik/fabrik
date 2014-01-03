@@ -32,7 +32,7 @@ class PlgFabrik_FormUpsert extends plgFabrik_Form
 	protected $db = null;
 
 	/**
-	 * process the plugin, called afer form is submitted
+	 * process the plugin, called after form is submitted
 	 *
 	 * @return  bool
 	 */

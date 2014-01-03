@@ -126,7 +126,7 @@ class PlgFabrik_FormReceipt extends PlgFabrik_Form
 		$from = $config->get('mailfrom', '');
 		$fromname = $config->get('fromname', '');
 
-		// Darn silly hack for poor joomfish settings where lang parameters are set to overide joomla global config but not mail translations entered
+		// Darn silly hack for poor joomfish settings where lang parameters are set to override joomla global config but not mail translations entered
 		$rawconfig = new JConfig;
 
 		if ($from === '')

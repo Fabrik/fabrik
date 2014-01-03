@@ -37,7 +37,7 @@ class FabrikTableSubscription extends JTable
 	/**
 	 * Expire the sub
 	 *
-	 * @param   strng  $msg  reason for expiration
+	 * @param   string  $msg  reason for expiration
 	 *
 	 * @return  bool
 	 */

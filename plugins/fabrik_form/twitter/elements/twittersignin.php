@@ -3,7 +3,7 @@
  * Post content to twitter: JForm Element
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.form.twiter
+ * @subpackage  Fabrik.form.twitter
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  *
@@ -22,7 +22,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
  * Renders a twitter sign in button
  *
  * @package     Joomla.Plugin
- * @subpackage  Fabrik.form.twiter
+ * @subpackage  Fabrik.form.twitter
  * @since       3.0
  */
 

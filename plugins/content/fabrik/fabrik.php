@@ -26,7 +26,7 @@ class PlgContentFabrik extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * For php4 compatibility we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
@@ -215,7 +215,7 @@ class PlgContentFabrik extends JPlugin
 					$viewName = JString::strtolower($m[1]);
 					break;
 				case 'id':
-					// Cast to int incase there are two spaces after value.
+					// Cast to int in case there are two spaces after value.
 					$id = (int) $m[1];
 					break;
 				case 'layout':
@@ -364,7 +364,7 @@ class PlgContentFabrik extends JPlugin
 				foreach ($elements as &$elementModel)
 				{
 					// $$$ rob 26/05/2011 changed it so that you can pick up joined elements without specifying plugin
-					// param 'element' as joinx[x][fullname] but simpy 'fullname'
+					// param 'element' as joinx[x][fullname] but simply 'fullname'
 					if ($element == $elementModel->getFullName(true, false))
 					{
 						$activeEl = $elementModel;
@@ -504,7 +504,7 @@ class PlgContentFabrik extends JPlugin
 				break;
 			case 'csv':
 			case 'table':
-			case 'list': /* $$$ rob 15/02/2011 addded this as otherwise when you filtered on a table
+			case 'list': /* $$$ rob 15/02/2011 added this as otherwise when you filtered on a table
 						  * with multiple filter set up subsequent tables were showing
 						  * the first tables data
 						  */
@@ -816,7 +816,7 @@ class PlgContentFabrik extends JPlugin
 				$controller = new FabrikControllerDetails;
 				break;
 			case 'list':
-				// $$$ hugh - had to add [$id] for cases where we have multiple plugins with different tableid's
+				// $$$ hugh - had to add [$id] for cases where we have multiple plugins with different tableids
 				if (array_key_exists('list', $this->controllers))
 				{
 					if (!array_key_exists($id, $this->controllers['list']))

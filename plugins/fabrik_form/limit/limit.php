@@ -132,7 +132,7 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 
 	/**
 	 * Look up the limit from the table spec'd in the admin params
-	 * looup done on user id OR user groups, max limit returned
+	 * lookup done on user id OR user groups, max limit returned
 	 *
 	 * @return number
 	 */

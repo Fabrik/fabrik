@@ -409,7 +409,7 @@ class FabrikModelNvd3_Chart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Build data for the mutli Chart types
+	 * Build data for the multi Chart types
 	 * Current only works
 	 *
 	 * @return stdClass
@@ -641,9 +641,9 @@ class FabrikModelNvd3_Chart extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Add chart marings
+	 * Add chart margins
 	 *
-	 * @return  string  chart.margn option
+	 * @return  string  chart.margin option
 	 */
 
 	protected function margins()
@@ -749,7 +749,7 @@ class FabrikModelNvd3_Chart extends FabrikFEModelVisualization
 				$str[] = '.y(function(d) { return d.value })';
 				break;
 
-				// Test: was the same as stackedAreaChart (was the same as stackedAreaChart)
+			// Test: was the same as stackedAreaChart
 			case 'multiBarChart':
 				$str[] = '.x(function(d) { return d.label })';
 				$str[] = '.y(function(d) { return d.value })';

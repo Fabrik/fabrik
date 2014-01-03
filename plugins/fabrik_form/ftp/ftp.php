@@ -188,7 +188,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 	}
 
 	/**
-	 * Use a php template for advanced email templates, partularly for forms with repeat group data
+	 * Use a php template for advanced email templates, particularly for forms with repeat group data
 	 *
 	 * @param   string  $tmpl  Path to template
 	 *
@@ -212,7 +212,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 	}
 
 	/**
-	 * Get an array of keys we dont want to email to the user
+	 * Get an array of keys we don't want to email to the user
 	 *
 	 * @return  array
 	 */

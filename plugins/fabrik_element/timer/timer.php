@@ -55,7 +55,7 @@ class PlgFabrik_ElementTimer extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -157,7 +157,7 @@ class PlgFabrik_ElementTimer extends PlgFabrik_Element
 		$whereSQL = $listModel->buildQueryWhere();
 		$name = $this->getFullName(false, false);
 
-		// $$$rob not actaully likely to work due to the query easily exceeding mySQL's  TIMESTAMP_MAX_VALUE value but the query in itself is correct
+		// $$$rob not actually likely to work due to the query easily exceeding MySQL's TIMESTAMP_MAX_VALUE value but the query in itself is correct
 		return "SELECT DATE_FORMAT(FROM_UNIXTIME(SUM(UNIX_TIMESTAMP($name))), '%H:%i:%s') AS value, $label FROM
 		`$table->db_table_name` $joinSQL $whereSQL";
 	}

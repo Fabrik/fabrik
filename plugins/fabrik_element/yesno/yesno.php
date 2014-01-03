@@ -93,7 +93,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 
 	/**
 	 * Shows the data formatted for the table view with format = pdf
-	 * note pdf lib doesnt support transparent pngs hence this func
+	 * note pdf lib doesn't support transparent pngs hence this func
 	 *
 	 * @param   string  $data     Cell data
 	 * @param   object  $thisRow  Row data
@@ -246,7 +246,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html

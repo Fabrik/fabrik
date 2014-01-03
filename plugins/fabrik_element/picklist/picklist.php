@@ -43,7 +43,7 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -144,7 +144,7 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * if the search value isnt what is stored in the database, but rather what the user
+	 * if the search value isn't what is stored in the database, but rather what the user
 	 * sees then switch from the search string to the db value here
 	 * overwritten in things like checkbox and radio plugins
 	 *
@@ -190,7 +190,7 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           data to test against

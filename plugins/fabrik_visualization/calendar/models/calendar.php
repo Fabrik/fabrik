@@ -61,7 +61,7 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 	public $canAdd = null;
 
 	/**
-	 * Set an array of list id's whose data is used inside the visualaziation
+	 * Set an array of list id's whose data is used inside the visualization
 	 *
 	 * @return  void
 	 */
@@ -370,7 +370,7 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Get an arry of list ids for which the current user has delete records rights
+	 * Get an array of list ids for which the current user has delete records rights
 	 *
 	 * @return  array	List ids.
 	 */
@@ -398,7 +398,7 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 	/**
 	 * Query all tables linked to the calendar and return them
 	 *
-	 * @return  string	javascript array containg json objects
+	 * @return  string	javascript array containing json objects
 	 */
 
 	public function getEvents()

@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  *  Plugin element to render list of data looked up from a database table
- *  Can render as checboxes, radio buttons, select lists, multi select lists and autocomplete
+ *  Can render as checkboxes, radio buttons, select lists, multi select lists and autocomplete
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.databasejoin
@@ -60,7 +60,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	protected $linkedForms = null;
 
 	/**
-	 * Additionl where for auto-complete query
+	 * Additional where for auto-complete query
 	 *
 	 * @var string
 	 */
@@ -74,14 +74,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	protected $dbname = null;
 
 	/**
-	 * J Paramter name for the field containing the cdd label value
+	 * J Parameter name for the field containing the cdd label value
 	 *
 	 * @var string
 	 */
 	protected $labelParam = 'join_val_column';
 
 	/**
-	 * J Parameter name for the field containiing the concat label
+	 * J Parameter name for the field containing the concat label
 	 *
 	 * @var string
 	 */
@@ -149,7 +149,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$tables = $this->getForm()->getLinkedFabrikLists($params->get('join_db_name'));
 
 			/*	store unjoined values as well (used in non-join group table views)
-			 * this wasnt working for test case:
+			 * this wasn't working for test case:
 			* events -> (db join) event_artists -> el join (artist)
 
 			* $$$ rob in csv import keytable not set
@@ -299,7 +299,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		*/
 		if (is_object($join) && ($params->get($this->concatLabelParam) != ''))
 		{
-			if ($app->input->get('overide_join_val_column_concat') != 1)
+			if ($app->input->get('override_join_val_column_concat') != 1)
 			{
 				$val = str_replace("{thistable}", $join->table_join_alias, $params->get($this->concatLabelParam));
 				$w = new FabrikWorker;
@@ -319,7 +319,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$label = $this->getJoinLabel();
 
-		// Depending on the plugin getJoinLabel() returns a params property or the actaul name, so default to it if we cant find a property
+		// Depending on the plugin getJoinLabel() returns a params property or the actual name, so default to it if we cant find a property
 		$label = $params->get($label, $label);
 		$joinTableName = is_object($join) ? $join->table_join_alias : '';
 		$this->joinLabelCols[(int) $useStep] = $useStep ? $joinTableName . '___' . $label : $db->quoteName($joinTableName . '.' . $label);
@@ -431,10 +431,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if (!in_array($input->get('task'), array('inlineedit', 'form.inlineedit')) && $input->get('format') !== 'raw')
 		{
 			/*
-			 * Suppress error for inlineedit, something not quiet right as groupModel::getPublishedElements() is limited by the elementid request va
-			* but the list model is calling getAsFields() and loading up the db join element.
-			* so test case would be an inline edit list with a database join element and editing anything but the db join element
-			*/
+			 * Suppress error for inlineedit, something not quite right as groupModel::getPublishedElements() is limited by the elementid request va
+			 * but the list model is calling getAsFields() and loading up the db join element.
+			 * so test case would be an inline edit list with a database join element and editing anything but the db join element
+			 */
 			throw new RuntimeException('unable to process db join element id:' . $element->id, 500);
 		}
 
@@ -463,7 +463,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Get other joins that point to this elemetn
+	 * Get other joins that point to this element
 	 *
 	 * @param   JTable  &$table  Table
 	 *
@@ -494,7 +494,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   array  $data           Data
 	 * @param   int    $repeatCounter  Repeat group counter
 	 * @param   bool   $incWhere       Do we add custom where statement into sql
-	 * @param   array  $opts           Addtional options passed into buildQuery()
+	 * @param   array  $opts           Additional options passed into buildQuery()
 	 *
 	 * @return  array	option values
 	 */
@@ -504,7 +504,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$db = $this->getDb();
 
-		// $$$ hugh - attempting to make sure we never do an uncontrained query for auto-complete
+		// $$$ hugh - attempting to make sure we never do an unconstrained query for auto-complete
 		$displayType = $this->getDisplayType();
 		$value = (array) $this->getValue($data, $repeatCounter);
 
@@ -599,7 +599,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   array  $data           From current record (when editing form?)
 	 * @param   int    $repeatCounter  Repeat group counter
 	 * @param   bool   $incWhere       Do we include custom where in query
-	 * @param   array  $opts           Additional optiosn passed intto _getOptionVals()
+	 * @param   array  $opts           Additional options passed into _getOptionVals()
 	 *
 	 * @return  array	option objects
 	 */
@@ -915,7 +915,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @param   array           $data            Current row data to use in placeholder replacements
 	 * @param   bool            $incWhere        Should the additional user defined WHERE statement be included
-	 * @param   string          $thisTableAlias  Db table alais
+	 * @param   string          $thisTableAlias  Db table alias
 	 * @param   array           $opts            Options
 	 * @param   JDatabaseQuery  $query           Append where to JDatabaseQuery object or return string (false)
 	 *
@@ -1107,7 +1107,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * Determines the value for the element in the form view
 	 *
 	 * @param   array  $data           form data
-	 * @param   int    $repeatCounter  when repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  when repeating joined groups we need to know what part of the array to access
 	 *
 	 * @return  string	value
 	 */
@@ -1122,7 +1122,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           to preopulate element with
+	 * @param   array  $data           to pre-populate element with
 	 * @param   int    $repeatCounter  repeat group counter
 	 *
 	 * @return  string	elements html
@@ -1133,7 +1133,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 
-		// For repetaing groups we need to unset this where each time the element is rendered
+		// For repeating groups we need to unset this where each time the element is rendered
 		unset($this->autocomplete_where);
 
 		if ($this->isJoin())
@@ -1596,7 +1596,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * in the form/detail views
 	 *
 	 * @param   array  $data           Form data
-	 * @param   int    $repeatCounter  When repeating joinded groups we need to know what part of the array to access
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
 	 * @param   array  $opts           Options
 	 *
 	 * @return  string	Text to add to the browser's title
@@ -2134,7 +2134,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Get options order by
 	 *
-	 * @param   string         $view   Ciew mode '' or 'filter'
+	 * @param   string         $view   View mode '' or 'filter'
 	 * @param   JDatabasQuery  $query  Set to false to return a string
 	 *
 	 * @return  string  order by statement
@@ -2255,7 +2255,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * Builds an array containing the filters value and condition
 	 *
 	 * @param   string  $value      Initial value
-	 * @param   string  $condition  Intial $condition
+	 * @param   string  $condition  Initial $condition
 	 * @param   string  $eval       How the value should be handled
 	 *
 	 * @since   3.0.6
@@ -2286,7 +2286,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
 	 *
 	 * @param   string  $key            element name in format `tablename`.`elementname`
-	 * @param   string  $condition      =/like etc
+	 * @param   string  $condition      =/like etc.
 	 * @param   string  $value          search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  original filter value without quotes or %'s applied
 	 * @param   string  $type           filter type advanced/normal/prefilter/search/querystring/searchall
@@ -2412,8 +2412,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @param   string  $groupBy    Field name to key the results on - avoids duplicates
 	 * @param   string  $condition  If supplied then filters the list (must then supply $where and $value)
-	 * @param   string  $value      If supplied then filters the list (must then supply $where and $condtion)
-	 * @param   string  $where      If supplied then filters the list (must then supply $value and $condtion)
+	 * @param   string  $value      If supplied then filters the list (must then supply $where and $condition)
+	 * @param   string  $where      If supplied then filters the list (must then supply $value and $condition)
 	 * @param   int     $offset     Query offset - default 0
 	 * @param   int     $limit      Query limit - default 0
 	 *
@@ -2440,7 +2440,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$v = $jointable . '.' . $shortName;
 		$query->select($jointable . '.id AS id');
 
-		// If rendering as mulit/checkbox then {thistable} should not refer to the joining repeat table, but the end table.
+		// If rendering as multi/checkbox then {thistable} should not refer to the joining repeat table, but the end table.
 		if ($this->isJoin())
 		{
 			$jkey = $this->getLabelOrConcatVal();
@@ -2567,7 +2567,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Does the element conside the data to be empty
+	 * Does the element consider the data to be empty
 	 * Used in isempty validation rule
 	 *
 	 * @param   array  $data           data to test against
@@ -2799,7 +2799,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * On save of element, update its jos_fabrik_joins record and any decendants join record
+	 * On save of element, update its jos_fabrik_joins record and any descendants join record
 	 *
 	 * @param   array   $data       data
 	 * @param   string  $tableJoin  join table
@@ -2958,7 +2958,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 	public function getLabelForValue($v, $defaultLabel = null, $forceCheck = false)
 	{
-		// Band aid - as this is called in listModel::addLabels() lets not bother - requerying the db (label already loaded)
+		// Band aid - as this is called in listModel::addLabels() lets not bother - re-querying the db (label already loaded)
 		if ($v === $defaultLabel && !$forceCheck)
 		{
 			return $v;
@@ -3035,7 +3035,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * If no filter condition supplied (either via querystring or in posted filter data
 	 * return the most appropriate filter option for the element.
 	 *
-	 * @return  string	default filter condition ('=', 'REGEXP' etc)
+	 * @return  string	default filter condition ('=', 'REGEXP' etc.)
 	 */
 
 	public function getDefaultFilterCondition()
@@ -3166,7 +3166,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$return = $joinVal;
 		}
 
-		// If storing in join tbl then we should use the alias created from the CONCAT select subquery
+		// If storing in join table then we should use the alias created from the CONCAT select subquery
 		if ($return == '.' || $this->isJoin())
 		{
 			$return = parent::getOrderByName();
@@ -3260,7 +3260,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		*/
 		$jkey = !strstr($jkey, 'CONCAT') ? 'lookup.' . $jkey : $jkey;
 
-		// If rendering as mulit/checkbox then {thistable} should not refer to the joining repeat table, but the end table.
+		// If rendering as multi/checkbox then {thistable} should not refer to the joining repeat table, but the end table.
 		if ($this->isJoin())
 		{
 			/*
@@ -3316,7 +3316,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * Build the sub query which is used when merging in
 	 * repeat element records from their joined table into the one field.
 	 * Overwritten in database join element to allow for building
-	 * the join to the talbe containing the stored values required ids
+	 * the join to the table containing the stored values required ids
 	 *
 	 * @since   2.1.1
 	 *
@@ -3367,7 +3367,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * When the element is a repeatble join (e.g. db join checkbox) then figure out how many
+	 * When the element is a repeatable join (e.g. db join checkbox) then figure out how many
 	 * records have been selected
 	 *
 	 * @param   array   $data   data
@@ -3396,7 +3396,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Get the display type (list,checkbox,mulitselect etc)
+	 * Get the display type (list,checkbox,multiselect etc.)
 	 *
 	 * @since  3.0.7
 	 *
@@ -3410,7 +3410,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 	/**
 	 * Should the 'label' field be quoted.  Overridden by databasejoin and extended classes,
-	 * which may use a CONCAT'ed label which musn't be quoted.
+	 * which may use a CONCAT'ed label which mustn't be quoted.
 	 *
 	 * @since	3.0.6
 	 *
@@ -3485,7 +3485,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * When rendered as a mulit-select / checkbox getValue() returns the id for the x-ref table.
+	 * When rendered as a multi-select / checkbox getValue() returns the id for the x-ref table.
 	 * This method gets the ids for the records in the x-ref target table.
 	 *
 	 * @param   array  $data  Form data

@@ -57,8 +57,8 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 	}
 
 	/**
-	 * Get the buisiness email either based on the accountemail field or the value
-	 * found in the selected accoutnemail_element
+	 * Get the business email either based on the accountemail field or the value
+	 * found in the selected accountemail_element
 	 *
 	 * @return  string  email
 	 */
@@ -164,7 +164,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 
 				if (empty($this->gateway))
 				{
-					throw new Exception('No gatway cycle found', 404);
+					throw new Exception('No gateway cycle found', 404);
 				}
 			}
 			catch (Exception $e)
@@ -249,7 +249,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 	}
 
 	/**
-	 * Get FabrkWorker
+	 * Get FabrikWorker
 	 *
 	 * @return FabrikWorker
 	 */
@@ -418,7 +418,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 			$invoice->load(array('subscr_id' => $sub->id));
 			$opts['invoice'] = $invoice->invoice_number;
 
-			// Incase the user has altered the pending subscriptions plan.
+			// In case the user has altered the pending subscriptions plan.
 			$this->setInvoicePaymentOptions($invoice);
 		}
 		else
@@ -844,7 +844,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 			$subject = $config->get('sitename') . ': IPN ' . $payment_status;
 			$logMessageTitle = 'form.subscriptions.ipn.' . $payment_status;
 			$payer_subject = "Subscriptions success";
-			$payer_emailtext = "Your Subscriptions payment was succesfully processed.  The Subscriptions transaction id was $txn_id";
+			$payer_emailtext = "Your Subscriptions payment was successfully processed.  The Subscriptions transaction id was $txn_id";
 		}
 
 		if ($receive_debug_emails == '1')
@@ -947,7 +947,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 	/**
 	 * Create the subscription
 	 *
-	 * @return  JTable subcription
+	 * @return  JTable subscription
 	 */
 
 	protected function createSubscription()

@@ -45,15 +45,15 @@ defined('_JEXEC') or die('Restricted access');
 	echo $editor->display('message', $this->message, '100%', '200px', 75, 10, true, 'message');?>
 <?php if ($this->allowAttachment)
 {?>
-	<div class="attachement">
+	<div class="attachment">
 		<label>
 			<?php echo JText::_('PLG_LIST_EMAIL_ATTACHMENTS') ?><br />
-			<input class="inputbox fabrikinput" name="attachement[]" type="file" id="attachement" />
+			<input class="inputbox fabrikinput" name="attachment[]" type="file" id="attachment" />
 		</label>
-		<a href="#" class="addattachement">
+		<a href="#" class="addattachment">
 		<?php echo FabrikHelperHTML::image('plus.png', 'form', @$this->tmpl, JText::_('COM_FABRIK_ADD'));?>
 		</a>
-		<a href="#" class="delattachement">
+		<a href="#" class="delattachment">
 			<?php echo FabrikHelperHTML::image('minus-sign.png', 'form', @$this->tmpl, JText::_('COM_FABRIK_DELETE'));?>
 		</a>
 	</div>
@@ -87,19 +87,19 @@ defined('_JEXEC') or die('Restricted access');
 <script type="text/javascript"><!--
 
 function watchAttachements() {
-	document.getElements('.addattachement').removeEvents();
-	document.getElements('.delattachement').removeEvents();
-	document.getElements('.addattachement').addEvent('click', function (e) {
+	document.getElements('.addattachment').removeEvents();
+	document.getElements('.delattachment').removeEvents();
+	document.getElements('.addattachment').addEvent('click', function (e) {
 		e.stop();
-		var li = e.target.getParent('.attachement');
+		var li = e.target.getParent('.attachment');
 		li.clone().inject(li, 'after');
 		watchAttachements();
 	});
 
-	document.getElements('.delattachement').addEvent('click', function (e) {
+	document.getElements('.delattachment').addEvent('click', function (e) {
 		e.stop();
-		if(document.getElements('.addattachement').length > 1) {
-			e.target.getParent('.attachement').dispose();
+		if(document.getElements('.addattachment').length > 1) {
+			e.target.getParent('.attachment').dispose();
 		}
 		watchAttachements();
 	});

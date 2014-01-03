@@ -34,7 +34,7 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	/**
 	 * Does the element's data get recorded in the db
 	 *
-	 * @var bol
+	 * @var bool
 	 */
 	protected $recordInDatabase = false;
 
@@ -53,7 +53,7 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	}
 
 	/**
-	 * Set/get if element should record its data in the dabase
+	 * Set/get if element should record its data in the database
 	 *
 	 * @deprecated - not used
 	 *
@@ -68,7 +68,7 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html

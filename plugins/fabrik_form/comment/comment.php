@@ -396,9 +396,9 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 				$data[] = JText::_('Anonymous') . '<br />';
 				$data[] = '<label for="add-comment-anonymous-no-' . $reply_to . '">' . JText::_('JNO') . '</label>';
 				$data[] = '<input type="radio" id="add-comment-anonymous-no-' . $reply_to
-				. '" name="annonymous[]" checked="checked" class="inputbox" value="0" />';
+				. '" name="anonymous[]" checked="checked" class="inputbox" value="0" />';
 				$data[] = '<label for="add-comment-anonymous-yes-' . $reply_to . '">' . JText::_('JYES') . '</label>';
-				$data[] = '<input type="radio" id="add-comment-anonymous-yes-' . $reply_to . '" name="annonymous[]" class="inputbox" value="1" />';
+				$data[] = '<input type="radio" id="add-comment-anonymous-yes-' . $reply_to . '" name="anonymous[]" class="inputbox" value="1" />';
 			}
 
 			$data[] = '</td>';
@@ -565,7 +565,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$input = $app->input;
 		$user = JFactory::getUser();
 		$j3 = FabrikWorker::j3();
-		$name = (int) $comment->annonymous == 0 ? $comment->name : JText::_('PLG_FORM_COMMENT_ANONYMOUS_SHORT');
+		$name = (int) $comment->anonymous == 0 ? $comment->name : JText::_('PLG_FORM_COMMENT_ANONYMOUS_SHORT');
 		$data = array();
 		$data[] = '<div class="metadata muted">';
 		$data[] = '<small><i class="icon-user"></i> ';
@@ -744,7 +744,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$row->user_id = $user->get('id');
 		$row->approved = 1;
 
-		// @TODO this isnt set?
+		// @TODO this isn't set?
 		$row->url = $input->server->get('HTTP_REFERER', '', 'string');
 		$rowid = $input->get('rowid', '', 'string');
 		$row->formid = $input->getInt('formid');
@@ -832,7 +832,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add('Couldnt save fabrik comment notification event: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
+			JLog::add('Couldn't save fabrik comment notification event: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
 
 			return false;
 		}
@@ -871,7 +871,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add('Couldnt save fabrik comment notification: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
+			JLog::add('Couldn\'t save fabrik comment notification: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
 
 			return false;
 		}
@@ -897,7 +897,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 					}
 					catch (RuntimeException $e)
 					{
-						JLog::add('Couldnt save fabrik comment notification for admin: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
+						JLog::add('Couldn\'t save fabrik comment notification for admin: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
 					}
 				}
 			}
@@ -929,7 +929,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 	}
 
 	/**
-	 * Default send notifcations code (sends to all people who have commented PLUS all admins)
+	 * Default send notifications code (sends to all people who have commented PLUS all admins)
 	 *
 	 * @param   object  $row       Notification
 	 * @param   array   $comments  Objects
@@ -1011,7 +1011,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 	}
 
 	/**
-	 * Prepate intense debate comment system
+	 * Prepare intense debate comment system
 	 *
 	 * @return  void
 	 */

@@ -68,7 +68,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Draws the html form element
 	 *
-	 * @param   array  $data           To preopulate element with
+	 * @param   array  $data           To pre-populate element with
 	 * @param   int    $repeatCounter  Repeat group counter
 	 *
 	 * @return  string	elements html
@@ -128,7 +128,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 	 *
 	 * @param   array           $data            Current row data to use in placeholder replacements
 	 * @param   bool            $incWhere        Should the additional user defined WHERE statement be included
-	 * @param   string          $thisTableAlias  Db table alais
+	 * @param   string          $thisTableAlias  Db table alias
 	 * @param   array           $opts            Options
 	 * @param   JDatabaseQuery  $query           Append where to JDatabaseQuery object or return string (false)
 	 *
@@ -262,7 +262,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 
 	public function getLabelForValue($v, $defaultLabel = null, $forceCheck = false)
 	{
-		// Band aid - as this is called in listModel::addLabels() lets not bother - requerying the db (label already loaded)
+		// Band aid - as this is called in listModel::addLabels() lets not bother - re-querying the db (label already loaded)
 		if ($v === $defaultLabel && !$forceCheck)
 		{
 			return $v;

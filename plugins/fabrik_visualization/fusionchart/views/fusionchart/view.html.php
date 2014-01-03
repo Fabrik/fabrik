@@ -1,6 +1,6 @@
 <?php
 /**
- * Fabrik Fuson Chart HTML View
+ * Fabrik Fusion Chart HTML View
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart
@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
 /**
- * Fabrik Fuson Chart HTML View
+ * Fabrik Fusion Chart HTML View
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart

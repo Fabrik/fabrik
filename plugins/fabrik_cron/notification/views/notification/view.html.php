@@ -24,7 +24,7 @@ jimport('joomla.application.component.view');
 class FabrikViewNotification extends JViewLegacy
 {
 	/**
-	 * Still a wip access the view of subscribed notifcations with url:
+	 * Still a wip access the view of subscribed notifications with url:
 	 * http://localhost/fabrik30x/index.php?option=com_fabrik&task=cron.display&id=3
 	 *
 	 * deletion not routing right yet

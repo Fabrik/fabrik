@@ -177,7 +177,7 @@ class PlgFabrik_FormSalesforce extends PlgFabrik_Form
 	/**
 	 * Update or insert an object
 	 *
-	 * @param   object  $client    Salesforce cleint
+	 * @param   object  $client    Salesforce client
 	 * @param   array   $sObjects  array of sObjects
 	 * @param   string  $key       External Id
 	 *
@@ -206,7 +206,7 @@ class PlgFabrik_FormSalesforce extends PlgFabrik_Form
 	/**
 	 * Insert an object
 	 *
-	 * @param   object  $client    Salesforce cleint
+	 * @param   object  $client    Salesforce client
 	 * @param   array   $sObjects  array of sObjects
 	 *
 	 * @return  mixed  UpsertResult or error

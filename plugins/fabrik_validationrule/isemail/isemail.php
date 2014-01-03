@@ -66,7 +66,7 @@ class PlgFabrik_ValidationruleIsEmail extends PlgFabrik_Validationrule
 
 	/**
 	 * Does the validation allow empty value?
-	 * Default is false, can be overrideen on per-validation basis (such as isnumeric)
+	 * Default is false, can be overridden on per-validation basis (such as isnumeric)
 	 *
 	 * @return  bool
 	 */
