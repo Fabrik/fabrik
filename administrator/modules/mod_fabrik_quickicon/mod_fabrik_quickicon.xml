@@ -22,9 +22,13 @@
 			
 				<field
 					name="layout"
-					type="modulelayout"
+					type="list"
+					default="menu"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC">
+				<option value="menu">menu</option>
+				<option value="default">default</option>					
+				</field>
 			
 			</fieldset>
 		</fields>
