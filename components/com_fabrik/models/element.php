@@ -733,8 +733,16 @@ class PlgFabrik_Element extends FabrikPlugin
 		$db = FabrikWorker::getDbo();
 		$table = $this->getListModel()->getTable();
 		$fullElName = JArrayHelper::getValue($opts, 'alias', $db->quoteName($dbtable . '___' . $this->element->name));
-		$fName = $dbtable . '.' . $this->element->name;
-		$k = $db->quoteName($fName);
+		if ($this->element->plugin != 'display')
+		{
+			$fName = $dbtable . '.' . $this->element->name;
+			$k = $db->quoteName($fName);
+		}
+		else 
+		{
+			$k = $db->quote('');
+		}
+			
 		$secret = JFactory::getConfig()->get('secret');
 
 		if ($this->encryptMe())
@@ -778,7 +786,14 @@ class PlgFabrik_Element extends FabrikPlugin
 				$aAsFields[] = $fullElName;
 			}
 
-			$k = $db->quoteName($dbtable . '.' . $this->element->name);
+			if ($this->element->plugin != 'display')
+			{
+				$k = $db->quoteName($dbtable . '.' . $this->element->name);
+			}
+			else
+			{
+				$k = $db->quote('');
+			}
 
 			if ($this->encryptMe())
 			{
@@ -5634,24 +5649,27 @@ class PlgFabrik_Element extends FabrikPlugin
 		$fparams = new JRegistry($plugin->params);
 		$p = $this->getParams();
 
-		if ($this->encryptMe())
+		if($plugin != 'display')
 		{
-			return 'BLOB';
-		}
+			if ($this->encryptMe())
+			{
+				return 'BLOB';
+			}
 
-		$group = $this->getGroup();
+			$group = $this->getGroup();
 
-		if ($group->isJoin() == 0 && $group->canRepeat())
-		{
-			return "TEXT";
-		}
-		else
-		{
-			$size = $p->get('maxlength', $this->fieldSize);
-			$objtype = sprintf($this->fieldDesc, $size);
-		}
+			if ($group->isJoin() == 0 && $group->canRepeat())
+			{
+				return "TEXT";
+			}
+			else
+			{
+				$size = $p->get('maxlength', $this->fieldSize);
+				$objtype = sprintf($this->fieldDesc, $size);
+			}
 
 		$objtype = $fparams->get('defaultFieldType', $objtype);
+		}
 
 		return $objtype;
 	}

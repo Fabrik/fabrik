@@ -2369,6 +2369,11 @@ class FabrikAdminModelList extends FabModelAdmin
 
 		foreach ($elementModels as $elementModel)
 		{
+			if ($elementModel->getElement()->plugin == 'display') 
+			{ 
+				continue; 
+			}
+			
 			$element = $elementModel->getElement();
 
 			// Replace all non alphanumeric characters with _
@@ -2570,8 +2575,8 @@ class FabrikAdminModelList extends FabModelAdmin
 							{
 								$objtype = 'VARCHAR(255)';
 							}
-
-							if ($objname != "" && !is_null($objtype))
+							// Jaanus: no sense that we create a db fields for display elements
+							if ($objname != "" && !is_null($objtype) && $objtypeid != 'display')
 							{
 								$ammend = true;
 								$add = "ADD COLUMN " . $db->quoteName($objname) . " $objtype null";

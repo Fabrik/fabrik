@@ -538,7 +538,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 			}
 		}
 		// Only update the element name if we can alter existing columns, otherwise the name and field name become out of sync
-		$data['name'] = ($listModel->canAlterFields() || $new || $listModel->noTable()) ? $name : $input->get('name_orig', '');
+		$data['name'] = ($listModel->canAlterFields() || $new || $listModel->noTable() || $row->plugin == 'display') ? $name : $input->get('name_orig', '');
 
 		$ar = array('published', 'use_in_page_title', 'show_in_list_summary', 'link_to_detail', 'can_order', 'filter_exact_match');
 
