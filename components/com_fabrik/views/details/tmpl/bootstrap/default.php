@@ -40,16 +40,19 @@ foreach ($this->groups as $group) :
 
 		<div class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
 
-		<?php if (trim($group->title) !== '') :
-		?>
-
-		<h3 class="legend">
-			<span><?php echo $group->title;?></span>
-		</h3>
-
+		<?php
+		$allHidden = true;
+		foreach ($group->elements as $element)
+		{
+			$allHidden &= $element->hidden;
+		}
+		if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+			<h3 class="legend">
+				<span><?php echo $group->title;?></span>
+			</h3>
 		<?php endif;
 
-		if ($group->intro !== '') : ?>
+		if (!empty($group->intro)) : ?>
 			<div class="groupintro"><?php echo $group->intro ?></div>
 		<?php
 		endif;
@@ -61,7 +64,12 @@ foreach ($this->groups as $group) :
 
 		$this->elements = $group->elements;
 		echo $this->loadTemplate($group->tmpl);
-		 ?>
+
+		if (!empty($group->outro)) : ?>
+			<div class="groupoutro"><?php echo $group->outro ?></div>
+		<?php
+		endif;
+		?>
 	</div>
 <?php
 endforeach;
