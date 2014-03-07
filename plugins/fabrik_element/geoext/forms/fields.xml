@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset label="PLG_ELEMENT_GEOEXT_PARAM_LABEL" name="plg-element-geoext-table">
+			<field default="0" label="PLG_ELEMENT_GEOEXT_EVAL_LABEL" name="fb_ge_eval" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field cols="45" description="PLG_ELEMENT_GEOEXT_DEFAULT_DESC" label="PLG_ELEMENT_GEOEXT_DEFAULT_LABEL" name="fb_ge_default" rows="6" type="textarea"/>
+			<field default="point" description="PLG_ELEMENT_GEOEXT_DRAW_TYPE_EVENT_DESC" label="PLG_ELEMENT_GEOEXT_DRAW_TYPE_EVENT_LABEL" name="fb_ge_typedraw" type="radio">
+					<option value="point">PLG_ELEMENT_GEO_EXT_DRAW_POINT</option>
+                                        <option value="line">PLG_ELEMENT_GEO_EXT_DRAW_LINE</option>
+					<option value="polygon">PLG_ELEMENT_GEO_EXT_DRAW_POLYGON</option>
+			</field>
+		</fieldset>
+                <fieldset  name="plg-element-geoext-layer" label="PLG_ELEMENT_GEOEXT_LAYERS_LABEL">
+                        <field name="fb_ge_layers" type="fabrikmodalrepeat" label="PLG_ELEMENT_GEOEXT_LAYERS_LABEL" description="PLG_ELEMENT_GEOEXT_LAYERS_DESC">
+                            <fields name="params">
+                                    <fieldset modal="true" name="fb_ge_layers_modal">
+                                        <field description="PLG_ELEMENT_GEOEXT_LAYER_URL_DESC" label="PLG_ELEMENT_GEOEXT_LAYER_URL_LABEL" name="fb_ge_layers_url" size="100" type="text"/>				
+                                        <field description="PLG_ELEMENT_GEOEXT_LAYER_NAME_DESC" label="PLG_ELEMENT_GEOEXT_LAYER_NAME_LABEL" name="fb_ge_layers_name" size="100" type="text"/>				
+                                        <field description="PLG_ELEMENT_GEOEXT_LAYER_TITLE_DESC" label="PLG_ELEMENT_GEOEXT_LAYER_TITLE_LABEL" name="fb_ge_layers_title" size="100" type="text"/>							
+                                    </fieldset>
+                            </fields>
+                        </field>
+                        <field name="fb_ge_bg_layers" type="fabrikmodalrepeat" label="PLG_ELEMENT_GEOEXT_BG_LABEL" description="PLG_ELEMENT_GEOEXT_BG_DESC">
+                            <fields name="params">
+                                    <fieldset modal="true" name="fb_ge_bg_layers_modal">
+                                        <field description="PLG_ELEMENT_GEOEXT_BG_DESC" label="PLG_ELEMENT_GEOEXT_BG_LABEL" name="fb_ge_bg_layers_code" size="40" height="100px" type="textarea" default="new OpenLayers.Layer.OSM('Open Street Map', 'http://tile.openstreetmap.org/${z}/${x}/${y}.png');"/>				
+                                    </fieldset>
+                            </fields>
+                        </field>
+		</fieldset>
+                
+                        
+                
+	</fields>
+</form>
