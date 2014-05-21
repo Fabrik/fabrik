@@ -52,8 +52,9 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 		jimport('joomla.mail.helper');
 		$params = $this->getParams();
 		$msg = $params->get('message');
-		FabrikHelperHTML::runConentPlugins($msg);
-		$to = $params->get('to');
+		FabrikHelperHTML::runContentPlugins($msg);
+		$to = explode(',', $params->get('to'));
+
 		$w = new FabrikWorker;
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
@@ -80,29 +81,33 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 					}
 
 					$row = JArrayHelper::fromObject($row);
-					$thisto = $w->parseMessageForPlaceHolder($to, $row);
 
-					if (FabrikWorker::isEmail($thisto))
+					foreach ($to as $thisto)
 					{
-						$thismsg = $w->parseMessageForPlaceHolder($msg, $row);
+						$thisto = $w->parseMessageForPlaceHolder($thisto, $row);
 
-						if ($eval)
+						if (FabrikWorker::isEmail($thisto))
 						{
-							$thismsg = eval($thismsg);
+							$thismsg = $w->parseMessageForPlaceHolder($msg, $row);
+
+							if ($eval)
+							{
+								$thismsg = eval($thismsg);
+							}
+
+							$thissubject = $w->parseMessageForPlaceHolder($subject, $row);
+							$mail = JFactory::getMailer();
+							$res = $mail->sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
+
+							if (!$res)
+							{
+								$this->log .= "\n failed sending to $thisto";
+							}
 						}
-
-						$thissubject = $w->parseMessageForPlaceHolder($subject, $row);
-						$mail = JFactory::getMailer();
-						$res = $mail->sendMail($MailFrom, $FromName, $thisto, $thissubject, $thismsg, true);
-
-						if (!$res)
+						else
 						{
-							$this->log .= "\n failed sending to $thisto";
+							$this->log .= "\n $thisto is not an email address";
 						}
-					}
-					else
-					{
-						$this->log .= "\n $thisto is not an email address";
 					}
 
 					$updates[] = $row['__pk_val'];

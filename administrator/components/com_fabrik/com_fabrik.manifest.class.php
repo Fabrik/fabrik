@@ -291,7 +291,7 @@ class Com_FabrikInstallerScript
 
 		$db
 			->setQuery(
-				"UPDATE #__extensions SET enabled = 1 WHERE type = 'plugin' AND (folder LIKE 'fabrik_%' OR (folder='system' AND element = 'fabrik'))");
+				"UPDATE #__extensions SET enabled = 1 WHERE type = 'plugin' AND (folder LIKE 'fabrik_%' OR (folder='system' AND element = 'fabrik')  OR (folder='content' AND element = 'fabrik'))");
 		$db->execute();
 		$this->fixmMenuComponentId();
 

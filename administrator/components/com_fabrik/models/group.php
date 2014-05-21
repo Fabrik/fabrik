@@ -359,7 +359,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 			if (trim($list->db_table_name) == '')
 			{
 				// New group not attached to a form
-				$this->setError(JText::_('COM_FABRIK_GROUP_CANT_MAKE_JOIN_NO_DB_TABLE'));
+				$this->setError(FText::_('COM_FABRIK_GROUP_CANT_MAKE_JOIN_NO_DB_TABLE'));
 
 				return false;
 			}

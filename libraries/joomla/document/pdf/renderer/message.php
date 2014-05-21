@@ -61,7 +61,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			{
 				if (count($msgs))
 				{
-					$buffer .= "\n<dt class=\"" . strtolower($type) . "\">" . JText::_($type) . "</dt>";
+					$buffer .= "\n<dt class=\"" . strtolower($type) . "\">" . FText::_($type) . "</dt>";
 					$buffer .= "\n<dd class=\"" . strtolower($type) . " message\">";
 					$buffer .= "\n\t<ul>";
 					foreach ($msgs as $msg)

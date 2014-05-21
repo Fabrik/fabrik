@@ -17,7 +17,7 @@ if ($pageClass !== '') :
 endif;
 
 if ($this->tablePicker != '') : ?>
-	<div style="text-align:right"><?php echo JText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
+	<div style="text-align:right"><?php echo FText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
 <?php
 endif;
 if ($this->getModel()->getParams()->get('show-title', 1)) :?>

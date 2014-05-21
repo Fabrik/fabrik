@@ -38,11 +38,17 @@
 header('Content-type: text/css');
 $c = (int) $_REQUEST['c'];
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'form';
+$rowid = isset($_REQUEST['rowid']) ? $_REQUEST['rowid'] : '';
+$form = $view . '_' . $c;
+if ($rowid !== '')
+{
+	$form .= '_' . $rowid;
+}
 echo "
 
 /* BEGIN - Your CSS styling starts here */
 
-#{$view}_$c .foobar {
+#$form .foobar {
 	display: none;
 }
 

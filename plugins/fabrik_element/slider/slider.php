@@ -85,7 +85,7 @@ class PlgFabrik_ElementSlider extends PlgFabrik_Element
 			{
 				$outsrc = FabrikHelperHTML::image('clear_rating_out.png', 'form', $this->tmpl, array(), true);
 				$str[] = '<div class="clearslider_cont"><img src="' . $outsrc . '" style="cursor:pointer;padding:3px;" alt="'
-					. JText::_('PLG_ELEMENT_SLIDER_CLEAR') . '" class="clearslider" /></div>';
+					. FText::_('PLG_ELEMENT_SLIDER_CLEAR') . '" class="clearslider" /></div>';
 			}
 		}
 

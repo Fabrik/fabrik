@@ -40,7 +40,7 @@ if ($this->showFilters) : ?>
 			<th colspan="2" style="text-align:right;">
   				<i class="icon-filter"></i>
   				<button type="submit" class="btn btn-primary">
-  					<?php echo JText::_('GO') ?>
+  					<?php echo FText::_('GO') ?>
   				</button>
 			</th>
 		</tr>

@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 <ul class="filtertable fabrikList">
 
 	<li class="fabrik___heading">
-			<span ><?php echo JText::_('COM_FABRIK_SEARCH');?>:</span>
+			<span ><?php echo FText::_('COM_FABRIK_SEARCH');?>:</span>
 	</li>
 
 	<?php
@@ -32,7 +32,7 @@ defined('_JEXEC') or die('Restricted access');
 	} ?>
 	<?php if ($this->filter_action != 'onchange') {?>
 	<li class="fabrik_row oddRow<?php echo $c % 2;?>">
-		<input type="button" class="fabrik_filter_submit button" value="<?php echo JText::_('COM_FABRIK_GO');?>"
+		<input type="button" class="fabrik_filter_submit button" value="<?php echo FText::_('COM_FABRIK_GO');?>"
 			name="filter" />
 	</li>
 	<?php }?>

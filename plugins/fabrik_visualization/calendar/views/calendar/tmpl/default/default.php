@@ -28,7 +28,7 @@ $row = $this->row;
 		<?php if ($this->canAdd)
 		{
 		?>
-		<a href="#" class="addEventButton" title="Add an event"><?php echo JText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
+		<a href="#" class="addEventButton" title="Add an event"><?php echo FText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
 	<?php }
 	?>
 	<?php if ($row->intro_text != '')

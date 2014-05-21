@@ -12,26 +12,26 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_LIST_VIEW_SETTINGS'), 'settings');
+echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_LIST_VIEW_SETTINGS'), 'settings');
 
 $panels = array(
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_LIST_SETTINGS_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_LIST_SETTINGS_DETAILS'),
 		'id' => 'listsettings',
 		'fieldset' => array('listsettings', 'listsettings2')),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_ICONS_SETTINGS_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_ICONS_SETTINGS_DETAILS'),
 		'id' => 'icons',
 		'fieldset' => array('icons')),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_FILTERS_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_FILTERS_DETAILS'),
 		'id' => 'filters',
 		'fieldset' => array('filters', 'filters2')),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_CSS_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_CSS_DETAILS'),
 		'id' => 'viewcss',
 		'fieldset' => 'viewcss'),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_CALCULATIONS_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_CALCULATIONS_DETAILS'),
 		'id' => 'calculations',
 		'fieldset' => array('calculations-sum', 'calculations-avg', 'calculations-median', 'calculations-count', 'calculations-custom'))
 );

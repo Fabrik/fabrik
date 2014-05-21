@@ -40,6 +40,14 @@ class FabrikViewGooglemap extends JViewLegacy
 		$model = $this->getModel();
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
 		$this->row = $model->getVisualization();
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		echo $model->getJSIcons();
 	}
 }

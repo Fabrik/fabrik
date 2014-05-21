@@ -44,6 +44,13 @@ class FabrikViewTimeline extends JViewLegacy
 		$model->setId($id);
 		$row = $model->getVisualization();
 
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		$js = $model->render();
 		$this->containerId = $this->get('ContainerId');
 		$this->row = $row;

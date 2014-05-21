@@ -94,7 +94,7 @@ class PlgFabrik_List extends FabrikPlugin
 	{
 		$s = JString::strtoupper($this->buttonPrefix);
 
-		return JText::_('PLG_LIST_' . $s . '_' . $s);
+		return FText::_('PLG_LIST_' . $s . '_' . $s);
 	}
 
 	/**

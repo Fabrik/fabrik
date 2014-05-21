@@ -65,7 +65,7 @@ class FabrikAdminViewForm extends JViewLegacy
 		{
 			if (!$app->isAdmin())
 			{
-				echo JText::_('COM_FABRIK_FORM_NOT_PUBLISHED');
+				echo FText::_('COM_FABRIK_FORM_NOT_PUBLISHED');
 
 				return false;
 			}
@@ -75,7 +75,7 @@ class FabrikAdminViewForm extends JViewLegacy
 
 		if ($this->access == 0)
 		{
-			return JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			return JError::raiseWarning(500, FText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		$model->getJoinGroupIds();
@@ -201,7 +201,7 @@ class FabrikAdminViewForm extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		$title = $isNew ? JText::_('COM_FABRIK_MANAGER_FORM_NEW') : JText::_('COM_FABRIK_MANAGER_FORM_EDIT') . ' "' . $this->item->label . '"';
+		$title = $isNew ? FText::_('COM_FABRIK_MANAGER_FORM_NEW') : FText::_('COM_FABRIK_MANAGER_FORM_EDIT') . ' "' . $this->item->label . '"';
 		JToolBarHelper::title($title, 'form.png');
 
 		if ($isNew)

@@ -121,6 +121,8 @@ class FabrikControllerVisualizationcalendar extends FabrikControllerVisualizatio
 		$id = $input->getInt('visualizationid', $usersConfig->get('visualizationid', 0));
 		$model->setId($id);
 		$model->setupEvents();
+		$config = JFactory::getConfig();
+		$prefix = $config->get('dbprefix');
 
 		if (array_key_exists($listid, $model->events))
 		{
@@ -128,8 +130,6 @@ class FabrikControllerVisualizationcalendar extends FabrikControllerVisualizatio
 		}
 		else
 		{
-			$config = JFactory::getConfig();
-			$prefix = $config->get('dbprefix');
 			$datefield = $prefix . 'fabrik_calendar_events___start_date';
 		}
 
@@ -144,7 +144,7 @@ class FabrikControllerVisualizationcalendar extends FabrikControllerVisualizatio
 		$input->set('ajax', '1');
 		$nextView = $input->get('nextview', 'form');
 		$link = 'index.php?option=com_' . $package . '&view=' . $nextView . '&formid=' . $table->form_id . '&rowid=' . $rowid . '&tmpl=component&ajax=1';
-		$link .= '&jos_fabrik_calendar_events___visualization_id=' . $input->getInt('jos_fabrik_calendar_events___visualization_id');
+		$link .= '&' . $prefix . 'fabrik_calendar_events___visualization_id=' . $input->getInt($prefix . 'fabrik_calendar_events___visualization_id');
 		$link .= '&fabrik_window_id=' . $input->get('fabrik_window_id');
 
 		$start_date = $input->getString('start_date', '');

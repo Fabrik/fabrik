@@ -246,7 +246,7 @@ class FabrikFEModelFormsession extends FabModel
 		if ((int) $user->get('id') !== 0)
 		{
 			$hash = $this->getHash();
-			$this->status = JText::_('LOADING FROM DATABASE');
+			$this->status = FText::_('LOADING FROM DATABASE');
 			$this->statusid = _FABRIKFORMSESSION_LOADED_FROM_TABLE;
 		}
 		else
@@ -259,7 +259,7 @@ class FabrikFEModelFormsession extends FabModel
 
 				if ($cookieval !== '')
 				{
-					$this->status = JText::_('COM_FABRIK_LOADING_FROM_COOKIE');
+					$this->status = FText::_('COM_FABRIK_LOADING_FROM_COOKIE');
 					$this->statusid = _FABRIKFORMSESSION_LOADED_FROM_COOKIE;
 					$hash = $crypt->decrypt($cookieval);
 				}

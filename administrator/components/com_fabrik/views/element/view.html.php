@@ -145,7 +145,7 @@ class FabrikAdminViewElement extends JViewLegacy
 
 	protected function addConfirmToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_ELEMENT_EDIT'), 'element.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_ELEMENT_EDIT'), 'element.png');
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$input->set('hidemainmenu', true);
@@ -171,7 +171,7 @@ class FabrikAdminViewElement extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		$title = $isNew ? JText::_('COM_FABRIK_MANAGER_ELEMENT_NEW') : JText::_('COM_FABRIK_MANAGER_ELEMENT_EDIT') . ' "' . $this->item->name . '"';
+		$title = $isNew ? FText::_('COM_FABRIK_MANAGER_ELEMENT_NEW') : FText::_('COM_FABRIK_MANAGER_ELEMENT_EDIT') . ' "' . $this->item->name . '"';
 		JToolBarHelper::title($title, 'element.png');
 
 		if ($isNew)
@@ -214,6 +214,6 @@ class FabrikAdminViewElement extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_ELEMENTS_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_ELEMENTS_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_ELEMENTS_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_ELEMENTS_EDIT'));
 	}
 }

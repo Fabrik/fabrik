@@ -18,37 +18,37 @@ defined('_JEXEC') or die('Restricted access');
 	<ul class="nav nav-tabs">
 		<li class="active">
 	    	<a data-toggle="tab" href="#details-publishing">
-	    		<?php echo JText::_('COM_FABRIK_TEXT'); ?>
+	    		<?php echo FText::_('COM_FABRIK_TEXT'); ?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-filters">
-	    		<?php echo JText::_('COM_FABRIK_FILTERS')?>
+	    		<?php echo FText::_('COM_FABRIK_FILTERS')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-nav">
-	    		<?php echo JText::_('COM_FABRIK_NAVIGATION')?>
+	    		<?php echo FText::_('COM_FABRIK_NAVIGATION')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-layout">
-	    		<?php echo JText::_('COM_FABRIK_LAYOUT')?>
+	    		<?php echo FText::_('COM_FABRIK_LAYOUT')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-link">
-	    		<?php echo JText::_('COM_FABRIK_LINKS')?>
+	    		<?php echo FText::_('COM_FABRIK_LINKS')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-notes">
-	    		<?php echo JText::_('COM_FABRIK_NOTES')?>
+	    		<?php echo FText::_('COM_FABRIK_NOTES')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#details-advanced">
-	    		<?php echo JText::_('COM_FABRIK_ADVANCED')?>
+	    		<?php echo FText::_('COM_FABRIK_ADVANCED')?>
 	    	</a>
 	    </li>
 	</ul>
@@ -105,7 +105,7 @@ defined('_JEXEC') or die('Restricted access');
 			<fieldset class="form-horizontal">
 				<div class="row-fluid">
 					<div class="span6">
-						<legend><?php echo JText::_('COM_FABRIK_TEMPLATES')?></legend>
+						<legend><?php echo FText::_('COM_FABRIK_TEMPLATES')?></legend>
 						<?php
 						foreach ($this->form->getFieldset('main_template') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -116,7 +116,7 @@ defined('_JEXEC') or die('Restricted access');
 						?>
 					</div>
 					<div class="span6">
-						<legend><?php echo JText::_('COM_FABRIK_PDF')?></legend>
+						<legend><?php echo FText::_('COM_FABRIK_PDF')?></legend>
 						<?php
 						foreach ($this->form->getFieldset('pdf') as $this->field) :
 							echo $this->loadTemplate('control_group');
@@ -129,7 +129,7 @@ defined('_JEXEC') or die('Restricted access');
 			<fieldset class="form-horizontal">
 				<div class="row-fluid">
 					<div class="span6">
-						<legend><?php echo JText::_('COM_FABRIK_BOOTSTRAP_LIST_OPTIONS')?></legend>
+						<legend><?php echo FText::_('COM_FABRIK_BOOTSTRAP_LIST_OPTIONS')?></legend>
 						<?php
 						foreach ($this->form->getFieldset('layout-bootstrap') as $this->field) :
 							echo $this->loadTemplate('control_group');
@@ -137,7 +137,7 @@ defined('_JEXEC') or die('Restricted access');
 						?>
 					</div>
 					<div class="span6">
-						<legend><?php echo JText::_('COM_FABRIK_TABS')?></legend>
+						<legend><?php echo FText::_('COM_FABRIK_TABS')?></legend>
 						<?php
 						foreach ($this->form->getFieldset('tabs') as $this->field) :
 							echo $this->loadTemplate('control_group');

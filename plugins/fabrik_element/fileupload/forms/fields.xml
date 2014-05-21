@@ -158,6 +158,16 @@
 				description="PLG_ELEMENT_FILEUPLOAD_TITLE_ELEMENT_DESC"
 				label="PLG_ELEMENT_FILEUPLOAD_TITLE_ELEMENT_LABEL"
 				valueformat="tableelement"/>
+				
+			<field name="restrict_lightbox"
+				type="radio"
+				class="btn-group"
+				default="1"
+				description="PLG_ELEMENT_FILEUPLOAD_RESTRICT_LIGHTBOX_DESC"
+				label="PLG_ELEMENT_FILEUPLOAD_RESTRICT_LIGHTBOX_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
 
 		</fieldset>
 
@@ -247,12 +257,14 @@
 				type="text"
 				default="400"
 				size="3"
+				class="input-mini"
 				label="PLG_ELEMENT_FILEUPLOAD_WIN_WIDTH_LABEL" />
 
 			<field name="win_height"
 				type="text"
 				default="400"
 				size="3"
+				class="input-mini"
 				label="PLG_ELEMENT_FILEUPLOAD_WIN_HEIGHT_LABEL" />
 
 		</fieldset>

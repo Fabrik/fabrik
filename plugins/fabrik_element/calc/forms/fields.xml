@@ -74,6 +74,16 @@
 				label="PLG_ELEMENT_CALC_AJAX_OBSERVE_LABEL"
 				rows="6"/>
 
+			<field name="calc_on_load"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="PLG_ELEMENT_CALC_ON_LOAD_DESC"
+				label="PLG_ELEMENT_CALC_ON_LOAD_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+			
 		</fieldset>
 
 	</fields>

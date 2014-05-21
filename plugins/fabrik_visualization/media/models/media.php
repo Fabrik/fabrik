@@ -67,7 +67,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 	 * @return string
 	 */
 
-	protected function getPlaylist()
+	public function getPlaylist()
 	{
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -86,6 +86,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 		$infoElement = $params->get('media_info_elementList', '');
 		$noteElement = $params->get('media_note_elementList', '');
 		$dateElement = $params->get('media_published_elementList', '');
+		$dateElementRaw = $dateElement . '_raw';
 
 		$listid = $params->get('media_table');
 
@@ -240,15 +241,15 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 						}
 					}
 
-					if (!empty($noteElement))
+					if (!empty($noteElement) && isset($row->$noteElement))
 					{
 						$note = $row->$noteElement;
 						$retstr .= "			<description>" . $note . "</description>\n";
 					}
 
-					if (!empty($infoElement))
+					if (!empty($infoElement) && isset($row->$infoElement))
 					{
-						$link = $row->$titleElement;
+						$link = $row->$infoElement;
 						$retstr .= "			<link>" . $link . "</link>\n";
 					}
 					else
@@ -259,7 +260,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 
 					if (!empty($dateElement))
 					{
-						$pubDate = &JFactory::getDate($row->$dateElement);
+						$pubDate = JFactory::getDate($row->$dateElementRaw);
 						$retstr .= "			<pubDate>" . htmlspecialchars($pubDate->toRFC822(), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 					}
 
@@ -317,7 +318,7 @@ class FabrikModelMedia extends FabrikFEModelVisualization
 		$opts->height = (int) $params->get('media_height', '250');
 		$opts = json_encode($opts);
 		$ref = $this->getJSRenderContext();
-		$str .= "$ref = new FbMediaViz('media_div', $opts)";
+		$str = "$ref = new FbMediaViz('media_div', $opts)";
 		$str .= "\n" . "Fabrik.addBlock('$ref', $ref);";
 		$str .= $this->getFilterJs();
 

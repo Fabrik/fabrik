@@ -27,11 +27,11 @@ $row = $this->row;
 	<table class="table table-stripped">
 		<thead>
 			<tr class="">
-				<th><?php echo 'Type';//JText::_('PLG_VIZ_APPROVALS_TYPE') ?></th>
-				<th><?php echo 'Title';//JText::_('PLG_VIZ_APPROVALS_TITLE') ?></th>
-				<th><?php echo 'User';//JText::_('PLG_VIZ_APPROVALS_USER') ?></th>
-				<th style="width:15%;text-align:center"><?php echo 'View';//JText::_('PLG_VIZ_APPROVALS_VIEW') ?></th>
-				<th style="width:15%;text-align:center"><?php echo 'Approve';//JText::_('PLG_VIZ_APPROVALS_APPROVE') ?></th>
+				<th><?php echo 'Type';//FText::_('PLG_VIZ_APPROVALS_TYPE') ?></th>
+				<th><?php echo 'Title';//FText::_('PLG_VIZ_APPROVALS_TITLE') ?></th>
+				<th><?php echo 'User';//FText::_('PLG_VIZ_APPROVALS_USER') ?></th>
+				<th style="width:15%;text-align:center"><?php echo 'View';//FText::_('PLG_VIZ_APPROVALS_VIEW') ?></th>
+				<th style="width:15%;text-align:center"><?php echo 'Approve';//FText::_('PLG_VIZ_APPROVALS_APPROVE') ?></th>
 			</tr>
 		</thead>
 		<tbody>

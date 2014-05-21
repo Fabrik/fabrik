@@ -52,7 +52,7 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 
 		if ($user->get('id') == 0)
 		{
-			$this->html = JText::_('PLG_CRON_NOTIFICATION_SIGN_IN_TO_RECEIVE_NOTIFICATIONS');
+			$this->html = FText::_('PLG_CRON_NOTIFICATION_SIGN_IN_TO_RECEIVE_NOTIFICATIONS');
 
 			return;
 		}
@@ -88,7 +88,7 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 		$checked = $found ? 'checked="checked"' : '';
 		$this->html = '
 		<label><input id="' . $id . '" ' . $checked . ' type="checkbox" name="fabrik_notification" class="input" value="1"  />
-		 ' . JText::_('PLG_CRON_NOTIFICATION_NOTIFY_ME') . '</label>';
+		 ' . FText::_('PLG_CRON_NOTIFICATION_NOTIFY_ME') . '</label>';
 	}
 
 	/**
@@ -163,7 +163,7 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 
 				if ($ok)
 				{
-					echo JText::_('PLG_CRON_NOTIFICATION_ADDED');
+					echo FText::_('PLG_CRON_NOTIFICATION_ADDED');
 				}
 				else
 				{
@@ -174,7 +174,7 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 			else
 			{
 				$query->delete('#__{package}_notification')->where($fields);
-				echo JText::_('PLG_CRON_NOTIFICATION_REMOVED');
+				echo FText::_('PLG_CRON_NOTIFICATION_REMOVED');
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -259,11 +259,11 @@ class PlgFabrik_FormNotification extends PlgFabrik_Form
 		 * see which new events have been generated and notify subscribers of said events.
 		 */
 		$db = FabrikWorker::getDbo();
-		$event = $rowId == '' ? $db->quote(JText::_('RECORD_ADDED')) : $db->quote(JText::_('RECORD_UPDATED'));
+		$event = $rowId == '' ? $db->quote(FText::_('RECORD_ADDED')) : $db->quote(FText::_('RECORD_UPDATED'));
 		$date = JFactory::getDate();
 		$date = $db->quote($date->toSql());
 		$ref = $this->getRef();
-		$msg = $notify ? JText::_('PLG_CRON_NOTIFICATION_ADDED') : JText::_('PLG_CRON_NOTIFICATION_REMOVED');
+		$msg = $notify ? FText::_('PLG_CRON_NOTIFICATION_ADDED') : FText::_('PLG_CRON_NOTIFICATION_REMOVED');
 		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$query = $db->getQuery(true);

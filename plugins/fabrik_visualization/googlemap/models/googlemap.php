@@ -80,8 +80,8 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		$viz = $this->getVisualization();
 
 		$opts = new stdClass;
-		$opts->lat = 0;
-		$opts->lon = 0;
+		$opts->lat = (float) $params->get('fb_gm_default_lat', 0);
+		$opts->lon = (float) $params->get('fb_gm_default_lon', 0);
 		$opts->icons = $this->getJSIcons();
 		$opts->polyline = $this->getPolyline();
 		$opts->id = $viz->id;
@@ -92,6 +92,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		$opts->overviewcontrol = (bool) $params->get('fb_gm_overviewcontrol');
 		$opts->streetView = (bool) $params->get('street_view');
 		$opts->center = $params->get('fb_gm_center');
+
 
 		if ($opts->center == 'querystring')
 		{
@@ -413,15 +414,16 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 							if (array_key_exists(1, $matches))
 							{
 								$iconImg = $matches[1];
-
-								// Check file exists
-								$path = str_replace(COM_FABRIK_LIVESITE, '', $iconImg);
-
-								if (JFile::exists(JPATH_BASE . $path))
-								{
-									$customimagefound = true;
-								}
 							}
+
+							// Check file exists
+							$path = str_replace(COM_FABRIK_LIVESITE, '', $iconImg);
+
+							if (JFile::exists(JPATH_BASE . $path))
+							{
+								$customimagefound = true;
+							}
+
 						}
 
 						if ($iconImg != '')
@@ -518,7 +520,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 			// Replace last icon?
 			$iconImg = JArrayHelper::getValue($aLastIcons, $c, '');
 
-			if ($iconImg != '')
+			if ($iconImg != '' && !empty($icons))
 			{
 				list($width, $height) = $this->markerSize(JPATH_SITE . '/media/com_fabrik/images/' . $iconImg);
 				$icons[$v[0] . $v[1]][3] = $iconImg;

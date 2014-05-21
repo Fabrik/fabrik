@@ -217,7 +217,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 			}
 		}
 
-		$imageOpts = array('alt' => JText::_('PLG_ELEMENT_CALC_LOADING'), 'style' => 'display:none;padding-left:10px;', 'class' => 'loader');
+		$imageOpts = array('alt' => FText::_('PLG_ELEMENT_CALC_LOADING'), 'style' => 'display:none;padding-left:10px;', 'class' => 'loader');
 		$this->loadingImg = FabrikHelperHTML::image("ajax-loader.gif", 'form', @$this->tmpl, $imageOpts);
 
 		// Get the default label for the drop down (use in read only templates)
@@ -1239,7 +1239,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 	protected function _getSelectLabel()
 	{
-		return JText::_($this->getParams()->get('cascadingdropdown_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT')));
+		return FText::_($this->getParams()->get('cascadingdropdown_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT')));
 	}
 
 	/**
@@ -1312,7 +1312,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 		if (empty($label))
 		{
-			$label = $params->get('filter_required') == 1 ? JText::_('COM_FABRIK_PLEASE_SELECT') : JText::_('COM_FABRIK_FILTER_PLEASE_SELECT');
+			$label = $params->get('filter_required') == 1 ? FText::_('COM_FABRIK_PLEASE_SELECT') : FText::_('COM_FABRIK_FILTER_PLEASE_SELECT');
 		}
 
 		return $label;

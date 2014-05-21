@@ -185,6 +185,29 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			<field name="labels_above"
+				type="radio"
+				class="btn-group"
+				default="-1"
+				label="COM_FABRIK_FIELD_LABELS_ABOVE_LABEL"
+				description="COM_FABRIK_FIELD_LABELS_ABOVE_DESC" >
+					<option value="-1">COM_FABRIK_FIELD_LABELS_ABOVE_GLOBAL</option>
+					<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
+					<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
+					<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
+			</field>
+
+			<field name="labels_above_details"
+				type="radio"
+				class="btn-group"
+				default="-1"
+				label="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_LABEL"
+				description="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_DESC" >
+					<option value="-1">COM_FABRIK_FIELD_LABELS_ABOVE_GLOBAL</option>
+					<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
+					<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
+					<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
+			</field>
 	</fieldset>
 	</fields>
 </form>

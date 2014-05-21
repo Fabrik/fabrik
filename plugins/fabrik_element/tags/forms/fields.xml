@@ -10,6 +10,12 @@
 				type="text"
 				description="PLG_ELEMENT_TAGS_ICON_DESC"
 				label="PLG_ELEMENT_TAGS_ICON_LABEL" />
+			
+			<field name="bootstrap_class"
+				type="bootstrapfieldclass"
+				default="span12"
+				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
+				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
 				
 		</fieldset>
 	</fields>

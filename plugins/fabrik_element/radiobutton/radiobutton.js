@@ -83,13 +83,15 @@ window.FbRadio = new Class({
 		
 		// Protostar in J3.2 adds its own btn-group js code - need to thus apply this section even after input has been unchecked
 		if (!input.get('checked') || fabchecked === 1) {
-			label.getParent('.btn-group').getElements('label').removeClass('active').removeClass('btn-success').removeClass('btn-danger').removeClass('btn-primary');
-			if (v === '') {
-				label.addClass('active btn-primary');
-			} else if (v.toInt() === 0) {
-				label.addClass('active btn-danger');
-			} else {
-				label.addClass('active btn-success');
+			if (label) {
+				label.getParent('.btn-group').getElements('label').removeClass('active').removeClass('btn-success').removeClass('btn-danger').removeClass('btn-primary');
+				if (v === '') {
+					label.addClass('active btn-primary');
+				} else if (v.toInt() === 0) {
+					label.addClass('active btn-danger');
+				} else {
+					label.addClass('active btn-success');
+				}
 			}
 			input.set('checked', true);
 			

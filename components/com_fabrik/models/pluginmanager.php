@@ -84,7 +84,7 @@ class FabrikFEModelPluginmanager extends JModelLegacy
 		{
 			if ($defaultlabel == '')
 			{
-				$defaultlabel = JText::_('COM_FABRIK_PLEASE_SELECT');
+				$defaultlabel = FText::_('COM_FABRIK_PLEASE_SELECT');
 			}
 
 			$a = array(JHTML::_('select.option', '', $defaultlabel));

@@ -47,7 +47,7 @@ class FabrikViewVisualization extends JViewLegacy
 
 		if ($visualization->published == 0)
 		{
-			return JError::raiseWarning(500, JText::_('COM_FABRIK_SORRY_THIS_VISUALIZATION_IS_UNPUBLISHED'));
+			return JError::raiseWarning(500, FText::_('COM_FABRIK_SORRY_THIS_VISUALIZATION_IS_UNPUBLISHED'));
 		}
 
 		// Plugin is basically a model

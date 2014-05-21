@@ -145,7 +145,7 @@ class PlgFabrik_FormSMS extends PlgFabrik_Form
 			}
 		}
 
-		$message = JText::_('PLG_FORM_SMS_FROM') . $config->get('sitename') . "\r \n \r \nMessage:\r \n" . stripslashes($message);
+		$message = FText::_('PLG_FORM_SMS_FROM') . $config->get('sitename') . "\r \n \r \nMessage:\r \n" . stripslashes($message);
 
 		return $message;
 	}

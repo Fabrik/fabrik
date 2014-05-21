@@ -86,8 +86,9 @@ class PlgSystemFabrik extends JPlugin
 	public static function js()
 	{
 		$config = JFactory::getConfig();
+		$app = JFactory::getApplication();
 
-		if ($config->get('caching') == 0)
+		if ($config->get('caching') == 0 || $app->isAdmin())
 		{
 			$script = self::buildJs();
 		}
@@ -96,6 +97,14 @@ class PlgSystemFabrik extends JPlugin
 			$uri = JURI::getInstance();
 			$session = JFactory::getSession();
 			$uri = $uri->toString(array('path', 'query'));
+
+			/*
+			if ($_SERVER['REQUEST_METHOD'] === 'POST')
+			{
+				$uri .= serialize($_POST);
+			}
+			*/
+
 			$file = md5($uri) . '.js';
 			$folder = JPATH_SITE . '/cache/com_fabrik/js/';
 
@@ -171,6 +180,12 @@ class PlgSystemFabrik extends JPlugin
 
 	public function onAfterRender()
 	{
+		// Could be component was unistalled but not the plugin
+		if (!class_exists('FabrikString'))
+		{
+			return;
+		}
+
 		$script = self::js();
 		$content = JResponse::getBody();
 
@@ -180,7 +195,7 @@ class PlgSystemFabrik extends JPlugin
 		}
 		else
 		{
-			$content = str_ireplace('</body>', $script . '</body>', $content);
+			$content = FabrikString::replaceLast('</body>', $script . '</body>', $content);
 		}
 
 		JResponse::setBody($content);

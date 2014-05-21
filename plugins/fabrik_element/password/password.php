@@ -104,12 +104,12 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 
 		$bits = $this->inputProperties($repeatCounter, 'password');
 		$bits['value'] = $value;
-		$bits['placeholder'] = JText::_('PLG_ELEMENT_PASSWORD_TYPE_PASSWORD');
+		$bits['placeholder'] = FText::_('PLG_ELEMENT_PASSWORD_TYPE_PASSWORD');
 		$pw1 = $this->buildInput('input', $bits);
 		$origname = $element->name;
 		$element->name = $element->name . '_check';
 		$name = $this->getHTMLName($repeatCounter);
-		$bits['placeholder'] = JText::_('PLG_ELEMENT_PASSWORD_CONFIRM_PASSWORD');
+		$bits['placeholder'] = FText::_('PLG_ELEMENT_PASSWORD_CONFIRM_PASSWORD');
 		$bits['class'] .= ' fabrikSubElement';
 		$bits['name'] = $name;
 		$bits['id'] = $name;
@@ -200,7 +200,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 
 		if ($checkvalue != $value)
 		{
-			$this->validationError = JText::_('PLG_ELEMENT_PASSWORD_PASSWORD_CONFIRMATION_DOES_NOT_MATCH');
+			$this->validationError = FText::_('PLG_ELEMENT_PASSWORD_PASSWORD_CONFIRMATION_DOES_NOT_MATCH');
 
 			return false;
 		}
@@ -222,7 +222,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 				/**
 				 * Why are we using .= here, but nowhere else?
 				 */
-				$this->validationError .= JText::_('PLG_ELEMENT_PASSWORD_PASSWORD_CONFIRMATION_EMPTY_NOT_ALLOWED');
+				$this->validationError .= FText::_('PLG_ELEMENT_PASSWORD_PASSWORD_CONFIRMATION_EMPTY_NOT_ALLOWED');
 
 				return false;
 			}
@@ -293,6 +293,6 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 
 	public function internalValidataionText()
 	{
-		return JText::_('PLG_ELEMENT_PASSWORD_VALIDATION_TIP');
+		return FText::_('PLG_ELEMENT_PASSWORD_VALIDATION_TIP');
 	}
 }

@@ -66,7 +66,7 @@ class FabrikAdminControllerForms extends FabControllerAdmin
 		JSession::checkToken() or die('Invalid Token');
 		$this->setRedirect('index.php?option=com_fabrik&view=forms');
 		$this->getModel()->updateDatabase();
-		$this->setMessage(JText::_('COM_FABRIK_DATABASE_UPDATED'));
+		$this->setMessage(FText::_('COM_FABRIK_DATABASE_UPDATED'));
 	}
 
 	/**

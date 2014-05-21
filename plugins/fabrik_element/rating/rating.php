@@ -85,7 +85,9 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 
 		if ($params->get('rating-mode') !== 'creator-rating')
 		{
-			list($data, $total) = $this->getRatingAverage($data, $listid, $formid, $row_id);
+			$d = $this->getListModel()->getData();
+			$ids = JArrayHelper::getColumn($d, '__pk_val');
+			list($data, $total) = $this->getRatingAverage($data, $listid, $formid, $row_id, $ids);
 		}
 
 		$app = JFactory::getApplication();
@@ -321,7 +323,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 
 		if ($input->get('view') == 'form' && $params->get('rating-rate-in-form', true) == 0)
 		{
-			return JText::_('PLG_ELEMENT_RATING_ONLY_ACCESSIBLE_IN_DETAILS_VIEW');
+			return FText::_('PLG_ELEMENT_RATING_ONLY_ACCESSIBLE_IN_DETAILS_VIEW');
 		}
 
 		$element = $this->getElement();

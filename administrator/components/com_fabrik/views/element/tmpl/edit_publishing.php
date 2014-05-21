@@ -12,15 +12,15 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_PUBLISHING'), 'settings');
+echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_PUBLISHING'), 'settings');
 $panels = array(
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_PUBLISHING_DETAILS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_PUBLISHING_DETAILS'),
 		'fieldset' => 'publishing'),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_RSS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_RSS'),
 		'fieldset' => 'rss'),
 
-	array('heading' => JText::_('COM_FABRIK_ELEMENT_LABEL_TIPS'),
+	array('heading' => FText::_('COM_FABRIK_ELEMENT_LABEL_TIPS'),
 		'fieldset' => 'tips')
 );
 

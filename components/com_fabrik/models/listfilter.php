@@ -408,7 +408,7 @@ class FabrikFEModelListfilter extends FabModel
 
 		if (!JString::strlen($s) >= $res->Value)
 		{
-			throw new UnexpectedValueException(JText::_('COM_FABRIK_NOTICE_SEARCH_STRING_TOO_SHORT'));
+			throw new UnexpectedValueException(FText::_('COM_FABRIK_NOTICE_SEARCH_STRING_TOO_SHORT'));
 		}
 
 		return true;
@@ -766,7 +766,7 @@ class FabrikFEModelListfilter extends FabModel
 
 		if (!$searchable)
 		{
-			$app->enqueueMessage(JText::_('COM_FABRIK_NOTICE_SEARCH_ALL_BUT_NO_ELEMENTS'));
+			$app->enqueueMessage(FText::_('COM_FABRIK_NOTICE_SEARCH_ALL_BUT_NO_ELEMENTS'));
 		}
 	}
 
@@ -1272,6 +1272,7 @@ class FabrikFEModelListfilter extends FabModel
 					continue;
 				}
 
+				$origCondition = $condition;
 				$filters['orig_condition'][] = $condition;
 
 				if ($condition === 'EMPTY')
@@ -1285,6 +1286,12 @@ class FabrikFEModelListfilter extends FabModel
 				if (!is_a($elementModel, 'PlgFabrik_Element'))
 				{
 					continue;
+				}
+
+				// Date element's have specific empty values
+				if ($origCondition === 'EMPTY')
+				{
+					$value = $elementModel->emptyFilterValue();
 				}
 
 				// If the request key is already in the filter array - unset it

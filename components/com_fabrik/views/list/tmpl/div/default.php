@@ -11,6 +11,16 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+// The number of columns to split the list rows into
+$columns = 3;
+
+// Show the labels next to the data:
+$this->showLabels = false;
+
+// Show empty data
+$this->showEmpty = true;
+
+
 $pageClass = $this->params->get('pageclass_sfx', '');
 
 if ($pageClass !== '') :
@@ -19,7 +29,7 @@ endif;
 
 ?>
 <?php if ($this->tablePicker != '') { ?>
-	<div style="text-align:right"><?php echo JText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
+	<div style="text-align:right"><?php echo FText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
 <?php } ?>
 <?php if ($this->getModel()->getParams()->get('show-title', 1)) {?>
 	<h1><?php echo $this->table->label;?></h1>
@@ -53,7 +63,7 @@ if ($this->showFilters) {
 	?>
 	<div class="fabrik_groupheading">
 		<a href="#" class="toggle">
-			<?php echo FabrikHelperHTML::image('orderasc.png', 'list', $this->tmpl, JText::_('COM_FABRIK_TOGGLE'));?>
+			<?php echo FabrikHelperHTML::image('orderasc.png', 'list', $this->tmpl, FText::_('COM_FABRIK_TOGGLE'));?>
 			<span class="groupTitle">
 				<?php echo $this->grouptemplates[$groupedby]; ?> ( <?php echo count($group)?> )
 			</span>
@@ -75,7 +85,7 @@ if ($this->showFilters) {
 	foreach ($group as $this->_row) :
 		$items[] = $this->loadTemplate('row');
 	endforeach;
-	echo FabrikHelperHTML::bootstrapGrid($items, 3, 'well', true);
+	echo FabrikHelperHTML::bootstrapGrid($items, $columns, 'well', true);
 	?>
 	</div>
 	<?php

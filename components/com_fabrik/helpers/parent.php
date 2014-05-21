@@ -216,10 +216,10 @@ class FabrikWorker
 			return;
 		}
 
-		$months = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'),
-			JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
-		$shortMonths = array(JText::_('Jan'), JText::_('Feb'), JText::_('Mar'), JText::_('Apr'), JText::_('May'), JText::_('Jun'), JText::_('Jul'),
-			JText::_('Aug'), JText::_('Sept'), JText::_('Oct'), JText::_('Nov'), JText::_('Dec'));
+		$months = array(FText::_('January'), FText::_('February'), FText::_('March'), FText::_('April'), FText::_('May'), FText::_('June'),
+			FText::_('July'), FText::_('August'), FText::_('September'), FText::_('October'), FText::_('November'), FText::_('December'));
+		$shortMonths = array(FText::_('Jan'), FText::_('Feb'), FText::_('Mar'), FText::_('Apr'), FText::_('May'), FText::_('Jun'), FText::_('Jul'),
+			FText::_('Aug'), FText::_('Sept'), FText::_('Oct'), FText::_('Nov'), FText::_('Dec'));
 
 		/*$$ rob set day default to 1, so that if you have a date format string of %m-%Y the day is set to the first day of the month
 		 * and not the last day of the previous month (which is what a 0 here would represent)
@@ -466,23 +466,23 @@ class FabrikWorker
 	{
 		if ($abrv)
 		{
-			$date = str_replace(JText::_('SUN'), '', $date);
-			$date = str_replace(JText::_('MON'), '', $date);
-			$date = str_replace(JText::_('TUE'), '', $date);
-			$date = str_replace(JText::_('WED'), '', $date);
-			$date = str_replace(JText::_('THU'), '', $date);
-			$date = str_replace(JText::_('FRI'), '', $date);
-			$date = str_replace(JText::_('SAT'), '', $date);
+			$date = str_replace(FText::_('SUN'), '', $date);
+			$date = str_replace(FText::_('MON'), '', $date);
+			$date = str_replace(FText::_('TUE'), '', $date);
+			$date = str_replace(FText::_('WED'), '', $date);
+			$date = str_replace(FText::_('THU'), '', $date);
+			$date = str_replace(FText::_('FRI'), '', $date);
+			$date = str_replace(FText::_('SAT'), '', $date);
 		}
 		else
 		{
-			$date = str_replace(JText::_('SUNDAY'), '', $date);
-			$date = str_replace(JText::_('MONDAY'), '', $date);
-			$date = str_replace(JText::_('TUESDAY'), '', $date);
-			$date = str_replace(JText::_('WEDNESDAY'), '', $date);
-			$date = str_replace(JText::_('THURSDAY'), '', $date);
-			$date = str_replace(JText::_('FRIDAY'), '', $date);
-			$date = str_replace(JText::_('SATURDAY'), '', $date);
+			$date = str_replace(FText::_('SUNDAY'), '', $date);
+			$date = str_replace(FText::_('MONDAY'), '', $date);
+			$date = str_replace(FText::_('TUESDAY'), '', $date);
+			$date = str_replace(FText::_('WEDNESDAY'), '', $date);
+			$date = str_replace(FText::_('THURSDAY'), '', $date);
+			$date = str_replace(FText::_('FRIDAY'), '', $date);
+			$date = str_replace(FText::_('SATURDAY'), '', $date);
 		}
 
 		return $date;
@@ -501,33 +501,33 @@ class FabrikWorker
 	{
 		if ($abrv)
 		{
-			$date = str_replace(JText::_('JANUARY_SHORT'), '01', $date);
-			$date = str_replace(JText::_('FEBRUARY_SHORT'), '02', $date);
-			$date = str_replace(JText::_('MARCH_SHORT'), '03', $date);
-			$date = str_replace(JText::_('APRIL_SHORT'), '04', $date);
-			$date = str_replace(JText::_('MAY_SHORT'), '05', $date);
-			$date = str_replace(JText::_('JUNE_SHORT'), '06', $date);
-			$date = str_replace(JText::_('JULY_SHORT'), '07', $date);
-			$date = str_replace(JText::_('AUGUST_SHORT'), '08', $date);
-			$date = str_replace(JText::_('SEPTEMBER_SHORT'), '09', $date);
-			$date = str_replace(JText::_('OCTOBER_SHORT'), 10, $date);
-			$date = str_replace(JText::_('NOVEMBER_SHORT'), 11, $date);
-			$date = str_replace(JText::_('DECEMBER_SHORT'), 12, $date);
+			$date = str_replace(FText::_('JANUARY_SHORT'), '01', $date);
+			$date = str_replace(FText::_('FEBRUARY_SHORT'), '02', $date);
+			$date = str_replace(FText::_('MARCH_SHORT'), '03', $date);
+			$date = str_replace(FText::_('APRIL_SHORT'), '04', $date);
+			$date = str_replace(FText::_('MAY_SHORT'), '05', $date);
+			$date = str_replace(FText::_('JUNE_SHORT'), '06', $date);
+			$date = str_replace(FText::_('JULY_SHORT'), '07', $date);
+			$date = str_replace(FText::_('AUGUST_SHORT'), '08', $date);
+			$date = str_replace(FText::_('SEPTEMBER_SHORT'), '09', $date);
+			$date = str_replace(FText::_('OCTOBER_SHORT'), 10, $date);
+			$date = str_replace(FText::_('NOVEMBER_SHORT'), 11, $date);
+			$date = str_replace(FText::_('DECEMBER_SHORT'), 12, $date);
 		}
 		else
 		{
-			$date = str_replace(JText::_('JANUARY'), '01', $date);
-			$date = str_replace(JText::_('FEBRUARY'), '02', $date);
-			$date = str_replace(JText::_('MARCH'), '03', $date);
-			$date = str_replace(JText::_('APRIL'), '04', $date);
-			$date = str_replace(JText::_('MAY'), '05', $date);
-			$date = str_replace(JText::_('JUNE'), '06', $date);
-			$date = str_replace(JText::_('JULY'), '07', $date);
-			$date = str_replace(JText::_('AUGUST'), '08', $date);
-			$date = str_replace(JText::_('SEPTEMBER'), '09', $date);
-			$date = str_replace(JText::_('OCTOBER'), 10, $date);
-			$date = str_replace(JText::_('NOVEMBER'), 11, $date);
-			$date = str_replace(JText::_('DECEMBER'), 12, $date);
+			$date = str_replace(FText::_('JANUARY'), '01', $date);
+			$date = str_replace(FText::_('FEBRUARY'), '02', $date);
+			$date = str_replace(FText::_('MARCH'), '03', $date);
+			$date = str_replace(FText::_('APRIL'), '04', $date);
+			$date = str_replace(FText::_('MAY'), '05', $date);
+			$date = str_replace(FText::_('JUNE'), '06', $date);
+			$date = str_replace(FText::_('JULY'), '07', $date);
+			$date = str_replace(FText::_('AUGUST'), '08', $date);
+			$date = str_replace(FText::_('SEPTEMBER'), '09', $date);
+			$date = str_replace(FText::_('OCTOBER'), 10, $date);
+			$date = str_replace(FText::_('NOVEMBER'), 11, $date);
+			$date = str_replace(FText::_('DECEMBER'), 12, $date);
 		}
 
 		return $date;
@@ -1277,7 +1277,7 @@ class FabrikWorker
 
 		$enqMsgType = 'error';
 		$indentHTML = '<br/>&nbsp;&nbsp;&nbsp;&nbsp;Debug:&nbsp;';
-		$errString = JText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING');
+		$errString = FText::_('COM_FABRIK_EVAL_ERROR_USER_WARNING');
 
 		// Give a technical error message to the developer
 		if (version_compare(phpversion(), '5.2.0', '>=') && $error && is_array($error))
@@ -1420,7 +1420,7 @@ class FabrikWorker
 			if ($fbConfig->get('enable_big_selects', 0) == '1')
 			{
 				$fabrikDb = self::$database[$sig];
-				$fabrikDb->setQuery("SET OPTION SQL_BIG_SELECTS=1");
+				$fabrikDb->setQuery("SET OPTION SQL_BIG_SELECTS=1, GROUP_CONCAT_MAX_LEN=10240");
 				$fabrikDb->execute();
 			}
 		}
@@ -1841,7 +1841,7 @@ class FabrikWorker
 
 		if (!JFile::exists($file))
 		{
-			throw new RuntimeException(JText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
+			throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
 		}
 
 		return true;

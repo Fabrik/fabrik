@@ -98,7 +98,7 @@ class PlgFabrik_ElementFbcomment extends PlgFabrik_Element
 		}
 		else
 		{
-			$str .= JText::_('PLG_ELEMENT_FBCOMMENT_AVAILABLE_WHEN_SAVED');
+			$str .= FText::_('PLG_ELEMENT_FBCOMMENT_AVAILABLE_WHEN_SAVED');
 		}
 
 		return $str;

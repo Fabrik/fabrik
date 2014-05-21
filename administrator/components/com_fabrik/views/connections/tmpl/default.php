@@ -23,14 +23,14 @@ $listDirn	= $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_fabrik&view=connections'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<label class="filter-search-lbl" for="filter_search"><?php echo FText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo FText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />
+			<button type="submit"><?php echo FText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo FText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<option value=""><?php echo FText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived'=>false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 		</div>
@@ -47,22 +47,22 @@ $listDirn	= $this->state->get('list.direction');
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th width="29%">
-					<?php echo JText::_('COM_FABRIK_LABEL'); ?>
+					<?php echo FText::_('COM_FABRIK_LABEL'); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_HOST'); ?>
+					<?php echo FText::_('COM_FABRIK_HOST'); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_DATABASE'); ?>
+					<?php echo FText::_('COM_FABRIK_DATABASE'); ?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_('COM_FABRIK_DEFAULT'); ?>
+					<?php echo FText::_('COM_FABRIK_DEFAULT'); ?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_('JPUBLISHED'); ?>
+					<?php echo FText::_('JPUBLISHED'); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_TEST_CONNECTION'); ?>
+					<?php echo FText::_('COM_FABRIK_TEST_CONNECTION'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -114,7 +114,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<a href="#edit" onclick="return listItemTask('cb<?php echo $i; ?>','connection.test')">
-						<?php echo JText::_('COM_FABRIK_TEST_CONNECTION'); ?>
+						<?php echo FText::_('COM_FABRIK_TEST_CONNECTION'); ?>
 					</a>
 				</td>
 			</tr>

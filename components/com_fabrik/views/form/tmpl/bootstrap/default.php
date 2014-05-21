@@ -62,13 +62,8 @@ foreach ($this->groups as $group) :
 	?>
 
 	<fieldset class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
-	<?php
-		$allHidden = true;
-		foreach ($group->elements as $element)
-		{
-			$allHidden &= $element->hidden;
-		}
-		if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+		<?php
+		if ($group->showLegend) :?>
 			<legend class="legend"><?php echo $group->title;?></legend>
 		<?php
 		endif;

@@ -40,6 +40,14 @@ class FabrikViewApprovals extends JViewLegacy
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$id = $input->get('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0)));
 		$model->setId($id);
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		$this->id = $id;
 		$this->row = $this->get('Visualization');
 		$this->rows = $this->get('Rows');
@@ -64,7 +72,7 @@ class FabrikViewApprovals extends JViewLegacy
 		FabrikHelperHTML::script($srcs, $js);
 
 		$text = $this->loadTemplate();
-		FabrikHelperHTML::runConentPlugins($text);
+		FabrikHelperHTML::runContentPlugins($text);
 		echo $text;
 	}
 }

@@ -159,7 +159,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 
 		if (!$this->canView())
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_DIGSIG_NO_PERMISSION'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_DIGSIG_NO_PERMISSION'));
 			$app->redirect($url);
 			exit;
 		}
@@ -168,7 +168,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 
 		if (empty($rowid))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FDIGSIG_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FDIGSIG_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -179,7 +179,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 
 		if (empty($row))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_DIGSIG_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_DIGSIG_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -219,7 +219,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_DIGSIG_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_DIGSIG_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}

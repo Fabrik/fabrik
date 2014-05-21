@@ -112,7 +112,7 @@ class PlgFabrik_ElementTimer extends PlgFabrik_Element
 		{
 			array_unshift($str, '<div class="input-append">');
 			$icon = $params->get('icon', 'icon-clock');
-			$img = '<i class="' . $icon . '"></i> <span>' . JText::_('PLG_ELEMENT_TIMER_START') . '</span>';
+			$img = '<i class="' . $icon . '"></i> <span>' . FText::_('PLG_ELEMENT_TIMER_START') . '</span>';
 			$str[] = '<button class="btn" id="' . $id . '_button">' . $img . '</button>';
 			$str[] = '</div>';
 		}

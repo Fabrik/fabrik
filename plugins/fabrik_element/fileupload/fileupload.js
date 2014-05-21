@@ -6,8 +6,8 @@
  */
 
 var FbFileUpload = new Class({
-	Extends : FbFileElement,
-	initialize : function (element, options) {
+	Extends: FbFileElement,
+	initialize: function (element, options) {
 		this.plugin = 'fileupload';
 		this.parent(element, options);
 		this.toppath = this.options.dir;
@@ -15,7 +15,6 @@ var FbFileUpload = new Class({
 			this.ajaxFolder();
 		}
 
-		//Fabrik.addEvent('fabrik.form.submit.start', this.submitEvent);
 		if (this.options.ajax_upload && this.options.editable !== false) {
 			this.watchAjax();
 			this.options.files = $H(this.options.files);
@@ -24,29 +23,41 @@ var FbFileUpload = new Class({
 				this.startbutton.addClass('plupload_disabled');
 				this.options.files.each(function (file) {
 					var response = {
-						'filepath' : file.path,
-						uri : file.url
+						'filepath': file.path,
+						uri: file.url
 					};
 					this.uploader.trigger('UploadProgress', file);
 					this.uploader.trigger('FileUploaded', file, {
-						response : JSON.encode(response)
+						response: JSON.encode(response)
 					});
 					document.id(file.id).getElement('.plupload_file_status  .bar').setStyle('width', '100%').addClass('bar-success');
-					//document.id(file.id).getElement('.plupload_file_size').set('text', file.size);
 				}.bind(this));
-				//this.uploader.trigger('Init'); //no as this creates a second div interface
-				// hack to reposition the hidden input field over the 'ad' button
-				var c = document.id(this.options.element + '_container');
-				var diff = document.id(this.options.element + '_browseButton').getPosition().y - c.getPosition().y;
-				// $$$ hugh - working on some IE issues
-				var file_element = c.getParent('.fabrikElement').getElement('input[type=file]');
-				if (file_element) {
-					c.getParent('.fabrikElement').getElement('input[type=file]').getParent().setStyle('top', diff);
-				}
 			}
+			this.redraw();
 		}
 
 		this.watchDeleteButton();
+		this.watchTab();
+	},
+	
+	/**
+	 * Repoistion the hidden input field over teh 'add' button. Called on initiate
+	 * and if in a tab and the tab is activated. Triggered from element.watchTab()
+	 */
+	redraw: function () {
+		if (this.options.ajax_upload) {
+			var browseButton = document.id(this.element.id + '_browseButton');
+			var c = document.id(this.options.element + '_container');
+			var diff = browseButton.getPosition().y - c.getPosition().y;
+			// $$$ hugh - working on some IE issues
+			var file_element = c.getParent('.fabrikElement').getElement('input[type=file]');
+			if (file_element) {
+				var fileContainer = file_element.getParent();
+				var size = browseButton.getSize();
+				fileContainer.setStyles({'width': size.x, 'height': size.y});
+				fileContainer.setStyle('top', diff);
+			}
+		}
 	},
 
 	/**
@@ -75,13 +86,11 @@ var FbFileUpload = new Class({
 							'rowid': this.form.options.rowid
 						}
 					}).send();
+					
 					if (confirm(Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_CONFIRM_HARD_DELETE'))) {
 						this.makeDeletedImageField(this.groupid, b.get('data-file')).inject(this.getContainer(), 'inside');
 					}
-					/*
-					b.getNext().destroy();
-					b.destroy();
-					*/
+	
 					var delete_span = document.id(this.element.id + '_delete_span');
 					if (delete_span) {
 						delete_span.destroy();
@@ -150,13 +159,13 @@ var FbFileUpload = new Class({
 	 */
 	makeDeletedImageField: function (groupid, value) {
 		return new Element('input', {
-			'type' : 'hidden',
-			'name' : 'fabrik_fileupload_deletedfile[' + groupid + '][]',
-			'value' : value
+			'type': 'hidden',
+			'name': 'fabrik_fileupload_deletedfile[' + groupid + '][]',
+			'value': value
 		});
 	},
 
-	update : function (val) {
+	update: function (val) {
 		if (this.element) {
 			var i = this.element.getElement('img');
 			if (typeOf(i) !== 'null') {
@@ -186,7 +195,7 @@ var FbFileUpload = new Class({
 		}
 	},
 
-	watchAjax : function () {
+	watchAjax: function () {
 		if (this.options.editable === false) {
 			return;
 		}
@@ -211,7 +220,7 @@ var FbFileUpload = new Class({
 					h: this.options.winHeight
 				},
 
-				'cropdim' : {
+				'cropdim': {
 					w: this.options.cropwidth,
 					h: this.options.cropheight,
 					x: this.options.winWidth / 2,
@@ -250,24 +259,30 @@ var FbFileUpload = new Class({
 			// FORCEFULLY NUKE GRACEFUL DEGRADING FALLBACK ON INIT
 			this.pluploadFallback.destroy();
 			this.pluploadContainer.removeClass("fabrikHide");
-
+			
 			if (up.features.dragdrop && up.settings.dragdrop) {
 				this.addDropArea();
 			}
 
 		}.bind(this));
-
+		
+	/*	this.uploader.bind('PostInit', function (up, params) {
+			debugger;
+			this.pluploadContainer.getElement('input').setStyle('width', '1px');
+		}.bind(this));
+*/
 		this.uploader.bind('FilesRemoved', function (up, files) {
 		});
 
 		// (2) ON FILES ADDED ACTION
 		this.uploader.bind('FilesAdded', function (up, files) {
 			this.removeDropArea();
+			var rElement = Fabrik.bootstrapped ? 'tr' : 'li';
 			this.lastAddedFiles = files;
 			if (Fabrik.bootstrapped) {
 				this.container.getElement('thead').show();
 			}
-			var count = this.droplist.getElements('li').length;
+			var count = this.droplist.getElements(rElement).length;
 			this.startbutton.removeClass('disabled');
 			files.each(function (file, idx) {
 				if (file.size > this.options.max_file_size * 1000) {
@@ -293,10 +308,9 @@ var FbFileUpload = new Class({
 						
 						innerli = this.imageCells(file, title, a);
 						
-						var rElement = Fabrik.bootstrapped ? 'tr' : 'li';
 						this.droplist.adopt(new Element(rElement, {
-							id : file.id,
-							'class' : 'plupload_delete'
+							id: file.id,
+							'class': 'plupload_delete'
 						}).adopt(innerli));
 					}
 				}
@@ -364,17 +378,17 @@ var FbFileUpload = new Class({
 
 			// Stores the cropparams which we need to reload the crop widget in the correct state (rotation, zoom, loc etc)
 			new Element('input', {
-				'type' : 'hidden',
-				name : this.options.elementName + '[crop][' + response.filepath + ']',
-				'id' : 'coords_' + file.id,
-				'value' : JSON.encode(file.params)
+				'type': 'hidden',
+				name: this.options.elementName + '[crop][' + response.filepath + ']',
+				'id': 'coords_' + file.id,
+				'value': JSON.encode(file.params)
 			}).inject(this.pluploadContainer, 'after');
 
 			// Stores the actual crop image data retrieved from the canvas
 			new Element('input', {
 				type: 'hidden',
-				name : this.options.elementName + '[cropdata][' + response.filepath + ']',
-				'id' : 'data_' + file.id
+				name: this.options.elementName + '[cropdata][' + response.filepath + ']',
+				'id': 'data_' + file.id
 			}).inject(this.pluploadContainer, 'after');
 
 			// Stores the image id if > 1 fileupload
@@ -476,7 +490,8 @@ var FbFileUpload = new Class({
 				'class': 'icon-delete',
 				events: {
 					'click': function (e) {
-						this.pluploadRemoveFile(e, file);
+						e.stop();
+						this.pluploadRemoveFile(e);
 					}.bind(this)
 				}
 			}));
@@ -488,7 +503,7 @@ var FbFileUpload = new Class({
 				'style': 'display:block',
 				events: {
 					'click': function (e) {
-						this.pluploadRemoveFile(e, file);
+						this.pluploadRemoveFile(e);
 					}.bind(this)
 				}
 			}));
@@ -503,7 +518,7 @@ var FbFileUpload = new Class({
 		return ['jpg', 'jpeg', 'png', 'gif'].contains(ext);
 	},
 
-	pluploadRemoveFile: function (e, file) {
+	pluploadRemoveFile: function (e) {
 		e.stop();
 		if (!confirm(Joomla.JText._('PLG_ELEMENT_FILEUPLOAD_CONFIRM_HARD_DELETE'))) {
 			return;
@@ -652,6 +667,7 @@ var ImageWidget = new Class({
 			}
 		};
 
+		
 		Object.append(this.imageDefault, opts);
 
 		this.windowopts = {
@@ -772,6 +788,7 @@ var ImageWidget = new Class({
 	 */
 
 	setImage: function (uri, filepath, params) {
+		console.log('set Image', uri, filepath, params);
 		this.activeFilePath = filepath;
 		if (!this.images.has(filepath)) {
 			
@@ -872,7 +889,7 @@ var ImageWidget = new Class({
 						this.y = y - this.offset[1] + h * 0.5;
 					}
 				},
-				onDraw : function (ctx) {
+				onDraw: function (ctx) {
 					ctx = parent.CANVAS.ctx;
 					if (typeOf(parent.img) === 'null') {
 						//console.log('no parent img', parent);
@@ -902,33 +919,33 @@ var ImageWidget = new Class({
 					ctx.restore();
 					if (typeOf(parent.img) !== 'null' && parent.images.get(parent.activeFilePath)) {
 						parent.images.get(parent.activeFilePath).imagedim = {
-							x : this.x,
-							y : this.y,
-							w : w,
-							h : h
+							x: this.x,
+							y: this.y,
+							w: w,
+							h: h
 						};
 
 					}
 					this.setDims(x, y, w, h);
 				},
 
-				onMousedown : function (x, y) {
+				onMousedown: function (x, y) {
 					parent.CANVAS.setDrag(this);
-					this.offset = [ x - this.dims[0], y - this.dims[1] ];
+					this.offset = [x - this.dims[0], y - this.dims[1]];
 					this.dragging = true;
 				},
 
-				onMouseup : function () {
+				onMouseup: function () {
 					parent.CANVAS.clearDrag();
 					this.dragging = false;
 				},
 
-				onMouseover : function () {
+				onMouseover: function () {
 					parent.overImg = true;
 					document.body.style.cursor = "move";
 				},
 
-				onMouseout : function () {
+				onMouseout: function () {
 					parent.overImg = false;
 					if (!parent.overCrop) {
 						document.body.style.cursor = "default";
@@ -947,7 +964,7 @@ var ImageWidget = new Class({
 			w: 150,
 			h: 50,
 			interactive: true,
-			offset: [ 0, 0 ],
+			offset: [0, 0],
 			events: {
 				onDraw: function (ctx) {
 					ctx = parent.CANVAS.ctx;
@@ -1152,7 +1169,7 @@ var ImageWidget = new Class({
 		}.bind(this));
 	},
 
-	showWin : function () {
+	showWin: function () {
 		this.win = Fabrik.getWindow(this.windowopts);
 		if (typeOf(this.CANVAS) === 'null') {
 			return;

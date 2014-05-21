@@ -220,7 +220,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 		if (empty($comments))
 		{
-			$data[] = JText::_('PLG_FORM_COMMENT_NO_COMMENTS');
+			$data[] = FText::_('PLG_FORM_COMMENT_NO_COMMENTS');
 		}
 		else
 		{
@@ -229,7 +229,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 				$data[] = count($comments) . ' ';
 			}
 
-			$data[] = JText::_('PLG_FORM_COMMENT_COMMENTS');
+			$data[] = FText::_('PLG_FORM_COMMENT_COMMENTS');
 		}
 
 		$data[] = '</a></h3>';
@@ -247,11 +247,11 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		{
 			if ($user->get('id') == 0 && $anonymous == 0)
 			{
-				$data[] = '<h3>' . JText::_('PLG_FORM_COMMENT_PLEASE_SIGN_IN_TO_LEAVE_A_COMMENT') . '</h3>';
+				$data[] = '<h3>' . FText::_('PLG_FORM_COMMENT_PLEASE_SIGN_IN_TO_LEAVE_A_COMMENT') . '</h3>';
 			}
 			else
 			{
-				$data[] = '<h3>' . JText::_('PLG_FORM_COMMENT_ADD_COMMENT') . '</h3>';
+				$data[] = '<h3>' . FText::_('PLG_FORM_COMMENT_ADD_COMMENT') . '</h3>';
 			}
 
 			$data[] = $this->getAddCommentForm(0, true);
@@ -330,7 +330,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 		$m = $master ? " id='master-comment-form' " : '';
 		$data[] = '<form action="index.php" ' . $m . ' class="replyform">';
-		$data[] = '<p><textarea style="width:95%" rows="6" cols="3" placeholder="' . JText::_('PLG_FORM_COMMENT_TYPE_A_COMMENT_HERE') . '">';
+		$data[] = '<p><textarea style="width:95%" rows="6" cols="3" placeholder="' . FText::_('PLG_FORM_COMMENT_TYPE_A_COMMENT_HERE') . '">';
 		$data[] = '</textarea></p>';
 		$data[] = '<table class="adminForm" style="width:350px" summary="comments">';
 
@@ -340,12 +340,12 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 			$name = trim($input->get('ide_people___voornaam', '', 'cookie') . ' ' . $input->get('ide_people___achternaam', '', 'cookie'));
 			$email = $input->get('ide_people___email', '', 'cookie');
 			$data[] = '<td>';
-			$data[] = '<label for="add-comment-name-' . $reply_to . '">' . JText::_('PLG_FORM_COMMENT_NAME') . '</label>';
+			$data[] = '<label for="add-comment-name-' . $reply_to . '">' . FText::_('PLG_FORM_COMMENT_NAME') . '</label>';
 			$data[] = '<br />';
 			$data[] = '<input class="inputbox" type="text" size="20" id="add-comment-name-' . $reply_to . '" name="name" value="' . $name
 			. '" /></td>';
 			$data[] = '<td>';
-			$data[] = '<label for="add-comment-email-' . $reply_to . '">' . JText::_('PLG_FORM_COMMENT_EMAIL') . '</label>';
+			$data[] = '<label for="add-comment-email-' . $reply_to . '">' . FText::_('PLG_FORM_COMMENT_EMAIL') . '</label>';
 			$data[] = '<br />';
 			$data[] = '<input class="inputbox" type="text" size="20" id="add-comment-email-' . $reply_to . '" name="email" value="' . $email
 			. '" /></td>';
@@ -358,12 +358,12 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 			{
 				$data[] = '<tr>';
 				$data[] = '<td>';
-				$data[] = JText::_('PLG_FORM_COMMENT_NOTIFY_ME');
-				$data[] = '<label><input type="radio" name="comment-plugin-notify[]" checked="checked" class="inputbox" value="1">' . JText::_('JNO')
+				$data[] = FText::_('PLG_FORM_COMMENT_NOTIFY_ME');
+				$data[] = '<label><input type="radio" name="comment-plugin-notify[]" checked="checked" class="inputbox" value="1">' . FText::_('JNO')
 				. '</label>';
 				$data[] = '</td>';
 				$data[] = '<td>';
-				$data[] = '<label><input type="radio" name="comment-plugin-notify[]" class="inputbox" value="0">' . JText::_('JYES') . '</label>';
+				$data[] = '<label><input type="radio" name="comment-plugin-notify[]" class="inputbox" value="0">' . FText::_('JYES') . '</label>';
 				$data[] = '</td>';
 				$data[] = '</tr>';
 			}
@@ -378,14 +378,14 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 			if ($rating)
 			{
-				$data[] = '<label for="add-comment-rating-' . $reply_to . '">' . JText::_('PLG_FORM_COMMENT_RATING') . '</label><br />';
+				$data[] = '<label for="add-comment-rating-' . $reply_to . '">' . FText::_('PLG_FORM_COMMENT_RATING') . '</label><br />';
 				$data[] = '<select id="add-comment-rating-' . $reply_to . '" class="inputbox" name="rating">';
-				$data[] = '<option value="0">' . JText::_('PLG_FORM_COMMENT_NONE') . '</option>';
-				$data[] = '<option value="1">' . JText::_('PLG_FORM_COMMENT_ONE') . '</option>';
-				$data[] = '<option value="2">' . JText::_('PLG_FORM_COMMENT_TWO') . '</option>';
-				$data[] = '<option value="3">' . JText::_('PLG_FORM_COMMENT_THREE') . '</option>';
-				$data[] = '<option value="4">' . JText::_('PLG_FORM_COMMENT_FOUR') . '</option>';
-				$data[] = '<option value="5">' . JText::_('PLG_FORM_COMMENT_FIVE') . '</option>\n</select>';
+				$data[] = '<option value="0">' . FText::_('PLG_FORM_COMMENT_NONE') . '</option>';
+				$data[] = '<option value="1">' . FText::_('PLG_FORM_COMMENT_ONE') . '</option>';
+				$data[] = '<option value="2">' . FText::_('PLG_FORM_COMMENT_TWO') . '</option>';
+				$data[] = '<option value="3">' . FText::_('PLG_FORM_COMMENT_THREE') . '</option>';
+				$data[] = '<option value="4">' . FText::_('PLG_FORM_COMMENT_FOUR') . '</option>';
+				$data[] = '<option value="5">' . FText::_('PLG_FORM_COMMENT_FIVE') . '</option>\n</select>';
 			}
 
 			$data[] = '</td>';
@@ -393,11 +393,11 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 			if ($anonymous)
 			{
-				$data[] = JText::_('Anonymous') . '<br />';
-				$data[] = '<label for="add-comment-anonymous-no-' . $reply_to . '">' . JText::_('JNO') . '</label>';
+				$data[] = FText::_('Anonymous') . '<br />';
+				$data[] = '<label for="add-comment-anonymous-no-' . $reply_to . '">' . FText::_('JNO') . '</label>';
 				$data[] = '<input type="radio" id="add-comment-anonymous-no-' . $reply_to
 				. '" name="anonymous[]" checked="checked" class="inputbox" value="0" />';
-				$data[] = '<label for="add-comment-anonymous-yes-' . $reply_to . '">' . JText::_('JYES') . '</label>';
+				$data[] = '<label for="add-comment-anonymous-yes-' . $reply_to . '">' . FText::_('JYES') . '</label>';
 				$data[] = '<input type="radio" id="add-comment-anonymous-yes-' . $reply_to . '" name="anonymous[]" class="inputbox" value="1" />';
 			}
 
@@ -409,7 +409,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$data[] = '<td colspan="2">';
 		$data[] = '<button class="button btn btn-success submit" style="margin-left:0">';
 		$data[] = '<i class="icon-comments-2"></i> ';
-		$data[] = JText::_('PLG_FORM_COMMENT_POST_COMMENT');
+		$data[] = FText::_('PLG_FORM_COMMENT_POST_COMMENT');
 		$data[] = '</button>';
 		$data[] = '<input type="hidden" name="reply_to" value="' . $reply_to . '" />';
 		$data[] = '<input type="hidden" name="renderOrder" value="' . $this->renderOrder . '" />';
@@ -565,11 +565,11 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$input = $app->input;
 		$user = JFactory::getUser();
 		$j3 = FabrikWorker::j3();
-		$name = (int) $comment->anonymous == 0 ? $comment->name : JText::_('PLG_FORM_COMMENT_ANONYMOUS_SHORT');
+		$name = (int) $comment->anonymous == 0 ? $comment->name : FText::_('PLG_FORM_COMMENT_ANONYMOUS_SHORT');
 		$data = array();
 		$data[] = '<div class="metadata muted">';
 		$data[] = '<small><i class="icon-user"></i> ';
-		$data[] = $name . ', ' . JText::_('PLG_FORM_COMMENT_WROTE_ON') . ' </small>';
+		$data[] = $name . ', ' . FText::_('PLG_FORM_COMMENT_WROTE_ON') . ' </small>';
 		$data[] = '<i class="icon-calendar"></i> ';
 		$data[] = ' <small>' . JHTML::date($comment->time_date) . '</small>';
 
@@ -621,12 +621,12 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 		if (!$this->commentsLocked && $this->canAddComment())
 		{
-			$data[] = '<a href="#" class="replybutton btn btn-small btn-link">' . JText::_('PLG_FORM_COMMENT_REPLY') . '</a>';
+			$data[] = '<a href="#" class="replybutton btn btn-small btn-link">' . FText::_('PLG_FORM_COMMENT_REPLY') . '</a>';
 		}
 
 		if ($user->authorise('core.delete', 'com_fabrik'))
 		{
-			$data[] = '<a href="#" class="del-comment btn btn-danger btn-small">' . JText::_('PLG_FORM_COMMENT_DELETE') . '</a>';
+			$data[] = '<a href="#" class="del-comment btn btn-danger btn-small">' . FText::_('PLG_FORM_COMMENT_DELETE') . '</a>';
 		}
 
 		if ($this->doThumbs())
@@ -833,7 +833,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		}
 		catch (RuntimeException $e)
 		{
-			JLog::add('Couldn't save fabrik comment notification event: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
+			JLog::add('Couldn\'t save fabrik comment notification event: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
 
 			return false;
 		}
@@ -945,9 +945,9 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$user = JFactory::getUser();
 		$app = JFactory::getApplication();
 		$sentto = array();
-		$title = JText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED_TITLE');
-		$message = JText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED');
-		$message .= "<br /><a href=\"{$row->url}\">" . JText::_('PLG_FORM_COMMENT_VIEW_COMMENT') . "</a>";
+		$title = FText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED_TITLE');
+		$message = FText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED');
+		$message .= "<br /><a href=\"{$row->url}\">" . FText::_('PLG_FORM_COMMENT_VIEW_COMMENT') . "</a>";
 		$mail = JFactory::getMailer();
 
 		foreach ($comments as $comment)

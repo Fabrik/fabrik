@@ -114,7 +114,7 @@ class FPagination extends JPagination
 
 		if ($this->showTotal)
 		{
-			$list['pagescounter'] .= ' ' . JText::_('COM_FABRIK_TOTAL') . ': ' . $list['total'];
+			$list['pagescounter'] .= ' ' . FText::_('COM_FABRIK_TOTAL') . ': ' . $list['total'];
 		}
 
 		$list['pageslinks'] = $this->getPagesLinks($listRef, $tmpl);
@@ -167,7 +167,7 @@ class FPagination extends JPagination
 
 		if ($this->showAllOption == true)
 		{
-			$limits[] = JHTML::_('select.option', '-1', JText::_('COM_FABRIK_ALL'));
+			$limits[] = JHTML::_('select.option', '-1', FText::_('COM_FABRIK_ALL'));
 		}
 
 		$selected = $this->viewAll ? '-1' : $this->limit;
@@ -377,7 +377,7 @@ class FPagination extends JPagination
 
 		// $$$ hugh - need to work out if we need & or ?
 		$sepchar = strstr($this->url, '?') ? '&amp;' : '?';
-		$data->all = new JPaginationObject(JText::_('COM_FABRIK_VIEW_ALL'));
+		$data->all = new JPaginationObject(FText::_('COM_FABRIK_VIEW_ALL'));
 
 		if (!$this->viewAll)
 		{
@@ -386,8 +386,8 @@ class FPagination extends JPagination
 		}
 
 		// Set the start and previous data objects
-		$data->start = new JPaginationObject(JText::_('COM_FABRIK_START'));
-		$data->previous = new JPaginationObject(JText::_('COM_FABRIK_PREV'));
+		$data->start = new JPaginationObject(FText::_('COM_FABRIK_START'));
+		$data->previous = new JPaginationObject(FText::_('COM_FABRIK_PREV'));
 
 		if ($this->get('pages.current') > 1)
 		{
@@ -403,8 +403,8 @@ class FPagination extends JPagination
 		}
 
 		// Set the next and end data objects
-		$data->next = new JPaginationObject(JText::_('COM_FABRIK_NEXT'));
-		$data->end = new JPaginationObject(JText::_('COM_FABRIK_END'));
+		$data->next = new JPaginationObject(FText::_('COM_FABRIK_NEXT'));
+		$data->end = new JPaginationObject(FText::_('COM_FABRIK_END'));
 
 		if ($this->get('pages.current') < $this->get('pages.total'))
 		{
@@ -453,7 +453,7 @@ class FPagination extends JPagination
 		// Initialize variables
 		$html = array();
 		$html[] = '<div class="list-footer">';
-		$limitLabel = $this->showDisplayNum ? JText::_('COM_FABRIK_DISPLAY_NUM') : '';
+		$limitLabel = $this->showDisplayNum ? FText::_('COM_FABRIK_DISPLAY_NUM') : '';
 		$html[] = '<div class="limit"><div class="input-prepend input-append"><span class="add-on"><small>';
 		$html[] = $limitLabel . '</small></span>' . $list['limitfield'] . '<span class="add-on"><small>';
 		$html[] = $list['pagescounter'] . '</small></span></div></div>';

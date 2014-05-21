@@ -724,6 +724,17 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="csv_encoding"
+				default=""
+				type="list"
+				description="COM_FABRIK_FIELD_CSV_ENCODING_DESC"
+				label="COM_FABRIK_FIELD_CSV_ENCODING_LABEL">
+					<option value="">COM_FABRIK_DEFAULT</option>
+					<option value="UTF-8">UTF-8</option>
+					<option value="UTF-16">UTF-16</option>
+					<option value="UTF-16LE">UTF-16LE</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset name="search">
@@ -1221,6 +1232,14 @@
 				description="COM_FABRIK_FIELD_COLLATION_DESC"
 				label="COM_FABRIK_FIELD_COLLATION_LABEL"
 			/>
+			
+			<field name="force_collate"
+				type="collation"
+				show_none="true"
+				default_to_table="false"
+				description="COM_FABRIK_FIELD_FORCE_COLLATION_DESC"
+				label="COM_FABRIK_FIELD_FORCE_COLLATION_LABEL">
+			</field>
 
 			<field name="list_disable_caching"
 				type="radio"

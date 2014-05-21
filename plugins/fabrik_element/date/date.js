@@ -29,7 +29,8 @@ var FbDateTime = new Class({
 			'step': 2,
 			'cache': false,
 			'showOthers': false,
-			'advanced': false
+			'advanced': false,
+			'allowedDates': []
 		}
 	},
 
@@ -44,7 +45,17 @@ var FbDateTime = new Class({
 		this.buttonBgSelected = '#88dd33';
 		this.startElement = element;
 		this.setUpDone = false;
+		this.convertAllowedDates();
 		this.setUp();
+	},
+	
+	/**
+	 * Convert allowed date strings into Date objects
+	 */
+	convertAllowedDates: function () {
+		for (var i = 0; i < this.options.allowedDates.length; i ++) {
+			this.options.allowedDates[i] = new Date(this.options.allowedDates[i]);
+		}
 	},
 
 	setUp: function () {
@@ -100,6 +111,47 @@ var FbDateTime = new Class({
 				this.afterAjaxValidation();
 			}.bind(this));
 		}
+		
+	},
+	
+	/**
+	 * Once the element is attached to the form, observe the ajax trigger element
+	 */
+	attachedToForm: function () {
+		this.parent();
+		this.watchAjaxTrigger();
+	},
+	
+	/**
+	 * Observe the ajax trigger element, used for updatiing allowed dates
+	 */
+	watchAjaxTrigger: function () {
+		if (this.options.watchElement === '') {
+			return;
+		}
+		var el = this.form.elements[this.options.watchElement];
+		if (el) {
+			el.addEvent('change', function (event) {
+				var data = {
+					'option': 'com_fabrik',
+					'format': 'raw',
+					'task': 'plugin.pluginAjax',
+					'plugin': 'date',
+					'method': 'ajax_getAllowedDates',
+					'element_id': this.options.id,
+					'v': el.get('value'),
+					'formid': this.form.id
+				};
+				new Request.JSON({url: '',
+					method: 'post',
+					'data': data,
+					onSuccess: function (json) {
+						this.options.allowedDates = json;
+						this.convertAllowedDates();
+					}.bind(this)
+				}).send();
+			}.bind(this));
+		}
 	},
 
 	/**
@@ -119,6 +171,20 @@ var FbDateTime = new Class({
 	 */
 	dateSelect: function (date)
 	{
+		// Check PHP events.
+		var allowed = this.options.allowedDates;
+		if (allowed.length > 0) {
+			var matched = false;
+			for (var i = 0; i < allowed.length; i ++) {
+				if (allowed[i].format('%Y%m%d') === date.format('%Y%m%d')) {
+					matched = true;
+				}
+			}
+			if (!matched) {
+				return true;
+			}
+		}
+		
 		var fn = this.options.calendarSetup.dateAllowFunc;
 		if (typeOf(fn) !== 'null' && fn !== '') {
 			eval(fn);
@@ -283,7 +349,9 @@ var FbDateTime = new Class({
 			this.options.calendarSetup.button = this.element.id + "_img";
 			//this.addEventToCalOpts();
 			this.cal.showAtElement(f, this.cal.params.align);
-			this.cal.wrapper.getParent().position({'relativeTo': this.cal.params.inputField, 'position': 'topLeft'});
+			if (typeof(this.cal.wrapper) !== 'undefined') {
+				this.cal.wrapper.getParent().position({'relativeTo': this.cal.params.inputField, 'position': 'topLeft'});
+			}
 		}
 	},
 
@@ -403,19 +471,23 @@ var FbDateTime = new Class({
 
 	addNewEventAux : function (action, js) {
 		if (action === 'change') {
-			Fabrik.addEvent('fabrik.date.select', function () {
-				var e = 'fabrik.date.select';
-				typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
-			});
-		}
-		this.element.getElements('input').each(function (i) {
-			i.addEvent(action, function (e) {
-				if (typeOf(e) === 'event') {
-					e.stop();
+			Fabrik.addEvent('fabrik.date.select', function (w) {
+				if (w.baseElementId === this.baseElementId) {
+					var e = 'fabrik.date.select';
+					typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
 				}
-				typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
-			});
-		}.bind(this));
+			}.bind(this));
+		}
+		else {
+			this.element.getElements('input').each(function (i) {
+				i.addEvent(action, function (e) {
+					if (typeOf(e) === 'event') {
+						e.stop();
+					}
+					typeOf(js) === 'function' ? js.delay(0, this, this) : eval(js);
+				});
+			}.bind(this));
+		}
 	},
 
 	/**

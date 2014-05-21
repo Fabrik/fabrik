@@ -38,6 +38,15 @@
 				label="PLG_LIST_EMAIL_CONDITION_LABEL"
 				repeat="true"
 				mode="mysql" />
+				
+			<field name="wysiwyg"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="PLG_LIST_EMAIL_WYSIWYG_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
 			
 		</fieldset>
 

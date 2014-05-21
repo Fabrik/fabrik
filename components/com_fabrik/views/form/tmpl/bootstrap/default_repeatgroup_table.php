@@ -24,7 +24,7 @@ $group = $this->group;
 		$style = $el->hidden ? 'style="display:none"' : '';
 		?>
 		<th <?php echo $style; ?> class="<?php echo $el->containerClass?>">
-			<?php echo $el->label?>
+			<?php echo $el->label_raw?>
 		</th>
 		<?php
 	endforeach;

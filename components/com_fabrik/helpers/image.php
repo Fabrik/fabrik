@@ -739,6 +739,13 @@ class FabimageGD2 extends FabimageGD
 		// If an image was successfully loaded, test the image for size
 		if ($img)
 		{
+			// Handle image transparency for original image
+			if (function_exists('imagealphablending'))
+			{
+				imagealphablending($img, false);
+				imagesavealpha($img, true);
+			}
+
 			// Get image size and scale ratio
 			$width = imagesx($img);
 			$height = imagesy($img);

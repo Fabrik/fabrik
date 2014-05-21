@@ -72,8 +72,8 @@ class FabrikAdminViewList extends JViewLegacy
 
 		if ($this->item->id == 0)
 		{
-			$this->order_by = array(JText::_('COM_FABRIK_AVAILABLE_AFTER_SAVE'));
-			$this->group_by = JText::_('COM_FABRIK_AVAILABLE_AFTER_SAVE');
+			$this->order_by = array(FText::_('COM_FABRIK_AVAILABLE_AFTER_SAVE'));
+			$this->group_by = FText::_('COM_FABRIK_AVAILABLE_AFTER_SAVE');
 		}
 		else
 		{
@@ -91,8 +91,8 @@ class FabrikAdminViewList extends JViewLegacy
 				$this->order_by[] = $formModel->getElementList('order_by[]', '', true, false, false, 'id');
 			}
 
-			$orderDir[] = JHTML::_('select.option', 'ASC', JText::_('COM_FABRIK_ASCENDING'));
-			$orderDir[] = JHTML::_('select.option', 'DESC', JText::_('COM_FABRIK_DESCENDING'));
+			$orderDir[] = JHTML::_('select.option', 'ASC', FText::_('COM_FABRIK_ASCENDING'));
+			$orderDir[] = JHTML::_('select.option', 'DESC', FText::_('COM_FABRIK_DESCENDING'));
 
 			$orderdirs = FabrikWorker::JSONtoData($this->item->order_dir, true);
 			$this->order_dir = array();
@@ -208,7 +208,7 @@ class FabrikAdminViewList extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		$title = $isNew ? JText::_('COM_FABRIK_MANAGER_LIST_NEW') : JText::_('COM_FABRIK_MANAGER_LIST_EDIT') . ' "' . $this->item->label . '"';
+		$title = $isNew ? FText::_('COM_FABRIK_MANAGER_LIST_NEW') : FText::_('COM_FABRIK_MANAGER_LIST_EDIT') . ' "' . $this->item->label . '"';
 		JToolBarHelper::title($title, 'list.png');
 
 		if ($isNew)
@@ -251,7 +251,7 @@ class FabrikAdminViewList extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_LISTS_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_LISTS_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_LISTS_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_LISTS_EDIT'));
 	}
 
 	/**
@@ -265,7 +265,7 @@ class FabrikAdminViewList extends JViewLegacy
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LIST_LINKED_ELEMENTS'), 'list.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_LINKED_ELEMENTS'), 'list.png');
 		JToolBarHelper::cancel('list.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_LISTS_EDIT');
@@ -282,7 +282,7 @@ class FabrikAdminViewList extends JViewLegacy
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LIST_COPY'), 'list.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_COPY'), 'list.png');
 		JToolBarHelper::cancel('list.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::save('list.doCopy', 'JTOOLBAR_SAVE');
 		JToolBarHelper::divider();

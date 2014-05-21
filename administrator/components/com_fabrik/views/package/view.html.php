@@ -134,7 +134,7 @@ class FabrikAdminViewPackage extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		JToolBarHelper::title($isNew ? JText::_('COM_FABRIK_MANAGER_PACKAGE_NEW') : JText::_('COM_FABRIK_MANAGER_PACKAGE_EDIT') . ' "' . $this->item->label . '"', 'package.png');
+		JToolBarHelper::title($isNew ? FText::_('COM_FABRIK_MANAGER_PACKAGE_NEW') : FText::_('COM_FABRIK_MANAGER_PACKAGE_EDIT') . ' "' . $this->item->label . '"', 'package.png');
 
 		if ($isNew)
 		{
@@ -176,6 +176,6 @@ class FabrikAdminViewPackage extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT'));
 	}
 }

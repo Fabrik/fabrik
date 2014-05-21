@@ -76,7 +76,7 @@ class JFormFieldSpecificordering extends JFormFieldList
 		}
 		else
 		{
-			$text = JText::_('COM_FABRIK_NEW_ITEMS_LAST');
+			$text = FText::_('COM_FABRIK_NEW_ITEMS_LAST');
 			$ordering = '<input type="text" size="40" readonly="readonly" class="readonly" name="' . $this->name . '" value="' . $this->value . $text
 				. '" />';
 		}

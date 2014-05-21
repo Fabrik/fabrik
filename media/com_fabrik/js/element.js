@@ -168,7 +168,7 @@ var FbElement =  new Class({
 				eval(js);
 			} else {
 				(function () {
-					consolde.log('delayed.....');
+					console.log('delayed calling runLoadEvent for ' + delay);
 					eval(js);
 				}.bind(this)).delay(delay);
 			}
@@ -685,6 +685,56 @@ var FbElement =  new Class({
 	 */
 	getCloneName: function () {
 		return this.options.element;
+	},
+	
+	/**
+	 * Testing some stuff to try and get maps to display properly when they are in the
+	 * tab template.  If a map is in a tab which isn't selected on page load, the map
+	 * will not render properly, and needs to be refreshed when the tab it is in is selected.
+	 * NOTE that this stuff is very specific to the Fabrik tabs template, using J!'s tabs.
+	 */
+
+	doTab: function (event) {
+		(function () {
+			this.redraw();
+			if (!Fabrik.bootstrapped) {
+				this.options.tab_dt.removeEvent('click', function (e) {
+					this.doTab(e);
+				}.bind(this));
+			}
+		}.bind(this)).delay(500);
+	},
+	
+	/**
+	 * Tabs mess with element positioning - some element (googlemaps, file upload) need to redraw themselves
+	 * when the tab is clicked
+	 */
+	watchTab: function () {
+		var c = Fabrik.bootstrapped ? '.tab-pane' : '.current',
+		a, tab_dl;
+		var tab_div = this.element.getParent(c);
+		if (tab_div) {
+			if (Fabrik.bootstrapped) {
+				a = document.getElement('a[href=#' + tab_div.id + ']');
+				tab_dl = a.getParent('ul.nav');
+				tab_dl.addEvent('click:relay(a)', function (event, target) {
+					this.doTab(event);
+				}.bind(this));
+			} else {
+				tab_dl = tab_div.getPrevious('.tabs');
+				if (tab_dl) {
+					this.options.tab_dd = this.element.getParent('.fabrikGroup');
+					if (this.options.tab_dd.style.getPropertyValue('display') === 'none') {
+						this.options.tab_dt = tab_dl.getElementById('group' + this.groupid + '_tab');
+						if (this.options.tab_dt) {
+							this.options.tab_dt.addEvent('click', function (e) {
+								this.doTab(e);
+							}.bind(this));
+						}
+					}
+				}
+			}
+		}
 	}
 });
 

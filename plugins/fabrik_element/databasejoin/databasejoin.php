@@ -156,7 +156,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			* $$$ hugh - if keytable isn't set, the safeColName blows up!
 			* Trying to debug issue with linked join elements, which don't get detected by
 			* getJoins or getJoin 'cos element ID doesn't match element_id in fabrik_joins
-			*$k = isset($join->keytable ) ? $join->keytable : $join->join_from_table;
+			*$k = isset($join->keytable) ? $join->keytable : $join->join_from_table;
 			*$k = FabrikString::safeColName("`$join->keytable`.`$element->name`");
 			*/
 			$keytable = isset($join->keytable) ? $join->keytable : $join->join_from_table;
@@ -426,6 +426,21 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					return $this->join;
 				}
 			}
+
+			$config = array();
+			$config['dbo'] = FabrikWorker::getDbo(true);
+			$this->join = JTable::getInstance('Join', 'FabrikTable', $config);
+
+			if ($this->join->load(array('element_id' => $element->id)))
+			{
+
+				if (is_string($this->join->params))
+				{
+					$this->join->params = new JRegistry($this->join->params);
+				}
+
+				return $this->join;
+			}
 		}
 
 		if (!in_array($input->get('task'), array('inlineedit', 'form.inlineedit')) && $input->get('format') !== 'raw')
@@ -486,6 +501,26 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
+	}
+
+	/**
+	 * Run any eval'ed option code from element settings
+	 *
+	 * @param   array  $opts  array of option objects
+	 */
+	protected function evalOptions(&$opts) {
+		$params = $this->getParams();
+		$eval = $params->get('dabase_join_label_eval');
+		if (trim($eval) !== '')
+		{
+			foreach ($opts as $key => &$opt)
+			{
+				if (eval($eval) === false)
+				{
+					unset($opts[$key]);
+				}
+			}
+		}
 	}
 
 	/**
@@ -695,7 +730,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 	protected function _getSelectLabel()
 	{
-		return JText::_($this->getParams()->get('database_join_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT')));
+		return FText::_($this->getParams()->get('database_join_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT')));
 	}
 
 	/**
@@ -1210,11 +1245,28 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if (!$formModel->isEditable() || !$this->isEditable())
 		{
 			// Read only element formatting...
-			if (JArrayHelper::getValue($defaultLabels, 0) === $params->get('database_join_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT')))
+			if (JArrayHelper::getValue($defaultLabels, 0) === $params->get('database_join_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT')))
 			{
 				// No point showing 'please select' for read only
 				unset($defaultLabels[0]);
 			}
+
+			// Encrypted failed validations - only the raw value is retrieved, swap it with the option text
+			if ($formModel->failedValidation())
+			{
+				$newLabels = array();
+
+				foreach ($tmp as $t)
+				{
+					if (in_array($t->value, $defaultLabels))
+					{
+						$newLabels[] = $t->text;
+					}
+				}
+
+				$defaultLabels = $newLabels;
+			}
+
 			/*
 			 * if it's a new form, labels won't be set for any defaults.
 			*/
@@ -1309,8 +1361,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 						$chooseUrl = 'index.php?option=com_' . $package . '&amp;view=list&amp;listid=' . $popuplistid . '&amp;tmpl=component&amp;ajax=1';
 					}
 
-					$html[] = '<a href="' . $chooseUrl . '" class="toggle-selectoption btn" title="' . JText::_('COM_FABRIK_SELECT') . '">'
-						. FabrikHelperHTML::image('search.png', 'form', @$this->tmpl, array('alt' => JText::_('COM_FABRIK_SELECT'))) . '</a>';
+					$html[] = '<a href="' . $chooseUrl . '" class="toggle-selectoption btn" title="' . FText::_('COM_FABRIK_SELECT') . '">'
+						. FabrikHelperHTML::image('search.png', 'form', @$this->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))) . '</a>';
 				}
 
 				if ($frontEndAdd && $this->isEditable())
@@ -1320,8 +1372,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					$addURL = 'index.php?option=com_fabrik';
 					$addURL .= $app->isAdmin() ? '&amp;task=form.view' : '&amp;view=form';
 					$addURL .= '&amp;tmpl=component&amp;ajax=1&amp;formid=' . $popupform;
-					$html[] = '<a href="' . $addURL . '" title="' . JText::_('COM_FABRIK_ADD') . '" class="toggle-addoption btn">';
-					$html[] = FabrikHelperHTML::image('plus.png', 'form', @$this->tmpl, array('alt' => JText::_('COM_FABRIK_SELECT'))) . '</a>';
+					$html[] = '<a href="' . $addURL . '" title="' . FText::_('COM_FABRIK_ADD') . '" class="toggle-addoption btn">';
+					$html[] = FabrikHelperHTML::image('plus.png', 'form', @$this->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))) . '</a>';
 				}
 				// If add and select put them in a button group.
 				if ($frontEndSelect && $frontEndAdd && $this->isEditable())
@@ -1798,11 +1850,17 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					if ($v->value == $value)
 					{
 						$value = $v->text;
+						break;
 					}
 				}
 
 				$val = $this->renderListData($value, new stdClass);
 			}
+		}
+
+		if ($val === $this->_getSelectLabel())
+		{
+			$val = '';
 		}
 
 		return $val;
@@ -1873,11 +1931,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$raw .= ($displayType == 'checkbox' || $displayType == 'multilist') ? '_id' : '_raw';
 		$values = isset($thisRow->$raw) ? FabrikWorker::JSONtoData($thisRow->$raw, true) : array();
 
-		for ($i = 0; $i < count($data); $i++)
+		foreach ($data as $key => $value)
 		{
-			if ($this->emptyConcatString($data[$i]))
+			if ($this->emptyConcatString($data[$key]))
 			{
-				$data[$i] = '';
+				$data[$key] = '';
 			}
 		}
 
@@ -2061,9 +2119,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$label = $params->get('database_join_noselectionlabel');
 
+		if (strstr($label, '::'))
+		{
+			$labels = explode('::', $label);
+			$label = FText::_(array_pop($labels));
+		}
+
 		if ($label == '')
 		{
-			$label = $params->get('filter_required') == 1 ? JText::_('COM_FABRIK_PLEASE_SELECT') : JText::_('COM_FABRIK_FILTER_PLEASE_SELECT');
+			$label = $params->get('filter_required') == 1 ? FText::_('COM_FABRIK_PLEASE_SELECT') : FText::_('COM_FABRIK_FILTER_PLEASE_SELECT');
 		}
 
 		return $label;
@@ -2493,6 +2557,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$db->setQuery($query, $offset, $limit);
 		$groupBy = FabrikString::shortColName($groupBy);
 		$rows = $db->loadObjectList($groupBy);
+		ksort($rows);
 
 		return $rows;
 	}
@@ -3113,12 +3178,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		if ($filterMethod == 1)
 		{
-			$join = $elementModel->getJoin()->table_join;
+			$join = $elementModel->getJoin();
+			$joinTable = $join->table_join_alias;
 			$opts = array();
 
 			if (!strstr($c, 'CONCAT'))
 			{
-				$opts['label'] = strstr($c, '.') ? $c : $join . '.' . $c;
+				$opts['label'] = strstr($c, '.') ? $c : $joinTable . '.' . $c;
 			}
 			else
 			{

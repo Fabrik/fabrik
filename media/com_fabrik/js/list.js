@@ -882,7 +882,8 @@ var FbList = new Class({
 				'task': 'list.view',
 				'format': 'raw',
 				'listid': this.id,
-				'group_by': this.options.groupedBy
+				'group_by': this.options.groupedBy,
+				'listref': this.options.listRef
 			};
 		var url = '';
 		data['limit' + this.id] = this.options.limitLength;
@@ -1019,6 +1020,18 @@ var FbList = new Class({
 				 */
 				if (typeOf(emptyDataMessage) !== 'null') {
 					emptyDataMessage.setStyle('display', '');
+					/*
+					 * $$$ hugh - when doing JSON updates, the emptyDataMessage can be in a td (with no class or id)
+					 * which itself is hidden, and also have a child div with the .emptyDataMessage
+					 * class which is also hidden.  Should probably move all this logic into a function
+					 * but for now just doing it here.
+					 */
+					if (emptyDataMessage.getParent().getStyle('display') === 'none') {
+						emptyDataMessage.getParent().setStyle('display', '');
+					}
+					if (emptyDataMessage.getElement('.emptyDataMessage')) {
+						emptyDataMessage.getElement('.emptyDataMessage').setStyle('display', '');
+					}
 				}
 			} else {
 				if (typeOf(fabrikDataContainer) !== 'null') {
@@ -1036,9 +1049,22 @@ var FbList = new Class({
 			Fabrik.fireEvent('fabrik.list.update', [this, data]);
 		}
 		this.stripe();
+		this.mediaScan();
 		Fabrik.loader.stop('listform_' + this.options.listRef);
 	},
 
+	mediaScan: function () {
+		if (typeof(Slimbox) !== 'undefined') {
+			Slimbox.scanPage();
+		}
+		if (typeof(Lightbox) !== 'undefined') {
+			Lightbox.init();
+		}
+		if (typeof(Mediabox) !== 'undefined') {
+			Mediabox.scanPage();
+		}
+	},
+	
 	addRow: function (obj) {
 		var r = new Element('tr', {
 			'class': 'oddRow1'

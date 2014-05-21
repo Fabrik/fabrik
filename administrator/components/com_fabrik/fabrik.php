@@ -30,6 +30,8 @@ if (!defined('COM_FABRIK_FRONTEND'))
 $app = JFactory::getApplication();
 $input = $app->input;
 
+// Include dependencies
+jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
 if ($input->get('format', 'html') === 'html')
@@ -38,15 +40,6 @@ if ($input->get('format', 'html') === 'html')
 }
 
 JHTML::stylesheet('administrator/components/com_fabrik/headings.css');
-
-// Include dependencies
-jimport('joomla.application.component.controller');
-
-// System plugin check
-if (!defined('COM_FABRIK_FRONTEND'))
-{
-	throw new RuntimeException(JText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
-}
 
 // Check for plugin views (e.g. list email plugin's "email form"
 $cName = $input->getCmd('controller');

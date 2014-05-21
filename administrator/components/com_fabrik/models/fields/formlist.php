@@ -74,10 +74,10 @@ class JFormFieldFormList extends JFormFieldList
 			switch ($row->published)
 			{
 				case '0':
-					$row->text .= ' [' . JText::_('JUNPUBLISHED') . ']';
+					$row->text .= ' [' . FText::_('JUNPUBLISHED') . ']';
 					break;
 				case '-2':
-					$row->text .= ' [' . JText::_('JTRASHED') . ']';
+					$row->text .= ' [' . FText::_('JTRASHED') . ']';
 					break;
 			}
 		}

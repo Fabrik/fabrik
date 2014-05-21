@@ -576,7 +576,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 		}
 		else
 		{
-			echo JText::_("thanks");
+			echo FText::_("thanks");
 		}
 	}
 

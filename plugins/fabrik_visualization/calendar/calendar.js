@@ -1043,23 +1043,32 @@ var fabrikCalendar = new Class({
 		Fabrik.getWindow(this.windowopts);
 	},
 
+	/**
+	 * Create window for add event form
+	 * 
+	 * @param  object  o
+	 */
 	addEvForm: function (o)
 	{
 		if (typeof(jQuery) !== 'undefined') {
 			jQuery(this.popOver).popover('hide');
 		}
+		
 		this.windowopts.id = 'addeventwin';
 		var url = 'index.php?option=com_fabrik&controller=visualization.calendar&view=visualization&task=addEvForm&format=raw&listid=' + o.listid + '&rowid=' + o.rowid;
 		url += '&jos_fabrik_calendar_events___visualization_id=' + this.options.calendarId;
 		url += '&visualizationid=' + this.options.calendarId;
+		
 		if (o.nextView) {
 			url += '&nextview=' + o.nextView;
 		}
+		
 		url += '&fabrik_window_id=' + this.windowopts.id;
 
 		if (typeof(this.doubleclickdate) !== 'undefined') {
 			url += '&start_date=' + this.doubleclickdate;
 		}
+		
 		this.windowopts.type = 'window';
 		this.windowopts.contentURL = url;
 		var f = this.options.filters;
@@ -1080,6 +1089,7 @@ var fabrikCalendar = new Class({
 			});
 			win.fitToContent(false);
 		}.bind(this);
+		
 		Fabrik.getWindow(this.windowopts);
 	},
 

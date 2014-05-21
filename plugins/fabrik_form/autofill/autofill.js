@@ -205,18 +205,34 @@ var Autofill = new Class({
 				key = key.replace('_raw', '');
 				var origKey = key;
 				if (!this.tryUpdate(key, val)) {
-					if (repeatNum) {
-						key += '_' + repeatNum;
-					} else {
-						key += '_0';
+					/**
+					 * If the val is an object, then the target element is intended to be a repeat.
+					 * So whip round the val's, seeing if we have a matching _X repeat of the target.
+					 * For now, this is just a simple minded attempt to fill out existing repeats, we're
+					 * not going to create new groups.  Implementing this for a specific client setup.  Maybe
+					 * come back later and make this smarter.
+					 */
+					if (typeof val === 'object') {
+						val = $H(val);
+						val.each(function (v, k) {
+							k2 = key + '_' + k;
+							this.tryUpdate(k2, v);
+						}.bind(this));
 					}
-					if (!this.tryUpdate(key, val)) {
-						// See if the user has used simply the full element name rather than the full element name with
-						// the join string
-						key = 'join___' + this.element.options.joinid + '___' + key;
-
-						// Perhaps element is in main group and update element in repeat group :S
-						if (!this.tryUpdate(origKey, val, true)) {
+					else {
+						if (repeatNum) {
+							key += '_' + repeatNum;
+						} else {
+							key += '_0';
+						}
+						if (!this.tryUpdate(key, val)) {
+							// See if the user has used simply the full element name rather than the full element name with
+							// the join string
+							key = 'join___' + this.element.options.joinid + '___' + key;
+	
+							// Perhaps element is in main group and update element in repeat group :S
+							if (!this.tryUpdate(origKey, val, true)) {
+							}
 						}
 					}
 				}
@@ -248,6 +264,9 @@ var Autofill = new Class({
 					el.activePopUp = true;
 				}
 				el.update(val);
+				
+				// Trigger change events to automatcially fire any other chained auto-fill form plugins
+				el.element.fireEvent(el.getBlurEvent(), new Event.Mock(el.element, el.getBlurEvent()));
 				return true;
 			}
 		} else {
@@ -258,6 +277,9 @@ var Autofill = new Class({
 				m.each(function (key) {
 					var el = this.form.formElements.get(key);
 					el.update(val);
+					
+					// Trigger change events to automatcially fire any other chained auto-fill form plugins
+					el.element.fireEvent(el.getBlurEvent(), new Event.Mock(el.element, el.getBlurEvent()));
 				}.bind(this));
 				return true;
 			}

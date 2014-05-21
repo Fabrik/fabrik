@@ -43,6 +43,13 @@ class FabrikViewCoverflow extends JViewLegacy
 		$model->setId($id);
 		$row = $model->getVisualization();
 
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		if ($this->get('RequiredFiltersFound'))
 		{
 			$model->render();

@@ -74,7 +74,7 @@ class PlgFabrik_ValidationruleAreUniqueValues extends PlgFabrik_Validationrule
 		$lookuptable = $db->quoteName($table->db_table_name);
 		$data = $db->quote($data);
 		$query = $db->getQuery(true);
-		$query->select('COUNT(*)')->from($lookuptable)->where($elementModel->getFullName(false, false) . ' = ' . $data);
+		$query->select('COUNT(*)')->from($lookuptable)->where($db->quoteName($elementModel->getFullName(false, false)) . ' = ' . $data);
 		$listModel->buildQueryJoin($query);
 
 		if (!empty($otherfield))
@@ -88,7 +88,7 @@ class PlgFabrik_ValidationruleAreUniqueValues extends PlgFabrik_Validationrule
 				$v = JArrayHelper::getValue($v, 0, '');
 			}
 
-			$query->where($otherfield . ' = ' . $db->quote($v));
+			$query->where($db->quoteName($otherfield) . ' = ' . $db->quote($v));
 		}
 
 		/* $$$ hugh - need to check to see if we're editing a record, otherwise

@@ -78,7 +78,7 @@ class PlgFabrik_ListArticle extends PlgFabrik_List
 	{
 		$s = JString::strtoupper($this->buttonPrefix);
 
-		return JText::_('PLG_LIST_ARTICLE_UPDATE_ARTICLE');
+		return FText::_('PLG_LIST_ARTICLE_UPDATE_ARTICLE');
 	}
 
 	/**
@@ -118,6 +118,7 @@ class PlgFabrik_ListArticle extends PlgFabrik_List
 					$formModel->formData = $formModel->formDataWithTableName = $formModel->getData();
 					$articlePlugin->setModel($formModel);
 					$articlePlugin->setParams($formParams, $c);
+					unset($articlePlugin->images);
 					$articlePlugin->onAfterProcess();
 				}
 			}

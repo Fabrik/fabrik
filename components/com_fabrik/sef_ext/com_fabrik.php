@@ -44,7 +44,7 @@ if (!function_exists('shFetchFormName'))
 		$db->setQuery($query);
 		$formName = $db->loadResult();
 
-		return isset($formName) ? JText::_($formName) : '';
+		return isset($formName) ? FText::_($formName) : '';
 	}
 }
 
@@ -72,7 +72,7 @@ if (!function_exists('shFetchListName'))
 		$db->setQuery($query);
 		$listName = $db->loadResult();
 
-		return isset($listName) ? JText::_($listName) : '';
+		return isset($listName) ? FText::_($listName) : '';
 	}
 }
 
@@ -196,7 +196,7 @@ if (!function_exists('shFetchVizName'))
 		$db->setQuery($query);
 		$vizName = $db->loadResult();
 
-		return isset($vizName) ? JText::_($vizName) : '';
+		return isset($vizName) ? FText::_($vizName) : '';
 	}
 }
 
@@ -236,12 +236,12 @@ switch ($view)
 		if (isset($formid) && $rowid != '')
 		{
 			$config->get('fabrik_sef_customtxt_edit') == '' ? $edit = 'edit' : $edit = $config->get('fabrik_sef_customtxt_edit');
-			$title[] = shFetchFormName($formid) . '-' . $rowid . '-' . JText::_($edit);
+			$title[] = shFetchFormName($formid) . '-' . $rowid . '-' . FText::_($edit);
 		}
 		else
 		{
 			$config->get('fabrik_sef_customtxt_new') == '' ? $new = 'new' : $new = $config->get('fabrik_sef_customtxt_new');
-			$title[] = shFetchFormName($formid) . '-' . JText::_($new);
+			$title[] = shFetchFormName($formid) . '-' . FText::_($new);
 		}
 		break;
 

@@ -23,21 +23,21 @@ $listDirn	= $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_fabrik&view=lists'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<label class="filter-search-lbl" for="filter_search"><?php echo FText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo FText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />
+			<button type="submit"><?php echo FText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo FText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
 			<?php if (!empty($this->packageOptions)) {?>
 			<select name="package" class="inputbox" onchange="this.form.submit()">
-				<option value="fabrik"><?php echo JText::_('COM_FABRIK_SELECT_PACKAGE');?></option>
+				<option value="fabrik"><?php echo FText::_('COM_FABRIK_SELECT_PACKAGE');?></option>
 				<?php echo JHtml::_('select.options', $this->packageOptions, 'value', 'text', $this->state->get('com_fabrik.package'), true);?>
 			</select>
 			<?php }?>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<option value=""><?php echo FText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived'=>false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 		</div>
@@ -60,19 +60,19 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_DB_TABLE_NAME', 'db_table_name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="14%">
-					<?php echo JText::_('COM_FABRIK_ELEMENT');?>
+					<?php echo FText::_('COM_FABRIK_ELEMENT');?>
 				</th>
 				<th width="14%">
-					<?php echo JText::_('COM_FABRIK_FORM'); ?>
+					<?php echo FText::_('COM_FABRIK_FORM'); ?>
 				</th>
 				<th width="16%">
-					<?php echo JText::_('COM_FABRIK_VIEW_DATA');?>
+					<?php echo FText::_('COM_FABRIK_VIEW_DATA');?>
 				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_VIEW_DETAILS'); ?>
+					<?php echo FText::_('COM_FABRIK_VIEW_DETAILS'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -116,17 +116,17 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<a href="<?php echo $elementLink?>">
-						<?php echo JText::_('COM_FABRIK_ADD');?>
+						<?php echo FText::_('COM_FABRIK_ADD');?>
 					</a>
 				</td>
 				<td>
 					<a href="<?php echo $formLink; ?>">
-						<?php echo JText::_('COM_FABRIK_EDIT'); ?>
+						<?php echo FText::_('COM_FABRIK_EDIT'); ?>
 					</a>
 				</td>
 				<td>
 					<a href="index.php?option=com_fabrik&task=list.view&listid=<?php echo $item->id;?>">
-						<?php echo JText::_('COM_FABRIK_VIEW_DATA');?>
+						<?php echo FText::_('COM_FABRIK_VIEW_DATA');?>
 					</a>
 				</td>
 				<td>
@@ -134,7 +134,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<a href="#showlinkedelements" onclick="return listItemTask('cb<?php echo $i;?>','list.showLinkedElements');">
-						<?php echo JText::_('COM_FABRIK_VIEW_DETAILS');?>
+						<?php echo FText::_('COM_FABRIK_VIEW_DETAILS');?>
 					</a>
 				</td>
 			</tr>

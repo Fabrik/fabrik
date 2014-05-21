@@ -172,6 +172,16 @@
 				description="PLG_ELEMENT_DATE_ALLOW_FUNC_DESC"
 				label="PLG_ELEMENT_DATE_ALLOW_FUNC_LABEL" />
 
+			<field name="date_allow_php_func"
+				type="fabrikeditor"
+				mode="javascript"
+				description="PLG_ELEMENT_DATE_ALLOW_PHP_FUNC_DESC"
+				label="PLG_ELEMENT_DATE_ALLOW_PHP_FUNC_LABEL" />
+				
+			<field name="date_observe"
+				type="listfields"
+				description="PLG_ELEMENT_DATE_WATCH_DESC"
+				label="PLG_ELEMENT_DATE_WATCH_LABEL" />
 		</fieldset>
 	</fields>
 </form>

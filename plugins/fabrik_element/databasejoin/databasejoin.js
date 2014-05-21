@@ -823,6 +823,12 @@ var FbDatabasejoin = new Class({
 					(typeOf(js) === 'function') ? js.delay(700, this, this) : eval(js);
 				}.bind(this));
 			}
+			if (this.element) {
+				this.element.addEvent(action, function (e) {
+					e.stop();
+					(typeOf(js) === 'function') ? js.delay(0, this, this) : eval(js);
+				}.bind(this));
+			}
 			break;
 		}
 	},

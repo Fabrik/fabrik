@@ -357,7 +357,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/date/images/', 'image', 'form', false);
 		$str[] = '<input type="text" class="' . $class . '" ' . $readonly . ' size="' . $timelength . '" value="' . $time . '" name="'
 				. $timeElName . '" />';
-		$opts = array('alt' => JText::_('PLG_ELEMENT_DATE_TIME'), 'class' => 'timeButton');
+		$opts = array('alt' => FText::_('PLG_ELEMENT_DATE_TIME'), 'class' => 'timeButton');
 		$file = FabrikWorker::j3() ? 'clock.png' : 'time.png';
 		$img = '<button class="btn timeButton">' . FabrikHelperHTML::image($file, 'form', @$this->tmpl, $opts) . '</button>';
 		$str[] = $img;
@@ -834,16 +834,115 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		$opts->hidden = (bool) $this->getElement()->hidden;
 		$opts->defaultVal = $this->offsetDate;
 		$opts->showtime = (!$element->hidden && $params->get('date_showtime', 0)) ? true : false;
-		$opts->timelabel = JText::_('time');
+		$opts->timelabel = FText::_('time');
 		$opts->typing = (bool) $params->get('date_allow_typing_in_field', true);
 		$opts->timedisplay = $params->get('date_timedisplay', 1);
 		$opts->dateTimeFormat = $params->get('date_time_format', '');
+		$opts->allowedDates = $this->getAllowedPHPDates();
+		$opts->watchElement = $this->getWatchId();
+		$opts->id = $this->getId();
 
 		// For reuse if element is duplicated in repeat group
 		$opts->calendarSetup = $this->_CalendarJSOpts($id);
 		$opts->advanced = $params->get('date_advanced', '0') == '1';
 
 		return array('FbDateTime', $id, $opts);
+	}
+
+	/**
+	 * Get the HTML id for the watch element
+	 *
+	 * @param   int  $repeatCounter  repeat group counter
+	 *
+	 * @return  string
+	 */
+
+	protected function getWatchId($repeatCounter = 0)
+	{
+		$listModel = $this->getlistModel();
+		$elementModel = $this->getWatchElement();
+
+		return $elementModel ? $elementModel->getHTMLId($repeatCounter) : '';
+	}
+
+
+	/**
+	 * Get the element to watch. Changes to this element will trigger the cdd's lookup
+	 *
+	 * @return  plgFabrik_Element
+	 */
+
+	protected function getWatchElement()
+	{
+		if (!isset($this->watchElement))
+		{
+			$watch = $this->getParams()->get('date_observe', '');
+
+			if ($watch === '')
+			{
+				return false;
+			}
+
+			$this->watchElement = $this->getFormModel()->getElement($watch, true);
+
+			if (!$this->watchElement)
+			{
+				// This element is a child element, so $watch is in the parent element (in another form)
+				$pluginManager = FabrikWorker::getPluginManager();
+				$parent = $pluginManager->getElementPlugin($watch);
+
+				// These are the possible watch elements
+				$children = $parent->getElementDescendents();
+
+				// Match the possible element ids with the current form's element ids
+				$elids = $this->getFormModel()->getElementIds();
+				$matched = array_values(array_intersect($elids, $children));
+
+				// Load the matched element
+				$this->watchElement = $pluginManager->getElementPlugin($matched[0]);
+			}
+		}
+
+		return $this->watchElement;
+	}
+
+	/**
+	 * Ajax - get the allowed dates - called when watched element changes
+	 *
+	 * @return  void
+	 */
+
+	public function onAjax_getAllowedDates()
+	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$this->loadMeForAjax();
+		$params = $this->getParams();
+		$dates = $this->getAllowedPHPDates();
+		echo json_encode($dates);
+	}
+
+	/**
+	 * Get the allowed dates based on evaluated PHP code
+	 *
+	 * @return multitype:|array
+	 */
+	protected function getAllowedPHPDates()
+	{
+		$params = $this->getParams();
+		$data = $this->getFormModel()->data;
+		$php = $params->get('date_allow_php_func', '');
+		$dates = array();
+
+		if ($php === '')
+		{
+			return $dates;
+		}
+
+		$dates = FabrikHelperHTML::isDebug() ? eval($php) : @eval($php);
+		FabrikWorker::logEval($dates, 'Eval exception : ' . $this->getElement()->name . '::getAllowedPHPDates() : %s');
+
+		return (array) $dates;
 	}
 
 	/**
@@ -948,9 +1047,15 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			return $value;
 		}
 
+		// Element could be a date element (in which case no time stored) - check for both datetime and date null dates.
+		$nulldate = $db->getNullDate();
+		$shortNullDate = explode(' ', $nulldate);
+		$shortNullDate = JArrayHelper::getValue($shortNullDate, 0);
+		$isNullDate = $nulldate == $value || $shortNullDate == $value;
+
 		if (!($formModel->isNewRecord() && $defaultToday) && $value == '')
 		{
-			if (($value == '' || $db->getNullDate() == $value) && !$alwaysToday)
+			if (($value == '' || $isNullDate) && !$alwaysToday)
 			{
 				return $value;
 			}
@@ -961,7 +1066,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			}
 		}
 		// Don't offset if null date.
-		if ($value === $db->getNullDate())
+		if ($isNullDate)
 		{
 			return $value;
 		}
@@ -1186,11 +1291,11 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 	protected function isMonth($test)
 	{
-		$months = array(JText::_('JANUARY_SHORT'), JText::_('JANUARY'), JText::_('FEBRUARY_SHORT'), JText::_('FEBRUARY'), JText::_('MARCH_SHORT'),
-			JText::_('MARCH'), JText::_('APRIL'), JText::_('APRIL_SHORT'), JText::_('MAY_SHORT'), JText::_('MAY'), JText::_('JUNE_SHORT'),
-			JText::_('JUNE'), JText::_('JULY_SHORT'), JText::_('JULY'), JText::_('AUGUST_SHORT'), JText::_('AUGUST'), JText::_('SEPTEMBER_SHORT'),
-			JText::_('SEPTEMBER'), JText::_('OCTOBER_SHORT'), JText::_('OCTOBER'), JText::_('NOVEMBER_SHORT'), JText::_('NOVEMBER'),
-			JText::_('DECEMBER_SHORT'), JText::_('DECEMBER'));
+		$months = array(FText::_('JANUARY_SHORT'), FText::_('JANUARY'), FText::_('FEBRUARY_SHORT'), FText::_('FEBRUARY'), FText::_('MARCH_SHORT'),
+			FText::_('MARCH'), FText::_('APRIL'), FText::_('APRIL_SHORT'), FText::_('MAY_SHORT'), FText::_('MAY'), FText::_('JUNE_SHORT'),
+			FText::_('JUNE'), FText::_('JULY_SHORT'), FText::_('JULY'), FText::_('AUGUST_SHORT'), FText::_('AUGUST'), FText::_('SEPTEMBER_SHORT'),
+			FText::_('SEPTEMBER'), FText::_('OCTOBER_SHORT'), FText::_('OCTOBER'), FText::_('NOVEMBER_SHORT'), FText::_('NOVEMBER'),
+			FText::_('DECEMBER_SHORT'), FText::_('DECEMBER'));
 
 		return in_array($test, $months);
 	}
@@ -1207,57 +1312,71 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	{
 		switch ($test)
 		{
-			case JText::_('JANUARY_SHORT'):
-			case JText::_('JANUARY'):
+			case FText::_('JANUARY_SHORT'):
+			case FText::_('JANUARY'):
 				return 'January';
 				break;
-			case JText::_('FEBRUARY_SHORT'):
-			case JText::_('FEBRUARY'):
+			case FText::_('FEBRUARY_SHORT'):
+			case FText::_('FEBRUARY'):
 				return 'February';
 				break;
-			case JText::_('MARCH_SHORT'):
-			case JText::_('MARCH'):
+			case FText::_('MARCH_SHORT'):
+			case FText::_('MARCH'):
 				return 'March';
 				break;
-			case JText::_('APRIL_SHORT'):
-			case JText::_('APRIL'):
+			case FText::_('APRIL_SHORT'):
+			case FText::_('APRIL'):
 				return 'April';
 				break;
-			case JText::_('MAY_SHORT'):
-			case JText::_('MAY'):
+			case FText::_('MAY_SHORT'):
+			case FText::_('MAY'):
 				return 'May';
 				break;
-			case JText::_('JUNE_SHORT'):
-			case JText::_('JUNE'):
+			case FText::_('JUNE_SHORT'):
+			case FText::_('JUNE'):
 				return 'June';
 				break;
-			case JText::_('JULY_SHORT'):
-			case JText::_('JULY'):
+			case FText::_('JULY_SHORT'):
+			case FText::_('JULY'):
 				return 'July';
 				break;
-			case JText::_('AUGUST_SHORT'):
-			case JText::_('AUGUST'):
+			case FText::_('AUGUST_SHORT'):
+			case FText::_('AUGUST'):
 				return 'August';
 				break;
-			case JText::_('SEPTEMBER_SHORT'):
-			case JText::_('SEPTEMBER'):
+			case FText::_('SEPTEMBER_SHORT'):
+			case FText::_('SEPTEMBER'):
 				return 'September';
 				break;
-			case JText::_('OCTOBER_SHORT'):
-			case JText::_('OCTOBER'):
+			case FText::_('OCTOBER_SHORT'):
+			case FText::_('OCTOBER'):
 				return 'October';
 				break;
-			case JText::_('NOVEMBER_SHORT'):
-			case JText::_('NOVEMBER'):
+			case FText::_('NOVEMBER_SHORT'):
+			case FText::_('NOVEMBER'):
 				return 'November';
 				break;
-			case JText::_('DECEMBER_SHORT'):
-			case JText::_('DECEMBER'):
+			case FText::_('DECEMBER_SHORT'):
+			case FText::_('DECEMBER'):
 				return 'December';
 				break;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get a value to use as an empty filter value
+	 *
+	 * @return  string
+	 */
+
+	public function emptyFilterValue()
+	{
+		$listModel = $this->getListModel();
+		$db = $listModel->getDb();
+
+		return $db->quote($db->getNullDate());
 	}
 
 	/**
@@ -1366,9 +1485,9 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 				}
 				else
 				{
-					$return[] = JText::_('COM_FABRIK_DATE_RANGE_BETWEEN')
+					$return[] = FText::_('COM_FABRIK_DATE_RANGE_BETWEEN')
 						. $this->calendar($default[0], $v . '[0]', $this->getFilterHtmlId(0), $format, $calOpts);
-					$return[] = '<br />' . JText::_('COM_FABRIK_DATE_RANGE_AND')
+					$return[] = '<br />' . FText::_('COM_FABRIK_DATE_RANGE_AND')
 						. $this->calendar($default[1], $v . '[1]', $this->getFilterHtmlId(1), $format, $calOpts);
 					$return[] = '</div>';
 				}
@@ -2019,124 +2138,124 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	{
 		if ($abbr)
 		{
-			if (JString::strcmp($month, JText::_('JANUARY_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('JANUARY_SHORT')) === 0)
 			{
 				return 'Jan';
 			}
 
-			if (JString::strcmp($month, JText::_('FEBRUARY_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('FEBRUARY_SHORT')) === 0)
 			{
 				return 'Feb';
 			}
 
-			if (JString::strcmp($month, JText::_('MARCH_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('MARCH_SHORT')) === 0)
 			{
 				return 'Mar';
 			}
 
-			if (JString::strcmp($month, JText::_('APRIL_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('APRIL_SHORT')) === 0)
 			{
 				return 'Apr';
 			}
 
-			if (JString::strcmp($month, JText::_('MAY_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('MAY_SHORT')) === 0)
 			{
 				return 'May';
 			}
 
-			if (JString::strcmp($month, JText::_('JUNE_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('JUNE_SHORT')) === 0)
 			{
 				return 'Jun';
 			}
 
-			if (JString::strcmp($month, JText::_('JULY_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('JULY_SHORT')) === 0)
 			{
 				return 'Jul';
 			}
 
-			if (JString::strcmp($month, JText::_('AUGUST_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('AUGUST_SHORT')) === 0)
 			{
 				return 'Aug';
 			}
 
-			if (JString::strcmp($month, JText::_('SEPTEMBER_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('SEPTEMBER_SHORT')) === 0)
 			{
 				return 'Sep';
 			}
 
-			if (JString::strcmp($month, JText::_('OCTOBER_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('OCTOBER_SHORT')) === 0)
 			{
 				return 'Oct';
 			}
 
-			if (JString::strcmp($month, JText::_('NOVEMBER_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('NOVEMBER_SHORT')) === 0)
 			{
 				return 'Nov';
 			}
 
-			if (JString::strcmp($month, JText::_('DECEMBER_SHORT')) === 0)
+			if (JString::strcmp($month, FText::_('DECEMBER_SHORT')) === 0)
 			{
 				return 'Dec';
 			}
 		}
 		else
 		{
-			if (JString::strcmp($month, JText::_('JANUARY')) === 0)
+			if (JString::strcmp($month, FText::_('JANUARY')) === 0)
 			{
 				return 'January';
 			}
 
-			if (JString::strcmp($month, JText::_('FEBRUARY')) === 0)
+			if (JString::strcmp($month, FText::_('FEBRUARY')) === 0)
 			{
 				return 'February';
 			}
 
-			if (JString::strcmp($month, JText::_('MARCH')) === 0)
+			if (JString::strcmp($month, FText::_('MARCH')) === 0)
 			{
 				return 'March';
 			}
 
-			if (JString::strcmp($month, JText::_('APRIL')) === 0)
+			if (JString::strcmp($month, FText::_('APRIL')) === 0)
 			{
 				return 'April';
 			}
 
-			if (JString::strcmp($month, JText::_('MAY')) === 0)
+			if (JString::strcmp($month, FText::_('MAY')) === 0)
 			{
 				return 'May';
 			}
 
-			if (JString::strcmp($month, JText::_('JUNE')) === 0)
+			if (JString::strcmp($month, FText::_('JUNE')) === 0)
 			{
 				return 'June';
 			}
 
-			if (JString::strcmp($month, JText::_('JULY')) === 0)
+			if (JString::strcmp($month, FText::_('JULY')) === 0)
 			{
 				return 'July';
 			}
 
-			if (JString::strcmp($month, JText::_('AUGUST')) === 0)
+			if (JString::strcmp($month, FText::_('AUGUST')) === 0)
 			{
 				return 'August';
 			}
 
-			if (JString::strcmp($month, JText::_('SEPTEMBER')) === 0)
+			if (JString::strcmp($month, FText::_('SEPTEMBER')) === 0)
 			{
 				return 'September';
 			}
 
-			if (JString::strcmp($month, JText::_('OCTOBER')) === 0)
+			if (JString::strcmp($month, FText::_('OCTOBER')) === 0)
 			{
 				return 'October';
 			}
 
-			if (JString::strcmp($month, JText::_('NOVEMBER')) === 0)
+			if (JString::strcmp($month, FText::_('NOVEMBER')) === 0)
 			{
 				return 'November';
 			}
 
-			if (JString::strcmp($month, JText::_('DECEMBER')) === 0)
+			if (JString::strcmp($month, FText::_('DECEMBER')) === 0)
 			{
 				return 'December';
 			}

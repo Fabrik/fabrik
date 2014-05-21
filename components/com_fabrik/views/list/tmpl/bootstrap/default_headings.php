@@ -23,10 +23,12 @@ defined('_JEXEC') or die('Restricted access');
 <?php endforeach; ?>
 </tr>
 
-<?php if ($this->filterMode === 3 || $this->filterMode === 4) :?>
+<?php if (($this->filterMode === 3 || $this->filterMode === 4) && count($this->filters) <> 0) :?>
 <tr class="fabrikFilterContainer">
-	<?php foreach ($this->headings as $key => $heading) :?>
-		<th>
+	<?php foreach ($this->headings as $key => $heading) :
+		$h = $this->headingClass[$key];
+		?>
+		<th class="<?php echo $h['class']?>">
 		<?php
 		if (array_key_exists($key, $this->filters)) :
 
@@ -41,7 +43,7 @@ defined('_JEXEC') or die('Restricted access');
 			<div style="text-align:center">
 				<button class="btn-info btn fabrik_filter_submit button" name="filter" >
 				<i class="icon-filter"></i>
-				<?php echo JText::_('COM_FABRIK_GO');?>
+				<?php echo FText::_('COM_FABRIK_GO');?>
 				</button>
 			</div>
 		<?php endif;?>

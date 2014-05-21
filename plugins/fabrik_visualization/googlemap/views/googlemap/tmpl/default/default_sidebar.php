@@ -28,7 +28,7 @@ if ($this->showSidebar) :
 				?>
 				</ul>
 			<?php endif; ?>
-			<button class="clear-grouped" class="btn button"><?php echo JText::_('COM_FABRIK_CLEAR')?></button>
+			<button class="clear-grouped" class="btn button"><?php echo FText::_('COM_FABRIK_CLEAR')?></button>
 			<div class="grouped_sidebar">
 			</div>
 		</div>

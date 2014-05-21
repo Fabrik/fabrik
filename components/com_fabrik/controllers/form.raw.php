@@ -232,7 +232,7 @@ class FabrikControllerForm extends JControllerLegacy
 
 		if (is_null($msg))
 		{
-			$msg = JText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
+			$msg = FText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
 		}
 
 		if ($app->isAdmin())

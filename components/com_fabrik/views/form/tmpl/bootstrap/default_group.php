@@ -12,6 +12,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+$rowStarted = false;
 foreach ($this->elements as $element) :
 	$this->element = $element;
 	$this->class = 'fabrikErrorMessage';
@@ -26,13 +27,14 @@ foreach ($this->elements as $element) :
 	if ($element->startRow) : ?>
 		<div class="row-fluid">
 	<?php
+		$rowStarted = true;
 	endif;
 	$style = $element->hidden ? 'style="display:none"' : '';
 	$span = $element->hidden ? '' : ' ' . $element->span;
 	?>
 			<div class="control-group <?php echo $element->containerClass . $span; ?>" <?php echo $style?>>
 	<?php
-	$labels_above = $this->params->get('labels_above', 0);
+	$labels_above = $element->labels;
 	if ($labels_above == 1)
 	{
 		echo $this->loadTemplate('group_labels_above');
@@ -53,10 +55,12 @@ foreach ($this->elements as $element) :
 	?></div><!-- end control-group --><?php
 	if ($element->endRow) :?>
 		</div><!-- end row-fluid -->
-	<?php endif;
+	<?php
+		$rowStarted = false;
+	endif;
 endforeach;
 
-// If the last element was not closing the row add an additional div (only if elements are in columns
-if (!$element->endRow && !($element->span == 'span12' || $element->span == '')) :?>
-</div><!-- end row-fluid for open row -->
+// If the last element was not closing the row add an additional div
+if ($rowStarted === true) :?>
+	</div><!-- end row-fluid for open row -->
 <?php endif;?>

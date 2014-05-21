@@ -48,7 +48,7 @@ class PlgFabrik_ElementFolder extends PlgFabrik_Element
 
 		if ($params->get('folder_allownone', true))
 		{
-			$opts[] = JHTML::_('select.option', '', JText::_('NONE'));
+			$opts[] = JHTML::_('select.option', '', FText::_('NONE'));
 		}
 
 		if ($params->get('folder_listfolders', true))

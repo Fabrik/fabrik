@@ -174,7 +174,7 @@ class FabrikAdminModelPackages extends FabModelList
 			}
 			else
 			{
-				$i->file = JText::_('COM_FABRIK_EXPORT_PACKAGE_TO_CREATE_ZIP');
+				$i->file = FText::_('COM_FABRIK_EXPORT_PACKAGE_TO_CREATE_ZIP');
 			}
 		}
 

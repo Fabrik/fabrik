@@ -155,8 +155,22 @@ class FabrikViewListBase extends JViewLegacy
 			$opts->popup_offset_y = (int) $yOffset;
 		}
 
-		$opts->popup_edit_label = $model->editLabel();
-		$opts->popup_view_label = $model->viewLabel();
+		/**
+		 * Added the $nodata object as we now weed something to pass in just to keep editLabel
+		 * and viewLabel happy, after adding placeholder replacement to the labels for a Pro user,
+		 * because the tooltips said we did that, which we never actually did.
+		 *
+		 * http://fabrikar.com/forums/index.php?threads/placeholders-in-list-links-and-labels.37726/#post-191081
+		 *
+		 * However, this means that using placeholders will yield funky labels for the popups, as
+		 * this isn't per row.  So we may need to not use editLabel / viewLabel here any more,
+		 * and just use the default COM_FABRIK_VIEW/EDIT.  Or add YAFO's, ::sigh::.
+		 *
+		 * But for now, it's too corner case to worry about!
+		 */
+		$nodata = new stdClass();
+		$opts->popup_edit_label = $model->editLabel($nodata);
+		$opts->popup_view_label = $model->viewLabel($nodata);
 		$opts->popup_add_label = $model->addLabel();
 		$opts->limitLength = $model->limitLength;
 		$opts->limitStart = $model->limitStart;
@@ -495,7 +509,7 @@ class FabrikViewListBase extends JViewLegacy
 		$this->getManagementJS($this->rows);
 
 		// Get dropdown list of other tables for quick nav in admin
-		$this->tablePicker = $app->isAdmin() && $app->input->get('format') !== 'pdf' ? FabrikHelperHTML::tableList($this->table->id) : '';
+		$this->tablePicker = $params->get('show-table-picker', $input->get('list-picker', true)) && $app->isAdmin() && $app->input->get('format') !== 'pdf' ? FabrikHelperHTML::tableList($this->table->id) : '';
 
 		$this->buttons();
 		$this->pluginTopButtons = $model->getPluginTopButtons();
@@ -512,14 +526,14 @@ class FabrikViewListBase extends JViewLegacy
 	{
 		if (!$model->canPublish())
 		{
-			echo JText::_('COM_FABRIK_LIST_NOT_PUBLISHED');
+			echo FText::_('COM_FABRIK_LIST_NOT_PUBLISHED');
 
 			return false;
 		}
 
 		if (!$model->canView())
 		{
-			echo JText::_('JERROR_ALERTNOAUTHOR');
+			echo FText::_('JERROR_ALERTNOAUTHOR');
 
 			return false;
 		}
@@ -596,7 +610,7 @@ class FabrikViewListBase extends JViewLegacy
 
 		if ($params->get('process-jplugins'))
 		{
-			FabrikHelperHTML::runConentPlugins($text);
+			FabrikHelperHTML::runContentPlugins($text);
 		}
 
 		JDEBUG ? $profiler->mark('end fabrik display') : null;
@@ -617,25 +631,25 @@ class FabrikViewListBase extends JViewLegacy
 		$params = $model->getParams();
 		$this->buttons = new stdClass;
 		$buttonProperties = array('class' => 'fabrikTip', 'opts' => "{notice:true}",
-			'title' => '<span>' . JText::_('COM_FABRIK_EXPORT_TO_CSV') . '</span>');
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_EXPORT_TO_CSV');
+			'title' => '<span>' . FText::_('COM_FABRIK_EXPORT_TO_CSV') . '</span>');
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_EXPORT_TO_CSV');
 		$this->buttons->csvexport = FabrikHelperHTML::image('csv-export.png', 'list', $this->tmpl, $buttonProperties);
-		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_IMPORT_FROM_CSV') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_IMPORT_TO_CSV');
+		$buttonProperties['title'] = '<span>' . FText::_('COM_FABRIK_IMPORT_FROM_CSV') . '</span>';
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_IMPORT_TO_CSV');
 		$this->buttons->csvimport = FabrikHelperHTML::image('csv-import.png', 'list', $this->tmpl, $buttonProperties);
-		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_SUBSCRIBE_RSS') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_SUBSCRIBE_RSS');
+		$buttonProperties['title'] = '<span>' . FText::_('COM_FABRIK_SUBSCRIBE_RSS') . '</span>';
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_SUBSCRIBE_RSS');
 		$this->buttons->feed = FabrikHelperHTML::image('feed.png', 'list', $this->tmpl, $buttonProperties);
-		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_EMPTY') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_EMPTY');
+		$buttonProperties['title'] = '<span>' . FText::_('COM_FABRIK_EMPTY') . '</span>';
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_EMPTY');
 		$this->buttons->empty = FabrikHelperHTML::image('trash.png', 'list', $this->tmpl, $buttonProperties);
 
-		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_GROUP_BY') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_GROUP_BY');
+		$buttonProperties['title'] = '<span>' . FText::_('COM_FABRIK_GROUP_BY') . '</span>';
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_GROUP_BY');
 		$this->buttons->groupby = FabrikHelperHTML::image('group_by.png', 'list', $this->tmpl, $buttonProperties);
 
 		unset($buttonProperties['title']);
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_FILTER');
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_FILTER');
 		$this->buttons->filter = FabrikHelperHTML::image('filter.png', 'list', $this->tmpl, $buttonProperties);
 
 		$addLabel = $model->addLabel();
@@ -643,8 +657,8 @@ class FabrikViewListBase extends JViewLegacy
 		$buttonProperties['alt'] = $addLabel;
 		$this->buttons->add = FabrikHelperHTML::image('plus-sign.png', 'list', $this->tmpl, $buttonProperties);
 
-		$buttonProperties['title'] = '<span>' . JText::_('COM_FABRIK_PDF') . '</span>';
-		$buttonProperties['alt'] = JText::_('COM_FABRIK_PDF');
+		$buttonProperties['title'] = '<span>' . FText::_('COM_FABRIK_PDF') . '</span>';
+		$buttonProperties['alt'] = FText::_('COM_FABRIK_PDF');
 		$this->buttons->pdf = FabrikHelperHTML::image('pdf.png', 'list', $this->tmpl, $buttonProperties);
 	}
 

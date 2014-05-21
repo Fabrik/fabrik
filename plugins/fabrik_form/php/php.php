@@ -224,7 +224,7 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 
 		if ($params->get('only_process_curl') == 'onDeleteRowsForm')
 		{
-			if ($this->_runPHP() === false)
+			if ($this->_runPHP(null, $groups) === false)
 			{
 				return JError::raiseWarning(E_WARNING, 'php form plugin failed');
 			}
@@ -317,13 +317,18 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 	 * Run plugins php code/script
 	 *
 	 * @param   object  &$groupModel  Group model
+	 * @param   array   $data         List rows when deleteing record(s)
 	 *
 	 * @return bool false if error running php code
 	 */
 
-	private function _runPHP(&$groupModel = null)
+	private function _runPHP($groupModel = null, $data = null)
 	{
-		$data = $this->getProcessData();
+		if (is_null($data))
+		{
+			$data = $this->getProcessData();
+		}
+
 		/**
 		 * if you want to modify the submitted form data
 		 * $formModel->updateFormData('tablename___elementname', $newvalue);

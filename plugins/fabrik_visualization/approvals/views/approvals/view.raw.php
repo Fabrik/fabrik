@@ -38,6 +38,14 @@ class FabrikViewApprovals extends JViewLegacy
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$id = $input->get('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0)));
 		$model->setId($id);
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		$this->plugin = $this->get('Plugin');
 		$task = $input->get('plugintask');
 		$model->$task();

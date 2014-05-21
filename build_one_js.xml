@@ -4,7 +4,6 @@
 	<target name="build_js" description="lints and builds js project files for production use"
 		depends="load.properties">
 		<antcall target="js.lint"></antcall>
-		<antcall target="js.minify"></antcall>
 	</target>
 
 	<target name="load.properties" description="Set properties for this build">

@@ -33,7 +33,7 @@ $row = $this->row;
 
 			<?php if ($this->canAdd) :
 			?>
-			<a href="#" class="btn btn-success addEventButton" title="Add an event"><i class="icon-plus"></i> <?php echo JText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
+			<a href="#" class="btn btn-success addEventButton" title="Add an event"><i class="icon-plus"></i> <?php echo FText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
 		<?php endif;
 		?>
 		</div>
@@ -51,21 +51,21 @@ $row = $this->row;
 
 		<div class="span7">
 			<div class="btn-group pull-right">
-				<button class="btn centerOnToday"><i class="icon-flag"></i> <?php echo JText::_('PLG_VISUALIZATION_CALENDAR_TODAY')?></button>
+				<button class="btn centerOnToday"><i class="icon-flag"></i> <?php echo FText::_('PLG_VISUALIZATION_CALENDAR_TODAY')?></button>
 				<?php
 				if ($this->params->get('show_day', true)):
 				?>
-				<button class="btn dayViewLink"><i class="icon-bookmark"></i> <?php echo JText::_('PLG_VISUALIZATION_CALENDAR_DAY')?></button>
+				<button class="btn dayViewLink"><i class="icon-bookmark"></i> <?php echo FText::_('PLG_VISUALIZATION_CALENDAR_DAY')?></button>
 				<?php
 				endif;
 				if ($this->params->get('show_week', true)):
 				?>
-				<button class="btn weekViewLink"><i class="icon-list"></i> <?php echo JText::_('PLG_VISUALIZATION_CALENDAR_WEEK')?></button>
+				<button class="btn weekViewLink"><i class="icon-list"></i> <?php echo FText::_('PLG_VISUALIZATION_CALENDAR_WEEK')?></button>
 				<?php
 				endif;
 				if ($this->params->get('show_month', true)):
 				?>
-				<button class="btn monthViewLink"><i class="icon-calendar"></i> <?php echo JText::_('PLG_VISUALIZATION_CALENDAR_MONTH')?></button>
+				<button class="btn monthViewLink"><i class="icon-calendar"></i> <?php echo FText::_('PLG_VISUALIZATION_CALENDAR_MONTH')?></button>
 				<?php
 				endif;
 				?>

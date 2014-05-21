@@ -83,7 +83,7 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(FText::_('JINVALID_TOKEN'));
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
@@ -95,12 +95,12 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 
 		if ($value == 0)
 		{
-			$this->setMessage(JText::_('COM_FABRIK_CONNECTION_CANT_UNSET_DEFAULT'));
+			$this->setMessage(FText::_('COM_FABRIK_CONNECTION_CANT_UNSET_DEFAULT'));
 		}
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JError::raiseWarning(500, FText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
 		{
@@ -118,7 +118,7 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 				}
 				else
 				{
-					$this->setMessage(JText::_('COM_FABRIK_CONNECTION_SET_DEFAULT'));
+					$this->setMessage(FText::_('COM_FABRIK_CONNECTION_SET_DEFAULT'));
 				}
 			}
 		}

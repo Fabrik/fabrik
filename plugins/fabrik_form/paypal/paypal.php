@@ -103,7 +103,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 				$msg->msg = "Eval amount code returned false.";
 				$log->message = json_encode($msg);
 				$log->store();
-				throw new RuntimeException(JText::_('PLG_FORM_PAYPAL_COST_ELEMENT_ERROR'), 500);
+				throw new RuntimeException(FText::_('PLG_FORM_PAYPAL_COST_ELEMENT_ERROR'), 500);
 			}
 		}
 
@@ -593,7 +593,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 		}
 		else
 		{
-			echo JText::_("thanks");
+			echo FText::_("thanks");
 		}
 	}
 
@@ -901,7 +901,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 			if ($send_default_email == '1')
 			{
 				$subject = $config->get('sitename') . ": Error with PayPal IPN from Fabrik";
-				$payer_emailtext = JText::_('PLG_FORM_PAYPAL_ERR_PROCESSING_PAYMENT');
+				$payer_emailtext = FText::_('PLG_FORM_PAYPAL_ERR_PROCESSING_PAYMENT');
 				$mail->sendMail($email_from, $email_from, $payer_email, $subject, $payer_emailtext, false);
 			}
 		}

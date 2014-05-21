@@ -3,7 +3,7 @@
  *
  * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
- **/
+ */
 
 var FbCalc = new Class({
 	Extends: FbElement,
@@ -57,6 +57,10 @@ var FbCalc = new Class({
 					}
 				}
 			}.bind(this));
+			
+			if (this.options.calcOnLoad) {
+				this.calc();
+			}
 		}
 	},
 
@@ -71,15 +75,6 @@ var FbCalc = new Class({
 		}.bind(this));
 
 		$H(formdata).each(function (v, k) {
-			/*
-			if (k.test(/join___/)) {
-				var bits = k.split('_');
-				if (bits.getLast().toInt() === this.options.repeatCounter) {
-					var elname = k.split('_').slice(6, -1).join('_');
-					formdata[elname] = v;
-				}
-			}
-			*/
 			var el = this.form.formElements.get(k);
 			if (el && el.options.inRepeatGroup && el.options.joinid === this.options.joinid && el.options.repeatCounter === this.options.repeatCounter)
 			{

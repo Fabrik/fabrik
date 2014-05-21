@@ -40,7 +40,18 @@ class JFormFieldCollation extends JFormFieldList
 	{
 		$return = parent::setup($element, $value, $group);
 
-		if ($this->value == '' && $return)
+		$defaultToTableValue = $this->element->attributes()->default_to_table;
+
+		if ($defaultToTableValue)
+		{
+			$defaultToTableValue = (bool) $this->element->attributes()->$defaultToTableValue[0];
+		}
+		else
+		{
+			$defaultToTableValue = true;
+		}
+
+		if ($this->value == '' && $return && $defaultToTableValue)
 		{
 			$db = JFactory::getDbo();
 
@@ -81,6 +92,11 @@ class JFormFieldCollation extends JFormFieldList
 		sort($rows);
 		require_once COM_FABRIK_FRONTEND . '/helpers/image.php';
 		$opts = array();
+
+		if ($this->element->attributes()->show_none && (bool) $this->element->attributes()->show_none[0])
+		{
+			$opts[] = JHTML::_('select.option', '', JText::_('COM_FABRIK_NONE'));
+		}
 
 		foreach ($rows as $row)
 		{

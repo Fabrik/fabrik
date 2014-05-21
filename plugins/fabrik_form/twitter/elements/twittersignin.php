@@ -68,7 +68,7 @@ class JFormFieldTwittersignin extends JFormField
 		$str = '<a href="#" onclick="' . $js . '">';
 		$str .= '<img src="' . $src . '" alt="Sign in with Twitter"/></a>';
 		$str .= " | <button class=\"button btn\" href=\"#\" onclick=\"$clearjs\">";
-		$str .= JText::_('PLG_FORM_TWITTER_CLEAR_CREDENTIALS') . "</button><br/>";
+		$str .= FText::_('PLG_FORM_TWITTER_CLEAR_CREDENTIALS') . "</button><br/>";
 		$str .= "<br /><input type=\"hidden\" readonly=\"readonly\" name=\""
 			. $this->name . "\" id=\"" . $this->id . "\" value=\"" . $this->value . "\" />";
 

@@ -78,7 +78,7 @@ echo "
 }
 
 /*This controls the margin and border of your form area ie the div - note: if you leave the margin as is, this could be said to control the 'inner border'*/
-#{$form} div,
+
 #{$form} .fabrikGroup{
 	margin:5px 10px;
 	position:relative;

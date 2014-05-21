@@ -67,7 +67,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		}
 
 		$value = $this->getValue($data, $repeatCounter);
-		$sep = $params->get('time_separatorlabel', JText::_(':'));
+		$sep = $params->get('time_separatorlabel', FText::_(':'));
 		$fd = $params->get('details_time_format', 'H:i:s');
 
 		if (!$this->isEditable())
@@ -129,7 +129,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 			$minvalue = JArrayHelper::getValue($value, 1);
 			$secvalue = JArrayHelper::getValue($value, 2);
 
-			$hours = array(JHTML::_('select.option', '', $params->get('time_hourlabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_HOUR'))));
+			$hours = array(JHTML::_('select.option', '', $params->get('time_hourlabel', FText::_('PLG_ELEMENT_TIME_SEPARATOR_HOUR'))));
 
 			for ($i = 0; $i < 24; $i++)
 			{
@@ -137,7 +137,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 				$hours[] = JHTML::_('select.option', $i);
 			}
 
-			$mins = array(JHTML::_('select.option', '', $params->get('time_minlabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_MINUTE'))));
+			$mins = array(JHTML::_('select.option', '', $params->get('time_minlabel', FText::_('PLG_ELEMENT_TIME_SEPARATOR_MINUTE'))));
 			$increment = (int) $params->get('minutes_increment', 1);
 
 			// Siin oli enne $monthlabels, viisin ülespoole
@@ -148,7 +148,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 				$mins[] = JHTML::_('select.option', $i);
 			}
 
-			$secs = array(JHTML::_('select.option', '', $params->get('time_seclabel', JText::_('PLG_ELEMENT_TIME_SEPARATOR_SECOND'))));
+			$secs = array(JHTML::_('select.option', '', $params->get('time_seclabel', FText::_('PLG_ELEMENT_TIME_SEPARATOR_SECOND'))));
 
 			for ($i = 0; $i < 60; $i++)
 			{
@@ -360,7 +360,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		$data = $groupModel->isJoin() ? FabrikWorker::JSONtoData($data, true) : array($data);
 		$data = (array) $data;
 		$ft = $params->get('list_time_format', 'H:i:s');
-		$sep = $params->get('time_separatorlabel', JText::_(':'));
+		$sep = $params->get('time_separatorlabel', FText::_(':'));
 		$format = array();
 
 		foreach ($data as $d)

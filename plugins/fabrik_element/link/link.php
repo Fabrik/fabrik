@@ -117,7 +117,14 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				// Treat some default values as empty
 				$href = '';
 			}
-
+			else if (strlen($href) > 0 && substr($href, 0, 1) != "/"
+				&& substr(JString::strtolower($href), 0, 7) != 'http://'
+				&& substr(JString::strtolower($href), 0, 8) != 'https://'
+				&& substr(JString::strtolower($href), 0, 6) != 'ftp://'
+				)
+			{
+					$href = 'http://' . $href;
+			}
 			// If used as a icon - the dom parser needs to use &amp; and not & in url querystrings
 			if (!strstr($href, '&amp;'))
 			{
@@ -248,14 +255,14 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 
 		$html = array();
 		$bits['name'] = $labelname;
-		$bits['placeholder'] = JText::_('PLG_ELEMENT_LINK_LABEL');
+		$bits['placeholder'] = FText::_('PLG_ELEMENT_LINK_LABEL');
 		$bits['value'] = $value['label'];
 		$bits['class'] .= ' fabrikSubElement';
 		unset($bits['id']);
 
 		$html[] = '<div class="fabrikSubElementContainer" id="' . $id . '">';
 		$html[] = $this->buildInput('input', $bits);
-		$bits['placeholder'] = JText::_('PLG_ELEMENT_LINK_URL');
+		$bits['placeholder'] = FText::_('PLG_ELEMENT_LINK_URL');
 		$bits['name'] = $linkname;
 		$bits['value'] = JArrayHelper::getValue($value, 'link');
 		$html[] = $this->buildInput('input', $bits);

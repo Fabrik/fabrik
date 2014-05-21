@@ -209,7 +209,8 @@ var FbGoogleMapViz = new Class({
 			var mymaplng = Cookie.read("mymaplng_" + this.options.id);
 
 			if (mymaplat && mymaplat !== '0' && mymapzoom !== '0') {
-				this.map.setCenter(new google.maps.LatLng(mymaplat.toFloat(), mymaplng.toFloat()), mymapzoom.toInt());
+				this.map.setCenter(new google.maps.LatLng(mymaplat.toFloat(), mymaplng.toFloat()));
+				this.map.setZoom(mymapzoom.toInt());
 			} else {
 				this.center();
 			}
@@ -271,6 +272,10 @@ var FbGoogleMapViz = new Class({
 		});
 	},
 
+	noData: function () {
+		return this.options.icons.length === 0;
+	},
+	
 	addIcons: function () {
 		this.markers = [];
 		this.clusterMarkers = [];
@@ -333,7 +338,12 @@ var FbGoogleMapViz = new Class({
 		var c;
 		switch (this.options.center) {
 		case 'middle':
-			c = this.bounds.getCenter();
+			if (this.noData()) {
+				c = new google.maps.LatLng(this.options.lat, this.options.lon);
+			}
+			else {
+				c = this.bounds.getCenter();
+			}
 			break;
 		case 'userslocation':
 			if (geo_position_js.init()) {
@@ -347,11 +357,16 @@ var FbGoogleMapViz = new Class({
 			c = new google.maps.LatLng(this.options.lat, this.options.lon);
 			break;
 		default:
-			var lasticon = this.options.icons.getLast();
-			if (lasticon) {
-				c = new google.maps.LatLng(lasticon[0], lasticon[1]);
-			} else {
-				c = this.bounds.getCenter();
+			if (this.noData()) {
+				c = new google.maps.LatLng(this.options.lat, this.options.lon);
+			}
+			else {
+				var lasticon = this.options.icons.getLast();
+				if (lasticon) {
+					c = new google.maps.LatLng(lasticon[0], lasticon[1]);
+				} else {
+					c = this.bounds.getCenter();
+				}
 			}
 			break;
 		}

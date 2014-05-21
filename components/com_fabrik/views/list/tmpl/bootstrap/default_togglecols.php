@@ -12,7 +12,7 @@
 <li class="dropdown togglecols">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<i class="icon-eye-open"></i>
-		<?php echo JText::_('COM_FABRIK_TOGGLE');?>
+		<?php echo FText::_('COM_FABRIK_TOGGLE');?>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">

@@ -34,7 +34,7 @@ if ($this->canGroupBy) :?>
 	<li class="dropdown">
 		<a href="#" class="dropdown-toggle groupBy" data-toggle="dropdown">
 			<i class="icon-list-view"></i>
-			<?php echo JText::_('COM_FABRIK_GROUP_BY');?>
+			<?php echo FText::_('COM_FABRIK_GROUP_BY');?>
 			<b class="caret"></b>
 		</a>
 		<ul class="dropdown-menu">
@@ -50,7 +50,7 @@ if (($this->showClearFilters && (($this->filterMode === 3 || $this->filterMode =
 	<li>
 		<a class="clearFilters" href="#">
 			<i class="icon-refresh"></i>
-			<?php echo JText::_('COM_FABRIK_CLEAR')?>
+			<?php echo FText::_('COM_FABRIK_CLEAR')?>
 		</a>
 	</li>
 <?php endif;
@@ -58,7 +58,7 @@ if ($this->showFilters && $this->toggleFilters) :?>
 	<li>
 		<a href="#" class="toggleFilters">
 			<?php echo $this->buttons->filter;?>
-			<span><?php echo JText::_('COM_FABRIK_FILTER');?></span>
+			<span><?php echo FText::_('COM_FABRIK_FILTER');?></span>
 		</a>
 	</li>
 <?php endif;
@@ -66,7 +66,7 @@ if ($this->advancedSearch !== '') : ?>
 	<li>
 		<a href="<?php echo $this->advancedSearchURL?>" class="advanced-search-link">
 			<i class="icon-search"></i>
-			<?php echo JText::_('COM_FABRIK_ADVANCED_SEARCH');?>
+			<?php echo FText::_('COM_FABRIK_ADVANCED_SEARCH');?>
 		</a>
 	</li>
 <?php endif;
@@ -74,21 +74,21 @@ if ($this->showCSVImport || $this->showCSV) :?>
 	<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			<i class="icon-upload"></i>
-			<?php echo JText::_('COM_FABRIK_CSV');?>
+			<?php echo FText::_('COM_FABRIK_CSV');?>
 			<b class="caret"></b>
 		</a>
 		<ul class="dropdown-menu">
 			<?php if ($this->showCSVImport) :?>
 			<li><a href="<?php echo $this->csvImportLink;?>" class="csvImportButton">
 				<i class="icon-download"></i>
-				<?php echo JText::_('COM_FABRIK_IMPORT_FROM_CSV');?>
+				<?php echo FText::_('COM_FABRIK_IMPORT_FROM_CSV');?>
 			</a></li>
 			<?php endif?>
 
 			<?php if ($this->showCSV) :?>
 			<li><a href="#" class="csvExportButton">
 				<i class="icon-upload"></i>
-				<?php echo JText::_('COM_FABRIK_EXPORT_TO_CSV');?>
+				<?php echo FText::_('COM_FABRIK_EXPORT_TO_CSV');?>
 			</a></li>
 			<?php endif?>
 		</ul>
@@ -98,7 +98,7 @@ if ($this->showRSS) :?>
 	<li>
 		<a href="<?php echo $this->rssLink;?>" class="feedButton">
 		<?php echo FabrikHelperHTML::image('feed.png', 'list', $this->tmpl);?>
-		<?php echo JText::_('COM_FABRIK_SUBSCRIBE_RSS');?>
+		<?php echo FText::_('COM_FABRIK_SUBSCRIBE_RSS');?>
 		</a>
 	</li>
 <?php
@@ -106,14 +106,14 @@ endif;
 if ($this->showPDF) :?>
 			<li><a href="<?php echo $this->pdfLink;?>" class="pdfButton">
 				<i class="icon-file"></i>
-				<?php echo JText::_('COM_FABRIK_PDF');?>
+				<?php echo FText::_('COM_FABRIK_PDF');?>
 			</a></li>
 <?php endif;
 if ($this->emptyLink) :?>
 		<li>
 			<a href="<?php echo $this->emptyLink?>" class="doempty">
 			<?php echo $this->buttons->empty;?>
-			<?php echo JText::_('COM_FABRIK_EMPTY')?>
+			<?php echo FText::_('COM_FABRIK_EMPTY')?>
 			</a>
 		</li>
 <?php
@@ -130,7 +130,7 @@ endif;
 
 	if ($this->filter_action != 'onchange') {?>
 
-		<input type="button" class="btn fabrik_filter_submit button" value="<?php echo JText::_('COM_FABRIK_GO');?>" name="filter" >
+		<input type="button" class="btn fabrik_filter_submit button" value="<?php echo FText::_('COM_FABRIK_GO');?>" name="filter" >
 
 	<?php
 	};?>

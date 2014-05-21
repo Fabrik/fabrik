@@ -50,7 +50,7 @@ class FabrikTableGroup extends FabTable
 	{
 		if (trim($this->name) == '')
 		{
-			$this->_error = JText::_("YOUR GROUP MUST CONTAIN A NAME");
+			$this->_error = FText::_("YOUR GROUP MUST CONTAIN A NAME");
 
 			return false;
 		}

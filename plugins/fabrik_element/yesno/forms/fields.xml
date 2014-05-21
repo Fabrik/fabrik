@@ -22,6 +22,16 @@
 				class="input-mini"
 				label="PLG_ELEMENT_YESNO_OPTIONS_PER_ROW"/>
 				
+			<field name="toggle_others"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="PLG_ELEMENT_YESNO_TOGGLE_OTHERS_DESC"
+				label="PLG_ELEMENT_YESNO_TOGGLE_OTHERS_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+				
 		</fieldset>
 		
 	</fields>

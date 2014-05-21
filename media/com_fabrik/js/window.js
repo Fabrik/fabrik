@@ -1,10 +1,17 @@
 /**
  * Fabrik Window
  *
- * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2014, fabrikar.com - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
+/**
+ * Window factory
+ * 
+ * @param   object  opts  Options
+ * 
+ * @return  Fabrik.Window
+ */
 Fabrik.getWindow = function (opts) {
 	if (Fabrik.Windows[opts.id]) {
 		if (opts.visible !== false) {
@@ -105,16 +112,24 @@ Fabrik.Window = new Class({
 		h = (h === null || h === 'auto') ? this.options.height + 10 : this.window.getStyle('height');
 		h = h.toInt();
 		var d = {'width': w + 'px', 'height': h + 'px'};
+		this.window.setStyles(d);
+		
 		if (!(Fabrik.bootstrapped && this.modal)) {
-			var yy = window.getSize().y / 2 + window.getScroll().y - (h / 4);
+			var yy = window.getSize().y / 2 + window.getScroll().y - (h / 2);
 			d.top = typeOf(this.options.offset_y) !== 'null' ? window.getScroll().y + this.options.offset_y : yy;
+			
 			var xx = window.getSize().x / 2  + window.getScroll().x - w / 2;
 			d.left = typeOf(this.options.offset_x) !== 'null' ? window.getScroll().x + this.options.offset_x : xx;
+			
 		} else {
 			// Fileupload crop uses this
 			var offset = (window.getSize().y - h) / 2;
+			var xoffset = (window.getSize().x - w) / 2;
 			d.top = offset < 0 ? window.getScroll().y : window.getScroll().y + offset;
+			d.left = xoffset < 0 ? window.getScroll().x : window.getScroll().x + xoffset;
 		}
+		// Prototype J template css puts margin left on .modals
+		d['margin-left'] = 0;
 		this.window.setStyles(d);
 	},
 
@@ -153,6 +168,10 @@ Fabrik.Window = new Class({
 	{
 		var draggerC, dragger, expandButton, expandIcon, resizeIcon, label, cw, ch, handleParts = [];
 		this.window = new Element('div', {'id': this.options.id, 'class': 'fabrikWindow ' + this.classSuffix + ' modal'});
+		
+		// Set window dimensions before center - needed for fileupload crop
+		this.window.setStyle('width', this.options.width);
+		this.window.setStyle('height', this.options.height);
 		this.center();
 		this.contentWrapperEl = this.window;
 		var del = this.deleteButton();
@@ -245,6 +264,7 @@ Fabrik.Window = new Class({
 		}
 		document.id(document.body).adopt(this.window);
 		this.loadContent();
+		this.center();
 		//bad idea - means opening windows are hidden if other code calls another window to hide
 		/*Fabrik.addEvent('fabrik.overlay.hide', function () {
 			this.window.hide();
@@ -309,7 +329,9 @@ Fabrik.Window = new Class({
 					Fabrik.loader.stop(u);
 					this.fireEvent('onContentLoaded', [this]);
 					this.watchTabs();
-
+					
+					// Needed for IE11
+					this.center(); 
 					// Ini any Fabrik JS code that was loaded with the ajax request
 					// window.fireEvent('fabrik.loaded');
 				}.bind(this)
@@ -378,8 +400,6 @@ Fabrik.Window = new Class({
 		}
 		if (!this.options.offset_y && scroll) {
 			var myfx = new Fx.Scroll(window).toElement(this.window);
-		} else {
-			this.window.position();
 		}
 	},
 

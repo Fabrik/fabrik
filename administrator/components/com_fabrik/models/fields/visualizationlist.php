@@ -44,7 +44,7 @@ class JFormFieldVisualizationlist extends JFormFieldList
 
 	protected function getOptions()
 	{
-		$a = array(JHTML::_('select.option', '', JText::_('COM_FABRIK_PLEASE_SELECT')));
+		$a = array(JHTML::_('select.option', '', FText::_('COM_FABRIK_PLEASE_SELECT')));
 		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('id AS value, label AS text')->from('#__{package}_visualizations')->where('published = 1')->order('text');

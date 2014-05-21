@@ -60,38 +60,38 @@ class JFormFieldSwapList extends JFormFieldList
 
 		if (empty($this->groups) && empty($this->currentGroups))
 		{
-			return JText::_('COM_FABRIK_NO_GROUPS_AVAILABLE');
+			return FText::_('COM_FABRIK_NO_GROUPS_AVAILABLE');
 		}
 		else
 		{
 			if ($j3)
 			{
-				$str =	JText::_('COM_FABRIK_AVAILABLE_GROUPS');
+				$str =	FText::_('COM_FABRIK_AVAILABLE_GROUPS');
 				$str .= '<br />' . $this->groupList;
 				$str .= '<button class="button btn btn-success btn-small" type="button" id="' . $this->id . '-add">';
-				$str .= '<i class="icon-new"></i>' . JText::_('COM_FABRIK_ADD') . '</button>';
-				$str .= '<br />' . JText::_('COM_FABRIK_CURRENT_GROUPS');
+				$str .= '<i class="icon-new"></i>' . FText::_('COM_FABRIK_ADD') . '</button>';
+				$str .= '<br />' . FText::_('COM_FABRIK_CURRENT_GROUPS');
 				$str .= '<br />' . $this->currentGroupList;
 				$str .= '<button class="button btn btn-small" type="button" id="' . $this->id . '-up" >';
-				$str .= '<i class="icon-arrow-up"></i> ' . JText::_('COM_FABRIK_UP') . '</button> ';
+				$str .= '<i class="icon-arrow-up"></i> ' . FText::_('COM_FABRIK_UP') . '</button> ';
 				$str .= '<button class="button btn btn-small" type="button" id="' . $this->id . '-down" >';
-				$str .= '<i class="icon-arrow-down"></i> ' . JText::_('COM_FABRIK_DOWN') . '</button> ';
+				$str .= '<i class="icon-arrow-down"></i> ' . FText::_('COM_FABRIK_DOWN') . '</button> ';
 				$str .= '<button class="button btn btn-danger btn-small" type="button" id="' . $this->id . '-remove">';
-				$str .= '<i class="icon-delete"></i> ' . JText::_('COM_FABRIK_REMOVE');
+				$str .= '<i class="icon-delete"></i> ' . FText::_('COM_FABRIK_REMOVE');
 				$str .= '</button>';
 			}
 			else
 			{
 				$str .= '<input type="text" readonly="readonly" class="readonly" style="clear:left" size="44" value="'
-					. JText::_('COM_FABRIK_AVAILABLE_GROUPS') . ':" />';
+					. FText::_('COM_FABRIK_AVAILABLE_GROUPS') . ':" />';
 				$str .= $this->groupList;
-				$str .= '<input class="button btn" type="button" id="' . $this->id . '-add" value="' . JText::_('COM_FABRIK_ADD') . '" />';
+				$str .= '<input class="button btn" type="button" id="' . $this->id . '-add" value="' . FText::_('COM_FABRIK_ADD') . '" />';
 				$str .= '<input type="text" readonly="readonly" class="readonly" style="clear:left" size="44" value="'
-					. JText::_('COM_FABRIK_CURRENT_GROUPS') . ':" />';
+					. FText::_('COM_FABRIK_CURRENT_GROUPS') . ':" />';
 				$str .= $this->currentGroupList;
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_UP') . '" id="' . $this->id . '-up" />';
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_DOWN') . '" id="' . $this->id . '-down" />';
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_REMOVE') . '" id="' . $this->id . '-remove"/>';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_UP') . '" id="' . $this->id . '-up" />';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_DOWN') . '" id="' . $this->id . '-down" />';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_REMOVE') . '" id="' . $this->id . '-remove"/>';
 			}
 
 			return $str;

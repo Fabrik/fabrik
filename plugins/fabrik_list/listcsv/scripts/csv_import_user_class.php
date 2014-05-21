@@ -185,7 +185,7 @@ class ImportCSVCreateUser
 		{
 			if ($app->isAdmin())
 			{
-				$app->enqueueMessage(JText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
+				$app->enqueueMessage(FText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 				$app->enqueueMessage($user->getError(), 'error');
 			}
 
@@ -198,7 +198,7 @@ class ImportCSVCreateUser
 		{
 			if ($app->isAdmin())
 			{
-				$app->enqueueMessage(JText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
+				$app->enqueueMessage(FText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 				$app->enqueueMessage($user->getError(), 'error');
 			}
 

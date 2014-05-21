@@ -27,6 +27,6 @@ if ($this->filter_action != 'onchange') {?>
 	echo "</div>";
 ?>
 <?php if ($this->filter_action == '') {?>
-	<input type="button" class="fabrik_filter_submit button" value="<?php //echo JText::_('GO');?>"
+	<input type="button" class="fabrik_filter_submit button" value="<?php //echo FText::_('GO');?>"
 			name="filter" />
 <?php }?>

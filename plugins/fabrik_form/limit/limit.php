@@ -73,7 +73,7 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		{
 			$msg = $params->get('limit_reached_message', JText::sprintf('PLG_FORM_LIMIT_LIMIT_REACHED', $limit));
 			$msg = str_replace('{limit}', $limit, $msg);
-			$app->enqueueMessage(JText::_($msg), 'notice');
+			$app->enqueueMessage(FText::_($msg), 'notice');
 
 			return false;
 		}
@@ -96,11 +96,34 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		$user = JFactory::getUser();
 		$params = $this->getParams();
 		$field = $params->get('limit_userfield');
+		$fk = $params->get('limit_fk');
+		$fkVal = '';
+
+		if (!empty($fk))
+		{
+			$fkVal = FArrayHelper::getValue(
+					$formModel->data,
+					FabrikString::safeColNameToArrayKey($fk),
+					FArrayHelper::getValue(
+							$formModel->data,
+							FabrikString::safeColNameToArrayKey($fk) . '_raw',
+							''
+					)
+			);
+		}
+
 		$listModel = $formModel->getlistModel();
 		$list = $listModel->getTable();
 		$db = $listModel->getDb();
 		$query = $db->getQuery(true);
 		$query->clear()->select(' COUNT(' . $field . ')')->from($list->db_table_name)->where($field . ' = ' . (int) $user->get('id'));
+
+		if (!empty($fkVal))
+		{
+			$query->where($db->quoteName($fk) . ' = ' . $db->quote($fkVal), 'AND');
+		}
+
+		$strq = (string) $query;
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();

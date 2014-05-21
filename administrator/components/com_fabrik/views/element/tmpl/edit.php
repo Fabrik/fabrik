@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHTML::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework', true);
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 JHtml::_('behavior.keepalive');
 
 JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
@@ -38,7 +38,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 			window.fireEvent('form.save');
 			Joomla.submitform(task, document.getElementById('adminForm'));
 		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>' + msg);
+			alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>' + msg);
 		}
 	}
 </script>
@@ -52,13 +52,13 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 		<dd class="notice">
 		<ul>
 			<li>
-				<?php echo JText::_('COM_FABRIK_ELEMENT_PROPERTIES_LINKED_TO') ?>:
+				<?php echo FText::_('COM_FABRIK_ELEMENT_PROPERTIES_LINKED_TO') ?>:
 			</li>
 			<li>
 				<a href="#" id="swapToParent" class="element_<?php echo $this->parent->id ?>"><?php echo $this->parent->label ?></a>
 			</li>
 			<li>
-				<label><input id="unlink" name="unlink" id="unlinkFromParent" type="checkbox"> <?php echo JText::_('COM_FABRIK_UNLINK') ?></label>
+				<label><input id="unlink" name="unlink" id="unlinkFromParent" type="checkbox"> <?php echo FText::_('COM_FABRIK_UNLINK') ?></label>
 			</li>
 		</ul>
 		</dd>
@@ -69,7 +69,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 <div id="elementFormTable">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_DETAILS');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_DETAILS');?></legend>
 			<input type="hidden" id="name_orig" name="name_orig" value="<?php echo $this->item->name; ?>" />
 			<input type="hidden" id="plugin_orig" name="plugin_orig" value="<?php echo $this->item->plugin; ?>" />
 			<ul class="adminformlist">
@@ -100,7 +100,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 
 		<div style="margin:10px">
 			<?php echo JHtml::_('sliders.start', 'element-sliders-options', array('useCookie' => 1));
-			echo JHtml::_('sliders.panel', JText::_('COM_FABRIK_OPTIONS'), 'options-details');
+			echo JHtml::_('sliders.panel', FText::_('COM_FABRIK_OPTIONS'), 'options-details');
 			echo "<div id=\"plugin-container\">$this->pluginFields</div>";
 			echo JHtml::_('sliders.end'); ?>
 		</div>

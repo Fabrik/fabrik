@@ -500,8 +500,12 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 							$row->_canDelete = (bool) $listModel->canDelete();
 							$row->_canEdit = (bool) $listModel->canEdit($row);
 							$row->_canView = (bool) $listModel->canViewDetails();
-							$row->startdate_locale = $row->startdate;
-							$row->enddate_locale = $row->enddate;
+
+							//Format local dates toISO8601
+							$mydate = new DateTime($row->startdate);
+							$row->startdate_locale = $mydate->format(DateTime::RFC3339);
+							$mydate = new DateTime($row->enddate);
+							$row->enddate_locale = $mydate->format(DateTime::RFC3339);
 
 							// Added timezone offset
 							if ($row->startdate !== $db->getNullDate() && $data['startShowTime'] == true)
@@ -511,7 +515,9 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 
 								if ($startLocal)
 								{
-									$row->startdate_locale = $row->startdate;
+									//Format local dates toISO8601
+									$mydate = new DateTime($row->startdate);
+									$row->startdate_locale = $mydate->format(DateTime::RFC3339);
 								}
 								else
 								{
@@ -529,7 +535,9 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 
 									if ($endLocal)
 									{
-										$row->enddate_locale = $row->enddate;
+										//Format local dates toISO8601
+										$mydate = new DateTime($row->enddate);
+										$row->enddate_locale = $mydate->format(DateTime::RFC3339);
 									}
 									else
 									{
@@ -668,8 +676,9 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 		$limits = new stdClass;
 		$min = $params->get('limit_min', '');
 		$max = $params->get('limit_max', '');
-		$limits->min = ($min === '') ? '' : JFactory::getDate($min)->toSql();
-		$limits->max = ($max === '') ? '' : JFactory::getDate($max)->toSql();
+		/**@@@trob: seems Firefox needs this date format in calendar.js (limits not working with toSQL*/
+		$limits->min = ($min === '') ? '' : JFactory::getDate($min)->toISO8601();
+		$limits->max = ($max === '') ? '' : JFactory::getDate($max)->toISO8601();
 
 		return $limits;
 	}
@@ -685,7 +694,7 @@ class FabrikModelCalendar extends FabrikFEModelVisualization
 		$min = $params->get('limit_min', '');
 		$max = $params->get('limit_max', '');
 		$msg = '';
-		$f = JText::_('DATE_FORMAT_LC2');
+		$f = FText::_('DATE_FORMAT_LC2');
 
 		if ($min !== '' && $max === '')
 		{

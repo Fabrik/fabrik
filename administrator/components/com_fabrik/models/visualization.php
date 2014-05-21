@@ -120,7 +120,7 @@ class FabrikAdminModelVisualization extends FabModelAdmin
 
 		if ($plugin == '')
 		{
-			$str = JText::_('COM_FABRIK_SELECT_A_PLUGIN');
+			$str = FText::_('COM_FABRIK_SELECT_A_PLUGIN');
 		}
 		else
 		{

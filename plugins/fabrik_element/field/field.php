@@ -130,14 +130,20 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		/* $$$ hugh - if the form just failed validation, number formatted fields will already
 		 * be formatted, so we need to un-format them before formatting them!
-		 * $$$ rob - well better actually check if we are coming from a failed validation then :)
 		 */
-		if ($app->input->get('task') == 'form.process')
+		/*
+		if ($this->getFormModel()->failedValidation())
 		{
 			$value = $this->unNumberFormat($value);
 		}
 
 		$value = $this->numberFormat($value);
+		*/
+
+		if (!$this->getFormModel()->failedValidation())
+		{
+			$value = $this->numberFormat($value);
+		}
 
 		if (!$this->isEditable())
 		{
@@ -191,6 +197,28 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	}
 
 	/**
+	 * Determines the value for the element in the form view
+	 *
+	 * @param   array  $data           Form data
+	 * @param   int    $repeatCounter  When repeating joined groups we need to know what part of the array to access
+	 * @param   array  $opts           Options, 'raw' = 1/0 use raw value
+	 *
+	 * @return  string	value
+	 */
+
+	public function getValue($data, $repeatCounter = 0, $opts = array())
+	{
+		$value = parent::getValue($data, $repeatCounter, $opts);
+
+		if (is_array($value))
+		{
+			return array_pop($value);
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Format guess link type
 	 *
 	 * @param   string  &$value         Original field value
@@ -238,6 +266,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 	protected function linkOpts()
 	{
+		$fbConfig = JComponentHelper::getParams('com_fabrik');
 		$params = $this->getParams();
 		$target = $params->get('link_target_options', 'default');
 		$opts = array();
@@ -253,6 +282,12 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			case 'lightbox':
 				FabrikHelperHTML::slimbox();
 				$opts['rel'] = 'lightbox[]';
+
+				if ($fbConfig->get('use_mediabox', false))
+				{
+					$opts['target'] = 'mediabox';
+				}
+
 				break;
 		}
 
@@ -488,7 +523,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		if (!$this->canView())
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FIELD_NO_PERMISSION'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FIELD_NO_PERMISSION'));
 			$app->redirect($url);
 			exit;
 		}
@@ -497,7 +532,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		if (empty($rowid))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
+			// $app->enqueueMessage(FText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -508,7 +543,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		if (empty($row))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
+			// $app->enqueueMessage(FText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -542,7 +577,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FIELD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -571,6 +606,11 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		$formModel = $this->getForm();
 		$formid = $formModel->getId();
 		$rowid = $formModel->getRowId();
+
+		if (empty($rowid)) {
+			$rowid = FArrayHelper::getValue($thisRow, '__pk_val', '');
+		}
+
 		$elementid = $this->getId();
 		$link = COM_FABRIK_LIVESITE
 		. 'index.php?option=com_' . $package . '&amp;task=plugin.pluginAjax&amp;plugin=field&amp;method=ajax_renderQRCode&amp;'

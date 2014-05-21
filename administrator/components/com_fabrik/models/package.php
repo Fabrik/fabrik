@@ -892,7 +892,7 @@ class FabrikAdminModelPackage extends FabModelAdmin
 			{
 				$vrow = FabTable::getInstance('Visualization', 'FabrikTable');
 				$vrow->load($vid);
-				$visModel = JModel::getInstance($vrow->plugin, 'fabrikModel');
+				$visModel = JModelLegacy::getInstance($vrow->plugin, 'fabrikModel');
 				$visModel->setId($vid);
 				$listModels = $visModel->getlistModels();
 

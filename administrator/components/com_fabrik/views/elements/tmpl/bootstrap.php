@@ -61,16 +61,16 @@ $states	= array(
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="filter-search btn-group pull-left">
-					<label class="element-invisible" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-					<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>"
-					title="<?php echo JText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />&nbsp;
+					<label class="element-invisible" for="filter_search"><?php echo FText::_('JSEARCH_FILTER_LABEL'); ?></label>
+					<input type="text" name="filter_search" placeholder="<?php echo FText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>"
+					title="<?php echo FText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />&nbsp;
 				</div>
 				<div class="btn-group pull-left hidden-phone">
-					<button class="btn tip" type="submit" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-					<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+					<button class="btn tip" type="submit" rel="tooltip" title="<?php echo FText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+					<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" rel="tooltip" title="<?php echo FText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
 				</div>
 				<div class="btn-group pull-right hidden-phone">
-					<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+					<label for="limit" class="element-invisible"><?php echo FText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
 			</div>
@@ -97,10 +97,10 @@ $states	= array(
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_LABEL', 'e.label', $listDirn, $listOrder); ?>
 				</th>
 				<th width="17%">
-					<?php echo JText::_('COM_FABRIK_FULL_ELEMENT_NAME');?>
+					<?php echo FText::_('COM_FABRIK_FULL_ELEMENT_NAME');?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_('COM_FABRIK_VALIDATIONS'); ?>
+					<?php echo FText::_('COM_FABRIK_VALIDATIONS'); ?>
 				</th>
 				<th width="10%">
 				<?php echo JHTML::_('grid.sort', 'COM_FABRIK_GROUP', 'g.label', $listDirn, $listOrder); ?>
@@ -131,9 +131,9 @@ $states	= array(
 			$canEdit	= $user->authorise('core.edit',			'com_fabrik.element.'.$item->group_id);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_fabrik.element.'.$item->group_id) && $canCheckin;
-			$extraTip = '<strong>' . $item->numValidations . ' ' . JText::_('COM_FABRIK_VALIDATIONS') . '</strong><br />'
+			$extraTip = '<strong>' . $item->numValidations . ' ' . FText::_('COM_FABRIK_VALIDATIONS') . '</strong><br />'
 				. implode('<br />', $item->validationTip)
-				. '<br/><br/><strong>' . $item->numJs . ' ' . JText::_('COM_FABRIK_JAVASCRIPT') . '</strong>';
+				. '<br/><br/><strong>' . $item->numJs . ' ' . FText::_('COM_FABRIK_JAVASCRIPT') . '</strong>';
 			?>
 
 			<tr class="row<?php echo $i % 2; ?>">
@@ -146,7 +146,7 @@ $states	= array(
 						$disabledLabel	  = '';
 
 						if (!$saveOrder) :
-							$disabledLabel    = JText::_('JORDERINGDISABLED');
+							$disabledLabel    = FText::_('JORDERINGDISABLED');
 							$disableClassName = 'inactive tip-top';
 						endif; ?>
 						<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
@@ -162,10 +162,10 @@ $states	= array(
 				<td>
 				<?php if ($item->parent_id != 0) :
 					echo "<a href='index.php?option=com_fabrik&task=element.edit&id=" . $item->parent_id . "'>"
-					. JHTML::image('media/com_fabrik/images/child_element.png', JText::_('COM_FABRIK_LINKED_ELEMENT'), 'title="' . JText::_('COM_FABRIK_LINKED_ELEMENT') . '"')
+					. JHTML::image('media/com_fabrik/images/child_element.png', FText::_('COM_FABRIK_LINKED_ELEMENT'), 'title="' . FText::_('COM_FABRIK_LINKED_ELEMENT') . '"')
 					. '</a>&nbsp;';
 				else :
-					echo JHTML::image('media/com_fabrik/images/parent_element.png', JText::_('COM_FABRIK_PARENT_ELEMENT'), 'title="' . JText::_('COM_FABRIK_PARENT_ELEMENT') . '"');
+					echo JHTML::image('media/com_fabrik/images/parent_element.png', FText::_('COM_FABRIK_PARENT_ELEMENT'), 'title="' . FText::_('COM_FABRIK_PARENT_ELEMENT') . '"');
 				endif;
 				?>
 				</td>

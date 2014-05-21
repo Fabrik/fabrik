@@ -214,7 +214,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 			if ($loading)
 			{
-				$result_compare = JText::_('COMPARE_DATA_LOADING') . $sep_2compare;
+				$result_compare = FText::_('COMPARE_DATA_LOADING') . $sep_2compare;
 			}
 			else
 			{
@@ -255,9 +255,9 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 								{
 									if ($newData[$c]->$fullName != $origData[$c]->$fullName)
 									{
-										$result_compare .= JText::_('COMPARE_DATA_CHANGE_ON') . ' ' . $element->label . ' ' . $sep_compare
-										. JText::_('COMPARE_DATA_FROM') . ' ' . $origData[0]->$fullName . ' ' . $sep_compare
-										. JText::_('COMPARE_DATA_TO') . ' ' . $newData[$c]->$fullName . ' ' . $sep_2compare;
+										$result_compare .= FText::_('COMPARE_DATA_CHANGE_ON') . ' ' . $element->label . ' ' . $sep_compare
+										. FText::_('COMPARE_DATA_FROM') . ' ' . $origData[0]->$fullName . ' ' . $sep_compare
+										. FText::_('COMPARE_DATA_TO') . ' ' . $newData[$c]->$fullName . ' ' . $sep_2compare;
 									}
 								}
 							}
@@ -265,7 +265,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 						if (empty($result_compare))
 						{
-							$result_compare = JText::_('COMPARE_DATA_NO_DIFFERENCES');
+							$result_compare = FText::_('COMPARE_DATA_NO_DIFFERENCES');
 						}
 					}
 					else
@@ -301,8 +301,8 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 		// Custom Message
 		if ($params->get('custom_msg') != '')
 		{
-			$rep_add_edit = $messageType == 'form.add' ? JText::_('REP_ADD')
-			: ($messageType == 'form.edit' ? JText::_('REP_EDIT') : JText::_('DETAILS'));
+			$rep_add_edit = $messageType == 'form.add' ? FText::_('REP_ADD')
+			: ($messageType == 'form.edit' ? FText::_('REP_EDIT') : FText::_('DETAILS'));
 			$custom_msg = $params->get('custom_msg');
 			$custom_msg = preg_replace('/{Add\/Edit}/', $rep_add_edit, $custom_msg);
 			$custom_msg = preg_replace('/{DATE}/', $date, $custom_msg);
@@ -326,7 +326,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 			if ($params->get('compare_data') == 1)
 			{
-				$clabels_csv .= ', "' . JText::_('PLG_FORM_LOG_COMPARE_DATA_LABEL_CSV') . '"';
+				$clabels_csv .= ', "' . FText::_('PLG_FORM_LOG_COMPARE_DATA_LABEL_CSV') . '"';
 			}
 
 			$clabels_createdb_imp = '';
@@ -353,7 +353,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 			if ($params->get('compare_data') == 1)
 			{
-				$clabels_createdb .= ', ' . $db->quoteName(JText::_('COMPARE_DATA_LABEL_DB')) . ' text NOT NULL';
+				$clabels_createdb .= ', ' . $db->quoteName(FText::_('COMPARE_DATA_LABEL_DB')) . ' text NOT NULL';
 			}
 
 			// @todo - what if we use different db driver which doesn't name quote with `??
@@ -363,7 +363,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 			if ($params->get('compare_data') == 1)
 			{
-				$clabels_db .= ', ' . $db->quoteName(JText::_('PLG_FORM_LOG_COMPARE_DATA_LABEL_DB'));
+				$clabels_db .= ', ' . $db->quoteName(FText::_('PLG_FORM_LOG_COMPARE_DATA_LABEL_DB'));
 			}
 
 			// Data for CSV & for DB
@@ -601,7 +601,7 @@ class PlgFabrik_FormLogs extends PlgFabrik_Form
 
 						if ($params->get('compare_data') == 1)
 						{
-							$csvMsg[] = "\"" . JText::_('COMPARE_DATA_LABEL_CSV') . "\"";
+							$csvMsg[] = "\"" . FText::_('COMPARE_DATA_LABEL_CSV') . "\"";
 						}
 					}
 					// Inserting data in CSV with actual line break as row separator

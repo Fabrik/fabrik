@@ -87,7 +87,7 @@ class PlgFabrik_ElementInternalid extends PlgFabrik_Element
 	 * @return  bool
 	 */
 
-	protected function isHidden()
+	public function isHidden()
 	{
 		return true;
 	}

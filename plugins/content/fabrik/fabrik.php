@@ -541,8 +541,23 @@ class PlgContentFabrik extends JPlugin
 				$model->setId($id);
 				$model->isMambot = true;
 
-				// Reset this otherwise embedding a list in a list menu page, the embedded list takes the show in list fields from the menu list
-				$input->set('fabrik_show_in_list', array());
+				/**
+				 *
+				 * Reset this otherwise embedding a list in a list menu page, the embedded list takes the show in list fields from the menu list
+				 *
+				 * $$$ hugh - nasty little hack to reduce 'emptyish' array, 'cos if no 'elements' in the request, the following ends up setting
+				 * returning an array with a single empty string.  This ends up meaning that we render a list with no
+				 * elements in it.  We've run across this before, so we have a FArrayHelper:;emptyish() to detect it.
+				 */
+
+				$show_in_list = explode('|', $input->getString('elements', ''));
+
+				if (FArrayHelper::emptyIsh($show_in_list, true))
+				{
+					$show_in_list = array();
+				}
+
+				$input->set('fabrik_show_in_list', $show_in_list);
 				$model->ajax = 1;
 				$task = $input->get('task');
 

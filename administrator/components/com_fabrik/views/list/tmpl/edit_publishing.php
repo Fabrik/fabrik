@@ -12,9 +12,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'list-publishing-panel');
+echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'list-publishing-panel');
 echo JHtml::_('sliders.start','table-sliders-'.$this->item->id, array('useCookie'=>1));
-echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details');
+echo JHtml::_('sliders.panel',FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details');
 ?>
 <fieldset class="panelform">
 	<ul class="panelformlist">
@@ -29,7 +29,7 @@ echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAIL
 	</ul>
 </fieldset>
 
-<?php echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_RSS'), 'rss'); ?>
+<?php echo JHtml::_('sliders.panel',FText::_('COM_FABRIK_GROUP_LABEL_RSS'), 'rss'); ?>
 <fieldset class="panelform">
 	<ul class="panelformlist">
 		<?php foreach($this->form->getFieldset('rss') as $field): ?>
@@ -41,7 +41,7 @@ echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAIL
 	</ul>
 </fieldset>
 
-<?php echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_CSV'), 'csv'); ?>
+<?php echo JHtml::_('sliders.panel',FText::_('COM_FABRIK_GROUP_LABEL_CSV'), 'csv'); ?>
 <fieldset class="panelform">
 <?php $fieldsets = array('csv', 'csvauto');
 foreach ($fieldsets as $fieldset) {?>
@@ -56,7 +56,7 @@ foreach ($fieldsets as $fieldset) {?>
 <?php }?>
 </fieldset>
 
-<?php echo JHtml::_('sliders.panel',JText::_('COM_FABRIK_GROUP_LABEL_SEARCH'), 'search'); ?>
+<?php echo JHtml::_('sliders.panel',FText::_('COM_FABRIK_GROUP_LABEL_SEARCH'), 'search'); ?>
 <fieldset class="panelform">
 	<ul class="panelformlist">
 		<?php foreach($this->form->getFieldset('search') as $field): ?>

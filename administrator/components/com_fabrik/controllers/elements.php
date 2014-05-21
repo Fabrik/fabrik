@@ -82,7 +82,7 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	public function toggleInList()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(FText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$app = JFactory::getApplication();
@@ -94,7 +94,7 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JError::raiseWarning(500, FText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
 		{
@@ -203,7 +203,7 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 		$cid = $input->get('cid', array(), 'array');
 		$opts = $input->get('batch', array(), 'array');
 		$model->batch($cid, $opts);
-		$this->setRedirect('index.php?option=com_fabrik&view=elements', JText::_('COM_FABRIK_MSG_BATCH_DONE'));
+		$this->setRedirect('index.php?option=com_fabrik&view=elements', FText::_('COM_FABRIK_MSG_BATCH_DONE'));
 	}
 
 	/**

@@ -71,7 +71,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 		$view->setLayout($viewLayout);
 
 		// @TODO check for cached version
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_FORMS'), 'forms.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_FORMS'), 'forms.png');
 
 		$view->display();
 
@@ -139,74 +139,9 @@ class FabrikAdminControllerForm extends FabControllerForm
 
 		if (!$validated)
 		{
-			// If its in a module with ajax or in a package or inline edit
-			if ($input->get('fabrik_ajax'))
-			{
-				if ($input->getInt('elid') !== 0)
-				{
-					// Inline edit
-					$eMsgs = array();
-					$errs = $model->getErrors();
+			$this->handleError($view, $model);
 
-					// Only raise errors for fields that are present in the inline edit plugin
-					$toValidate = array_keys($input->get('toValidate', array(), 'array'));
-
-					foreach ($errs as $errorKey => $e)
-					{
-						if (in_array($errorKey, $toValidate) && count($e[0]) > 0)
-						{
-							array_walk_recursive($e, array('FabrikString', 'forHtml'));
-							$eMsgs[] = count($e[0]) === 1 ? '<li>' . $e[0][0] . '</li>' : '<ul><li>' . implode('</li><li>', $e[0]) . '</ul>';
-						}
-					}
-
-					if (!empty($eMsgs))
-					{
-						$eMsgs = '<ul>' . implode('</li><li>', $eMsgs) . '</ul>';
-						header('HTTP/1.1 500 ' . JText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
-						jexit();
-					}
-					else
-					{
-						$validated = true;
-					}
-				}
-				else
-				{
-					echo $model->getJsonErrors();
-				}
-
-				if (!$validated)
-				{
-					return;
-				}
-			}
-
-			if (!$validated)
-			{
-				$this->savepage();
-
-				if ($this->isMambot)
-				{
-					$input->set('fabrik_referrer', JArrayHelper::getValue($_SERVER, 'HTTP_REFERER', ''), 'post');
-				}
-				else
-				{
-					/**
-					 * $$$ rob - http://fabrikar.com/forums/showthread.php?t=17962
-					 * couldn't determine the exact set up that triggered this, but we need to reset the rowid to -1
-					 * if reshowing the form, otherwise it may not be editable, but rather show as a detailed view
-					 */
-					if ($input->get('usekey') !== '')
-					{
-						$input->set('rowid', -1);
-					}
-
-					$view->display();
-				}
-
-				return;
-			}
+			return;
 		}
 
 		// Reset errors as validate() now returns ok validations as empty arrays
@@ -227,7 +162,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 		if ($model->hasErrors())
 		{
 			FabrikWorker::getPluginManager()->runPlugins('onError', $model);
-			$view->display();
+			$this->handleError($view, $model);
 
 			return;
 		}
@@ -257,6 +192,93 @@ class FabrikAdminControllerForm extends FabControllerForm
 		else
 		{
 			$this->setRedirect($url, $msg);
+		}
+	}
+
+	/**
+	 * Handle the view error
+	 *
+	 * @param   JView   $view   View
+	 * @param   JModel  $model  Form Model
+	 *
+	 * @since   3.1b
+	 *
+	 * @return  void
+	 */
+	protected function handleError($view, $model)
+	{
+		$app = JFactory::getApplication();
+		$package = $app->getUserState('com_fabrik.package', 'fabrik');
+		$input = $app->input;
+		$validated = false;
+
+		// If its in a module with ajax or in a package or inline edit
+		if ($input->get('fabrik_ajax'))
+		{
+			if ($input->getInt('elid') !== 0)
+			{
+				// Inline edit
+				$eMsgs = array();
+				$errs = $model->getErrors();
+
+				// Only raise errors for fields that are present in the inline edit plugin
+				$toValidate = array_keys($input->get('toValidate', array(), 'array'));
+
+				foreach ($errs as $errorKey => $e)
+				{
+					if (in_array($errorKey, $toValidate) && count($e[0]) > 0)
+					{
+						array_walk_recursive($e, array('FabrikString', 'forHtml'));
+						$eMsgs[] = count($e[0]) === 1 ? '<li>' . $e[0][0] . '</li>' : '<ul><li>' . implode('</li><li>', $e[0]) . '</ul>';
+					}
+				}
+
+				if (!empty($eMsgs))
+				{
+					$eMsgs = '<ul>' . implode('</li><li>', $eMsgs) . '</ul>';
+					header('HTTP/1.1 500 ' . FText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
+					jexit();
+				}
+				else
+				{
+					$validated = true;
+				}
+			}
+			else
+			{
+				echo $model->getJsonErrors();
+			}
+
+			if (!$validated)
+			{
+				return;
+			}
+		}
+
+		if (!$validated)
+		{
+			$this->savepage();
+
+			if ($this->isMambot)
+			{
+				$this->setRedirect($this->getRedirectURL($model, false));
+			}
+			else
+			{
+				/**
+				 * $$$ rob - http://fabrikar.com/forums/showthread.php?t=17962
+				 * couldn't determine the exact set up that triggered this, but we need to reset the rowid to -1
+				 * if reshowing the form, otherwise it may not be editable, but rather show as a detailed view
+				 */
+				if ($input->get('usekey') !== '')
+				{
+					$input->set('rowid', -1);
+				}
+
+				$view->display();
+			}
+
+			return;
 		}
 	}
 
@@ -293,7 +315,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 
 		if (is_null($msg))
 		{
-			$msg = JText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
+			$msg = FText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
 		}
 
 		if (array_key_exists('apply', $model->formData))
@@ -326,7 +348,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 
 		if (!$id)
 		{
-			throw new RuntimeException(JText::_('SET_FORM_CCK_CATEGORY'));
+			throw new RuntimeException(FText::_('SET_FORM_CCK_CATEGORY'));
 		}
 
 		$input->set('formid', $id);
@@ -388,7 +410,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 		}
 		else
 		{
-			$msg = $ok ? count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED') : '';
+			$msg = $ok ? count($ids) . ' ' . FText::_('COM_FABRIK_RECORDS_DELETED') : '';
 			$app->enqueueMessage($msg);
 			$app->redirect($ref);
 		}

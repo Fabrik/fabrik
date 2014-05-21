@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 		<li class="button">
 			<a href="index.php?option=com_fabrik&amp;task=list.view&amp;listid=<?php echo $this->list->id?>">
 				<?php echo FabrikHelperHTML::image('view.png', 'list', $this->tmpl, 'view all');?>
-				<span><?php echo JText::_('view all');?></span>
+				<span><?php echo FText::_('view all');?></span>
 			</a>
 		</li>
 	</ul>

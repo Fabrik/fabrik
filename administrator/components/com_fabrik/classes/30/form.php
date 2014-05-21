@@ -1717,12 +1717,12 @@ class JForm
 				if ($lang->hasKey($default))
 				{
 					$debug = $lang->setDebug(false);
-					$default = JText::_($default);
+					$default = FText::_($default);
 					$lang->setDebug($debug);
 				}
 				else
 				{
-					$default = JText::_($default);
+					$default = FText::_($default);
 				}
 			}
 
@@ -1862,11 +1862,11 @@ class JForm
 				{
 					if ($element['label'])
 					{
-						$message = JText::_($element['label']);
+						$message = FText::_($element['label']);
 					}
 					else
 					{
-						$message = JText::_($element['name']);
+						$message = FText::_($element['name']);
 					}
 
 					$message = sprintf('Field required: %s', $message);

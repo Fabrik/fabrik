@@ -67,8 +67,8 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 		$aRoValues = array();
 		$fromlist = array();
 		$tolist = array();
-		$fromlist[] = JText::_('PLG_FABRIK_PICKLIST_FROM') . ':<ul id="' . $id . '_fromlist" class="picklist well well-small fromList">';
-		$tolist[] = JText::_('PLG_FABRIK_PICKLIST_TO') . ':<ul id="' . $id . '_tolist" class="picklist well well-small toList">';
+		$fromlist[] = FText::_('PLG_FABRIK_PICKLIST_FROM') . ':<ul id="' . $id . '_fromlist" class="picklist well well-small fromList">';
+		$tolist[] = FText::_('PLG_FABRIK_PICKLIST_TO') . ':<ul id="' . $id . '_tolist" class="picklist well well-small toList">';
 
 		foreach ($arVals as $v)
 		{
@@ -97,7 +97,7 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 			$i++;
 		}
 
-		$dragLbl = JText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE');
+		$dragLbl = FText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE');
 		$fromlist[] = '<li class="emptyplicklist" style="display:none"><i class="icon-move"></i> ' . $dragLbl . '</li>';
 		$tolist[] = '<li class="emptyplicklist" style="display:none"><i class="icon-move"></i> ' . $dragLbl . '</li>';
 		$fromlist[] = '</ul>';

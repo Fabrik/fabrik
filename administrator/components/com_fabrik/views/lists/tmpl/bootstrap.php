@@ -35,16 +35,16 @@ $listDirn	= $this->state->get('list.direction');
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="row-fluid">
 			<div class="filter-search btn-group pull-left">
-				<label class="element-invisible" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>"
-				title="<?php echo JText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />&nbsp;
+				<label class="element-invisible" for="filter_search"><?php echo FText::_('JSEARCH_FILTER_LABEL'); ?></label>
+				<input type="text" name="filter_search" placeholder="<?php echo FText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>"
+				title="<?php echo FText::_('COM_FABRIK_SEARCH_IN_TITLE'); ?>" />&nbsp;
 			</div>
 			<div class="btn-group pull-left hidden-phone">
-				<button class="btn tip" type="submit" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+				<button class="btn tip" type="submit" rel="tooltip" title="<?php echo FText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" rel="tooltip" title="<?php echo FText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+				<label for="limit" class="element-invisible"><?php echo FText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		</div>
@@ -66,16 +66,16 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_DB_TABLE_NAME', 'db_table_name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="14%">
-					<?php echo JText::_('COM_FABRIK_ELEMENT');?>
+					<?php echo FText::_('COM_FABRIK_ELEMENT');?>
 				</th>
 				<th width="14%">
-					<?php echo JText::_('COM_FABRIK_FORM'); ?>
+					<?php echo FText::_('COM_FABRIK_FORM'); ?>
 				</th>
 				<th width="16%">
-					<?php echo JText::_('COM_FABRIK_VIEW_DATA');?>
+					<?php echo FText::_('COM_FABRIK_VIEW_DATA');?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_VIEW_DETAILS'); ?>
+					<?php echo FText::_('COM_FABRIK_VIEW_DETAILS'); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'published', $listDirn, $listOrder); ?>
@@ -126,22 +126,22 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<a href="<?php echo $elementLink?>">
-						<i class="icon-plus"></i> <?php echo JText::_('COM_FABRIK_ADD');?>
+						<i class="icon-plus"></i> <?php echo FText::_('COM_FABRIK_ADD');?>
 					</a>
 				</td>
 				<td>
 					<a href="<?php echo $formLink; ?>">
-						<i class="icon-pencil"></i> <?php echo JText::_('COM_FABRIK_EDIT'); ?>
+						<i class="icon-pencil"></i> <?php echo FText::_('COM_FABRIK_EDIT'); ?>
 					</a>
 				</td>
 				<td>
 					<a href="index.php?option=com_fabrik&task=list.view&listid=<?php echo $item->id;?>">
-						<i class="icon-list-view"></i> <?php echo JText::_('COM_FABRIK_VIEW_DATA');?>
+						<i class="icon-list-view"></i> <?php echo FText::_('COM_FABRIK_VIEW_DATA');?>
 					</a>
 				</td>
 				<td>
 					<a href="#showlinkedelements" onclick="return listItemTask('cb<?php echo $i;?>','list.showLinkedElements');">
-						<?php echo JText::_('COM_FABRIK_VIEW_DETAILS');?>
+						<?php echo FText::_('COM_FABRIK_VIEW_DETAILS');?>
 					</a>
 				</td>
 				<td class="center">

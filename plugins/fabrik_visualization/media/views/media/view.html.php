@@ -54,19 +54,20 @@ class FabrikViewMedia extends JViewLegacy
 		FabrikHelperHTML::iniRequireJs($model->getShim());
 		FabrikHelperHTML::script($srcs, $js);
 
-		if ($this->row->published == 0)
+		if (!$model->canView())
 		{
-			JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			echo FText::_('JERROR_ALERTNOAUTHOR');
 
-			return '';
+			return false;
 		}
 
 		$media = $model->getRow();
 		$this->media = $model->getMedia();
 		$this->params = $params;
 		$viewName = $this->getName();
-		$this->containerId = $this->get('ContainerId');
+		$this->containerId = $model->getContainerId();
 		$this->showFilters = $model->showFilters();
+		$this->filterFormURL = $model->getFilterFormURL();
 		$this->filters = $this->get('Filters');
 		$this->params = $model->getParams();
 		$tpl = $j3 ? 'bootstrap' : 'default';

@@ -126,7 +126,7 @@ class FabrikAdminControllerElement extends FabControllerForm
 		}
 		else
 		{
-			$msg = JText::_('COM_FABRIK_STRUCTURE_UPDATED');
+			$msg = FText::_('COM_FABRIK_STRUCTURE_UPDATED');
 		}
 
 		if ($input->get('origtask') == 'save')

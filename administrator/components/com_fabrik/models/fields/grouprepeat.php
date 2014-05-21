@@ -49,7 +49,7 @@ class JFormFieldGrouprepeat extends JFormFieldRadio
 	{
 		if ((int) $this->form->getValue('form') === 0)
 		{
-			return '<input class="readonly" size="60" value="' . JText::_('COM_FABRIK_FIELD_ASSIGN_GROUP_TO_FORM_FIRST') . '" type="readonly" />';
+			return '<input class="readonly" size="60" value="' . FText::_('COM_FABRIK_FIELD_ASSIGN_GROUP_TO_FORM_FIRST') . '" type="readonly" />';
 		}
 		else
 		{

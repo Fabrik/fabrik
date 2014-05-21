@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla
+ * @package     Joomla.Administrator
  * @subpackage  Fabrik
  * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -17,12 +17,13 @@ $lang->load('com_fabrik', JPATH_SITE . '/components/com_fabrik');
 
 if (!defined('COM_FABRIK_FRONTEND'))
 {
-	throw RuntimeException(JText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
+	throw RuntimeException(FText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
 }
 
 jimport('joomla.application.component.model');
 jimport('joomla.application.component.helper');
 JModelLegacy::addIncludePath(COM_FABRIK_FRONTEND . '/models', 'FabrikFEModel');
+require_once __DIR__ . '/helper.php';
 
 $app = JFactory::getApplication();
 
@@ -41,7 +42,7 @@ JTable::addIncludePath(COM_FABRIK_BASE . '/administrator/components/com_fabrik/t
 $document = JFactory::getDocument();
 require_once COM_FABRIK_FRONTEND . '/controllers/package.php';
 require_once COM_FABRIK_FRONTEND . '/views/form/view.html.php';
-$listId = intval($params->get('list_id', 0));
+$listId = (int) $params->get('list_id', 0);
 
 if ($listId === 0)
 {
@@ -55,17 +56,11 @@ if (isset($listels->show_in_list))
 	$input->set('fabrik_show_in_list', $listels->show_in_list);
 }
 
-$useajax = $params->get('useajax');
-$random = intval($params->get('radomizerecords', 0));
-$limit = intval($params->get('limit', 0));
 $layout	= $params->get('fabriklayout', 'default');
 $input->set('layout', $layout);
 
-/* this all works fine for a list
- * going to try to load a package so u can access the form and list
- */
 $moduleclass_sfx = $params->get('moduleclass_sfx', '');
-$listId = intval($params->get('list_id', 1));
+$listId = (int) $params->get('list_id', 1);
 
 $viewName = 'list';
 $viewType = $document->getType();
@@ -78,40 +73,8 @@ $view = clone ($controller->getView($viewName, $viewType));
 $model = $controller->getModel($viewName, 'FabrikFEModel');
 $model->setId($listId);
 $model->setRenderContext($module->id);
+ModFabrikListHelper::applyParams($params, $model);
 
-if ($limit !== 0)
-{
-	$app->setUserState('com_fabrik.list' . $model->getRenderContext() . '.limitlength', $limit);
-	$input->set('limit', $limit);
-}
-
-if ($useajax !== '')
-{
-	$model->set('ajax', $useajax);
-}
-
-if ($params->get('ajax_links') !== '')
-{
-	$listParams = $model->getParams();
-	$listParams->set('list_ajax_links', $params->get('ajax_links'));
-}
-
-// Set up prefilters - will overwrite ones defined in the list!
-
-$prefilters = JArrayHelper::fromObject(json_decode($params->get('prefilters')));
-$conditions = (array) $prefilters['filter-conditions'];
-
-if (!empty($conditions))
-{
-	$listParams->set('filter-join', $prefilters['filter-join']);
-	$listParams->set('filter-fields', $prefilters['filter-fields']);
-	$listParams->set('filter-conditions', $prefilters['filter-conditions']);
-	$listParams->set('filter-value', $prefilters['filter-value']);
-	$listParams->set('filter-access', $prefilters['filter-access']);
-	$listParams->set('filter-eval', JArrayHelper::getValue($prefilters, 'filter-eval'));
-}
-
-$model->randomRecords = $random;
 $view->setModel($model, true);
 $view->isMambot = true;
 
@@ -135,5 +98,8 @@ else
 	$cache->get($view, 'display', $cacheid);
 }
 
+JText::script('COM_FABRIK_FORM_SAVED');
+
+// Reset altered input parameters
 $input->set('layout', $origLayout);
 $input->set('fabrik_show_in_list', null);

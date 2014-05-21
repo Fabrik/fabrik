@@ -31,12 +31,12 @@ else:
 <table class="filtertable table table-striped">
 	<thead>
 		<tr class="fabrik___heading">
-			<th><?php echo JText::_('COM_FABRIK_SEARCH');?>:</th>
+			<th><?php echo FText::_('COM_FABRIK_SEARCH');?>:</th>
 			<th style="text-align:right">
 			<?php if ($this->showClearFilters) :?>
 				<a class="clearFilters" href="#">
 					<i class="icon-refresh"></i>
-					<?php echo JText::_('COM_FABRIK_CLEAR')?>
+					<?php echo FText::_('COM_FABRIK_CLEAR')?>
 					</a>
 			<?php endif ?>
 			</th>
@@ -87,7 +87,7 @@ else:
 	?>
 	<tr>
 		<td colspan="2">
-			<input type="button" class="pull-right  btn-info btn fabrik_filter_submit button" value="<?php echo JText::_('COM_FABRIK_GO');?>" name="filter" >
+			<input type="button" class="pull-right  btn-info btn fabrik_filter_submit button" value="<?php echo FText::_('COM_FABRIK_GO');?>" name="filter" >
 		</td>
 	</tr>
 	<?php

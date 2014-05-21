@@ -19,20 +19,20 @@ $jform = $input->get('jform', array(), 'array');
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->newHeadings)) :
 		if ((int) $this->table->id !== 0) :
-		echo "<H3>" . JText::_('COM_FABRIK_IMPORT_NEW_HEADINGS_FOUND') . "</h3>";
+		echo "<H3>" . FText::_('COM_FABRIK_IMPORT_NEW_HEADINGS_FOUND') . "</h3>";
 		echo JText::sprintf('COM_FABRIK_IMPORT_NEW_HEADINGS_FOUND_DESC', $this->table->label, $this->table->label);
 	endif;?>
 
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
-				<th class="title"><?php echo JText::_('COM_FABRIK_IMPORT_CREATE_ELEMENT');?></th>
-				<th class="title"><?php echo JText::_('COM_FABRIK_IMPORT_LABEL');?></th>
-				<th class="title"><?php echo JText::_('COM_FABRIK_IMPORT_ELEMENT_TYPE');?></th>
+				<th class="title"><?php echo FText::_('COM_FABRIK_IMPORT_CREATE_ELEMENT');?></th>
+				<th class="title"><?php echo FText::_('COM_FABRIK_IMPORT_LABEL');?></th>
+				<th class="title"><?php echo FText::_('COM_FABRIK_IMPORT_ELEMENT_TYPE');?></th>
 				<?php if ($this->selectPKField) :?>
-					<th class="title"><?php echo JText::_('COM_FABRIK_PRIMARY_KEY');?></th>
+					<th class="title"><?php echo FText::_('COM_FABRIK_PRIMARY_KEY');?></th>
 				<?php endif; ?>
-				<th><?php echo JText::_('COM_FABRIK_IMPORT_SAMPLE_DATA');?></th>
+				<th><?php echo FText::_('COM_FABRIK_IMPORT_SAMPLE_DATA');?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -51,15 +51,15 @@ $jform = $input->get('jform', array(), 'array');
 			<tr>
 				<td>
 				<?php if ($i == 0 && !$this->selectPKField) :?>
-					<input type="hidden" name="createElements[<?php echo $heading;?>]" value="1" /><?php echo JText::_('JYES');?>
+					<input type="hidden" name="createElements[<?php echo $heading;?>]" value="1" /><?php echo FText::_('JYES');?>
 				<?php else : ?>
 					<label>
 						<input type="radio" name="createElements[<?php echo $heading;?>]" value="0" <?php echo $chx?>>
-						<?php echo JText::_('JNO');?>
+						<?php echo FText::_('JNO');?>
 					</label>
 					<label>
 						<input type="radio" name="createElements[<?php echo $heading;?>]" value="1" <?php echo $chx2?>>
-						<?php echo JText::_('JYES');?>
+						<?php echo FText::_('JYES');?>
 					</label>
 				<?php endif; ?>
 			</td>

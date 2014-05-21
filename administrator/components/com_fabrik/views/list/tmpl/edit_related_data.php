@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <fieldset>
 	<legend>
-		<?php echo JHTML::_('tooltip', JText::_('COM_FABRIK_RELATED_DATA_DESC', false), JText::_('COM_FABRIK_RELATED_DATA'), 'tooltip.png', JText::_('COM_FABRIK_RELATED_DATA'));?>
+		<?php echo JHTML::_('tooltip', FText::_('COM_FABRIK_RELATED_DATA_DESC', false), FText::_('COM_FABRIK_RELATED_DATA'), 'tooltip.png', FText::_('COM_FABRIK_RELATED_DATA'));?>
 	</legend>
 	<ul class="adminformlist">
 	<?php foreach ($this->form->getFieldset('facetedlinks2') as $field):

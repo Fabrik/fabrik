@@ -131,6 +131,9 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 		if ($groupModel->isJoin())
 		{
+			$data = (array) $data;
+			$data[$name] = (array) $data[$name];
+
 			if ($groupModel->canRepeat())
 			{
 				if (array_key_exists($name, $data) && array_key_exists($repeatCounter, $data[$name]))
@@ -458,7 +461,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$str[] = '<input type="hidden" class="fabrikinput" name="' . $name . '" id="' . $id . '" value="' . $value . '" />';
 		}
 
-		$opts = array('alt' => JText::_('PLG_ELEMENT_CALC_LOADING'), 'style' => 'display:none;padding-left:10px;', 'class' => 'loader');
+		$opts = array('alt' => FText::_('PLG_ELEMENT_CALC_LOADING'), 'style' => 'display:none;padding-left:10px;', 'class' => 'loader');
 		$str[] = FabrikHelperHTML::image("ajax-loader.gif", 'form', @$this->tmpl, $opts);
 
 		return implode("\n", $str);
@@ -499,6 +502,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 		$opts->ajax = $params->get('calc_ajax', 0) == 0 ? false : true;
 		$opts->observe = array_values($obs);
+		$opts->calcOnLoad = (bool) $params->get('calc_on_load', false);
 		$opts->id = $this->id;
 
 		return array('FbCalc', $id, $opts);

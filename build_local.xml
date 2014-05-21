@@ -126,7 +126,7 @@
 		</if>
 
 
-		<input message="Joomla target version:" addproperty="jversion" defaultvalue="3.1"/>
+		<input message="Joomla target version:" addproperty="jversion" defaultvalue="3.2"/>
 		<input message="Component version:" addproperty="version" defaultvalue="${git.log.range.end}"/>
 		<input message="build zips?" addproperty="zip.do" validargs="y,n" defaultvalue="y" />
 
@@ -192,12 +192,15 @@
 		<zip destfile="${cfg.destdir}/pkg_fabrik_sink/packages/plg_fabrik_${version}.zip">
 			<zipfileset dir="${cfg.destdir}/plugins/content" />
 		</zip>
-
+ 
 		<delete file="${cfg.destdir}/pkg_fabrik_sink/packages/plg_fabrik_search_${version}.zip" />
 		<zip destfile="${cfg.destdir}/pkg_fabrik_sink/packages/plg_fabrik_search_${version}.zip" basedir="${cfg.destdir}/plugins/search" />
 
 		<delete file="${cfg.destdir}/pkg_fabrik_sink/packages/plg_fabrik_schedule_${version}.zip" />
 		<zip destfile="${cfg.destdir}/pkg_fabrik_sink/packages/plg_fabrik_schedule_${version}.zip" basedir="${cfg.destdir}/plugins/system/fabrikcron" />
+
+		<delete file="${cfg.destdir}/pkg_fabrik_sink/packages/plug_cb_fabrik_${version}.zip" />
+		<zip destfile="${cfg.destdir}/pkg_fabrik_sink/packages/plug_cb_fabrik_${version}.zip" basedir="${cfg.destdir}/components/com_comprofiler/plugin/user/plug_fabrik" />
 
 		<delete file="${cfg.destdir}/pkg_fabrik_sink/packages/plg_system_fabrik_${version}.zip" />
 		<zip destfile="${cfg.destdir}/pkg_fabrik_sink/packages/plg_system_fabrik_${version}.zip" basedir="${cfg.destdir}/plugins/system/fabrik" />
@@ -675,6 +678,11 @@
 		<mkdir dir="${cfg.destdir}/plugins/system/fabrikcron" />
 		<copy file="${basedir}/plugins/system/fabrikcron/fabrikcron.xml" todir="${cfg.destdir}/plugins/system/fabrikcron" />
 		<copy file="${basedir}/plugins/system/fabrikcron/fabrikcron.php" todir="${cfg.destdir}/plugins/system/fabrikcron" />
+		
+		<mkdir dir="${cfg.destdir}/components/com_comprofiler/plugin/user/plug_fabrik" />
+		<copy todir="${cfg.destdir}/components/com_comprofiler/plugin/user/plug_fabrik">
+			<fileset dir="${basedir}/components/com_comprofiler/plugin/user/plug_fabrik"></fileset>
+		</copy>
 
 		<mkdir dir="${cfg.destdir}/plugins/system/fabrik" />
 		<copy todir="${cfg.destdir}/plugins/system/fabrik">
@@ -900,7 +908,7 @@
         	<arg line="log --pretty=format:'* %s (%an)' ${git.log.range.start}..${git.log.range.end}"/>
     	</exec>
     	<echo message="save change log to : ${cfg.destdir}/CHANGELOG-${git.log.range.end}.txt"></echo>
-		<echo message="${git.changelog}"></echo>
+		<!-- <echo message="${git.changelog}"></echo> -->
        <echo force="true" file="${cfg.destdir}CHANGELOG-${git.log.range.end}.txt">${git.changelog}
      </echo>
 	</target>

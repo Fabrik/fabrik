@@ -20,8 +20,8 @@ if ($this->showFilters) :
 		?>
 	  <table class="filtertable fabrikList"><tbody>
 	  <tr>
-		<th style="text-align:left"><?php echo JText::_('SEARCH'); ?>:</th>
-		<th style="text-align:right"><a href="#" class="clearFilters"><?php echo JText::_('CLEAR'); ?></a></th>
+		<th style="text-align:left"><?php echo FText::_('SEARCH'); ?>:</th>
+		<th style="text-align:right"><a href="#" class="clearFilters"><?php echo FText::_('CLEAR'); ?></a></th>
 	</tr>
 	  <?php
 			$c = 0;
@@ -44,7 +44,7 @@ if ($this->showFilters) :
 	  </thead>
 	<tfoot>
 		<tr><th colspan='2' style="text-align:right;">
-	  <input type="submit" class="button" value="<?php echo JText::_('GO') ?>" />
+	  <input type="submit" class="button" value="<?php echo FText::_('GO') ?>" />
 	  </th></tr></tfoot></table>
 	  <?php
 		endif;

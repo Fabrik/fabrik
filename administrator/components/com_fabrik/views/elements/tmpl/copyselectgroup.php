@@ -40,8 +40,8 @@ JHtml::_('behavior.framework', true);
 	</tbody>
 	<thead>
 	<tr>
-		<th><?php echo JText::_('COM_FABRIK_NAME')?></th>
-		<th><?php echo JText::_('COM_FABRIK_COPY_TO_GROUP')?></th>
+		<th><?php echo FText::_('COM_FABRIK_NAME')?></th>
+		<th><?php echo FText::_('COM_FABRIK_COPY_TO_GROUP')?></th>
 	</tr>
 	</thead>
 	</table>

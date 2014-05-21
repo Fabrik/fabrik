@@ -205,6 +205,7 @@ function fabrikParseRoute($segments)
 	{
 		case 'form':
 		case 'details':
+		case 'emailform':
 			$vars['view'] = $segments[0];
 			$vars['formid'] = JArrayHelper::getValue($segments, 1, 0);
 			$vars['rowid'] = JArrayHelper::getValue($segments, 2, '');

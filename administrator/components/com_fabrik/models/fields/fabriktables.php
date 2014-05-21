@@ -81,7 +81,7 @@ class JFormFieldFabrikTables extends JFormFieldList
 		}
 		else
 		{
-			$rows = array(JHTML::_('select.option', '', JText::_('COM_FABRIK_SELECT_A_CONNECTION_FIRST'), 'value', 'text'));
+			$rows = array(JHTML::_('select.option', '', FText::_('COM_FABRIK_SELECT_A_CONNECTION_FIRST'), 'value', 'text'));
 		}
 
 		return $rows;
@@ -143,7 +143,7 @@ class JFormFieldFabrikTables extends JFormFieldList
 
 		$html = parent::getInput();
 		$html .= '<img style="margin-left:10px;display:none" id="' . $this->id . '_loader" src="components/com_fabrik/images/ajax-loader.gif" alt="'
-			. JText::_('LOADING') . '" />';
+			. FText::_('LOADING') . '" />';
 		$script = '<script type="text/javascript">' . $script . '</script>';
 		FabrikHelperHTML::framework();
 		FabrikHelperHTML::iniRequireJS();

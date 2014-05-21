@@ -76,7 +76,7 @@ class FabrikViewPackage extends JViewLegacy
 		$tmpl = !isset($item->template) ? 'default' : $item->template;
 		$this->addTemplatePath($this->_basePath . '/' . $this->_name . '/tmpl/' . $tmpl);
 		$text = $this->loadTemplate();
-		FabrikHelperHTML::runConentPlugins($text);
+		FabrikHelperHTML::runContentPlugins($text);
 		echo $text;
 	}
 }

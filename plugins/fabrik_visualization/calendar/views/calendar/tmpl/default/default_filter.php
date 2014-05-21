@@ -21,8 +21,8 @@ if ($this->showFilters) :
 	<table class="filtertable fabrikList">
 		<tbody>
 			<tr>
-				<th style="text-align:left"><?php echo JText::_('PLG_VISUALIZATION_CALENDAR_SEARCH'); ?>:</th>
-				<th style="text-align:right"><a href="#" class="clearFilters"><?php echo JText::_('PLG_VISUALIZATION_CALENDAR_CLEAR'); ?></a></th>
+				<th style="text-align:left"><?php echo FText::_('PLG_VISUALIZATION_CALENDAR_SEARCH'); ?>:</th>
+				<th style="text-align:right"><a href="#" class="clearFilters"><?php echo FText::_('PLG_VISUALIZATION_CALENDAR_CLEAR'); ?></a></th>
 			</tr>
 	  	<?php
 			$c = 0;
@@ -43,7 +43,7 @@ if ($this->showFilters) :
 		<tfoot>
 			<tr>
 				<th colspan="2" style="text-align:right;">
-					<input type="submit" class="button" value="<?php echo JText::_('PLG_VISUALIZATION_CALENDAR_GO') ?>" />
+					<input type="submit" class="button" value="<?php echo FText::_('PLG_VISUALIZATION_CALENDAR_GO') ?>" />
 				</th>
 			</tr>
 		</tfoot>

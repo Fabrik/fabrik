@@ -18,22 +18,22 @@ defined('_JEXEC') or die('Restricted access');
 	<ul class="nav nav-tabs">
 		<li class="active">
 	    	<a data-toggle="tab" href="#publishing-details">
-	    		<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'); ?>
+	    		<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'); ?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#publishing-rss">
-	    		<?php echo JText::_('COM_FABRIK_GROUP_LABEL_RSS')?>
+	    		<?php echo FText::_('COM_FABRIK_GROUP_LABEL_RSS')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#publishing-csv">
-	    		<?php echo JText::_('COM_FABRIK_GROUP_LABEL_CSV')?>
+	    		<?php echo FText::_('COM_FABRIK_GROUP_LABEL_CSV')?>
 	    	</a>
 	    </li>
 	    <li>
 	    	<a data-toggle="tab" href="#publishing-search">
-	    		<?php echo JText::_('COM_FABRIK_GROUP_LABEL_SEARCH')?>
+	    		<?php echo FText::_('COM_FABRIK_GROUP_LABEL_SEARCH')?>
 	    	</a>
 	    </li>
 	</ul>
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-search">
 			<fieldset class="form-horizontal">
-				<div class="alert"><?php echo JText::_('COM_FABRIK_SPECIFY_ELEMENTS_IN_DETAILS_FILTERS'); ?></div>
+				<div class="alert"><?php echo FText::_('COM_FABRIK_SPECIFY_ELEMENTS_IN_DETAILS_FILTERS'); ?></div>
 				<?php foreach ($this->form->getFieldset('search') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;

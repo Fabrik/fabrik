@@ -15,7 +15,6 @@ var FbListEmail = new Class({
 
 	buttonAction: function () {
 		var url = 'index.php?option=com_fabrik&controller=list.email&task=popupwin&tmpl=component&ajax=1&id=' + this.listid + '&renderOrder=' + this.options.renderOrder;
-		console.log(url);
 		this.listform.getElements('input[name^=ids]').each(function (id) {
 			if (id.get('value') !== false && id.checked !== false) {
 				url += "&ids[]=" + id.get('value');
@@ -28,14 +27,10 @@ var FbListEmail = new Class({
 			loadMethod: 'iframe',
 			contentURL: url,
 			width: 520,
-			height: 420,
+			height: 470,
 			evalScripts: true,
-			y: 100,
 			'minimizable': false,
-			'collapsible': true,
-			'onContentLoaded': function () {
-				this.fitToContent();
-			}
+			'collapsible': true
 		};
 		Fabrik.getWindow(this.windowopts);
 	}

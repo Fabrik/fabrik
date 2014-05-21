@@ -41,12 +41,6 @@
 				default="10px"
 				description="PLG_ELEMENT_COLOURPICKER_SWATCH_HEIGHT_DESC"
 				label="PLG_ELEMENT_COLOURPICKER_SWATCH_HEIGHT_LABEL" />
-				
-			<field name="swatch_width"
-				type="field"
-				default="160px"
-				description="PLG_ELEMENT_COLOURPICKER_SWATCH_WIDTH_DESC"
-				label="PLG_ELEMENT_COLOURPICKER_SWATCH_WIDTH_LABEL" />
 
 			<field name="show_picker"
 				type="radio"

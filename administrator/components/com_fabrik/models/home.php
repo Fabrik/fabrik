@@ -91,7 +91,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 
 		if ($rssDoc == false)
 		{
-			$output = JText::_('Error: Feed not retrieved');
+			$output = FText::_('Error: Feed not retrieved');
 		}
 		else
 		{
@@ -100,14 +100,14 @@ class FabrikAdminModelHome extends FabModelAdmin
 			$link = $rssDoc->get_link();
 
 			$output = '<table class="adminlist">';
-			$output .= '<tr><th colspan="3"><a href="' . $link . '" target="_blank">' . JText::_($title) . '</th></tr>';
+			$output .= '<tr><th colspan="3"><a href="' . $link . '" target="_blank">' . FText::_($title) . '</th></tr>';
 
 			$items = array_slice($rssDoc->get_items(), 0, 3);
 			$numItems = count($items);
 
 			if ($numItems == 0)
 			{
-				$output .= '<tr><th>' . JText::_('No news items found') . '</th></tr>';
+				$output .= '<tr><th>' . FText::_('No news items found') . '</th></tr>';
 			}
 			else
 			{

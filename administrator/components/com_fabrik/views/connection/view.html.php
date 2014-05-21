@@ -95,7 +95,7 @@ class FabrikAdminViewConnection extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		$title = $isNew ? JText::_('COM_FABRIK_MANAGER_CONNECTION_NEW') : JText::_('COM_FABRIK_MANAGER_CONNECTION_EDIT') . ' "' . $this->item->description . '"';
+		$title = $isNew ? FText::_('COM_FABRIK_MANAGER_CONNECTION_NEW') : FText::_('COM_FABRIK_MANAGER_CONNECTION_EDIT') . ' "' . $this->item->description . '"';
 		JToolBarHelper::title($title, 'connection.png');
 
 		if ($isNew)
@@ -138,6 +138,6 @@ class FabrikAdminViewConnection extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT'));
 	}
 }

@@ -170,7 +170,7 @@ class FabrikUploader extends JObject
 		if (!is_uploaded_file($file['tmp_name']))
 		{
 			// Handle potential malicious attack
-			$err = JText::_('File has not been uploaded');
+			$err = FText::_('File has not been uploaded');
 
 			return false;
 		}

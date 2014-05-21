@@ -40,6 +40,14 @@ class FabrikViewNvd3_Chart extends JViewLegacy
 		$model = $this->getModel();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		$srcs = FabrikHelperHTML::framework();
 		FabrikHelperHTML::styleSheet('plugins/fabrik_visualization/nvd3_chart/lib/novus-nvd3/src/nv.d3.css');
 
@@ -60,13 +68,6 @@ class FabrikViewNvd3_Chart extends JViewLegacy
 		$document->addScript($lib . 'src/models/multiBar.js');
 		$document->addScript($lib . 'src/models/multiBarChart.js');
 		$this->row = $model->getVisualization();
-
-		if ($this->row->published == 0)
-		{
-			JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return '';
-		}
 
 		$this->requiredFiltersFound = $model->getRequiredFiltersFound();
 		$params = $model->getParams();
@@ -100,7 +101,7 @@ class FabrikViewNvd3_Chart extends JViewLegacy
 		FabrikHelperHTML::script($srcs, $js);
 
 		$text = $this->loadTemplate();
-		FabrikHelperHTML::runConentPlugins($text);
+		FabrikHelperHTML::runContentPlugins($text);
 		echo $text;
 	}
 }

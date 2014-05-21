@@ -89,7 +89,7 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 
 	protected function buttonLabel()
 	{
-		return JText::_($this->getParams()->get('button_label', parent::buttonLabel()));
+		return FText::_($this->getParams()->get('button_label', parent::buttonLabel()));
 	}
 
 	/**
@@ -186,8 +186,9 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		$input = $app->input;
 		$user = JFactory::getUser();
 		$update = $this->getUpdateCols($params);
-
-		if (!$update)
+		$postEval = $params->get('update_post_eval', '');
+		
+		if (!$update && empty($postEval))
 		{
 			return false;
 		}
@@ -206,21 +207,27 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		$model->reset();
 		$model->setPluginQueryWhere('update_col', $item->db_primary_key . ' IN ( ' . $ids . ')');
 		$data = $model->getData();
+		
+		// Needed to re-assign as getDate() messes the plugin params order
+		$this->params = $params;
 
 		if (!empty($dateCol))
 		{
 			$date = JFactory::getDate();
-			$this->_process($model, $dateCol, $date->toSql());
+			$this->_process($model, $dateCol, $date->toSql(), false);
 		}
 
 		if (!empty($userCol))
 		{
-			$this->_process($model, $userCol, (int) $user->get('id'));
+			$this->_process($model, $userCol, (int) $user->get('id'), false);
 		}
 
-		foreach ($update->coltoupdate as $i => $col)
+		if (!empty($update))
 		{
-			$this->_process($model, $col, $update->update_value[$i]);
+			foreach ($update->coltoupdate as $i => $col)
+			{
+				$this->_process($model, $col, $update->update_value[$i], $update->update_eval[$i]);
+			}
 		}
 
 		$this->sendEmails($ids);
@@ -236,6 +243,12 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 			$this->msg = JText::sprintf($this->msg, $this->row_count, $this->sent);
 		}
 
+		if (!empty($postEval))
+		{
+			$err = @eval($postEval);
+			FabrikWorker::logEval($err, 'Caught exception on eval in updatecol::process() : %s');
+		}
+		
 		// Clean the cache.
 		$cache = JFactory::getCache($input->get('option'));
 		$cache->clean();
@@ -441,10 +454,17 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 	 * @return  void
 	 */
 
-	private function _process(&$model, $col, $val)
+	private function _process(&$model, $col, $val, $eval = false)
 	{
 		$app = JFactory::getApplication();
 		$ids = $app->input->get('ids', array(), 'array');
+		
+		if ($eval)
+		{
+			$val = @eval($val);
+			FabrikWorker::logEval($val, 'Caught exception on eval in updatecol::_process() : %s');
+		}
+		
 		$model->updateRows($ids, $col, $val);
 	}
 
@@ -480,7 +500,7 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		JText::script('PLG_LIST_UPDATE_COL_UPDATE');
 		$html = array();
 		$fieldNames = array();
-		$options[] = '<option value="">' . JText::_('COM_FABRIK_PLEASE_SELECT') . '</option>';
+		$options[] = '<option value="">' . FText::_('COM_FABRIK_PLEASE_SELECT') . '</option>';
 		$form = $model->getFormModel();
 		$groups = $form->getGroupsHiarachy();
 		$gkeys = array_keys($groups);
@@ -512,14 +532,14 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 		$class = $j3 ? 'table table-striped' : 'fabrikList';
 		$html[] = '<table class="' . $class . '" style="width:100%">';
 		$html[] = '<thead>';
-		$html[] = '<tr><th>' . JText::_('COM_FABRIK_ELEMENT') . '</th><th>' . JText::_('COM_FABRIK_VALUE') . '</th><th>' . $add . '</th><tr>';
+		$html[] = '<tr><th>' . FText::_('COM_FABRIK_ELEMENT') . '</th><th>' . FText::_('COM_FABRIK_VALUE') . '</th><th>' . $add . '</th><tr>';
 		$html[] = '</thead>';
 
 		$html[] = '<tbody>';
 		$html[] = '<tr><td>' . $elements . '</td><td class="update_col_value"></th><td><div class="btn-group">' . $add . $del . '</div></td></tr>';
 		$html[] = '</tbody>';
 		$html[] = '</table>';
-		$html[] = '<input class="button btn button-primary" value="' . JText::_('COM_FABRIK_APPLY') . '" type="button">';
+		$html[] = '<input class="button btn button-primary" value="' . FText::_('COM_FABRIK_APPLY') . '" type="button">';
 		$html[] = '</form>';
 
 		return implode("\n", $html);

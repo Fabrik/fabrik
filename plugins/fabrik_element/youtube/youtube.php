@@ -141,7 +141,7 @@ class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 		$params = $this->getParams();
 
 		// Player size
-		if (($params->get('display_in_table') == 0) && $model = 'list')
+		if (($params->get('display_in_table') == 0) && $mode == 'list')
 		{
 			$width = '170';
 			$height = '142';

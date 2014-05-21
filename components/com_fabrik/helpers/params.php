@@ -174,7 +174,7 @@ class FabrikParams extends JForm
 		{
 			$result = array();
 			$result[0] = $node->attributes('name');
-			$result[1] = JText::_('COM_FABRIK_ELEMENT_NOT_DEFINED_FOR_TYPE') . ' = ' . $type;
+			$result[1] = FText::_('COM_FABRIK_ELEMENT_NOT_DEFINED_FOR_TYPE') . ' = ' . $type;
 			$result[5] = $result[0];
 
 			return $result;
@@ -304,7 +304,7 @@ class FabrikParams extends JForm
 			// Only show for first added group
 			if ($repeatControls && $repeatSingleVal == 0)
 			{
-				$return .= "<a href='#' class='addButton'>" . JText::_('COM_FABRIK_ADD') . "</a>";
+				$return .= "<a href='#' class='addButton'>" . FText::_('COM_FABRIK_ADD') . "</a>";
 			}
 
 			for ($x = $start; $x < $total; $x++)
@@ -319,7 +319,7 @@ class FabrikParams extends JForm
 				if ($description = $this->_xml[$group]->attributes('description'))
 				{
 					// Add the params description to the display
-					$desc = JText::_($description);
+					$desc = FText::_($description);
 					$html[] = '<tr><td class="paramlist_description" colspan="2">' . $desc . '</td></tr>';
 				}
 
@@ -342,14 +342,14 @@ class FabrikParams extends JForm
 
 				if (count($params) < 1)
 				{
-					$html[] = "<tr><td colspan=\"2\"><i>" . JText::_('COM_FABRIK_THERE_ARE_NO_PARAMETERS_FOR_THIS_ITEM') . "</i></td></tr>";
+					$html[] = "<tr><td colspan=\"2\"><i>" . FText::_('COM_FABRIK_THERE_ARE_NO_PARAMETERS_FOR_THIS_ITEM') . "</i></td></tr>";
 				}
 
 				$html[] = '</table>';
 
 				if ($repeatControls)
 				{
-					$html[] = "<a href='#' class=\"removeButton delete\">" . JText::_('COM_FABRIK_DELETE') . "</a>";
+					$html[] = "<a href='#' class=\"removeButton delete\">" . FText::_('COM_FABRIK_DELETE') . "</a>";
 				}
 
 				$return .= implode("\n", $html);

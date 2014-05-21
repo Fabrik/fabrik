@@ -143,8 +143,8 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			. $input->get('rowid', '', 'string');
 		$viewURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
 			. $input->get('rowid', '', 'string');
-		$editlink = '<a href="' . $editURL . '">' . JText::_('EDIT') . '</a>';
-		$viewlink = '<a href="' . $viewURL . '">' . JText::_('VIEW') . '</a>';
+		$editlink = '<a href="' . $editURL . '">' . FText::_('EDIT') . '</a>';
+		$viewlink = '<a href="' . $viewURL . '">' . FText::_('VIEW') . '</a>';
 		$message = str_replace('{fabrik_editlink}', $editlink, $message);
 		$message = str_replace('{fabrik_viewlink}', $viewlink, $message);
 		$message = str_replace('{fabrik_editurl}', $editURL, $message);
@@ -365,18 +365,28 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 		try
 		{
+			$model->getFormCss();
 			// Require files and set up DOM pdf
 			require_once JPATH_SITE . '/components/com_fabrik/helpers/pdf.php';
-			require JPATH_SITE . '/components/com_fabrik/controllers/details.php';
+			require_once JPATH_SITE . '/components/com_fabrik/controllers/details.php';
 			FabrikPDFHelper::iniDomPdf();
 			$dompdf = new DOMPDF;
 			$size = strtoupper($params->get('pdf_size', 'A4'));
 			$orientation = $params->get('pdf_orientation', 'portrait');
 			$dompdf->set_paper($size, $orientation);
 
+
+			$controller = new FabrikControllerDetails;
+			/**
+			 * $$$ hugh - stuff our model in there, with already formatted data, so it doesn't get rendered
+			 * all over again by the view, with unformatted data.  Should probably use a setModel() method
+			 * here instead of poking in to the _model, but I don't think there is a setModel for controllers?
+			 */
+			$controller->_model = $model;
+			$controller->_model->data = $this->getProcessData();
+
 			// Store in output buffer
 			ob_start();
-			$controller = new FabrikControllerDetails;
 			$controller->display();
 			$html = ob_get_contents();
 			ob_end_clean();
@@ -653,7 +663,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			}
 		}
 
-		$message = JText::_('Email from') . ' ' . $config->get('sitename') . '<br />' . JText::_('Message') . ':'
+		$message = FText::_('Email from') . ' ' . $config->get('sitename') . '<br />' . FText::_('Message') . ':'
 			. "<br />===================================<br />" . "<br />" . stripslashes($message);
 
 		return $message;

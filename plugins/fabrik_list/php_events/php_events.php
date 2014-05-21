@@ -68,7 +68,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	/**
 	 * Run before the list loads its data
 	 *
-	 * @return  void
+	 * @return bool currently ignored
 	 */
 
 	public function onPreLoadData()
@@ -81,10 +81,12 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	/**
 	 * onGetData method
 	 *
+	 * @param   &$args  Array  Additional options passed into the method when the plugin is called
+	 *
 	 * @return bool currently ignored
 	 */
 
-	public function onLoadData()
+	public function onLoadData(&$args)
 	{
 		$params = $this->getParams();
 

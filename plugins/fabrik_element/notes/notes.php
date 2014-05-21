@@ -113,11 +113,11 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 				$str[] = '<textarea class="' . $class . '" name="' . $name . '" cols="50" rows="3" /></textarea>';
 			}
 
-			$str[] = '<input type="button" class="button btn" value="' . JText::_('PLG_ELEMENT_NOTES_ADD') . '"></input>';
+			$str[] = '<input type="button" class="button btn" value="' . FText::_('PLG_ELEMENT_NOTES_ADD') . '"></input>';
 		}
 		else
 		{
-			$str[] = JText::_('PLG_ELEMENT_NOTES_SAVEFIRST');
+			$str[] = FText::_('PLG_ELEMENT_NOTES_SAVEFIRST');
 		}
 
 		$str[] = '</div>';

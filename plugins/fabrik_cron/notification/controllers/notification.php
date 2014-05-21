@@ -66,6 +66,6 @@ class FabrikControllerCroncronnotification extends JController
 	{
 		$model = $this->getModel('cronnotification');
 		$model->delete();
-		$this->setRedirect('index.php?option=com_fabrikn&task=cron.cronnotification', JText::_('NOTIFICATIONS_REMOVED'));
+		$this->setRedirect('index.php?option=com_fabrikn&task=cron.cronnotification', FText::_('NOTIFICATIONS_REMOVED'));
 	}
 }

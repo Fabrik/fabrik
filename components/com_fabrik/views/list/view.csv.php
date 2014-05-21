@@ -88,7 +88,7 @@ class FabrikViewList extends FabrikViewListBase
 			if ((int) $total === 0)
 			{
 				$notice = new stdClass;
-				$notice->err = JText::_('COM_FABRIK_CSV_EXPORT_NO_RECORDS');
+				$notice->err = FText::_('COM_FABRIK_CSV_EXPORT_NO_RECORDS');
 				echo json_encode($notice);
 
 				return;

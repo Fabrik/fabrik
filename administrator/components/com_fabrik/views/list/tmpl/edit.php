@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHTML::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 JHtml::_('behavior.keepalive');
 
 ?>
@@ -30,7 +30,7 @@ JHtml::_('behavior.keepalive');
 			window.fireEvent('form.save');
 			Joomla.submitform(task, document.getElementById('adminForm'));
 		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -41,31 +41,31 @@ JHtml::_('behavior.keepalive');
 	<?php
 
 $panels = array(
-	array('heading'=>JText::_('COM_FABRIK_DETAILS'),
+	array('heading'=>FText::_('COM_FABRIK_DETAILS'),
 		'fieldset'=>array('main', 'details2')),
 
-	array('heading'=>JText::_('COM_FABRIK_FILTERS'),
+	array('heading'=>FText::_('COM_FABRIK_FILTERS'),
 		'fieldset'=>array('main_filter', 'filters')),
 
-	array('heading'=>JText::_('COM_FABRIK_NAVIGATION'),
+	array('heading'=>FText::_('COM_FABRIK_NAVIGATION'),
 		'fieldset'=>array('main_nav', 'navigation')),
 
-	array('heading'=>JText::_('COM_FABRIK_LAYOUT'),
+	array('heading'=>FText::_('COM_FABRIK_LAYOUT'),
 		'fieldset'=>array('main_template', 'layout')),
 
-	array('heading'=>JText::_('COM_FABRIK_PDF'),
+	array('heading'=>FText::_('COM_FABRIK_PDF'),
 		'fieldset'=>array('pdf')),
 
-	array('heading'=>JText::_('COM_FABRIK_LINKS'),
+	array('heading'=>FText::_('COM_FABRIK_LINKS'),
 		'fieldset' => array('links', 'links2', 'links-fabrik30x')),
 
-	array('heading'=>JText::_('COM_FABRIK_TABS'),
+	array('heading'=>FText::_('COM_FABRIK_TABS'),
 		'fieldset'=>array('tabs')),
 
-	array('heading'=>JText::_('COM_FABRIK_NOTES'),
+	array('heading'=>FText::_('COM_FABRIK_NOTES'),
 		'fieldset'=>array('notes')),
 
-	array('heading'=>JText::_('COM_FABRIK_ADVANCED'),
+	array('heading'=>FText::_('COM_FABRIK_ADVANCED'),
 		'fieldset'=>array('advanced'))
 
 );

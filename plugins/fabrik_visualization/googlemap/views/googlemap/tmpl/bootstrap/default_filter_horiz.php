@@ -38,11 +38,11 @@ if ($this->showFilters) :
 	  	<tr>
 	  		<th colspan="<?php echo count($filters) - 1; ?>" style="text-align:right">
 	  			<a href="#" class="clearFilters">
-	  				<?php echo JText::_('CLEAR'); ?>
+	  				<?php echo FText::_('CLEAR'); ?>
 	  			</a>
 	  		</th>
 	  		<th style="text-align:right;">
-	  			<input type="submit" class="btn btn-primary" value="<?php echo JText::_('GO') ?>" />
+	  			<input type="submit" class="btn btn-primary" value="<?php echo FText::_('GO') ?>" />
 	  		</th>
 	  	</tr>
 	  </tfoot>

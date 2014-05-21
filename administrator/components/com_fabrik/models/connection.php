@@ -132,7 +132,7 @@ class FabrikAdminModelConnection extends FabModelAdmin
 
 		if ($item->id == 1)
 		{
-			$app->enqueueMessage(JText::_('COM_FABRIK_ORIGINAL_CONNECTION'));
+			$app->enqueueMessage(FText::_('COM_FABRIK_ORIGINAL_CONNECTION'));
 
 			if (!$this->matchesDefault($item))
 			{
@@ -141,7 +141,7 @@ class FabrikAdminModelConnection extends FabModelAdmin
 				$item->user = $config->get('user');
 				$item->password = $config->get('password');
 				$item->database = $config->get('db');
-				JError::raiseWarning(E_WARNING, JText::_('COM_FABRIK_YOU_MUST_SAVE_THIS_CNN'));
+				JError::raiseWarning(E_WARNING, FText::_('COM_FABRIK_YOU_MUST_SAVE_THIS_CNN'));
 			}
 		}
 	}
@@ -214,7 +214,7 @@ class FabrikAdminModelConnection extends FabModelAdmin
 	{
 		if ($data['password'] !== $data['passwordConf'])
 		{
-			$this->setError(JText::_('COM_FABRIK_PASSWORD_MISMATCH'));
+			$this->setError(FText::_('COM_FABRIK_PASSWORD_MISMATCH'));
 
 			return false;
 		}

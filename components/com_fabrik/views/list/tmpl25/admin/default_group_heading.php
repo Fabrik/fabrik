@@ -16,7 +16,7 @@ echo $this->showGroup ? '<tbody>' : '<tbody style="display:none">';
 	<tr class="fabrik_groupheading">
 		<td colspan="<?php echo $this->colCount;?>">
 			<a href="#" class="toggle">
-				<?php echo FabrikHelperHTML::image('orderasc.png', 'list', $this->tmpl, JText::_('COM_FABRIK_TOGGLE'));?>
+				<?php echo FabrikHelperHTML::image('orderasc.png', 'list', $this->tmpl, FText::_('COM_FABRIK_TOGGLE'));?>
 				<span class="groupTitle">
 					<?php echo $this->groupHeading; ?>
 				</span>

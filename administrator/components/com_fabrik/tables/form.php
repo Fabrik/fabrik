@@ -153,7 +153,7 @@ class FabrikTableForm extends FabTable
 		// Check that we have a result.
 		if (empty($row))
 		{
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED'));
+			$e = new JException(FText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED'));
 			$this->setError($e);
 
 			return false;

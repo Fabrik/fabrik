@@ -12,7 +12,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS'), 'element-access');?>
+echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS'), 'element-access');?>
 <fieldset class="adminform">
 	<ul class="adminformlist">
 	<?php

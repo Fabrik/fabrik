@@ -72,14 +72,14 @@ class FabrikAdminViewemailform extends JViewLegacy
 		 */
 		if (!isset($_SERVER['HTTP_USER_AGENT']))
 		{
-			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 500);
+			throw new RuntimeException(FText::_('JERROR_ALERTNOAUTHOR'), 500);
 		}
 
 		// Make sure the form was indeed POST'ed:
 		//  (requires your html form to use: action="post")
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST')
 		{
-			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 500);
+			throw new RuntimeException(FText::_('JERROR_ALERTNOAUTHOR'), 500);
 		}
 
 		// Attempt to defend against header injections:
@@ -93,7 +93,7 @@ class FabrikAdminViewemailform extends JViewLegacy
 			{
 				if (JString::strpos($v, $v2) !== false)
 				{
-					throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 500);
+					throw new RuntimeException(FText::_('JERROR_ALERTNOAUTHOR'), 500);
 				}
 			}
 		}
@@ -110,7 +110,7 @@ class FabrikAdminViewemailform extends JViewLegacy
 
 		if (!$email || !$youremail || (FabrikWorker::isEmail($email) == false) || (FabrikWorker::isEmail($youremail) == false))
 		{
-			$app->enqueueMessage(JText::_('PHPMAILER_INVALID_ADDRESS'));
+			$app->enqueueMessage(FText::_('PHPMAILER_INVALID_ADDRESS'));
 		}
 
 		$config = JFactory::getConfig();

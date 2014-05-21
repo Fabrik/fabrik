@@ -109,7 +109,7 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 		// If all usergroups is allowed, push it into the array.
 		if ($allowAll)
 		{
-			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
+			array_unshift($options, JHtml::_('select.option', '', FText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
 		}
 
 		return $options;

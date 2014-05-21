@@ -84,6 +84,19 @@
 				label="PLG_ELEMENT_DROPDOWN_POPULATE_LABEL" />
 
 		</fieldset>
+		
+		<fieldset label="PLG_ELEMENT_DROPDOWN_FORMATTING" name="plg-dropdown-formatting">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
+
+			<field name="bootstrap_class"
+				type="bootstrapfieldclass"
+				default="input-medium"
+				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
+				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
+
+		</fieldset>
 
 	</fields>
 	<fields>

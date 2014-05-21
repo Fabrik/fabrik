@@ -23,7 +23,7 @@ $row = $this->row;
 	<div><?php echo $row->intro_text;?></div>
 	<?php echo $this->loadTemplate('filter'); ?>
 	<div class="datePicker">
-	<?php echo JText::_('PLG_VIZ_TIMELINE_JUMP_TO') . ': ' . $this->datePicker; ?>
+	<?php echo FText::_('PLG_VIZ_TIMELINE_JUMP_TO') . ': ' . $this->datePicker; ?>
 	</div>
 	<div id="my-timeline" style="margin-top:20px;border:1px solid #ccc;width:<?php echo $this->width?>px;height:<?php echo $this->height?>px;"></div>
 </div>

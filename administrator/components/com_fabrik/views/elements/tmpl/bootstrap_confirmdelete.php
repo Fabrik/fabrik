@@ -18,23 +18,23 @@ defined('_JEXEC') or die('Restricted access');
 		<thead>
 			<tr>
 				<th width="4%">
-					<?php echo JText::_('JGRID_HEADING_ID'); ?>
+					<?php echo FText::_('JGRID_HEADING_ID'); ?>
 				</th>
 				<th width="1%"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
 				<th width="13%" >
-					<?php echo JText::_('COM_FABRIK_NAME'); ?>
+					<?php echo FText::_('COM_FABRIK_NAME'); ?>
 				</th>
 				<th width="15%">
-					<?php echo JText::_('COM_FABRIK_LABEL'); ?>
+					<?php echo FText::_('COM_FABRIK_LABEL'); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('COM_FABRIK_FULL_ELEMENT_NAME');?>
+					<?php echo FText::_('COM_FABRIK_FULL_ELEMENT_NAME');?>
 				</th>
 				<th width="12%">
-				<?php echo JText::_('COM_FABRIK_GROUP'); ?>
+				<?php echo FText::_('COM_FABRIK_GROUP'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('COM_FABRIK_PLUGIN'); ?>
+					<?php echo FText::_('COM_FABRIK_PLUGIN'); ?>
 				</th>
 			</tr>
 		</thead>

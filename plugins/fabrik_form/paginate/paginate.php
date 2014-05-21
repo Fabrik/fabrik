@@ -88,18 +88,18 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		else
 		{
 			$ajax = (bool) $params->get('paginate_ajax', true);
-			$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . JText::_('COM_FABRIK_START')
+			$firstLink = ($linkStartPrev) ? '<span>&lt;&lt;</span>' . FText::_('COM_FABRIK_START')
 				: '<a href="' . $links['first'] . '" class="pagenav paginateFirst ' . $linkStartPrev . '"><span>&lt;&lt;</span>'
-					. JText::_('COM_FABRIK_START') . '</a>';
-			$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . JText::_('COM_FABRIK_PREV')
+					. FText::_('COM_FABRIK_START') . '</a>';
+			$prevLink = ($linkStartPrev) ? '<span>&lt;</span>' . FText::_('COM_FABRIK_PREV')
 				: '<a href="' . $lins['prev'] . '" class="pagenav paginatePrevious ' . $linkStartPrev . '"><span>&lt;</span>'
-					. JText::_('COM_FABRIK_PREV') . '</a>';
+					. FText::_('COM_FABRIK_PREV') . '</a>';
 
-			$nextLink = ($linkNextEnd) ? JText::_('COM_FABRIK_NEXT') . '<span>&gt;</span>'
-				: '<a href="' . $links['next'] . '" class="pagenav paginateNext' . $linkNextEnd . '">' . JText::_('COM_FABRIK_NEXT')
+			$nextLink = ($linkNextEnd) ? FText::_('COM_FABRIK_NEXT') . '<span>&gt;</span>'
+				: '<a href="' . $links['next'] . '" class="pagenav paginateNext' . $linkNextEnd . '">' . FText::_('COM_FABRIK_NEXT')
 					. '<span>&gt;</span></a>';
-			$endLink = ($linkNextEnd) ? JText::_('COM_FABRIK_END') . '<span>&gt;&gt;</span>'
-				: '<a href="' . $links['last'] . '" class="pagenav paginateLast' . $linkNextEnd . '">' . JText::_('COM_FABRIK_END')
+			$endLink = ($linkNextEnd) ? FText::_('COM_FABRIK_END') . '<span>&gt;&gt;</span>'
+				: '<a href="' . $links['last'] . '" class="pagenav paginateLast' . $linkNextEnd . '">' . FText::_('COM_FABRIK_END')
 					. '<span>&gt;&gt;</span></a>';
 			$this->data = '<ul id="fabrik-from-pagination" class="pagination">
 					<li>' . $firstLink . '</li>

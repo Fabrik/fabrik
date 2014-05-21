@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="fabrik_updateserver" default="build_updateserver_xml">
+	<!-- NOW THERES A PHP SCRIPT TO DO THIS.....subs.fabrikar.com/fabrik_downloads_update.php -->
 <!-- 
 	builds the individual plugin xml files which contain the update information.
 	ftps up xml and plugin zips to server
@@ -8,6 +9,12 @@
 		<dirset id="dist.contents" dir="${basedir}/plugins/fabrik_${folder}/" includes="*"/>
 		<property name="prop.dist.contents" refid="dist.contents"/>
 		<foreach list="${prop.dist.contents}" delimiter=";" param="plugin" target="updater.makefile" inheritall="true" inheritrefs="true"/>
+		
+		<antcall target="updater.makefile">
+			 <param name="folder" value="system"/>
+			<param name="plugin" value="fabrik"/>
+		</antcall>
+		
 	</target>
 	
 	<target name="updater.makefile">

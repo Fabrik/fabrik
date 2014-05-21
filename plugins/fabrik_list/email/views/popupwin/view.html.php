@@ -34,6 +34,7 @@ class FabrikViewPopupwin extends JViewLegacy
 	public function display($tmpl = 'default')
 	{
 		$app = JFactory::getApplication();
+		$model = $this->getModel();
 		$input = $app->input;
 		$renderOrder = $input->getInt('renderOrder');
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
@@ -41,9 +42,9 @@ class FabrikViewPopupwin extends JViewLegacy
 		$tmplpath = JPATH_ROOT . '/plugins/fabrik_list/email/views/popupwin/tmpl/' . $tmpl;
 		$this->_setPath('template', $tmplpath);
 
-		$this->showToField = $this->get('ShowToField');
-		$this->fieldList = $this->get('ToField');
-		$records = $this->get('records');
+		$this->showToField = $model->getShowToField();
+		$this->fieldList = $model->getToField();
+		$records = $model->getRecords();
 
 		if (count($records) == 0)
 		{
@@ -56,10 +57,11 @@ class FabrikViewPopupwin extends JViewLegacy
 		$this->renderOrder = $renderOrder;
 		$this->recordids = implode(',', $records);
 		$this->listid = $this->get('id', 'list');
-		$this->showSubject = $this->get('ShowSubject');
-		$this->subject = $this->get('subject');
-		$this->message = $this->get('message');
-		$this->allowAttachment = $this->get('allowAttachment');
+		$this->showSubject = $model->getShowSubject();
+		$this->subject = $model->getSubject();
+		$this->message = $model->getMessage();
+		$this->allowAttachment = $model->getAllowAttachment();
+		$this->editor = $model->getEditor();
 
 		$srcs = FabrikHelperHTML::framework();
 		FabrikHelperHTML::script($srcs);

@@ -93,8 +93,8 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 			. $formModel->get('id') . "&amp;rowid=" . $input->get('rowid', '', 'string');
 		$viewURL = COM_FABRIK_LIVESITE . "index.php?option=com_fabrik&amp;view=details&amp;fabrik=" . $formModel->get('id')
 		. "&amp;rowid=" . $input->get('rowid', '', 'string');
-		$editlink = "<a href=\"$editURL\">" . JText::_('EDIT') . "</a>";
-		$viewlink = "<a href=\"$viewURL\">" . JText::_('VIEW') . "</a>";
+		$editlink = "<a href=\"$editURL\">" . FText::_('EDIT') . "</a>";
+		$viewlink = "<a href=\"$viewURL\">" . FText::_('VIEW') . "</a>";
 		$message = str_replace('{fabrik_editlink}', $editlink, $message);
 		$message = str_replace('{fabrik_viewlink}', $viewlink, $message);
 		$message = str_replace('{fabrik_editurl}', $editURL, $message);
@@ -143,7 +143,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 					{
 						if (!ftp_chdir($conn_id, $ftp_chdir))
 						{
-							$app->enqueueMessage(JText::_('PLG_FORM_FTP_COULD_NOT_CHDIR'), 'notice');
+							$app->enqueueMessage(FText::_('PLG_FORM_FTP_COULD_NOT_CHDIR'), 'notice');
 							JFile::delete($tmp_file);
 
 							return false;
@@ -152,7 +152,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 
 					if (!ftp_put($conn_id, $ftp_filename, $tmp_file, FTP_ASCII))
 					{
-						$app->enqueueMessage(JText::_('PLG_FORM_FTP_COULD_NOT_SEND_FILE'), 'notice');
+						$app->enqueueMessage(FText::_('PLG_FORM_FTP_COULD_NOT_SEND_FILE'), 'notice');
 						JFile::delete($tmp_file);
 
 						return false;
@@ -160,7 +160,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 				}
 				else
 				{
-					$app->enqueueMessage(JText::_('PLG_FORM_FTP_COULD_NOT_LOGIN'), 'notice');
+					$app->enqueueMessage(FText::_('PLG_FORM_FTP_COULD_NOT_LOGIN'), 'notice');
 					JFile::delete($tmp_file);
 
 					return false;
@@ -268,7 +268,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 		else
 		{
 			JModel::addIncludePath(COM_FABRIK_BASE . 'components/com_content/models');
-			$articleModel = JModel::getInstance('Article', 'ContentModel');
+			$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
 			$res = $articleModel->getItem($contentTemplate);
 		}
 
@@ -347,7 +347,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 			}
 		}
 
-		$message = JText::_('Email from') . ' ' . $config->get('sitename') . '<br />' . JText::_('Message') . ':'
+		$message = FText::_('Email from') . ' ' . $config->get('sitename') . '<br />' . FText::_('Message') . ':'
 			. "<br />===================================<br />" . "<br />" . stripslashes($message);
 
 		return $message;

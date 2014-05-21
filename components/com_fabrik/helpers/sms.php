@@ -37,7 +37,7 @@ class FabrikSMS
 	{
 		if (!function_exists('curl_init'))
 		{
-			throw new RuntimeException(JText::_('COM_FABRIK_ERR_CURL_NOT_INSTALLED'));
+			throw new RuntimeException(FText::_('COM_FABRIK_ERR_CURL_NOT_INSTALLED'));
 
 			return;
 		}

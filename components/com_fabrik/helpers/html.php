@@ -15,7 +15,7 @@ jimport('joomla.filesystem.file');
 
 if (!defined('COM_FABRIK_FRONTEND'))
 {
-	throw new RuntimeException(JText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
+	throw new RuntimeException(FText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
 }
 
 /**
@@ -118,6 +118,14 @@ class FabrikHelperHTML
 	protected static $printURL = null;
 
 	protected static $requireJS = array();
+
+	/**
+	 * Array containing information for loaded files
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
+	protected static $loaded = array();
 
 	/**
 	 * Array of browser request headers.  Starts as null.
@@ -274,7 +282,7 @@ class FabrikHelperHTML
 
 		$opts = new stdClass;
 		$opts->id = 'fabwin';
-		$opts->title = JText::_('COM_FABRIK_ADVANCED_SEARCH');
+		$opts->title = FText::_('COM_FABRIK_ADVANCED_SEARCH');
 		$opts->loadMethod = 'xhr';
 		$opts->minimizable = false;
 		$opts->collapsible = true;
@@ -330,37 +338,37 @@ EOD;
 <form method="post" action="index.php" name="frontendForm">
 	<table>
 		<tr>
-			<td><label for="email"><?php echo JText::_('COM_FABRIK_YOUR_FRIENDS_EMAIL') ?>:</label>
+			<td><label for="email"><?php echo FText::_('COM_FABRIK_YOUR_FRIENDS_EMAIL') ?>:</label>
 			</td>
-			<td><input type="text" size="25" name="email" id="email" /></td>
+			<td><input class="input" type="text" size="25" name="email" id="email" /></td>
 		</tr>
 		<tr>
-			<td><label for="yourname"><?php echo JText::_('COM_FABRIK_YOUR_NAME'); ?>:</label>
+			<td><label for="yourname"><?php echo FText::_('COM_FABRIK_YOUR_NAME'); ?>:</label>
 			</td>
-			<td><input type="text" size="25" name="yourname" id="yourname" /></td>
+			<td><input class="input" type="text" size="25" name="yourname" id="yourname" /></td>
 		</tr>
 		<tr>
-			<td><label for="youremail"><?php echo JText::_('COM_FABRIK_YOUR_EMAIL'); ?>:</label>
+			<td><label for="youremail"><?php echo FText::_('COM_FABRIK_YOUR_EMAIL'); ?>:</label>
 			</td>
-			<td><input type="text" size="25" name="youremail" id="youremail" /></td>
+			<td><input class="input" type="text" size="25" name="youremail" id="youremail" /></td>
 		</tr>
 		<tr>
-			<td><label for="subject"><?php echo JText::_('COM_FABRIK_MESSAGE_SUBJECT'); ?>:</label>
+			<td><label for="subject"><?php echo FText::_('COM_FABRIK_MESSAGE_SUBJECT'); ?>:</label>
 			</td>
-			<td><input type="text" size="40" maxlength="40" name="subject"
+			<td><input class="input" type="text" size="40" maxlength="40" name="subject"
 				id="subject" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
 			<input type="submit" name="submit" class="button btn btn-primary"
-				value="<?php echo JText::_('COM_FABRIK_SEND_EMAIL'); ?>" />
+				value="<?php echo FText::_('COM_FABRIK_SEND_EMAIL'); ?>" />
 <?php
 
 if (!$j3)
 {
 ?>
 			<input type="button" name="cancel"
-				value="<?php echo JText::_('COM_FABRIK_CANCEL'); ?>" class="button btn"
+				value="<?php echo FText::_('COM_FABRIK_CANCEL'); ?>" class="button btn"
 				onclick="window.close();" /></td>
 				<?php
 }
@@ -395,7 +403,7 @@ if (!$j3)
 		if (!$j3)
 		{
 		?>
-<a href='javascript:window.close();'> <span class="small"><?php echo JText::_('COM_FABRIK_CLOSE_WINDOW'); ?>
+<a href='javascript:window.close();'> <span class="small"><?php echo FText::_('COM_FABRIK_CLOSE_WINDOW'); ?>
 </span>
 </a>
 <?php
@@ -427,18 +435,18 @@ if (!$j3)
 		}
 		else
 		{
-			$image = '&nbsp;' . JText::_('JGLOBAL_PRINT');
+			$image = '&nbsp;' . FText::_('JGLOBAL_PRINT');
 		}
 
 		if ($params->get('popup', 1))
 		{
 			$ahref = '<a class=\"printlink\" href="javascript:void(0)" onclick="javascript:window.print(); return false" title="'
-				. JText::_('COM_FABRIK_PRINT') . '">';
+				. FText::_('COM_FABRIK_PRINT') . '">';
 		}
 		else
 		{
 			$ahref = "<a href=\"#\" class=\"printlink\" onclick=\"window.open('$link','win2','$status;');return false;\"  title=\""
-			. JText::_('COM_FABRIK_PRINT') . "\">";
+			. FText::_('COM_FABRIK_PRINT') . "\">";
 		}
 
 		return $ahref . $image . "</a>";
@@ -467,8 +475,10 @@ if (!$j3)
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$table = $formModel->getTable();
 
-		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&tmpl=component&view=details&formid=' . $form->id . '&listid=' . $table->id
+		$url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&view=details&tmpl=component&formid=' . $form->id . '&listid=' . $table->id
 		. '&rowid=' . $formModel->getRowId() . '&iframe=1&print=1';
+
+		$url .= '&Itemid=' . FabrikWorker::itemId();
 
 		/* $$$ hugh - @TODO - FIXME - if they were using rowid=-1, we don't need this, as rowid has already been transmogrified
 		 * to the correct (PK based) rowid.  but how to tell if original rowid was -1???
@@ -490,10 +500,10 @@ if (!$j3)
 	/**
 	 * Writes Email icon
 	 *
-	 * @param   object  $formModel  form model
-	 * @param   object  $params     parameters
+	 * @param   object  $formModel  Form model
+	 * @param   object  $params     Parameters
 	 *
-	 * @return  string	email icon/link html
+	 * @return  string	Email icon/link html
 	 */
 
 	public static function emailIcon($formModel, $params)
@@ -507,15 +517,15 @@ if (!$j3)
 
 			if ($params->get('icons', true))
 			{
-				$j2img = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
+				$j2img = JHtml::_('image', 'system/emailButton.png', FText::_('JGLOBAL_EMAIL'), null, true);
 				$image = FabrikWorker::j3() ? '<i class="icon-envelope"></i> ' : $j2img;
 			}
 			else
 			{
-				$image = '&nbsp;' . JText::_('JGLOBAL_EMAIL');
+				$image = '&nbsp;' . FText::_('JGLOBAL_EMAIL');
 			}
 
-			return "<a href=\"#\" onclick=\"window.open('$link','win2','$status;');return false;\"  title=\"" . JText::_('JGLOBAL_EMAIL')
+			return "<a href=\"#\" onclick=\"window.open('$link','win2','$status;');return false;\"  title=\"" . FText::_('JGLOBAL_EMAIL')
 			. "\">$image</a>\n";
 		}
 	}
@@ -557,7 +567,7 @@ if (!$j3)
 		}
 
 		$url .= '&referrer=' . urlencode(JURI::getInstance()->toString());
-		self::$emailURL = $url;
+		self::$emailURL = JRoute::_($url);
 
 		return self::$emailURL;
 	}
@@ -574,8 +584,8 @@ if (!$j3)
 	public static function conditionList($listid, $sel = '')
 	{
 		$conditions = array();
-		$conditions[] = JHTML::_('select.option', 'AND', JText::_('COM_FABRIK_AND'));
-		$conditions[] = JHTML::_('select.option', 'OR', JText::_('COM_FABRIK_OR'));
+		$conditions[] = JHTML::_('select.option', 'AND', FText::_('COM_FABRIK_AND'));
+		$conditions[] = JHTML::_('select.option', 'OR', FText::_('COM_FABRIK_OR'));
 		$name = 'fabrik___filter[list_' . $listid . '][join][]';
 
 		return JHTML::_('select.genericlist', $conditions, $name, 'class="inputbox input-mini" size="1" ', 'value', 'text', $sel);
@@ -1089,6 +1099,7 @@ if (!$j3)
 		$newShim = array_merge($framework, $newShim);
 		$shim = json_encode($newShim);
 
+
 		foreach ($requirePaths as $reqK => $repPath)
 		{
 			$pathBits[] = "\n\t\t$reqK : '$repPath'";
@@ -1130,6 +1141,13 @@ if (!$j3)
 		$r->viz = 'plugins/fabrik_visualization';
 		$r->admin = 'administrator/components/com_fabrik/views';
 		$r->adminfields = 'administrator/components/com_fabrik/models/fields';
+
+		$version = new JVersion;
+
+		if ($version->RELEASE >= 3.2 && $version->DEV_LEVEL > 1)
+		{
+			$r->punycode =  'media/system/js/punycode';
+		}
 
 		return $r;
 	}
@@ -1406,7 +1424,7 @@ if (!$j3)
 	public static function slimbox()
 	{
 		$input = JFactory::getApplication()->input;
-		
+
 		if ($input->get('format') === 'raw')
 		{
 			return;
@@ -1585,11 +1603,11 @@ if (!$j3)
 	public static function folderAjaxSelect($folders, $path = '', $tpl = '')
 	{
 		$str = array();
-		$str[] = '<a href="#" class="toggle" title="' . JText::_('COM_FABRIK_BROWSE_FOLDERS') . '">';
-		$str[] = self::image('orderneutral.png', 'form', $tpl, array('alt' => JText::_('COM_FABRIK_BROWSE_FOLDERS')));
+		$str[] = '<a href="#" class="toggle" title="' . FText::_('COM_FABRIK_BROWSE_FOLDERS') . '">';
+		$str[] = self::image('orderneutral.png', 'form', $tpl, array('alt' => FText::_('COM_FABRIK_BROWSE_FOLDERS')));
 		$str[] = '</a>';
 		$str[] = '<div class="folderselect-container">';
-		$str[] = '<span class="breadcrumbs"><a href="#">' . JText::_('HOME') . '</a><span> / </span>';
+		$str[] = '<span class="breadcrumbs"><a href="#">' . FText::_('HOME') . '</a><span> / </span>';
 		$i = 1;
 		$path = explode("/", $path);
 
@@ -1637,6 +1655,13 @@ if (!$j3)
 
 	public static function autoComplete($htmlid, $elementid, $formid, $plugin = 'field', $opts = array())
 	{
+		$input = JFactory::getApplication()->input;
+
+		if ($input->get('format') === 'raw')
+		{
+			return;
+		}
+
 		$json = self::autoCompleteOptions($htmlid, $elementid, $formid, $plugin, $opts);
 		$str = json_encode($json);
 		JText::script('COM_FABRIK_NO_RECORDS');
@@ -1681,7 +1706,7 @@ if (!$j3)
 
 		$app = JFactory::getApplication();
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
-		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
+		$json->url = 'index.php?option=com_' . $package . '&format=raw&view=plugin&task=pluginAjax&g=element&element_id=' . $elementid
 			. '&formid=' . $formid . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
 		$c = JArrayHelper::getValue($opts, 'onSelection');
 
@@ -1978,6 +2003,7 @@ if (!$j3)
 	{
 		$j3 = FabrikWorker::j3();
 		$version = new JVersion;
+		$items = array();
 
 		for ($i = 0; $i < count($values); $i++)
 		{
@@ -2089,6 +2115,8 @@ if (!$j3)
 	public static function bootstrapGrid($items, $columns, $spanClass = '', $explode = false)
 	{
 		$span = floor(12 / $columns);
+		$i = 0;
+		$grid = array();
 
 		foreach ($items as $i => $s)
 		{
@@ -2142,7 +2170,7 @@ if (!$j3)
 	 * @since   3.0.7
 	 */
 
-	public static function runConentPlugins(&$text)
+	public static function runContentPlugins(&$text)
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
@@ -2151,9 +2179,26 @@ if (!$j3)
 		$input->set('option', 'com_content');
 		$input->set('view', 'article');
 		jimport('joomla.html.html.content');
-		$text .= '{emailcloak=off}';
+
+		/**
+		 * J!'s email cloaking will cloak email addresses in form inputs, which is a Bad Thing<tm>.
+		 * What we really need to do is work out a way to prevent ONLY cloaking of emails in form inputs,
+		 * but that's not going to be trivial.  So bandaid is to turn it off in form and list views, so
+		 * addresses only get cloaked in details view.
+		 */
+
+		if ($view !== 'details')
+		{
+			$text .= '{emailcloak=off}';
+		}
+
 		$text = JHTML::_('content.prepare', $text);
-		$text = preg_replace('/\{emailcloak\=off\}/', '', $text);
+
+		if ($view !== 'details')
+		{
+			$text = FabrikString::rtrimword($text, '{emailcloak=off}');
+		}
+
 		$input->set('option', $opt);
 		$input->set('view', $view);
 	}
@@ -2374,6 +2419,8 @@ if (!$j3)
 		if ($smart_link || $target == 'mediabox')
 		{
 			$smarts = self::getSmartLinkType($href);
+
+			// Not sure that the type option is now needed.
 			$opts['rel'] = 'lightbox[' . $smarts['type'] . ' ' . $smarts['width'] . ' ' . $smarts['height'] . ']';
 		}
 
@@ -2501,5 +2548,45 @@ if (!$j3)
 		}
 
 		return $ret;
+	}
+
+	public static function formvalidation()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Add validate.js language strings
+		JText::script('JLIB_FORM_FIELD_INVALID');
+
+		// Include MooTools More framework
+		static::framework('more');
+
+		$document = JFactory::getDocument();
+		$debug = JFactory::getConfig()->get('debug');
+		$version = new JVersion;
+
+		if ($version->RELEASE >= 3.2 && $version->DEV_LEVEL > 1)
+		{
+			$file = $debug ? 'punycode-uncompressed' : 'punycode';
+			$path = JURI::root(). 'media/system/js/' . $file;
+
+			$js = array();
+			$js[] = "requirejs({";
+			$js[] = "   'paths': {";
+			$js[] = "     'punycode': '" . $path . "'";
+			$js[] = "   }";
+			$js[] = " },";
+			$js[] = "['punycode'], function (p) {";
+			$js[] = "  window.punycode = p;";
+			$js[] = "});";
+
+			$document->addScriptDeclaration(implode("\n", $js));
+		}
+
+		JHtml::_('script', 'system/validate.js', false, true);
+		static::$loaded[__METHOD__] = true;
 	}
 }

@@ -9,6 +9,7 @@ var FbBirthday = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
 		this.plugin = 'birthday';
+		this.default_sepchar = '-';
 		this.parent(element, options);
 	},
 
@@ -27,7 +28,11 @@ var FbBirthday = new Class({
 
 	update: function (val) {
 		if (typeOf(val) === 'string') {
-			val = val.split(this.options.separator);
+			var sepchar = this.options.separator;
+			if (val.indexOf(sepchar) === -1) {
+				sepchar = this.default_sepchar;
+			}
+			val = val.split(sepchar);
 		}
 		this._getSubElements().each(function (f, x) {
 			f.value = val[x];

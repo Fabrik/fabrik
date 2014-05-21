@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 JHtml::_('behavior.keepalive');
 JHTML::stylesheet('media/com_fabrik/css/package.css');
 ?>
@@ -26,7 +26,7 @@ Joomla.submitbutton = function(task)
 		submitform(task);
 	}
 	else {
-		alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+		alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 	}
 }
 
@@ -43,7 +43,7 @@ submitform = function(task){
 			echo $field->input;
 		endforeach; ?>
 		<fieldset class="form-horizontal">
-			<legend><?php echo JText::_('COM_FABRIK_DETAILS');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_DETAILS');?></legend>
 				<?php foreach ($this->form->getFieldset('details') as $field): ?>
 				<div class="control-group">
 				<?php if (!$field->hidden) :?>
@@ -79,17 +79,17 @@ submitform = function(task){
 <a id="redo" href="#">Redo</a> <br />
 -->
 	<fieldset class="form-horizontal">
-	<legend><?php echo JText::_('COM_FABRIK_LISTS')?></legend>
+	<legend><?php echo FText::_('COM_FABRIK_LISTS')?></legend>
 		<div class="control-group">
 		<?php if (!$field->hidden) :?>
 			<div class="control-label">
-				<?php echo JText::_('COM_FABRIK_ADD')?>
+				<?php echo FText::_('COM_FABRIK_ADD')?>
 			</div>
 		<?php endif; ?>
 			<div class="controls">
 				<?php echo JHtml::_('select.genericlist', $this->listOpts, 'list-pick[]', 'multiple="true" size="10"');?>
-				<button class="btn" id="add-list"><?php echo JText::_('COM_FABRIK_ADD')?> &gt;</button>
-				<button class="btn" id="remove-list"><?php echo JText::_('COM_FABRIK_REMOVE')?> &lt;</button>
+				<button class="btn" id="add-list"><?php echo FText::_('COM_FABRIK_ADD')?> &gt;</button>
+				<button class="btn" id="remove-list"><?php echo FText::_('COM_FABRIK_REMOVE')?> &lt;</button>
 				<?php echo JHtml::_('select.genericlist', $this->selListOpts, 'blocks[list][]', 'multiple="true" size="10"');?>
 			</div>
 		</div>
@@ -98,18 +98,18 @@ submitform = function(task){
 	<div class="clr"></div>
 
 	<fieldset class="form-horizontal">
-		<legend><?php echo JText::_('COM_FABRIK_FORMS')?></legend>
+		<legend><?php echo FText::_('COM_FABRIK_FORMS')?></legend>
 
 		<div class="control-group">
 		<?php if (!$field->hidden) :?>
 			<div class="control-label">
-				<?php echo JText::_('COM_FABRIK_ADD')?>
+				<?php echo FText::_('COM_FABRIK_ADD')?>
 			</div>
 		<?php endif; ?>
 			<div class="controls">
 				<?php echo JHtml::_('select.genericlist', $this->formOpts, 'form-pick', 'multiple="true" size="10"')?>
-				<button class="btn" id="add-form"><?php echo JText::_('COM_FABRIK_ADD')?> &gt;</button>
-				<button class="btn" id="remove-form"><?php echo JText::_('COM_FABRIK_REMOVE')?> &lt;</button>
+				<button class="btn" id="add-form"><?php echo FText::_('COM_FABRIK_ADD')?> &gt;</button>
+				<button class="btn" id="remove-form"><?php echo FText::_('COM_FABRIK_REMOVE')?> &lt;</button>
 				<?php echo JHtml::_('select.genericlist', $this->selFormOpts, 'blocks[form][]', 'multiple="true" size="10"')?>
 			</div>
 		</div>

@@ -53,7 +53,7 @@ class FabrikAdminControllerList extends FabControllerForm
 
 		if (count($model->activeConnections()) == 0)
 		{
-			throw new RuntimeException(JText::_('COM_FABRIK_ENUSRE_ONE_CONNECTION_PUBLISHED'));
+			throw new RuntimeException(FText::_('COM_FABRIK_ENUSRE_ONE_CONNECTION_PUBLISHED'));
 		}
 
 		parent::edit($key, $urlVar);
@@ -81,7 +81,7 @@ class FabrikAdminControllerList extends FabControllerForm
 		}
 		else
 		{
-			return JError::raiseWarning(500, JText::_('NO ITEMS SELECTED'));
+			return JError::raiseWarning(500, FText::_('NO ITEMS SELECTED'));
 		}
 	}
 
@@ -141,7 +141,7 @@ class FabrikAdminControllerList extends FabControllerForm
 
 		// Set the layout
 		$view->setLayout($viewLayout);
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LISTS'), 'lists.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LISTS'), 'lists.png');
 
 		// Build unique cache id on url, post and user id
 		$user = JFactory::getUser();
@@ -230,7 +230,7 @@ class FabrikAdminControllerList extends FabControllerForm
 	public function clearfilter()
 	{
 		$app = JFactory::getApplication();
-		$app->enqueueMessage(JText::_('COM_FABRIK_FILTERS_CLEARED'));
+		$app->enqueueMessage(FText::_('COM_FABRIK_FILTERS_CLEARED'));
 		$this->filter();
 	}
 
@@ -301,7 +301,7 @@ class FabrikAdminControllerList extends FabControllerForm
 		}
 		else
 		{
-			$msg = $ok ? count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED') : '';
+			$msg = $ok ? count($ids) . ' ' . FText::_('COM_FABRIK_RECORDS_DELETED') : '';
 			$app->enqueueMessage($msg);
 			$app->redirect($ref);
 		}

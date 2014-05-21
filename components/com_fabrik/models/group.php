@@ -986,6 +986,7 @@ class FabrikFEModelGroup extends FabModel
 	public function getGroupProperties(&$formModel)
 	{
 		$w = new FabrikWorker;
+		$input = JFactory::getApplication()->input;
 		$group = new stdClass;
 		$groupTable = $this->getGroup();
 		$params = $this->getParams();
@@ -1035,14 +1036,17 @@ class FabrikFEModelGroup extends FabModel
 		$group->css = trim(str_replace(array("<br />", "<br>"), "", $groupTable->css));
 		$group->id = $groupTable->id;
 
-		if (JString::stristr($groupTable->label, "{Add/Edit}"))
+		$label = $input->getString('group' . $group->id . '_label', $groupTable->label);
+
+		if (JString::stristr($label, "{Add/Edit}"))
 		{
-			$replace = $formModel->isNewRecord() ? JText::_('COM_FABRIK_ADD') : JText::_('COM_FABRIK_EDIT');
-			$groupTable->label = str_replace("{Add/Edit}", $replace, $groupTable->label);
+			$replace = $formModel->isNewRecord() ? FText::_('COM_FABRIK_ADD') : FText::_('COM_FABRIK_EDIT');
+			$label = str_replace("{Add/Edit}", $replace, $label);
 		}
 
+		$groupTable->label = $label;
 		$group->title = $w->parseMessageForPlaceHolder($groupTable->label, $formModel->data, false);
-		$group->title = JText::_($group->title);
+		$group->title = FText::_($group->title);
 		$group->name = $groupTable->name;
 		$group->displaystate = ($group->canRepeat == 1 && $formModel->isEditable()) ? 1 : 0;
 		$group->maxRepeat = (int) $params->get('repeat_max');
@@ -1051,9 +1055,12 @@ class FabrikFEModelGroup extends FabModel
 		$group->canAddRepeat = $this->canAddRepeat();
 		$group->canDeleteRepeat = $this->canDeleteRepeat();
 		$group->intro = $text = FabrikString::translate($params->get('intro'));
-		$group->outro = JText::_($params->get('outro'));
+		$group->outro = FText::_($params->get('outro'));
 		$group->columns = $params->get('group_columns', 1);
 		$group->splitPage = $params->get('split_page', 0);
+		$group->showLegend = $this->showLegend($group);
+		$group->labels = $params->get('labels_above', -1);
+		$group->dlabels = $params->get('labels_above_details', -1);
 
 		if ($this->canRepeat())
 		{
@@ -1372,5 +1379,27 @@ class FabrikFEModelGroup extends FabModel
 		}
 
 		return $repeatGroup;
+	}
+
+	/**
+	 * Should the group legend be shown
+	 *
+	 * @param   object  $group  Group properties
+	 *
+	 * @return boolean
+	 */
+	private function showLegend($group)
+	{
+		$allHidden = true;
+
+		foreach ($this->elements as $elementModel)
+		{
+			$allHidden &= $elementModel->isHidden();
+		}
+		if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') {
+			return true;
+		}
+
+		return false;
 	}
 }

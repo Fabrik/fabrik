@@ -377,7 +377,7 @@ var FabCddAutocomplete = new Class({
 				// If you are observing a radio list then you need to get the Element js plugin value
 				var obsValue = document.id(this.options.observerid).get('value');
 				if (typeOf(obsValue) === 'null') {
-					obsValue = Fabrik.blocks[this.options.formRef].elements.get(this.options.observerid).get('value');
+					obsValue = Fabrik.getBlock(this.options.formRef).elements.get(this.options.observerid).get('value');
 				}
 				var data = {value: v, fabrik_cascade_ajax_update: 1, v: obsValue};
 				this.ajax = this.makeAjax(this.options.url, data);

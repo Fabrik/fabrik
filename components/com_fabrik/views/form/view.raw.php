@@ -58,7 +58,7 @@ class FabrikViewForm extends JViewLegacy
 		{
 			if (!$app->isAdmin())
 			{
-				echo JText::_('COM_FABRIK_FORM_NOT_PUBLISHED');
+				echo FText::_('COM_FABRIK_FORM_NOT_PUBLISHED');
 
 				return false;
 			}
@@ -68,7 +68,7 @@ class FabrikViewForm extends JViewLegacy
 
 		if ($this->access == 0)
 		{
-			return JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			return JError::raiseWarning(500, FText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		if (is_object($listModel))

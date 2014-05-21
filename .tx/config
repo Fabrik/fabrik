@@ -359,6 +359,7 @@ trans.es-ES = plugins/fabrik_cron/notification/language/es-ES/es-ES.plg_fabrik_c
 trans.et-EE = plugins/fabrik_cron/notification/language/et-EE/et-EE.plg_fabrik_cron_notification.ini
 trans.fr-FR = plugins/fabrik_cron/notification/language/fr-FR/fr-FR.plg_fabrik_cron_notification.ini
 trans.it-IT = plugins/fabrik_cron/notification/language/it-IT/it-IT.plg_fabrik_cron_notification.ini
+trans.pt-PT = plugins/fabrik_cron/notification/language/pt-PT/pt-PT.plg_fabrik_cron_notification.ini
 trans.ru-RU = plugins/fabrik_cron/notification/language/ru-RU/ru-RU.plg_fabrik_cron_notification.ini
 
 [fabrik31.plg_cron_notification_sys]
@@ -370,6 +371,7 @@ trans.es-ES = plugins/fabrik_cron/notification/language/es-ES/es-ES.plg_fabrik_c
 trans.et-EE = plugins/fabrik_cron/notification/language/et-EE/et-EE.plg_fabrik_cron_notification.sys.ini
 trans.fr-FR = plugins/fabrik_cron/notification/language/fr-FR/fr-FR.plg_fabrik_cron_notification.sys.ini
 trans.it-IT = plugins/fabrik_cron/notification/language/it-IT/it-IT.plg_fabrik_cron_notification.sys.ini
+trans.pt-PT = plugins/fabrik_cron/notification/language/pt-PT/pt-PT.plg_fabrik_cron_notification.sys.ini
 trans.ru-RU = plugins/fabrik_cron/notification/language/ru-RU/ru-RU.plg_fabrik_cron_notification.sys.ini
 
 [fabrik31.plg_cron_php]
@@ -383,6 +385,7 @@ trans.fr-FR = plugins/fabrik_cron/php/language/fr-FR/fr-FR.plg_fabrik_cron_php.i
 trans.it-IT = plugins/fabrik_cron/php/language/it-IT/it-IT.plg_fabrik_cron_php.ini
 trans.nl-NL = plugins/fabrik_cron/php/language/nl-NL/nl-NL.plg_fabrik_cron_php.ini
 trans.pt-BR = plugins/fabrik_cron/php/language/pt-BR/pt-BR.plg_fabrik_cron_php.ini
+trans.pt-PT = plugins/fabrik_cron/php/language/pt-PT/pt-PT.plg_fabrik_cron_php.ini
 trans.ru-RU = plugins/fabrik_cron/php/language/ru-RU/ru-RU.plg_fabrik_cron_php.ini
 trans.tr-TR = plugins/fabrik_cron/php/language/tr-TR/tr-TR.plg_fabrik_cron_php.ini
 
@@ -5164,3 +5167,30 @@ trans.sk-SK = plugins/fabrik_visualization/timeline/language/sk-SK/sk-SK.plg_fab
 trans.tr-TR = plugins/fabrik_visualization/timeline/language/tr-TR/tr-TR.plg_fabrik_visualization_timeline.sys.ini
 trans.uk-UA = plugins/fabrik_visualization/timeline/language/uk-UA/uk-UA.plg_fabrik_visualization_timeline.sys.ini
 trans.zh-TW = plugins/fabrik_visualization/timeline/language/zh-TW/zh-TW.plg_fabrik_visualization_timeline.sys.ini
+
+[fabrik31.mod_list]
+file_filter = modules/mod_fabrik_list/language/<lang>/<lang>.mod_fabrik_list.ini
+source_file = modules/mod_fabrik_list/language/en-GB/en-GB.mod_fabrik_list.ini
+source_lang = en_GB
+trans.de-DE = modules/mod_fabrik_list/language/de-DE/de-DE.mod_fabrik_list.ini
+trans.fr-FR = modules/mod_fabrik_list/language/fr-FR/fr-FR.mod_fabrik_list.ini
+trans.pt-BR = modules/mod_fabrik_list/language/pt-BR/pt-BR.mod_fabrik_list.ini
+
+[fabrik31.mod_list_sys]
+file_filter = modules/mod_fabrik_list/language/<lang>/<lang>.mod_fabrik_list.sys.ini
+source_file = modules/mod_fabrik_list/language/en-GB/en-GB.mod_fabrik_list.sys.ini
+source_lang = en_GB
+trans.de-DE = modules/mod_fabrik_list/language/de-DE/de-DE.mod_fabrik_list.sys.ini
+
+[fabrik31.mod_form]
+file_filter = modules/mod_fabrik_form/language/<lang>/<lang>.mod_fabrik_form.ini
+source_file = modules/mod_fabrik_form/language/en-GB/en-GB.mod_fabrik_form.ini
+source_lang = en_GB
+trans.de-DE = modules/mod_fabrik_form/language/de-DE/de-DE.mod_fabrik_form.ini
+trans.pt-BR = modules/mod_fabrik_form/language/pt-BR/pt-BR.mod_fabrik_form.ini
+
+[fabrik31.mod_form_sys]
+file_filter = modules/mod_fabrik_form/language/<lang>/<lang>.mod_fabrik_form.sys.ini
+source_file = modules/mod_fabrik_form/language/en-GB/en-GB.mod_fabrik_form.sys.ini
+source_lang = en_GB
+trans.de-DE = modules/mod_fabrik_form/language/de-DE/de-DE.mod_fabrik_form.sys.ini

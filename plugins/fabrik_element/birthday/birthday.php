@@ -84,8 +84,8 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 		$id = $this->getHTMLId($repeatCounter);
 		$params = $this->getParams();
 		$element = $this->getElement();
-		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'),
-			JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
+		$monthlabels = array(FText::_('January'), FText::_('February'), FText::_('March'), FText::_('April'), FText::_('May'), FText::_('June'),
+			FText::_('July'), FText::_('August'), FText::_('September'), FText::_('October'), FText::_('November'), FText::_('December'));
 		$monthnumbers = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
 		$daysys = array('01', '02', '03', '04', '05', '06', '07', '08', '09');
 		$daysimple = array('1', '2', '3', '4', '5', '6', '7', '8', '9');
@@ -180,7 +180,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 						if (date('m-d') == $month . '-' . $day)
 						{
-							$detailvalue .= '<font color = "#CC0000"><b> ' . JText::_('TODAY') . '!</b></font>';
+							$detailvalue .= '<font color = "#CC0000"><b> ' . FText::_('TODAY') . '!</b></font>';
 
 							if (date('m') == '12')
 							{
@@ -238,14 +238,14 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$monthvalue = JArrayHelper::getValue($value, 1);
 			$dayvalue = JArrayHelper::getValue($value, 2);
 
-			$days = array(JHTML::_('select.option', '', $params->get('birthday_daylabel', JText::_('DAY'))));
+			$days = array(JHTML::_('select.option', '', $params->get('birthday_daylabel', FText::_('DAY'))));
 
 			for ($i = 1; $i < 32; $i++)
 			{
 				$days[] = JHTML::_('select.option', $i);
 			}
 
-			$months = array(JHTML::_('select.option', '', $params->get('birthday_monthlabel', JText::_('MONTH'))));
+			$months = array(JHTML::_('select.option', '', $params->get('birthday_monthlabel', FText::_('MONTH'))));
 
 			// Siin oli enne $monthlabels, viisin ülespoole
 			// google translation: this was before the $monthlabels, took up the
@@ -254,7 +254,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 				$months[] = JHTML::_('select.option', $i + 1, $monthlabels[$i]);
 			}
 
-			$years = array(JHTML::_('select.option', '', $params->get('birthday_yearlabel', JText::_('YEAR'))));
+			$years = array(JHTML::_('select.option', '', $params->get('birthday_yearlabel', FText::_('YEAR'))));
 
 			// Jaanus: now we can choose one exact year A.C to begin the dropdown AND would the latest year be current year or some years earlier/later.
 			$date = date('Y') + (int) $params->get('birthday_forward', 0);
@@ -274,9 +274,9 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 			// $name already suffixed with [] as element hasSubElements = true
 			$str[] = JHTML::_('select.genericlist', $days, preg_replace('#(\[\])$#', '[0]', $name), $attribs, 'value', 'text', $dayvalue, $id . '_0');
-			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' '
+			$str[] = $params->get('birthday_separatorlabel', FText::_('/')) . ' '
 				. JHTML::_('select.genericlist', $months, preg_replace('#(\[\])$#', '[1]', $name), $attribs, 'value', 'text', $monthvalue, $id . '_1');
-			$str[] = $params->get('birthday_separatorlabel', JText::_('/')) . ' '
+			$str[] = $params->get('birthday_separatorlabel', FText::_('/')) . ' '
 				. JHTML::_('select.genericlist', $years, preg_replace('#(\[\])$#', '[2]', $name), $attribs, 'value', 'text', $yearvalue, $id . '_2');
 			$str[] = '</div>';
 
@@ -378,7 +378,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 		$params = $this->getParams();
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
-		$opts->separator = $params->get('birthday_separatorlabel', JText::_('/'));
+		$opts->separator = $params->get('birthday_separatorlabel', FText::_('/'));
 
 		return array('FbBirthday', $id, $opts);
 	}
@@ -434,8 +434,8 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		$params = $this->getParams();
 
-		$monthlabels = array(JText::_('January'), JText::_('February'), JText::_('March'), JText::_('April'), JText::_('May'), JText::_('June'),
-				JText::_('July'), JText::_('August'), JText::_('September'), JText::_('October'), JText::_('November'), JText::_('December'));
+		$monthlabels = array(FText::_('January'), FText::_('February'), FText::_('March'), FText::_('April'), FText::_('May'), FText::_('June'),
+				FText::_('July'), FText::_('August'), FText::_('September'), FText::_('October'), FText::_('November'), FText::_('December'));
 
 		$monthnumbers = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
 		$daysys = array('01', '02', '03', '04', '05', '06', '07', '08', '09');

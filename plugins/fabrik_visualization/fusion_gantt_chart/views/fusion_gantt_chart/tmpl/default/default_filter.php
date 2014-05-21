@@ -21,10 +21,10 @@ foreach ($this->filters as $table => $filters) :
 			<tbody>
 				<tr>
 					<th style="text-align:left">
-						<?php echo JText::_('SEARCH');?>:
+						<?php echo FText::_('SEARCH');?>:
 					</th>
 					<th style="text-align:right">
-						<a href="#" class="clearFilters"><?php echo JText::_('CLEAR'); ?></a>
+						<a href="#" class="clearFilters"><?php echo FText::_('CLEAR'); ?></a>
 					</th>
 				</tr>
 				<?php
@@ -48,7 +48,7 @@ foreach ($this->filters as $table => $filters) :
 		<tfoot>
 			<tr>
 				<th colspan="2" style="text-align:right;">
-	  				<input type="submit" class="button" value="<?php echo JText::_('GO')?>" />
+	  				<input type="submit" class="button" value="<?php echo FText::_('GO')?>" />
 	  			</th>
 	  		</tr>
 	  	</tfoot>

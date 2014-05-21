@@ -45,13 +45,13 @@ $group = $this->group;
 		<td class="fabrikGroupRepeater pull-right">
 			<?php if ($group->canAddRepeat) :?>
 			<a class="addGroup" href="#">
-				<?php echo FabrikHelperHTML::image('plus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'title' => JText::_('COM_FABRIK_ADD_GROUP')));?>
+				<?php echo FabrikHelperHTML::image('plus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'title' => FText::_('COM_FABRIK_ADD_GROUP')));?>
 			</a>
 			<?php
 			endif;
 			if ($group->canDeleteRepeat) :?>
 			<a class="deleteGroup" href="#">
-				<?php echo FabrikHelperHTML::image('minus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'title' => JText::_('COM_FABRIK_DELETE_GROUP')));?>
+				<?php echo FabrikHelperHTML::image('minus.png', 'form', $this->tmpl, array('class' => 'fabrikTip tip-small', 'title' => FText::_('COM_FABRIK_DELETE_GROUP')));?>
 			</a>
 			<?php endif;?>
 		</td>

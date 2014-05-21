@@ -38,6 +38,12 @@
 				label="PLG_FABRIK_FORM_ARTICLE_CATEGORY_LABEL"
 				query="SELECT id AS value, title AS text FROM #__categories WHERE published != -2 AND extension = 'com_content'"
 				repeat="true" />
+				
+			<field name="categories_element"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_CATEGORIES_ELEMENT_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_CATEGORIES_ELEMENT_LABEL" />
 			
 			<field name="meta_store"
 				type="listfields"

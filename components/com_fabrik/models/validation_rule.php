@@ -200,7 +200,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 			$v = 'COM_FABRIK_FAILED_VALIDATION';
 		}
 
-		$this->errorMsg = JText::_($v);
+		$this->errorMsg = FText::_($v);
 
 		return $this->errorMsg;
 	}
@@ -303,16 +303,16 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 
 		if ($tipText !== '')
 		{
-			return JText::_($tipText);
+			return FText::_($tipText);
 		}
 
 		if ($this->allowEmpty())
 		{
-			return JText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_ALLOWEMPTY_LABEL');
+			return FText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_ALLOWEMPTY_LABEL');
 		}
 		else
 		{
-			return JText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_LABEL');
+			return FText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_LABEL');
 		}
 	}
 

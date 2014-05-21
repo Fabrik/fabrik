@@ -68,7 +68,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 		if (!$this->exists($index_file))
 		{
-			$content = JText::_('PLG_ELEMENT_FILEUPLOAD_INDEX_FILE_CONTENT');
+			$content = FText::_('PLG_ELEMENT_FILEUPLOAD_INDEX_FILE_CONTENT');
 
 			return JFile::write($index_file, $content);
 		}

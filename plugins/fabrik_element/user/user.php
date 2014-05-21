@@ -203,7 +203,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 * @return  bool
 	 */
 
-	protected function isHidden()
+	public function isHidden()
 	{
 		if ($this->inJDb())
 		{
@@ -536,7 +536,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 	protected function _getSelectLabel()
 	{
-		return $this->getParams()->get('user_noselectionlabel', JText::_('COM_FABRIK_PLEASE_SELECT'));
+		return $this->getParams()->get('user_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT'));
 	}
 
 	/**

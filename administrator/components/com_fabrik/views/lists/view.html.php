@@ -106,7 +106,7 @@ class FabrikAdminViewLists extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/fabrik.php';
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LISTS'), 'lists.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LISTS'), 'lists.png');
 
 		if ($canDo->get('core.create'))
 		{
@@ -138,6 +138,13 @@ class FabrikAdminViewLists extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
+		
+		if (JFactory::getUser()->authorise('core.manage', 'com_checkin'))
+		{
+			JToolBarHelper::custom('lists.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
+		
+		JToolBarHelper::divider();
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
@@ -155,7 +162,7 @@ class FabrikAdminViewLists extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_LISTS', false, JText::_('JHELP_COMPONENTS_FABRIK_LISTS'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_LISTS', false, FText::_('JHELP_COMPONENTS_FABRIK_LISTS'));
 
 		if (FabrikWorker::j3())
 		{
@@ -163,15 +170,15 @@ class FabrikAdminViewLists extends JViewLegacy
 
 			$publishOpts = JHtml::_('jgrid.publishedOptions', array('archived' => false));
 			JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_published',
+				FText::_('JOPTION_SELECT_PUBLISHED'), 'filter_published',
 				JHtml::_('select.options', $publishOpts, 'value', 'text', $this->state->get('filter.published'), true)
 			);
 
 			if (!empty($this->packageOptions))
 			{
-				array_unshift($this->packageOptions, JHtml::_('select.option', 'fabrik', JText::_('COM_FABRIK_SELECT_PACKAGE')));
+				array_unshift($this->packageOptions, JHtml::_('select.option', 'fabrik', FText::_('COM_FABRIK_SELECT_PACKAGE')));
 				JHtmlSidebar::addFilter(
-					JText::_('JOPTION_SELECT_PUBLISHED'), 'package',
+					FText::_('JOPTION_SELECT_PUBLISHED'), 'package',
 					JHtml::_('select.options', $this->packageOptions, 'value', 'text', $this->state->get('com_fabrik.package'), true)
 				);
 			}
@@ -188,7 +195,7 @@ class FabrikAdminViewLists extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$app->input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LIST_CONFIRM_DELETE'), 'list.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_CONFIRM_DELETE'), 'list.png');
 		JToolBarHelper::save('lists.dodelete', 'JTOOLBAR_APPLY');
 		JToolBarHelper::cancel('list.cancel', 'JTOOLBAR_CANCEL');
 		JToolBarHelper::divider();
@@ -205,7 +212,7 @@ class FabrikAdminViewLists extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$app->input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_FABRIK_MANAGER_LIST_IMPORT'), 'list.png');
+		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_IMPORT'), 'list.png');
 		JToolBarHelper::save('lists.doimport', 'JTOOLBAR_APPLY');
 		JToolBarHelper::cancel('list.cancel', 'JTOOLBAR_CANCEL');
 	}

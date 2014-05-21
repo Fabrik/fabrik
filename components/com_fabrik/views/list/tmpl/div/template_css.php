@@ -14,8 +14,10 @@ $buttonCount = (int) $_REQUEST['buttoncount'];
 $buttonTotal = $buttonCount === 0 ? '100%' : 30 * $buttonCount ."px";
 echo "
 
-#listform_$c input[type=checkbox] {
-display: none;
+/** Hide the checkbox in each record*/
+
+#listform_$c .fabrikList input[type=checkbox] {
+	display: none;
 }
 #listform_$c .well {
 	position: relative;
@@ -25,4 +27,5 @@ display: none;
 	position: absolute;
 	top: 10px;
 	right: 10px;
+}
 ";?>

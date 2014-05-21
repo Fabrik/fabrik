@@ -7,10 +7,10 @@
  */
 
 defined('_JEXEC') or die;
-$start = JText::_('COM_FABRIK_START');
-$next = JText::_('COM_FABRIK_NEXT');
-$prev = JText::_('COM_FABRIK_PREV');
-$end = JText::_('COM_FABRIK_END');
+$start = FText::_('COM_FABRIK_START');
+$next = FText::_('COM_FABRIK_NEXT');
+$prev = FText::_('COM_FABRIK_PREV');
+$end = FText::_('COM_FABRIK_END');
 ?>
 <div class="pagination">
 	<ul class="pagination-list">

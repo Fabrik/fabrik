@@ -38,7 +38,15 @@
 				description="PLG_FORM_LIMIT_LENGTH_DESC"
 				label="PLG_FORM_LIMIT_LENGTH_LABEL"
 				repeat="true" size="3" />
-				
+
+			<field name="limit_fk" 
+				type="listfields"
+				description="PLG_FORM_LIMIT_FK_DESC"
+				label="PLG_FORM_LIMIT_FK_LABEL"
+				onlytablefields="0"
+				repeat="true" 
+				valueformat="tableelement"/>
+							
 			<field name="OR" type="spacer"/>
 	
 			<field name="limit_connection"

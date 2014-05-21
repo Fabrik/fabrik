@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 $app = JFactory::getApplication();
 $input = $app->input;
 
@@ -65,7 +65,7 @@ window.addEvent('domready', function () {
 	<fieldset class="form-horizontal">
 		<?php
 		if ($n == 0) :
-			echo '<legend>' . JText::_('COM_FABRIK_IMPORT_CSV') . '</legend>';
+			echo '<legend>' . FText::_('COM_FABRIK_IMPORT_CSV') . '</legend>';
 		endif;
 		foreach ($this->form->getFieldset($fieldset) as $this->field) :
 			echo $this->loadTemplate('control_group');

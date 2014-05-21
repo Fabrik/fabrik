@@ -14,20 +14,35 @@
 	</fields>
 	
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+
 		<fieldset label="COM_FABRIK_OPTIONS" name="params">
-				
-			<field description="COM_FABRIK_FIELD_ROW_ID_DESC" label="COM_FABRIK_FIELD_ROW_ID_LABEL" name="rowid" size="3" type="text"/>
-				
-			<field description="COM_FABRIK_FIELD_KEY_NAME_DESC" label="COM_FABRIK_FIELD_KEY_NAME_LABEL" name="usekey" size="15" type="text"/>
-				
-			<field default="0"
+
+			<field name="rowid"
+				type="text"
+				description="COM_FABRIK_FIELD_ROW_ID_DESC"
+				label="COM_FABRIK_FIELD_ROW_ID_LABEL" size="3" />
+
+			<field name="usekey"
+				type="text"
+				description="COM_FABRIK_FIELD_KEY_NAME_DESC"
+				label="COM_FABRIK_FIELD_KEY_NAME_LABEL"
+				size="15" />
+
+			<field name="random"
+				type="radio"
+				default="0"
 				class="btn-group"
-				description="COM_FABRIK_FIELD_SHOW_RANDOM_RECORDS_DESC" label="COM_FABRIK_FIELD_SHOW_RANDOM_RECORDS_LABEL" name="random" type="radio">
+				description="COM_FABRIK_FIELD_SHOW_RANDOM_RECORDS_DESC"
+				label="COM_FABRIK_FIELD_SHOW_RANDOM_RECORDS_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
-			<field description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC" directory="/components/com_fabrik/views/form/tmpl25/" label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL" name="fabriklayout" type="folderlist"/>		
+
+			<field name="fabriklayout"
+				type="folderlist"
+				description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC"
+				directory="/components/com_fabrik/views/details/tmpl25/"
+				label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL" />		
 		</fieldset>
 	</fields>
 </metadata>

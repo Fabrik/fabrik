@@ -124,7 +124,7 @@ class FabrikControllerList extends JControllerLegacy
 	public function clearfilter()
 	{
 		$app = JFactory::getApplication();
-		$app->enqueueMessage(JText::_('COM_FABRIK_FILTERS_CLEARED'));
+		$app->enqueueMessage(FText::_('COM_FABRIK_FILTERS_CLEARED'));
 		/**
 		 * $$$ rob 28/12/20111 changed from clearfilters as clearfilters removes jpluginfilters (filters
 		 * set by content plugin which we want to remain sticky. Otherwise list clear button removes the
@@ -186,7 +186,7 @@ class FabrikControllerList extends JControllerLegacy
 		try
 		{
 			$ok = $model->deleteRows($ids);
-			$msg = $ok ? count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED') : '';
+			$msg = $ok ? count($ids) . ' ' . FText::_('COM_FABRIK_RECORDS_DELETED') : '';
 			$msgType = 'message';
 		}
 		catch (Exception $e)

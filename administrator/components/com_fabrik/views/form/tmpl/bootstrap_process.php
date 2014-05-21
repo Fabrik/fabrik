@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted access');
 	</fieldset>
 
     <fieldset class="form-horizontal">
-		<legend><?php echo JText::_('COM_FABRIK_NOTES');?></legend>
+		<legend><?php echo FText::_('COM_FABRIK_NOTES');?></legend>
 		<?php foreach ($this->form->getFieldset('notes') as $this->field) :
 			echo $this->loadTemplate('control_group');
 		endforeach;

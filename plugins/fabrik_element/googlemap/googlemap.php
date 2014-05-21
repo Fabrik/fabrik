@@ -576,14 +576,23 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$id = $this->getHTMLId($repeatCounter);
 		$params = $this->getParams();
 
+		/**
+		 * Width and height MUST be specified or static map call will fail.  But as we allow for
+		 * leaving these params blank to get a 100% size full map, we have to set a default when
+		 * building a static map.  Only real solution is to add YAFOs for "Static map width" and height.
+		 * But for now, just default to 200x150.
+		 */
+
 		if (is_null($w))
 		{
-			$w = $params->get('fb_gm_mapwidth');
+			$w = $params->get('fb_gm_mapwidth', '200');
+			$w = empty($w) ? '200' : $w;
 		}
 
 		if (is_null($h))
 		{
-			$h = $params->get('fb_gm_mapheight');
+			$h = $params->get('fb_gm_mapheight', '150');
+			$h = empty($h) ? '150' : $h;
 		}
 
 		if (is_null($z))
@@ -740,7 +749,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 
 				if ($params->get('fb_gm_geocode') != '0' && $geoCodeEvent == 'button' && $this->isEditable())
 				{
-					$str .= '<button class="button btn btn-info geocode" type="button">' . JText::_('PLG_ELEMENT_GOOGLE_MAP_GEOCODE') . '</button>';
+					$str .= '<button class="button btn btn-info geocode" type="button">' . FText::_('PLG_ELEMENT_GOOGLE_MAP_GEOCODE') . '</button>';
 				}
 
 				if ($this->isEditable() && $params->get('fb_gm_geocode') != '0')
@@ -780,7 +789,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 			}
 			else
 			{
-				$str .= JText::_('PLG_ELEMENT_GOOGLEMAP_NO_LOCATION_SELECTED');
+				$str .= FText::_('PLG_ELEMENT_GOOGLEMAP_NO_LOCATION_SELECTED');
 			}
 
 			$str .= $this->_microformat($val);

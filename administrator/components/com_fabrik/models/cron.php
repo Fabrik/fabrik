@@ -115,7 +115,7 @@ class FabrikAdminModelCron extends FabModelAdmin
 
 		if ($plugin == '')
 		{
-			$str = '<div class="alert">' . JText::_('COM_FABRIK_SELECT_A_PLUGIN') . '</div>';
+			$str = '<div class="alert">' . FText::_('COM_FABRIK_SELECT_A_PLUGIN') . '</div>';
 		}
 		else
 		{

@@ -18,21 +18,21 @@ if ($this->showEmail || $this->showPDF || $this->showPrint): ?>
 	if ($this->showPrint):?>
 		<a class="btn" data-fabrik-print href="<?php echo $this->printURL?>">
 			<i class="icon-print"></i>
-			<?php echo JText::_('JGLOBAL_PRINT')?>
+			<?php echo FText::_('JGLOBAL_PRINT')?>
 		</a>
 	<?php endif;
 
 	if ($this->showEmail): ?>
-		<a class="btn fabrikWin" rel='{"title":"<?php echo JText::_('JGLOBAL_EMAIL'); ?>", "loadMethod":"iframe", "height":"300px"}' href="<?php echo $this->emailURL?>">
+		<a class="btn fabrikWin" rel='{"title":"<?php echo FText::_('JGLOBAL_EMAIL'); ?>", "loadMethod":"iframe", "height":"300px"}' href="<?php echo $this->emailURL?>">
 			<i class="icon-envelope"></i>
-			<?php echo JText::_('JGLOBAL_EMAIL'); ?>
+			<?php echo FText::_('JGLOBAL_EMAIL'); ?>
 		</a>
 	<?php endif;
 
 	if ($this->showPDF):?>
 		<a class="btn" href="<?php echo $this->pdfURL?>">
 			<i class="icon-file"></i>
-			<?php echo JText::_('COM_FABRIK_PDF')?>
+			<?php echo FText::_('COM_FABRIK_PDF')?>
 		</a>
 	<?php endif;
 	?>

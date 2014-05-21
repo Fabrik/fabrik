@@ -104,12 +104,7 @@ echo $this->plugintop;
 		endif; ?>
 			<fieldset class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
 				<?php
-				$allHidden = true;
-				foreach ($group->elements as $element)
-				{
-					$allHidden &= $element->hidden;
-				}
-				if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+				if ($group->showLegend) :?>
 					<legend class="legend"><?php echo $group->title;?></legend>
 				<?php
 				endif;
@@ -149,7 +144,7 @@ endif;
 echo $this->pluginbottom;
 echo $this->loadTemplate('actions');
 ?>
-</form>
+
 <?php
 if ($model->editable) :
 		echo '</form>';

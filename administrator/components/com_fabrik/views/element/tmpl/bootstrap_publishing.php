@@ -15,21 +15,21 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <div class="tab-pane" id="tab-publishing">
 	<fieldset class="form-horizontal">
-		<legend><?php echo JText::_('COM_FABRIK_PUBLISHING');?></legend>
+		<legend><?php echo FText::_('COM_FABRIK_PUBLISHING');?></legend>
 		<ul class="nav nav-tabs">
 			<li class="active">
 					<a data-toggle="tab" href="#publishing-details">
-						<?php echo JText::_('COM_FABRIK_ELEMENT_LABEL_PUBLISHING_DETAILS'); ?>
+						<?php echo FText::_('COM_FABRIK_ELEMENT_LABEL_PUBLISHING_DETAILS'); ?>
 					</a>
 				</li>
 				<li>
 					<a data-toggle="tab" href="#publishing-rss">
-						<?php echo JText::_('COM_FABRIK_ELEMENT_LABEL_RSS')?>
+						<?php echo FText::_('COM_FABRIK_ELEMENT_LABEL_RSS')?>
 					</a>
 				</li>
 				<li>
 					<a data-toggle="tab" href="#publishing-tips">
-						<?php echo JText::_('COM_FABRIK_ELEMENT_LABEL_TIPS')?>
+						<?php echo FText::_('COM_FABRIK_ELEMENT_LABEL_TIPS')?>
 					</a>
 				</li>
 		</ul>

@@ -412,6 +412,24 @@
 			</field>
 
 			<field
+				name="fb_gm_default_lat"
+				type="text"
+				size="3"
+				class="input-mini"
+				default="0.0"
+				label="PLG_VISUALIZATION_GOOGLEMAP_DEFAULT_LAT_LABEL"
+				description="PLG_VISUALIZATION_GOOGLEMAP_DEFAULT_LAT_DESC" />
+
+			<field
+				name="fb_gm_default_lon"
+				size="3"
+				type="text"
+				class="input-mini"
+				default="0.0"
+				label="PLG_VISUALIZATION_GOOGLEMAP_DEFAULT_LON_LABEL"
+				description="PLG_VISUALIZATION_GOOGLEMAP_DEFAULT_LON_DESC" />
+
+			<field
 				name="fb_gm_mapwidth"
 				type="text"
 				size="3"

@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHTML::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 JHtml::_('behavior.keepalive');
 
 ?>
@@ -38,7 +38,7 @@ JHtml::_('behavior.keepalive');
 			window.fireEvent('form.save');
 			Joomla.submitform(task, document.getElementById('adminForm'));
 		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -46,7 +46,7 @@ JHtml::_('behavior.keepalive');
 <form action="<?php JRoute::_('index.php?option=com_fabrik'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_DETAILS');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_DETAILS');?></legend>
 			<ul class="adminformlist">
 				<?php foreach ($this->form->getFieldset('details') as $field) :?>
 				<li>
@@ -66,7 +66,7 @@ JHtml::_('behavior.keepalive');
 		foreach ($buttons as $button) :?>
 
 			<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_BUTTONS') . ': ' . $button ;?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_BUTTONS') . ': ' . $button ;?></legend>
 			<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset('buttons-' . $button) as $field) :?>
 			<li>
@@ -78,7 +78,7 @@ JHtml::_('behavior.keepalive');
 		<?php endforeach; ?>
 
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_FORM_PROCESSING');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_FORM_PROCESSING');?></legend>
 			<ul class="adminformlist">
 				<li>
 					<?php
@@ -88,7 +88,7 @@ JHtml::_('behavior.keepalive');
 						echo $this->form->getInput('record_in_database');
 					else :
 					echo '<span style="padding-top:5px;display:inline-block">';
-						echo $this->item->record_in_database == 1 ? JText::_('JYES') : JText::_('JNO');
+						echo $this->item->record_in_database == 1 ? FText::_('JYES') : FText::_('JNO');
 						echo '</span>';
 					endif;
 					echo $this->form->getLabel('db_table_name');
@@ -112,7 +112,7 @@ JHtml::_('behavior.keepalive');
 		</fieldset>
 
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_NOTES');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_NOTES');?></legend>
 			<ul class="adminformlist">
 				<?php foreach ($this->form->getFieldset('notes') as $field) :?>
 				<li>
@@ -126,19 +126,19 @@ JHtml::_('behavior.keepalive');
 	<div class="width-50 fltrt">
 		<?php echo JHtml::_('tabs.start', 'table-tabs-' . $this->item->id, array('useCookie' => 1));
 
-		echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'form_publishing');
+		echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS'), 'form_publishing');
 		echo $this->loadTemplate('publishing');
 
-		echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_GROUPS'), 'form_groups');
+		echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_GROUPS'), 'form_groups');
 		echo $this->loadTemplate('groups');
 
-		echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_LAYOUT'), 'form_templates');
+		echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_LAYOUT'), 'form_templates');
 		echo $this->loadTemplate('templates');
 
-		echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_OPTIONS'), 'form_options');
+		echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_OPTIONS'), 'form_options');
 		echo $this->loadTemplate('options');
 
-		echo JHtml::_('tabs.panel', JText::_('COM_FABRIK_PLUGINS'), 'form_plugins');
+		echo JHtml::_('tabs.panel', FText::_('COM_FABRIK_PLUGINS'), 'form_plugins');
 		echo $this->loadTemplate('plugins');
 		echo JHtml::_('tabs.end'); ?>
 	</div>

@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
 	<li>
 		<a href="#" class="toggleFilters">
 			<?php echo $this->buttons->filter;?>
-			<span><?php echo JText::_('COM_FABRIK_FILTER');?></span>
+			<span><?php echo FText::_('COM_FABRIK_FILTER');?></span>
 		</a>
 	</li>
 <?php }
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
 		<li>
 			<a href="#" class="groupBy">
 				<?php echo $this->buttons->groupby;?>
-				<span><?php echo JText::_('COM_FABRIK_GROUP_BY');?></span>
+				<span><?php echo FText::_('COM_FABRIK_GROUP_BY');?></span>
 			</a>
 			<ul>
 				<?php foreach ($this->groupByHeadings as $url => $obj) {?>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 	<li class="csvExportButton">
 		<a href="#">
 			<?php echo $this->buttons->csvexport;?>
-			<span><?php echo JText::_('COM_FABRIK_EXPORT_TO_CSV');?></span>
+			<span><?php echo FText::_('COM_FABRIK_EXPORT_TO_CSV');?></span>
 		</a>
 	</li>
 <?php }?>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
 <li class="csvImportButton">
 		<a href="<?php echo $this->csvImportLink;?>">
 			<?php echo $this->buttons->csvimport;?>
-			<span><?php echo JText::_('COM_FABRIK_IMPORT_FROM_CSV');?></span>
+			<span><?php echo FText::_('COM_FABRIK_IMPORT_FROM_CSV');?></span>
 		</a>
 
 	</li>
@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access');
 <li class="feedButton">
 		<a href="<?php echo $this->rssLink;?>">
 			<?php echo $this->buttons->feed;?>
-			<span><?php echo JText::_('COM_FABRIK_SUBSCRIBE_RSS');?></span>
+			<span><?php echo FText::_('COM_FABRIK_SUBSCRIBE_RSS');?></span>
 		</a>
 	</li>
 <?php }
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Restricted access');
 		<li class="pdfButton">
 			<a href="<?php echo $this->pdfLink;?>">
 				<?php echo $this->buttons->pdf;?>
-				<span><?php echo JText::_('COM_FABRIK_PDF');?></span>
+				<span><?php echo FText::_('COM_FABRIK_PDF');?></span>
 			</a>
 		</li>
 	<?php }
@@ -86,7 +86,7 @@ if ($this->emptyLink) {?>
 	<li class="doempty">
 	<a href="<?php echo $this->emptyLink?>"/>
 	<?php echo $this->buttons->empty;?>
-	<span><?php echo JText::_('COM_FABRIK_EMPTY')?></span>
+	<span><?php echo FText::_('COM_FABRIK_EMPTY')?></span>
 	</a>
 	</li>
 <?php }?>

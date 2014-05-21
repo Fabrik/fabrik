@@ -59,7 +59,12 @@
 							type="text"
 							label="PLG_LIST_UPDATE_COL_UPDATE_TO_LABEL"
 							size="30" />
-							
+
+						<field name="update_eval"
+						 	type="checkbox"
+							default="0"
+							label="COM_FABRIK_EVAL" />
+											
 					</fieldset>
 				</fields>
 				
@@ -87,6 +92,13 @@
 				label="PLG_LIST_UPDATE_COL_UPDATE_USER_LABEL"
 				repeat="true"
 				valueformat="tableelement"/>
+				
+			<field name="update_post_eval"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_LIST_UPDATE_COL_POST_EVAL_DESC"
+				label="PLG_LIST_UPDATE_COL_POST_EVAL_LABEL"
+				repeat="true" />
 		
 		</fieldset>
 		

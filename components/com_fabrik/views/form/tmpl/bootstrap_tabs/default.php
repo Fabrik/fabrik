@@ -20,7 +20,7 @@ $active = ($form->error != '') ? '' : ' fabrikHide';
 if ($model->isMultiPage())
 {
 	$app = JFactory::getApplication();
-	$app->enqueueMessage(JText::_('COM_FABRIK_ERR_TAB_FORM_TEMPLATE_INCOMPATIBLE_WITH_MULTIPAGE_FORMS'), 'error');
+	$app->enqueueMessage(FText::_('COM_FABRIK_ERR_TAB_FORM_TEMPLATE_INCOMPATIBLE_WITH_MULTIPAGE_FORMS'), 'error');
 }
 
 if ($this->params->get('show_page_heading', 1)) : ?>
@@ -69,7 +69,7 @@ echo $this->plugintop;
 		// So we should only show a tab if: it is first tab, or if it is a page break
 		if (!$model->isMultiPage() || $i == 0 || $group->splitPage) :
 			?>
-				<li <?php if ($i == 0) echo 'class="active"'?>>
+				<li <?php if ($i == 0) echo 'class="active"'?> style="<?php echo $group->css;?>">
 					<a href="#group-tab<?php echo $i;?>" data-toggle="tab" id="group<?php echo $group->id;?>_tab">
 						<?php
 							if (!empty($group->title))
@@ -107,12 +107,7 @@ echo $this->plugintop;
 		endif; ?>
 			<fieldset class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
 				<?php
-				$allHidden = true;
-				foreach ($group->elements as $element)
-				{
-					$allHidden &= $element->hidden;
-				}
-				if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+				if ($group->showLegend) : ?>
 					<legend class="legend"><?php echo $group->title;?></legend>
 				<?php
 				endif;

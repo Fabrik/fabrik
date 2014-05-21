@@ -90,10 +90,10 @@ class JFormFieldUploadsize extends JFormField
 	{
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		$text = $this->translateLabel ? FText::_($text) : $text;
 		$max = $this->getMax();
 		$mb = $max / 1024;
-		$this->description = JText::_($this->description) . $max . 'Kb / ' . $mb . 'Mb';
+		$this->description = FText::_($this->description) . $max . 'Kb / ' . $mb . 'Mb';
 
 		return parent::getLabel();
 	}

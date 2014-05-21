@@ -642,17 +642,25 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
+
+		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => FText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
 		$translation = JHtmlBehavior::_calendartranslation();
 		$document = JFactory::getDocument();
 		$tag = JFactory::getLanguage()->getTag();
 
 		$app = JFactory::getApplication();
-		if ($app->isAdmin())
+		$option = $app->input->get('option');
+
+		// Bah - not sure why we were trying to load the calendar via requirejs
+		$isFabrik = $option == 'com_fabrik' || !is_null($app->input->get('fabrik_sticky_filters'));
+		$isFabrik = false;
+
+		if ($app->isAdmin() || !$isFabrik)
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			JHtml::_('script', $tag . '/calendar.js', false, true);
 			JHtml::_('script', $tag . '/calendar-setup.js', false, true);
+
 			if ($translation)
 			{
 				$document->addScriptDeclaration($translation);
@@ -660,17 +668,17 @@ abstract class JHtmlBehavior
 		}
 		else
 		{
-
 			$f = array();
 			$f[] = JHtml::_('script', $tag . '/calendar.js', false, true, true);
 			$f[] = JHtml::_('script', $tag . '/calendar-setup.js', false, true, true);
+
 			if ($translation)
 			{
+				// In any event its not right as the 2 scrips would need to be loaded one after the other
 				$translation = "requirejs(" . json_encode($f) . ", function () { $translation });\n";
 				$document->addScriptDeclaration($translation);
 			}
 		}
-
 
 		self::$loaded[__METHOD__] = true;
 	}
@@ -930,31 +938,31 @@ abstract class JHtmlBehavior
 
 		if ($jsscript == 0)
 		{
-			$return = 'Calendar._DN = new Array ("' . JText::_('SUNDAY', true) . '", "' . JText::_('MONDAY', true) . '", "'
-				. JText::_('TUESDAY', true) . '", "' . JText::_('WEDNESDAY', true) . '", "' . JText::_('THURSDAY', true) . '", "'
-				. JText::_('FRIDAY', true) . '", "' . JText::_('SATURDAY', true) . '", "' . JText::_('SUNDAY', true) . '");'
-				. ' Calendar._SDN = new Array ("' . JText::_('SUN', true) . '", "' . JText::_('MON', true) . '", "' . JText::_('TUE', true) . '", "'
-				. JText::_('WED', true) . '", "' . JText::_('THU', true) . '", "' . JText::_('FRI', true) . '", "' . JText::_('SAT', true) . '", "'
-				. JText::_('SUN', true) . '");' . ' Calendar._FD = 0;' . ' Calendar._MN = new Array ("' . JText::_('JANUARY', true) . '", "'
-				. JText::_('FEBRUARY', true) . '", "' . JText::_('MARCH', true) . '", "' . JText::_('APRIL', true) . '", "' . JText::_('MAY', true)
-				. '", "' . JText::_('JUNE', true) . '", "' . JText::_('JULY', true) . '", "' . JText::_('AUGUST', true) . '", "'
-				. JText::_('SEPTEMBER', true) . '", "' . JText::_('OCTOBER', true) . '", "' . JText::_('NOVEMBER', true) . '", "'
-				. JText::_('DECEMBER', true) . '");' . ' Calendar._SMN = new Array ("' . JText::_('JANUARY_SHORT', true) . '", "'
-				. JText::_('FEBRUARY_SHORT', true) . '", "' . JText::_('MARCH_SHORT', true) . '", "' . JText::_('APRIL_SHORT', true) . '", "'
-				. JText::_('MAY_SHORT', true) . '", "' . JText::_('JUNE_SHORT', true) . '", "' . JText::_('JULY_SHORT', true) . '", "'
-				. JText::_('AUGUST_SHORT', true) . '", "' . JText::_('SEPTEMBER_SHORT', true) . '", "' . JText::_('OCTOBER_SHORT', true) . '", "'
-				. JText::_('NOVEMBER_SHORT', true) . '", "' . JText::_('DECEMBER_SHORT', true) . '");'
-				. ' Calendar._TT = {};Calendar._TT["INFO"] = "' . JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR', true) . '";'
+			$return = 'Calendar._DN = new Array ("' . FText::_('SUNDAY', true) . '", "' . FText::_('MONDAY', true) . '", "'
+				. FText::_('TUESDAY', true) . '", "' . FText::_('WEDNESDAY', true) . '", "' . FText::_('THURSDAY', true) . '", "'
+				. FText::_('FRIDAY', true) . '", "' . FText::_('SATURDAY', true) . '", "' . FText::_('SUNDAY', true) . '");'
+				. ' Calendar._SDN = new Array ("' . FText::_('SUN', true) . '", "' . FText::_('MON', true) . '", "' . FText::_('TUE', true) . '", "'
+				. FText::_('WED', true) . '", "' . FText::_('THU', true) . '", "' . FText::_('FRI', true) . '", "' . FText::_('SAT', true) . '", "'
+				. FText::_('SUN', true) . '");' . ' Calendar._FD = 0;' . ' Calendar._MN = new Array ("' . FText::_('JANUARY', true) . '", "'
+				. FText::_('FEBRUARY', true) . '", "' . FText::_('MARCH', true) . '", "' . FText::_('APRIL', true) . '", "' . FText::_('MAY', true)
+				. '", "' . FText::_('JUNE', true) . '", "' . FText::_('JULY', true) . '", "' . FText::_('AUGUST', true) . '", "'
+				. FText::_('SEPTEMBER', true) . '", "' . FText::_('OCTOBER', true) . '", "' . FText::_('NOVEMBER', true) . '", "'
+				. FText::_('DECEMBER', true) . '");' . ' Calendar._SMN = new Array ("' . FText::_('JANUARY_SHORT', true) . '", "'
+				. FText::_('FEBRUARY_SHORT', true) . '", "' . FText::_('MARCH_SHORT', true) . '", "' . FText::_('APRIL_SHORT', true) . '", "'
+				. FText::_('MAY_SHORT', true) . '", "' . FText::_('JUNE_SHORT', true) . '", "' . FText::_('JULY_SHORT', true) . '", "'
+				. FText::_('AUGUST_SHORT', true) . '", "' . FText::_('SEPTEMBER_SHORT', true) . '", "' . FText::_('OCTOBER_SHORT', true) . '", "'
+				. FText::_('NOVEMBER_SHORT', true) . '", "' . FText::_('DECEMBER_SHORT', true) . '");'
+				. ' Calendar._TT = {};Calendar._TT["INFO"] = "' . FText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR', true) . '";'
 				. ' Calendar._TT["ABOUT"] =
  "DHTML Date/Time Selector\n" +
  "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
 "For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
 "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
 "\n\n" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', false, false)
+"' . FText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', false, false) . '" +
+"' . FText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', false, false) . '" +
+"' . FText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', false, false) . '" +
+"' . FText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', false, false)
 				. '";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "Time selection:\n" +
@@ -962,20 +970,20 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or Shift-click to decrease it\n" +
 "- or click and drag for faster selection.";
 
-		Calendar._TT["PREV_YEAR"] = "' . JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["PREV_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["GO_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true) . '";' . ' Calendar._TT["NEXT_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["NEXT_YEAR"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["SEL_DATE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true) . '";' . ' Calendar._TT["DRAG_TO_MOVE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true) . '";' . ' Calendar._TT["PART_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TODAY', true) . '";' . ' Calendar._TT["DAY_FIRST"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
-				. '";' . ' Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
+		Calendar._TT["PREV_YEAR"] = "' . FText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["PREV_MONTH"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["GO_TODAY"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true) . '";' . ' Calendar._TT["NEXT_MONTH"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["NEXT_YEAR"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["SEL_DATE"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true) . '";' . ' Calendar._TT["DRAG_TO_MOVE"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true) . '";' . ' Calendar._TT["PART_TODAY"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_TODAY', true) . '";' . ' Calendar._TT["DAY_FIRST"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
+				. FText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . FText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
+				. '";' . ' Calendar._TT["TIME_PART"] = "' . FText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
 				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
-				. ' Calendar._TT["TIME"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
+				. FText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . FText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
+				. ' Calendar._TT["TIME"] = "' . FText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
 			$jsscript = 1;
 			return $return;
 		}

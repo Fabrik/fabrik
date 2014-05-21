@@ -102,7 +102,7 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	{
 		$params = $this->getParams();
 		$tz_offset = $params->get('gmt_or_local', '0') == '0';
-		$data = JHTML::_('date', $data, JText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')), $tz_offset);
+		$data = JHTML::_('date', $data, FText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')), $tz_offset);
 
 		return parent::renderListData($data, $thisRow);
 	}
@@ -138,7 +138,7 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	 * @return  bool
 	 */
 
-	protected function isHidden()
+	public function isHidden()
 	{
 		return true;
 	}

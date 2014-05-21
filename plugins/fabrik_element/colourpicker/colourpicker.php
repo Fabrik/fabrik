@@ -168,7 +168,7 @@ class PlgFabrik_ElementColourpicker extends PlgFabrik_Element
 			$str[] = '<div class="colourPickerBackground colourpicker-widget fabrikWindow" style="display:none;min-width:350px;min-height:250px;">';
 			$str[] = '<div class="draggable modal-header">';
 			$str[] = '<div class="colourpicker_output img-rounded" style="width:15px;height:15px;float:left;margin-right:10px;"></div> ';
-			$str[] = JText::_('PLG_FABRIK_COLOURPICKER_COLOUR');
+			$str[] = FText::_('PLG_FABRIK_COLOURPICKER_COLOUR');
 
 			if (FabrikWorker::j3())
 			{
@@ -186,8 +186,8 @@ class PlgFabrik_ElementColourpicker extends PlgFabrik_Element
 				$str[] = '<div class="row-fluid">';
 				$str[] = '  <div class="span7">';
 				$str[] = '    <ul class="nav nav-tabs">';
-				$str[] = '      <li class="active"><a href="#' . $id . '-picker" data-toggle="tab">' . JText::_('PLG_FABRIK_COLOURPICKER_PICKER') . '</a></li>';
-				$str[] = '      <li><a href="#' . $id . '-swatch" data-toggle="tab">' . JText::_('PLG_FABRIK_COLOURPICKER_SWATCH') . '</a></li>';
+				$str[] = '      <li class="active"><a href="#' . $id . '-picker" data-toggle="tab">' . FText::_('PLG_FABRIK_COLOURPICKER_PICKER') . '</a></li>';
+				$str[] = '      <li><a href="#' . $id . '-swatch" data-toggle="tab">' . FText::_('PLG_FABRIK_COLOURPICKER_SWATCH') . '</a></li>';
 				$str[] = '    </ul>';
 				$str[] = '    <div class="tab-content">';
 				$str[] = '      <div class="tab-pane active" id="' . $id . '-picker"></div>';

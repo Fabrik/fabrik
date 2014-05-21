@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (count($this->rows) == 0) :
-	echo JText::_('YOU_ARE_NOT_SUBSCRIBED_TO_ANY_NOTIFICATIONS');
+	echo FText::_('YOU_ARE_NOT_SUBSCRIBED_TO_ANY_NOTIFICATIONS');
 else:
 ?>
 <form action="index.php" method="post" name="adminForm">
@@ -22,10 +22,10 @@ else:
 			<tr>
 				<th width="1%"> <input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo count($this->rows);?>);" /> </th>
 				<th width="49%">
-					<?php echo JText::_('PLG_CRON_NOTIFICATION_ENTRY')?>
+					<?php echo FText::_('PLG_CRON_NOTIFICATION_ENTRY')?>
 				</th>
 				<th width ="50%">
-					<?php echo JText::_('PLG_CRON_NOTIFICATION_REASON')?>
+					<?php echo FText::_('PLG_CRON_NOTIFICATION_REASON')?>
 				</th>
 			</tr>
 		</thead>
@@ -48,7 +48,7 @@ endfor;
 ?>
 		</tbody>
 	</table>
-	<input type="submit" value="<?php echo JText::_('COM_FABRIK_DELETE')?>" class="button btn btn-danger"/>
+	<input type="submit" value="<?php echo FText::_('COM_FABRIK_DELETE')?>" class="button btn btn-danger"/>
 	<input type="hidden" name="option" value="com_fabrik" />
 	<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
 	<input type="hidden" name="task" value="cron.delete" />

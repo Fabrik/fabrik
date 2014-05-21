@@ -257,7 +257,8 @@ var FbTextarea = new Class({
 	setContent: function (c)
 	{
 		if (this.options.wysiwyg) {
-			var r = tinyMCE.getInstanceById(this.element.id).setContent(c);
+			var ti = tinyMCE.majorVersion.toInt() >= 4 ? tinyMCE.get(this.element.id) : tinyMCE.getInstanceById(this.element.id);
+			var r = ti.setContent(c);
 			this.moveCursorToEnd();
 			return r;
 		} else {

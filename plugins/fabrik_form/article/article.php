@@ -23,6 +23,12 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 class PlgFabrik_FormArticle extends PlgFabrik_Form
 {
 	/**
+	 * Images
+	 * @var object
+	 */
+	public $images = null;
+
+	/**
 	 * Create articles - needed to be before store as we are altering the metastore element's data
 	 *
 	 * @return	bool
@@ -40,7 +46,17 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		}
 
 		$store = $this->metaStore();
-		$categories = (array) $params->get('categories');
+
+		if ($catElement = $formModel->getElement($params->get('categories_element'), true))
+		{
+			$cat = $catElement->getFullName() . '_raw';
+			$categories = (array) JArrayHelper::getValue($this->data, $cat);
+			$this->mapCategoryChanges($categories, $store);
+		}
+		else
+		{
+			$categories = (array) $params->get('categories');
+		}
 
 		foreach ($categories as $category)
 		{
@@ -55,6 +71,42 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	}
 
 	/**
+	 * If changing selected category on editing a record, the new category id needs to be assigned as a
+	 * property to $store with the existing article id. Not tested if say for example the category element
+	 * is a multi-select
+	 *
+	 * @param   array   $categories  Categories selected by the user
+	 * @param   object  &$store      Previously stored categoryid->articleid map
+	 *
+	 * @return  object  $store
+	 */
+	protected function mapCategoryChanges($categories, &$store)
+	{
+		$defaultAricleId = null;
+
+		if (!empty($categories))
+		{
+			foreach ($store as $catid => $articleId)
+			{
+				if (!in_array($catid, $categories))
+				{
+					// We've swapped categories for an existing article
+					$defaultAricleId = $articleId;
+				}
+			}
+			foreach ($categories as $category)
+			{
+				if (!isset($store->$category))
+				{
+					$store->$category = $defaultAricleId;
+				}
+			}
+		}
+
+		return $store;
+	}
+
+	/**
 	 * Save article
 	 *
 	 * @param   int  $id     Article Id
@@ -64,7 +116,12 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 */
 	protected function saveAritcle($id, $catid)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
+		// Include the content plugins for the on save events.
+		JPluginHelper::importPlugin('content');
+
 		$params = $this->getParams();
+		$user = JFactory::getUser();
 		$data = array('articletext' => $this->buildContent(), 'catid' => $catid, 'state' => 1, 'language' => '*');
 		$attribs = array('title' => '', 'publish_up' => '', 'publish_down' => '', 'featured' => '0', 'state' => '1', 'metadesc' => '', 'metakey' => '', 'tags' => '');
 
@@ -73,12 +130,12 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		if (is_null($id))
 		{
 			$data['created'] = JFactory::getDate()->toSql();
-			$attribs[] = 'created_by';
+			$attribs['created_by'] = $user->get('id');
 		}
 		else
 		{
 			$data['modified'] = JFactory::getDate()->toSql();
-			$data['modified_by'] = JFactory::getUser()->id;
+			$data['modified_by'] = $user->get('id');
 		}
 
 		foreach ($attribs as $attrib => $default)
@@ -91,20 +148,36 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 
 		$this->generateNewTitle($id, $catid, $data);
+		$isNew = is_null($id) ? true : false;
 
-		if (!is_null($id))
+		if (!$isNew)
 		{
 			$readmore = 'index.php?option=com_content&view=article&id=' . $id;
 			$data['articletext'] = str_replace('{readmore}', $readmore, $data['articletext']);
 		}
 
+
 		$item = JTable::getInstance('Content');
 		$item->load($id);
 		$item->bind($data);
+
+
+		// Trigger the onContentBeforeSave event.
+		$result = $dispatcher->trigger('onContentBeforeSave', array('com_content.article', $item, $isNew));
+
 		$item->store();
 
+		// Featured is handled by the admin content model.
+		JTable::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/tables');
+		JModelLegacy::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/models');
+		$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
+		$articleModel->featured($item->id, $item->featured);
+
+		// Trigger the onContentAfterSave event.
+		$result = $dispatcher->trigger('onContentAfterSave', array('com_content.article', $item, $isNew));
+
 		// New record - need to re-save with {readmore} replacement
-		if (is_null($id) && strstr($data['articletext'], '{readmore}'))
+		if ($isNew && strstr($data['articletext'], '{readmore}'))
 		{
 			$readmore = 'index.php?option=com_content&view=article&id=' . $item->id;
 			$data['articletext'] = str_replace('{readmore}', $readmore, $data['articletext']);
@@ -210,6 +283,20 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 				}
 			}
 		}
+		// Parse any other fileupload image
+		$uploads = $formModel->getListModel()->getElementsOfType('fileupload');
+
+		foreach ($uploads as $upload)
+		{
+			$name = $upload->getFullName(true, false);
+			$shortName = $upload->getElement()->name;
+			$size = $params->get('image_full_size', 'thumb');
+
+			list($file, $placeholder) = $this->setImage($upload->getElement()->id, $size);
+
+			$img->$name = $placeholder;
+			$img->$shortName = $placeholder;
+		}
 
 		$this->images = $img;
 
@@ -293,13 +380,13 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		// If its an existing article don't edit name
 		if ((int) $id !== 0)
 		{
-			$data['alias'] = JStringNormalise::toDashSeparated($data['title']);
-
+			$data['alias'] = JApplication::stringURLSafe(JStringNormalise::toDashSeparated($data['title']));
 			return;
 		}
 
 		$table = JTable::getInstance('Content');
-		$alias = JStringNormalise::toDashSeparated($data['title']);
+		$alias = JApplication::stringURLSafe(JStringNormalise::toDashSeparated($data['title']));
+
 		$title = $data['title'];
 
 		while ($table->load(array('alias' => $alias, 'catid' => $catid)))
@@ -472,8 +559,8 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 			. $input->get('rowid', '', 'string');
 		$viewURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
 			. $input->get('rowid', '', 'string');
-		$editlink = '<a href="' . $editURL . '">' . JText::_('EDIT') . '</a>';
-		$viewlink = '<a href="' . $viewURL . '">' . JText::_('VIEW') . '</a>';
+		$editlink = '<a href="' . $editURL . '">' . FText::_('EDIT') . '</a>';
+		$viewlink = '<a href="' . $viewURL . '">' . FText::_('VIEW') . '</a>';
 		$message = str_replace('{fabrik_editlink}', $editlink, $message);
 		$message = str_replace('{fabrik_viewlink}', $viewlink, $message);
 		$message = str_replace('{fabrik_editurl}', $editURL, $message);

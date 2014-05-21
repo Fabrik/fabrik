@@ -65,7 +65,7 @@ class AllVideosRender
 
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
 		{
-			$this->output = JText::_('PLG_ELEMENT_FILEUPLOAD_INSTALL_ALL_VIDEOS');
+			$this->output = FText::_('PLG_ELEMENT_FILEUPLOAD_INSTALL_ALL_VIDEOS');
 			return;
 		}
 

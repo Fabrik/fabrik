@@ -314,8 +314,8 @@ class FabrikFEModelVisualization extends JModelLegacy
 			}
 		}
 
-		$title = '<span>' . JText::_('COM_FABRIK_ADVANCED_SEARCH') . '</span>';
-		$opts = array('alt' => JText::_('COM_FABRIK_ADVANCED_SEARCH'), 'class' => 'fabrikTip', 'opts' => "{notice:true}", 'title' => $title);
+		$title = '<span>' . FText::_('COM_FABRIK_ADVANCED_SEARCH') . '</span>';
+		$opts = array('alt' => FText::_('COM_FABRIK_ADVANCED_SEARCH'), 'class' => 'fabrikTip', 'opts' => "{notice:true}", 'title' => $title);
 		$img = FabrikHelperHTML::image('find.png', 'list', '', $opts);
 
 		if (count($links) === 1)
@@ -617,5 +617,24 @@ class FabrikFEModelVisualization extends JModelLegacy
 	public function getId()
 	{
 		return $this->getState('id');
+	}
+
+	/**
+	 * Can the use view the visualization (checks published and access level)
+	 *
+	 * @return boolean
+	 */
+	public function canView()
+	{
+		$user = JFactory::getUser();
+		$groups = JFactory::getUser()->getAuthorisedViewLevels();
+		$row = $this->getRow();
+
+		if ($row->published == 0)
+		{
+			return false;
+		}
+
+		return in_array($row->access, $groups);
 	}
 }

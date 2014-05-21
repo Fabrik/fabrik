@@ -116,7 +116,7 @@ class JFormFieldTables extends JFormFieldList
 
 		$html = parent::getInput();
 		$html .= "<img style='margin-left:10px;display:none' id='" . $this->id . "_loader' src='components/com_fabrik/images/ajax-loader.gif' alt='"
-			. JText::_('LOADING') . "' />";
+			. FText::_('LOADING') . "' />";
 		FabrikHelperHTML::framework();
 		FabrikHelperHTML::iniRequireJS();
 

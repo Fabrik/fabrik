@@ -61,7 +61,8 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		$multisize = $params->get('dropdown_multisize', 3);
 		$selected = (array) $this->getValue($data, $repeatCounter);
 		$errorCSS = $this->elementError != '' ? " elementErrorHighlight" : '';
-		$attribs = 'class="fabrikinput inputbox' . $errorCSS . '"';
+		$boostrapClass = $params->get('bootstrap_class', '');
+		$attribs = 'class="fabrikinput inputbox input ' . $errorCSS . ' ' . $boostrapClass . '"';
 
 		if ($multiple == "1")
 		{
@@ -120,6 +121,7 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		$settings['id'] = $id;
 		$settings['list.attr'] = $attribs;
 		$settings['group.items'] = null;
+
 
 		if ($optgroup)
 		{

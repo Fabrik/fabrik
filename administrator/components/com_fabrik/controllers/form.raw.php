@@ -113,7 +113,7 @@ class FabrikAdminControllerForm extends JControllerForm
 					if (!empty($eMsgs))
 					{
 						$eMsgs = '<ul>' . implode('</li><li>', $eMsgs) . '</ul>';
-						header('HTTP/1.1 500 ' . JText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
+						header('HTTP/1.1 500 ' . FText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
 						jexit();
 					}
 					else
@@ -222,7 +222,7 @@ class FabrikAdminControllerForm extends JControllerForm
 
 		if (is_null($msg))
 		{
-			$msg = JText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
+			$msg = FText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
 		}
 
 		if (array_key_exists('apply', $model->formData))

@@ -38,6 +38,14 @@ class FabrikViewCalendar extends JViewLegacy
 		$input = $app->input;
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		echo $model->getEvents();
 	}
 }

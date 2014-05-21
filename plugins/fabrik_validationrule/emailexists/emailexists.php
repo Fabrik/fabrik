@@ -149,7 +149,7 @@ class PlgFabrik_ValidationruleEmailExists extends PlgFabrik_Validationrule
 
 		if ($cond == 'fail_if_not_exists')
 		{
-			return JText::_('PLG_VALIDATIONRULE_EMAILEXISTS_LABEL_NOT');
+			return FText::_('PLG_VALIDATIONRULE_EMAILEXISTS_LABEL_NOT');
 		}
 		else
 		{

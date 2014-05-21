@@ -1062,7 +1062,7 @@ class FabrikFEModelForm extends FabModelForm
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
-		if ($this->isNewRecord())
+		if ($this->isNewRecord() || !$this->getForm()->record_in_database)
 		{
 			$this->_origData = array(new stdClass);
 		}
@@ -2324,6 +2324,7 @@ class FabrikFEModelForm extends FabModelForm
 		}
 
 		FabrikHelperHTML::debug($this->errors, 'form:errors');
+		///echo "<pre>";print_r($this->errors);exit;
 		$this->setErrors($this->errors);
 
 		return $ok;
@@ -2359,7 +2360,6 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			$errors = $this->errors;
 		}
-
 		$this->clearErrors();
 		$this->errors = $errors;
 
@@ -2758,7 +2758,6 @@ class FabrikFEModelForm extends FabModelForm
 		$limit = $dir == 1 ? 'LIMIT 2' : '';
 		$intLimit = $dir == 1 ? 2 : 0;
 		$listModel = $this->getListModel();
-		$order = $listModel->buildQueryOrder();
 		$item = $listModel->getTable();
 		$rowid = $input->getString('rowid', '', 'string');
 		$query = $db->getQuery(true);
@@ -3221,7 +3220,13 @@ class FabrikFEModelForm extends FabModelForm
 								if (empty($usekey) && !$this->isMambot)
 								{
 									$this->rowId = '';
-									throw new RuntimeException(JText::_('COM_FABRIK_COULD_NOT_FIND_RECORD_IN_DATABASE'));
+									/**
+									 * runtime exception is a little obtuse for people getting here from legitimate links,
+									 * like from an email, but aren't logged in so run afoul of a pre-filter, etc
+									 * So do the 3.0 thing, and raise a warning
+									 */
+									//throw new RuntimeException(FText::_('COM_FABRIK_COULD_NOT_FIND_RECORD_IN_DATABASE'));
+									JError::raiseWarning(500, FText::_('COM_FABRIK_COULD_NOT_FIND_RECORD_IN_DATABASE'));
 								}
 								else
 								{
@@ -4121,11 +4126,11 @@ class FabrikFEModelForm extends FabModelForm
 
 		if (JString::stristr($label, "{Add/Edit}"))
 		{
-			$replace = $this->isNewRecord() ? JText::_('COM_FABRIK_ADD') : JText::_('COM_FABRIK_EDIT');
+			$replace = $this->isNewRecord() ? FText::_('COM_FABRIK_ADD') : FText::_('COM_FABRIK_EDIT');
 			$label = str_replace("{Add/Edit}", $replace, $label);
 		}
 
-		return JText::_($label);
+		return FText::_($label);
 	}
 
 	/**
@@ -4723,8 +4728,20 @@ class FabrikFEModelForm extends FabModelForm
 
 						// $$$ rob HTMLName seems not to work for joined data in confirmation plugin
 						$elementModel->getValuesToEncrypt($this->readOnlyVals, $data, $c);
-						$this->readOnlyVals[$elementModel->getFullName(true, false)]['repeatgroup'] = $groupModel->canRepeat();
-						$this->readOnlyVals[$elementModel->getFullName(true, false)]['join'] = $groupModel->isJoin();
+						/**
+						 * $$$ hugh - need to decode it if it's a string, 'cos we encoded $data up there ^^ somewhere, which
+						 * then causes read only data to get changed to htmlencoded after submission.  See this thread for gory details:
+						 * http://fabrikar.com/forums/index.php?threads/how-to-avoid-changes-to-an-element-with-a-read-only-link.37656/#post-192437
+						 */
+						$elName = $elementModel->getFullName(true, false);
+
+						if (!is_array($this->readOnlyVals[$elName]['data']))
+						{
+							$this->readOnlyVals[$elName]['data'] = htmlspecialchars_decode($this->readOnlyVals[$elName]['data']);
+						}
+
+						$this->readOnlyVals[$elName]['repeatgroup'] = $groupModel->canRepeat();
+						$this->readOnlyVals[$elName]['join'] = $groupModel->isJoin();
 					}
 
 					if ($element)
@@ -5134,7 +5151,7 @@ class FabrikFEModelForm extends FabModelForm
 
 			$params = $this->getParams();
 
-			return JText::_($params->get('submit-success-msg', 'COM_FABRIK_RECORD_ADDED_UPDATED'));
+			return FText::_($params->get('submit-success-msg', 'COM_FABRIK_RECORD_ADDED_UPDATED'));
 		}
 		else
 		{
@@ -5176,7 +5193,7 @@ class FabrikFEModelForm extends FabModelForm
 		$input = JFactory::getApplication()->input;
 		$msg = $input->get('rowid', '', 'string') == 0 ? 'COM_FABRIK_NOTICE_CANT_ADD_RECORDS' : 'COM_FABRIK_NOTICE_CANT_EDIT_RECORDS';
 
-		return JText::_($msg);
+		return FText::_($msg);
 	}
 
 	/**
@@ -5222,6 +5239,12 @@ class FabrikFEModelForm extends FabModelForm
 	{
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
+
+		if (!$this->showSuccessMsg())
+		{
+			return '';
+		}
+
 		$msg = $this->getSuccessMsg();
 		$context = $this->getRedirectContext();
 		$smsg = $session->get($context . 'msg', array($msg));

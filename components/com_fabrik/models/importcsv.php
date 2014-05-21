@@ -170,7 +170,7 @@ class FabrikFEModelImportcsv extends JModelForm
 	{
 		if (!(bool) ini_get('file_uploads'))
 		{
-			JError::raiseWarning(500, JText::_('COM_FABRIK_ERR_UPLOADS_DISABLED'));
+			JError::raiseWarning(500, FText::_('COM_FABRIK_ERR_UPLOADS_DISABLED'));
 
 			return false;
 		}
@@ -181,7 +181,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		if (!$userfile)
 		{
-			JError::raiseWarning(500, JText::_('COM_FABRIK_IMPORT_CSV_NO_FILE_SELECTED'));
+			JError::raiseWarning(500, FText::_('COM_FABRIK_IMPORT_CSV_NO_FILE_SELECTED'));
 
 			return false;
 		}
@@ -201,7 +201,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		if ($resultdir == false && !JFile::exists($to))
 		{
-			JError::raiseWarning(500, JText::_('Upload Error'));
+			JError::raiseWarning(500, FText::_('Upload Error'));
 
 			return false;
 		}
@@ -1142,7 +1142,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 	public function makeError()
 	{
-		$str = JText::_('COM_FABRIK_CSV_FIELDS_NOT_IN_TABLE');
+		$str = FText::_('COM_FABRIK_CSV_FIELDS_NOT_IN_TABLE');
 
 		foreach ($this->newHeadings as $heading)
 		{

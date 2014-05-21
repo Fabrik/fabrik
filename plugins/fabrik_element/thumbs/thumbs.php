@@ -123,7 +123,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 			{
 				$str[] = '<div class="btn-group">';
 				$str[] = '<button ' . $commentdata . ' data-fabrik-thumb-formid="' . $formid
-				. '" data-fabrik-thumb="up" class="btn btn-small thumb-up' . $upActiveClass . '">';
+				 . '" data-fabrik-thumb="up" class="btn btn-small thumb-up' . $upActiveClass . '">';
 				$str[] = '<span class="icon-thumbs-up"></span> <span class="thumb-count">' . $countUp . '</span></button>';
 
 				if ($params->get('show_down', 1))
@@ -217,7 +217,6 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 		$input = JFactory::getApplication()->input;
 		$listid = isset($this->listid) ? $this->listid : $this->getListModel()->getId();
 		$formid = isset($this->formid) ? $this->formid : $this->getFormModel()->getId();
-		$row_id = $input->get('row_id');
 		$db = FabrikWorker::getDbo();
 		$elementid = $this->getElement()->id;
 		$return = array();
@@ -653,7 +652,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 		$lang->load('plg_fabrik_element_thumbs', JPATH_BASE . '/plugns/fabrik_element/thumbs');
 		$opts = new stdClass;
 		$opts->canUse = $this->canUse();
-		$opts->noAccessMsg = trim(JText::_($params->get('thumbs_no_access_msg', JText::_('PLG_ELEMENT_THUMBS_NO_ACCESS_MSG_DEFAULT'))));
+		$opts->noAccessMsg = trim(FText::_($params->get('thumbs_no_access_msg', FText::_('PLG_ELEMENT_THUMBS_NO_ACCESS_MSG_DEFAULT'))));
 		$opts->row_id = $row_id;
 		$opts->myThumb = $this->getMyThumb($listid, $formid, $row_id);
 		$opts->elid = $this->getElement()->id;
@@ -712,7 +711,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 
 		$opts = new stdClass;
 		$opts->canUse = $this->canUse();
-		$opts->noAccessMsg = JText::_($params->get('thumbs_no_access_msg', JText::_('PLG_ELEMENT_THUMBS_NO_ACCESS_MSG_DEFAULT')));
+		$opts->noAccessMsg = FText::_($params->get('thumbs_no_access_msg', FText::_('PLG_ELEMENT_THUMBS_NO_ACCESS_MSG_DEFAULT')));
 		$opts->listid = $list->id;
 		$opts->formid = $this->getFormModel()->getId();
 		$opts->imagepath = COM_FABRIK_LIVESITE . 'plugins/fabrik_element/thumbs/images/';

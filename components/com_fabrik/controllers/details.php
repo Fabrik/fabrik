@@ -334,7 +334,7 @@ class FabrikControllerDetails extends JControllerLegacy
 
 		if (is_null($msg))
 		{
-			$msg = JText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
+			$msg = FText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
 		}
 
 		if ($app->isAdmin())
@@ -512,7 +512,7 @@ class FabrikControllerDetails extends JControllerLegacy
 		else
 		{
 			// @TODO: test this
-			$app->enqueueMessage(count($ids) . " " . JText::_('COM_FABRIK_RECORDS_DELETED'));
+			$app->enqueueMessage(count($ids) . " " . FText::_('COM_FABRIK_RECORDS_DELETED'));
 			$app->redirect($ref);
 		}
 	}

@@ -43,9 +43,16 @@ class FabrikViewFusion_Gantt_Chart extends JViewLegacy
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
 		$this->row = $model->getVisualization();
 
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		if ($this->row->published == 0)
 		{
-			JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			JError::raiseWarning(500, FText::_('JERROR_ALERTNOAUTHOR'));
 
 			return '';
 		}

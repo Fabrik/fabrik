@@ -224,7 +224,7 @@ class FabrikModelFusion_Gantt_Chart extends FabrikFEModelVisualization
 
 				// Use day = 0 to load last day of next month
 				$end = date('Y/m/d', mktime(0, 0, 0, $m + 1, 0, $y));
-				$m2 = $monthdisplay == 'str' ? JText::_(date('M', $starttime)) : $m;
+				$m2 = $monthdisplay == 'str' ? FText::_(date('M', $starttime)) : $m;
 				$this->fc->addGanttCategory($m2, "start=" . $start . ";end=" . $end . ";");
 			}
 		}

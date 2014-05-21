@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $url = JRoute::_('index.php');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 $action = JRoute::_('index.php?option=com_fabrik');
 $app = JFactory::getApplication();
 $listId = $app->input->getInt('listid');
@@ -43,7 +43,7 @@ $listId = $app->input->getInt('listid');
 	<input type="hidden" name="task" value="import.doimport" />
   	<?php echo JHTML::_('form.token');
 	echo JHTML::_('behavior.keepalive'); ?>
-	<input type="submit" class="btn btn-primary" value="<?php echo JText::_('COM_FABRIK_IMPORT_CSV')?>" />
+	<input type="submit" class="btn btn-primary" value="<?php echo FText::_('COM_FABRIK_IMPORT_CSV')?>" />
 </form>
 
 <script type="text/javascript">

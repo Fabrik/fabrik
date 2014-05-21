@@ -188,7 +188,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 
 		if (empty($currentGroups) && !$isnew)
 		{
-			throw new Exception(JText::_('COM_FABRIK_ERR_ONE_GROUP_MUST_BE_SELECTED'));
+			throw new Exception(FText::_('COM_FABRIK_ERR_ONE_GROUP_MUST_BE_SELECTED'));
 		}
 
 		$record_in_database = $data['record_in_database'];
@@ -264,7 +264,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 
 				if ($listModel->databaseTableExists($dbTableName))
 				{
-					return JError::raiseWarning(500, JText::_("COM_FABRIK_DB_TABLE_ALREADY_EXISTS"));
+					return JError::raiseWarning(500, FText::_("COM_FABRIK_DB_TABLE_ALREADY_EXISTS"));
 				}
 
 				$listModel->set('form.id', $formid);

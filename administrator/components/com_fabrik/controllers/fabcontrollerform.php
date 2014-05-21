@@ -46,7 +46,7 @@ class FabControllerForm extends JControllerForm
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JError::raiseWarning(500, FText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
 		{

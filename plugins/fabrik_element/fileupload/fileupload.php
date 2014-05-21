@@ -255,6 +255,13 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$formData = $this->getFormModel()->data;
 		$imgParams = JArrayHelper::getValue($formData, $paramsKey);
 
+		// Above paramsKey stuff looks really wonky - lets test if null and use something which seems to build the correct key
+		if (is_null($imgParams))
+		{
+			$paramsKey = $this->getFullName(true, false) . '___params';
+			$imgParams = JArrayHelper::getValue($formData, $paramsKey);
+		}
+
 		$value = $this->getValue(array(), $repeatCounter);
 		$value = is_array($value) ? $value : FabrikWorker::JSONtoData($value, true);
 		$value = $this->checkForSingleCropValue($value);
@@ -415,8 +422,8 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$opts->dragdrop = true;
 		$icon = $j3 ? 'picture' : 'image.png';
 		$resize = $j3 ? 'expand-2' : 'resize.png';
-		$opts->previewButton = FabrikHelperHTML::image($icon, 'form', @$this->tmpl, array('alt' => JText::_('PLG_ELEMENT_FILEUPLOAD_VIEW')));
-		$opts->resizeButton = FabrikHelperHTML::image($resize, 'form', @$this->tmpl, array('alt' => JText::_('PLG_ELEMENT_FILEUPLOAD_RESIZE')));
+		$opts->previewButton = FabrikHelperHTML::image($icon, 'form', @$this->tmpl, array('alt' => FText::_('PLG_ELEMENT_FILEUPLOAD_VIEW')));
+		$opts->resizeButton = FabrikHelperHTML::image($resize, 'form', @$this->tmpl, array('alt' => FText::_('PLG_ELEMENT_FILEUPLOAD_RESIZE')));
 		$opts->files = $oFiles;
 
 		$opts->winWidth = (int) $params->get('win_width', 400);
@@ -830,12 +837,12 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 					if ($noImg)
 					{
-						$img = '<i class="icon-circle-arrow-right"></i> ' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION');
+						$img = '<i class="icon-circle-arrow-right"></i> ' . FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION');
 					}
 					else
 					{
 						$img = '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
-								. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
+								. FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
 					}
 
 					return $a . $img . $a2;
@@ -877,7 +884,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			else
 			{
 				$aClass = 'class="btn btn-primary button"';
-				$title = '<i class="icon-download icon-white"></i> ' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
+				$title = '<i class="icon-download icon-white"></i> ' . FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
 			}
 
 			$link = COM_FABRIK_LIVESITE
@@ -1012,7 +1019,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		if (!$this->_fileUploadFileTypeOK($fileName))
 		{
-			$errors[] = JText::_('PLG_ELEMENT_FILEUPLOAD_FILE_TYPE_NOT_ALLOWED');
+			$errors[] = FText::_('PLG_ELEMENT_FILEUPLOAD_FILE_TYPE_NOT_ALLOWED');
 			$ok = false;
 		}
 
@@ -1033,7 +1040,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		{
 			if ($params->get('ul_file_increment', 0) == 0)
 			{
-				$errors[] = JText::_('PLG_ELEMENT_FILEUPLOAD_EXISTING_FILE_NAME');
+				$errors[] = FText::_('PLG_ELEMENT_FILEUPLOAD_EXISTING_FILE_NAME');
 				$ok = false;
 			}
 		}
@@ -1808,7 +1815,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		if (!FabrikUploader::canUpload($file, $err, $params))
 		{
-			$this->setError(100, $file['name'] . ': ' . JText::_($err));
+			$this->setError(100, $file['name'] . ': ' . FText::_($err));
 		}
 
 		if ($storage->exists($filepath))
@@ -2202,7 +2209,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 	protected function deleteButton($value)
 	{
-		return '<button class="btn button" data-file="' . $value . '">' . JText::_('COM_FABRIK_DELETE') . '</button> ';
+		return '<button class="btn button" data-file="' . $value . '">' . FText::_('COM_FABRIK_DELETE') . '</button> ';
 	}
 
 	/**
@@ -2272,7 +2279,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 				return $img == '' ? ''
 						: '<img src="' . COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $img . '" alt="'
-								. JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
+								. FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION') . '" />';
 			}
 		}
 
@@ -2313,7 +2320,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		else
 		{
 			$aClass = 'class="btn btn-primary button"';
-			$title = '<i class="icon-download icon-white"></i> ' . JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
+			$title = '<i class="icon-download icon-white"></i> ' . FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');
 		}
 
 		$link = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package
@@ -2382,7 +2389,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			$pstr[] = '	</div>';
 			$pstr[] = '	<input name="zoom-val" value="" size="3"  class="input-mini"/>';
 			$pstr[] = '</div>';
-			$pstr[] = '<div class="rotate" style="float:left;margin-top:10px;width:180px">' . JText::_('PLG_ELEMENT_FILEUPLOAD_ROTATE') . ':';
+			$pstr[] = '<div class="rotate" style="float:left;margin-top:10px;width:180px">' . FText::_('PLG_ELEMENT_FILEUPLOAD_ROTATE') . ':';
 			$pstr[] = '	<div class="fabrikslider-line" style="width: 100px;float:left;">';
 			$pstr[] = '		<div class="knob"></div>';
 			$pstr[] = '	</div>';
@@ -2393,7 +2400,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		if (FabrikHelperHTML::canvasSupport())
 		{
 			$pstr[] = '<div style="text-align: right;float:right;margin:10px 0; width: 205px">';
-			$pstr[] = '<input type="button" class="button btn btn-primary" name="close-crop" value="' . JText::_('CLOSE') . '" />';
+			$pstr[] = '<input type="button" class="button btn btn-primary" name="close-crop" value="' . FText::_('CLOSE') . '" />';
 			$pstr[] = '</div>';
 		}
 
@@ -2406,7 +2413,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		{
 		$pstr[] = '	<table class="table table-striped table-condensed">';
 		$pstr[] = '		<thead style="display:none"><tr>';
-		$pstr[] = '			<th class="span4">' . JText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME') . '</th>';
+		$pstr[] = '			<th class="span4">' . FText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME') . '</th>';
 		$pstr[] = '			<th class="span1 plupload_crop">&nbsp;</th>';
 		$pstr[] = '			<th class="span5 plupload_file_status"></th>';
 		$pstr[] = '			<th class="span1 plupload_file_action">&nbsp;</th>';
@@ -2415,9 +2422,9 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$pstr[] = ' </tbody>';
 		$pstr[] = ' <tfoot><tr><td colspan="4">';
 		$pstr[] = '				<a id="' . $id . '_browseButton" class="btn btn-mini" href="#"><i class="icon-plus-sign icon-plus"></i>'
-				. JText::_('PLG_ELEMENT_FILEUPLOAD_ADD_FILES') . '</a>';
-		$pstr[] = '				<a class="btn btn-mini disabled" data-action="plupload_start" href="#"><i class="icon-upload"></i>'
-				. JText::_('PLG_ELEMENT_FILEUPLOAD_START_UPLOAD') . '</a>';
+				. FText::_('PLG_ELEMENT_FILEUPLOAD_ADD_FILES') . '</a>';
+		$pstr[] = '				<a id="' . $id . '_startButton" class="btn btn-mini disabled plupload_start" data-action="plupload_start" href="#"><i class="icon-upload"></i>'
+				. FText::_('PLG_ELEMENT_FILEUPLOAD_START_UPLOAD') . '</a>';
 		$pstr[] = '			<span class="plupload_upload_status"></span>';
 		$pstr[] = '</td></tr></tfoot>';
 		$pstr[] = '	</table>';
@@ -2426,16 +2433,16 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		{
 			$pstr[] = '	<div class="plupload_header">';
 			$pstr[] = '		<div class="plupload_header_content">';
-			$pstr[] = '			<div class="plupload_header_title">' . JText::_('PLG_ELEMENT_FILEUPLOAD_PLUP_HEADING') . '</div>';
-			$pstr[] = '			<div class="plupload_header_text">' . JText::_('PLG_ELEMENT_FILEUPLOAD_PLUP_SUB_HEADING') . '</div>';
+			$pstr[] = '			<div class="plupload_header_title">' . FText::_('PLG_ELEMENT_FILEUPLOAD_PLUP_HEADING') . '</div>';
+			$pstr[] = '			<div class="plupload_header_text">' . FText::_('PLG_ELEMENT_FILEUPLOAD_PLUP_SUB_HEADING') . '</div>';
 			$pstr[] = '		</div>';
 			$pstr[] = '	</div>';
 			$pstr[] = '	<div class="plupload_content">';
 			$pstr[] = '		<div class="plupload_filelist_header">';
-			$pstr[] = '			<div class="plupload_file_name">' . JText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME') . '</div>';
+			$pstr[] = '			<div class="plupload_file_name">' . FText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME') . '</div>';
 			$pstr[] = '			<div class="plupload_file_action">&nbsp;</div>';
-			$pstr[] = '			<div class="plupload_file_status"><span>' . JText::_('PLG_ELEMENT_FILEUPLOAD_STATUS') . '</span></div>';
-			$pstr[] = '			<div class="plupload_file_size">' . JText::_('PLG_ELEMENT_FILEUPLOAD_SIZE') . '</div>';
+			$pstr[] = '			<div class="plupload_file_status"><span>' . FText::_('PLG_ELEMENT_FILEUPLOAD_STATUS') . '</span></div>';
+			$pstr[] = '			<div class="plupload_file_size">' . FText::_('PLG_ELEMENT_FILEUPLOAD_SIZE') . '</div>';
 			$pstr[] = '			<div class="plupload_clearer">&nbsp;</div>';
 			$pstr[] = '		</div>';
 			$pstr[] = '		<ul class="plupload_filelist" id="' . $id . '_dropList">';
@@ -2444,9 +2451,9 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			$pstr[] = '		<div class="plupload_file_name">';
 			$pstr[] = '			<div class="plupload_buttons">';
 			$pstr[] = '				<a id="' . $id . '_browseButton" class="plupload_button plupload_add" href="#">'
-					. JText::_('PLG_ELEMENT_FILEUPLOAD_ADD_FILES') . '</a>';
-			$pstr[] = '				<a class="plupload_button plupload_start plupload_disabled" href="#">'
-					. JText::_('PLG_ELEMENT_FILEUPLOAD_START_UPLOAD') . '</a>';
+					. FText::_('PLG_ELEMENT_FILEUPLOAD_ADD_FILES') . '</a>';
+			$pstr[] = '				<a id="' . $id . '_startButton" class="plupload_button plupload_start plupload_disabled" href="#">'
+					. FText::_('PLG_ELEMENT_FILEUPLOAD_START_UPLOAD') . '</a>';
 			$pstr[] = '			</div>';
 			$pstr[] = '			<span class="plupload_upload_status"></span>';
 			$pstr[] = '		</div>';
@@ -2471,7 +2478,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$pstr[] = '	</div>';
 		$pstr[] = '</div>';
 		$pstr[] = '<!-- FALLBACK; SHOULD LOADING OF PLUPLOAD FAIL -->';
-		$pstr[] = '<div class="plupload_fallback">' . JText::_('PLG_ELEMENT_FILEUPLOAD_FALLBACK_MESSAGE');
+		$pstr[] = '<div class="plupload_fallback">' . FText::_('PLG_ELEMENT_FILEUPLOAD_FALLBACK_MESSAGE');
 		$pstr[] = '<br />';
 		array_merge($pstr, $str);
 		$pstr[] = '</div>';
@@ -2894,21 +2901,21 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		if (!$this->canView())
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION'));
 			$app->redirect($url);
 			exit;
 		}
 
 		if (empty($rowid))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
 
 		if (empty($row))
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -2925,7 +2932,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 			if (!$canDownload)
 			{
-				$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION'));
+				$app->enqueueMessage(FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_PERMISSION'));
 				$app->redirect($url);
 			}
 		}
@@ -2944,7 +2951,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 			if ($thisFileInfo === false)
 			{
-				$app->enqueueMessage(JText::_('DOWNLOAD NO SUCH FILE'));
+				$app->enqueueMessage(FText::_('DOWNLOAD NO SUCH FILE'));
 				$app->redirect($url);
 				exit;
 			}
@@ -2971,7 +2978,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
+			$app->enqueueMessage(FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_NO_SUCH_FILE'));
 			$app->redirect($url);
 			exit;
 		}
@@ -3095,6 +3102,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	public function onAjax_deleteFile()
 	{
 		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
 		$input = $app->input;
 		$this->loadMeForAjax();
 		$filename = $input->get('file', 'string', '');

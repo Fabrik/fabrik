@@ -16,18 +16,18 @@ $form = $this->formTable;
 ?>
 <form action="<?php JRoute::_('index.php?option=com_fabrik'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
-<h3><?php echo JText::_('COM_FABRIK_FORM'); ?></h3>
+<h3><?php echo FText::_('COM_FABRIK_FORM'); ?></h3>
 <a href="index.php?option=com_fabrik&amp;task=form.edit&amp;id=<?php echo $form->id; ?>">
 	<?php echo $form->label?>
 </a>
 <br />
-<h3><?php echo JText::_('COM_FABRIK_ELEMENTS'); ?></h3>
+<h3><?php echo FText::_('COM_FABRIK_ELEMENTS'); ?></h3>
 <table style="margin-bottom:50px;" class="adminlist table table-striped" width="100%">
 	<thead>
 		<tr>
-			<th class='title'><?php echo JText::_('COM_FABRIK_ELEMENT'); ?></th>
-			<th class='title'><?php echo JText::_('COM_FABRIK_LABEL'); ?></th>
-			<th class='title'><?php echo JText::_('COM_FABRIK_GROUP'); ?></th>
+			<th class='title'><?php echo FText::_('COM_FABRIK_ELEMENT'); ?></th>
+			<th class='title'><?php echo FText::_('COM_FABRIK_LABEL'); ?></th>
+			<th class='title'><?php echo FText::_('COM_FABRIK_GROUP'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

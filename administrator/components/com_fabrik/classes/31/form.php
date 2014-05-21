@@ -1704,12 +1704,12 @@ class JForm
 				if ($lang->hasKey($default))
 				{
 					$debug = $lang->setDebug(false);
-					$default = JText::_($default);
+					$default = FText::_($default);
 					$lang->setDebug($debug);
 				}
 				else
 				{
-					$default = JText::_($default);
+					$default = FText::_($default);
 				}
 			}
 
@@ -1841,11 +1841,11 @@ class JForm
 			{
 				if ($element['label'])
 				{
-					$message = JText::_($element['label']);
+					$message = FText::_($element['label']);
 				}
 				else
 				{
-					$message = JText::_($element['name']);
+					$message = FText::_($element['name']);
 				}
 
 				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
@@ -1884,13 +1884,13 @@ class JForm
 
 			if ($message)
 			{
-				$message = JText::_($element['message']);
+				$message = FText::_($element['message']);
 
 				return new UnexpectedValueException($message);
 			}
 			else
 			{
-				$message = JText::_($element['label']);
+				$message = FText::_($element['label']);
 				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
 
 				return new UnexpectedValueException($message);

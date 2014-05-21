@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHTML::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+FabrikHelperHTML::formvalidation();
 JHtml::_('behavior.keepalive');
 
 ?>
@@ -31,7 +31,7 @@ JHtml::_('behavior.keepalive');
 			window.fireEvent('form.save');
 			Joomla.submitform(task, document.getElementById('adminForm'));
 		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -45,27 +45,27 @@ JHtml::_('behavior.keepalive');
 				<ul class="nav nav-list"style="margin-top:40px">
 					<li class="active">
 						<a data-toggle="tab" href="#detailsX">
-							<?php echo JText::_('COM_FABRIK_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#data">
-							<?php echo JText::_('COM_FABRIK_DATA')?>
+							<?php echo FText::_('COM_FABRIK_DATA')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#publishing">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#access">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#tabplugins">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PLUGINS_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PLUGINS_DETAILS')?>
 						</a>
 					</li>
 				</ul>

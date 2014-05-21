@@ -54,13 +54,13 @@ class FabrikAdminControllerConnection extends FabControllerForm
 
 			if ($model->testConnection() == false)
 			{
-				JError::raiseWarning(500, JText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
+				JError::raiseWarning(500, FText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
 				$this->setRedirect($link);
 
 				return;
 			}
 		}
 
-		$this->setRedirect($link, JText::_('COM_FABRIK_CONNECTION_SUCESSFUL'));
+		$this->setRedirect($link, FText::_('COM_FABRIK_CONNECTION_SUCESSFUL'));
 	}
 }

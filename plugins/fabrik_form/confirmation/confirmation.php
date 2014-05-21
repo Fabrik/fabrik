@@ -127,8 +127,8 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 		$session->set('com_' . $package . '.form.' . $formModel->getId() . '.session.hash', $sessionModel->getHash());
 
 		// Set an error so we can reshow the same form for confirmation purposes
-		$formModel->errors['confirmation_required'] = array(JText::_('PLG_FORM_CONFIRMATION_PLEASE_CONFIRM_YOUR_DETAILS'));
-		$form->error = JText::_('PLG_FORM_CONFIRMATION_PLEASE_CONFIRM_YOUR_DETAILS');
+		$formModel->errors['confirmation_required'] = array(FText::_('PLG_FORM_CONFIRMATION_PLEASE_CONFIRM_YOUR_DETAILS'));
+		$form->error = FText::_('PLG_FORM_CONFIRMATION_PLEASE_CONFIRM_YOUR_DETAILS');
 		$formModel->setEditable(false);
 
 		// Clear out unwanted buttons
@@ -242,15 +242,20 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 			$fields[] = '<input type="hidden" name="fabrik_confirmation" value="2" />';
 
 			// Add in a button to allow you to go back to the form and edit your data
-			$fields[] = "<input type=\"button\" id=\"fabrik_redoconfirmation\" class=\"button btn\" value=\"" . JText::_('PLG_FORM_CONFIRMATION_RE_EDIT')
+			$fields[] = "<input type=\"button\" id=\"fabrik_redoconfirmation\" class=\"button btn\" value=\"" . FText::_('PLG_FORM_CONFIRMATION_RE_EDIT')
 				. "\" />";
 
 			// Unset the task otherwise we will submit the form to be processed.
-			FabrikHelperHTML::addScriptDeclaration(
-				"window.addEvent('fabrik.loaded', function() {"
-				. "$('fabrik_redoconfirmation').addEvent('click', function(e) {;\n"
-					. "  this.form.task.value = '';\n"
-					. "  this.form.submit.click();\n" . "	});\n" . "});");
+			FabrikHelperHTML::addScriptDeclaration("
+				window.addEvent('fabrik.loaded', function() {
+					$('fabrik_redoconfirmation').addEvent('click', function(e) {;
+						this.form.task.value = '';
+						// this.form.submit();
+						var thisform = Fabrik.getBlock(this.form.id);
+						thisform.doSubmit(new Event.Mock(thisform._getButton('Submit')), thisform._getButton('Submit'));
+					});
+				});
+			");
 			$this->html = implode("\n", $fields);
 		}
 	}

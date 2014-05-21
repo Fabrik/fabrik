@@ -591,7 +591,7 @@ class FabrikString extends JString
 	public static function translate($text)
 	{
 		$plain = strip_tags($text);
-		$translated = JText::_($plain);
+		$translated = FText::_($plain);
 
 		if ($translated !== $plain)
 		{
@@ -663,5 +663,208 @@ class FabrikString extends JString
 		{
 			return preg_match("#^" . $date_re . $time_re . "$#", $date);
 		}
+	}
+
+	/**
+	 * Replace last occurance of a string
+	 *
+	 * @param   string  $search   Text to search for
+	 * @param   string  $replace  Text to replace the search string
+	 * @param   string  $subject  The text to search in
+	 *
+	 * @return  string
+	 */
+	public static function replaceLast($search, $replace, $subject)
+	{
+		$pos = strripos($subject, $search);
+
+		if ($pos !== false)
+		{
+			$subject = substr_replace($subject, $replace, $pos, strlen($search));
+		}
+
+		return $subject;
+	}
+
+	/**
+	 * DB value quote a single string or an array of strings, first checking to see if they are
+	 * already quoted.  Which the J! $db->quote() doesn't do, unfortunately.
+	 * Does NOT modify the input.  Does not quote if value starts with SELECT.
+	 *
+	 * @param unknown $values
+	 * @param bool    $commaSeparated  individually quote a comma separated string of values
+	 *
+	 * @return   mixed   quoted values
+	 */
+	public static function safeQuote($values, $commaSeparated = true) {
+		$values2 = $values;
+
+		if ($commaSeparated) {
+			$values2 = explode(',', $values2);
+		}
+
+		if (is_array($values2))
+		{
+			foreach ($values2 as &$v)
+			{
+					$v = self::safeQuoteOne($v);
+			}
+		}
+		else
+		{
+			$values2 = self::safeQuoteOne($values2);
+		}
+
+		if ($commaSeparated) {
+			$values2 = implode(',', $values2);
+		}
+
+		return $values2;
+	}
+
+	/**
+	 * Return DB value quoted single string.  Does not quote if value starts with SELECT,
+	 * or if value is already single quoted.
+	 *
+	 * @param string  $value
+	 *
+	 * @return   mixed   quoted values
+	 */
+	public static function safeQuoteOne($value)
+	{
+		$value = trim($value);
+		if (is_string($value) && !preg_match('/^\s*SELECT\s+/i', $value))
+		{
+
+			if (!preg_match("#^'.*'$#", $value))
+			{
+				$db = JFactory::getDbo();
+				$value = $db->quote($value);
+			}
+
+		}
+
+		return $value;
+	}
+
+	/**
+	 * DB name quote a single string or an array of strings, first checking to see if they are
+	 * already quoted.  Which the J! $db->quote() doesn't do, unfortunately.
+	 * Does NOT modify the input.  Does not quote if value starts with CONCAT.
+	 *
+	 * @param unknown $values
+	 * @param bool    $commaSeparated  individually quote a comma separated string of values
+	 *
+	 * @return   mixed   quoted values
+	 */
+	public static function safeNameQuote($values, $commaSeparated = true) {
+		$values2 = $values;
+
+		if ($commaSeparated) {
+			$values2 = explode(',', $values2);
+		}
+
+		if (is_array($values2))
+		{
+			foreach ($values2 as &$v)
+			{
+				$v = self::safeNameQuoteOne($v);
+			}
+		}
+		else
+		{
+			$values2 = self::safeNameQuoteOne($values2);
+		}
+
+		if ($commaSeparated) {
+			$values2 = implode(',', $values2);
+		}
+
+		return $values2;
+	}
+
+	/**
+	 * Return DB value quoted single string.  Does not quote if value starts with SELECT,
+	 * or if value is already single quoted.
+	 *
+	 * @param string  $value
+	 *
+	 * @return   mixed   quoted values
+	 */
+	public static function safeNameQuoteOne($value)
+	{
+		$value = trim($value);
+		if (is_string($value) && !preg_match('/^\s*(CONCAT|CONCAT_WS)\s*\(/i', $value))
+		{
+
+			if (!preg_match("#^`.*`$#", $value))
+			{
+				$db = JFactory::getDbo();
+				$value = $db->quoteName($value);
+			}
+
+		}
+
+		return $value;
+	}
+
+}
+
+/**
+ *
+ * $$$ hugh JText::_() does funky stuff to strings with commas in them, like
+ * truncating everything after the first comma, if what follows the first comma
+ * is all "upper case".  But it tests for that using non MB safe code, so any non
+ * ASCII strings (like Greek text) with a comma in them get truncated at the comma.
+ * Corner case or what!  But we need to work round this behavior.
+ *
+ * So ... here's a wrapper for JText::_().
+ */
+
+class FText extends JText
+{
+	/**
+	 * Translates a string into the current language.
+	 *
+	 * Examples:
+	 * <script>alert(Joomla.JText._('<?php echo FText::_("JDEFAULT", array("script"=>true));?>'));</script>
+	 * will generate an alert message containing 'Default'
+	 * <?php echo FText::_("JDEFAULT");?> it will generate a 'Default' string
+	 *
+	 * @param   string   $string                The string to translate.
+	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
+	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
+	 *
+	 * @return  string  The translated string or the key is $script is true
+	 *
+	 * @since   11.1
+	 */
+	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	{
+		/**
+		 * In JText::_(), it does the following tests to see if everything following a comma is all upp
+		 * case, and if it is, it does Funky Stuff to it.  We ned to avoid that behavior.  So us this
+		 * logic, and if it's true, return the string untouched.  We could just check for a comma and not
+		 * process anything with commas (unikely to be a translatable phrase), but unless this test adds
+		 * too much overhead, might as well do the whole J! test sequence.
+		 */
+
+		if (!(strpos($string, ',') === false))
+		{
+			$test = substr($string, strpos($string, ','));
+
+			if (strtoupper($test) === $test)
+			{
+				/**
+				 * This is where JText::_() would do Funky Stuff, chopping off everything after
+				 * the first comma.  So we'll just return the input string untouched.
+				 */
+				return $string;
+			}
+		}
+
+		// if we got this far, hand it to JText::_() as normal
+		return parent::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 }

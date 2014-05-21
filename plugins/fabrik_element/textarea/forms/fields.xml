@@ -158,6 +158,18 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_TEXTAREA_HELP_SERVER" />
 
+			<field name="textarea-truncate-where"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_DESC"
+				label="PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_LIST</option>
+					<option value="2">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_DETAILS</option>
+					<option value="3">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_BOTH</option>
+			</field>
+			
 			<field name="textarea-truncate"
 				type="text"
 				class="input-mini"

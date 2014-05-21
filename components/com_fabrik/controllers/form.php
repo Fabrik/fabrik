@@ -250,7 +250,7 @@ class FabrikControllerForm extends JControllerLegacy
 		if ($model->hasErrors())
 		{
 			FabrikWorker::getPluginManager()->runPlugins('onError', $model);
-			$view->display();
+			$this->handleError($view, $model);
 
 			return;
 		}
@@ -266,7 +266,13 @@ class FabrikControllerForm extends JControllerLegacy
 		{
 			// $$$ hugh - adding some options for what to do with redirect when in content plugin
 			// Should probably do this elsewhere, but for now ...
-			$redirect_opts = array('msg' => $msg, 'url' => $url, 'baseRedirect' => $this->baseRedirect, 'rowid' => $input->get('rowid', '', 'string'));
+			$redirect_opts = array(
+					'msg' => $msg,
+					'url' => $url,
+					'baseRedirect' => $this->baseRedirect,
+					'rowid' => $input->get('rowid', '', 'string'),
+					'suppressMsg' => !$model->showSuccessMsg()
+			);
 
 			if (!$this->baseRedirect && $this->isMambot)
 			{
@@ -306,10 +312,11 @@ class FabrikControllerForm extends JControllerLegacy
 				$context = 'com_fabrik.form.' . $model->get('id') . '.redirect.';
 				$redirect_opts['reset_form'] = $session->get($context . 'redirect_content_reset_form', '1') == '1';
 			}
-			// Let form.js handle the redirect logic (will also send out a
+			// Let form.js handle the redirect logic
 			echo json_encode($redirect_opts);
 
-			return;
+			// Stop require.js being added to output
+			exit;
 		}
 
 		if ($input->get('format') == 'raw')
@@ -321,6 +328,13 @@ class FabrikControllerForm extends JControllerLegacy
 		}
 		else
 		{
+
+			// If no msg, set to null, so J! doesn't create an empty "Message" area
+			if (empty($msg))
+			{
+				$msg = null;
+			}
+
 			$this->setRedirect($url, $msg);
 		}
 	}
@@ -366,7 +380,7 @@ class FabrikControllerForm extends JControllerLegacy
 				if (!empty($eMsgs))
 				{
 					$eMsgs = '<ul>' . implode('</li><li>', $eMsgs) . '</ul>';
-					header('HTTP/1.1 500 ' . JText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
+					header('HTTP/1.1 500 ' . FText::_('COM_FABRIK_FAILED_VALIDATION') . $eMsgs);
 					jexit();
 				}
 				else
@@ -574,7 +588,7 @@ class FabrikControllerForm extends JControllerLegacy
 		}
 		else
 		{
-			$msg = $ok ? count($ids) . ' ' . JText::_('COM_FABRIK_RECORDS_DELETED') : '';
+			$msg = $ok ? count($ids) . ' ' . FText::_('COM_FABRIK_RECORDS_DELETED') : '';
 			$app->enqueueMessage($msg);
 			$app->redirect($ref);
 		}

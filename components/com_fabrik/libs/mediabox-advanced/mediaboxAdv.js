@@ -133,7 +133,7 @@ var Mediabox;
 				bgcolor: '#000000',			// Background color, used for flash and QT media
 				wmode: 'transparent',			// Background setting for Adobe Flash ('opaque' and 'transparent' are most common)
 //			NonverBlaster
-				playerpath: 'files/NonverBlaster.swf',	// Path to NonverBlaster.swf
+				playerpath: 'components/com_fabrik/libs/mediabox-advanced/NonverBlaster.swf',	// Path to NonverBlaster.swf
 				showTimecode: 'false',		// turn timecode display off or on (true, false)
 				controlColor: '0xFFFFFF',	// set the control color
 				controlBackColor: '0x0000000',	// set the bakcground color (video only)

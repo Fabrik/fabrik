@@ -74,7 +74,7 @@ print_r($this->hiddenFields);
 		<li>
 		<a href="<?php echo $this->emptyLink?>" class="doempty">
 		<?php echo $this->buttons->empty;?>
-		<span><?php echo JText::_('COM_FABRIK_EMPTY')?></span>
+		<span><?php echo FText::_('COM_FABRIK_EMPTY')?></span>
 		</a>
 		</li>
 	<?php }?>

@@ -109,7 +109,7 @@ class FabrikFEModelCSVExport
 			if (empty($headings))
 			{
 				$url = $input->server->get('HTTP_REFERER', '');
-				$app->enqueueMessage(JText::_('No data to export'));
+				$app->enqueueMessage(FText::_('No data to export'));
 				$app->redirect($url);
 
 				return;
@@ -333,14 +333,19 @@ class FabrikFEModelCSVExport
 		}
 
 		JResponse::clearHeaders();
+		$encoding = $this->getEncoding();
 
 		// Set the response to indicate a file download
 		JResponse::setHeader('Content-Type', 'application/zip');
 		JResponse::setHeader('Content-Disposition', "attachment;filename=\"" . $filename . "\"");
 
 		// Xls formatting for accents
-		JResponse::setHeader('Content-Type', 'application/vnd.ms-excel');
-		JResponse::setHeader('charset', 'UTF-16LE');
+		if ($this->outPutFormat == 'excel')
+		{
+			JResponse::setHeader('Content-Type', 'application/vnd.ms-excel');
+		}
+
+		JResponse::setHeader('charset', $encoding);
 		JResponse::setBody($str);
 		echo JResponse::toString(false);
 		JFile::delete($filepath);
@@ -454,23 +459,44 @@ class FabrikFEModelCSVExport
 	{
 		$n = '"' . str_replace('"', '""', $n) . '"';
 
+		$csvEncoding = $this->getEncoding();
+
 		// $$$ hugh - func won't exist if PHP wasn't built with MB string
-		if (function_exists('mb_convert_encoding'))
+		if (!function_exists('mb_convert_encoding') || $csvEncoding === 'UTF-8')
 		{
-			if ($this->outPutFormat == 'excel')
-			{
-				// Possible fix for Excel import of accents in csv file?
-				return mb_convert_encoding($n, 'UTF-16LE', 'UTF-8');
-			}
-			else
-			{
-				return $n;
-			}
+			return $n;
+		}
+
+		if ($this->outPutFormat == 'excel')
+		{
+			// Possible fix for Excel import of accents in csv file?
+			return mb_convert_encoding($n, $csvEncoding, 'UTF-8');
 		}
 		else
 		{
 			return $n;
 		}
+	}
+
+	/**
+	 * Get the encoding e.g. UFT-8 for which to encode the text and set the document charset
+	 * header on download
+	 *
+	 * @return string
+	 */
+
+	protected function getEncoding()
+	{
+		$params = $this->model->getParams();
+		$defaultEncoding = $this->outPutFormat == 'excel' ? 'UTF-16LE' : 'UTF-8';
+		$csvEncoding = $params->get('csv_encoding', '');
+
+		if ($csvEncoding === '')
+		{
+			$csvEncoding = $defaultEncoding;
+		}
+
+		return $csvEncoding;
 	}
 
 	/**
@@ -597,7 +623,7 @@ class FabrikFEModelCSVExport
 
 		if ($input->get('inccalcs') == 1)
 		{
-			array_unshift($h, JText::_('Calculation'));
+			array_unshift($h, FText::_('Calculation'));
 		}
 
 		$h = array_map(array($this, "quote"), $h);

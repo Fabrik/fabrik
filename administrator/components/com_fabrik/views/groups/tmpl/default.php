@@ -23,29 +23,29 @@ $listDirn = $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_fabrik&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_(
+			<label class="filter-search-lbl" for="filter_search"><?php echo FText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo FText::_(
 	'COM_FABRIK_SEARCH_IN_TITLE');
 																																		?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="submit"><?php echo FText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo FText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
 
 			<?php if (!empty($this->packageOptions)) :?>
 			<select name="package" class="inputbox" onchange="this.form.submit()">
-				<option value="fabrik"><?php echo JText::_('COM_FABRIK_SELECT_PACKAGE'); ?></option>
+				<option value="fabrik"><?php echo FText::_('COM_FABRIK_SELECT_PACKAGE'); ?></option>
 				<?php echo JHtml::_('select.options', $this->packageOptions, 'value', 'text', $this->state->get('com_fabrik.package'), true); ?>
 			</select>
 			<?php endif; ?>
 
 			<select name="filter_form" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_FABRIK_SELECT_FORM'); ?></option>
+				<option value=""><?php echo FText::_('COM_FABRIK_SELECT_FORM'); ?></option>
 				<?php echo JHtml::_('select.options', $this->formOptions, 'value', 'text', $this->state->get('filter.form'), true); ?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<option value=""><?php echo FText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
 				<?php
 				$published = $this->state->get('filter.published');
 				echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $published, true);
@@ -74,7 +74,7 @@ $listDirn = $this->state->get('list.direction');
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_FORM', 'f.label', $listDirn, $listOrder); ?>
 				</th>
 				<th width="31%">
-					<?php echo JText::_('COM_FABRIK_ELEMENTS'); ?>
+					<?php echo FText::_('COM_FABRIK_ELEMENTS'); ?>
 				</th>
 				<th width="5%">
 				<?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'g.published', $listDirn, $listOrder); ?>
@@ -125,7 +125,7 @@ $listDirn = $this->state->get('list.direction');
 					<td>
 						<?php echo $item->_elementCount; ?>
 						<a href="index.php?option=com_fabrik&view=element&layout=edit&filter_groupId=<?php echo $item->id ?>">
-						<?php echo JText::_('COM_FABRIK_ADD')?>
+						<?php echo FText::_('COM_FABRIK_ADD')?>
 						</a>
 					</td>
 					<td>

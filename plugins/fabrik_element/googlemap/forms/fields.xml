@@ -32,7 +32,7 @@
 				type="text"
 				class="input-mini"
 				size="3"
-				default=""
+				default="200"
 				label="PLG_ELEMENT_GOOGLE_MAP_WIDTH_LABEL"
 				description="PLG_ELEMENT_GOOGLE_MAP_WIDTH_DESC"
 			/>
