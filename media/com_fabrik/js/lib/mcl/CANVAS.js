@@ -61,6 +61,7 @@ var FbCanvas = new Class({
 			click : function(e)
 			{
 				var p = this.getMouse(e);
+				var item;
 				if(item = this.findTarget(p))
 				{
 					item.fireEvent('click',p);
@@ -75,6 +76,7 @@ var FbCanvas = new Class({
 					this.fromPath(this.dragTarget).fireEvent('mousedown',p);
 					return;
 				}
+				var item;
 				if(item = this.findTarget(p))
 				{
 					item.fireEvent('mousedown',p);
@@ -90,6 +92,7 @@ var FbCanvas = new Class({
 					return;
 				}
 
+				var item;
 				if(item = this.findTarget(p))
 				{
 					item.fireEvent('mouseup',p);
@@ -105,6 +108,7 @@ var FbCanvas = new Class({
 					return
 				}
 				
+				var item;
 				if(item = this.findTarget(p))
 				{
 					if(item.fullid != this.lastMouseOverTarget)
@@ -134,6 +138,7 @@ var FbCanvas = new Class({
 			dblclick : function(e)
 			{
 				var p = this.getMouse(e);
+				var item;
 				if(item = this.findTarget(p))
 					item.fireEvent('dblclick',p);
 			}.bind(this),

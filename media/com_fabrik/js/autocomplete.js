@@ -274,13 +274,16 @@ var FbAutocomplete = new Class({
 	 * Observe the keydown event on the input field. Should stop the loader as we have a new search query
 	 */
 	doWatchKeys: function (e) {
+		if (document.activeElement !== this.getInputElement()) {
+			return;
+		}
 		Fabrik.loader.stop(this.getInputElement());
 		var max = this.getListMax();
 		if (!this.shown) {
 			if (e.code.toInt() === 13) {
 				e.stop();
 			}
-			if (e.code.toInt() === 40 && document.activeElement === this.getInputElement()) {
+			if (e.code.toInt() === 40) {
 				this.openMenu();
 			}
 		} else {

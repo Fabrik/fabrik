@@ -272,13 +272,16 @@ var FbAutocomplete = new Class({
 	},
 
 	doWatchKeys: function (e) {
+		if (document.activeElement !== this.getInputElement()) {
+			return;
+		}
 		var max = this.getListMax(), selected, selectEvnt;
 		if (!this.shown) {
 			// Stop enter from submitting when in in-line edit form.
 			if (e.code.toInt() === 13) {
 				e.stop();
 			}
-			if (e.code.toInt() === 40 && document.activeElement === this.getInputElement()) {
+			if (e.code.toInt() === 40) {
 				this.openMenu();
 			}
 		} else {

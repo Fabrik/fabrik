@@ -2207,13 +2207,14 @@ if (!$j3)
 	 * Get content item template
 	 *
 	 * @param   int  $contentTemplate  Joomla article id
+	 * @param	string	$part	which part, intro, full, or both
 	 *
 	 * @since   3.0.7
 	 *
 	 * @return  string  content item html
 	 */
 
-	public static function getContentTemplate($contentTemplate)
+	public function getContentTemplate($contentTemplate, $part = 'both')
 	{
 		$app = JFactory::getApplication();
 
@@ -2227,12 +2228,25 @@ if (!$j3)
 		}
 		else
 		{
-			JModelLegacy::addIncludePath(COM_FABRIK_BASE . 'components/com_content/models');
-			$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
+			JModel::addIncludePath(COM_FABRIK_BASE . 'components/com_content/models');
+			$articleModel = JModel::getInstance('Article', 'ContentModel');
 			$res = $articleModel->getItem($contentTemplate);
 		}
 
-		return $res->introtext . ' ' . $res->fulltext;
+		if ($part == 'intro')
+		{
+			$res = $res->introtext;
+		}
+		else if ($part == 'full')
+		{
+			$res = $res->fulltext;
+		}
+		else
+		{
+			$res = $res->introtext . ' ' . $res->fulltext;
+		}
+
+		return $res;
 	}
 
 	/**

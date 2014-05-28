@@ -725,12 +725,22 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	/**
 	 * Get select option label
 	 *
+	 * @param  bool  $filter  get alt label for filter, if present using :: splitter
+	 *
 	 * @return  string
 	 */
 
-	protected function _getSelectLabel()
+	protected function _getSelectLabel($filter = false)
 	{
-		return FText::_($this->getParams()->get('database_join_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT')));
+		$params = $this->getParams();
+		$label = $params->get('database_join_noselectionlabel');
+
+		if (strstr($label, '::'))
+		{
+			$labels = explode('::', $label);
+			$label = $filter ? $labels[1] : $labels[0];
+		}
+		return FText::_($label, FText::_('COM_FABRIK_PLEASE_SELECT'));
 	}
 
 	/**
@@ -2117,13 +2127,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	protected function filterSelectLabel()
 	{
 		$params = $this->getParams();
-		$label = $params->get('database_join_noselectionlabel');
 
-		if (strstr($label, '::'))
-		{
-			$labels = explode('::', $label);
-			$label = FText::_(array_pop($labels));
-		}
+		$label = $this->_getSelectLabel(true);
 
 		if ($label == '')
 		{
@@ -2144,7 +2149,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	protected function buildFilterJoin()
 	{
 		$params = $this->getParams();
-		$joinTable = FabrikString::safeColName($params->get('join_db_name'));
+		//$joinTable = FabrikString::safeColName($params->get('join_db_name'))
+		$joinTable = FabrikString::safeColName($this->getDbName());
 		$join = $this->getJoin();
 		$joinTableName = FabrikString::safeColName($join->table_join_alias);
 		$joinKey = $this->getJoinValueColumn();
