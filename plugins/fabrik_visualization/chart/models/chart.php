@@ -35,11 +35,11 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	/**
 	 * Get min and max values form totals
 	 *
-	 * @param   array  &$totals  Totals
+	 * @param   array  $totals  Totals
 	 *
 	 * @return  array
 	 */
-	private function _getMinMax(&$totals)
+	private function _getMinMax($totals)
 	{
 		// $min will only go lower if data is negative!
 		$max = 0;
