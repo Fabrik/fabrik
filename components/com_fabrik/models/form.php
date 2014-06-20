@@ -3217,7 +3217,7 @@ class FabrikFEModelForm extends FabModelForm
 							else
 							{
 								// If no key found set rowid to 0 so we can insert a new record.
-								if (empty($usekey) && !$this->isMambot)
+								if (empty($usekey) && !$this->isMambot && in_array($input->get('view'), array('form', 'details')))
 								{
 									$this->rowId = '';
 									/**
