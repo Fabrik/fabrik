@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="community" method="upgrade">
+	<name>Fabrik for JomSocial</name>
+	<author>Hugh Messenger</author>
+	<creationDate>27 May 2014</creationDate>
+	<copyright>Copyright (C) 2014. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>hugh.messenger@gmail.com</authorEmail>
+	<authorUrl>fabrikar.com</authorUrl>
+	<version>3.2.0.5</version>
+	<isapplication>true</isapplication>
+	<isbrowseable>true</isbrowseable>
+	<description>
+		Fabrik integration for JomSocial
+	</description>
+	<files>
+		<file plugin="fabrik">fabrik.php</file>
+		<folder>fabrik</folder>
+	</files>
+	
+	<menuitem>
+		<menu label="Groups" position="toolbar">
+			<link label="Groups">task=groups</link>
+		</menu>
+	</menuitem>
+	
+	<params>
+		<param name="cache" type="list" default="0" label="Enable caching" description="Cache data">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="coreapp" type="list" default="0" label="Core Application" description="Causes this application to not appearin the users applications list but it will allow this application to appear in the user profile automatically if selected.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="fabrik_view" type="list" default="0" label="Fabrik View type" description="Fabrik View type">
+			<option value="0">Please select...</option>
+			<option value="form">Form</option>
+			<option value="details">Details</option>
+			<option value="table">Table</option>
+			<option value="visualization">Visualization</option>
+			<option value="element">Element</option>
+		</param>
+		<param name="fabrik_view_id" type="text" default="" label="View ID" description="Numeric Fabrik table, form or visualization ID" />
+		<param name="fabrik_row_id" type="Text" default="" label="Row ID" description="Numeric Fabrik rowid, if using Form or Details view.  Set to -1 for logged on userid, or -2 for userid of profile being viewed" />
+		<param name="fabrik_usekey" type="Text" default="" label="Usekey" description="Fabrik element name containing userid to use as search key if using rowid -1 or -2" />
+		<param name="fabrik_layout" type="Text" default="" label="Layout" description="Fabrik layout to use (optional)" />
+		<param name="fabrik_element" type="Text" default="" label="Element" description="If using Element view, full element name to show." />
+		<param name="fabrik_additional" type="Text" default="" label="Additional" description="Additional plugin parameters, such as element filters like table___element=foo, in a space separated list" />
+	</params>
+	
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_community/libraries/fields">
+			<fieldset name="basic">
+				<field name="coreapp" type="list" default="0" label="Core Application" description="Causes this application to not appearin the users applications list but it will allow this application to appear in the user profile automatically if selected.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this plugin">
+					<option value="1">Use Global</option>
+					<option value="0">No</option>
+				</field>
+				<field name="position" type="list" default="content|sidebar-top|sidebar-bottom"  label="Avalaible Positions" description="Select one or more available positions from the list.  You can use Ctrl-click to select more than one item.">
+					<option value="content">Content</option>
+					<option value="sidebar-top">Sidebar Top</option>
+					<option value="sidebar-bottom">Sidebar Bottom</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

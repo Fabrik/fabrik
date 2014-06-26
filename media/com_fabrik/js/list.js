@@ -538,9 +538,10 @@ var FbList = new Class({
 		hs.removeEvents('click');
 		hs.each(function (h) {
 			h.addEvent('click', function (e) {
-				var img = 'ordernone.png';
-				var orderdir = '';
-				var newOrderClass = '';
+				var img = 'ordernone.png',
+				orderdir = '',
+				newOrderClass = '',
+				bsClass;
 				// $$$ rob in pageadaycalendar.com h was null so reset to e.target
 				h = document.id(e.target);
 				var td = h.getParent('.fabrik_ordercell');
@@ -550,16 +551,19 @@ var FbList = new Class({
 				switch (h.className) {
 				case 'fabrikorder-asc':
 					newOrderClass = 'fabrikorder-desc';
+					bsClass = 'icon-arrow-up';
 					orderdir = 'desc';
 					img = 'orderdesc.png';
 					break;
 				case 'fabrikorder-desc':
 					newOrderClass = 'fabrikorder';
-					orderdir = "-";
+					bsClass = 'icon-menu-2';
+					orderdir = '-';
 					img = 'ordernone.png';
 					break;
 				case 'fabrikorder':
 					newOrderClass = 'fabrikorder-asc';
+					bsClass = 'icon-arrow-down';
 					orderdir = 'asc';
 					img = 'orderasc.png';
 					break;
@@ -575,20 +579,31 @@ var FbList = new Class({
 				}
 				h.className = newOrderClass;
 				var i = h.getElement('img');
+				var icon = h.getElement('*[class^="icon"]');
 				
 				// Swap images - if list doing ajax nav then we need to do this
 				if (this.options.singleOrdering) {
 					document.id(this.options.form).getElements('.fabrikorder, .fabrikorder-asc, .fabrikorder-desc').each(function (otherH) {
-						var i = otherH.getElement('img');
-						if (i) {
-							i.src = i.src.replace('ordernone.png', '').replace('orderasc.png', '').replace('orderdesc.png', '');
-							i.src += 'ordernone.png';
+						if (Fabrik.bootstrapped) {
+							var otherIcon = otherH.getElement('*[class^="icon"]');
+							otherIcon.className = 'icon-menu-2';
+						} else {
+							var i = otherH.getElement('img');
+							if (i) {
+								i.src = i.src.replace('ordernone.png', '').replace('orderasc.png', '').replace('orderdesc.png', '');
+								i.src += 'ordernone.png';
+							}
 						}
 					});
 				}
-				if (i) {
-					i.src = i.src.replace('ordernone.png', '').replace('orderasc.png', '').replace('orderdesc.png', '');
-					i.src += img;
+				
+				if (Fabrik.bootstrapped) {
+					icon.className = bsClass;
+				} else {
+					if (i) {
+						i.src = i.src.replace('ordernone.png', '').replace('orderasc.png', '').replace('orderdesc.png', '');
+						i.src += img;
+					}
 				}
 				
 				this.fabrikNavOrder(elementId, orderdir);

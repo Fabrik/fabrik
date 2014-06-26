@@ -20,7 +20,7 @@
 				
 			<field name="download_table"
 				type="text"
-				description="PLG_FABRIK_LIST_DOWNLOAD_TABLED_DESC"
+				description="PLG_FABRIK_LIST_DOWNLOAD_TABLE_DESC"
 				label="PLG_FABRIK_LIST_DOWNLOAD_TABLE_LABEL"
 				repeat="true"
 				size="35" />

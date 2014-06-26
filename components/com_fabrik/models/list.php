@@ -2494,12 +2494,15 @@ class FabrikFEModelList extends JModelForm
 		$query = $this->buildQueryOrder($query);
 		$query = $this->pluginQuery($query);
 		$this->mainQuery = $query;
+
+		/*
 		$params = $this->getParams();
 
 		if ($params->get('force_collate', '') !== '')
 		{
 			$query .= ' COLLATE ' . $params->get('force_collate', '') . ' ';
 		}
+		*/
 
 		return (string) $query;
 	}
@@ -2743,14 +2746,14 @@ class FabrikFEModelList extends JModelForm
 				else
 				{
 					$session->set($context, '');
-				}
+				};
 			}
 		}
 
 		// If nothing found in session use default ordering (or that set by querystring)
 		if ($strOrder == '')
 		{
-			$orderbys = explode(',', $input->get('order_by', ''));
+			$orderbys = explode(',', $input->getString('order_by', $input->getString('orderby', '')));
 
 			if ($orderbys[0] == '')
 			{
@@ -2771,7 +2774,7 @@ class FabrikFEModelList extends JModelForm
 				}
 			}
 
-			$orderdirs = explode(',',  $input->get('order_dir', ''));
+			$orderdirs = explode(',', $input->getString('order_dir', $input->getString('orderdir', '')));
 
 			if ($orderdirs[0] == '')
 			{
@@ -2788,6 +2791,12 @@ class FabrikFEModelList extends JModelForm
 				foreach ($orderbys as $orderbyRaw)
 				{
 					$dir = JArrayHelper::getValue($orderdirs, $o, 'desc');
+
+					// as we use getString() for query string, need to sanitize
+					if (!in_array(strtolower($dir), array('asc', 'desc')))
+					{
+						throw new ErrorException('invalid order direction: ' . $dir, 500);
+					}
 
 					if ($orderbyRaw !== '')
 					{
@@ -2994,6 +3003,21 @@ class FabrikFEModelList extends JModelForm
 				$on = FabrikString::safeColName($join->table_join_alias . '.' . $join->table_join_key);
 				$sql .= ' AS ' . FabrikString::safeColName($join->table_join_alias) . ' ON ' . $on . ' = ' . $k . "\n";
 			}
+
+			/*
+			 * @FIXME - need to work out where the COLLATE needs to go. Was at the end of builQuery, but that creates
+			 * an invalid query if we had any grouping.  As it only applies to joined tables, tried putting it here,
+			 * but still get a query error.  Needs to be fixed, but I have to commit to get some other changes done.
+			 */
+			/*
+			$params = $this->getParams();
+
+			if ($params->get('force_collate', '') !== '')
+			{
+				$sql .= ' COLLATE ' . $params->get('force_collate', '') . ' ';
+			}
+			*/
+
 			/* Try to order join statements to ensure that you are selecting from tables that have
 			 * already been included (either via a previous join statement or the table select statement)
 			*/
@@ -6642,7 +6666,11 @@ class FabrikFEModelList extends JModelForm
 				$label = $elementModel->getListHeading();
 				$label = $w->parseMessageForPlaceHolder($label, array());
 
-				if ($elementParams->get('can_order') == '1' && $this->outputFormat != 'csv')
+				/**
+				 * $$$ hugh - added $orderbys test, to see if element has been specified as an orderby in list module settings
+				 */
+
+				if (($elementParams->get('can_order') == '1' || in_array($elementModel->getId(), $orderbys)) && $this->outputFormat != 'csv')
 				{
 					$context = 'com_' . $package . '.list' . $this->getRenderContext() . '.order.' . $element->id;
 					$orderDir = $session->get($context);

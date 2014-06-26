@@ -53,7 +53,7 @@
 						<field name="coltoupdate"
 							type="listfields"
 							label="PLG_LIST_UPDATE_COL_COLUMN_TO_UPDATE_LABEL"
-							valueformat="tableelement"/>
+							valueformat="tableelement" />
 						
 						<field name="update_value"
 							type="text"
@@ -61,9 +61,13 @@
 							size="30" />
 
 						<field name="update_eval"
-						 	type="checkbox"
 							default="0"
-							label="COM_FABRIK_EVAL" />
+							label="COM_FABRIK_EVAL"
+							type="radio"
+							class="btn-group">
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
 											
 					</fieldset>
 				</fields>

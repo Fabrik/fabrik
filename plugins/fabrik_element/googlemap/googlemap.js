@@ -99,7 +99,7 @@ var FbGoogleMap = new Class({
 			this.makeMap();
 
 			// @TODO test google object when offline typeOf(google) isnt working
-			if (this.options.center === 1 && this.options.rowid === '') {
+			if (this.options.center === 1 && (this.options.rowid === '' || this.options.rowid === 0)) {
 				if (geo_position_js.init()) {
 					geo_position_js.getCurrentPosition(this.geoCenter.bind(this), this.geoCenterErr.bind(this), {
 						enableHighAccuracy: true

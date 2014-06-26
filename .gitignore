@@ -52,6 +52,8 @@ plugins/fabrik_list/php/scripts/
 !plugins/fabrik_cron/
 !plugins/fabrik_validationrule/
 !plugins/fabrik_visualization/
+plugins/community/*
+!plugins/community/fabrik/
 !tttplugins/system/fabrikcron/
 robots.txt
 sql/*

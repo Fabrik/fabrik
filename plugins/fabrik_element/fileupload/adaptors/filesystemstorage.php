@@ -38,9 +38,13 @@ class Filesystemstorage extends FabrikStorageAdaptor
 			return false;
 		}
 
-		$filepath = FabrikString::ltrimword($filepath, COM_FABRIK_BASE);
-		$filepath = ltrim($filepath, '/\\');
-		$filepath = COM_FABRIK_BASE . '/' . $filepath;
+		if (JFile::exists($filepath))
+		{
+		    return true;
+		}
+
+		$filepath = COM_FABRIK_BASE . '/' . FabrikString::ltrimword($filepath, COM_FABRIK_BASE . '/');
+
 		return JFile::exists($filepath);
 	}
 
@@ -407,13 +411,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function getFileInfo($filepath)
 	{
-		// Suppress notice if open base_dir in effect
-		if (!@$this->exists($filepath))
-		{
-			$filepath = $this->getFullPath($filepath);
-		}
-
-		$filepath = JPath::clean($filepath);
+	    $filepath = $this->getFullPath($filepath);
 
 		if ($this->exists($filepath))
 		{
@@ -442,17 +440,19 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	/**
 	 * Get the complete folder path, including the server root
 	 *
-	 * @param   string  $filepath  the file path
+	 * @param   string  $filepath  The file path
 	 *
-	 * @return  string
+	 * @return  string   The cleaned full file path
 	 */
 
 	public function getFullPath($filepath)
 	{
 		if (!(preg_match('#^' . preg_quote(COM_FABRIK_BASE, '#') . '#', $filepath)))
 		{
-			return COM_FABRIK_BASE . '/' . $filepath;
+			$filepath = COM_FABRIK_BASE . '/' . $filepath;
 		}
+
+		$filepath = JPath::clean($filepath);
 
 		return $filepath;
 	}

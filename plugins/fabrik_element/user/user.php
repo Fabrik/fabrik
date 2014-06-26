@@ -137,6 +137,15 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 					$id = $this->getValue($data, $repeatCounter);
 				}
 
+				/*
+				 * After a failed validation, it may be JSON, and urlencoded, like [&quot;94&quot;]
+				 */
+				$id = html_entity_decode($id);
+				if (FabrikWorker::isJSON($id))
+				{
+					$id = FabrikWorker::JSONtoData($id, true);
+				}
+				
 				$id = is_array($id) ? $id[0] : $id;
 				/* $$$ hugh - hmmm, might not necessarily be a new row.  So corner case check for
 				 * editing a row, where user element is not set yet, and 'update on edit' is No.
@@ -311,7 +320,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		{
 			return false;
 		}
-
+		
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
@@ -332,6 +341,22 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 		$element = $this->getElement();
 		$params = $this->getParams();
+		
+		/*
+		 * After a failed validation, if readonly for ACL's, it may be JSON, and urlencoded, like [&quot;94&quot;]
+		*/
+		
+		$data[$element->name] = is_array($data[$element->name]) ? $data[$element->name][0] : $data[$element->name];
+		
+		$data[$element->name] = html_entity_decode($data[$element->name]);
+		
+		if (FabrikWorker::isJSON($data[$element->name]))
+		{
+			$data[$element->name] = FabrikWorker::JSONtoData($data[$element->name], true);
+		}
+		
+		$data[$element->name] = is_array($data[$element->name]) ? $data[$element->name][0] : $data[$element->name];
+		
 
 		/**
 		 *  $$$ hugh - special case for social plugins (like CB plugin).  If plugin sets
@@ -531,10 +556,12 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	/**
 	 * Get select option label
 	 *
+	 * @param  bool  $filter  get alt label for filter, if present using :: splitter
+	 *
 	 * @return  string
 	 */
 
-	protected function _getSelectLabel()
+	protected function _getSelectLabel($filter = false)
 	{
 		return $this->getParams()->get('user_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT'));
 	}
