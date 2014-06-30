@@ -321,14 +321,17 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		if (is_array($val))
 		{
-			if ($params->get('empty_is_null', '0') == 0 || !in_array('', $val))
+			if ($params->get('empty_is_null', '1') == 0 || !in_array('', $val))
 			{
 				return $val[2] . '-' . $val[1] . '-' . $val[0];
 			}
 		}
 		else
 		{
-			return $val;
+			if ($params->get('empty_is_null', '1') == '0' || !in_array('', explode('-',$val)))
+			{
+				return $val;
+			}
 		}
 	}
 

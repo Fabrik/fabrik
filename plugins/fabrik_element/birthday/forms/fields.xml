@@ -119,7 +119,7 @@
 
 			<field name="empty_is_null"
 				type="radio"
-				default="0"
+				default="1"
 				class="btn-group"
 				label="PLG_ELEMENT_BIRTHDAY_EMPTYISNULL"
 				description="PLG_ELEMENT_BIRTHDAY_EMPTYISNULLDESC">
