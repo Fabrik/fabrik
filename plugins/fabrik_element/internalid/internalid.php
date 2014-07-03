@@ -61,7 +61,7 @@ class PlgFabrik_ElementInternalid extends PlgFabrik_Element
 
 	public function getFieldDescription()
 	{
-		return "INT(11) NOT NULL AUTO_INCREMENT";
+		return "INT(10) UNSIGNED NOT NULL AUTO_INCREMENT";
 	}
 
 	/**
