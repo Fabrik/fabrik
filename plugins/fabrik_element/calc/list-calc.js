@@ -41,6 +41,7 @@ var FbCalcList = new Class({
 			url: '',
 			data: data,
 			onSuccess: function (json) {
+				json = JSON.decode(json);
 				$H(json).each(function (html, id) {
 					var cell = this.list.list.getElement('#' + id + ' .' + this.options.element);
 					if (typeOf(cell) !== 'null' && html !== false) {
