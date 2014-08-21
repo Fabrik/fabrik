@@ -94,3 +94,4 @@ custom.css
 !contribution_license.txt
 !software_license.txt
 /ZendFramework-1.12.3
+*.db
