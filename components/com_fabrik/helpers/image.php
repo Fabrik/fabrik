@@ -295,7 +295,7 @@ class Fabimage
 		else
 		{
 			// No cached image, grab image from remote URI and store locally
-			$file=uniqid('map_');$cacheFile = $folder . $file;file_put_contents($cacheFile, file_get_contents($src));
+			file_put_contents($cacheFile, file_get_contents($src));
 		}
 
 		$src = COM_FABRIK_LIVESITE . $path . $file;
