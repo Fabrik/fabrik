@@ -235,7 +235,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 							$groupElementClass = get_class($groupElement);
 							$gid = $user->groups;
 
-							if ($groupElementClass !== 'PlgFabrik_ElementUsergroup')
+							if ($groupElementClass !== 'PlgFabrik_ElementUsergroup' && $groupElementClass !== 'PlgFabrik_ElementCheckbox' && $groupElementClass !== 'PlgFabrik_ElementDropdown' && $groupElementClass !== 'PlgFabrik_ElementPicklist')
 							{
 								$gid = array_shift($gid);
 							}
