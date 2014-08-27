@@ -40,8 +40,19 @@ var FbCalcList = new Class({
 		new Request.JSON({
 			url: '',
 			data: data,
+			onError: function (text, error) {
+				fconsole("Fabrik:list-calc:update error:" + error, text);
+			},
+			onFailure: function (xhr) {
+				fconsole(xhr);
+			},
 			onSuccess: function (json) {
-				json = JSON.decode(json);
+				var owns = Object.prototype.hasOwnProperty;
+				for (var key in json) {
+					if (owns.call(json, key) && typeof json[key] === 'string') {
+							json[key] = Encoder.htmlDecode(json[key]);
+					}
+				}
 				$H(json).each(function (html, id) {
 					var cell = this.list.list.getElement('#' + id + ' .' + this.options.element);
 					if (typeOf(cell) !== 'null' && html !== false) {
