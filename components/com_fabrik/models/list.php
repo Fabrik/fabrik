@@ -2025,8 +2025,8 @@ class FabrikFEModelList extends JModelForm
 		$emptyLabel = $showRelated === 1 ? FText::_('COM_FABRIK_NO_RECORDS') : '';
 		$tlabel = ($count === 0) ? $emptyLabel : '(0) ' . $label;
 		$showRelatedAdd = (int) $params->get('show_related_add', 0);
-		$aExisitngLinkedForms = (array) $params->get('linkedform');
-		$linkedForm = JArrayHelper::getValue($aExisitngLinkedForms, $f, false);
+		$aExistingLinkedForms = (array) $params->get('linkedform');
+		$linkedForm = JArrayHelper::getValue($aExistingLinkedForms, $f, false);
 		$addLink = $linkedForm == '0' ? $this->viewFormLink($popUp, $element, $row, $key, $val, false, $f) : '';
 
 		if ($count === 0)
