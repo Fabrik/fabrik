@@ -2025,8 +2025,8 @@ class FabrikFEModelList extends JModelForm
 		$emptyLabel = $showRelated === 1 ? FText::_('COM_FABRIK_NO_RECORDS') : '';
 		$tlabel = ($count === 0) ? $emptyLabel : '(0) ' . $label;
 		$showRelatedAdd = (int) $params->get('show_related_add', 0);
-		$aExisitngLinkedForms = (array) $params->get('linkedform');
-		$linkedForm = JArrayHelper::getValue($aExisitngLinkedForms, $f, false);
+		$aExistingLinkedForms = (array) $params->get('linkedform');
+		$linkedForm = JArrayHelper::getValue($aExistingLinkedForms, $f, false);
 		$addLink = $linkedForm == '0' ? $this->viewFormLink($popUp, $element, $row, $key, $val, false, $f) : '';
 
 		if ($count === 0)
@@ -6691,12 +6691,12 @@ class FabrikFEModelList extends JModelForm
 						case "desc":
 							$orderDir = "-";
 							$class = 'class="fabrikorder-desc"';
-							$img = FabrikHelperHTML::image('arrow-up.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
+							$img = FabrikHelperHTML::image('arrow-down-3.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
 							break;
 						case "asc":
 							$orderDir = "desc";
 							$class = 'class="fabrikorder-asc"';
-							$img = FabrikHelperHTML::image('arrow-down.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
+							$img = FabrikHelperHTML::image('arrow-up-3.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
 							break;
 						case "":
 						case "-":
@@ -6718,7 +6718,7 @@ class FabrikFEModelList extends JModelForm
 						}
 					}
 
-					$heading = '<a ' . $class . ' href="#">' . $img . $label . '</a>';
+					$heading = '<a ' . $class . ' href="#">' . $label . '</a>' . $img;
 				}
 				else
 				{
