@@ -17,7 +17,7 @@ $pageClass = $this->params->get('pageclass_sfx', '');
 if ($pageClass !== '') :
 	echo '<div class="' . $pageClass . '">';
 endif;
-
+echo '<div class="row-fluid">';
 if ($this->tablePicker != '') : ?>
 	<div style="text-align:right"><?php echo FText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
 <?php
@@ -148,6 +148,7 @@ endforeach;
 </form>
 <?php
 echo $this->table->outro;
+echo '</div>'; //row-fluid
 if ($pageClass !== '') :
 	echo '</div>';
 endif;

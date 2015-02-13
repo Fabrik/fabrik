@@ -57,7 +57,7 @@ else:
  			<table class="filtertable_horiz">
  		<?php
 	endif;
-	$filter_count = array_key_exists('all', $this->filters) ? count($this->filters) - 1 : count($this->filters);
+	$filter_count = count($this->filters);
 	$colHeight = ceil($filter_count / $this->filterCols);
 	foreach ($this->filters as $key => $filter) :
 			if ($this->filterCols > 1 && $c >= $colHeight && $c % $colHeight === 0) :
@@ -66,15 +66,15 @@ else:
 			<table class="filtertable_horiz">
 				<?php
 			endif;
-			if ($key !== 'all') :
-				$c ++;
-				$required = $filter->required == 1 ? ' notempty' : '';?>
-				<tr data-filter-row="<?php echo $key;?>" class="fabrik_row oddRow<?php echo ($c % 2) . $required;?>">
-				<td><?php echo $filter->label;?></td>
-				<td style="text-align:right;"><?php echo $filter->element;?></td>
+
+			$c ++;
+			$required = $filter->required == 1 ? ' notempty' : '';?>
+			<tr data-filter-row="<?php echo $key;?>" class="fabrik_row oddRow<?php echo ($c % 2) . $required;?>">
+			<td><?php echo $filter->label;?></td>
+			<td style="text-align:right;"><?php echo $filter->element;?></td>
 			</tr>
 	<?php
-	endif;
+
 	endforeach;
 	if ($this->filterCols > 1) :
 		?>

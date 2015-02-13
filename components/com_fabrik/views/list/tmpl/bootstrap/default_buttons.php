@@ -120,7 +120,7 @@ if ($this->emptyLink) :?>
 endif;
 ?>
 </ul>
-<?php if (array_key_exists('all', $this->filters) || $this->filter_action != 'onchange') {
+<?php if (array_key_exists('all', $this->filters) && (count($this->filters)==1 || $this->filterMode === 3 || $this->filterMode === 4)) {
 ?>
 <ul class="nav pull-right">
 	<li>
