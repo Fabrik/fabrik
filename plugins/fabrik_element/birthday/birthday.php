@@ -268,9 +268,11 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 			$errorCSS = (isset($this->_elementError) && $this->_elementError != '') ? " elementErrorHighlight" : '';
 
+			$fbConfig = JComponentHelper::getParams('com_fabrik');
+			
 			if (!$this->getGroup()->canRepeat())
 			{
-				$advanced = $params->get('advanced_behavior', '0') == '1' ? ' advancedSelect ' : '';
+				$advanced = ($params->get('advanced_behavior', '0') == '1' || $fbConfig->get('advanced_behavior', '0') == '1') ? ' advancedSelect ' : '';
 			}
 			else
 			{

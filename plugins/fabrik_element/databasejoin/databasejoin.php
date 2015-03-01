@@ -1355,10 +1355,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			// $$$rob should be canUse() otherwise if user set to view but not use the dd was shown
 			if ($this->canUse())
 			{
-
+			$fbConfig = JComponentHelper::getParams('com_fabrik');
+			
 				if (!$this->getGroup()->canRepeat())
 				{
-					$advanced = $params->get('advanced_behavior', '0') == '1' ? ' advancedSelect ' : '';
+					$advanced = ($params->get('advanced_behavior', '0') == '1' || $fbConfig->get('advanced_behavior', '0') == '1') ? 'advancedSelect ' : '';
 				}
 				else
 				{
@@ -2844,9 +2845,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$this->elementJavascriptJoinOpts($opts);
 		$opts->isJoin = $this->isJoin();
 
+		$fbConfig = JComponentHelper::getParams('com_fabrik');
+
 		if (!$this->getGroup()->canRepeat())
 		{
-			$advanced = $params->get('advanced_behavior', '0') == '1';
+			$advanced = ($params->get('advanced_behavior', '0') == '1' || $fbConfig->get('advanced_behavior', '0') == '1');
 		}
 		else
 		{

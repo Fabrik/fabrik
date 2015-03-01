@@ -64,9 +64,11 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		$errorCSS = $this->elementError != '' ? " elementErrorHighlight" : '';
 		$boostrapClass = $params->get('bootstrap_class', '');
 
-        if (!$this->getGroup()->canRepeat())
+ 		$fbConfig = JComponentHelper::getParams('com_fabrik');
+		
+		if (!$this->getGroup()->canRepeat())
         {
-			$advanced = $params->get('advanced_behavior', '0') == '1' ? ' advancedSelect ' : '';
+			$advanced = ($params->get('advanced_behavior', '0') == '1' || $fbConfig->get('advanced_behavior', '0') == '1') == '1' ? 'advancedSelect ' : '';
         }
         else
         {
@@ -189,9 +191,11 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		$opts->data = (empty($values) && empty($labels)) ? array() : array_combine($values, $labels);
 		$opts->multiple = (bool) $params->get('multiple', '0') == '1';
 		
+		$fbConfig = JComponentHelper::getParams('com_fabrik');
+
 		if (!$this->getGroup()->canRepeat())
 		{
-			$advanced = $params->get('advanced_behavior', '0') == '1';
+			$advanced = ($params->get('advanced_behavior', '0') == '1' || $fbConfig->get('advanced_behavior', '0') == '1');
 		}
 		else
 		{
