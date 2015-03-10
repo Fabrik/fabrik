@@ -24,7 +24,7 @@
 	</uninstall>
 
 	<files>
-		<filename plugin="rating">attending.php</filename>
+		<filename plugin="attending">attending.php</filename>
 		<filename>index.html</filename>
 		<filename>attending.js</filename>
 		<filename>attending-min.js</filename>
