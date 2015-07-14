@@ -549,7 +549,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		// Search for every word separately in the result rather than the single string (of multiple words)
 		$regex  = "/(?=.*" .
 			implode(")(?=.*",
-				array_filter(explode(" ", addslashes($v)))
+				array_filter(explode(" ", preg_quote($v, '/')))
 			) . ").*/i";
 		$start = count($rows) - 1;
 
