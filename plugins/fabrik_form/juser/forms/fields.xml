@@ -115,8 +115,8 @@
 			<field name="juser_field_default_group"
 				type="usergroup"
 				default="0"
-				description="PLG_FABRIK_FORM_JUSER_DEFAULT_USERTYPE_FIELD_DESC"
-				label="PLG_FABRIK_FORM_JUSER_DEFAULT_USERTYPE_FIELD_LABEL"
+				description="PLG_FABRIK_FORM_JUSER_DEFAULT_USERGROUP_FIELD_DESC"
+				label="PLG_FABRIK_FORM_JUSER_DEFAULT_USERGROUP_FIELD_LABEL"
 				repeat="true" />
 
 			<field name="juser_conditon"
