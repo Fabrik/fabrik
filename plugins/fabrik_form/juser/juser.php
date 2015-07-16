@@ -227,9 +227,9 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 						$formModel->data[$this->emailfield] = $user->get('email');
 						$formModel->data[$this->emailfield . '_raw'] = $user->get('email');
 						// @FIXME this is out of date for J1.7 - no gid field
-						if ($params->get('juser_field_usertype') != '')
+						if ($params->get('juser_field_usergroup') != '')
 						{
-							$groupElement = Worker::getPluginManager()->getElementPlugin($params->get('juser_field_usertype'));
+							$groupElement = Worker::getPluginManager()->getElementPlugin($params->get('juser_field_usergroup'));
 							$groupElementClass = get_class($groupElement);
 							$gid = $user->groups;
 
@@ -238,7 +238,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 								$gid = array_shift($gid);
 							}
 
-							$this->gidfield = $this->getFieldName('juser_field_usertype');
+							$this->gidfield = $this->getFieldName('juser_field_usergroup');
 							$formModel->data[$this->gidfield] = $gid;
 							$formModel->data[$this->gidfield . '_raw'] = $gid;
 						}
@@ -845,9 +845,9 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		$formModel = $this->getModel();
 		$isNew = ($user->get('id') < 1);
 		$params = $this->getParams();
-		$this->gidfield = $this->getFieldName('juser_field_usertype');
+		$this->gidfield = $this->getFieldName('juser_field_usergroup');
 		$defaultGroup = (int) $params->get('juser_field_default_group');
-		$groupIds = (array) $this->getFieldValue('juser_field_usertype', $formModel->formData, $defaultGroup);
+		$groupIds = (array) $this->getFieldValue('juser_field_usergroup', $formModel->formData, $defaultGroup);
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
 		if (!empty($groupIds) && is_object($groupIds[0]))
@@ -861,7 +861,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		
 		if (!$isNew)
 		{
-			if ($params->get('juser_field_usertype') != '')
+			if ($params->get('juser_field_usergroup') != '')
 			{
 				foreach ($groupIds as $groupId)
 				{
@@ -883,7 +883,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		}
 		else
 		{
-			if ($params->get('juser_field_usertype') != '')
+			if ($params->get('juser_field_usergroup') != '')
 			{
 				//If array but empty (e.g. from an empty user_groups element)
 				if (empty($groupIds))
