@@ -53,10 +53,10 @@
 				repeat="true" />
 
 
-			<field name="juser_field_usertype"
+			<field name="juser_field_usergroup"
 				type="listfields"
-				description="PLG_FABRIK_FORM_JUSER_USERTYPE_FIELD_DESC"
-				label="PLG_FABRIK_FORM_JUSER_USERTYPE_FIELD_LABEL"
+				description="PLG_FABRIK_FORM_JUSER_USERGROUP_FIELD_DESC"
+				label="PLG_FABRIK_FORM_JUSER_USERGROUP_FIELD_LABEL"
 				onlytablefields="0"
 				repeat="true" />
 
