@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php }
 	if ($this->showClearFilters) {?>
 		<li>
-		<?php echo $this->clearFliterLink;?>
+		<?php echo $this->clearFilterLink;?>
 		</li>
 	<?php }
 	if ($this->showFilters && $this->toggleFilters) {?>
