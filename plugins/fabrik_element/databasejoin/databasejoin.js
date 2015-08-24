@@ -813,7 +813,9 @@ var FbDatabasejoin = new Class({
 		default:
 			if (this.element) {
 				this.element.addEvent(action, function (e) {
-					e.stop();
+					if (e && e.stop) {
+						e.stop();
+					}
 					(typeOf(js) === 'function') ? js.delay(0, this, this) : eval(js);
 				}.bind(this));
 			}
@@ -832,13 +834,17 @@ var FbDatabasejoin = new Class({
 			var f = this.getAutoCompleteLabelField();
 			if (typeOf(f) !== 'null') {
 				f.addEvent(action, function (e) {
-					e.stop();
+					if (e && e.stop) {
+						e.stop();
+					}
 					(typeOf(js) === 'function') ? js.delay(700, this, this) : eval(js);
 				}.bind(this));
 			}
 			if (this.element) {
 				this.element.addEvent(action, function (e) {
-					e.stop();
+					if (e && e.stop) {
+						e.stop();
+					}
 					(typeOf(js) === 'function') ? js.delay(0, this, this) : eval(js);
 				}.bind(this));
 			}
