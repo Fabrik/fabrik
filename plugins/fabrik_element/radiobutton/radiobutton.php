@@ -86,6 +86,7 @@ class PlgFabrik_ElementRadiobutton extends PlgFabrik_ElementList
 		$opts->defaultVal = $this->getDefaultValue($data);
 		$opts->data = empty($arVals) ? array() : array_combine($arVals, $arTxt);
 		$opts->allowadd = $params->get('allow_frontend_addtoradio', false) ? true : false;
+		$opts->changeEvent = $this->getChangeEvent();
 		JText::script('PLG_ELEMENT_RADIO_ENTER_VALUE_LABEL');
 
 		return array('FbRadio', $id, $opts);
@@ -232,5 +233,17 @@ class PlgFabrik_ElementRadiobutton extends PlgFabrik_ElementList
 		}
 
 		return $v;
+	}
+
+	/**
+	 * Return JS event required to trigger a 'change', this is overriding default element model.
+	 * When in BS mode with button-grp, needs to be 'click'.
+	 *
+	 * @return  string
+	 */
+
+	public function getChangeEvent()
+	{
+		return $this->buttonGroup() ? 'click' : 'change';
 	}
 }

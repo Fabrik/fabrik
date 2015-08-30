@@ -20,6 +20,10 @@ window.FbRadio = new Class({
 		this.btnGroup();
 	},
 
+	getChangeEvent: function () {
+		return this.options.changeEvent;
+	},
+
 	btnGroup: function () {
 		// Seems slighly skewy in admin as the j template does the same code
 		if (!this.options.btnGroup) {
