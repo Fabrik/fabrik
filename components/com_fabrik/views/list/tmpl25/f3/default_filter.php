@@ -20,7 +20,7 @@ if ($this->filter_action != 'onchange') {?>
 <?php
 	echo "<div class=\"searchall\">";
 	//echo $this->filters['all']->label;
-	echo $this->clearFliterLink . ' |' ;
+	echo $this->clearFilterLink . ' |' ;
 	if (array_key_exists('all', $this->filters)) {
 		echo $this->filters['all']->element;
 	}

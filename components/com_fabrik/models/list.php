@@ -9128,7 +9128,7 @@ class FabrikFEModelList extends JModelForm
 			return $msg;
 		}
 
-		$this->parseAddSlases = $addslashes;
+		$this->parseAddSlashes = $addslashes;
 		$msg = FabrikWorker::replaceWithUserData($msg);
 		$msg = FabrikWorker::replaceWithGlobals($msg);
 		$msg = preg_replace("/{}/", "", $msg);
@@ -9195,11 +9195,11 @@ class FabrikFEModelList extends JModelForm
 
 		if (is_array($return))
 		{
-			$this->parseAddSlases = true;
+			$this->parseAddSlashes = true;
 			$return = json_encode($return);
 		}
 
-		if ($this->parseAddSlases)
+		if ($this->parseAddSlashes)
 		{
 			$return = htmlspecialchars($return, ENT_QUOTES, 'UTF-8');
 		}
