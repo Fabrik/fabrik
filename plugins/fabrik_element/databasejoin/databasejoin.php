@@ -1573,7 +1573,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 		else if ($formModel->hasErrors() || $formModel->getRowId() === '')
 		{
-			$label = (array) $this->getLabelForValue($label[0], $label[0], true);
+			$label = (array) $this->getLabelForValue($default[0], $default[0], true);
 		}
 
 

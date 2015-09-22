@@ -1152,7 +1152,14 @@ var FbList = new Class({
 	},
 
 	watchNav: function (e) {
-		var limitBox = this.form.getElement('select[name*=limit]');
+		if (this.form != null) {
+			var limitBox = this.form.getElement('select[name*=limit]');
+			var addRecord = this.form.getElement('.addRecord');
+		}
+		else {
+			var limitBox = null;
+			var addRecord = null;
+		}
 		if (limitBox) {
 			limitBox.addEvent('change', function (e) {
 				var res = Fabrik.fireEvent('fabrik.list.limit', [this]);
@@ -1163,7 +1170,6 @@ var FbList = new Class({
 				this.doFilter();
 			}.bind(this));
 		}
-		var addRecord = this.form.getElement('.addRecord');
 		if (typeOf(addRecord) !== 'null' && (this.options.ajax_links)) {
 			addRecord.removeEvents();
 			var loadMethod = (this.options.links.add === '' || addRecord.href.contains(Fabrik.liveSite)) ? 'xhr' : 'iframe';
