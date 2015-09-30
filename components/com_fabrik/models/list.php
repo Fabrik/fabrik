@@ -406,7 +406,7 @@ class FabrikFEModelList extends JModelForm
 
 	/**
 	 * Empty data message
-	 * 
+	 *
 	 * @var string
 	 */
 	public $emptyMsg = null;
@@ -2066,8 +2066,8 @@ class FabrikFEModelList extends JModelForm
 		$emptyLabel = $showRelated === 1 ? FText::_('COM_FABRIK_NO_RECORDS') : '';
 		$tlabel = ($count === 0) ? $emptyLabel : '(0) ' . $label;
 		$showRelatedAdd = (int) $params->get('show_related_add', 0);
-		$aExisitngLinkedForms = (array) $params->get('linkedform');
-		$linkedForm = FArrayHelper::getValue($aExisitngLinkedForms, $f, false);
+		$aExistingLinkedForms = (array) $params->get('linkedform');
+		$linkedForm = FArrayHelper::getValue($aExistingLinkedForms, $f, false);
 		$addLink = $linkedForm == '0' ? $this->viewFormLink($popUp, $element, $row, $key, $val, false, $f) : '';
 
 		if ($count === 0)
@@ -2129,7 +2129,7 @@ class FabrikFEModelList extends JModelForm
 		{
 			$bits[] = 'view=list';
 			$bits[] = 'listid=' . $listid;
-			
+
 			// Jaanus 12 Apr 2015 - commenting out the Itemid stuff as it totally messed up things i.e when one list was under many menu items and prefiltered differently under each item
 			/*
 			$listLinks = $this->getTableLinks();
@@ -3271,15 +3271,15 @@ class FabrikFEModelList extends JModelForm
 		/**
 		 * $$ hugh - caching is borked when using query builder object, as we're always returning a query
 		 * string, never an object.  So code like this:
-		 * 
+		 *
 		 * $query = $db->getQuery(true);
 		 * // some code that does query building stuff here, then ...
 		 * $query = $listModel->buildQueryWhere(true, $query);
 		 * $query = $listModel->buildQueryJoin($query);
-		 * 
+		 *
 		 * ... blows up in buildQueryJoin() if this function returns a cached query string, overwriting
 		 * the $query buider object.
-		 * 
+		 *
 		 * "Real" fix would be to sort it out so we return the object, although I'm not convinced that's
 		 * the even the right fix.  But for now only use the cache if we're using string not object.
 		 */
@@ -4539,7 +4539,7 @@ class FabrikFEModelList extends JModelForm
 				 */
 				$row->BaseType = strtoupper(preg_replace('#(\(\d+\))$#', '', $row->Type));
 				$row->BaseType = preg_replace('#(\s+SIGNED|\s+UNSIGNED)#', '', $row->BaseType);
-				
+
 				/**
 				 * Grab the size part ...
 				 */
@@ -5278,7 +5278,7 @@ class FabrikFEModelList extends JModelForm
 					// $$$ 15/11/2012 - moved from before getFilterValue() to after as otherwise date filters in querystrings created wonky query
 					$value = 'LOWER(' . $db->quote($value, false) . ')';
 				}
-			
+
 			}
 
 			if (!array_key_exists($i, $sqlCond) || $sqlCond[$i] == '')
@@ -6395,7 +6395,7 @@ class FabrikFEModelList extends JModelForm
 		{
 			return $opts;
 		}
-		
+
 		$defaultStatement = $params->get('advanced-filter-default-statement', '<>');
 		$opts->defaultStatement = $defaultStatement;
 
@@ -6822,12 +6822,12 @@ class FabrikFEModelList extends JModelForm
 						case 'desc':
 							$orderDir = '-';
 							$class = 'class="fabrikorder-desc"';
-							$img = FabrikHelperHTML::image('arrow-up.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
+							$img = FabrikHelperHTML::image('arrow-down-3.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
 							break;
 						case 'asc':
 							$orderDir = 'desc';
 							$class = 'class="fabrikorder-asc"';
-							$img = FabrikHelperHTML::image('arrow-down.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
+							$img = FabrikHelperHTML::image('arrow-up-3.png', 'list', $tmpl, array('alt' => FText::_('COM_FABRIK_ORDER')));
 							break;
 						case '':
 						case '-':
@@ -6851,7 +6851,7 @@ class FabrikFEModelList extends JModelForm
 
 					if ($elementParams->get('can_order', false))
 					{
-						$heading = '<a ' . $class . ' href="#">' . $img . $label . '</a>';
+						$heading = '<a ' . $class . ' href="#">' . $label . '</a>' . $img ;
 					}
 					else
 					{
@@ -8511,7 +8511,7 @@ class FabrikFEModelList extends JModelForm
 
 	/**
 	 * Get the lists db table's indexes
-	 * 
+	 *
 	 * @param   string  $table   table name, only needed if join
 	 *
 	 * @return array  list indexes
@@ -8549,7 +8549,7 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function addIndex($field, $prefix = '', $type = 'INDEX', $size = '')
 	{
-		
+
 		if (is_numeric($field))
 		{
 			$el = $this->getFormModel()->getElement($field, true);
@@ -8576,11 +8576,11 @@ class FabrikFEModelList extends JModelForm
 			$fieldParts = explode('___', $field);
 			$table = array_shift($fieldParts);
 		}
-		
+
 		$field = FabrikString::shortColName($field);
-		
+
 		$indexes = $this->getIndexes($table);
-		
+
 		FArrayHelper::filter($indexes, 'Column_name', $field);
 
 		if (!empty($indexes))
@@ -8893,12 +8893,12 @@ class FabrikFEModelList extends JModelForm
 		{
 			return false;
 		}
-		
+
 		if (in_array(false, $pluginManager->runPlugins('onAfterDeleteRows', $this, 'list')))
 		{
 			return false;
 		}
-				
+
 		return true;
 	}
 
@@ -11036,7 +11036,7 @@ class FabrikFEModelList extends JModelForm
 					{
 						$query->where($dbk . ' IN (' . $ids . ')');
 					}
-					
+
 					$db->setQuery($query);
 					$db->execute();
 				}
@@ -11052,7 +11052,7 @@ class FabrikFEModelList extends JModelForm
 			$db->execute();
 		}
 	}
-	
+
 	/**
 	 * Update a single row with a key = val, does NOT work across joins, main table only
 	 *
@@ -11065,7 +11065,7 @@ class FabrikFEModelList extends JModelForm
 	public function updateRow($id, $col, $val)
 	{
 		$field = FabrikString::shortColname($col);
-		
+
 		if (empty($field) || empty($id))
 		{
 			return;
@@ -11295,10 +11295,10 @@ class FabrikFEModelList extends JModelForm
 
 			// $$$rob need &amp; for pdf output which is parsed through xml parser otherwise fails
 			$qs .= '&amp;buttoncount=' . $this->rowActionCount;
-			
+
 			// $$$ hugh - adding format, so custom CSS can do things like adding overrides for PDF
 			$qs .= '&amp;format=' . $app->input->get('format', 'html');
-			
+
 			$overRide = 'templates/' . $app->getTemplate() . '/html/com_fabrik/list/' . $tmpl . '/template_css.php' . $qs;
 
 			if (!FabrikHelperHTML::stylesheetFromPath($overRide))
@@ -11458,7 +11458,7 @@ class FabrikFEModelList extends JModelForm
 				 * names ending in _form_heading.  May not be the most efficient method, but we need to
 				 * test if $key exists as an element, as well as the simple in_array() test above.
 				 */
-				
+
 				if ($formModel->hasElement($key, false, false))
 				{
 					$thisurl = $url . 'group_by=' . $key;
@@ -11850,7 +11850,7 @@ class FabrikFEModelList extends JModelForm
 		$tabsAll = (bool) $params->get('tabs_all', '1');
 
 		// @FIXME - starting to implement code to handle join elements, not cooked yet
-		
+
 		$formModel = $this->getFormModel();
 		$elementModel = $formModel->getElement($tabsElName);
 		$is_join = (is_subclass_of($elementModel, 'PlgFabrik_ElementDatabasejoin') || get_class($elementModel) == 'PlgFabrik_ElementDatabasejoin');
@@ -11868,8 +11868,8 @@ class FabrikFEModelList extends JModelForm
 		{
 			$app->enqueueMessage(sprintf(FText::_('COM_FABRIK_LIST_TABS_TABLE_ERROR'), $tableName, $table->db_table_name), 'error');
 			$joinTable = $elementModel->getJoinModel()->getJoin();
-			$fullFk = $joinTable->table_join . '___' . $joinTable->table_join_key;		
-			return;			
+			$fullFk = $joinTable->table_join . '___' . $joinTable->table_join_key;
+			return;
 		}
 
 		/**
@@ -12113,17 +12113,17 @@ class FabrikFEModelList extends JModelForm
 
 		return $cols;
 	}
-	
+
 	/**
 	 * Set the table label (title), overwrites table->label
-	 * 
+	 *
 	 * @since 3.4
-	 * 
+	 *
 	 * @param  string  $label  label to use for list
 	 */
 	public function setLabel($label)
 	{
-		$this->getTable()->label = $label;	
+		$this->getTable()->label = $label;
 	}
-	
+
 }
