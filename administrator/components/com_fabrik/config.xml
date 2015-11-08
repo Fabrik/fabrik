@@ -12,6 +12,16 @@
 				<option value="1">JYES</option>
 		</field>
 
+		<field name="enable_straight_join"
+			class="radio btn-group"
+			type="radio"
+			default="0"
+			label="COM_FABRIK_FIELD_ENABLE_STRAIGHT_JOIN_LABEL"
+			description="COM_FABRIK_FIELD_ENABLE_STRAIGHT_JOIN_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+
 		<field name="google_api_key"
 			type="text"
 			label="COM_FABRIK_GOOGLE_API_KEY_LABEL"

@@ -2321,6 +2321,24 @@ class FabrikFEModelList extends JModelForm
 	}
 
 	/**
+	 * use SELECT STRAIGHT_JOIN
+	 *
+	 * @return  string	for sql
+	 */
+
+	public function straightJoin() 
+	{
+		$fbConfig = JComponentHelper::getParams('com_fabrik');
+		$params = $this->getParams();
+		$globalSJ = $fbConfig->get('enable_straight_join', 0) == 1;
+		$listSJ = $params->get('enable_straight_join', -1) == 1;
+		$useGlobal = $params->get('enable_straight_join', -1) == -1;
+		$straightJoin = $useGlobal ? $globalSJ : $listSJ;
+		$string = $straightJoin ? 'STRAIGHT_JOIN ' : '';
+		return $string;
+	}
+
+	/**
 	 * get query to make records
 	 *
 	 * @return  string	sql
@@ -2419,7 +2437,7 @@ class FabrikFEModelList extends JModelForm
 			}
 			// Check for duplicate pks if so we can presume that they are aliased with _X in from query
 			$lookupC = 0;
-			$lookUps = array('DISTINCT ' . $table->db_primary_key . ' AS __pk_val' . $lookupC);
+			$lookUps = array('DISTINCT ' . $this->straightJoin() . $table->db_primary_key . ' AS __pk_val' . $lookupC);
 			$lookUpNames = array($table->db_primary_key);
 
 			foreach ($tmpPks as $pks)
@@ -2661,8 +2679,9 @@ class FabrikFEModelList extends JModelForm
 		 * Distinct creates a temporary table which may slow down queries.
 		 * Added advanced option to toggle it on/off
 		 * http://fabrikar.com/forums/index.php?threads/bug-distinct.39160/#post-196739
+		 * Jaanus: $this->straightJoin() is either 'STRAIGHT_JOIN ' or '' (a global/local option toggles it on/off)
 		 */
-		$distinct = $params->get('distinct', true) ? 'DISTINCT' : '';
+		$distinct = $params->get('distinct', true) ? 'DISTINCT ' . $this->straightJoin() : $this->straightJoin();
 
 		// $$$rob added raw as an option to fix issue in saving calendar data
 		if (trim($table->db_primary_key) != '' && (in_array($this->outputFormat, array('raw', 'html', 'feed', 'pdf', 'phocapdf', 'csv', 'word', 'yql'))))

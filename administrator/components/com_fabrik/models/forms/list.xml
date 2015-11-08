@@ -1289,6 +1289,17 @@
 					<option value="1">JYES</option>	
 			</field>
 
+			<field name="enable_straight_join"
+				class="radio btn-group"
+				type="radio"
+				default="-1"
+				label="COM_FABRIK_FIELD_ENABLE_STRAIGHT_JOIN_LABEL"
+				description="COM_FABRIK_FIELD_ENABLE_STRAIGHT_JOIN_DESC">
+					<option value="-1">COM_FABRIK_DEFAULT_TO_GLOBAL</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset name="joins">
