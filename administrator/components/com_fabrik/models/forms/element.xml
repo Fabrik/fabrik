@@ -631,6 +631,12 @@
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 				</field>
+				
+				<field name="description"
+    					type="textarea"
+    					description="COM_FABRIK_FIELD_ELEMENT_DESCRIPTION_DESC"
+    					label="COM_FABRIK_FIELD_ELEMENT_DESCRIPTION_LABEL" 
+    				</field>
 
 				<field name="comment"
 					type="textarea"

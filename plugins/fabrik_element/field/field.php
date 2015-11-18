@@ -134,6 +134,8 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		{
 			$value = $this->numberFormat($value);
 		}
+		
+		$html = array();
 
 		if (!$this->isEditable())
 		{
@@ -152,7 +154,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 				$value = $this->getReadOnlyOutput($value, $value);
 			}
 
-			return ($element->hidden == '1') ? "<!-- " . $value . " -->" : $value;
+			$html[] = ($element->hidden == '1') ? "<!-- " . $value . " -->" : $value;
 		}
 		else
 		{
@@ -160,34 +162,44 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			{
 				$bits['class'] .= ' fabrikGeocomplete';
 			}
-		}
 
-		/* stop "'s from breaking the content out of the field.
-		 * $$$ rob below now seemed to set text in field from "test's" to "test&#039;s" when failed validation
-		 * so add false flag to ensure its encoded once only
-		 * $$$ hugh - the 'double encode' arg was only added in 5.2.3, so this is blowing some sites up
-		 */
-		if (version_compare(phpversion(), '5.2.3', '<'))
+			/* stop "'s from breaking the content out of the field.
+			 * $$$ rob below now seemed to set text in field from "test's" to "test&#039;s" when failed validation
+			 * so add false flag to ensure its encoded once only
+		 	* $$$ hugh - the 'double encode' arg was only added in 5.2.3, so this is blowing some sites up
+		 	*/
+			if (version_compare(phpversion(), '5.2.3', '<'))
+			{
+				$bits['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+			}
+			else
+			{
+				$bits['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
+			}
+
+			$bits['class'] .= ' ' . $params->get('text_format');
+
+			if ($params->get('speech', 0))
+			{
+				$bits['x-webkit-speech'] = "x-webkit-speech";
+			}
+
+			$layout = $this->getLayout('form');
+			$layoutData = new stdClass;
+			$layoutData->attributes = $bits;
+
+			$html[] = $layout->render($layoutData);	
+		}
+		
+		if ($params->get('description', '') !== '')
 		{
-			$bits['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+			$layout = $this->getLayout('form-description');
+			$displayData = new stdClass;
+			$displayData->opts = array('description'=>$params->get('description', ''),'elname'=>$bits['name']);	
+			$displayData->default = '';
+			$html[] = $layout->render($displayData,'');
 		}
-		else
-		{
-			$bits['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
-		}
-
-		$bits['class'] .= ' ' . $params->get('text_format');
-
-		if ($params->get('speech', 0))
-		{
-			$bits['x-webkit-speech'] = "x-webkit-speech";
-		}
-
-		$layout = $this->getLayout('form');
-		$layoutData = new stdClass;
-		$layoutData->attributes = $bits;
-
-		return $layout->render($layoutData);
+		return implode("\n", $html);
 	}
 
 	/**

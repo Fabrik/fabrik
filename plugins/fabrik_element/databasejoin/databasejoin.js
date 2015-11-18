@@ -641,25 +641,48 @@ var FbDatabasejoin = new Class({
 
 	/**
 	 * Optionally show a description which is another field from the joined table.
+	 *
+	 * Phil changed to accomodate descriptions for dbj and cdd elements rendered as radio or auto-select
+	 * Now uses div#id containing pk value to compare against selected option value to show/hide proper decription
+	 * (hope using some jquery code is ok - it was the easy way out)
 	 */
-
 	showDesc: function (e) {
-		var v = e.target.selectedIndex;
-		var c = this.getContainer().getElement('.dbjoin-description');
-		var show = c.getElement('.description-' + v);
-		c.getElements('.notice').each(function (d) {
-			if (d === show) {
-				var myfx = new Fx.Tween(show, {'property': 'opacity',
-					'duration': 400,
-					'transition': Fx.Transitions.linear
-				});
-				myfx.set(0);
-				d.setStyle('display', '');
-				myfx.start(0, 1);
-			} else {
-				d.setStyle('display', 'none');
-			}
-		});
+		var elType = e.target.type;
+		var elName = e.target.name;	
+		var elField = elName.substring(0,elName.lastIndexOf('['));
+		var isValid = true;
+		switch (elType){
+			case 'radio':
+				var i = jQuery(":radio[name='"+elName+"']:checked").val();				
+				break;
+			case 'hidden':	
+			case 'change':	
+				var i = jQuery("#"+elField).prop('value');			
+				break;
+			case 'select-one':	
+				var i = jQuery("#"+elField).val();			
+				break;				
+			default:
+				isValid = false;
+				break;
+		}
+		if(isValid == true){
+			var c = this.getContainer().getElement('.dbjoin-description');
+			var show = document.getElementById('dbjdesc-' + elField + '-' + i);
+			c.getElements('.notice').each(function (d) {
+				if (d === show) {
+					var myfx = new Fx.Tween(show, {'property': 'opacity',
+						'duration': 400,
+						'transition': Fx.Transitions.linear
+					});
+					myfx.set(0);
+					d.setStyle('display', '');
+					myfx.start(0, 1);
+				} else {
+					d.setStyle('display', 'none');
+				}
+			});		
+		}	
 	},
 
 	getValue: function () {

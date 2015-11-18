@@ -550,7 +550,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		// $$$ hugh - attempting to make sure we never do an unconstrained query for auto-complete
 		$displayType = $this->getDisplayType();
-		$value = (array) $this->getValue($data, $repeatCounter);
+// Phil moved down to after autocomplete_where so opt['raw'] can be passed to getValue		
+//		$value = (array) $this->getValue($data, $repeatCounter);
 
 		/*
 		 *  $$$ rob 20/08/2012 - removed empty test - seems that this method is called more than one time, when in auto-complete filter
@@ -561,6 +562,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		 */
 		if ($displayType === 'auto-complete' && empty($this->autocomplete_where))
 		{
+		/*
+		* phil changed because query was using label for $this->getJoinValueColumn() IN - and messing up the query
+		* So I use the raw values here and then unset the $opts['raw'] flag after gettinbh raw values for the autocompletes.
+		* This would also cause a problem is multiple rows were using the same labels.
+		*/
+			$opts['raw'] = true;			
+			$value = (array) $this->getValue($data, $repeatCounter, $opts);				
 			if (!empty($value) && $value[0] !== '')
 			{
 				$quoteV = array();
@@ -572,7 +580,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 				$this->autocomplete_where = $this->getJoinValueColumn() . ' IN (' . implode(', ', $quoteV) . ')';
 			}
+			unset($opts['raw']);
 		}
+// phil moved from before last if		
+		$value = (array) $this->getValue($data, $repeatCounter, $opts);	
+	
 		// $$$ rob 18/06/2012 cache the option vals on a per query basis (was previously incwhere but this was not ok
 		// for auto-completes in repeating groups
 		$sql = $this->buildQuery($data, $incWhere, $opts);
@@ -1241,13 +1253,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$formModel = $this->getFormModel();
 		$displayType = $this->getDisplayType();
-		$default = (array) $this->getValue($data, $repeatCounter, array('raw' => true));
+		$defaultRaw = (array) $this->getValue($data, $repeatCounter, array('raw' => true));
 		$defaultLabels = (array) $this->getValue($data, $repeatCounter, array('raw' => false));
 		$defaultLabels = array_values($defaultLabels);
-
 		$tmp = $this->_getOptions($data, $repeatCounter);
 		$w = new FabrikWorker;
-		$default = $w->parseMessageForPlaceHolder($default);
+		$default = $w->parseMessageForPlaceHolder($defaultRaw);
 		$id = $this->getHTMLId($repeatCounter);
 		$html = array();
 
@@ -1368,7 +1379,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				}
 
 				$html[] = $this->renderFrontEndSelect($html);
-				$html[] = $displayType == 'radio' ? '</div>' : '';
+// Phil removed - was causing problem with radio layout				
+//				$html[] = $displayType == 'radio' ? '</div>' : '';
 			}
 			elseif ($this->canView())
 			{
@@ -1376,8 +1388,22 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
-		$html[] = $this->renderDescription($tmp, $default);
+		$html[] = $this->renderDescription($tmp, $default, $defaultRaw, $id);
 
+		/*
+		* Phil added - get layout file for new global element description option
+		* Would display after the dbj description - either/or/both can be used
+		*/
+		if ($params->get('description', '') !== '')
+		{
+			$bits = $this->inputProperties($repeatCounter);
+			$layout = $this->getLayout('form-description2');
+			$displayData = new stdClass;
+			$displayData->opts = array('description'=>$params->get('description', ''),'elname'=>$bits['name']);	
+			$displayData->default = '';
+			$html[] = $layout->render($displayData,'');
+		}		
+		
 		return implode("\n", $html);
 	}
 
@@ -1424,16 +1450,23 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @return  void
 	 */
-	protected function renderDescription($options = array(), $default = array())
+	// phil changed to always include the raw values and full element name for use in the dbf/cdd description layout file
+	//  protected function renderDescription($options = array(), $default = array())	 
+	protected function renderDescription($options = array(), $default = array(), $defaultRaw = array(), $fullElName)
 	{
 		$params = $this->getParams();
-
 		if ($params->get('join_desc_column', '') !== '')
 		{
 			$layout = $this->getLayout('form-description');
 			$displayData = new stdClass;
 			$displayData->opts = $options;
 			$displayData->default = FArrayHelper::getValue($default, 0);
+			
+			// Phil added for use in the dbf/cdd description layout file			
+			$displayData->defaultRaw = FArrayHelper::getValue($defaultRaw, 0);
+			$displayData->fullElName = $fullElName;
+			
+			
 			$displayData->showPleaseSelect = $this->showPleaseSelect();
 
 			return $layout->render($displayData);
@@ -1806,7 +1839,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function getTitlePart($data, $repeatCounter = 0, $opts = array())
 	{
 		// Get raw value
-		$opts['raw'] = '1';
+		// Phil changed to boolean true for consistency - caused errors elsewhere
+		// some code that needs this flag used boolean, some 1, and some '1'
+		$opts['raw'] = true;
 		$titleParts = (array) $this->getValue($data, $repeatCounter, $opts);
 
 		// Replace with labels
@@ -2816,7 +2851,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function elementJavascript($repeatCounter)
 	{
 		$id = $this->getHTMLId($repeatCounter);
-
 		if ($this->getParams()->get('database_join_display_type', 'dropdown') == 'auto-complete')
 		{
 			$autoOpts = array();
@@ -2824,8 +2858,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$autoOpts['storeMatchedResultsOnly'] = true;
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->id, $this->getFormModel()->getId(), 'databasejoin', $autoOpts);
 		}
-
-		$opts = $this->elementJavascriptOpts($repeatCounter);
+		// phil added $opts here so as to pass with changes to elementJavascriptOpts 
+		// rather than initializing $opts in elementJavascriptOpts		
+		$opts = $this->_getOptionVals();		
+		$opts = $this->elementJavascriptOpts($repeatCounter, $opts);
 
 		return array('FbDatabasejoin', $id, $opts);
 	}
@@ -2855,12 +2891,19 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @return  array  Options
 	 */
 
-	protected function elementJavascriptOpts($repeatCounter)
+	//	Phil changed - see aboveprotected
+	//protected function elementJavascriptOpts($repeatCounter)
+	protected function elementJavascriptOpts($repeatCounter, $opts = array())
 	{
 		$params = $this->getParams();
-		$opts = $this->_getOptionVals();
+		// phil moved - now sent as function param		
+		// $opts = $this->_getOptionVals();
 		$data = $this->getFormModel()->data;
-		$arSelected = $this->getValue($data, $repeatCounter);
+		//added opts ????		
+		//phil changed	
+		// $arSelected = $this->getValue($data, $repeatCounter);
+		$arSelected = $this->getValue($data, $repeatCounter, $opts);
+
 		$table = $params->get('join_db_name');
 		$opts = $this->getElementJSOptions($repeatCounter);
 		$forms = $this->getLinkedForms();
