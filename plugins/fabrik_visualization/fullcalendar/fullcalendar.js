@@ -121,6 +121,7 @@ var fabrikFullcalendar = new Class({
 				{
 					title: e.label,
 					start: e.startdate_locale,
+					end: e.enddate_locale,
 					url: e.link,
 					listid: e._listid,
 					rowid: e.__pk_val,
