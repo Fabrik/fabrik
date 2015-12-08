@@ -757,7 +757,7 @@ class FabrikAdminModelList extends FabModelAdmin
 			$this->updatePrimaryKey($row->db_primary_key, $row->auto_inc);
 		}
 
-		// Make an array of elments and a presumed index size, map is then used in creating indexes
+		// Make an array of elements and a presumed index size, map is then used in creating indexes
 		$map = array();
 		$groups = $this->getFormModel()->getGroupsHiarachy();
 
