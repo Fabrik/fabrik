@@ -841,6 +841,12 @@ class FabrikViewFormBase extends FabrikView
 		$fields[]  = '<input type="hidden" name="package" value="' . $this->app->getUserState('com_fabrik.package', 'fabrik') . '" />';
 		$fields[]  = '<input type="hidden" name="packageId" value="' . $model->packageId . '" />';
 
+		// Allow things like join element with frontend Add to squash redirects
+		if ($input->getInt('noredirect', 0) !== 0)
+		{
+			$fields[]  = '<input type="hidden" name="noredirect" value="1" />';
+		}
+
 		if ($useKey = FabrikWorker::getMenuOrRequestVar('usekey', ''))
 		{
 			// $$$rob v's been set from -1 to the actual row id - so ignore usekey not sure if we should comment this out

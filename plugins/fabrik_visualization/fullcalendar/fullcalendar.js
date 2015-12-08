@@ -14,7 +14,8 @@ var fabrikFullcalendar = new Class({
 		this.el  = document.id(ref);
 		this.setOptions(options);
 		this.date = new Date();
-
+		this.clickdate = null;
+		
 		this.windowopts = {
 				'id': 'addeventwin',
 				title: 'add/edit event',
@@ -182,13 +183,12 @@ var fabrikFullcalendar = new Class({
 		}
 		
 		url += '&fabrik_window_id=' + this.windowopts.id;
-		if (typeof(this.clickdate) !== 'undefined') {
+		if (this.clickdate !== null) {
 			/* First add the default minimum duration to the end date */
 			var minDur = jQuery('#calendar').fullCalendar('option', 'defaultTimedEventDuration').split(":");
 			var endDate = moment(this.clickdate).add({h:minDur[0], m:minDur[1], s:minDur[2]}).format('YYYY-MM-DD HH:mm:ss');
 			url += '&start_date=' + this.clickdate + '&end_date=' + endDate;
 		}
-		
 		this.windowopts.type = 'window';
 		this.windowopts.contentURL = url;
 		var f = this.options.filters;
@@ -264,6 +264,7 @@ var fabrikFullcalendar = new Class({
 		y = theDay.year();
 
 		this.clickdate = y + "-" + m + "-" + day + " " + hour + ":" + min + ":00";
+
 		if (e.type == 'dblclick' && !this.dateInLimits(this.clickdate)) {
 			return;
 		}
@@ -276,6 +277,7 @@ var fabrikFullcalendar = new Class({
 			o.id = '';
 //			d = '&' + this.options.eventLists[0].startdate_element + '=' + this.clickdate;
 			o.listid = this.options.eventLists[0].value;
+			this.clickdate = null;
 			this.addEvForm(o);
 		}
 	},

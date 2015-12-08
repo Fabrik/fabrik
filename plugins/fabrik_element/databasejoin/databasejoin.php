@@ -1399,17 +1399,17 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		if ($this->app->isAdmin())
 		{
-			$displayData->chooseUrl = 'index.php?option=com_fabrik&amp;task=list.view&amp;listid=' . $popupListId . '&amp;tmpl=component&amp;ajax=1';
+			$displayData->chooseUrl = 'index.php?option=com_fabrik&amp;task=list.view&amp;listid=' . $popupListId . '&amp;tmpl=component&amp;ajax=1&amp;noredirect=1';
 		}
 		else
 		{
-			$displayData->chooseUrl = 'index.php?option=com_' . $this->package . '&amp;view=list&amp;listid=' . $popupListId . '&amp;tmpl=component&amp;ajax=1';
+			$displayData->chooseUrl = 'index.php?option=com_' . $this->package . '&amp;view=list&amp;listid=' . $popupListId . '&amp;tmpl=component&amp;ajax=1&amp;noredirect=1';
 		}
 
 		$popupForm = (int) $params->get('databasejoin_popupform');
 		$displayData->addURL = 'index.php?option=com_fabrik';
 		$displayData->addURL .= $this->app->isAdmin() ? '&amp;task=form.view' : '&amp;view=form';
-		$displayData->addURL .= '&amp;tmpl=component&amp;ajax=1&amp;formid=' . $popupForm;
+		$displayData->addURL .= '&amp;tmpl=component&amp;ajax=1&amp;formid=' . $popupForm . '&amp;noredirect=1';
 		$displayData->editable = $this->isEditable();
 
 		return $layout->render($displayData);

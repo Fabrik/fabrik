@@ -472,6 +472,15 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 			return false;
 		}
 
+		/**
+		 * If noredirect QS present and non 0, don't redirect.
+		 * Used by things like frontend add option on joins to squash any redirection on the join's form.
+		 */
+		if (FArrayHelper::getValue($this->formModel->formData, 'noredirect', 0) !== 0)
+		{
+			return false;
+		}
+
 		$params = $this->getParams();
 		return $this->shouldProcess('redirect_conditon', null, $params);
 	}

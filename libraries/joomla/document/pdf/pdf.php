@@ -43,7 +43,7 @@ class JDocumentpdf extends JDocumentHTML
 		if ($config->get('pdf_debug', false))
 		{
 			$this->setMimeEncoding('text/html');
-			$this->_type = 'html';
+			$this->_type = 'pdf';
 		}
 		else
 		{

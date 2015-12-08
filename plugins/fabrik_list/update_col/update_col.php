@@ -299,10 +299,27 @@ class PlgFabrik_ListUpdate_Col extends PlgFabrik_List
 				 */
 				$this->params = $params;
 
-				$to = $this->emailTo($row, $emailWhich);
+				$to = trim($this->emailTo($row, $emailWhich));
+				$tos = explode(',', $to);
+				$cleanTo = true;
 
-				if (JMailHelper::cleanAddress($to) && FabrikWorker::isEmail($to))
+				foreach ($tos as &$email)
 				{
+					$email = trim($email);
+
+					if (!(JMailHelper::cleanAddress($email) && FabrikWorker::isEmail($email)))
+					{
+						$cleanTo = false;
+					}
+				}
+
+				if ($cleanTo)
+				{
+					if (count($tos) > 1)
+					{
+						$to = $tos;
+					}
+
 					$thisSubject = $w->parseMessageForPlaceholder($subject, $row);
 					$thisMessage = $w->parseMessageForPlaceholder($message, $row);
 

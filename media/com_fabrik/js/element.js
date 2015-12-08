@@ -39,7 +39,7 @@ var FbElement =  new Class({
 		if (document.id(this.options.element + '_chzn')) {
 			var changeEvent = this.getChangeEvent();
 			jQuery('#' + this.options.element).on('change', {changeEvent: changeEvent}, function (event) {
-				document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(event.data.changeEvent, document.id(this.id)));
+				document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(document.id(this.id), event.data.changeEvent));
 			});
 		}
 		return this.setElement();

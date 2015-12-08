@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields"
+	        name="params">
+		<fieldset name="plg-j2store-extra"
+		          label="COM_FABRIK_OPTIONS">
+
+			<field name="j2store_product_name"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_PRODUCT_NAME_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_PRODUCT_NAME_LABEL"/>
+
+			<field name="j2store_product_type"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_PRODUCT_TYPE_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_PRODUCT_TYPE_LABEL"/>
+
+			<field name="j2store_enabled"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_ENABLED_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_ENABLED_LABEL"/>
+
+			<field name="j2store_visibility"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_VISIBLE_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_VISIBLE_LABEL"/>
+
+			<field name="j2store_sku"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_SKU_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_SKU_LABEL"/>
+
+			<field name="j2store_upc"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_UPC_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_UPC_LABEL"/>
+
+
+			<field name="j2store_manufacturer_id"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_MANUFACTURER_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_MANUFACTURER_LABEL"/>
+
+			<field name="j2store_addtocart_text"
+			       type="text"
+			       repeat="true"
+			       reapeat="true"
+			       description="PLG_FORM_J2STORE_FIELD_ADD_TO_CART_TEXT_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_ADD_TO_CART_TEXT_LABEL"/>
+		</fieldset>
+
+		<fieldset name="plg-j2store-price" label="PLG_FORM_J2STORE_PRICE">
+
+			<field name="j2store_price"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_PRICE_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_PRICE_LABEL"/>
+
+			<field name="j2store_taxprofile_id"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_TAX_PROFILE_ID_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_TAX_PROFILE_ID_LABEL"/>
+
+		</fieldset>
+		<fieldset name="plg-j2store-images" label="PLG_FORM_J2STORE_IMAGES">
+
+			<field name="j2store_thumb_image"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_THUMB_IMG_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_THUMB_IMG_LABEL"/>
+
+			<field name="j2store_main_image"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_MAIN_IMG_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_MAIN_IMG_LABEL"/>
+		</fieldset>
+
+		<fieldset name="plg-j2store-shipping" label="PLG_FORM_J2STORE_SHIPPING">
+
+			<field name="j2store_shipping"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_SHIPPING_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_SHIPPING_LABEL"/>
+
+			<field name="j2store_length"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_LENGTH_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_LENGTH_LABEL"/>
+
+			<field name="j2store_width"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_WIDTH_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_WIDTH_LABEL"/>
+
+				<field name="j2store_height"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_HEIGHT_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_HEIGHT_LABEL"/>
+
+			<field name="j2store_weight"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_WEIGHT_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_WEIGHT_LABEL"/>
+
+			<field name="j2store_length_class_id"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_LENGTH_CLASS_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_LENGTH_CLASS_LABEL"/>
+
+			<field name="j2store_weight_class_id"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_WEIGHT_CLASS_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_WEIGHT_CLASS_LABEL"/>
+
+		</fieldset>
+
+		<fieldset name="plg-j2store-downloads" label="PLG_J2STORE_DOWNLOADS">
+
+			<field name="j2store_download_limit"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_DOWNLOAD_LIMIT_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_DOWNLOAD_LIMIT_LABEL"/>
+
+			<field name="j2store_download_expiry"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_DOWNLOAD_EXPIRY_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_DOWNLOAD_EXPIRY_LABEL"/>
+
+			<field name="j2store_product_file_display_name"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_FILE_DISPLAY_NAME_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_FILE_DISPLAY_NAME_LABEL"/>
+
+			<field name="j2store_product_file_save_name"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_FILE_SAVE_NAME_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_FILE_SAVE_NAME_LABEL"/>
+
+		</fieldset>
+	</fields>
+</form>

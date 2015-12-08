@@ -770,8 +770,13 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$params = $this->getParams();
 		$sentTo = array();
 		$title = FText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED_TITLE');
-		$message = FText::_('PLG_FORM_COMMENT_NEW_COMMENT_ADDED');
-		$message .= "<br /><a href=\"{$row->url}\">" . FText::_('PLG_FORM_COMMENT_VIEW_COMMENT') . "</a>";
+
+		$layoutData = new stdClass;
+		$layoutData->row = $row;
+		$layoutData->comments = $comments;
+		$layout = $this->getLayout('emailnotification');
+		$message = $layout->render($layoutData);
+
 		$mail = JFactory::getMailer();
 
 		if ((int) $params->get('comment-internal-notify') == 1)

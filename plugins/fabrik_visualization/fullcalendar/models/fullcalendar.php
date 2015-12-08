@@ -127,32 +127,6 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 	}
 
 	/**
-	 * Get Standard Event Form Info
-	 *
-	 * @return mixed unknown|NULL
-	 */
-	public function getAddStandardEventFormInfo()
-	{
-		$config = JFactory::getConfig();
-		$prefix = $config->get('dbprefix');
-		$params = $this->getParams();
-		$db = FabrikWorker::getDbo();
-		$db->setQuery("SELECT form_id, id FROM #__{package}_lists WHERE db_table_name = '{$prefix}fabrik_calendar_events' AND private = '1'");
-		$o = $db->loadObject();
-
-		if (is_object($o))
-		{
-			// There are standard events recorded
-			return $o;
-		}
-		else
-		{
-			// They aren't any standards events recorded
-			return null;
-		}
-	}
-
-	/**
 	 * Save the calendar
 	 *
 	 * @return  boolean False if not saved, otherwise id of saved calendar

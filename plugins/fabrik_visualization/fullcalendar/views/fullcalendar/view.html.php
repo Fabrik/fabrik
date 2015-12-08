@@ -104,13 +104,6 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->restFilterStart = FabrikWorker::getMenuOrRequestVar('resetfilters', 0, false, 'request');
 		$options->tmpl = $tpl;
 
-		$o = $model->getAddStandardEventFormInfo();
-
-		if ($o != null)
-		{
-			$options->listid = $o->id;
-		}
-
 		// $$$rob @TODO not sure this is need - it isn't in the timeline viz
 		$model->setRequestFilters();
 		$options->filters = $model->filters;
@@ -239,16 +232,9 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
 		$rows = $model->getEventLists();
-		$o = $model->getAddStandardEventFormInfo();
 		$calendar = $model->getVisualization();
 		$options = array();
 		$options[] = JHTML::_('select.option', '', FText::_('PLG_VISUALIZATION_FULLCALENDAR_PLEASE_SELECT'));
-
-		if ($o != null)
-		{
-			$listid = $o->id;
-			$options[] = JHTML::_('select.option', $listid, FText::_('PLG_VISUALIZATION_FULLCALENDAR_STANDARD_EVENT'));
-		}
 
 		$model->getEvents();
 		$config = JFactory::getConfig();

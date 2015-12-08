@@ -54,7 +54,7 @@ var fabriktablesElement = new Class({
 		
 		if (this.cnn.hasClass('chzn-done')) {
 			jQuery('#' + this.cnn.id).on('change', function (event) {
-				document.id(self.cnn).fireEvent('change', new Event.Mock('change', document.id(self.cnn)));				
+				document.id(self.cnn).fireEvent('change', new Event.Mock(document.id(self.cnn), 'change'));				
 			});	
 		}
 
@@ -64,7 +64,7 @@ var fabriktablesElement = new Class({
 
 		if (this.el.hasClass('chzn-done')) {
 			jQuery('#' + this.el.id).on('change', function (event) {
-				document.id(self.el.id).fireEvent('change', new Event.Mock('change', document.id(self.el.id)));				
+				document.id(self.el.id).fireEvent('change', new Event.Mock(document.id(self.el.id), 'change'));				
 			});	
 		}
 		

@@ -66,7 +66,7 @@ var Autofill = new Class({
 	 *
 	 * @return element object
 	 */
-	getElement: function (repeatNum) {
+	getElements: function (repeatNum) {
 		var testE = false;
 		var e = this.form.formElements.get(this.options.observe);
 
@@ -90,6 +90,9 @@ var Autofill = new Class({
 				}
 			}.bind(this));
 		}
+		else {
+			this.attached.push(e.options.element);
+		}
 		return e;
 	},
 
@@ -106,14 +109,38 @@ var Autofill = new Class({
 			// form_x not found (detailed view perhaps)
 			return;
 		}
-		var e = this.getElement();
+		//var e = this.getElement();
 		if (!e) {
 			return false;
 		}
 		var evnt = function (e) {
 			// Fabrik Trigger element object so don't use as this.element or lookup value will be wrong
-			this.lookUp();
+			this.lookUp(e);
 		}.bind(this);
+
+		var testE = false;
+		var e = this.form.formElements.get(this.options.observe);
+
+		// If its a joined element
+		if (!e) {
+			var repeatCount = 0;
+			var k = Object.keys(this.form.formElements);
+			var ii = k.each(function (i) {
+				if (i.contains(this.options.observe)) {
+					testE = this.form.formElements.get(i);
+					if (!this.attached.contains(testE.options.element)) {
+						// We havent previously observed this element, add it to this.attached
+						// so that in the future we don't re-add it.
+						this.attached.push(testE.options.element);
+						//e = testE;
+					}
+					if (typeOf(repeatNum) === 'null' || repeatNum === repeatCount) {
+						e = testE;
+					}
+					repeatCount ++;
+				}
+			}.bind(this));
+		}
 
 		this.element = e;
 		if (this.options.trigger === '') {
@@ -124,8 +151,8 @@ var Autofill = new Class({
 				this.form.dispatchEvent('', this.element.options.element, elEvnt, function (e) {
 
 					// Fabrik element object that triggered the event
-					this.element = e;
-					this.lookUp();
+					// this.element = e;
+					this.lookUp(e);
 				}.bind(this));
 			}
 		} else {
@@ -135,12 +162,20 @@ var Autofill = new Class({
 			var t = this.options.trigger === '' ? this.element.strElement : this.options.trigger;
 			this.form.dispatchEvent('', t, 'load', evnt);
 		}
+
 		this.setupDone = true;
 	},
 
 	// perform ajax lookup when the observer element is blurred
 
-	lookUp: function () {
+	lookUp: function (el) {
+		if (this.options.trigger) {
+			// work out observed event
+		}
+		else {
+			this.element = el;
+		}
+		
 		if (this.options.confirm === true) {
 			if (!confirm(Joomla.JText._('PLG_FORM_AUTOFILL_DO_UPDATE'))) {
 				return;

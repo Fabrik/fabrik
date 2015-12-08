@@ -121,7 +121,7 @@ var FbListFilter = new Class({
 		if (this.filterContainer[0]) {
 			this.filterContainer[0].getElements('.advancedSelect').each(function (f) {
 				jQuery('#' + f.id).on('change', {changeEvent: 'change'}, function (event) {
-					document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(event.data.changeEvent, document.id(this.id)));
+					document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(document.id(this.id), event.data.changeEvent));
 				});
 			});
 		}
