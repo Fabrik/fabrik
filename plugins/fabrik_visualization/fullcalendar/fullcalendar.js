@@ -60,7 +60,7 @@ var fabrikFullcalendar = new Class({
 							"}.bind(this, callback)" +
 						"}).send();"
 					).bind(this),
-				color: eventList.colour
+					color: eventList.colour
 			});
 		}.bind(this));
 		
@@ -70,23 +70,27 @@ var fabrikFullcalendar = new Class({
 			rightbuttons += 'agendaWeek';
 		}
 		if (this.options.show_day !== false) {
-			if (rightbuttons.length > 0)
+			if (rightbuttons.length > 0) {
 				rightbuttons += ',';
+			}
 			rightbuttons += 'agendaDay';
 		}
-		if (rightbuttons.length > 0)
+		if (rightbuttons.length > 0) {
 			rightbuttons = 'month,'+ rightbuttons;
+		}
 		var dView = 'month';
 		switch(this.options.default_view) {
 			case 'monthView':
 				break;
 			case 'weekView':
-				if (this.options.show_week !== false)
-					dView = 'agendaWeek';
+				if (this.options.show_week !== false) {	
+					dView = 'agendaWeek'; 
+				}
 				break;
 			case 'dayView':
-				if (this.options.show_day !== false)
-					dView = 'agendaDay';
+				if (this.options.show_day !== false) { 
+					dView = 'agendaDay'; 
+				}
 				break;
 			default:
 				break;
@@ -111,7 +115,10 @@ var fabrikFullcalendar = new Class({
 			}
 		});
 
-	    jQuery('#calendar').fullCalendar({
+		/* below are the standard options we support, any extras or overrides should be in 
+		 * the calendar override option of the visualization 
+		 */
+		var calOptions = {
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -123,23 +130,26 @@ var fabrikFullcalendar = new Class({
 			nextDayThreshold: "00:00:00",
 			firstDay: this.options.first_week_day,
 	    	eventSources: eventSources,
-	        // put your options and callbacks here
+			defaultTimedEventDuration: this.options.minDuration,
+			minTime: this.options.open, // a start time (10am in this example)
+			maxTime : this.options.close, // an end time (6pm in this example)
+
 	        eventClick: function (calEvent, jsEvent, view) {
 	        	self.viewEntry(calEvent);
 	        	return false;
 	        },
-			defaultTimedEventDuration: this.options.minDuration,
 			dayClick: dayClickCallback,
 			viewRender:function(view, e) {
-				if (view.name == 'month' && self.options.greyscaledweekend == true) {
+				if (view.name == 'month' && self.options.greyscaledweekend === true) {
 					jQuery("td.fc-sat").css('background',"#f2f2f2");
 					jQuery("td.fc-sun").css('background',"#f2f2f2");
 				}
-			},
-			minTime: this.options.open, // a start time (10am in this example)
-			maxTime : this.options.close // an end time (6pm in this example)
+			}
 
-		});
+		};
+		/* Now merge any calendar overrides/additions from the visualixation */
+		jQuery.extend(true, calOptions, JSON.parse(self.options.calOptions));
+	    jQuery('#calendar').fullCalendar(calOptions);
 		
 	},
 	
@@ -204,6 +214,8 @@ var fabrikFullcalendar = new Class({
 					case 'input':
 						document.id(o.key).value = o.val;
 						break;
+					default:
+						break;
 					}
 				}
 			});
@@ -214,6 +226,7 @@ var fabrikFullcalendar = new Class({
 	},
 	
 	viewEntry: function (calEvent) {
+		this.clickdate = null;
 		var o = {};
 		o.id = calEvent.formid;
 		o.rowid = calEvent.rowid;
@@ -318,6 +331,6 @@ var fabrikFullcalendar = new Class({
 			var myfx = new Fx.Scroll(window).toElement('chooseeventwin');
 		};
 		Fabrik.getWindow(this.windowopts);
-	},
+	}
 
 })

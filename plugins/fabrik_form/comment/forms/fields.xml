@@ -40,6 +40,17 @@
 		
 		<fieldset name="plg-form-comment-local" label="PLG_FORM_COMMENT_LOCAL_COMMENTING_SETTINGS">
 
+			<field name="comment_internal_wysiwyg"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_FORM_COMMENT_INTERNAL_WYSIWYG_DESC"
+				label="PLG_FORM_COMMENT_INTERNAL_WYSIWYG_LABEL"
+				repeat="true">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field name="comment_lock_element"
 				type="listfields"
 				description="PLG_FORM_COMMENT_LOCK_COMMENTS_DESC"

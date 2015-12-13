@@ -6,7 +6,22 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_TAGS_HELP_SERVER" />
 				
-			<field name="tag_icon"
+			<field name="join_conn_id"
+			       type="hidden"
+				   default="1"/>
+
+			<field name="tags_dbname_desc"
+			       label="PLG_ELEMENT_TAGS_DBNAME_DESC"
+			       type="spacer"/>
+
+				   <field name="tags_dbname"
+			       label="PLG_ELEMENT_TAGS_DBNAME_LABEL"
+				   observe="params_join_conn_id"
+			       default="#__tags"
+			       key="name"
+			       type="tables"/>
+				
+ 			<field name="tag_icon"
 				type="text"
 				description="PLG_ELEMENT_TAGS_ICON_DESC"
 				label="PLG_ELEMENT_TAGS_ICON_LABEL" />

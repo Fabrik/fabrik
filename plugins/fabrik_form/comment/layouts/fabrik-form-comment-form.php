@@ -4,7 +4,15 @@ $d = $displayData;
 ?>
 <form action="index.php" <?php echo $d->formId; ?> class="replyform">
 	<p>
+<?php
+if ($d->wysiwyg) :
+	echo $d->editor;
+else :
+?>
 		<textarea style="width:95%" rows="6" cols="3" placeholder="<?php echo FText::_('PLG_FORM_COMMENT_TYPE_A_COMMENT_HERE'); ?>"></textarea>
+<?php
+endif;
+?>
 	</p>
 	<table class="adminForm" style="width:350px" summary="comments">
 		<?php

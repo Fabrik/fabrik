@@ -115,28 +115,8 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->default_view = $params->get('fullcalendar_default_view', 'month'); 
 		$options->add_type = $params->get('add_type', 'both'); 
 		$options->time_format = $params->get('time_format', 'H(:mm)'); 
-		$options->days = array(FText::_('SUNDAY'), FText::_('MONDAY'), FText::_('TUESDAY'), FText::_('WEDNESDAY'), FText::_('THURSDAY'),
-			FText::_('FRIDAY'), FText::_('SATURDAY'));
-		$options->shortDays = array(FText::_('SUN'), FText::_('MON'), FText::_('TUE'), FText::_('WED'), FText::_('THU'), FText::_('FRI'),
-			FText::_('SAT'));
-		$options->months = array(FText::_('JANUARY'), FText::_('FEBRUARY'), FText::_('MARCH'), FText::_('APRIL'), FText::_('MAY'), FText::_('JUNE'),
-			FText::_('JULY'), FText::_('AUGUST'), FText::_('SEPTEMBER'), FText::_('OCTOBER'), FText::_('NOVEMBER'), FText::_('DECEMBER'));
-		$options->shortMonths = array(FText::_('JANUARY_SHORT'), FText::_('FEBRUARY_SHORT'), FText::_('MARCH_SHORT'), FText::_('APRIL_SHORT'),
-			FText::_('MAY_SHORT'), FText::_('JUNE_SHORT'), FText::_('JULY_SHORT'), FText::_('AUGUST_SHORT'), FText::_('SEPTEMBER_SHORT'),
-			FText::_('OCTOBER_SHORT'), FText::_('NOVEMBER_SHORT'), FText::_('DECEMBER_SHORT'));
 		$options->first_week_day = (int) $params->get('first_week_day', 0);
 		$options->minDuration = $params->get('minimum_duration', "00:30:00");
-/*
-		$options->monthday = new stdClass;
-		$options->monthday->width = (int) $params->get('calendar-monthday-width', 90);
-		$options->monthday->height = (int) $params->get('calendar-monthday-height', 80);
-		$options->greyscaledweekend = $params->get('greyscaled-week-end', 0) === '1';
-		$options->viewType = $params->get('calendar_default_view', 'monthView');
-
-		$options->weekday = new stdClass;
-		$options->weekday->width = (int) $params->get('calendar-weekday-width', 90);
-		$options->weekday->height = (int) $params->get('calendar-weekday-height', 10);
-*/		
 		$options->open =  $params->get('open-hour', "00:00:00");
 		$options->close =  $params->get('close-hour', "24:00:00");
 		
@@ -145,6 +125,8 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->timeFormat = $params->get('time_format', '%X');
 		$options->readonlyMonth = (bool) $params->get('readonly_monthview', false);
 		$options->j3 = FabrikWorker::j3();
+
+		$options->calOptions = $params->get('calOptions', '{}');
 
 		if (FabrikWorker::j3())
 		{

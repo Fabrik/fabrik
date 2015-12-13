@@ -170,6 +170,17 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 	}
 
 	/**
+	 * Is the WYWIWYG option enabled for local commenting
+	 *
+	 * @return boolean
+	 */
+	protected function isWYSIWYG()
+	{
+		$params = $this->getParams();
+		return $params->get('comment_internal_wysiwyg', '0') === '1';
+	}
+
+	/**
 	 * Prepare local comment system
 	 *
 	 * @return  void
@@ -219,6 +230,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$opts->rowid = $rowId;
 		$opts->admin = $this->user->authorise('core.delete', 'com_fabrik');
 		$opts->label = '';
+		$opts->wysiwyg = $this->isWYSIWYG();
 
 		foreach ($formModel->data as $k => $v)
 		{
@@ -288,6 +300,18 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$layoutData->name = trim($input->get('ide_people___voornaam', '', 'cookie') . ' ' . $input->get('ide_people___achternaam', '', 'cookie'));
 		$layoutData->email = $input->get('ide_people___email', '', 'cookie');
 		$layoutData->renderOrder = $this->renderOrder;
+		$layoutData->wysiwyg = $this->isWYSIWYG();
+
+		if ($layoutData->wysiwyg)
+		{
+			$cols = $params->get('comment_internal_wysiwyg_cols', '100');
+			$rows = $params->get('comment_internal_wysiwyg_rows', '5');
+			$layoutData->id = 'fabrik_form_comment_' . $layoutData->renderOrder . '_' . $reply_to;
+			$editor = JEditor::getInstance($this->config->get('editor'));
+			$buttons = (bool) $params->get('comment_internal_wysiwyg_extra_buttons', false);
+			$layoutData->editor = $editor->display($layoutData->id, '', '100%', '100%', $cols, $rows, $buttons, $layoutData->id);
+		}
+
 		$layoutData->userLoggedIn = $this->user->get('id') != 0;
 
 		return $layout->render($layoutData);

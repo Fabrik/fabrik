@@ -38,7 +38,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 		if (!isset($this->params))
 		{
 			$this->params = new JRegistry($this->getElement()->params);
-			$this->params->set('table_join', '#__tags');
+			$this->params->set('table_join', $this->getDbName());
 		}
 
 		return $this->params;
@@ -199,7 +199,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 
 		if ($query !== false)
 		{
-			$query->join('LEFT', '#__tags AS t ON t.id = ' . $f);
+			$query->join('LEFT', $this->getDbName() . ' AS t ON t.id = ' . $f);
 
 			return $query;
 		}
@@ -244,7 +244,8 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 	 */
 	protected function getDbName()
 	{
-		$this->dbname = '#__tags';
+		$params = $this->getParams();
+		$this->dbname = $params->get('tags_dbname', '#__tags');
 
 		return $this->dbname;
 	}
@@ -321,7 +322,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 		$query = $this->buildQueryWhere($data, $incWhere, null, $opts, $query);
 		$query->select('DISTINCT(t.id) AS value,' . $db->qn('title') . ' AS text')
 		->from($db->qn($join->table_join) . ' AS ' . $db->qn($join->table_join_alias))
-		->join('LEFT', '#__tags AS t ON t.id = ' . $db->qn($join->table_join_alias . '.' . $join->table_key));
+		->join('LEFT', $this->getDbName() . ' AS t ON t.id = ' . $db->qn($join->table_join_alias . '.' . $join->table_key));
 
 		return $query;
 	}
@@ -356,7 +357,7 @@ class PlgFabrik_ElementTags extends PlgFabrik_ElementDatabasejoin
 			{
 				$tagId = $db->quote(str_replace('#fabrik#', '', $tagId));
 				$query = $db->getQuery(true);
-				$query->insert('#__tags')->set('level = 1, published = 1, parent_id = 1, created_user_id = ' . (int) $this->user->get('id'))
+				$query->insert($this->getDbName())->set('level = 1, published = 1, parent_id = 1, created_user_id = ' . (int) $this->user->get('id'))
 				->set('created_time = ' . $db->q($this->date->toSql()), ', language = "*", version = 1')
 				->set('path = ' . $tagId . ', title = ' . $tagId . ', alias = ' . $tagId);
 				$db->setQuery($query);

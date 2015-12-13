@@ -58,7 +58,7 @@ var FbPicklist = new Class({
 					}.bind(this));
 				}
 			});
-			var notices = [from.getElement('li.emptyplicklist'), to.getElement('li.emptyplicklist')];
+			var notices = [from.getElement('li.emptypicklist'), to.getElement('li.emptypicklist')];
 			this.sortable.removeItems(notices);
 			this.showNotices();
 		}
@@ -89,7 +89,7 @@ var FbPicklist = new Class({
 		for (i = 0; i < lists.length; i++) {
 			to = lists[i];
 			limit = (to === element || typeOf(element) === 'null') ? 1 : 2;
-			var notice = to.getElement('li.emptyplicklist');
+			var notice = to.getElement('li.emptypicklist');
 			var lis = to.getElements('li');
 			lis.length > limit ? notice.hide() : notice.show();
 		}
@@ -98,7 +98,7 @@ var FbPicklist = new Class({
 	setData: function () {
 		var c = this.getContainer(),
 		to = c.getElement('.toList'),
-		lis = to.getElements('li'),
+		lis = to.getElements('li[class!=emptypicklist]'),
 		v = lis.map(
 				function (item, index) {
 					return item.id

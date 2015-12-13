@@ -134,6 +134,16 @@ class FabrikPDFHelper
 				echo "</pre>";
 				exit;
 			}
+			//Create the full path via general str_replace
+			else
+			{
+				$uri = JUri::getInstance();
+				$base = $uri->getScheme() . '://' . $uri->getHost();
+				$data = str_replace('href="/', 'href="'.$base.'/', $data);
+				$data = str_replace('src="/', 'src="'.$base.'/', $data);
+				$data = str_replace("href='/", "href='".$base.'/', $data);
+				$data = str_replace("src='/", "src='".$base.'/', $data);
+			}
 		}
 	}
 }

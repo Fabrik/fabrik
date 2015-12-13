@@ -5,7 +5,7 @@ defined('JPATH_BASE') or die;
 $d = $displayData;
 FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE . 'plugins/fabrik_element/picklist/picklist.css');
 ?>
-<div class="<?php echo $d->name; ?>" id="<?php echo $d->id; ?>">
+<div class="<?php echo $d->name; ?>_container" id="<?php echo $d->id; ?>_container">
 	<div class="row">
 		<div class="span6 <?php echo $d->errorCSS; ?>">
 
@@ -22,7 +22,7 @@ FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE . 'plugins/fabrik_element/pickl
 				endforeach;
 				?>
 
-				<li class="emptyplicklist" style="display:none"><?php echo FabrikHelperHTML::icon('icon-move'); ?>
+				<li class="emptypicklist" style="display:none"><?php echo FabrikHelperHTML::icon('icon-move'); ?>
 					<?php echo FText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE'); ?>
 				</li>
 			</ul>
@@ -41,12 +41,12 @@ FabrikHelperHTML::stylesheet(COM_FABRIK_LIVESITE . 'plugins/fabrik_element/pickl
 				endforeach;
 				?>
 
-				<li class="emptyplicklist" style="display:none"><?php echo FabrikHelperHTML::icon('icon-move'); ?>
+				<li class="emptypicklist" style="display:none"><?php echo FabrikHelperHTML::icon('icon-move'); ?>
 					<?php echo FText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE'); ?>
 				</li>
 			</ul>
 		</div>
 	</div>
-	<input type="hidden" name="<?php echo $d->name; ?>" value="<?php echo $d->value; ?>" id=<?php echo $d->id; ?>" />
+	<input type="hidden" name="<?php echo $d->name; ?>" value="<?php echo htmlspecialchars($d->value, ENT_QUOTES); ?>" id="<?php echo $d->id; ?>" />
 	<?php echo $d->addOptionsUi; ?>
 </div>

@@ -198,7 +198,14 @@
 					<option value="1">JYES</option>
 			</field>
 			
-		</fieldset>
+			<field name="calOptions"
+				type="text"
+				class="input-medium"
+				default=""
+				description="PLG_VISUALIZATION_FULLCALENDAR_CAL_OPTIONS_DESC"
+				label="PLG_VISUALIZATION_FULLCALENDAR_CAL_OPTIONS_LABEL" />
+				
+			</fieldset>
 	
 		<fieldset label="PLG_VISUALIZATION_FULLCALENDAR_MONTH_VIEW_OPTIONS" name="plg-visualization-fullcalendar-monthview">
 				
