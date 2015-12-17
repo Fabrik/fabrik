@@ -40,6 +40,7 @@ class FabrikControllerVisualizationfullcalendar extends FabrikControllerVisualiz
 		$document = JFactory::getDocument();
 		$viewName = 'fullcalendar';
 		$viewType = $document->getType();
+		FabrikHelperHTML::jLayoutJs('fabrik-visualization-fullcalendar-viewevent', 'fabrik-visualization-fullcalendar-viewevent', (object) array('context' => '', 'animated' => true), array(JPATH_PLUGINS.'/fabrik_visualization/fullcalendar/layouts'));
 
 		// Set the default view name from the Request
 		$view = $this->getView($viewName, $viewType);
