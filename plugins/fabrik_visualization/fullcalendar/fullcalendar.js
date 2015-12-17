@@ -16,14 +16,25 @@ var fabrikFullcalendar = new Class({
 		this.date = new Date();
 		this.clickdate = null;
 		
-		this.windowopts = {
+		this.addEditWinOpts = {
 				'id': 'addeventwin',
-				title: 'add/edit event',
 				loadMethod: 'xhr',
 				minimizable: false,
 				evalScripts: true,
 				width: 380,
 				height: 320,
+				onContentLoaded: function (win) {
+					win.fitToContent();
+				}.bind(this)
+			};
+		this.viewWinOpts = {
+				'id': 'vieweventwin',
+				loadMethod: 'xhr',
+				minimizable: false,
+				evalScripts: true,
+				width: 300,
+				height: 200,
+				type: 'window',
 				onContentLoaded: function (win) {
 					win.fitToContent();
 				}.bind(this)
@@ -183,56 +194,54 @@ var fabrikFullcalendar = new Class({
 			jQuery(this.popOver).popover('hide');
 		}
 		
-		this.windowopts.id = 'addeventwin';
 		var url = 'index.php?option=com_fabrik&controller=visualization.fullcalendar&view=visualization&task=addEvForm&format=raw&listid=' + o.listid + '&rowid=' + o.rowid;
-		url += '&jos_fabrik_calendar_events___visualization_id=' + this.options.calendarId;
+//		url += '&jos_fabrik_calendar_events___visualization_id=' + this.options.calendarId;
 		url += '&visualizationid=' + this.options.calendarId;
 		
 		if (o.nextView) {
 			url += '&nextview=' + o.nextView;
 		}
 		
-		url += '&fabrik_window_id=' + this.windowopts.id;
+		url += '&fabrik_window_id=' + this.addEditWinOpts.id;
 		if (this.clickdate !== null) {
 			/* First add the default minimum duration to the end date */
 			var minDur = jQuery('#calendar').fullCalendar('option', 'defaultTimedEventDuration').split(":");
 			var endDate = moment(this.clickdate).add({h:minDur[0], m:minDur[1], s:minDur[2]}).format('YYYY-MM-DD HH:mm:ss');
 			url += '&start_date=' + this.clickdate + '&end_date=' + endDate;
 		}
-		this.windowopts.type = 'window';
-		this.windowopts.contentURL = url;
+		this.addEditWinOpts.type = 'window';
+		this.addEditWinOpts.contentURL = url;
 		var f = this.options.filters;
-	
-		this.windowopts.onContentLoaded = function (win)
-		{
-			f.each(function (o) {
-				if (document.id(o.key)) {
-					switch (document.id(o.key).get('tag')) {
-					case 'select':
-						document.id(o.key).selectedIndex = o.val;
-						break;
-					case 'input':
-						document.id(o.key).value = o.val;
-						break;
-					default:
-						break;
-					}
-				}
-			});
-			win.fitToContent(false);
-		}.bind(this);
 		
-		Fabrik.getWindow(this.windowopts);
+		if (o.rowid == '') {
+			this.addEditWinOpts.title = Joomla.JText._('PLG_VISUALIZATION_FULLCALENDAR_ADD_EDIT_EVENT');
+		} else {
+			this.addEditWinOpts.title = o.title;
+		}
+
+		Fabrik.getWindow(this.addEditWinOpts);
 	},
 	
 	viewEntry: function (calEvent) {
 		this.clickdate = null;
-		var o = {};
-		o.id = calEvent.formid;
-		o.rowid = calEvent.rowid;
-		o.listid = calEvent.listid;
-		o.nextView = 'details';
-		this.addEvForm(o);
+		if (this.options.showfulldetails === true) {
+			var o = {};
+			o.id = calEvent.formid;
+			o.rowid = calEvent.rowid;
+			o.listid = calEvent.listid;
+			o.nextView = 'details';
+			o.title = calEvent.title;
+			this.addEvForm(o);
+		} else {
+			var url = 'index.php?option=com_fabrik&controller=visualization.fullcalendar&view=visualization&task=addEvForm&format=raw&listid=' + calEvent.listid + '&rowid=' + calEvent.rowid;
+			url += '&visualizationid=' + this.options.calendarId;
+			url += '&nextview=details';
+			this.viewWinOpts.title = calEvent.title;
+			this.viewWinOpts.contentURL = url;
+			console.log(Fabrik.jLayouts);
+//			var viewWindow = Fabrik.jLayouts['fabrik-visualization-fullcalendar-viewevent'];
+			Fabrik.getWindow(this.viewWinOpts);
+		}
 	},
 	
 	/**
@@ -288,9 +297,7 @@ var fabrikFullcalendar = new Class({
 			o = {};
 			o.rowid = '';
 			o.id = '';
-//			d = '&' + this.options.eventLists[0].startdate_element + '=' + this.clickdate;
 			o.listid = this.options.eventLists[0].value;
-			this.clickdate = null;
 			this.addEvForm(o);
 		}
 	},
@@ -324,13 +331,13 @@ var fabrikFullcalendar = new Class({
 
 		// Fix for renderContext when rendered in content plugin
 		url += '&renderContext=' + this.el.id.replace(/visualization_/, '');
-		this.windowopts.contentURL = url;
-		this.windowopts.id = 'chooseeventwin';
-		this.windowopts.onContentLoaded = function ()
+		this.addEditWinOpts.contentURL = url;
+		this.addEditWinOpts.id = 'chooseeventwin';
+		this.addEditWinOpts.onContentLoaded = function ()
 		{
 			var myfx = new Fx.Scroll(window).toElement('chooseeventwin');
 		};
-		Fabrik.getWindow(this.windowopts);
+		Fabrik.getWindow(this.addEditWinOpts);
 	}
 
 })
