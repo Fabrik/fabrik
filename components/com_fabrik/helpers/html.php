@@ -1192,6 +1192,7 @@ EOD;
 			$layout                  = self::getLayout($layoutName, $paths, $options);
 			self::$jLayoutsJs[$name] = $layout->render($data);
 		}
+		dump(self::$jLayoutsJs, 'jLayoutsJs');
 	}
 
 	/**
@@ -2722,7 +2723,6 @@ $inputDataAttributes = array())
 		{
 			$layout->addIncludePath($path);
 		}
-
 		return $layout;
 	}
 
