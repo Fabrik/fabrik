@@ -134,7 +134,7 @@ class FabrikFEModelJoin extends FabModel
 		}
 
 		// Set a default join alias - normally overwritten in listModel::_makeJoinAliases();
-		$join->table_join_alias = $join->table_join;
+		$join->table_join_alias = $join->table_join . $join->group_id;
 	}
 
 	/**
