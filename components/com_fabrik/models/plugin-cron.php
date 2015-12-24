@@ -95,7 +95,13 @@ class PlgFabrik_Cron extends FabrikPlugin
 	public function queryStringActivated()
 	{
 		$params = $this->getParams();
-
+		$session = JFactory::getSession();
+		$fabrikCron = new stdClass();
+		$fabrikCron->requireJS = $params->get('require_qs');
+		$secret = $params->get('require_qs_secret', '');
+		$fabrikCron->secret = $this->app->input->getString('fabrik_cron', '') === $secret;
+		$session->set('fabrikCron', $fabrikCron);
+		
 		if (!$params->get('require_qs', false))
 		{
 			// Querystring not required so plugin should be activated
