@@ -790,6 +790,7 @@ class FabrikAdminModelList extends FabModelAdmin
 			$contentTypeModel->finalise($row);
 		}
 
+<<<<<<< HEAD
 		return true;
 	}
 
@@ -807,6 +808,11 @@ class FabrikAdminModelList extends FabModelAdmin
 		$feModel     = $this->getFormModel();
 		$feListModel = $this->getFEModel();
 		$groups      = $feModel->getGroupsHiarachy();
+=======
+		// Make an array of elements and a presumed index size, map is then used in creating indexes
+		$map = array();
+		$groups = $this->getFormModel()->getGroupsHiarachy();
+>>>>>>> 02a1baf97abffdb7a61bf617a0d1ed7c10ca687e
 
 		foreach ($groups as $groupModel)
 		{
