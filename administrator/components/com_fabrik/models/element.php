@@ -141,7 +141,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 	}
 
 	/**
-	 * Toggle adding / removing the elment from the list view
+	 * Toggle adding / removing the element from the list view
 	 *
 	 * @param   array &$pks  primary keys
 	 * @param   var   $value add (1) or remove (0) from list view

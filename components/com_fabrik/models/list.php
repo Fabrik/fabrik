@@ -3937,6 +3937,16 @@ class FabrikFEModelList extends JModelForm
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->allow_drop = in_array($this->getParams()->get('allow_drop'), $groups);
 		}
+		
+		if ($this->app->input->getString('cron_csvimport', ''))
+		{
+			$session = JFactory::getSession();
+			$fabrikCron = $session->get('fabrikCron');
+			if ($fabrikCron->requireJS == 1 && $fabrikCron->secret == 1)
+			{
+				$this->access->allow_drop = 1;
+			}
+		}
 
 		return $this->access->allow_drop;
 	}
