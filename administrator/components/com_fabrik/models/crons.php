@@ -21,18 +21,16 @@ require_once 'fabmodellist.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikAdminModelCrons extends FabModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since	1.6
+	 * @see        JController
+	 * @since      1.6
 	 */
-
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -48,11 +46,10 @@ class FabrikAdminModelCrons extends FabModelList
 	 *
 	 * @return  JDatabaseQuery
 	 */
-
 	protected function getListQuery()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -85,7 +82,7 @@ class FabrikAdminModelCrons extends FabModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
+		$orderCol  = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 
 		if ($orderCol == 'ordering' || $orderCol == 'category_title')
@@ -101,13 +98,12 @@ class FabrikAdminModelCrons extends FabModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $type   The table type to instantiate
+	 * @param   string $prefix A prefix for the table class name. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A database object
 	 */
-
 	public function getTable($type = 'Cron', $prefix = 'FabrikTable', $config = array())
 	{
 		$config['dbo'] = FabrikWorker::getDbo();
@@ -120,12 +116,11 @@ class FabrikAdminModelCrons extends FabModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 */
-
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.

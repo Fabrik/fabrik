@@ -1013,6 +1013,16 @@ class FabrikString extends JString
 		}
 	}
 
+	/**
+	 * Get a validated server remote address (I.P.). If not valid return ''
+	 *
+	 * @return string
+	 */
+	public static function filteredIp()
+	{
+		return filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) !== false ? $_SERVER['REMOTE_ADDR'] : '';
+	}
+
 }
 
 /**
@@ -1072,5 +1082,6 @@ class FText extends JText
 		// if we got this far, hand it to JText::_() as normal
 		return parent::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
+
 
 }

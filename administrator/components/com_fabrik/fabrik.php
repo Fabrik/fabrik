@@ -75,28 +75,14 @@ else
 // Test that they've published some element plugins!
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
-$query->select('COUNT(extension_id)')->from('#__extensions')->where('enabled = 1 AND folder = "fabrik_element"');
+$query->select('COUNT(extension_id)')->from('#__extensions')
+		->where('enabled = 1 AND folder = ' . $db->q('fabrik_element'));
 $db->setQuery($query);
 
 if (count($db->loadResult()) === 0)
 {
 	$app->enqueueMessage(JText::_('COM_FABRIK_PUBLISH_AT_LEAST_ONE_ELEMENT_PLUGIN'), 'notice');
 }
-
-
-/*$pluginManager = FabrikWorker::getPluginManager();
-
-	// The XML Dom object describing the element's plugin properties
-	$pluginManifest = $pluginManager->getPluginFromId(459)->getPluginForm()->getXml();
-
-	// Get all listfield parameters where the value format property is no 'tableelement'
-	$listFields = $pluginManifest->xpath('//field[@type=\'listfields\'][(@valueformat=\'tableelement\') != true()]');
-foreach ($listFields as $field) {
-	if ((string) $field->attributes()->valueformat === '') {
-		echo "hh";
-	}
-}
-echo "<pre>";print_r($listFields);exit;*/
 
 // Execute the task.
 $controller->execute($input->get('task', 'home.display'));

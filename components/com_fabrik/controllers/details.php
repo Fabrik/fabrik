@@ -353,7 +353,7 @@ class FabrikControllerDetails extends JControllerLegacy
 				if ($this->isMambot)
 				{
 					// Return to the same page
-					$url = ArrayHelper::getvalue($_SERVER, 'HTTP_REFERER', 'index.php');
+					$url = filter_var(ArrayHelper::getValue($_SERVER, 'HTTP_REFERER', 'index.php'), FILTER_SANITIZE_URL);
 				}
 				else
 				{

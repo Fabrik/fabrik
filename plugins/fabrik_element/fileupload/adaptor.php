@@ -67,7 +67,7 @@ abstract class FabrikStorageAdaptor
 	 *
 	 * @return bool
 	 */
-	public abstract function exists($filepath, $prependRoot = false);
+	public abstract function exists($filepath, $prependRoot = true);
 
 	/**
 	 * Does a folder exist

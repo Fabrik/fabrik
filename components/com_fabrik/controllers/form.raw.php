@@ -257,7 +257,7 @@ class FabrikControllerForm extends JControllerLegacy
 				if ($this->isMambot)
 				{
 					// Return to the same page
-					$url = FArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php');
+					$url = filter_var(ArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php'), FILTER_SANITIZE_URL);
 				}
 				else
 				{

@@ -129,51 +129,6 @@ function recaptcha_get_html ($pubkey, $error = null, $use_ssl = false)
 }
 
 
-/**
-* ADDED FOR FABRIK USE
-* Gets the challenge HTML (AJAX version).
-* This is called from the browser, and the resulting reCAPTCHA HTML widget
-* is embedded within the HTML form it was called from.
-* @param string $id the HTML id for the div
-* @param string $pubkey A public key for reCAPTCHA
-* @param string $theme Theme to use, default red
-* @param string $lang Language to use, default en
-* @param string $error The error given by reCAPTCHA (optional, default is null)
-* @param boolean $use_ssl Should the request be made over ssl? (optional, default is false)
-
-* @return string - The HTML to be embedded in the user's form.
-*/
-function fabrik_recaptcha_get_html ($id, $pubkey, $theme = "red", $lang = "en", $error = null, $use_ssl = false)
-{
-	if ($pubkey == null || $pubkey == '') {
-		die ("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
-	}
-
-	if ($use_ssl) {
-		$server = RECAPTCHA_API_SECURE_SERVER;
-	} else {
-		$server = RECAPTCHA_API_SERVER;
-	}
-
-	//$str = '<script type="text/javascript" src="' . $server . '/js/recaptcha_ajax.js"></script> ';
-	$str = '  <div id="'.$id.'"></div> ';
-	$document = JFactory::getDocument();
-	$document->addScript($server . '/js/recaptcha_ajax.js');
-	FabrikHelperHTML::addScriptDeclaration(
-		'window.addEvent("fabrik.loaded", function() {
-			Recaptcha.create(
-				"'.$pubkey.'",
-	    		"'.$id.'",
-	    		{
-	    			theme: "'.$theme.'",
-					lang : "'.$lang.'"
-				}
-			);
-		});'
-	);
-	return $str;
-}
-
 
 /**
  * A ReCaptchaResponse is returned from recaptcha_check_answer()

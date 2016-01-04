@@ -29,7 +29,7 @@ var FbElement =  new Class({
 	 */
 
 	initialize: function (element, options) {
-		this.plugin = '';
+		this.setPlugin('');
 		options.element = element;
 		this.strElement = element;
 		this.loadEvents = []; // need to store these for use if the form is reset
@@ -53,6 +53,16 @@ var FbElement =  new Class({
 
 	},
 
+	setPlugin: function(plugin) {
+		if (typeOf(this.plugin) === 'null' || this.plugin === '') {
+			this.plugin = plugin;
+		}
+	},
+	
+	getPlugin: function() {
+		return this.plugin;
+	},
+	
 	setElement: function () {
 		if (document.id(this.options.element)) {
 			this.element = document.id(this.options.element);

@@ -8,7 +8,7 @@
 var FbImage = new Class({
 	Extends : FbFileElement,
 	initialize : function (element, options) {
-		this.plugin = 'image';
+		this.setPlugin('image');
 		this.folderlist = [];
 		this.parent(element, options);
 		this.options.rootPath = options.rootPath;

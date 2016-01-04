@@ -9,7 +9,8 @@ var FbTags = new Class({
 
 	options: {
 		'rowid': '',
-		'id': 0
+		'id': 0,
+		'listid': ''
 	},
 
 	Extends: FbElement,
@@ -28,13 +29,15 @@ var FbTags = new Class({
 		});
 		
 		this.sel = jQuery('#' + this.options.element).ajaxChosen({
+
 			type: 'GET',
-			url: Fabrik.liveSite + 'index.php?option=com_tags&task=tags.searchAjax',
+			url: Fabrik.liveSite + 'index.php?option=com_fabrik&view=list&listid=' + this.options.listid + '&format=tags&elID=' + this.options.id,
 			dataType: 'json',
 			jsonTermKey: 'like',
 			afterTypeDelay: '500',
 			minTermLength: '3'
-		}, function (data) {
+
+			}, function (data) {
 			
 			var results = [];
 

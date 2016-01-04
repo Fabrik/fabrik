@@ -58,6 +58,12 @@ var RequestQueue = new Class({
 			if (xhr.isSuccess()) {
 				delete (this.queue[k]);
 				running = false;
+			} else {
+				if (xhr.status === 500) {
+					console.log('Fabrik Request Queue: 500 ' + xhr.xhr.statusText);
+					delete (this.queue[k]);
+					running = false;
+				}
 			}
 		}.bind(this));
 

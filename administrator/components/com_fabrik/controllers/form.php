@@ -450,7 +450,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 		$id        = array_pop($id);
 		$formModel = $this->getModel('Form', 'FabrikFEModel');
 		$formModel->setId($id);
-		$contentModel = $this->getModel('ContentType');
+		$contentModel = $this->getModel('ContentTypeExport');
 
 		try
 		{
@@ -471,7 +471,7 @@ class FabrikAdminControllerForm extends FabControllerForm
 	{
 		$id           = $this->input->get('cid', array(), 'array');
 		$id           = array_pop($id);
-		$contentModel = $this->getModel('ContentType');
+		$contentModel = $this->getModel('ContentTypeExport');
 		$formModel    = $this->getModel('Form', 'FabrikFEModel');
 		$formModel->setId($id);
 		$contentModel->download($formModel);

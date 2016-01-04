@@ -2,8 +2,8 @@
 <extension group="fabrik_list" method="upgrade" type="plugin" version="3">
 	<name>plg_fabrik_list_php_events</name>
 	<author>Mauro H. Leggieri</author>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>mxmauro@mauroleggieri.com.ar</authorEmail>
 	<authorUrl>www.yodespotrico.com.ar</authorUrl>

@@ -8,8 +8,8 @@
 var FbSlider = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
+		this.setPlugin('slider');
 		this.parent(element, options);
-		this.plugin = 'slider';
 		this.makeSlider();
 	},
 	

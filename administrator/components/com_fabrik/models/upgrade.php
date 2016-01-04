@@ -21,13 +21,12 @@ require_once 'fabmodeladmin.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikModelUpgrade extends FabModelAdmin
 {
 	/**
 	 * Construct
 	 *
-	 * @param   array  $config  options
+	 * @param   array $config options
 	 */
 
 	public function __construct($config = array())
@@ -52,12 +51,12 @@ class FabrikModelUpgrade extends FabModelAdmin
 
 	protected function backUp()
 	{
-		$db = JFactory::getDbo(true);
-		$app = JFactory::getApplication();
+		$db    = JFactory::getDbo(true);
+		$app   = JFactory::getApplication();
 		$query = $db->getQuery(true);
 		$query->select('db_table_name, connection_id')->from('#__fabrik_tables');
 		$db->setQuery($query);
-		$tables = $db->loadObjectList('db_table_name') + $this->getFabrikTables();
+		$tables    = $db->loadObjectList('db_table_name') + $this->getFabrikTables();
 		$listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
 		$connModel = JModelLegacy::getInstance('Connection', 'FabrikFEModel');
 		$cnnTables = array();
@@ -74,7 +73,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 			}
 
 			$listModel->set('connection', $connModel);
-			$qTable = $cDb->quoteName('bkup_' . $item->db_table_name);
+			$qTable     = $cDb->quoteName('bkup_' . $item->db_table_name);
 			$qItemTable = $cDb->quoteName($item->db_table_name);
 
 			// Drop the bkup table
@@ -107,6 +106,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 		if (!$this->shouldUpgrade())
 		{
 			JFactory::getApplication()->enqueueMessage('Already updated');
+
 			return;
 		}
 
@@ -115,7 +115,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 			return;
 		}
 
-		$db = JFactory::getDbo(true);
+		$db      = JFactory::getDbo(true);
 		$updates = array('#__fabrik_elements', '#__fabrik_cron', '#__fabrik_forms', '#__fabrik_groups', '#__fabrik_joins', '#__fabrik_jsactions',
 			'#__fabrik_tables', '#__fabrik_visualizations');
 
@@ -136,35 +136,35 @@ class FabrikModelUpgrade extends FabModelAdmin
 					switch ($update)
 					{
 						case '#__fabrik_elements':
-						// Elements had some fields moved into the attribs/params json object
+							// Elements had some fields moved into the attribs/params json object
 							if ($row->state == 0)
 							{
 								$row->state = -2;
 							}
 
-							$p->can_order = $row->can_order;
-							$row->access = isset($row->access) ? $this->mapACL($row->access) : 1;
-							$p->view_access = isset($p->view_access) ? $this->mapACL($p->view_access) : 1;
+							$p->can_order     = $row->can_order;
+							$row->access      = isset($row->access) ? $this->mapACL($row->access) : 1;
+							$p->view_access   = isset($p->view_access) ? $this->mapACL($p->view_access) : 1;
 							$p->filter_access = isset($p->filter_access) ? $this->mapACL($p->filter_access) : 1;
 
-							$p->sum_access = isset($p->sum_access) ? $this->mapACL($p->sum_access) : 1;
-							$p->avg_access = isset($p->avg_access) ? $this->mapACL($p->avg_access) : 1;
+							$p->sum_access    = isset($p->sum_access) ? $this->mapACL($p->sum_access) : 1;
+							$p->avg_access    = isset($p->avg_access) ? $this->mapACL($p->avg_access) : 1;
 							$p->median_access = isset($p->median_access) ? $this->mapACL($p->median_access) : 1;
-							$p->count_access = isset($p->count_access) ? $this->mapACL($p->count_access) : 1;
+							$p->count_access  = isset($p->count_access) ? $this->mapACL($p->count_access) : 1;
 
 							$subOpts = new stdClass;
 
-							$subOts->sub_values = explode('|', $row->sub_values);
-							$subOts->sub_labels = explode('|', $row->sub_labels);
-							$subOts->sub_initial_selection = explode('|', $row->sub_intial_selection);
-							$p->sub_options = $subOpts;
+							$subOpts->sub_values            = explode('|', $row->sub_values);
+							$subOpts->sub_labels            = explode('|', $row->sub_labels);
+							$subOpts->sub_initial_selection = explode('|', $row->sub_intial_selection);
+							$p->sub_options                = $subOpts;
 							break;
 						case '#__fabrik_tables':
-							$row->access = $this->mapACL($row->access);
+							$row->access           = $this->mapACL($row->access);
 							$p->allow_view_details = isset($p->allow_view_details) ? $this->mapACL($p->allow_view_details) : 1;
 							$p->allow_edit_details = isset($p->allow_edit_details) ? $this->mapACL($p->allow_edit_details) : 1;
-							$p->allow_add = isset($p->allow_add) ? $this->mapACL($p->allow_add) : 1;
-							$p->allow_drop = isset($p->allow_drop) ? $this->mapACL($p->allow_drop) : 1;
+							$p->allow_add          = isset($p->allow_add) ? $this->mapACL($p->allow_add) : 1;
+							$p->allow_drop         = isset($p->allow_drop) ? $this->mapACL($p->allow_drop) : 1;
 							break;
 
 						case '#__fabrik_visualizations':
@@ -178,10 +178,10 @@ class FabrikModelUpgrade extends FabModelAdmin
 			}
 		}
 		// Get the upgrade script
-		$sql = file_get_contents(JPATH_SITE . '/administrator/components/com_fabrik/sql/updates/mysql/2.x-3.0.sql');
+		$sql    = file_get_contents(JPATH_SITE . '/administrator/components/com_fabrik/sql/updates/mysql/2.x-3.0.sql');
 		$prefix = JFactory::getApplication()->getCfg('dbprefix');
-		$sql = str_replace('#__', $prefix, $sql);
-		$sql = explode("\n", $sql);
+		$sql    = str_replace('#__', $prefix, $sql);
+		$sql    = explode("\n", $sql);
 
 		foreach ($sql as $q)
 		{
@@ -241,7 +241,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 	/**
 	 * Convert old skool J1.5 attribs into json object
 	 *
-	 * @param   string  $str  f2 parameters string
+	 * @param   string $str f2 parameters string
 	 *
 	 * @return  object
 	 */
@@ -275,7 +275,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 	/**
 	 * Maps the fabrik2 user gid to a roughly corresponding J1.7 acl group
 	 *
-	 * @param   int  $v  gid
+	 * @param   int $v gid
 	 *
 	 * @return int group id
 	 */
@@ -308,7 +308,7 @@ class FabrikModelUpgrade extends FabModelAdmin
 	protected function getFabrikTables()
 	{
 		$db = JFactory::getDbo(true);
-		$r = array();
+		$r  = array();
 		$db->setQuery("SHOW TABLES");
 		$rows = $db->loadColumn();
 
@@ -316,10 +316,10 @@ class FabrikModelUpgrade extends FabModelAdmin
 		{
 			if (strstr($row, '_fabrik_') && !strstr($row, 'bkup_'))
 			{
-				$o = new stdClass;
+				$o                = new stdClass;
 				$o->db_table_name = $row;
 				$o->connection_id = 1;
-				$r[] = $o;
+				$r[]              = $o;
 			}
 		}
 

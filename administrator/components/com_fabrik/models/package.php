@@ -1012,7 +1012,11 @@ class FabrikAdminModelPackage extends FabModelAdmin
 			}
 
 			$table = str_replace('{package}', $row->component_name, $table);
-			$sql[] = 'DROP TABLE IF EXISTS ' . $this->db->qn($table) . ';';
+
+			if ($table !== '')
+			{
+				$sql[] = 'DROP TABLE IF EXISTS ' . $this->db->qn($table) . ';';
+			}
 		}
 
 		$path = $this->outputPath . 'admin/sql/uninstall.mysql.uft8.sql';

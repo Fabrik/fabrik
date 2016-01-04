@@ -3,6 +3,10 @@
 	<fields name="params">
 		<fieldset description="CONNECTIONONLYFABRIKTABLES" name="connection" label="COM_FABRIK_DATA">
 
+			<field name="deprecated"
+			       type="spacer"
+			       label="COM_FABRIK_DEPRECATED_PLUGIN"/>
+
 			<field name="fusion_gantt_chart_connection"
 				type="connections"
 				label="COM_FABRIK_FIELD_CONNECTION_LABEL" />
@@ -13,7 +17,7 @@
 				label="PLG_VISUALIZATION_GANTT_TABLE_LABEL"
 				observe="params_fusion_gantt_chart_connection"
 				repeat="0" />
-			
+
 		</fieldset>
 
 		<fieldset label="Tasks" name="tasks">
@@ -24,7 +28,7 @@
 				connection_in_repeat="false"
 				description="PLG_VISUALIZATION_GANNT_STARTDATE_ELEMENT_DESC"
 				include_calculations="1"
-				label="PLG_VISUALIZATION_GANNT_STARTDATE_ELEMENT_LABEL" 
+				label="PLG_VISUALIZATION_GANNT_STARTDATE_ELEMENT_LABEL"
 				table="params_fusion_gantt_chart_table" />
 
 			<field name="fusion_gantt_chart_enddate"
@@ -52,7 +56,7 @@
 				description="PLG_VISUALIZATION_GANNT_HOVER_ELEMENT_DESC"
 				include_calculations="1" label="PLG_VISUALIZATION_GANNT_HOVER_ELEMENT_LABEL"
 				table="params_fusion_gantt_chart_table" />
-	
+
 			<field name="fusion_gantt_chart_milestone"
 				type="element"
 				connection="params_fusion_gantt_chart_connection"
@@ -61,7 +65,7 @@
 				include_calculations="1"
 				label="PLG_VISUALIZATION_GANNT_MILESTONE_ELEMENT_LABEL"
 				table="params_fusion_gantt_chart_table" />
-				
+
 			<field name="fusion_gantt_chart_connector"
 				type="element"
 				connection="params_fusion_gantt_chart_connection"
@@ -69,11 +73,11 @@
 				description="PLG_VISUALIZATION_GANNT_CONNECTION_ELEMENT_DESC"
 				include_calculations="1" label="PLG_VISUALIZATION_GANNT_CONNECTION_ELEMENT_LABEL"
 				table="params_fusion_gantt_chart_table"/>
-				
+
 		</fieldset>
-		
+
 		<fieldset label="Processes" name="process">
-		
+
 			<field name="fusion_gantt_chart_process"
 				type="element"
 				connection="params_fusion_gantt_chart_connection"
@@ -88,11 +92,11 @@
 				description="PLG_VISUALIZATION_GANNT_PROCESS_LABEL_DESC"
 				label="PLG_VISUALIZATION_GANNT_PROCESS_LABEL_LABEL"
 				size="20" />
-				
+
 		</fieldset>
 
 		<fieldset label="Graph attributes" name="graph_attributes">
-			
+
 			<field name="fusion_gantt_chart_width"
 				type="text"
 				default="300"
@@ -100,7 +104,7 @@
 				description="PLG_VISUALIZATION_GANNT_WIDTH_DESC"
 				label="PLG_VISUALIZATION_GANNT_WIDTH_LABEL"
 				size="5" />
-				
+
 			<field name="fusion_gantt_chart_height"
 				type="text"
 				default="200"
@@ -108,12 +112,12 @@
 				description="PLG_VISUALIZATION_GANNT_HEIGHT_DESC"
 				label="PLG_VISUALIZATION_GANNT_HEIGHT_LABEL"
 				size="5" />
-				
+
 			<field name="fusion_gantt_chart_layout"
 				type="folderlist"
 				directory="plugins/fabrik_visualization/fusion_gantt_chart/views/fusion_gantt_chart/tmpl/"
 				label="PLG_VISUALIZATION_GANNT_TEMPLATE_LABEL" />
-				
+
 			<field name="fusion_gannt_chart_monthdisplay"
 				type="list"
 				default="int"

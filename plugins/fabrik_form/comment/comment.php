@@ -564,7 +564,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 		$filter = JFilterInput::getInstance();
 		$request = $filter->clean($_REQUEST, 'array');
 		$row->bind($request);
-		$row->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$row->ipaddress = FabrikString::filteredIp();
 		$row->user_id = $this->user->get('id');
 		$row->approved = 1;
 

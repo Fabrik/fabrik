@@ -8,7 +8,7 @@
 var FbPicklist = new Class({
 	Extends : FbElement,
 	initialize : function (element, options) {
-		this.plugin = 'fabrikpicklist';
+		this.setPlugin('fabrikpicklist');
 		this.parent(element, options);
 		if (this.options.allowadd === true) {
 			this.watchAddToggle();

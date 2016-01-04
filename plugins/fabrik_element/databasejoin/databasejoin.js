@@ -31,7 +31,7 @@ var FbDatabasejoin = new Class({
 	initialize: function (element, options) {
 		this.activePopUp = false;
 		this.activeSelect = false;
-		this.plugin = 'databasejoin';
+		this.setPlugin('databasejoin');
 		this.parent(element, options);
 		this.init();
 	},
@@ -201,39 +201,66 @@ var FbDatabasejoin = new Class({
 			break;
 		case 'checkbox':
 			opt = this.getCheckboxTmplNode().clone();
-			this._addOption(opt, l, v);
+			var rowOpt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-rowopts'])[0];
+			this._addOption(opt, l, v, rowOpt);
 			break;
 		case 'radio':
 		/* falls through */
 		default:
-			var opt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.plugin + '-form-radio'])[0];
-			this._addOption(opt, l, v);
+			var opt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-radio' + '_' + this.strElement])[0];
+			var rowOpt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-rowopts'])[0];
+			this._addOption(opt, l, v, rowOpt, null);
 			break;
 		}
 	},
 
-	_addOption: function (opt, l, v) {
+	/**
+	 * Adds an option to radio or checkbox
+	 *
+	 * @param {object}  opt    DOM object layout for the option 
+	 * @param {string}  v      Option value
+	 * @param {string}  l      Option label
+	 * @param {object}  rowOpt DOM object layout for the option row container 
+	 *
+	 * @return  void
+	 */
+	_addOption: function (opt, l, v, rowOpt) {
 		var sel = typeOf(this.options.value) === 'array' ? this.options.value : Array.from(this.options.value),
 			i = opt.getElement('input'),
-			last, injectWhere,
 			subOpts = this.getSubOptions(),
+			subOptsRows = this.getSubOptsRow(),
 			checked = sel.contains(v) ? true : false,
-			nameInterator = this.options.displayType === 'radio' ? '' : subOpts.length;
-
+			nameIterator = this.options.displayType === 'radio' ? '' : subOpts.length;
 
 		if (this.options.canRepeat) {
-			i.name = this.options.fullName + '[' + this.options.repeatCounter + '][' + nameInterator + ']';
+			i.name = this.options.fullName + '[' + this.options.repeatCounter + '][' + nameIterator + ']';
 		} else {
-			i.name = this.options.fullName + '[' + nameInterator + ']';
+			i.name = this.options.fullName + '[' + nameIterator + ']';
 		}
 
+		// stuff the value and label into the opt
 		opt.getElement('span').set('html', l);
 		opt.getElement('input').set('value', v);
-		last = subOpts.length === 0 ? this.element : subOpts.getLast();
-		injectWhere = subOpts.length === 0 ? 'bottom' : 'after';
-		var subOption = subOpts.length === 0 ? last : jQuery(last).closest('div[data-role=suboption]')[0];
+		
+		// if no row containers yet, inject one
+		if (subOptsRows.length === 0) {
+			rowOpt.inject(this.element, 'bottom')
+		}
 
-		opt.inject(subOption, injectWhere);
+		// get the last row container
+		var lastRow = jQuery(this.element).children('div[data-role=fabrik-rowopts]').last()[0];
+		// get the opts in the last container
+		var lastRowOpts = jQuery(lastRow).children('div[data-role=suboption]');
+		
+		// if last row is full, inject another one
+		if (lastRowOpts.length >= this.options.optsPerRow) {
+			rowOpt.inject(this.element, 'bottom');
+			lastRow = jQuery(this.element).children('div[data-role=fabrik-rowopts]').last()[0];
+		}
+
+		// inject the new opt into the last row
+		opt.inject(lastRow, 'bottom');
+		// check it
 		opt.getElement('input').checked = checked;
 	},
 
@@ -254,7 +281,32 @@ var FbDatabasejoin = new Class({
 	 */
 	getCheckboxTmplNode: function () {
 		if (Fabrik.bootstrapped) {
-			this.chxTmplNode = jQuery(Fabrik.jLayouts['fabrik-element-' + this.plugin + '-form-checkbox'])[0];
+			this.chxTmplNode = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-checkbox' + '_' + this.strElement])[0];
+			if (!this.chxTmplNode && this.options.displayType === 'checkbox')
+			{
+				var chxs = this.element.getElements('> .fabrik_subelement');
+				if (chxs.length === 0) {
+					this.chxTmplNode = this.element.getElement('.chxTmplNode').getChildren()[0].clone();
+					this.element.getElement('.chxTmplNode').destroy();
+				} else {
+					this.chxTmplNode = chxs.getLast().clone();
+				}
+			}
+		}
+
+		return this.chxTmplNode;
+	},
+	
+	/**
+	 * As cdd elements clear out the sub options before repopulating we need
+	 * to grab a copy of one of the checkboxes to use as a template node when recreating
+	 * the list
+	 *
+	 * @return  dom node(visible checkbox)
+	 */
+	getCheckboxRowOptsNode: function () {
+		if (Fabrik.bootstrapped) {
+			this.chxTmplNode = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-rowopts'])[0];
 		} else {
 			if (!this.chxTmplNode && this.options.displayType === 'checkbox')
 			{
@@ -366,6 +418,22 @@ var FbDatabasejoin = new Class({
 				break;
 		}
 		return o;
+	},
+	
+	getSubOptsRow: function () {
+		var o;
+		switch (this.options.displayType) {
+			case 'dropdown':
+			case 'multilist':
+			default:
+				break;
+			case 'checkbox':
+			case 'radio':
+				o = this.element.getElements('[data-role=fabrik-rowopts]');
+				break;
+		}
+		return o;
+		
 	},
 
 	getOptionValues: function () {
@@ -610,6 +678,10 @@ var FbDatabasejoin = new Class({
 			}
 		}
 		this.options.value = val;
+		if (this.options.advanced)
+		{
+			jQuery("#" + this.element.id).trigger("liszt:updated");
+		}
 	},
 
 	/**

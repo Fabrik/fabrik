@@ -4,29 +4,30 @@
 	<packagename>fabrik</packagename>
 	<version>3.4</version>
 	<url>http://www.fabrikar.com</url>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<author>Fabrik</author>
 	<packager>Rob Clayburn</packager>
 	<packagerurl>http://www.fabrikar.com</packagerurl>
 	<description>Fabrik Package</description>
-	
+
 	<updateservers>
 		<server type="collection" name="Fabrik31">http://fabrikar.com/update/fabrik31/package_list.xml</server>
 	</updateservers>
 
 	<files folder="packages">
-		
+
 		<file client="site" id="mod_fabrik_form" type="module">mod_fabrik_form_{version}.zip</file>
 		<file client="site" id="mod_fabrik_list" type="module">mod_fabrik_list_{version}.zip</file>
-		
+
 		<file group="system" id="fabrik" type="plugin">plg_fabrik_system_{version}.zip</file>
-		
+		<file group="system" id="fabrikcron" type="plugin">plg_fabrik_schedule_{version}.zip</file>
+
 		<file group="content" id="fabrik" type="plugin">plg_fabrik_content_{version}.zip</file>
-		
+
 		<file group="fabrik_cron" id="email" type="plugin">plg_fabrik_cron_email_{version}.zip</file>
 		<file group="fabrik_cron" id="php" type="plugin">plg_fabrik_cron_php_{version}.zip</file>
-		
+
 		<file group="fabrik_element" id="button" type="plugin">plg_fabrik_element_button_{version}.zip</file>
 		<file group="fabrik_element" id="checkbox" type="plugin">plg_fabrik_element_checkbox_{version}.zip</file>
 		<file group="fabrik_element" id="databasejoin" type="plugin">plg_fabrik_element_databasejoin_{version}.zip</file>
@@ -42,27 +43,27 @@
 		<file group="fabrik_element" id="radiobutton" type="plugin">plg_fabrik_element_radiobutton_{version}.zip</file>
 		<file group="fabrik_element" id="textarea" type="plugin">plg_fabrik_element_textarea_{version}.zip</file>
 		<file group="fabrik_element" id="user" type="plugin">plg_fabrik_element_user_{version}.zip</file>
-		
+
 		<file group="fabrik_form" id="email" type="plugin">plg_fabrik_form_email_{version}.zip</file>
 		<file group="fabrik_form" id="php" type="plugin">plg_fabrik_form_php_{version}.zip</file>
 		<file group="fabrik_form" id="receipt" type="plugin">plg_fabrik_form_receipt_{version}.zip</file>
 		<file group="fabrik_form" id="redirect" type="plugin">plg_fabrik_form_redirect_{version}.zip</file>
-		
+
 		<file group="fabrik_list" id="copy" type="plugin">plg_fabrik_list_copy_{version}.zip</file>
 		<file group="fabrik_list" id="php" type="plugin">plg_fabrik_list_php_{version}.zip</file>
-		
+
 		<file group="fabrik_validationrule" id="isgreaterorlessthan" type="plugin">plg_fabrik_validationrule_isgreaterorlessthan_{version}.zip</file>
 		<file group="fabrik_validationrule" id="notempty" type="plugin">plg_fabrik_validationrule_notempty_{version}.zip</file>
 		<file group="fabrik_validationrule" id="php" type="plugin">plg_fabrik_validationrule_php_{version}.zip</file>
 		<file group="fabrik_validationrule" id="regex" type="plugin">plg_fabrik_validationrule_regex_{version}.zip</file>
 		<file group="fabrik_validationrule" id="isemail" type="plugin">plg_fabrik_validationrule_isemail_{version}.zip</file>
-		
+
 		<file group="fabrik_visualization" id="calendar" type="plugin">plg_fabrik_visualization_calendar_{version}.zip</file>
 		<file group="fabrik_visualization" id="chart" type="plugin">plg_fabrik_visualization_chart_{version}.zip</file>
 		<file group="fabrik_visualization" id="googlemap" type="plugin">plg_fabrik_visualization_googlemap_{version}.zip</file>
 		<file group="fabrik_visualization" id="media" type="plugin">plg_fabrik_visualization_media_{version}.zip</file>
 		<file group="fabrik_visualization" id="slideshow" type="plugin">plg_fabrik_visualization_slideshow_{version}.zip</file>
-		
+
 		<file id="com_fabrik" type="component">com_fabrik_{version}.zip</file>
 	</files>
 </extension>

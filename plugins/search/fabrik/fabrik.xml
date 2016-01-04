@@ -2,8 +2,8 @@
 <extension group="search" method="upgrade" type="plugin" version="3">
 	<name>plg_fabrik_search</name>
 	<author>Rob Clayburn</author>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
@@ -16,16 +16,16 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				
+
 				<field name="search_limit" type="text" default="50" description="Number of Search items to return" label="Search Limit" size="5"/>
-					
+
 				<field name="search_section_heading" default="Fabrik/record" type="text" description="Appears in search results, under the title." label="Section heading" size="15"/>
-					
+
 				<field name="include_list_title" type="radio" class="btn-group" default="1" label="Include list title in heading">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 				</field>
-				
+
 			</fieldset>
 		</fields>
 	</config>

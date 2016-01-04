@@ -21,7 +21,7 @@ foreach ($d->options as $option) :
 	$name = $d->name . '[' . $colCounter . ']';
 	if (($colSize * $colCounter) % 12 === 0 || $colCounter == 0) :
 		$rowStarted = true; ?>
-		<div class="row-fluid">
+		<div class="row-fluid" data-role="fabrik-rowopts">
 	<?php endif;
 
 	$d->option = $option;
@@ -36,7 +36,7 @@ foreach ($d->options as $option) :
 	if (($colSize * $colCounter) % 12 === 0 || $colCounter == 0) :
 		$rowStarted = false; ?>
 		</div>
-	<?php endif; 
+	<?php endif;
 
 endforeach;
 

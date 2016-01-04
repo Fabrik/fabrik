@@ -1,6 +1,14 @@
 {
   "name": "Fabrik",
   "version": "0.1.0",
+  "description": "Fabrik Build Script",
+  "keywords": "Joomla, CCK, Fabrik, Forms",
+  "homepage": "http://fabrikar.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "github.com/Fabrik/fabrik/"
+  },
   "devDependencies": {
     "archiver": "^0.15.0",
     "bluebird": "^2.9.34",

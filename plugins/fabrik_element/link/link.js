@@ -9,7 +9,7 @@ FbLink = new Class({
 
 	Extends: FbElementList,
 	initialize: function (element, options) {
-		this.plugin = 'fabrikLink';
+		this.setPlugin('fabrikLink');
 		this.parent(element, options);
 		this.subElements = this._getSubElements();
 	},

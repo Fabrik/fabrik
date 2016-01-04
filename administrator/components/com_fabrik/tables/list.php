@@ -23,7 +23,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/tables/fabtable.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikTableList extends FabTable
 {
 	/**

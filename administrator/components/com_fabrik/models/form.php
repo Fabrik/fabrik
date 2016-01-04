@@ -42,7 +42,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 	protected $pluginType = 'Form';
 
 	/**
-	 * @var FabrikAdminModelContentType
+	 * @var FabrikAdminModelContentTypeImport
 	 */
 	protected $contentTypeModel;
 
@@ -127,7 +127,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 	/**
 	 * Save the form
 	 *
-	 * @param   array $data posted jform data
+	 * @param   array $data posted jForm data
 	 *
 	 * @return  bool
 	 */
@@ -171,7 +171,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 	 * 1) Create a new group if none selected in edit form list
 	 * 2) Delete all old form_group records
 	 * 3) Recreate the form group records
-	 * 4) Make a table view if needed
+	 * 4) Make a list view if needed
 	 *
 	 * @param   array $data jForm data
 	 *
@@ -180,7 +180,6 @@ class FabrikAdminModelForm extends FabModelAdmin
 	 * @return  bool  True if you should display the form list, False if you're
 	 * redirected elsewhere
 	 */
-
 	public function saveFormGroups($data)
 	{
 		// These are set in parent::save() and contain the updated form id and if the form is a new form
@@ -190,17 +189,18 @@ class FabrikAdminModelForm extends FabModelAdmin
 		/** @var FabrikAdminModelList $listModel */
 		$listModel = JModelLegacy::getInstance('List', 'FabrikAdminModel');
 		$item      = $listModel->loadFromFormId($formId);
+
 		$listModel->set('form.id', $formId);
 		$listModel->setState('list.form_id', $formId);
 		$recordInDatabase = $data['record_in_database'];
-		$fields           = $this->getInsertFields($isNew, $data, $listModel);
+		$dbTableName      = $this->safeTableName($isNew, $data, $item);
+		$fields           = $this->getInsertFields($isNew, $data, $listModel, $dbTableName);
 
 		if ($recordInDatabase != '1')
 		{
 			return;
 		}
 
-		$dbTableName   = $this->safeTableName($isNew, $data, $item);
 		$dbTableExists = $listModel->databaseTableExists($dbTableName);
 
 		if (!$dbTableExists)
@@ -227,7 +227,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 			$item->set('params', $listModel->getDefaultParams());
 			$item->store();
 
-			$this->contentTypeModel->finaliseImport($item);
+			$this->contentTypeModel->finalise($item);
 		}
 		else
 		{
@@ -238,24 +238,24 @@ class FabrikAdminModelForm extends FabModelAdmin
 	}
 
 	/**
-	 * @param $isNew
-	 * @param $data
-	 * @param $listModel
+	 * @param bool                 $isNew
+	 * @param array                $data
+	 * @param FabrikAdminModelList $listModel
 	 *
 	 * @throws Exception
 	 *
 	 * @return array
 	 */
-	private function getInsertFields($isNew, $data, $listModel)
+	private function getInsertFields($isNew, $data, $listModel, $dbTableName)
 	{
-		$db               = FabrikWorker::getDbo(true);
-		$fields           = array('id' => 'internalid', 'date_time' => 'date');
-		$createGroup      = $data['_createGroup'];
-		$recordInDatabase = $data['record_in_database'];
-		$jForm            = $this->app->input->get('jform', array(), 'array');
-		$this->contentTypeModel = JModelLegacy::getInstance('ContentType', 'FabrikAdminModel', array('listModel' => $listModel));
-		$groups           = FArrayHelper::getValue($data, 'current_groups');
-		$contentType      = ArrayHelper::getValue($jForm, 'contenttype');
+		$db                     = FabrikWorker::getDbo(true);
+		$fields                 = array('id' => 'internalid', 'date_time' => 'date');
+		$createGroup            = $data['_createGroup'];
+		$recordInDatabase       = $data['record_in_database'];
+		$jForm                  = $this->app->input->get('jform', array(), 'array');
+		$this->contentTypeModel = JModelLegacy::getInstance('ContentTypeImport', 'FabrikAdminModel', array('listModel' => $listModel));
+		$groups                 = FArrayHelper::getValue($data, 'current_groups');
+		$contentType            = ArrayHelper::getValue($jForm, 'contenttype');
 
 		if ($createGroup)
 		{
@@ -289,7 +289,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 
 		if ($createGroup)
 		{
-			$fields = $this->contentTypeModel->getDefaultInsertFields($contentType);
+			$fields = $this->contentTypeModel->import($contentType, $dbTableName);
 		}
 
 		return $fields;

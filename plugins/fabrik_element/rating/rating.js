@@ -126,7 +126,7 @@ var FbRating = new Class({
 	},
 
 	doAjax : function () {
-		if (this.options.canRate === false) {
+		if (this.options.canRate === false || this.options.doAjax === false) {
 			return;
 		}
 		if (this.options.editable === false) {

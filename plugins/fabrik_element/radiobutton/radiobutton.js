@@ -15,7 +15,7 @@ FbRadio = new Class({
 	type: 'radio', // sub element type
 
 	initialize: function (element, options) {
-		this.plugin = 'fabrikradiobutton';
+		this.setPlugin('fabrikradiobutton');
 		this.parent(element, options);
 		this.btnGroup();
 	},

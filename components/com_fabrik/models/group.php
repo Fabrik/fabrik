@@ -545,7 +545,7 @@ class FabrikFEModelGroup extends FabModel
 	/**
 	 * Get the groups form model
 	 *
-	 * @return object form model
+	 * @return FabrikFEModelForm form model
 	 */
 	public function getFormModel()
 	{
@@ -1197,9 +1197,12 @@ class FabrikFEModelGroup extends FabModel
 		 * has already called the element model's getValue(), the change we just made to formdata won't get picked up
 		 * during the row store processing, as getValue() will return the cached default.
 		 */
-
 		$elementModel = $formModel->getElement($fk_name);
-		$elementModel->clearDefaults();
+
+		if ($elementModel)
+		{
+			$elementModel->clearDefaults();
+		}
 	}
 
 	/**
@@ -1265,10 +1268,7 @@ class FabrikFEModelGroup extends FabModel
 		$repeats = $this->repeatTotals();
 		$joinModel = $this->getJoinModel();
 		$pkField = $joinModel->getForeignID();
-		$fk = $joinModel->getForeignKey();
-
 		$fkOnParent = $this->fkOnParent();
-
 		$listModel = $this->getListModel();
 		$item = $this->getGroup();
 		$formModel = $this->getFormModel();
@@ -1407,7 +1407,6 @@ class FabrikFEModelGroup extends FabModel
 				$listModel->updateRow($parentId, $fkField, $insertId);
 			}
 		}
-
 	}
 
 	/**

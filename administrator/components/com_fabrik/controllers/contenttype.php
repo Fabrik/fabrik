@@ -33,7 +33,7 @@ class FabrikAdminControllerContentType extends FabControllerForm
 	{
 		$contentType = $this->input->getString('contentType');
 		$listModel = $this->getModel('list');
-		$model = $this->getModel('contenttype', '', array('listModel' => $listModel));
+		$model = $this->getModel('contenttypeImport', '', array('listModel' => $listModel));
 		$viewType = JFactory::getDocument()->getType();
 		$this->name = 'Fabrik';
 		$this->setPath('view', COM_FABRIK_FRONTEND . '/views');
@@ -42,6 +42,7 @@ class FabrikAdminControllerContentType extends FabControllerForm
 		$view = $this->getView('Form', $viewType, '');
 		$view->setLayout($viewLayout);
 
+		/** @var FabrikFEModelForm  $formModel */
 		$formModel = JModelLegacy::getInstance('Form', 'FabrikFEModel');
 		$formModel->groups = $model->loadContentType($contentType)->preview();
 		$view->setModel($formModel, true);

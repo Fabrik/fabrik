@@ -8,7 +8,7 @@
 var FbIp = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'FbIp';
+		this.setPlugin('FbIp');
 		this.parent(element, options);
 	}
 });

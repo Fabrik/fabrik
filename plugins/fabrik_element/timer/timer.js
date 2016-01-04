@@ -22,7 +22,7 @@ var FbTimer = new Class({
 	Extends: FbElement,
 
 	initialize: function (element, options) {
-		this.plugin = 'fabriktimer';
+		this.setPlugin('fabriktimer');
 		this.parent(element, options);
 		var b = document.id(this.options.element + '_button');
 		this.seg = 0;

@@ -8,61 +8,71 @@
 var FbCalc = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'calc';
-		this.oldAjaxCalc = null;
+		this.setPlugin('calc');
 		this.parent(element, options);
 	},
 
 	attachedToForm : function () {
 		if (this.options.ajax) {
-			var o2;
-			// @TODO - might want to think about firing ajaxCalc here as well, if we've just been added to the form
-			// as part of duplicating a group.  Don't want to do it in cloned(), as that would be before elements
-			// we observe have finished setting themselves up.  So just need to work out if this is on page load
-			// or on group clone.
-			var form = this.form;
 			this.options.observe.each(function (o) {
-				if (o === '') {
-					return;
-				}
-				if (this.form.formElements[o]) {
-					this.form.formElements[o].addNewEventAux(this.form.formElements[o].getChangeEvent(), function (e) {
-						this.calc(e);
-					}.bind(this));
-				}
-				else {
-					// $$$ hugh - check to see if an observed element is actually part of a repeat group,
-					// and if so, modify the placeholder name they used to match this instance of it
-					// @TODO - add and test code for non-joined repeats!
-
-					// @TODO:  this needs updating as we dont store as join.x.element any more?
-					if (this.options.canRepeat) {
-						o2 = o + '_' + this.options.repeatCounter;
-						if (this.form.formElements[o2]) {
-							this.form.formElements[o2].addNewEventAux(this.form.formElements[o2].getChangeEvent(), function (e) {
-								this.calc(e);
-							}.bind(this));
-						}
-					}
-					else {
-						this.form.repeatGroupMarkers.each(function (v, k) {
-							o2 = '';
-							for (v2 = 0; v2 < v; v2++) {
-								o2 = 'join___' + this.form.options.group_join_ids[k] + '___' + o + '_' + v2;
-								if (this.form.formElements[o2]) {
-									// $$$ hugh - think we can add this one as sticky ...
-									this.form.formElements[o2].addNewEvent(this.form.formElements[o2].getChangeEvent(), function (e) {
-										this.calc(e);
-									}.bind(this));
-								}
-							}
-						}.bind(this));
-					}
-				}
+				this.addObserveEvent(o);
 			}.bind(this));
 			
 			if (this.options.calcOnLoad) {
 				this.calc();
+			}
+
+			/**
+			 * CDD which have subelements (radio, checkbox) will destroy their subelements
+			 * and recreate them on update, so we need to recreate the observe events on a CDD update
+			 */
+			Fabrik.addEvent('fabrik.cdd.update', function(el) {
+				if (el.hasSubElements()) {
+					if (jQuery.inArray(el.baseElementId, this.options.observe) !== -1) {
+						this.addObserveEvent(el.baseElementId);
+					}
+				}
+			}.bind(this));
+		}
+	},
+	
+	addObserveEvent: function (o) {
+		var o2;
+		if (o === '') {
+			return;
+		}
+		if (this.form.formElements[o]) {
+			this.form.formElements[o].addNewEventAux(this.form.formElements[o].getChangeEvent(), function (e) {
+				this.calc(e);
+			}.bind(this));
+		}
+		else {
+			// $$$ hugh - check to see if an observed element is actually part of a repeat group,
+			// and if so, modify the placeholder name they used to match this instance of it
+			// @TODO - add and test code for non-joined repeats!
+
+			// @TODO:  this needs updating as we dont store as join.x.element any more?
+			if (this.options.canRepeat) {
+				o2 = o + '_' + this.options.repeatCounter;
+				if (this.form.formElements[o2]) {
+					this.form.formElements[o2].addNewEventAux(this.form.formElements[o2].getChangeEvent(), function (e) {
+						this.calc(e);
+					}.bind(this));
+				}
+			}
+			else {
+				this.form.repeatGroupMarkers.each(function (v, k) {
+					o2 = '';
+					for (v2 = 0; v2 < v; v2++) {
+						o2 = 'join___' + this.form.options.group_join_ids[k] + '___' + o + '_' + v2;
+						if (this.form.formElements[o2]) {
+							// $$$ hugh - think we can add this one as sticky ...
+							this.form.formElements[o2].addNewEvent(this.form.formElements[o2].getChangeEvent(), function (e) {
+								this.calc(e);
+							}.bind(this));
+						}
+					}
+				}.bind(this));
 			}
 		}
 	},
@@ -99,19 +109,23 @@ var FbCalc = new Class({
 			};
 		data = Object.append(formdata, data);
 		Fabrik.loader.start(this.element.getParent(), Joomla.JText._('COM_FABRIK_LOADING'));
-		var myAjax = new Request({'url': '', method: 'post', 'data': data,
-		onComplete: function (r) {
-			Fabrik.loader.stop(this.element.getParent());
-			this.update(r);
-			if (this.options.validations) {
+		new Request({
+			'url': '',
+			method: 'post',
+			'data': data,
+			onComplete: function (r) {
+				Fabrik.loader.stop(this.element.getParent());
+				this.update(r);
+				if (this.options.validations) {
 
-				// If we have a validation on the element run it after AJAX calc is done
-				this.form.doElementValidation(this.options.element);
-			}
-			// Fire an onChange event so that js actions can be attached and fired when the value updates
-			this.element.fireEvent('change', new Event.Mock(this.element, 'change'));
-			Fabrik.fireEvent('fabrik.calc.update', [this, r]);
-		}.bind(this)}).send();
+					// If we have a validation on the element run it after AJAX calc is done
+					this.form.doElementValidation(this.options.element);
+				}
+				// Fire an onChange event so that js actions can be attached and fired when the value updates
+				this.element.fireEvent('change', new Event.Mock(this.element, 'change'));
+				Fabrik.fireEvent('fabrik.calc.update', [this, r]);
+			}.bind(this)
+		}).send();
 	},
 
 

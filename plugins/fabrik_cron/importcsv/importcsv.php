@@ -122,7 +122,7 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 		$origListId = $input->getInt('listid', -1);
 
 		// Fabrik use this as the base directory, so we need a new directory under 'media'
-		define("FABRIK_CSV_IMPORT_ROOT", JPATH_ROOT . '/media');
+		define("FABRIK_CSV_IMPORT_ROOT", str_replace('\\', '/', JPATH_ROOT . '/media'));
 		$d = FABRIK_CSV_IMPORT_ROOT . '/' . $cronDir;
 
 		// TODO: Need to also have a FILTER for CSV files ONLY.
@@ -136,6 +136,7 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 
 		foreach ($files as $fullCsvFile)
 		{
+			$fullCsvFile = str_replace('\\', '/', $fullCsvFile);
 			if (++$xfiles > $maxFiles)
 			{
 				break;
@@ -150,7 +151,7 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 			}
 			else
 			{
-				$table = &$listModel->getTable();
+				$table = $listModel->getTable();
 				$listId = $table->id;
 			}
 

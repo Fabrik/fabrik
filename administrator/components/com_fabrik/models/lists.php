@@ -23,18 +23,16 @@ require_once 'fabmodellist.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikAdminModelLists extends FabModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since	1.6
+	 * @see        JController
+	 * @since      1.6
 	 */
-
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -50,13 +48,12 @@ class FabrikAdminModelLists extends FabModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
-
 	protected function getListQuery()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -88,7 +85,7 @@ class FabrikAdminModelLists extends FabModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
+		$orderCol  = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 
 		if ($orderCol == 'ordering' || $orderCol == 'category_title')
@@ -111,13 +108,12 @@ class FabrikAdminModelLists extends FabModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
-
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
@@ -135,10 +131,9 @@ class FabrikAdminModelLists extends FabModelList
 	 *
 	 * @return  array  groups
 	 */
-
 	public function getTableGroups()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT(l.id) AS id, fg.group_id AS group_id');
 		$query->from('#__{package}_lists AS l');
@@ -152,15 +147,14 @@ class FabrikAdminModelLists extends FabModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $type   The table type to instantiate
+	 * @param   string $prefix A prefix for the table class name. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  JTable    A database object
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
-
 	public function getTable($type = 'View', $prefix = 'FabrikTable', $config = array())
 	{
 		$config['dbo'] = FabrikWorker::getDbo();
@@ -173,14 +167,13 @@ class FabrikAdminModelLists extends FabModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 *
 	 * @return  void
 	 */
-
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.
@@ -207,14 +200,13 @@ class FabrikAdminModelLists extends FabModelList
 	 *
 	 * @return  array  database table names
 	 */
-
 	public function getDbTableNames()
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$input = $app->input;
-		$cid = $input->get('cid', array(), 'array');
+		$cid   = $input->get('cid', array(), 'array');
 		ArrayHelper::toInteger($cid);
-		$db = FabrikWorker::getDbo(true);
+		$db    = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('db_table_name')->from('#__{package}_lists')->where('id IN(' . implode(',', $cid) . ')');
 		$db->setQuery($query);

@@ -716,6 +716,7 @@ class FabrikViewFormBase extends FabrikView
 		$opts->admin          = $this->app->isAdmin();
 		$opts->ajax           = $model->isAjax();
 		$opts->ajaxValidation = (bool) $params->get('ajax_validations');
+		$opts->lang           = FabrikWorker::getMultiLangURLCode();
 		$opts->toggleSubmit   = (bool) $params->get('ajax_validations_toggle_submit');
 		$opts->showLoader     = (bool) $params->get('show_loader_on_submit', '0');
 		$key                  = FabrikString::safeColNameToArrayKey($table->db_primary_key);

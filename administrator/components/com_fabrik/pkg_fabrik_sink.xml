@@ -6,122 +6,116 @@
 	<url>http://www.joomla.org</url>
 	<packager>Rob Clayburn</packager>
 	<packagerurl>http://www.fabrikar.com</packagerurl>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<description>Fabrik Free Package</description>
 	<update>http://fabrikar.com/update/packages/free</update>
 	<files folder="packages">
 		<file id="com_fabrik" type="component">com_fabrik_{version}.zip</file>
 		<file client="site" id="mod_fabrik_form" type="module">mod_fabrik_form_{version}.zip</file>
 		<file client="site" id="mod_fabrik_list" type="module">mod_fabrik_list_{version}.zip</file>
-		
-		<file group="content" id="plg_fabrik" type="plugin">plg_fabrik_{version}.zip</file>
+
+		<file group="content" id="fabrik" type="plugin">plg_fabrik_{version}.zip</file>
 		<file group="editors-xtd" id="plg_fabrik" type="plugin">plg_fabrik_cck_editor_{version}.zip</file>
-		
-		<file group="fabrik_cron" id="cron_email" type="plugin">plg_fabrik_cron_email_{version}.zip</file>
-		<file group="fabrik_cron" id="cron_gcalsync" type="plugin">plg_fabrik_cron_gcalsync_{version}.zip</file>
-		<file group="fabrik_cron" id="cron_geocode" type="plugin">plg_fabrik_cron_geocode_{version}.zip</file>
-		<file group="fabrik_cron" id="cron_gmail" type="plugin">plg_fabrik_cron_gmail_{version}.zip</file>
-		<file group="fabrik_cron" id="cron_notification" type="plugin">plg_fabrik_cron_notification_{version}.zip</file>
-		<file group="fabrik_cron" id="cron_php" type="plugin">plg_fabrik_cron_php_{version}.zip</file>
-		
-		<file group="fabrik_element" id="element_access" type="plugin">plg_fabrik_element_access_{version}.zip</file>
-		<file group="fabrik_element" id="element_birthday" type="plugin">plg_fabrik_element_birthday_{version}.zip</file>		
-		<file group="fabrik_element" id="element_button" type="plugin">plg_fabrik_element_button_{version}.zip</file>
-		<file group="fabrik_element" id="element_calc" type="plugin">plg_fabrik_element_calc_{version}.zip</file>
-		<file group="fabrik_element" id="element_captcha" type="plugin">plg_fabrik_element_captcha_{version}.zip</file>
-		<file group="fabrik_element" id="element_checkbox" type="plugin">plg_fabrik_element_checkbox_{version}.zip</file>
-		<file group="fabrik_element" id="element_colourpicker" type="plugin">plg_fabrik_element_colourpicker_{version}.zip</file>
-		<file group="fabrik_element" id="element_count" type="plugin">plg_fabrik_element_count_{version}.zip</file>
-		<file group="fabrik_element" id="element_databasejoin" type="plugin">plg_fabrik_element_databasejoin_{version}.zip</file>
-		<file group="fabrik_element" id="element_date" type="plugin">plg_fabrik_element_date_{version}.zip</file>
-		<file group="fabrik_element" id="element_display" type="plugin">plg_fabrik_element_display_{version}.zip</file>
-		<file group="fabrik_element" id="element_dropdown" type="plugin">plg_fabrik_element_dropdown_{version}.zip</file>
-		<file group="fabrik_element" id="element_fbactivity" type="plugin">plg_fabrik_element_fbactivity_{version}.zip</file>
-		<file group="fabrik_element" id="element_fbcomment" type="plugin">plg_fabrik_element_fbcomment_{version}.zip</file>
-		<file group="fabrik_element" id="element_fblike" type="plugin">plg_fabrik_element_fblike_{version}.zip</file>
-		<file group="fabrik_element" id="element_fbrecommendations" type="plugin">plg_fabrik_element_fbrecommendations_{version}.zip</file>
-		<file group="fabrik_element" id="element_field" type="plugin">plg_fabrik_element_field_{version}.zip</file>
-		<file group="fabrik_element" id="element_fileupload" type="plugin">plg_fabrik_element_fileupload_{version}.zip</file>
-		<file group="fabrik_element" id="element_folder" type="plugin">plg_fabrik_element_folder_{version}.zip</file>
-		<file group="fabrik_element" id="element_googlemap" type="plugin">plg_fabrik_element_googlemap_{version}.zip</file>
-		<file group="fabrik_element" id="element_googleometer" type="plugin">plg_fabrik_element_googleometer_{version}.zip</file>
-		<file group="fabrik_element" id="element_image" type="plugin">plg_fabrik_element_image_{version}.zip</file>
-		<file group="fabrik_element" id="element_internalid" type="plugin">plg_fabrik_element_internalid_{version}.zip</file>
-		<file group="fabrik_element" id="element_ip" type="plugin">plg_fabrik_element_ip_{version}.zip</file>
-		<file group="fabrik_element" id="element_jsperiodical" type="plugin">plg_fabrik_element_jsperiodical_{version}.zip</file>
-		<file group="fabrik_element" id="element_kaltura" type="plugin">plg_fabrik_element_kaltura_{version}.zip</file>
-		<file group="fabrik_element" id="element_link" type="plugin">plg_fabrik_element_link_{version}.zip</file>
-		<file group="fabrik_element" id="element_openstreetmap" type="plugin">plg_fabrik_element_openstreetmap_{version}.zip</file>
-		<file group="fabrik_element" id="element_password" type="plugin">plg_fabrik_element_password_{version}.zip</file>
-		<file group="fabrik_element" id="element_picklist" type="plugin">plg_fabrik_element_picklist_{version}.zip</file>
-		<file group="fabrik_element" id="element_radiobutton" type="plugin">plg_fabrik_element_radiobutton_{version}.zip</file>
-		<file group="fabrik_element" id="element_rating" type="plugin">plg_fabrik_element_rating_{version}.zip</file>
-		<file group="fabrik_element" id="element_sql" type="plugin">plg_fabrik_element_sql_{version}.zip</file>
-		<file group="fabrik_element" id="element_sugarid" type="plugin">plg_fabrik_element_sugarid_{version}.zip</file>
-		<file group="fabrik_element" id="element_textarea" type="plugin">plg_fabrik_element_textarea_{version}.zip</file>
-		<file group="fabrik_element" id="element_thumbs" type="plugin">plg_fabrik_element_thumbs_{version}.zip</file>
-		<file group="fabrik_element" id="element_timer" type="plugin">plg_fabrik_element_timer_{version}.zip</file>
-		<file group="fabrik_element" id="element_timestamp" type="plugin">plg_fabrik_element_timestamp_{version}.zip</file>
-		<file group="fabrik_element" id="element_twitterprofile" type="plugin">plg_fabrik_element_twitterprofile_{version}.zip</file>
-		<file group="fabrik_element" id="element_user" type="plugin">plg_fabrik_element_user_{version}.zip</file>
-		<file group="fabrik_element" id="element_video" type="plugin">plg_fabrik_element_video_{version}.zip</file>
-		<file group="fabrik_element" id="element_yesno" type="plugin">plg_fabrik_element_yesno_{version}.zip</file>
-		<file group="fabrik_element" id="element_youtube" type="plugin">plg_fabrik_element_youtube_{version}.zip</file>
-		
-		<file group="fabrik_form" id="form_autofill" type="plugin">plg_fabrik_form_autofill_{version}.zip</file>
-		<file group="fabrik_form" id="form_clone" type="plugin">plg_fabrik_form_clone_{version}.zip</file>
-		<file group="fabrik_form" id="form_comment" type="plugin">plg_fabrik_form_comment_{version}.zip</file>
-		<file group="fabrik_form" id="form_confirmation" type="plugin">plg_fabrik_form_confirmation_{version}.zip</file>
-		<file group="fabrik_form" id="form_email" type="plugin">plg_fabrik_form_email_{version}.zip</file>
-		<file group="fabrik_form" id="form_exif" type="plugin">plg_fabrik_form_exif_{version}.zip</file>
-		<file group="fabrik_form" id="form_js" type="plugin">plg_fabrik_form_js_{version}.zip</file>
-		<file group="fabrik_form" id="form_juser" type="plugin">plg_fabrik_form_juser_{version}.zip</file>
-		<file group="fabrik_form" id="form_kunena" type="plugin">plg_fabrik_form_kunena_{version}.zip</file>
-		<file group="fabrik_form" id="form_limit" type="plugin">plg_fabrik_form_limit_{version}.zip</file>
-		<file group="fabrik_form" id="form_logs" type="plugin">plg_fabrik_form_logs_{version}.zip</file>
-		<file group="fabrik_form" id="form_notification" type="plugin">plg_fabrik_form_notification_{version}.zip</file>
-		<file group="fabrik_form" id="form_paypal" type="plugin">plg_fabrik_form_paypal_{version}.zip</file>
-		<file group="fabrik_form" id="form_php" type="plugin">plg_fabrik_form_php_{version}.zip</file>
-		<file group="fabrik_form" id="form_receipt" type="plugin">plg_fabrik_form_receipt_{version}.zip</file>
-		<file group="fabrik_form" id="form_redirect" type="plugin">plg_fabrik_form_redirect_{version}.zip</file>
-		<file group="fabrik_form" id="form_salesforce" type="plugin">plg_fabrik_form_salesforce_{version}.zip</file>
-		<file group="fabrik_form" id="form_sms" type="plugin">plg_fabrik_form_sms_{version}.zip</file>
-		<file group="fabrik_form" id="form_twitter" type="plugin">plg_fabrik_form_twitter_{version}.zip</file>
-		<file group="fabrik_form" id="form_vbforum" type="plugin">plg_fabrik_form_vbforum_{version}.zip</file>
-		
-		<file group="fabrik_list" id="list_copy" type="plugin">plg_fabrik_list_copy_{version}.zip</file>
-		<file group="fabrik_list" id="list_download" type="plugin">plg_fabrik_list_download_{version}.zip</file>
-		<file group="fabrik_list" id="list_inlineedit" type="plugin">plg_fabrik_list_inlineedit_{version}.zip</file>
-		<file group="fabrik_list" id="list_php" type="plugin">plg_fabrik_list_php_{version}.zip</file>
-		<file group="fabrik_list" id="list_radius_search" type="plugin">plg_fabrik_list_radius_search_{version}.zip</file>
-		
-		<file group="system" id="schedule" type="plugin">plg_fabrik_schedule_{version}.zip</file>
-		
+
+		<file group="fabrik_cron" id="email" type="plugin">plg_fabrik_cron_email_{version}.zip</file>
+		<file group="fabrik_cron" id="gcalsync" type="plugin">plg_fabrik_cron_gcalsync_{version}.zip</file>
+		<file group="fabrik_cron" id="geocode" type="plugin">plg_fabrik_cron_geocode_{version}.zip</file>
+		<file group="fabrik_cron" id="gmail" type="plugin">plg_fabrik_cron_gmail_{version}.zip</file>
+		<file group="fabrik_cron" id="notification" type="plugin">plg_fabrik_cron_notification_{version}.zip</file>
+		<file group="fabrik_cron" id="php" type="plugin">plg_fabrik_cron_php_{version}.zip</file>
+
+		<file group="fabrik_element" id="access" type="plugin">plg_fabrik_element_access_{version}.zip</file>
+		<file group="fabrik_element" id="birthday" type="plugin">plg_fabrik_element_birthday_{version}.zip</file>
+		<file group="fabrik_element" id="button" type="plugin">plg_fabrik_element_button_{version}.zip</file>
+		<file group="fabrik_element" id="calc" type="plugin">plg_fabrik_element_calc_{version}.zip</file>
+		<file group="fabrik_element" id="captcha" type="plugin">plg_fabrik_element_captcha_{version}.zip</file>
+		<file group="fabrik_element" id="checkbox" type="plugin">plg_fabrik_element_checkbox_{version}.zip</file>
+		<file group="fabrik_element" id="colourpicker" type="plugin">plg_fabrik_element_colourpicker_{version}.zip</file>
+		<file group="fabrik_element" id="count" type="plugin">plg_fabrik_element_count_{version}.zip</file>
+		<file group="fabrik_element" id="databasejoin" type="plugin">plg_fabrik_element_databasejoin_{version}.zip</file>
+		<file group="fabrik_element" id="date" type="plugin">plg_fabrik_element_date_{version}.zip</file>
+		<file group="fabrik_element" id="display" type="plugin">plg_fabrik_element_display_{version}.zip</file>
+		<file group="fabrik_element" id="dropdown" type="plugin">plg_fabrik_element_dropdown_{version}.zip</file>
+		<file group="fabrik_element" id="fbactivity" type="plugin">plg_fabrik_element_fbactivity_{version}.zip</file>
+		<file group="fabrik_element" id="fbcomment" type="plugin">plg_fabrik_element_fbcomment_{version}.zip</file>
+		<file group="fabrik_element" id="fblike" type="plugin">plg_fabrik_element_fblike_{version}.zip</file>
+		<file group="fabrik_element" id="fbrecommendations" type="plugin">plg_fabrik_element_fbrecommendations_{version}.zip</file>
+		<file group="fabrik_element" id="field" type="plugin">plg_fabrik_element_field_{version}.zip</file>
+		<file group="fabrik_element" id="fileupload" type="plugin">plg_fabrik_element_fileupload_{version}.zip</file>
+		<file group="fabrik_element" id="folder" type="plugin">plg_fabrik_element_folder_{version}.zip</file>
+		<file group="fabrik_element" id="googlemap" type="plugin">plg_fabrik_element_googlemap_{version}.zip</file>
+		<file group="fabrik_element" id="googleometer" type="plugin">plg_fabrik_element_googleometer_{version}.zip</file>
+		<file group="fabrik_element" id="image" type="plugin">plg_fabrik_element_image_{version}.zip</file>
+		<file group="fabrik_element" id="internalid" type="plugin">plg_fabrik_element_internalid_{version}.zip</file>
+		<file group="fabrik_element" id="ip" type="plugin">plg_fabrik_element_ip_{version}.zip</file>
+		<file group="fabrik_element" id="jsperiodical" type="plugin">plg_fabrik_element_jsperiodical_{version}.zip</file>
+		<file group="fabrik_element" id="kaltura" type="plugin">plg_fabrik_element_kaltura_{version}.zip</file>
+		<file group="fabrik_element" id="link" type="plugin">plg_fabrik_element_link_{version}.zip</file>
+		<file group="fabrik_element" id="password" type="plugin">plg_fabrik_element_password_{version}.zip</file>
+		<file group="fabrik_element" id="picklist" type="plugin">plg_fabrik_element_picklist_{version}.zip</file>
+		<file group="fabrik_element" id="radiobutton" type="plugin">plg_fabrik_element_radiobutton_{version}.zip</file>
+		<file group="fabrik_element" id="rating" type="plugin">plg_fabrik_element_rating_{version}.zip</file>
+		<file group="fabrik_element" id="sql" type="plugin">plg_fabrik_element_sql_{version}.zip</file>
+		<file group="fabrik_element" id="textarea" type="plugin">plg_fabrik_element_textarea_{version}.zip</file>
+		<file group="fabrik_element" id="thumbs" type="plugin">plg_fabrik_element_thumbs_{version}.zip</file>
+		<file group="fabrik_element" id="timer" type="plugin">plg_fabrik_element_timer_{version}.zip</file>
+		<file group="fabrik_element" id="timestamp" type="plugin">plg_fabrik_element_timestamp_{version}.zip</file>
+		<file group="fabrik_element" id="user" type="plugin">plg_fabrik_element_user_{version}.zip</file>
+		<file group="fabrik_element" id="yesno" type="plugin">plg_fabrik_element_yesno_{version}.zip</file>
+		<file group="fabrik_element" id="youtube" type="plugin">plg_fabrik_element_youtube_{version}.zip</file>
+
+		<file group="fabrik_form" id="autofill" type="plugin">plg_fabrik_form_autofill_{version}.zip</file>
+		<file group="fabrik_form" id="clone" type="plugin">plg_fabrik_form_clone_{version}.zip</file>
+		<file group="fabrik_form" id="comment" type="plugin">plg_fabrik_form_comment_{version}.zip</file>
+		<file group="fabrik_form" id="confirmation" type="plugin">plg_fabrik_form_confirmation_{version}.zip</file>
+		<file group="fabrik_form" id="email" type="plugin">plg_fabrik_form_email_{version}.zip</file>
+		<file group="fabrik_form" id="exif" type="plugin">plg_fabrik_form_exif_{version}.zip</file>
+		<file group="fabrik_form" id="js" type="plugin">plg_fabrik_form_js_{version}.zip</file>
+		<file group="fabrik_form" id="juser" type="plugin">plg_fabrik_form_juser_{version}.zip</file>
+		<file group="fabrik_form" id="kunena" type="plugin">plg_fabrik_form_kunena_{version}.zip</file>
+		<file group="fabrik_form" id="limit" type="plugin">plg_fabrik_form_limit_{version}.zip</file>
+		<file group="fabrik_form" id="logs" type="plugin">plg_fabrik_form_logs_{version}.zip</file>
+		<file group="fabrik_form" id="notification" type="plugin">plg_fabrik_form_notification_{version}.zip</file>
+		<file group="fabrik_form" id="paypal" type="plugin">plg_fabrik_form_paypal_{version}.zip</file>
+		<file group="fabrik_form" id="php" type="plugin">plg_fabrik_form_php_{version}.zip</file>
+		<file group="fabrik_form" id="receipt" type="plugin">plg_fabrik_form_receipt_{version}.zip</file>
+		<file group="fabrik_form" id="redirect" type="plugin">plg_fabrik_form_redirect_{version}.zip</file>
+		<file group="fabrik_form" id="salesforce" type="plugin">plg_fabrik_form_salesforce_{version}.zip</file>
+		<file group="fabrik_form" id="sms" type="plugin">plg_fabrik_form_sms_{version}.zip</file>
+		<file group="fabrik_form" id="twitter" type="plugin">plg_fabrik_form_twitter_{version}.zip</file>
+
+		<file group="fabrik_list" id="copy" type="plugin">plg_fabrik_list_copy_{version}.zip</file>
+		<file group="fabrik_list" id="download" type="plugin">plg_fabrik_list_download_{version}.zip</file>
+		<file group="fabrik_list" id="inlineedit" type="plugin">plg_fabrik_list_inlineedit_{version}.zip</file>
+		<file group="fabrik_list" id="php" type="plugin">plg_fabrik_list_php_{version}.zip</file>
+		<file group="fabrik_list" id="radius_search" type="plugin">plg_fabrik_list_radius_search_{version}.zip</file>
+
+		<file group="system" id="fabrikcron" type="plugin">plg_fabrik_schedule_{version}.zip</file>
+
 		<file group="search" id="search" type="plugin">plg_fabrik_search_{version}.zip</file>
-		
-		<file group="fabrik_validationrule" id="validationrule_akismet" type="plugin">plg_fabrik_validation_akismet_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_emailexists" type="plugin">plg_fabrik_validation_emailexists_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_isalphanumeric" type="plugin">plg_fabrik_validation_isalphanumeric_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_isemail" type="plugin">plg_fabrik_validation_isemail_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_isgreaterorlessthan" type="plugin">plg_fabrik_validation_isgreaterorlessthan_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_isnot" type="plugin">plg_fabrik_validation_isnot_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_isnumeric" type="plugin">plg_fabrik_validation_isnumeric_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_notempty" type="plugin">plg_fabrik_validation_notempty_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_php" type="plugin">plg_fabrik_validation_php_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_regex" type="plugin">plg_fabrik_validation_regex_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_specialchars" type="plugin">plg_fabrik_validation_specialchars_{version}.zip</file>
-		<file group="fabrik_validationrule" id="validationrule_userexists" type="plugin">plg_fabrik_validation_userexists_{version}.zip</file>
-		
-		<file group="fabrik_visualization" id="visualization_calendar" type="plugin">plg_fabrik_visualization_calendar_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_chart" type="plugin">plg_fabrik_visualization_chart_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_coverflow" type="plugin">plg_fabrik_visualization_coverflow_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_fusion_gantt_chart" type="plugin">plg_fabrik_visualization_fusion_gantt_chart_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_fusionchart" type="plugin">plg_fabrik_visualization_fusionchart_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_googlemap" type="plugin">plg_fabrik_visualization_googlemap_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_kaltura" type="plugin">plg_fabrik_visualization_kaltura_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_media" type="plugin">plg_fabrik_visualization_media_{version}.zip</file>
-		<file group="fabrik_visualization" id="visualization_slideshow" type="plugin">plg_fabrik_visualization_slideshow_{version}.zip</file>
-		
+
+		<file group="fabrik_validationrule" id="akismet" type="plugin">plg_fabrik_validation_akismet_{version}.zip</file>
+		<file group="fabrik_validationrule" id="emailexists" type="plugin">plg_fabrik_validation_emailexists_{version}.zip</file>
+		<file group="fabrik_validationrule" id="isalphanumeric" type="plugin">plg_fabrik_validation_isalphanumeric_{version}.zip</file>
+		<file group="fabrik_validationrule" id="isemail" type="plugin">plg_fabrik_validation_isemail_{version}.zip</file>
+		<file group="fabrik_validationrule" id="isgreaterorlessthan" type="plugin">plg_fabrik_validation_isgreaterorlessthan_{version}.zip</file>
+		<file group="fabrik_validationrule" id="isnot" type="plugin">plg_fabrik_validation_isnot_{version}.zip</file>
+		<file group="fabrik_validationrule" id="isnumeric" type="plugin">plg_fabrik_validation_isnumeric_{version}.zip</file>
+		<file group="fabrik_validationrule" id="notempty" type="plugin">plg_fabrik_validation_notempty_{version}.zip</file>
+		<file group="fabrik_validationrule" id="php" type="plugin">plg_fabrik_validation_php_{version}.zip</file>
+		<file group="fabrik_validationrule" id="regex" type="plugin">plg_fabrik_validation_regex_{version}.zip</file>
+		<file group="fabrik_validationrule" id="specialchars" type="plugin">plg_fabrik_validation_specialchars_{version}.zip</file>
+		<file group="fabrik_validationrule" id="userexists" type="plugin">plg_fabrik_validation_userexists_{version}.zip</file>
+
+		<file group="fabrik_visualization" id="calendar" type="plugin">plg_fabrik_visualization_calendar_{version}.zip</file>
+		<file group="fabrik_visualization" id="chart" type="plugin">plg_fabrik_visualization_chart_{version}.zip</file>
+		<file group="fabrik_visualization" id="coverflow" type="plugin">plg_fabrik_visualization_coverflow_{version}.zip</file>
+		<file group="fabrik_visualization" id="fusion_gantt_chart" type="plugin">plg_fabrik_visualization_fusion_gantt_chart_{version}.zip</file>
+		<file group="fabrik_visualization" id="fusionchart" type="plugin">plg_fabrik_visualization_fusionchart_{version}.zip</file>
+		<file group="fabrik_visualization" id="googlemap" type="plugin">plg_fabrik_visualization_googlemap_{version}.zip</file>
+		<file group="fabrik_visualization" id="media" type="plugin">plg_fabrik_visualization_media_{version}.zip</file>
+		<file group="fabrik_visualization" id="slideshow" type="plugin">plg_fabrik_visualization_slideshow_{version}.zip</file>
+
 	</files>
 </extension>

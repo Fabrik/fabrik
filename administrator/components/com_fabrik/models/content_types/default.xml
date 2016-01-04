@@ -2,11 +2,12 @@
 <contenttype
 	ignoreacl="true">
 	<name>Default</name>
+	<fabrikversion>3.4</fabrikversion>
 
-	<group name="details"
+	<group name="{label}"
 	       published="1"
 	       private="0"
-	       label="Details group">
+	       label="">
 
 		<element plugin="internalid"
 		         label="id"

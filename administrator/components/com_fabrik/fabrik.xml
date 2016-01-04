@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension client="site" method="upgrade" type="component" version="3">
 	<name>com_fabrik</name>
-	<creationDate>December 2015</creationDate>
+	<creationDate>January 2016</creationDate>
 	<author>Rob Clayburn</author>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.pollen-8.co.uk</authorUrl>
@@ -25,10 +25,10 @@
 			<file charset="utf8" driver="mysqli">sql/uninstall.mysql.uft8.sql</file>
 		</sql>
 	</uninstall>
-	
+
 	<update>
 		<schemas>
-			<schemapath type="mysql">sql/updates/mysql/</schemapath>		
+			<schemapath type="mysql">sql/updates/mysql/</schemapath>
 		</schemas>
 	</update>
 
@@ -61,7 +61,7 @@
 		<folder>com_fabrik/js</folder>
 		<file>com_fabrik/index.html</file>
 	</media>
-		
+
 	<administration>
 		<menu img="../administrator/components/com_fabrik/images/fabrik.png" view="home">com_fabrik</menu>
 		<submenu>
@@ -74,9 +74,9 @@
 				<menu alt="Connections" img="../administrator/components/com_fabrik/images/connections.png" link="option=com_fabrik&amp;view=connections" view="connections">com_fabrik_connections</menu>
 				<menu alt="Schedule" img="../administrator/components/com_fabrik/images/schedules.png" link="option=com_fabrik&amp;view=crons" view="crons">com_fabrik_schedule</menu>
 		</submenu>
-		
+
 		<files folder="admin">
-			
+
 			<file>fabrik.php</file>
 			<folder>sql</folder>
 			<folder>classes</folder>
@@ -96,11 +96,11 @@
 		</files>
 
 	</administration>
-	
+
 	<!-- START UPDATESERVERS -->
 	<updateservers>
 		<server type="collection" name="Fabrik31">http://fabrikar.com/update/fabrik31/package_list.xml</server>
 	</updateservers>
 
-	
+
 </extension>

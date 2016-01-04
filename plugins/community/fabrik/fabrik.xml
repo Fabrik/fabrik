@@ -2,8 +2,8 @@
 <extension version="3" type="plugin" group="community" method="upgrade">
 	<name>Fabrik for JomSocial</name>
 	<author>Hugh Messenger</author>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>hugh.messenger@gmail.com</authorEmail>
 	<authorUrl>fabrikar.com</authorUrl>
@@ -17,13 +17,13 @@
 		<file plugin="fabrik">fabrik.php</file>
 		<folder>fabrik</folder>
 	</files>
-	
+
 	<menuitem>
 		<menu label="Groups" position="toolbar">
 			<link label="Groups">task=groups</link>
 		</menu>
 	</menuitem>
-	
+
 	<params>
 		<param name="cache" type="list" default="0" label="Enable caching" description="Cache data">
 			<option value="0">No</option>
@@ -48,7 +48,7 @@
 		<param name="fabrik_element" type="Text" default="" label="Element" description="If using Element view, full element name to show."/>
 		<param name="fabrik_additional" type="Text" default="" label="Additional" description="Additional plugin parameters, such as element filters like table___element=foo, in a space separated list"/>
 	</params>
-	
+
 	<config>
 		<fields name="params" addfieldpath="/administrator/components/com_community/libraries/fields">
 			<fieldset name="basic">
@@ -76,7 +76,7 @@
 					<option value="element">Element</option>
 				</field>
 				<field name="fabrik_view_id" type="text" default="" label="View ID" description="Numeric Fabrik table, form or visualization ID"/>
-				<field name="fabrik_row_id" type="Text" default="" label="Row ID" description="Numeric Fabrik rowid, if using Form or Details view.  Set to -1 for logged on userid, or -2 for userid of profile being viewed"/>	
+				<field name="fabrik_row_id" type="Text" default="" label="Row ID" description="Numeric Fabrik rowid, if using Form or Details view.  Set to -1 for logged on userid, or -2 for userid of profile being viewed"/>
 				<field name="fabrik_usekey" type="Text" default="" label="Usekey" description="Fabrik element name containing userid to use as search key if using rowid -1 or -2"/>
 				<field name="fabrik_layout" type="Text" default="" label="Layout" description="Fabrik layout to use (optional)"/>
 				<field name="fabrik_element" type="Text" default="" label="Element" description="If using Element view, full element name to show."/>

@@ -8,7 +8,7 @@
 var FbDropdown = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'fabrikdropdown';
+		this.setPlugin('fabrikdropdown');
 		this.parent(element, options);
 		if (this.options.allowadd === true && this.options.editable !== false) {
 			this.watchAddToggle();

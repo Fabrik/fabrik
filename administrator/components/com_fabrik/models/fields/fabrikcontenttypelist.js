@@ -20,6 +20,7 @@ var FabrikContentTypeList = new Class({
     },
 
     showUpdate: function (contentType) {
+        Fabrik.loader.start('contentTypeListPreview', Joomla.JText._('COM_FABRIK_LOADING'));
         jQuery.ajax({
             dataType: 'json',
             url: 'index.php',
@@ -29,6 +30,7 @@ var FabrikContentTypeList = new Class({
                 contentType: contentType
             }
         }).done(function (data) {
+            Fabrik.loader.stop('contentTypeListPreview');
             jQuery('#contentTypeListPreview').empty().html(data.preview);
             jQuery('#contentTypeListAclUi').empty().html(data.aclMap);
         });

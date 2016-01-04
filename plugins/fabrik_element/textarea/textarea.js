@@ -9,7 +9,7 @@ var FbTextarea = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
 
-		this.plugin = 'fabriktextarea';
+		this.setPlugin('fabriktextarea');
 		this.parent(element, options);
 
 		// $$$ rob need to slightly delay this as if lots of js loaded (eg maps)

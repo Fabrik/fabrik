@@ -403,7 +403,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	 */
 	private function getCookieName($listId, $rowId)
 	{
-		$cookieName = 'thumb-table_' . $listId . '_row_' . $rowId . '_ip_' . $_SERVER['REMOTE_ADDR'];
+		$cookieName = 'thumb-table_' . $listId . '_row_' . $rowId . '_ip_' . FabrikString::filteredIp();
 		jimport('joomla.utilities.utility');
 		$version = new JVersion;
 

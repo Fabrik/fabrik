@@ -8,7 +8,7 @@
 var FbTime = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'time';
+		this.setPlugin('time');
 		this.parent(element, options);
 	},
 

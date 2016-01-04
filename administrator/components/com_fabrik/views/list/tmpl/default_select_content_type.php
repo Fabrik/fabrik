@@ -47,8 +47,12 @@ defined('_JEXEC') or die('Restricted access');
 		display : none;
 	}
 
-	#contentTypeListPreview .fabrikGroup .fabrikHide {
+	#contentTypeListPreview .fabrikGroup .faux-shown {
 		display : block !important;
 		opacity : 0.5
+	}
+
+	#contentTypeListPreview .plg-internalid.faux-shown .controls {
+		display:none;
 	}
 </style>

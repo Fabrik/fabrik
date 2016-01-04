@@ -27,12 +27,12 @@ class FabrikAdminHelper
 	 * Prepare the date for saving
 	 * DATES SHOULD BE SAVED AS UTC
 	 *
-	 * @param   string  &$strdate  publish down date
+	 * @param   string  $strdate  publish down date
 	 *
-	 * @return  null
+	 * @return  string
 	 */
 
-	public static function prepareSaveDate(&$strdate)
+	public static function prepareSaveDate($strdate)
 	{
 		$config = JFactory::getConfig();
 		$tzoffset = $config->get('offset');
@@ -53,6 +53,8 @@ class FabrikAdminHelper
 			$date = JFactory::getDate($strdate, $tzoffset);
 			$strdate = $date->toSql();
 		}
+
+		return $strdate;
 	}
 
 	/**

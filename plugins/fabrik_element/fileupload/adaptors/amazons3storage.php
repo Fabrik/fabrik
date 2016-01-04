@@ -90,7 +90,7 @@ class Amazons3storage extends FabrikStorageAdaptor
 	 * @return  bool
 	 */
 
-	public function exists($filepath, $prependRoot = false)
+	public function exists($filepath, $prependRoot = true)
 	{
 		if (!$this->bucketExists())
 		{

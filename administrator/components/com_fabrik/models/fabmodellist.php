@@ -21,16 +21,14 @@ jimport('joomla.application.component.modellist');
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabModelList extends JModelList
 {
 	/**
 	 * Constructor.
 	 * Ensure that we use the fabrik db model for the dbo
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 */
-
 	public function __construct($config = array())
 	{
 		$config['dbo'] = FabrikWorker::getDbo(true);
@@ -44,11 +42,10 @@ class FabModelList extends JModelList
 	 *
 	 * @return  array  option objects
 	 */
-
 	public function getFormOptions()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -67,13 +64,12 @@ class FabModelList extends JModelList
 	 * @since 3.0.5
 	 * @deprecated
 	 *
-	 * @return  array	value/text objects
+	 * @return  array    value/text objects
 	 */
-
 	public function getPackageOptions()
 	{
 		// Initialise variables. Always use J db here no matter what package we are using
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -93,23 +89,22 @@ class FabModelList extends JModelList
 	 *
 	 * @return  array
 	 */
-
 	public function getGroupOptions()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$formid = $this->getState('filter.form');
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
+		$formId = $this->getState('filter.form');
 
 		// Select the required fields from the table.
 		$query->select('g.id AS value, g.name AS text');
 		$query->from('#__{package}_groups AS g');
 		$query->where('published <> -2');
 
-		if ($formid !== '')
+		if ($formId !== '')
 		{
 			$query->join('INNER', '#__{package}_formgroup AS fg ON fg.group_id = g.id');
-			$query->where('fg.form_id = ' . (int) $formid);
+			$query->where('fg.form_id = ' . (int) $formId);
 		}
 
 		$query->order('g.name ASC');
@@ -122,12 +117,11 @@ class FabModelList extends JModelList
 	/**
 	 * Build the part of the list query that deals with filtering by form
 	 *
-	 * @param   JDatabaseQuery  &$query  partial query
-	 * @param   string          $table   db table
+	 * @param   JDatabaseQuery &$query partial query
+	 * @param   string         $table  db table
 	 *
 	 * @return  void
 	 */
-
 	protected function filterByFormQuery(&$query, $table)
 	{
 		$form = $this->getState('filter.form');
@@ -142,14 +136,13 @@ class FabModelList extends JModelList
 	 * Method to auto-populate the model state.
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 *
 	 * @return  void
 	 */
-
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');

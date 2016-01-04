@@ -109,10 +109,14 @@ var Autofill = new Class({
 			// form_x not found (detailed view perhaps)
 			return;
 		}
-		//var e = this.getElement();
+		
+		/*
+		var e = this.getElement();
 		if (!e) {
 			return false;
 		}
+		*/
+		
 		var evnt = function (e) {
 			// Fabrik Trigger element object so don't use as this.element or lookup value will be wrong
 			this.lookUp(e);

@@ -1042,13 +1042,23 @@ class FabimageIM extends Fabimage
 				// OK, it's a PDF, so first we need to add the page number we want to the source filename
 				$pdfFile = $origFile . '[0]';
 
-				// Now just load it, set format, resize, save and garbage collect.
-				// Hopefully IM will call the right delegate (ghostscript) to load the PDF.
-				$im = new Imagick($pdfFile);
-				$im->setImageFormat($pdfThumbType);
-				$im->thumbnailImage($maxWidth, $maxHeight, true);
-				$im->writeImage($destFile);
-				$im->destroy();
+				if (is_callable('exec'))
+				{
+					$destFile = str_replace('.pdf', '.png', $destFile); // Output File
+					$convert    = "convert " . $pdfFile . "  -colorspace RGB -resize " . $maxWidth . " " . $destFile; // Command creating
+					exec($convert); // Execution of complete command.
+				}
+				else
+				{
+					// Now just load it, set format, resize, save and garbage collect.
+					// Hopefully IM will call the right delegate (ghostscript) to load the PDF.
+					$im = new Imagick($pdfFile);
+					$im->setImageFormat($pdfThumbType);
+					$im->thumbnailImage($maxWidth, $maxHeight, true);
+					$im->writeImage($destFile);
+					// as destroy() is deprecated
+					$im->clear();	
+				}
 			}
 			else
 			{

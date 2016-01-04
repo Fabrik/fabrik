@@ -11,7 +11,7 @@ FbCheckBox = new Class({
 	type: 'checkbox', // Sub element type
 
 	initialize: function (element, options) {
-		this.plugin = 'fabrikcheckbox';
+		this.setPlugin('fabrikcheckbox');
 		this.parent(element, options);
 		this._getSubElements();
 	},

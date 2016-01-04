@@ -4,6 +4,7 @@ module.exports = {
         'mod_fabrik_form_{version}.zip',
         'mod_fabrik_list_{version}.zip',
         'plg_fabrik_system_{version}.zip',
+        'plg_fabrik_schedule_{version}.zip',
         'plg_fabrik_content_{version}.zip',
         'plg_fabrik_cron_email_{version}.zip',
         'plg_fabrik_cron_php_{version}.zip',
@@ -60,28 +61,32 @@ module.exports = {
             'path'    : 'administrator/modules/mod_fabrik_form',
             'fileName': 'mod_fabrik_admin_form_{version}.zip',
             'element' : 'mod_fabrik_form',
-            'xmlFile' : 'mod_fabrik_admin_form.xml'
+            'xmlFile' : 'mod_fabrik_admin_form.xml',
+            'client'  : 'administrator'
         },
         {
             'name'    : 'Fabrik Admin List Module',
             'path'    : 'administrator/modules/mod_fabrik_list',
             'fileName': 'mod_fabrik_admin_list_{version}.zip',
             'element' : 'mod_fabrik_list',
-            'xmlFile' : 'mod_fabrik_admin_list.xml'
+            'xmlFile' : 'mod_fabrik_admin_list.xml',
+            'client'  : 'administrator'
         },
         {
             'name'    : 'Fabrik Admin QuickIcon Module',
             'path'    : 'administrator/modules/mod_fabrik_quickicon',
             'fileName': 'mod_fabrik_admin_quickicon_{version}.zip',
             'element' : 'mod_fabrik_quickicon',
-            'xmlFile' : 'mod_fabrik_admin_quickicon.xml'
+            'xmlFile' : 'mod_fabrik_admin_quickicon.xml',
+            'client'  : 'administrator'
         },
         {
             'name'    : 'Fabrik Admin Visualization Module',
             'path'    : 'administrator/modules/mod_fabrik_visualization',
             'fileName': 'mod_fabrik_admin_visualization_{version}.zip',
             'element' : 'mod_fabrik_visualization',
-            'xmlFile' : 'mod_fabrik_admin_visualization.xml'
+            'xmlFile' : 'mod_fabrik_admin_visualization.xml',
+            'client'  : 'administrator'
         }],
     'plugins'         : {
         'system'   : [{
@@ -99,13 +104,22 @@ module.exports = {
                 'xmlFile' : 'plg_system_fabrikcron.xml'
             }
         ],
-        'community': [
+        'comprofiler': [
             {
                 'name'    : 'Community Builder: Fabrik User Plugin',
-                'path'    : 'plugins/community/fabrik',
+                'path'    : 'components/com_comprofiler/plugin/user/plug_fabrik',
                 'fileName': 'plg_community_builder_fabrik_user_{version}.zip',
                 'element' : 'fabrik',
-                'xmlFile' : 'plg_community_builder_fabrik_user.xml'
+                'xmlFile' : 'plg_comprofiler_fabrik.xml'
+            }
+        ],
+        'community': [
+            {
+                'name'    : 'JSocial: Fabrik User Plugin',
+                'path'    : 'plugins/community/fabrik',
+                'fileName': 'plg_jsocial_fabrik_{version}.zip',
+                'element' : 'fabrik',
+                'xmlFile' : 'plg_jsocial_fabrik.xml'
             }],
         'content'  : [
             {

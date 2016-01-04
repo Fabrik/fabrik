@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 };
 
 /**
- * Update XML file properties
+ * Update Fabrik plugin/component/module XML file properties
  * @param path
  * @param grunt
  */

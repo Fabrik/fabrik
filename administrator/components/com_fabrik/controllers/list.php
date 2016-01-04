@@ -12,6 +12,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\Utilities\ArrayHelper;
+
 require_once 'fabcontrollerform.php';
 
 /**
@@ -348,9 +350,9 @@ class FabrikAdminControllerList extends FabControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data = (array) $this->input->post->get('jform', array(), 'array');
 
-		if ((int) $data['id'] === 0)
+		if ((int) $data['id'] === 0 && ArrayHelper::getValue($data, 'db_table_name', '') === '')
 		{
 			$viewType = JFactory::getDocument()->getType();
 			$model    = JModelLegacy::getInstance('List', 'FabrikAdminModel');

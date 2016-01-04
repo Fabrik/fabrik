@@ -36,7 +36,7 @@ var makePackageList = function (extensions) {
         root = xmlDoc.node('extensionset');
     root.attr({'description': 'Fabrik', 'name': 'Fabrik'});
 
-    for (i = 0; i < extensions.length; i ++) {
+    for (i = 0; i < extensions.length; i++) {
         node = libxmljs.Element(xmlDoc, 'extension');
         node.attr(extensions[i].$);
         root.addChild(node);
@@ -73,7 +73,7 @@ var buildXml = function (xmlFile, props, version) {
 
     // Check for existing entry - if found then delete it..
     var remove = xmlDoc.find("//version[text()='" + version + "']/..");
-    for (var i = 0; i < remove.length; i ++) {
+    for (var i = 0; i < remove.length; i++) {
         remove[i].remove();
     }
 
@@ -120,29 +120,36 @@ var component = function (grunt) {
         jversion = grunt.config.get('jversion'),
         xmlFile,
         props = {
-        'name'          : 'Fabrik',
-        'description'   : 'Fabrik Component',
-        'element'       : 'com_fabrik',
-        'type'          : 'component',
-        'version'       : version,
-        'downloads'     : {
-            'downloadurl': {
-                '$': {'type': 'full', 'format': 'zip'},
-                '_': 'http://fabrikar.com/media/downloads/com_fabrik_' + version + '.zip'
+            'name'          : 'Fabrik',
+            'description': 'Fabrik Component',
+            'element'    : 'com_fabrik',
+            'type'       : 'component',
+            'version'    : version,
+            'downloads'  : {
+                'downloadurl': {
+                    '$': {'type': 'full', 'format': 'zip'},
+                    '_': 'http://fabrikar.com/media/downloads/com_fabrik_' + version + '.zip'
+                }
+            },
+            'maintainer' : 'Fabrikar.com',
+            'maintainerurl': 'http://fabrikar.com',
+            'targetplatform': {
+                '$': {
+                    'name'   : 'joomla',
+                    'version': jversion
+                }
             }
-        },
-        'maintainer'    : 'Fabrikar.com',
-        'maintainerurl' : 'http://fabrikar.com',
-        'targetplatform': {
-            '$': {
-                'name'   : 'joomla',
-                'version': jversion
-            }
-        }
-    };
+        };
     extensions.push({
-        '$': {'client': 'administrator', 'name': 'fabrik', 'element': 'com_fabrik', 'type': 'component', 'folder': '', 'version': version,
-            detailsurl: 'http://fabrikar.com/update/fabrik31/com_fabrik.xml'  }
+        '$': {
+            'client'  : 'administrator',
+            'name'    : 'fabrik',
+            'element' : 'com_fabrik',
+            'type'    : 'component',
+            'folder'  : '',
+            'version' : version,
+            detailsurl: 'http://fabrikar.com/update/fabrik31/com_fabrik.xml'
+        }
     });
 
     xmlFile = updateDir + 'com_fabrik.xml';
@@ -150,18 +157,22 @@ var component = function (grunt) {
 };
 
 var fabrikModules = function (grunt) {
+    console.log('.....fabrikModules......');
     var version = grunt.config.get('pkg.version'),
         jversion = grunt.config.get('jversion'),
-        i, mod, props, xmlFile,
+        i, mod, props, xmlFile, client,
         updateFolder = grunt.config.get('pkg.config.live.downloadFolder');
-    for (i = 0; i < buildConfig.modules.length; i ++) {
+
+    for (i = 0; i < buildConfig.modules.length; i++) {
         mod = buildConfig.modules[i];
+        client = mod.client ? mod.client : 'site';
         props = {
             'name'          : mod.name,
             'description'   : mod.name,
             'element'       : mod.element,
             'type'          : 'module',
             'version'       : version,
+            'client'        : client,
             'downloads'     : {
                 'downloadurl': {
                     '$': {'type': 'full', 'format': 'zip'},
@@ -178,8 +189,11 @@ var fabrikModules = function (grunt) {
             }
         };
         extensions.push({
-            '$': {'name': mod.name, 'element': mod.element, 'type': 'module', 'folder': '', 'version': version,
-                detailsurl: 'http://fabrikar.com/update/fabrik31/' + mod.xmlFile }
+            '$': {
+                'name'    : mod.name, 'element': mod.element, 'type': 'module', 'folder': '', 'version': version,
+                'client': client,
+                detailsurl: 'http://fabrikar.com/update/fabrik31/' + mod.xmlFile
+            }
         });
 
         xmlFile = updateDir + mod.xmlFile;
@@ -193,47 +207,48 @@ var jPlugins = function (grunt) {
         p, i, plg, props, xmlFile;
     for (p in buildConfig.plugins) {
         // Community builder plugins can't be installed via the update server.
-        if (p !== 'community') {
-            for (i = 0; i < buildConfig.plugins[p].length; i++) {
-                plg = buildConfig.plugins[p][i];
+        if (p === 'comprofiler') {
+            continue;
+        }
+        for (i = 0; i < buildConfig.plugins[p].length; i++) {
+            plg = buildConfig.plugins[p][i];
 
-                props = {
-                    'name'          : plg.name,
-                    'description'   : plg.name,
-                    'element'       : plg.element,
-                    'type'          : 'plugin',
-                    'folder'        : p,
-                    'version'       : version,
-                    'downloads'     : {
-                        'downloadurl': {
-                            '$': {'type': 'full', 'format': 'zip'},
-                            '_': grunt.config.get('pkg.config.live.downloadFolder') + plg.fileName.replace('{version}', version)
-                        }
-                    },
-                    'maintainer'    : 'Fabrikar.com',
-                    'maintainerurl' : 'http://fabrikar.com',
-                    'targetplatform': {
-                        '$': {
-                            'name'   : 'joomla',
-                            'version': jversion
-                        }
+            props = {
+                'name'          : plg.name,
+                'description'   : plg.name,
+                'element'       : plg.element,
+                'type'          : 'plugin',
+                'folder'        : p,
+                'version'       : version,
+                'downloads'     : {
+                    'downloadurl': {
+                        '$': {'type': 'full', 'format': 'zip'},
+                        '_': grunt.config.get('pkg.config.live.downloadFolder') + plg.fileName.replace('{version}', version)
                     }
-                };
-
-                extensions.push({
+                },
+                'maintainer'    : 'Fabrikar.com',
+                'maintainerurl' : 'http://fabrikar.com',
+                'targetplatform': {
                     '$': {
-                        'name'    : plg.name,
-                        'element' : plg.element,
-                        'type'    : 'plugin',
-                        'folder'  : p.toLowerCase(),
-                        'version' : version,
-                        detailsurl: 'http://fabrikar.com/update/fabrik31/' + plg.xmlFile
+                        'name'   : 'joomla',
+                        'version': jversion
                     }
-                });
+                }
+            };
 
-                xmlFile = updateDir + plg.xmlFile;
-                writeXml(xmlFile, props, version);
-            }
+            extensions.push({
+                '$': {
+                    'name'    : plg.name,
+                    'element' : plg.element,
+                    'type'    : 'plugin',
+                    'folder'  : p.toLowerCase(),
+                    'version' : version,
+                    detailsurl: 'http://fabrikar.com/update/fabrik31/' + plg.xmlFile
+                }
+            });
+
+            xmlFile = updateDir + plg.xmlFile;
+            writeXml(xmlFile, props, version);
         }
     }
 };
@@ -296,8 +311,14 @@ var fabrikPlugins = function (grunt) {
                     };
 
                     extensions.push({
-                        '$': {'name': name, 'element': plugins[j], 'type': 'plugin', 'folder': folder.toLowerCase(), 'version': version,
-                            detailsurl: 'http://fabrikar.com/update/fabrik31/plg_' + folders[i] + '_' + plugins[j] + '.xml' }
+                        '$': {
+                            'name'    : name,
+                            'element' : plugins[j],
+                            'type'    : 'plugin',
+                            'folder'  : folder.toLowerCase(),
+                            'version' : version,
+                            detailsurl: 'http://fabrikar.com/update/fabrik31/plg_' + folders[i] + '_' + plugins[j] + '.xml'
+                        }
                     });
 
                     writeXml(xmlFile, props, version);

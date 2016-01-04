@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Installer manifest class
  *
@@ -206,6 +208,11 @@ class Com_FabrikInstallerScript
 		$this->disableFabrikPlugins();
 	}
 
+	/**
+	 * Disable Fabrik Plugins
+	 *
+	 * @return bool
+	 */
 	protected function disableFabrikPlugins()
 	{
 		$db    = JFactory::getDbo();
@@ -213,26 +220,28 @@ class Com_FabrikInstallerScript
 		$query
 			->update('#__extensions')
 			->set('enabled = 0')
-			->where('folder LIKE "%fabrik%" OR element LIKE "%fabrik%"');
-		$db->setQuery($query)->execute();
+			->where('folder LIKE "%fabrik%" OR element LIKE ' . $db->q('%fabrik%'));
+
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
 	 * God knows why but install component, uninstall component and install
 	 * again and component_id is set to 0 for the menu items
 	 *
-	 * @return  void
+	 * @return  bool
 	 */
-	protected function fixmMenuComponentId()
+	protected function fixMenuComponentId()
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('extension_id')->from('#__extensions')->where('element =  "com_fabrik"');
+		$query->select('extension_id')->from('#__extensions')->where('element = ' . $db->q('com_fabrik'));
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 		$query->clear();
-		$query->update('#__menu')->set('component_id = ' . $id)->where('path LIKE "fabrik%"');
-		$db->setQuery($query)->execute();
+		$query->update('#__menu')->set('component_id = ' . $id)->where('path LIKE ' . $db->q('fabrik%'));
+
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -244,11 +253,85 @@ class Com_FabrikInstallerScript
 	 */
 	public function update($parent)
 	{
-		/*if (!$this->moveFiles($parent, true)) {
-		    return false;
-		} else {
-		    echo "<p style=\"color:green\">Library files moved</p>";
-		}*/
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$app   = JFactory::getApplication();
+
+		// Fabrik 3.5 Uninstalled plugins.
+		$plugins = array(
+			'fabrik_element' => array('fbactivityfeed', 'fblikebox', 'fbrecommendations'),
+			'fabrik_form' => array('vbforum')
+		);
+
+		// Deprecated - 'timestamp', 'exif'
+		$query->select('*')->from('#__extensions');
+
+		foreach ($plugins as $folder => $plugs)
+		{
+			$query->where('(folder = ' . $db->q($folder) . ' AND element IN (' . implode(', ', $db->q($plugs)) . '))', 'OR');
+
+			foreach ($plugs as $plug)
+			{
+				$path = JPATH_PLUGINS . '/' . $folder . '/' . $plug;
+
+				if (JFolder::exists($path))
+				{
+					JFolder::delete($path);
+				}
+			}
+		}
+
+		$deprecatedPlugins = $db->setQuery($query)->loadObjectList();
+
+		if (!empty($deprecatedPlugins))
+		{
+			$ids = ArrayHelper::getColumn($deprecatedPlugins, 'extension_id');
+			$ids = ArrayHelper::toInteger($ids);
+
+			$query->clear()->delete('#__extensions')->where('extension_id IN ( ' . implode(',', $ids) . ')');
+			$db->setQuery($query)->execute();
+
+			// Un-publish elements
+			$query->clear()->select('id, name, label')->from('#__fabrik_elements')
+				->where('plugin IN (' . implode(', ', $db->q($plugins['fabrik_element'])) . ')')
+				->where('published = 1');
+			$db->setQuery($query);
+			$unpublishedElements = $db->loadObjectList();
+			$unpublishedIds      = ArrayHelper::getColumn($unpublishedElements, 'id');
+
+			if (!empty($unpublishedIds))
+			{
+				$msg[] = 'The following elements have been unpublished as their plug-ins have been uninstalled. : ' . implode(', ', $unpublishedIds);
+				$query->clear()
+					->update('#__fabrik_elements')->set('published = 0')->where('id IN (' . implode(',', $db->q($unpublishedIds)) . ')');
+				$db->setQuery($query)->execute();
+			}
+		}
+
+		// Un-publish form plug-ins
+		$query->clear()->select('id, params')->from('#__fabrik_forms');
+		$forms = $db->setQuery($query)->loadObjectList();
+		foreach ($forms as $form)
+		{
+			$params = json_decode($form->params);
+
+			for ($i = 0; $i < count($params->plugins); $i++)
+			{
+				if (in_array($params->plugins[$i], $plugins['fabrik_form']))
+				{
+					$msg[]                    = 'Form ' . $form->id . '\'s plugin \'' . $params->plugins[$i] .
+						'\' has been unpublished';
+					$params->plugin_state[$i] = 0;
+				}
+			}
+
+			$query->clear()->update('#__fabrik_forms')->set('params = ' . $db->q(json_encode($params)))
+				->where('id = ' . (int) $form->id);
+
+			$db->setQuery($query)->execute();
+		}
+
+		$app->enqueueMessage(implode('<br>', $msg), 'warning');
 
 		return true;
 	}
@@ -297,10 +380,12 @@ class Com_FabrikInstallerScript
 		}
 
 		$query->clear();
-		$query->update('#__extensions')->set('enabled = 1')->where('type = \'plugin\' AND (folder LIKE \'fabrik_%\' OR (folder=\'system\' AND element = \'fabrik\')')
-			->where('(folder=\'content\' AND element = \'fabrik\')', 'OR');
+		$query->update('#__extensions')->set('enabled = 1')
+			->where('type = ' . $db->q('plugin') . ' AND (folder LIKE ' . $db->q('fabrik_%'), 'OR')
+			->where('(folder=' . $db->q('system') . ' AND element = ' . $db->q('fabrik') . ')', 'OR')
+			->where('(folder=' . $db->q('content') . ' AND element = ' . $db->q('fabrik') . '))', 'OR');
 		$db->setQuery($query)->execute();
-		$this->fixmMenuComponentId();
+		$this->fixMenuComponentId();
 
 		if ($type !== 'update')
 		{

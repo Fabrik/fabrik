@@ -2,8 +2,8 @@
 <extension group="fabrik_visualization" method="upgrade" type="plugin" version="3">
 	<name>plg_fabrik_visualization_timeline</name>
 	<author>Rob Clayburn</author>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
@@ -13,8 +13,8 @@
 	<files>
 		<filename plugin="timeline">timeline.js</filename>
 		<filename>index.html</filename>
-		<filename>timeline.php</filename> 
-		<filename>timeline-min.js</filename> 
+		<filename>timeline.php</filename>
+		<filename>timeline-min.js</filename>
 		<folder>controllers</folder>
 		<folder>forms</folder>
 		<folder>language</folder>

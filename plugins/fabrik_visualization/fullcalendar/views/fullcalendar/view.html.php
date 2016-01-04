@@ -85,7 +85,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		. '&controller=visualization.fullcalendar&view=visualization&task=deleteEvent&format=raw&Itemid=' . $Itemid . '&id=' . $id;
 		$urls->add = 'index.php?option=com_' . $package . '&view=visualization&format=raw&Itemid=' . $Itemid . '&id=' . $id;
 		$user = JFactory::getUser();
-		
+
 		$tpl = $j3 ? 'bootstrap' : 'default';
 		$tpl = $params->get('fullcalendar_layout', $j3);
 		$options = new stdClass;
@@ -98,6 +98,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->calendarId = $calendar->id;
 		$options->popwiny = $params->get('yoffset', 0);
 		$options->urlfilters = $urlfilters;
+
 		$options->canAdd = $this->canAdd;
 		$options->showFullDetails = (bool) $params->get('show_full_details', false);
 
@@ -112,14 +113,14 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->Itemid = $Itemid;
 		$options->show_day = (bool) $params->get('show_day', true);
 		$options->show_week = (bool) $params->get('show_week', true);
-		$options->default_view = $params->get('fullcalendar_default_view', 'month'); 
-		$options->add_type = $params->get('add_type', 'both'); 
-		$options->time_format = $params->get('time_format', 'H(:mm)'); 
+		$options->default_view = $params->get('fullcalendar_default_view', 'month');
+		$options->add_type = $params->get('add_type', 'both');
+		$options->time_format = $params->get('time_format', 'H(:mm)');
 		$options->first_week_day = (int) $params->get('first_week_day', 0);
 		$options->minDuration = $params->get('minimum_duration', "00:30:00");
 		$options->open =  $params->get('open-hour', "00:00:00");
 		$options->close =  $params->get('close-hour', "24:00:00");
-		
+
 		$options->showweekends = (bool) $params->get('calendar-show-weekends', true);
 		$options->readonly = (bool) $params->get('calendar-read-only', false);
 		$options->timeFormat = $params->get('time_format', '%X');
@@ -128,38 +129,49 @@ class FabrikViewFullcalendar extends JViewLegacy
 
 		$options->calOptions = $params->get('calOptions', '{}');
 
-		if (FabrikWorker::j3())
-		{
-			$options->buttons = new stdClass;
-			$options->buttons->del = '<button class="btn popupDelete" data-task="deleteCalEvent"><i class="icon-delete"></i></button>';
-			$options->buttons->edit = '<button class="btn popupEdit" data-task="editCalEvent"><i class="icon-edit"></i></button>';
-			$options->buttons->view = '<button class="btn popupView" data-task="viewCalEvent"><i class="icon-eye"></i></button>';
-		}
-		else
-		{
-			$src = COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/calendar/views/calendar/tmpl/' . $tpl . '/images/minus-sign.png';
-			$options->buttons = '<img src="' . $src . '"
-				alt = "del" class="fabrikDeleteEvent" />' . FText::_('PLG_VISUALIZATION_FULLCALENDAR_DELETE');
-		}
 
 		$json = json_encode($options);
 
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_NEXT');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_PREVIOUS');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_DAY');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_WEEK');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_MONTH');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_KEY');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_TODAY');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_NEXT');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_PREVIOUS');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_DAY');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_WEEK');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_MONTH');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_KEY');
+//		JText::script('PLG_VISUALIZATION_FULLCALENDAR_TODAY');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_CONF_DELETE');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_DELETE');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_VIEW');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_EDIT');
-		JText::script('PLG_VISUALIZATION_FULLCALENDAR_ADD_EDIT_EVENT');
-		JText::script('COM_FABRIK_FORM_SAVED');
+		JText::script('PLG_VISUALIZATION_FULLCALENDAR_ADD_EVENT');
+		JText::script('PLG_VISUALIZATION_FULLCALENDAR_EDIT_EVENT');
+		JText::script('PLG_VISUALIZATION_FULLCALENDAR_VIEW_EVENT');
+//		JText::script('COM_FABRIK_FORM_SAVED');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_EVENT_START_END');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_DATE_ADD_TOO_LATE');
 		JText::script('PLG_VISUALIZATION_FULLCALENDAR_DATE_ADD_TOO_EARLY');
+		JText::script('PLG_VISUALIZATION_FULLCALENDAR_CLOSE');
+
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-visualization-fullcalendar-viewbuttons',
+			'fabrik-visualization-fullcalendar-viewbuttons',
+			(object) array(),
+			array(JPATH_PLUGINS."/fabrik_visualization/fullcalendar/layouts/")
+		);
+
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-visualization-fullcalendar-event-popup',
+			'fabrik-visualization-fullcalendar-event-popup',
+			(object) array(),
+			array(JPATH_PLUGINS."/fabrik_visualization/fullcalendar/layouts/")
+		);
+
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-visualization-fullcalendar-viewevent',
+			'fabrik-visualization-fullcalendar-viewevent',
+			(object) array(),
+			array(JPATH_PLUGINS."/fabrik_visualization/fullcalendar/layouts/")
+		);
 
 		$ref = $model->getJSRenderContext();
 
@@ -173,12 +185,15 @@ class FabrikViewFullcalendar extends JViewLegacy
 
 		$srcs = FabrikHelperHTML::framework();
 		FabrikHelperHTML::styleSheet('plugins/fabrik_visualization/fullcalendar/libs/fullcalendar/fullcalendar.css');
-		
+
 		$srcs[] = 'media/com_fabrik/js/listfilter.js';
 		$srcs[] = 'plugins/fabrik_visualization/fullcalendar/fullcalendar.js';
 
 		FabrikHelperHTML::iniRequireJs($model->getShim());
 		FabrikHelperHTML::script($srcs, $js);
+
+		// Add our css
+		FabrikHelperHTML::stylesheetFromPath('plugins/fabrik_visualization/fullcalendar/fullcalendar.css');
 
 		$viewName = $this->getName();
 		$this->params = $model->getParams();
@@ -195,7 +210,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$document->addScript($lib . 'lib/moment.min.js');
 //		$document->addScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js');
 		$document->addScript($lib . 'fullcalendar.js');
-		
+
 		return parent::display();
 	}
 
@@ -235,27 +250,12 @@ class FabrikViewFullcalendar extends JViewLegacy
 		//$script[] = "window.addEvent('fabrik.loaded', function() {";
 		$script[] = "document.id('fabrik_event_type').addEvent('change', function(e) {";
 		$script[] = "var fid = e.target.get('value');";
-		$script[] = "var o = ({'d':'','listid':fid,'rowid':0});";
-		$script[] = "o.datefield = '{$prefix}fabrik_calendar_events___start_date';";
-		$script[] = "o.datefield2 = '{$prefix}fabrik_calendar_events___end_date';";
-		$script[] = "o.labelfield = '{$prefix}fabrik_calendar_events___label';";
-
-		foreach ($model->events as $tid => $arr)
-		{
-			foreach ($arr as $ar)
-			{
-				$script[] = "if(" . $ar['formid'] . " == fid)	{";
-				$script[] = "o.datefield = '" . $ar['startdate'] . "'";
-				$script[] = "o.datefield2 = '" . $ar['enddate'] . "'";
-				$script[] = "o.labelfield = '" . $ar['label'] . "'";
-				$script[] = "}\n";
-			}
-		}
+		$script[] = "var o = ({'id':'','listid':fid,'rowid':0});";
+		$script[] = "o.title = Joomla.JText._('PLG_VISUALIZATION_FULLCALENDAR_ADD_EVENT');";
 
 		$script[] = "Fabrik.blocks['" . $ref . "'].addEvForm(o);";
 		$script[] = "Fabrik.Windows.chooseeventwin.close();";
 		$script[] = "});";
-		//$script[] = "});";
 
 		echo '<h2>' . FText::_('PLG_VISUALIZATION_FULLCALENDAR_PLEASE_CHOOSE_AN_EVENT_TYPE') . ':</h2>';
 		echo $this->_eventTypeDd;

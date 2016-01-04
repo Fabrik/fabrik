@@ -35,11 +35,11 @@ var FbDateTime = new Class({
 	},
 
 	initialize: function (element, options) {
+		this.setPlugin('fabrikdate');
 		if (!this.parent(element, options)) {
 			return false;
 		}
 		this.hour = '0';
-		this.plugin = 'fabrikdate';
 		this.minute = '00';
 		this.buttonBg = '#ffffff';
 		this.buttonBgSelected = '#88dd33';

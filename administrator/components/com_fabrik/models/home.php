@@ -142,11 +142,11 @@ class FabrikAdminModelHome extends FabModelAdmin
 	 */
 	public function installSampleData()
 	{
-		$cnn      = FabrikWorker::getConnection();
-		$defaulDb = $cnn->getDb();
-		$db       = FabrikWorker::getDbo(true);
-		$group    = $this->getTable('Group');
-		$config   = $this->config;
+		$cnn       = FabrikWorker::getConnection();
+		$defaultDb = $cnn->getDb();
+		$db        = FabrikWorker::getDbo(true);
+		$group     = $this->getTable('Group');
+		$config    = $this->config;
 
 		$dbTableName = $config->get('dbprefix') . "fb_contact_sample";
 		echo "<div style='text-align:left;border:1px dotted #cccccc;padding:10px;'>" . "<h3>Installing data...</h3><ol>";
@@ -162,7 +162,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 
 		$groupId = $db->insertid();
 
-		$defaulDb->dropTable($dbTableName);
+		$defaultDb->dropTable($dbTableName);
 
 		echo "<li>Group 'Contact Details' created</li>";
 		echo "<li>Element 'Email' added to group 'Contact Details'</li>";
@@ -172,10 +172,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 		$group->label     = "Your Enquiry";
 		$group->published = 1;
 
-		if (!$group->store())
-		{
-			return JError::raiseWarning(500, $group->getError());
-		}
+		$group->store();
 
 		$group2Id = $db->insertid();
 		echo "<li>Group 'Your Enquiry' created</li>";
@@ -193,10 +190,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 		$form->form_template      = "default";
 		$form->view_only_template = "default";
 
-		if (!$form->store())
-		{
-			return JError::raiseWarning(500, $form->getError());
-		}
+		$form->store();
 
 		echo "<li>Form 'Contact Us' created</li>";
 		$formId = $db->insertid();
@@ -205,21 +199,13 @@ class FabrikAdminModelHome extends FabModelAdmin
 		$query->insert('#__{package}_formgroup')->set(array('form_id=' . (int) $formId, 'group_id=' . (int) $groupId, 'ordering=0'));
 		$db->setQuery($query);
 
-		if (!$db->execute())
-		{
-			echo $db->getErrorMsg();
-			exit;
-		}
+		$db->execute();
 
 		$query = $db->getQuery(true);
 		$query->insert('#__{package}_formgroup')->set(array('form_id=' . (int) $formId, 'group_id=' . (int) $group2Id, 'ordering=1'));
 		$db->setQuery($query);
 
-		if (!$db->execute())
-		{
-			echo $db->getErrorMsg();
-			exit;
-		}
+		$db->execute();
 
 		echo "<li>Groups added to 'Contact Us' form</li>";
 		$listModel           = JModelLegacy::getInstance('List', 'FabrikAdminModel');
@@ -271,7 +257,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 
 		foreach ($tables as $table)
 		{
-			$db->setQuery("TRUNCATE TABLE " . $prefix . $table);
+			$db->setQuery('TRUNCATE TABLE ' . $prefix . $table);
 			$db->execute();
 		}
 	}

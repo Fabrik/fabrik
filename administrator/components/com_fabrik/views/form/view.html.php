@@ -195,7 +195,7 @@ class FabrikAdminViewForm extends JViewLegacy
 		$input->set('hidemainmenu', true);
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
 		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_SELECT_CONTENT_TYPE'), 'puzzle');
-		
+
 		// For new records, check the create permission.
 		if ($canDo->get('core.create'))
 		{

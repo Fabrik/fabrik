@@ -85,7 +85,7 @@
 			
 			<field name="fullcalendar_layout"
 				type="folderlist"
-				directory="plugins/fabrik_visualization/calendar/views/calendar/tmpl/"
+				directory="plugins/fabrik_visualization/fullcalendar/views/fullcalendar/tmpl/"
 				default="bootstrap"
 				label="PLG_VISUALIZATION_FULLCALENDAR_TEMPLATE_LABEL" />
 				

@@ -183,6 +183,22 @@
 
 		</fieldset>
 
+		<fieldset label="COM_FABRIK_LAYOUT"
+		          name="plg-databasejoin-formatting">
+
+			<field type="helplink"
+			       url="PLG_ELEMENT_CASCADINGDROPDOWN_HELP_SERVER"/>
+
+			<!-- Yes, it's called dbjoin_, don't ask, don't change -->
+			<field name="dbjoin_options_per_row"
+			       type="width"
+			       class="input-mini"
+			       default="1"
+			       description="PLG_ELEMENT_CDD_OPTIONS_PER_ROW_DESC"
+			       label="PLG_ELEMENT_CDD_OPTIONS_PER_ROW_LABEL"
+			       size="2"/>
+
+		</fieldset>
 		<fieldset name="plg-cascadingdropdown-frontend" label="COM_FABRIK_FRONT_END">
 
 			<field type="helplink"

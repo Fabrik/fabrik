@@ -8,8 +8,8 @@
 var FbDigsig = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
+		this.setPlugin('digsig');
 		this.parent(element, options);
-		this.plugin = 'digsig';
 		if (typeof jQuery !== 'undefined') {
 			jQuery.noConflict();
 		}

@@ -2,8 +2,8 @@
 <extension type="module" version="3" client="administrator">
 	<name>mod_fabrik_quickicon</name>
 	<author>Fabrik</author>
-	<creationDate>December 2015</creationDate>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
@@ -19,12 +19,12 @@
 	<config>
 		<fields name="params">
 			<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="advanced">
-			
+
 				<field name="layout" type="list" default="menu" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC">
 				<option value="menu">menu</option>
-				<option value="default">default</option>					
+				<option value="default">default</option>
 				</field>
-			
+
 			</fieldset>
 		</fields>
 	</config>

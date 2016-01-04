@@ -4333,7 +4333,7 @@ class FabrikFEModelForm extends FabModelForm
 
 		if ($this->app->isAdmin())
 		{
-			$action = FArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php');
+			$action = filter_var(ArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php'), FILTER_SANITIZE_URL);
 			$action = $this->stripElementsFromUrl($action);
 			$action = str_replace("&", "&amp;", $action);
 
@@ -4401,7 +4401,7 @@ class FabrikFEModelForm extends FabModelForm
 			{
 				// $$$ rob if embedding a form in a form, then the embedded form's url will contain
 				// the id of the main form - not sure if its an issue for now
-				$action = FArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php');
+				$action = filter_var(ArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php'), FILTER_SANITIZE_URL);
 			}
 			else
 			{
@@ -4951,7 +4951,7 @@ class FabrikFEModelForm extends FabModelForm
 				if ($isMambot)
 				{
 					// Return to the same page
-					$url = FArrayHelper::getValue($_SERVER, 'HTTP_REFERER', 'index.php');
+					$url = filter_var(ArrayHelper::getValue($_SERVER, 'HTTP_REFERER', 'index.php'), FILTER_SANITIZE_URL);
 				}
 				else
 				{

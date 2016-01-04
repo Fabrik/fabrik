@@ -34,7 +34,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	 * @return bool
 	 */
 
-	public function exists($filepath, $prependRoot = false)
+	public function exists($filepath, $prependRoot = true)
 	{
 		if (empty($filepath) || $filepath == '\\')
 		{

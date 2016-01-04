@@ -19,7 +19,7 @@ var FbNotes = new Class({
 
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'notes';
+		this.setPlugin('notes');
 		this.parent(element, options);
 		this.setUp();
 	},

@@ -63,6 +63,7 @@ class JFormFieldTables extends JFormFieldList
 			$query = "SHOW TABLES";
 			$db->setQuery($query);
 			$items = $db->loadColumn();
+			$options[] =  JHTML::_('select.option', null, null);
 
 			foreach ($items as $l)
 			{

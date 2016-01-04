@@ -570,7 +570,7 @@ class PlgFabrik_FormSubscriptions extends PlgFabrik_Form
 	public function onIpn()
 	{
 		$input = $this->app->input;
-		JLog::add($_SERVER['REQUEST_URI'] . ' ' . http_build_query($_REQUEST), JLog::INFO, 'fabrik.ipn.start');
+		JLog::add($input->server->getString('REQUEST_URI') . ' ' . http_build_query($_REQUEST), JLog::INFO, 'fabrik.ipn.start');
 
 		// Lets try to load in the custom returned value so we can load up the form and its parameters
 		$custom = $input->get('custom', '', 'string');

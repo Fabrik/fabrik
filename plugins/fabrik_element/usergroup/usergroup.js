@@ -10,7 +10,7 @@ var FbUsergroup = new Class({
 	Extends: FbElement,
 
 	initialize: function (element, options) {
-		this.plugin = 'fabrikusergroup';
+		this.setPlugin('fabrikusergroup');
 		this.parent(element, options);
 	}
 });

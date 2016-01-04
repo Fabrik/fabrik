@@ -114,7 +114,7 @@ class FabrikWorker
 
 		if (array_key_exists('extension', $path_parts))
 		{
-			$image_extensions_eregi = 'bmp|gif|jpg|jpeg|png';
+			$image_extensions_eregi = 'bmp|gif|jpg|jpeg|png|pdf';
 
 			return preg_match('/' . $image_extensions_eregi . '/i', $path_parts['extension']) > 0;
 		}
@@ -694,10 +694,11 @@ class FabrikWorker
 	 *                                   message
 	 * @param   bool   $addSlashes       Add slashed to the text?
 	 * @param   object $theirUser        User to use in replaceWithUserData (defaults to logged in user)
+	 * @param   bool   $unsafe           If true (default) will not replace certain placeholders like $jConfig_secret must not be shown to users
 	 *
 	 * @return  string  parsed message
 	 */
-	public function parseMessageForPlaceHolder($msg, $searchData = null, $keepPlaceholders = true, $addSlashes = false, $theirUser = null)
+	public function parseMessageForPlaceHolder($msg, $searchData = null, $keepPlaceholders = true, $addSlashes = false, $theirUser = null, $unsafe = true)
 	{
 		$returnType = is_array($msg) ? 'array' : 'string';
 		$messages   = (array) $msg;
@@ -732,6 +733,12 @@ class FabrikWorker
 				}
 
 				$msg = self::replaceWithGlobals($msg);
+
+				if (!$unsafe)
+				{
+					$msg = self::replaceWithUnsafe($msg);
+				}
+
 				$msg = preg_replace("/{}/", "", $msg);
 
 				// Replace {element name} with form data
@@ -856,6 +863,45 @@ class FabrikWorker
 	}
 
 	/**
+	 * Called from parseMessageForPlaceHolder to iterate through string to replace
+	 * {placeholder} with unsafe data
+	 *
+	 * @param   string $msg Message to parse
+	 *
+	 * @return    string    parsed message
+	 */
+	public static function replaceWithUnsafe($msg)
+	{
+		$replacements = self::unsafeReplacements();
+
+		foreach ($replacements as $key => $value)
+		{
+			$msg = str_replace($key, $value, $msg);
+		}
+
+		return $msg;
+	}
+
+	/**
+	 * Get an associative array of replacements for 'unsafe' value, like $jConfig_secret, which we
+	 * only want to use for stricty internal use that won't ever get shown to the user
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public static function unsafeReplacements()
+	{
+		$config  = JFactory::getConfig();
+
+		$replacements = array(
+				'{$jConfig_absolute_path}' => JPATH_SITE,
+				'{$jConfig_secret}' => $config->get('secret')
+		);
+
+		return $replacements;
+	}
+
+	/**
 	 * Get an associative array of replacements strings and values
 	 *
 	 * @return array
@@ -872,15 +918,14 @@ class FabrikWorker
 		$lang    = str_replace('-', '_', $lang);
 		$shortlang = explode('_', $lang);
 		$shortlang = $shortlang[0];
+		//$multilang = FabrikWorker::getMultiLangURLCode(),
 
 		$replacements = array(
-			'{$jConfig_absolute_path}' => JPATH_SITE,
 			'{$jConfig_live_site}' => COM_FABRIK_LIVESITE,
 			'{$jConfig_offset}' => $config->get('offset'),
 			'{$Itemid}' => $itemId,
 			'{$jConfig_sitename}' => $config->get('sitename'),
 			'{$jConfig_mailfrom}' => $config->get('mailfrom'),
-			'{$jConfig_secret}' => $config->get('secret'),
 			'{where_i_came_from}' => $app->input->server->get('HTTP_REFERER', '', 'string'),
 			'{date}' => date('Ymd'),
 			'{mysql_date}' => date('Y-m-d H:i:s'),
@@ -1181,6 +1226,33 @@ class FabrikWorker
 		$lang = JFactory::getLanguage();
 
 		return array_shift(explode('-', $lang->getTag()));
+	}
+
+	/**
+	 * If J! multiple languages is enabled, return the URL language code for the currently selected language, which is
+	 * set by the admin in the 'content languages'.  If not multi lang, return false;
+	 *
+	 * @return boolean || string
+	 */
+	public static function getMultiLangURLCode()
+	{
+		$multiLang = false;
+
+		if (JLanguageMultilang::isEnabled())
+		{
+			$lang      = JFactory::getLanguage()->getTag();
+			$languages = JLanguageHelper::getLanguages();
+			foreach ($languages as $language)
+			{
+				if ($language->lang_code === $lang)
+				{
+					$multiLang = $language->sef;
+					break;
+				}
+			}
+		}
+
+		return $multiLang;
 	}
 
 	/**
@@ -1769,14 +1841,15 @@ class FabrikWorker
 		jimport('joomla.environment.browser');
 		$uri = JUri::getInstance();
 
+		$url = filter_var(ArrayHelper::getValue($_SERVER, 'HTTP_REFERER'), FILTER_SANITIZE_URL);
+
 		if ($uri->getScheme() === 'https')
 		{
-			$goBackAction = 'onclick="parent.location=\'' . FArrayHelper::getValue($_SERVER, 'HTTP_REFERER') . '\'"';
+			$goBackAction = 'onclick="parent.location=\'' . $url . '\'"';
 		}
 		else
 		{
-			//$goBackAction = 'onclick=\'history.back();\'';
-			$goBackAction = 'onclick="parent.location=\'' . FArrayHelper::getValue($_SERVER, 'HTTP_REFERER') . '\'"';
+			$goBackAction = 'onclick="parent.location=\'' . $url . '\'"';
 		}
 
 		return $goBackAction;

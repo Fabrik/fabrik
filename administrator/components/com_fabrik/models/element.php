@@ -255,7 +255,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 	 */
 	public function getJs()
 	{
-		$item          = $this->getItem();
+		$item               = $this->getItem();
 		$opts               = new stdClass;
 		$opts->plugin       = $item->plugin;
 		$opts->parentid     = (int) $item->parent_id;
@@ -310,9 +310,16 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 		else
 		{
-			$plugin = $this->pluginManager->getPlugIn($plugin, 'Element');
-			$mode   = FabrikWorker::j3() ? 'nav-tabs' : '';
-			$str    = $plugin->onRenderAdminSettings(ArrayHelper::fromObject($item), null, $mode);
+			try
+			{
+				$plugin = $this->pluginManager->getPlugIn($plugin, 'Element');
+				$mode   = FabrikWorker::j3() ? 'nav-tabs' : '';
+				$str    = $plugin->onRenderAdminSettings(ArrayHelper::fromObject($item), null, $mode);
+			} catch (RuntimeException $e)
+			{
+				$str = '<div class="alert">' . FText::_('COM_FABRIK_SELECT_A_PLUGIN') . '</div>';
+			}
+
 		}
 
 		return $str;
@@ -348,7 +355,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$ok    = parent::validate($form, $data);
 		$input = $this->app->input;
 
-		// Standard jform validation failed so we shouldn't test further as we can't be sure of the data
+		// Standard jForm validation failed so we shouldn't test further as we can't be sure of the data
 		if (!$ok)
 		{
 			return false;
@@ -391,7 +398,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$listModel = $elementModel->getListModel();
 		/**
 		 * Test for duplicate names
-		 * unlinking produces this error
+		 * un-linking produces this error
 		 */
 		if (!$input->get('unlink', false) && (int) $data['id'] === 0)
 		{
@@ -399,13 +406,12 @@ class FabrikAdminModelElement extends FabModelAdmin
 			 * @FIXME - if a repeat group is  created through the Group settings, we don't add the auto-created
 			 * table to the #_fabrik_lists table, so the following query obviously doesn't find it ... so we
 			 * barf when creating element in the repeat group with a "duplicate name", even though it's going
-			 * to be on a seperate table.
+			 * to be on a separate table.
 			 */
 			$query = $db->getQuery(true);
 			$query->select('t.id')->from('#__{package}_joins AS j');
 			$query->join('INNER', '#__{package}_lists AS t ON j.table_join = t.db_table_name');
 			$query->where('group_id = ' . (int) $data['group_id'] . ' AND element_id = 0');
-			$sql = (string)$query;
 			$db->setQuery($query);
 			$joinTblId = (int) $db->loadResult();
 			$ignore    = array($data['id']);
@@ -453,8 +459,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 	 */
 	private function getElementPluginModel($data)
 	{
-		$id            = $data['id'];
-		$elementModel  = $this->pluginManager->getPlugIn($data['plugin'], 'element');
+		$id           = $data['id'];
+		$elementModel = $this->pluginManager->getPlugIn($data['plugin'], 'element');
 		/**
 		 * $$$ rob f3 - need to bind the data in here otherwise validate fails on dup name test (as no group_id set)
 		 * $$$ rob 29/06/2011 removed as you can't then test name changes in validate() so now bind should be done after
@@ -497,7 +503,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 		if ($new)
 		{
-			// Have to forcefully set group id otherwise listmodel id is blank
+			// Have to forcefully set group id otherwise list model id is blank
 			$elementModel->getElement()->group_id = $data['group_id'];
 		}
 
@@ -737,20 +743,20 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 		if ($tmpgroupModel->isJoin())
 		{
-			$dbname = $tmpgroupModel->getJoinModel()->getJoin()->table_join;
+			$dbName = $tmpgroupModel->getJoinModel()->getJoin()->table_join;
 		}
 		else
 		{
-			$dbname = $list->db_table_name;
+			$dbName = $list->db_table_name;
 		}
 
 		$query = $db->getQuery(true);
-		$query->select("DISTINCT(l.id) AS id, db_table_name, l.label, l.form_id, l.label AS form_label, g.id AS group_id");
-		$query->from("#__{package}_lists AS l");
+		$query->select('DISTINCT(l.id) AS id, db_table_name, l.label, l.form_id, l.label AS form_label, g.id AS group_id');
+		$query->from('#__{package}_lists AS l');
 		$query->join('INNER', '#__{package}_forms AS f ON l.form_id = f.id');
 		$query->join('LEFT', '#__{package}_formgroup AS fg ON f.id = fg.form_id');
 		$query->join('LEFT', '#__{package}_groups AS g ON fg.group_id = g.id');
-		$query->where("db_table_name = " . $db->quote($dbname) . " AND l.id !=" . (int) $list->id . " AND is_join = 0");
+		$query->where('db_table_name = ' . $db->q($dbName) . ' AND l.id != ' . (int) $list->id . ' AND is_join = 0');
 
 		$db->setQuery($query);
 		$otherTables = $db->loadObjectList('id');
@@ -764,7 +770,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$query->select('DISTINCT(l.id) AS id, l.db_table_name, l.label, l.form_id, l.label AS form_label, fg.group_id AS group_id')
 			->from('#__{package}_joins AS j')->join('LEFT', '#__{package}_formgroup AS fg ON fg.group_id = j.group_id')
 			->join('LEFT', '#__{package}_forms AS f ON fg.form_id = f.id')->join('LEFT', '#__{package}_lists AS l ON l.form_id = f.id')
-			->where('j.table_join = ' . $db->quote($dbname) . ' AND j.list_id <> 0 AND j.element_id = 0 AND list_id <> ' . (int) $list->id);
+			->where('j.table_join = ' . $db->quote($dbName) . ' AND j.list_id <> 0 AND j.element_id = 0 AND list_id <> ' . (int) $list->id);
 		$db->setQuery($query);
 		$joinedLists = $db->loadObjectList('id');
 		$otherTables = array_merge($joinedLists, $otherTables);
@@ -777,7 +783,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 			 */
 			$rowCopy = clone ($row);
 
-			foreach ($otherTables as $listid => $t)
+			foreach ($otherTables as $listId => $t)
 			{
 				$rowCopy->id        = 0;
 				$rowCopy->parent_id = $origElid;
@@ -799,7 +805,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 					$join->id = 0;
 					unset($join->id);
 					$join->element_id = $rowCopy->id;
-					$join->list_id    = $listid;
+					$join->list_id    = $listId;
 					$join->store();
 				}
 			}
@@ -822,8 +828,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 			return;
 		}
 
-		$ids           = $this->getElementDescendents($row->id);
-		$ignore        = array(
+		$ids    = $this->getElementDescendents($row->id);
+		$ignore = array(
 			'_tbl',
 			'_tbl_key',
 			'_db',
@@ -1019,7 +1025,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 	public function delete(&$pks)
 	{
 		// Initialize variables
-		$elementIds    = $this->app->input->get('elementIds', array(), 'array');
+		$elementIds = $this->app->input->get('elementIds', array(), 'array');
 
 		foreach ($elementIds as $id)
 		{
@@ -1082,30 +1088,25 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 		foreach ($cid as $id => $groupid)
 		{
-			if ($rule->load((int) $id))
-			{
-				$name         = FArrayHelper::getValue($names, $id, $rule->name);
-				$data         = ArrayHelper::fromObject($rule);
-				$elementModel = $this->getElementPluginModel($data);
-				$elementModel->getElement()->bind($data);
-				$newRule      = $elementModel->copyRow($id, $rule->label, $groupid, $name);
+			$rule->load((int) $id);
+			$name         = FArrayHelper::getValue($names, $id, $rule->name);
+			$data         = ArrayHelper::fromObject($rule);
+			$elementModel = $this->getElementPluginModel($data);
+			$elementModel->getElement()->bind($data);
+			$newRule = $elementModel->copyRow($id, $rule->label, $groupid, $name);
 
-				if ($newRule === false)
-				{
-					return false;
-				}
-
-				$data         = ArrayHelper::fromObject($newRule);
-				$elementModel = $this->getElementPluginModel($data);
-				$elementModel->getElement()->bind($data);
-				$listModel = $elementModel->getListModel();
-				$res       = $listModel->shouldUpdateElement($elementModel);
-				$this->addElementToOtherDbTables($elementModel, $rule);
-			}
-			else
+			if ($newRule === false)
 			{
-				return JError::raiseWarning(500, $rule->getError());
+				return false;
 			}
+
+			$data         = ArrayHelper::fromObject($newRule);
+			$elementModel = $this->getElementPluginModel($data);
+			$elementModel->getElement()->bind($data);
+			$listModel = $elementModel->getListModel();
+			$res       = $listModel->shouldUpdateElement($elementModel);
+			$this->addElementToOtherDbTables($elementModel, $rule);
+
 		}
 
 		return true;
@@ -1135,11 +1136,11 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$formModel = $elementModel->getForm();
 		$db        = $listModel->getDb();
 		$desc      = $elementModel->getFieldDescription();
-		$name      = $db->quoteName($row->name);
+		$name      = $db->qn($row->name);
 		$db
 			->setQuery(
-				'CREATE TABLE IF NOT EXISTS ' . $db->quoteName($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(11), '
-				. $name . ' ' . $desc . ', ' . $db->quoteName('params') . ' TEXT );');
+				'CREATE TABLE IF NOT EXISTS ' . $db->qn($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(11), '
+				. $name . ' ' . $desc . ', ' . $db->qn('params') . ' TEXT );');
 		$db->execute();
 
 		// Remove previous join records if found

@@ -57,7 +57,7 @@ class FabrikControllerVisualizationfullcalendar extends FabrikControllerVisualiz
 
 	public function deleteEvent()
 	{
-		$model = $this->getModel('calendar');
+		$model = $this->getModel('fullcalendar');
 		$model->deleteEvent();
 		$this->getEvents();
 	}
@@ -147,7 +147,6 @@ class FabrikControllerVisualizationfullcalendar extends FabrikControllerVisualiz
 		$input->set('ajax', '1');
 		$nextView = $input->get('nextview', 'form');
 		$link = 'index.php?option=com_' . $package . '&view=' . $nextView . '&formid=' . $table->form_id . '&rowid=' . $rowid . '&tmpl=component&ajax=1';
-		$link .= '&' . $prefix . 'fabrik_calendar_events___visualization_id=' . $input->getInt($prefix . 'fabrik_calendar_events___visualization_id');
 		$link .= '&fabrik_window_id=' . $input->get('fabrik_window_id');
 
 		$start_date = $input->getString('start_date', '');

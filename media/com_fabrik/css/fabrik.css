@@ -39,7 +39,7 @@ a.fabrikTip {
 
 /** bootstrap 3 (possibly just t3 framework templates) remove the label if it has a tip on it
 when you move the mouse out of the label */
-label.fabrikLabel.fabrikTip {
+label.fabrikLabel.fabrikTip, span.fabrikTip {
 	display:inline!important
 }
 

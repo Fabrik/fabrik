@@ -8,7 +8,7 @@
 var FbFileUpload = new Class({
 	Extends: FbFileElement,
 	initialize: function (element, options) {
-		this.plugin = 'fileupload';
+		this.setPlugin('fileupload');
 		this.parent(element, options);
 		this.toppath = this.options.dir;
 		if (this.options.folderSelect === '1' && this.options.editable === true) {

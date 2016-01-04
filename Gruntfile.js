@@ -113,7 +113,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('fabrik', 'testing build', function () {
         var version = grunt.config.get('pkg.version'),
-            p, i, j,
+            p, i, j, config, dest,
             pluginTypes = ['fabrik_cron', 'fabrik_element', 'fabrik_list',
                 'fabrik_validationrule', 'fabrik_visualization', 'fabrik_form'],
             simpleGit = require('simple-git')('./');
@@ -132,6 +132,7 @@ module.exports = function (grunt) {
         fs.mkdirsSync('fabrik_build/output/pkg_fabrik_sink/packages');
 
         console.log('-- Package folders created');
+
         for (p = 0; p < pluginTypes.length; p++) {
             var pluginFolder = 'fabrik_build/output/plugins/' + pluginTypes[p],
                 sourceFolder = 'plugins/' + pluginTypes[p],
@@ -150,37 +151,38 @@ module.exports = function (grunt) {
             var plugins = fs.readdirSync(pluginFolder);
 
             for (i = 0; i < plugins.length; i++) {
-                var dest = 'fabrik_build/output/pkg_fabrik_sink/packages/plg_' +
+                dest = 'fabrik_build/output/pkg_fabrik_sink/packages/plg_' +
                     pluginTypes[p] + '_' + plugins[i] + '_' + version + '.zip';
                 zipPromises.push(zipPlugin(pluginFolder + '/' + plugins[i], dest));
             }
         }
         console.log('-- Fabrik Plugin folders created');
 
-        zipPromises.push(zipPlugin('plugins/content/fabrik',
+     /*   zipPromises.push(zipPlugin('plugins/content/fabrik',
             'fabrik_build/output/pkg_fabrik_sink/packages/plg_fabrik_content_' + version + '.zip'));
         zipPromises.push(zipPlugin('plugins/search/fabrik',
             'fabrik_build/output/pkg_fabrik_sink/packages/plg_fabrik_search_' + version + '.zip'));
         zipPromises.push(zipPlugin('plugins/system/fabrikcron',
             'fabrik_build/output/pkg_fabrik_sink/packages/plg_fabrik_schedule_' + version + '.zip'));
+        zipPromises.push(zipPlugin('plugins/system/fabrikj2store',
+            'fabrik_build/output/pkg_fabrik_sink/packages/plg_system_fabrikj2store_' + version + '.zip'));
         zipPromises.push(zipPlugin('plugins/system/fabrik',
             'fabrik_build/output/pkg_fabrik_sink/packages/plg_fabrik_system_' + version + '.zip'));
         zipPromises.push(zipPlugin('components/com_comprofiler/plugin/user/plug_fabrik',
-            'fabrik_build/output/pkg_fabrik_sink/packages/plg_community_builder_fabrik_user_' + version + '.zip'));
+            'fabrik_build/output/pkg_fabrik_sink/packages/plg_community_builder_fabrik_user_' + version + '.zip'));*/
 
-        zipPromises.push(zipPlugin('administrator/modules/mod_fabrik_form',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_form_' + version + '.zip'));
-        zipPromises.push(zipPlugin('administrator/modules/mod_fabrik_list',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_list_' + version + '.zip'));
-        zipPromises.push(zipPlugin('administrator/modules/mod_fabrik_quickicon',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_quickicon_' + version + '.zip'));
-        zipPromises.push(zipPlugin('administrator/modules/mod_fabrik_visualization',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_visualization_' + version + '.zip'));
-
-        zipPromises.push(zipPlugin('modules/mod_fabrik_form',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_form_' + version + '.zip'));
-        zipPromises.push(zipPlugin('modules/mod_fabrik_list',
-            'fabrik_build/output/pkg_fabrik_sink/packages/mod_fabrik_list_' + version + '.zip'));
+        for (p in buildConfig.plugins) {
+            for (i = 0; i < buildConfig.plugins[p].length; i++) {
+                config = buildConfig.plugins[p][i];
+                dest = 'fabrik_build/output/pkg_fabrik_sink/packages/' +  config.fileName.replace('{version}', version);
+                zipPromises.push(zipPlugin(config.path, dest));
+            }
+        }
+        for (i = 0; i < buildConfig.modules.length; i++) {
+            config = buildConfig.modules[i];
+            dest = 'fabrik_build/output/pkg_fabrik_sink/packages/' +  config.fileName.replace('{version}', version);
+            zipPromises.push(zipPlugin(config.path, dest));
+        }
 
         buildPHPDocs(grunt);
         uploadPHPDocs(grunt);
@@ -250,7 +252,7 @@ var uploadPHPDocs = function (grunt) {
 };
 
 var changelog = function (latest) {
-    var result = shell.exec("git log --pretty=format:\"* %s (%an)\" " + latest + "..HEAD");
+    var result = shell.exec("git log --pretty=format:\"* %s (%an)\" 3.3.3..HEAD");
     fs.writeFileSync('fabrik_build/changelog.txt', result.stdout);
 };
 
@@ -333,6 +335,7 @@ var refreshFiles = function () {
     fs.copySync('./components/com_fabrik/views/form/tmpl25/default.xml',
         './fabrik_build/output/component/site/views/form/tmpl25/default.xml');
     tmpls = ['admin', 'bluesky', 'contacts_custom', 'default', 'default_rtl', 'mint', 'no-labels', 'tabs'];
+
     for (i = 0; i < tmpls.length; i++) {
         tmpl = tmpls[i];
         fs.mkdirsSync('./fabrik_build/output/component/site/views/form/tmpl25/' + tmpl);
@@ -352,6 +355,7 @@ var refreshFiles = function () {
     fs.mkdirsSync('./fabrik_build/output/component/site/views/form/tmpl');
     fs.copySync('./components/com_fabrik/views/form/tmpl/default.xml',
         './fabrik_build/output/component/site/views/form/tmpl/default.xml');
+
     tmpls = ['bootstrap', 'bootstrap_tabs'];
     for (i = 0; i < tmpls.length; i++) {
         tmpl = tmpls[i];
@@ -380,14 +384,14 @@ var refreshFiles = function () {
     fs.copySync('./libraries/joomla/database/driver/mysqli_fab.php',
         './fabrik_build/output/component/site/driver/mysqli_fab.php');
     fs.copySync('./libraries/joomla/database/driver/pdomysql_fab.php',
-    	'./fabrik_build/output/component/site/driver/pdomysql_fab.php');
+        './fabrik_build/output/component/site/driver/pdomysql_fab.php');
     fs.mkdirsSync('./fabrik_build/output/component/site/query');
     fs.copySync('./libraries/joomla/database/query/mysql_fab.php',
         './fabrik_build/output/component/site/query/mysql_fab.php');
     fs.copySync('./libraries/joomla/database/query/mysqli_fab.php',
         './fabrik_build/output/component/site/query/mysqli_fab.php');
     fs.copySync('./libraries/joomla/database/query/pdomysql_fab.php',
-    	'./fabrik_build/output/component/site/query/pdomysql_fab.php');
+        './fabrik_build/output/component/site/query/pdomysql_fab.php');
 };
 
 var component = function (version, grunt) {
@@ -421,18 +425,23 @@ var packages = function (version, grunt) {
 
             var i, zips = buildConfig.corePackageFiles;
             replace({
-                regex      : '{version}',
+                regex: '{version}',
                 replacement: version,
-                paths      : ['./fabrik_build/output/pkg_fabrik/pkg_fabrik.xml',
+                paths: ['./fabrik_build/output/pkg_fabrik/pkg_fabrik.xml',
                     './fabrik_build/output/pkg_fabrik_sink/pkg_fabrik_sink.xml'],
-                recursive  : false,
-                silent     : false
+                recursive: false,
+                silent: false
             });
             // Copy files from sink to pkg
             for (i = 0; i < zips.length; i++) {
                 zips[i] = zips[i].replace('{version}', version);
-                fs.copySync('fabrik_build/output/pkg_fabrik_sink/packages/' + zips[i],
-                    'fabrik_build/output/pkg_fabrik/packages/' + zips[i]);
+                try {
+                    fs.copySync('fabrik_build/output/pkg_fabrik_sink/packages/' + zips[i],
+                        'fabrik_build/output/pkg_fabrik/packages/' + zips[i]);
+                } catch (err) {
+                    console.error(err.message);
+                }
+
             }
             var promises = [
                 zipPlugin('fabrik_build/output/pkg_fabrik_sink', 'fabrik_build/output/pkg_fabrik_sink_' + version + '.zip'),

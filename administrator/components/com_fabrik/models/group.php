@@ -289,7 +289,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 	 * We forgot to index the parent_id until 32/2015, which could have an ipact on getData()
 	 * query performance.  Only called from the save() method.
 	 *
-	 * @param   array $data jform data
+	 * @param   array $data jForm data
 	 */
 	private function checkFKIndex($data)
 	{
@@ -300,12 +300,10 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		$item->load($data['id']);
 		$join = $this->getTable('join');
 		$join->load(array('id' => $item->join_id));
-		$fkFieldName    = $join->table_join . '___' . $join->table_join_key;
-		$pkFieldName    = $join->join_from_table . '___' . $join->table_key;
-		$formModel      = $groupModel->getFormModel();
-		$pkElementModel = $formModel->getElement($pkFieldName);
-		$fields         = $listModel->getDBFields($join->join_from_table, 'Field');
-		$pkField        = FArrayHelper::getValue($fields, $join->table_key, false);
+		$fkFieldName    = $join->get('table_join') . '___' . $join->get('table_join_key');
+		$fields         = $listModel->getDBFields($join->get('join_from_table'), 'Field');
+		$pkField        = FArrayHelper::getValue($fields, $join->get('table_key'), false);
+
 		switch ($pkField->BaseType)
 		{
 			case 'VARCHAR':
@@ -317,6 +315,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 				$pkSize = '';
 				break;
 		}
+
 		$listModel->addIndex($fkFieldName, 'parent_fk', 'INDEX', $pkSize);
 	}
 
@@ -325,12 +324,15 @@ class FabrikAdminModelGroup extends FabModelAdmin
 	 * so we want to:
 	 * Create a new db table for the groups elements ( + check if its not already there)
 	 *
-	 * @param   array &$data jform data
+	 * @param   array &$data jForm data
+	 *
+	 * @throws Exception
 	 *
 	 * @return  bool
 	 */
 	public function makeJoinedGroup(&$data)
 	{
+		/** @var FabrikFEModelGroup $groupModel */
 		$groupModel = JModelLegacy::getInstance('Group', 'FabrikFEModel');
 		$groupModel->setId($data['id']);
 		$listModel          = $groupModel->getListModel();
@@ -344,15 +346,15 @@ class FabrikAdminModelGroup extends FabModelAdmin
 
 		foreach ($elements as $element)
 		{
-			$fname = $element->getElement()->name;
+			$fName = $element->getElement()->name;
 			/**
 			 * if we are making a repeat group from the primary group then we don't want to
 			 * overwrite the repeat group tables id definition with that of the main tables
 			 */
-			if (!array_key_exists($fname, $names))
+			if (!array_key_exists($fName, $names))
 			{
-				$str   = FabrikString::safeColName($fname);
-				$field = FArrayHelper::getValue($fields, $fname);
+				$str   = FabrikString::safeColName($fName);
+				$field = FArrayHelper::getValue($fields, $fName);
 
 				if (is_object($field))
 				{
@@ -363,23 +365,23 @@ class FabrikAdminModelGroup extends FabModelAdmin
 						$str .= "NOT NULL ";
 					}
 
-					$names[$fname] = $str;
+					$names[$fName] = $str;
 				}
 				else
 				{
-					$names[$fname] = $db->quoteName($fname) . ' ' . $element->getFieldDescription();
+					$names[$fName] = $db->quoteName($fName) . ' ' . $element->getFieldDescription();
 				}
 			}
 		}
 
-		$db->setQuery("show tables");
+		$db->setQuery('show tables');
 		$newTableName   = $list->db_table_name . '_' . $data['id'] . '_repeat';
 		$existingTables = $db->loadColumn();
 
 		if (!in_array($newTableName, $existingTables))
 		{
 			// No existing repeat group table found so lets create it
-			$query = "CREATE TABLE IF NOT EXISTS " . $db->quoteName($newTableName) . " (" . implode(",", $names) . ")";
+			$query = 'CREATE TABLE IF NOT EXISTS ' . $db->qn($newTableName) . ' (' . implode(',', $names) . ')';
 			$db->setQuery($query);
 			$db->execute();
 
@@ -392,12 +394,11 @@ class FabrikAdminModelGroup extends FabModelAdmin
 			if (trim($list->db_table_name) == '')
 			{
 				// New group not attached to a form
-				$this->setError(FText::_('COM_FABRIK_GROUP_CANT_MAKE_JOIN_NO_DB_TABLE'));
-
-				return false;
+				throw new Exception(FText::_('COM_FABRIK_GROUP_CANT_MAKE_JOIN_NO_DB_TABLE'));
 			}
+
 			// Repeat table already created - lets check its structure matches the group elements
-			$db->setQuery("DESCRIBE " . $db->quoteName($newTableName));
+			$db->setQuery('DESCRIBE ' . $db->qn($newTableName));
 			$existingFields = $db->loadObjectList('Field');
 			$newFields      = array_diff(array_keys($names), array_keys($existingFields));
 
@@ -409,24 +410,24 @@ class FabrikAdminModelGroup extends FabModelAdmin
 				foreach ($newFields as $newField)
 				{
 					$info = $names[$newField];
-					$db->setQuery("ALTER TABLE " . $db->quoteName($newTableName) . " ADD COLUMN $info AFTER $lastField");
+					$db->setQuery('ALTER TABLE ' . $db->qn($newTableName) . ' ADD COLUMN ' . $info . ' AFTER ' . $lastField);
 					$db->execute();
 				}
 			}
 		}
 		// Create the join as well
 
-		$jdata = array('list_id' => $list->id, 'element_id' => 0, 'join_from_table' => $list->db_table_name, 'table_join' => $newTableName,
+		$jData = array('list_id' => $list->id, 'element_id' => 0, 'join_from_table' => $list->db_table_name, 'table_join' => $newTableName,
 			'table_key' => FabrikString::shortColName($list->db_primary_key), 'table_join_key' => 'parent_id', 'join_type' => 'left',
 			'group_id' => $data['id']);
 
 		// Load the matching join if found.
 		$join = $this->getTable('join');
-		$join->load($jdata);
+		$join->load($jData);
 		$opts            = new stdClass;
 		$opts->type      = 'group';
-		$jdata['params'] = json_encode($opts);
-		$join->bind($jdata);
+		$jData['params'] = json_encode($opts);
+		$join->bind($jData);
 
 		// Update or save a new join
 		$join->store();
@@ -442,7 +443,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 	 * For now, leave the repeat table intact, just remove the join
 	 * and the 'id' and 'parent_id' elements.
 	 *
-	 * @param   array &$data jform data
+	 * @param   array &$data jForm data
 	 *
 	 * @return boolean
 	 */
@@ -460,13 +461,13 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		$return = $db->execute();
 
 		$query = $db->getQuery(true);
-		$query->select('id')->from('#__{package}_elements')->where('group_id  = ' . $data['id'] . ' AND name IN ("id", "parent_id")');
+		$query->select('id')->from('#__{package}_elements')
+				->where('group_id  = ' . $data['id'] . ' AND name IN ("id", "parent_id")');
 		$db->setQuery($query);
 		$elementIds   = $db->loadColumn();
 		$elementModel = JModelLegacy::getInstance('Element', 'FabrikModel');
 		$return       = $return && $elementModel->delete($elementIds);
 
-		// Kinda meaningless return, but ...
 		return $return;
 	}
 

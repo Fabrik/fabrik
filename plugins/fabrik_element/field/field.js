@@ -16,7 +16,7 @@ function geolocateLoad () {
 var FbField = new Class({
 	Extends: FbElement,
 	initialize: function (element, options) {
-		this.plugin = 'fabrikfield';
+		this.setPlugin('fabrikfield');
 		this.parent(element, options);
 		/*
 		 * $$$ hugh - testing new masking feature, uses this jQuery widget:

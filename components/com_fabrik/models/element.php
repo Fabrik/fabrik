@@ -471,7 +471,7 @@ class PlgFabrik_Element extends FabrikPlugin
 	 */
 	public function setGroupModel($group)
 	{
-		$this->_group = $group;
+		$this->group = $group;
 	}
 
 	/**
@@ -623,7 +623,11 @@ class PlgFabrik_Element extends FabrikPlugin
 						 * any HTML entities which may be in the data.  So use a negative lookahead regex, which finds & followed
 						 * by anything except non-space the ;.  Then after doing the loadXML, we have to turn the &amp;s back in
 						 * to &, to avoid double encoding 'cos we're going to do an htmpsepecialchars() on $data in a few lines.
+						 *
+						 * It also chokes if the data already contains any HTML entities which XML doesn't like, like &eacute;,
+						 * so first we need to do an html_entity_decode() to get rid of those!
 						 */
+						$data = html_entity_decode($data);
 						$data = preg_replace('/&(?!\S+;)/', '&amp;', $data);
 						$html->loadXML($data);
 						$data = str_replace('&amp;', '&', $data);
@@ -1577,7 +1581,6 @@ class PlgFabrik_Element extends FabrikPlugin
 	 *
 	 * @return  string  label
 	 */
-
 	public function getLabel($repeatCounter, $tmpl = '')
 	{
 		$element = $this->getElement();
@@ -1698,7 +1701,7 @@ class PlgFabrik_Element extends FabrikPlugin
 	 *
 	 * @return  string  Label with tip
 	 */
-	protected function rollover($txt, $data = array(), $mode = 'form')
+	protected function rollover_old($txt, $data = array(), $mode = 'form')
 	{
 		if (is_object($data))
 		{
@@ -1707,7 +1710,43 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		$rollOver = $this->tipHtml($data, $mode);
 
-		return $rollOver !== '' ? '<span class="fabrikTip" ' . $rollOver . '">' . $txt . '</span>' : $txt;
+		return $rollOver !== '' ? '<span class="fabrikTip" ' . $rollOver . '>' . $txt . '</span>' : $txt;
+	}
+
+	/**
+	 * Add tips on element labels
+	 * does ACL check on element's label in details setting
+	 *
+	 * @param   string  $txt   Label
+	 * @param   array   $data  Row data
+	 * @param   string  $mode  Form/list render context
+	 *
+	 * @return  string  Label with tip
+	 */
+	protected function rollover($txt, $data = array(), $mode = 'form')
+	{
+		if (is_object($data))
+		{
+			$data = ArrayHelper::fromObject($data);
+		}
+
+		//$title = $this->tipTextAndValidations($mode, $data);
+		//$opts = $this->tipOpts();
+		//$opts = json_encode($opts);
+
+		//return $title !== '' ? 'title="' . $title . '" opts=\'' . $opts . '\'' : '';
+
+		$layout = FabrikHelperHTML::getLayout('element.fabrik-element-tip');
+		$displayData = new stdClass;
+		$displayData->tipTitle = $this->tipTextAndValidations($mode, $data);
+		$displayData->tipText = $txt;
+		$displayData->rollOver = $this->isTipped();
+		$displayData->isEditable = $this->isEditable();
+		$displayData->tipOpts = $this->tipOpts();
+
+		$rollOver = $layout->render($displayData);
+
+		return $rollOver;
 	}
 
 	/**
@@ -2240,6 +2279,8 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$c[] = 'fabrikError';
 		}
+
+		$c[] = $this->getParams()->get('containerclass');
 
 		return implode(' ', $c);
 	}

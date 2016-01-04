@@ -13,7 +13,7 @@ FbJSPeriodical = new Class({
 	},
 
 	initialize: function (element, options) {
-		this.plugin = 'fabrikPeriodical';
+		this.setPlugin('fabrikPeriodical');
 		this.parent(element, options);
 		var periodical;
 

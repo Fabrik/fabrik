@@ -230,7 +230,30 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="thumb_dir"
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_FILEUPLOAD_MAKE_PDF_THUMB_DESC"
+			       label="PLG_ELEMENT_FILEUPLOAD_MAKE_PDF_THUMB_LABEL"
+			       name="fu_make_pdf_thumb"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<!-- 
+			Jaanus: remains disabled until we find a way how to show this value to the helpers/image.php 
+			and then how to make it possible to use also {table___field} placeholders to get this 
+			value from a specified field. 
+			
+			<field name="pdf_thumb_from_page"
+			       type="text"
+				   default="1"
+			       description="PLG_ELEMENT_FILEUPLOAD_PDF_THUMB_PAGE_DESC"
+			       label="PLG_ELEMENT_FILEUPLOAD_PDF_THUMB_PAGE_LABEL"
+			       size="10" />
+				   -->
+
+				   <field name="thumb_dir"
 			       type="text"
 			       default="images/stories/thumbs"
 			       description="PLG_ELEMENT_FILEUPLOAD_THUMB_DIR_DESC"

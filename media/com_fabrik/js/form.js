@@ -30,6 +30,7 @@ var FbForm = new Class({
 		'inlineMessage': true,
 		'print': false,
 		'toggleSubmit': false,
+		'lang': false,
 		'images': {
 			'alert': '',
 			'action_check': '',
@@ -146,6 +147,10 @@ var FbForm = new Class({
 			} else {
 				// Build URL as we could have changed the rowid via ajax pagination
 				var url = 'index.php?option=com_' + Fabrik.package + '&view=details&tmpl=component&formid=' + this.id + '&listid=' + this.options.listid + '&rowid=' + this.options.rowid + '&iframe=1&print=1';
+				if (this.options.lang !== false)
+				{
+					url += '&lang=' + this.options.lang;
+				}
 				window.open(url, 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=350,directories=no,location=no;');
 			}
 		}.bind(this));
@@ -157,8 +162,13 @@ var FbForm = new Class({
 	watchPdfButton: function () {
 		document.getElements('*[data-role="open-form-pdf"]').addEvent('click', function (e) {
 			e.stop();
-			// Build URL as we could have changed the rowid via ajax pagination
-			window.location = 'index.php?option=com_' + Fabrik.package + '&view=details&formid=' + this.id + '&rowid=' + this.options.rowid + '&format=pdf'
+			// Build URL as we could have changed the rowid via ajax pagination.
+			var url = e.event.currentTarget.href.replace(/(rowid=\d*)/, 'rowid=' + this.options.rowid);
+			if (this.options.lang !== false)
+			{
+				url += '&lang=' + this.options.lang;
+			}
+			window.location = url;
 		}.bind(this))
 	},
 
@@ -566,6 +576,10 @@ var FbForm = new Class({
 			}
 			// Don't prepend with Fabrik.liveSite, as it can create cross origin browser errors if you are on www and livesite is not on www.
 			var url = 'index.php?option=com_fabrik&format=raw&task=form.ajax_validate&form_id=' + this.id;
+			if (this.options.lang !== false)
+			{
+				url += '&lang=' + this.options.lang;
+			}
 
 			Fabrik.loader.start(this.getBlock(), Joomla.JText._('COM_FABRIK_VALIDATING'));
 
@@ -619,6 +633,10 @@ var FbForm = new Class({
 		this.form.getElement('input[name=task]').value = 'form.savepage';
 
 		var url = 'index.php?option=com_fabrik&format=raw&page=' + this.currentPage;
+		if (this.options.lang !== false)
+		{
+			url += '&lang=' + this.options.lang;
+		}
 		Fabrik.loader.start(this.getBlock(), 'saving page');
 		var data = this.getFormData();
 		data.fabrik_ajax = 1;
@@ -938,6 +956,10 @@ var FbForm = new Class({
 		//var origid = el.origId ? el.origId : id;
 		el.options.repeatCounter = el.options.repeatCounter ? el.options.repeatCounter : 0;
 		var url = 'index.php?option=com_fabrik&form_id=' + this.id;
+		if (this.options.lang !== false)
+		{
+			url += '&lang=' + this.options.lang;
+		}
 		var myAjax = new Request({
 			url: url,
 			method: this.options.ajaxmethod,

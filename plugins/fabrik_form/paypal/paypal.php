@@ -608,7 +608,7 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 		$mail = JFactory::getMailer();
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fabrik/tables');
 		$log = FabTable::getInstance('log', 'FabrikTable');
-		$log->referring_url = $_SERVER['REQUEST_URI'];
+		$log->referring_url = $input->server->getString('REQUEST_URI');
 		$log->message_type = 'fabrik.ipn.start';
 		$log->message = json_encode($_REQUEST);
 		$log->store();

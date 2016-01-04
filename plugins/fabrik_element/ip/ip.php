@@ -42,14 +42,14 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 
 		if ($params->get('ip_update_on_edit') || !$rowId || ($this->inRepeatGroup && $this->_inJoin && $this->_repeatGroupTotal == $repeatCounter))
 		{
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = FabrikString::filteredIp();
 		}
 		else
 		{
 			if (empty($data) || empty($data[$name]))
 			{
 				// If $data is empty, we must (?) be a new row, so just grab the IP
-				$ip = $_SERVER['REMOTE_ADDR'];
+				$ip = FabrikString::filteredIp();
 			}
 			else
 			{
@@ -115,8 +115,8 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 
 			if ($params->get('ip_update_on_edit', 0))
 			{
-				$data[$element->name] = $_SERVER['REMOTE_ADDR'];
-				$data[$element->name . '_raw'] = $_SERVER['REMOTE_ADDR'];
+				$data[$element->name] = FabrikString::filteredIp();
+				$data[$element->name . '_raw'] = FabrikString::filteredIp();
 			}
 		}
 
@@ -134,7 +134,7 @@ class PlgFabrik_ElementIp extends PlgFabrik_Element
 	{
 		if (!isset($this->default))
 		{
-			$this->default = $_SERVER['REMOTE_ADDR'];
+			$this->default = FabrikString::filteredIp();
 		}
 
 		return $this->default;

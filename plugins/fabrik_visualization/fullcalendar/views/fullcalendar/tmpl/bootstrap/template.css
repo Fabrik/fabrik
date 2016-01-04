@@ -74,3 +74,11 @@ list-style:none;
 .today{
 	background-color:#dddddd !important;
 }
+
+/*
+.fc-day-grid-event .fc-content {
+	overflow: visible !important;
+	overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+*/

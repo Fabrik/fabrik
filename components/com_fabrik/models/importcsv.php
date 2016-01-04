@@ -110,11 +110,11 @@ class FabrikFEModelImportcsv extends JModelForm
 	}
 
 	/**
-	 * Gets the name of the csv file from the uploaded jform
+	 * Gets the name of the csv file from the uploaded jForm
 	 *
 	 * @return string csv file name
 	 */
-	protected function getCSVFileName()
+	public function getCSVFileName()
 	{
 		if (is_null($this->csvFile))
 		{
@@ -161,13 +161,15 @@ class FabrikFEModelImportcsv extends JModelForm
 	/**
 	 * Checks uploaded file, and uploads it
 	 *
+	 * @throws Exception
+	 *
 	 * @return  true  csv file uploaded ok, false error (JError warning raised)
 	 */
 	public function checkUpload()
 	{
 		if (!(bool) ini_get('file_uploads'))
 		{
-			JError::raiseWarning(500, FText::_('COM_FABRIK_ERR_UPLOADS_DISABLED'));
+			throw new Exception(FText::_('COM_FABRIK_ERR_UPLOADS_DISABLED'));
 
 			return false;
 		}
@@ -178,7 +180,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		if (!$userFile)
 		{
-			JError::raiseWarning(500, FText::_('COM_FABRIK_IMPORT_CSV_NO_FILE_SELECTED'));
+			throw new Exception(FText::_('COM_FABRIK_IMPORT_CSV_NO_FILE_SELECTED'));
 
 			return false;
 		}
@@ -188,7 +190,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		if (!in_array(JFile::getExt($userFile['userfile']['name']), $allowed))
 		{
-			throw new RuntimeException('File must be a csv file', 500);
+			throw new Exception('File must be a csv file', 500);
 		}
 
 		$tmp_name  = $this->getCSVFileName();
@@ -198,9 +200,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		if ($resultDir == false && !JFile::exists($to))
 		{
-			JError::raiseWarning(500, FText::_('Upload Error'));
-
-			return false;
+			throw new Exception(FText::_('Upload Error'));
 		}
 
 		return true;
@@ -263,6 +263,12 @@ class FabrikFEModelImportcsv extends JModelForm
 		$data             = $this->getFormData();
 		$field_delimiter  = $this->getFieldDelimiter();
 		$text_delimiter   = stripslashes(FArrayHelper::getValue($data, 'text_delimiter', '"'));
+
+		if (!JFile::exists($baseDir . '/' . $file))
+		{
+			throw new UnexpectedValueException('Csv file : ' . $baseDir . '/' . $file . ' not found');
+		}
+
 		$csv              = new Csv_Bv($baseDir . '/' . $file, $field_delimiter, $text_delimiter, '\\');
 		$csv->inPutFormat = FArrayHelper::getValue($data, 'inPutFormat', 'csv');
 
@@ -283,7 +289,16 @@ class FabrikFEModelImportcsv extends JModelForm
 				foreach ($arr_data as &$heading)
 				{
 					// Remove UFT8 Byte-Order-Mark if present
-					if (substr($heading, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf))
+
+					/*
+					 * $$$ hugh - for some bizarre reason, this code was stripping the first two characters of the heading
+					 * on one of my client sites, so "Foo Bar" was becoming "o_Bar" if the CSV had a BOM.  So I'm experimenting with just using a str_replace,
+					 * which works on the CSV I'm having issues with.  I've left the original code in place as belt-and-braces.
+					 */
+					$heading = str_replace("\xEF\xBB\xBF",'',$heading);
+
+					$bom = pack("CCC", 0xef, 0xbb, 0xbf);
+					if (0 === strncmp($heading, $bom, 3))
 					{
 						$heading = String::substr($heading, 3);
 					}
@@ -414,6 +429,7 @@ class FabrikFEModelImportcsv extends JModelForm
 	public function removeCSVFile($clearSession = true)
 	{
 		$baseDir       = $this->getBaseDir();
+		echo "remove csv <br>";
 		$userFile_path = $baseDir . '/' . $this->getCSVFileName();
 
 		if (JFile::exists($userFile_path))
@@ -468,7 +484,6 @@ class FabrikFEModelImportcsv extends JModelForm
 		$model->getFormGroupElementData();
 		$pluginManager = JModelLegacy::getInstance('Pluginmanager', 'FabrikFEModel');
 		$pluginManager->getPlugInGroup('list');
-		$aUsedElements = array();
 		$formModel     = $model->getFormModel();
 		$tableParams   = $model->getParams();
 		$mode          = $tableParams->get('csvfullname');
@@ -643,7 +658,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 		$key = FabrikString::shortColName($item->db_primary_key);
 
-		// Get a list of exisitng primary key vals
+		// Get a list of existing primary key vals
 		$db    = $model->getDb();
 		$query = $db->getQuery(true);
 		$query->select($item->db_primary_key)->from($item->db_table_name);

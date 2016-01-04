@@ -70,6 +70,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$opts->displayType = $params->get('cdd_display_type', 'dropdown');
 		$opts->id = $this->getId();
 		$opts->listName = $this->getListModel()->getTable()->db_table_name;
+		$opts->lang           = FabrikWorker::getMultiLangURLCode();
 
 		// This bizarre chunk of code handles the case of setting a CDD value on the QS on a new form
 		$rowId = $input->get('rowid', '', 'string');
@@ -105,6 +106,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 		// Was otherwise using the none-raw value.
 		$opts->value = $this->getValue($data, $repeatCounter, array('raw' => true));
+		$opts->optsPerRow = (int) $params->get('dbjoin_options_per_row', 1);
 
 		if (is_array($opts->value) && count($opts->value) > 0)
 		{
@@ -137,7 +139,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 			}
 
 			$w = new FabrikWorker;
-			$val = $w->parseMessageForPlaceHolder($val, array());
+			$val = $w->parseMessageForPlaceHolder($val, array(), false, false, null, false);
 
 			return 'CONCAT_WS(\'\', ' . $val . ')';
 		}
@@ -1084,6 +1086,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 			$opts->advanced = $this->getAdvancedSelectClass();
 			$opts->noselectionvalue = $params->get('cascadingdropdown_noselectionvalue', '');
 			$opts->filterobj = 'Fabrik.filter_' . $container;
+			$opts->lang           = FabrikWorker::getMultiLangURLCode();
 			$opts = json_encode($opts);
 
 			return "Fabrik.filter_{$container}.addFilter('$element->plugin', new CascadeFilter('$observerId', $opts));\n";
