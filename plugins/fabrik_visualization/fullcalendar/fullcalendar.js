@@ -226,7 +226,7 @@ var fabrikFullcalendar = new Class({
 				dispEndDate = mEndDate.format("MMM DD") + " ";
 			}
 			var dispStartTime = dispEndTime = "";
-			if (e.startShowTime === true && e.endShowTime === true) {
+			if (e.allDayEvent === false && e.startShowTime === true && e.endShowTime === true) {
 				dispStartTime = mStartDate.format("hh.mm A");
 				dispEndTime = mEndDate.format("hh.mm A");
 			}
@@ -262,6 +262,7 @@ var fabrikFullcalendar = new Class({
 					title: jQuery(popup).prop('outerHTML'),
 					start: e.startdate_locale,
 					end: e.enddate_locale,
+					allDay: e.allDayEvent,
 					url: e.link,
 					listid: e._listid,
 					rowid: e.__pk_val,
