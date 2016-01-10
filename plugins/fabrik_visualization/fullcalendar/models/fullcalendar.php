@@ -499,51 +499,54 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 							$row->startShowTime = (bool)$data['startShowTime'];
 							$row->endShowTime = (bool)$data['endShowTime'];
 
-							// Added timezone offset
-							if ($row->startdate !== $db->getNullDate() && $data['startShowTime'] == true)
+							$row->allDayEvent = !($data['startShowTime'] | $data['endShowTime']);
+							if (!$row->allDayEvent) 
 							{
-								$date = JFactory::getDate($row->startdate);
-								$row->startdate = $date->format('Y-m-d H:i:s', true);
-
-								if ($startLocal)
+								// Added timezone offset
+								if ($row->startdate !== $db->getNullDate() && $data['startShowTime'] == true)
 								{
-									//Format local dates toISO8601
-									$mydate = new DateTime($row->startdate);
-									$row->startdate_locale = $mydate->format(DateTime::RFC3339);
-								}
-								else
-								{
-									$date->setTimezone($tz);
-									$row->startdate_locale = $date->toISO8601(true);
-								}
-							}
+									$date = JFactory::getDate($row->startdate);
+									$row->startdate = $date->format('Y-m-d H:i:s', true);
 
-							if ($row->enddate !== $db->getNullDate() && (string) $row->enddate !== '')
-							{
-								if ($data['endShowTime'] == true)
-								{
-									$date = JFactory::getDate($row->enddate);
-									$row->enddate = $date->format('Y-m-d H:i:d');
-
-									if ($endLocal)
+									if ($startLocal)
 									{
 										//Format local dates toISO8601
-										$mydate = new DateTime($row->enddate);
-										$row->enddate_locale = $mydate->format(DateTime::RFC3339);
+										$mydate = new DateTime($row->startdate);
+										$row->startdate_locale = $mydate->format(DateTime::RFC3339);
 									}
 									else
 									{
 										$date->setTimezone($tz);
-										$row->enddate_locale = $date->toISO8601(true);
+										$row->startdate_locale = $date->toISO8601(true);
 									}
 								}
-							}
-							else
-							{
-								$row->enddate = $row->startdate;
-								$row->enddate_locale = isset($row->startdate_locale) ? $row->startdate_locale : '';
-							}
 
+								if ($row->enddate !== $db->getNullDate() && (string) $row->enddate !== '')
+								{
+									if ($data['endShowTime'] == true)
+									{
+										$date = JFactory::getDate($row->enddate);
+										$row->enddate = $date->format('Y-m-d H:i:d');
+
+										if ($endLocal)
+										{
+											//Format local dates toISO8601
+											$mydate = new DateTime($row->enddate);
+											$row->enddate_locale = $mydate->format(DateTime::RFC3339);
+										}
+										else
+										{
+											$date->setTimezone($tz);
+											$row->enddate_locale = $date->toISO8601(true);
+										}
+									}
+								}
+								else
+								{
+									$row->enddate = $row->startdate;
+									$row->enddate_locale = isset($row->startdate_locale) ? $row->startdate_locale : '';
+								}
+							}	
 
 							$jsevents[$table->id . '_' . $row->id . '_' . $row->startdate] = clone ($row);
 						}
