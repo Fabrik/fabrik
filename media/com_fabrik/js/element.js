@@ -108,6 +108,8 @@ var FbElement =  new Class({
 		} else {
 			this.loadingImage = new Asset.image(this.form.options.images.ajax_loader);
 		}
+		
+		this.form.addMustValidate(this);
 		//put ini code in here that can't be put in initialize()
 		// generally any code that needs to refer to  this.form, which
 		//is only set when the element is assigned to the form.

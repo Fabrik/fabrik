@@ -27,6 +27,7 @@
 					<option value="getEndContent">PLG_FORM_PHP_PROCESS_GETENDCONTENT</option>
 					<option value="onDeleteRowsForm">PLG_FORM_PHP_PROCESS_ONDELETEROWSFORM</option>
 					<option value="onAfterDeleteRowsForm">PLG_FORM_PHP_PROCESS_ONAFTERDELETEROWSFORM</option>
+					<option value="onSavePage">PLG_FORM_PHP_PROCESS_ONSAVEPAGE</option>
 			</field>
 
 			<field description="PLG_FORM_PHP_FILE_DESC" directory="plugins/fabrik_form/php/scripts/" hide_default="1" label="PLG_FORM_PHP_FILE_LABEL" name="form_php_file" repeat="true" type="filelist"/>

@@ -918,7 +918,7 @@ class FabrikWorker
 		$lang    = str_replace('-', '_', $lang);
 		$shortlang = explode('_', $lang);
 		$shortlang = $shortlang[0];
-		//$multilang = FabrikWorker::getMultiLangURLCode(),
+		$multilang = FabrikWorker::getMultiLangURLCode();
 
 		$replacements = array(
 			'{$jConfig_live_site}' => COM_FABRIK_LIVESITE,
@@ -930,6 +930,7 @@ class FabrikWorker
 			'{date}' => date('Ymd'),
 			'{mysql_date}' => date('Y-m-d H:i:s'),
 			'{lang}' => $lang,
+			'{multilang}' => $multilang,
 			'{shortlang}' => $shortlang,
 			'{session.token}' => $token,
 		);

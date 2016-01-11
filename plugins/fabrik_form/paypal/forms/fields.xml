@@ -193,6 +193,8 @@
 
 			<field description="PLG_FORM_PAYPAL_IPN_ADDRESS_DESC" label="PLG_FORM_PAYPAL_IPN_ADDRESS_LABEL" name="paypal_ipn_address_element" onlytablefields="0" repeat="true" type="listfields" valueformat="tableelement"/>
 
+			<field description="PLG_FORM_PAYPAL_IPN_SUBSCR_ID_DESC" label="PLG_FORM_PAYPAL_IPN_SUBSCR_ID_LABEL" name="paypal_ipn_subscr_id_element" onlytablefields="0" repeat="true" type="listfields" valueformat="tableelement"/>
+
 			<field description="PLG_FORM_PAYPAL_PHP_FILE_DESC" directory="plugins/fabrik_form/paypal/scripts/" hide_default="1" label="PLG_FORM_PAYPAL_PHP_FILE_LABEL" name="paypal_run_php_file" repeat="true" type="filelist"/>
 
 		</fieldset>

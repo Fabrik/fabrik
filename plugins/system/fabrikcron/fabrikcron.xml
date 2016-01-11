@@ -7,7 +7,7 @@
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.pollen-8.co.uk</authorUrl>
-	<version>3.4</version>
+	<version>3.4.1</version>
 	<description>Runs Fabrik scheduled tasks</description>
 	<files>
 		<filename plugin="fabrikcron">fabrikcron.php</filename>

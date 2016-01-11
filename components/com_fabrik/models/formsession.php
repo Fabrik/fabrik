@@ -115,6 +115,12 @@ class FabrikFEModelFormsession extends FabModel
 		$formModel->copyToRaw($post);
 		$formModel->addEncrytedVarsToArray($post);
 
+		$pluginManager = FabrikWorker::getPluginManager();
+		if (in_array(false, $pluginManager->runPlugins('onSavePage', $formModel)))
+		{
+			return false;
+		}
+
 		if (array_key_exists('fabrik_vars', $post))
 		{
 			unset($post['fabrik_vars']);

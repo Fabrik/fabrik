@@ -30,6 +30,7 @@ var FbForm = new Class({
 		'inlineMessage': true,
 		'print': false,
 		'toggleSubmit': false,
+		'mustValidate': false,
 		'lang': false,
 		'images': {
 			'alert': '',
@@ -52,6 +53,7 @@ var FbForm = new Class({
 		this.currentPage = this.options.start_page;
 		this.formElements = $H({});
 		this.hasErrors = $H({});
+		this.mustValidateEls = $H({});
 		this.elements = this.formElements;
 		this.duplicatedGroups = $H({});
 
@@ -997,16 +999,18 @@ var FbForm = new Class({
 		
 		if (this.options.toggleSubmit)
 		{
-			var submit = this._getButton('Submit');
-			if (typeOf(submit) !== 'null') {
-				if (this.hasErrors.getKeys().length === 0) {
-					submit.disabled = "";
-					submit.setStyle('opacity', 1);
+			if (this.options.mustValidate)
+			{
+				if (!this.hasErrors.has(id) || !this.hasErrors.get(id)) {
+					this.mustValidateEls[id] = false;
 				}
-				else {
-					submit.disabled = "disabled";
-					submit.setStyle('opacity', 0.5);				
+				if (!this.mustValidateEls.hasValue(true)) {
+					this.toggleSubmit(true);
 				}
+			}
+			else
+			{
+				this.toggleSubmit(this.hasErrors.getKeys().length === 0);
 			}
 		}
 	},
@@ -1186,6 +1190,14 @@ var FbForm = new Class({
 		}.bind(this));
 	},
 
+	mockSubmit: function() {
+		var btn = this._getButton('Submit');
+		if (!btn) {
+			btn = new Element('button', {'name':'Submit','type':'submit'});
+		}
+		this.doSubmit(new Event.Mock(btn, 'click'), btn);
+	},
+	
 	doSubmit: function (e, btn) {
 		if (this.submitBroker.enabled()) {
 			e.stop();
@@ -2074,5 +2086,31 @@ var FbForm = new Class({
 	getSubGroupCounter: function (group_id)
 	{
 
+	},
+	
+	addMustValidate: function (el)
+	{
+		if (this.options.ajaxValidation && this.options.toggleSubmit) {
+			this.mustValidateEls.set(el.element.id, el.options.mustValidate);
+			if (el.options.mustValidate) {
+				this.options.mustValidate = true;
+				this.toggleSubmit(false);
+			}
+		}
+	},
+	
+	toggleSubmit: function (on)
+	{
+		var submit = this._getButton('Submit');
+		if (typeOf(submit) !== 'null') {
+			if (on === true) {
+				submit.disabled = "";
+				submit.setStyle('opacity', 1);
+			}
+			else {
+				submit.disabled = "disabled";
+				submit.setStyle('opacity', 0.5);				
+			}
+		}
 	}
 });

@@ -69,6 +69,7 @@ var FbGoogleMap = new Class({
 		'use_radius': false,
 		'geocode_on_load': false,
 		'traffic': false,
+		'debounceDelay': 500,
 		'styles': []
 	},
 
@@ -511,10 +512,10 @@ var FbGoogleMap = new Class({
 				this.options.geocode_fields.each(function (field) {
 					var f = document.id(field);
 					if (typeOf(f) !== 'null') {
-						f.addEvent('keyup', function (e) {
-							this.geoCode();
-						}.bind(this));
-
+						var that = this;
+						jQuery(f).on('keyup', jQuery.debounce(this.options.debounceDelay, function(e) {
+							that.geoCode(e);
+						}))
 						// Select lists, radios whatnots
 						f.addEvent('change', function (e) {
 							this.geoCode();
@@ -543,10 +544,16 @@ var FbGoogleMap = new Class({
 					}
 				}.bind(this));
 			} else {
+				/*
 				this.element.getElement('.geocode_input').addEvent('keyup', function (e) {
 					e.stop();
 					this.geoCode(e);
 				}.bind(this));
+				*/
+				var that = this;
+				jQuery(this.element.getElement('.geocode_input')).on('keyup', jQuery.debounce(this.options.debounceDelay, function(e) {
+					that.geoCode(e);
+				}))
 			}
 		}
 	},

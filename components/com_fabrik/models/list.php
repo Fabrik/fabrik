@@ -2829,6 +2829,7 @@ class FabrikFEModelList extends JModelForm
 
 		if ($groupBy !== '')
 		{
+			$groupByEl = $this->getGroupByElement();
 			$strOrder == '' ? $strOrder = "\n ORDER BY " : $strOrder .= ',';
 			$strOrder .= FabrikString::safeColName($groupBy) . ' ASC';
 			$this->orderEls[] = $groupBy;
@@ -3718,9 +3719,12 @@ class FabrikFEModelList extends JModelForm
 
 		if (!in_array($longGroupBy, $this->fields) && trim($longGroupBy) != '')
 		{
-			$this->asfields[] = FabrikString::safeColName($longGroupBy) . ' AS ' . $longGroupBy;
-			$this->fields = $longGroupBy;
-			$this->group_by_added = true;
+			if (!in_array(FabrikString::safeColName($longGroupBy), $this->fields))
+			{
+				$this->asfields[] = FabrikString::safeColName($longGroupBy) . ' AS ' . $longGroupBy;
+				$this->fields = $longGroupBy;
+				$this->group_by_added = true;
+			}
 		}
 
 		return $this->asfields;

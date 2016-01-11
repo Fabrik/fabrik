@@ -53,7 +53,7 @@ defined('_JEXEC') or die('Restricted access');
 class fabrikPayPalIPN {
 
 	/*
-	* Called at end of submission handling, just before the form plugin sets up the redirect to PayPal
+	* checkOpts is Called at end of submission handling, just before the form plugin sets up the redirect to PayPal
 	* Allows you to check / add / remove / modify any of the query string options being sent to PayPal
 	* Also gives you a last chance to bail out and not do the redirect to PayPal, by returning false
 	* (and probably using one of the J! API's to put up a notification of why!)
@@ -61,6 +61,10 @@ class fabrikPayPalIPN {
 	function checkOpts(&$opts, $formModel) {
 		return true;
 	}
+
+	/**
+	 * Standard payment handlers.
+	 */
 
 	function payment_status_Completed($listModel, $request, &$set_list, &$err_msg) {
             return 'ok';
@@ -109,6 +113,18 @@ class fabrikPayPalIPN {
 	function txn_type_web_accept($listModel, $request, &$set_list, &$err_msg) {
 		return 'ok';
 	}
+
+	/**
+	 *
+	 * Subscription transactions.  Note that the only txn_type the main plugin handles is _payment, which is processed
+	 * as a normal payment, including saving the (optional) subscr_id in your table, and any modifications you make to $set_list
+	 * will be handled.
+	 *
+	 * If you need to process any of the other events, you MUST provide the "IPN Subscription ID Element" in the plugin's settings,
+	 * as this is the only way you can identify the row, because txn_id is not supplied with anything but the initial subscr_payment,
+	 * and you must handle any updating of the database you need done.  The subscr_id will be in $request.  No further processing will
+	 * be done by the main plugin for anything other than subscr_payment, so changing $set_list will have no effect.
+	 */
 
 	function txn_type_subscr_signup($listModel, $request, &$set_list, &$err_msg) {
 		return 'ok';

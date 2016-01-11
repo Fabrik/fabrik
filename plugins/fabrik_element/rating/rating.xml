@@ -7,7 +7,7 @@
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.4</version>
+	<version>3.4.1</version>
 	<help url="PLG_ELEMENT_RATING_HELP_SERVER"/>
 	<description>PLG_ELEMENT_RATING_DESCRIPTION</description>
 	<install>

@@ -138,6 +138,7 @@ var Autofill = new Class({
 						this.attached.push(testE.options.element);
 						//e = testE;
 					}
+					repeatNum = testE.getRepeatNum();
 					if (typeOf(repeatNum) === 'null' || repeatNum === repeatCount) {
 						e = testE;
 					}

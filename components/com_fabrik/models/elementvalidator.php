@@ -77,6 +77,7 @@ class FabrikFEModelElementValidator extends FabModel
 		$showIcon = FArrayHelper::getValue($validations, 'show_icon', array());
 		$validateIn = FArrayHelper::getValue($validations, 'validate_in', array());
 		$validationOn = FArrayHelper::getValue($validations, 'validation_on', array());
+		$mustValidate = FArrayHelper::getValue($validations, 'must_validate', array());
 
 		$pluginManager = FabrikWorker::getPluginManager();
 		$pluginManager->getPlugInGroup('validationrule');
@@ -111,6 +112,7 @@ class FabrikFEModelElementValidator extends FabModel
 					$plugIn->getParams()->set('show_icon', FArrayHelper::getValue($showIcon, $i, true));
 					$plugIn->getParams()->set('validate_in', FArrayHelper::getValue($validateIn, $i, 'both'));
 					$plugIn->getParams()->set('validation_on', FArrayHelper::getValue($validationOn, $i, 'both'));
+					$plugIn->getParams()->set('must_validate', FArrayHelper::getValue($mustValidate, $i, '0'));
 					$plugIn->js();
 					$c++;
 				}

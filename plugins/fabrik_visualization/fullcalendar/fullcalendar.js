@@ -420,7 +420,6 @@ var fabrikFullcalendar = new Class({
 			o.id = '';
 			o.listid = this.options.eventLists[0].value;
 			o.title = Joomla.JText._('PLG_VISUALIZATION_FULLCALENDAR_ADD_EVENT');
-			this.clickdate = null;
 			this.addEvForm(o);
 		}
 	},

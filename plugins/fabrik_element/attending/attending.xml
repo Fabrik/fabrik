@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.4</version>
+	<version>3.4.1</version>
 	<help url="PLG_ELEMENT_ATTENDING_HELP_SERVER"/>
 	<description>PLG_ELEMENT_ATTENDING_DESCRIPTION</description>
 	<install>

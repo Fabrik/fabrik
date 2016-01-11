@@ -23,6 +23,7 @@ var FbAutocomplete = new Class({
 		onSelection: Class.empty,
 		autoLoadSingleResult: true,
 		minTriggerChars: 1,
+		debounceDelay: 500,
 		storeMatchedResultsOnly: false // Only store a value if selected from picklist
 	},
 
@@ -45,9 +46,21 @@ var FbAutocomplete = new Class({
 				return;
 			}
 			this.getInputElement().setProperty('autocomplete', 'off');
+			
+			/*
 			this.getInputElement().addEvent('keyup', function (e) {
 				this.search(e);
 			}.bind(this));
+			*/
+			
+			/**
+			 * Using a 3rd party jQuery lib to 'debounce' the input, so the search doesn't fire until
+			 * the user has stopped typing for more than X ms
+			 */
+			var that = this;
+			jQuery(document).on('keyup', jQuery.debounce(this.options.debounceDelay, function(e) {
+				that.search(e);
+			}))
 
 			this.getInputElement().addEvent('blur', function (e) {
 				if (this.options.storeMatchedResultsOnly) {
@@ -62,11 +75,15 @@ var FbAutocomplete = new Class({
 	},
 
 	search: function (e) {
+		/**
+		 * NOTE that because we use a jQuery event to trigger this, e is a jQuery event, so keyCode
+		 * instead of code, and e.preventDefault() instead of e.stop()
+		 */ 
 		if (!this.isMinTriggerlength()) {
 			return;
 		}
-		if (e.key === 'tab' || e.key === 'enter') {
-			e.stop();
+		if (e.keyCode === 'tab' || e.keyCode === 'enter') {
+			e.preventDefault();
 			this.closeMenu();
 			if (this.ajax) {
 				this.ajax.cancel();
@@ -235,11 +252,10 @@ var FbAutocomplete = new Class({
 	closeMenu: function () {
 		if (this.shown) {
 			this.shown = false;
-			this.menu.hide();
+			// some templates seem to need a jQuery hide, something to do with webkit
+			jQuery(this.menu).hide();
 			this.selected = -1;
-			document.removeEvent('click', function (e) {
-				this.doTestMenuClose(e);
-			}.bind(this));
+			document.removeEvent('click', this.doCloseEvent);
 		}
 	},
 
@@ -248,9 +264,8 @@ var FbAutocomplete = new Class({
 			if (this.isMinTriggerlength()) {
 				this.menu.show();
 				this.shown = true;
-				document.addEvent('click', function (e) {
-					this.doTestMenuClose(e);
-				}.bind(this));
+				this.doCloseEvent = this.doTestMenuClose.bind(this);
+				document.addEvent('click', this.doCloseEvent);
 				this.selected = 0;
 				this.highlight();
 			}

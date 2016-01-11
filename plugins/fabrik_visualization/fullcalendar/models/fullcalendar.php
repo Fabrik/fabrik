@@ -486,9 +486,9 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 							$row->custom = $customUrl != '';
 							$row->_listid = $table->id;
 							$row->_formid = $table->form_id;
-							$row->_canDelete = (bool) $listModel->canDelete();
+							$row->_canDelete = (bool) $listModel->canDelete($row);
 							$row->_canEdit = (bool) $listModel->canEdit($row);
-							$row->_canView = (bool) $listModel->canViewDetails();
+							$row->_canView = (bool) $listModel->canViewDetails($row);
 
 							//Format local dates toISO8601
 							$mydate = new DateTime($row->startdate);

@@ -2473,7 +2473,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 
 		if ($params->get('date_advanced', '0') == '1' && !in_array('fab/lib/datejs/date', $deps))
 		{
-			$deps[] = 'fab/lib/datejs/date';
+			$deps[] = 'fab/lib/datejs/globalization/' . JFactory::getLanguage()->getTag();
 			$deps[] = 'fab/lib/datejs/core';
 			$deps[] = 'fab/lib/datejs/parser';
 			$deps[] = 'fab/lib/datejs/extras';

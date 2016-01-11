@@ -5508,6 +5508,18 @@ class PlgFabrik_Element extends FabrikPlugin
 		$opts->canRepeat = (bool) $groupModel->canRepeat();
 		$opts->isGroupJoin = (bool) $groupModel->isJoin();
 		$validations = $this->validator->findAll();
+		$opts->mustValidate = false;
+
+		foreach ($validations as $validation)
+		{
+			$validationParams = $validation->getParams();
+			if ($validationParams->get('must_validate', '0') === '1')
+			{
+				$opts->mustValidate = true;
+				break;
+			}
+		}
+
 		$opts->validations = empty($validations) ? false : true;
 
 		if ($this->isJoin())

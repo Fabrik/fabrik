@@ -7,7 +7,7 @@
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>lieven.gryp@telenet.be</authorEmail>
 	<authorUrl>www.acpegasus.be</authorUrl>
-	<version>3.4</version>
+	<version>3.4.1</version>
 	<help url="PLG_VALIDATIONRULE_AREUNIQUEVALUES_HELP_SERVER"/>
 	<description>PLG_VALIDATIONRULE_AREUNIQUEVALUES_DESCRIPTION</description>
 	<files>

@@ -2,7 +2,7 @@
 <extension type="package" version="3">
 	<name>Fabrik Package</name>
 	<packagename>fabrik</packagename>
-	<version>3.4</version>
+	<version>3.4.1</version>
 	<url>http://www.joomla.org</url>
 	<packager>Rob Clayburn</packager>
 	<packagerurl>http://www.fabrikar.com</packagerurl>

@@ -234,6 +234,8 @@ class FabrikAdminModelForm extends FabModelAdmin
 			// Update existing table (seems to need to reload here to ensure that _table is set)
 			$listModel->loadFromFormId($formId);
 			$listModel->ammendTable();
+			$currentGroups = (array) FArrayHelper::getValue($data, 'current_groups');
+			$this->_makeFormGroups($currentGroups);
 		}
 	}
 

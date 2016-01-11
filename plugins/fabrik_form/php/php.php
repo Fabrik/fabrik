@@ -357,6 +357,23 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 	}
 
 	/**
+	 * Process the plugin, called when form is submitted
+	 *
+	 * @return  bool
+	 */
+	public function onSavePage()
+	{
+		$params = $this->getParams();
+
+		if ($params->get('only_process_curl') == 'onSavePage')
+		{
+			return $this->_runPHP();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Run plugins php code/script
 	 *
 	 * @param   FabrikFEModelGroup  &$groupModel  Group model

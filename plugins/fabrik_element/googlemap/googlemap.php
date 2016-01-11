@@ -272,6 +272,49 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	}
 
 	/**
+	 * Get the class to manage the form element
+	 * to ensure that the file is loaded only once
+	 *
+	 * @param   array   &$srcs   Scripts previously loaded
+	 * @param   string  $script  Script to load once class has loaded
+	 * @param   array   &$shim   Dependant class names to load before loading the class - put in requirejs.config shim
+	 *
+	 * @return void|boolean
+	 */
+	public function formJavascriptClass(&$srcs, $script = '', &$shim = array())
+	{
+		$params = $this->getParams();
+		$geocode = $params->get('fb_gm_geocode', '0');
+		$geocode_event = $params->get('fb_gm_geocode_event', 'button');
+
+		$s = new stdClass;
+		$s->deps = array('fab/element');
+
+		if ($geocode !== '0' && $geocode_event === 'change')
+		{
+			$folder = 'media/com_fabrik/js/lib/debounce/';
+			$s->deps[] = $folder . 'jquery.ba-throttle-debounce';
+		}
+
+		if (count($s->deps) > 1)
+		{
+			if (array_key_exists('element/googlemap/googlemap', $shim))
+			{
+				$shim['element/googlemap/googlemap']->deps = array_merge($shim['element/googlemap/googlemap']->deps, $s->deps);
+			}
+			else
+			{
+				$shim['element/googlemap/googlemap'] = $s;
+			}
+		}
+
+		parent::formJavascriptClass($srcs, $script, $shim);
+
+		return false;
+	}
+
+
+	/**
 	 * Returns javascript which creates an instance of the class defined in formJavascriptClass()
 	 *
 	 * @param   int  $repeatCounter  Repeat group counter

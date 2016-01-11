@@ -1720,6 +1720,7 @@ EOD;
 		$needed   = array();
 		$needed[] = self::isDebug() ? 'fab/fabrik' : 'fab/fabrik-min';
 		$needed[] = self::isDebug() ? 'fab/' . $jsFile : 'fab/' . $jsFile . '-min';
+		$needed[] = self::isDebug() ? 'fab/lib/debounce/jquery.ba-throttle-debounce' : 'fab/lib/debounce/jquery.ba-throttle-debounce-min';
 		$needed[] = self::isDebug() ? 'fab/encoder' : 'fab/encoder-min';
 		$needed[] = 'fab/lib/Event.mock';
 		$needed   = implode("', '", $needed);

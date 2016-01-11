@@ -171,7 +171,7 @@ var FbListFilter = new Class({
      * @param {node} f
      */
     clearAFilter: function (f) {
-        if (f.name.contains('[value]') || f.name.contains('fabrik_list_filter_all') ||
+        if ((f.name && (f.name.contains('[value]') || f.name.contains('fabrik_list_filter_all'))) ||
             f.hasClass('autocomplete-trigger')) {
             if (f.get('tag') === 'select') {
                 f.selectedIndex = f.get('multiple') ? -1 : 0;

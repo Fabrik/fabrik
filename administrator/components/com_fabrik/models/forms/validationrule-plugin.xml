@@ -44,6 +44,17 @@
 					<option value="both">COM_FABRIK_BOTH</option>
 			</field>
 			
+			<field name="must_validate"
+				type="radio"
+				class="btn-group"
+				default="0"
+				label="COM_FABRIK_VALIDATION_MUST_VALIDATE_LABEL"
+				description="COM_FABRIK_VALIDATION_MUST_VALIDATE_DESC">
+				repeat="true">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field name="show_icon"
 				type="radio"
 				class="btn-group"
