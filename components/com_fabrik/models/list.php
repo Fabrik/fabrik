@@ -4376,7 +4376,6 @@ class FabrikFEModelList extends JModelForm
 	{
 		$prefix = $this->app->get('dbprefix');
 		$table = $this->getTable();
-		$aliases = array($table->db_table_name);
 		$tableGroups = array();
 
 		// Build up the alias and $tableGroups array first
@@ -4407,28 +4406,8 @@ class FabrikFEModelList extends JModelForm
 				$join->canUse = false;
 			}
 
-			$tableJoin = str_replace('#__', $prefix, $join->table_join);
-
-			if (in_array($tableJoin, $aliases))
-			{
-				$base = $tableJoin;
-				$a = $base;
-				$c = 0;
-
-				while (in_array($a, $aliases))
-				{
-					$a = $base . '_' . $c;
-					$c++;
-				}
-
-				$join->table_join_alias = $a;
-			}
-			else
-			{
-				$join->table_join_alias = $tableJoin;
-			}
-
-			$aliases[] = str_replace('#__', $prefix, $join->table_join_alias);
+			$joinModel = (new FabrikFEModelJoin)->getJoinFromKey('id', $join->id);
+			$join->table_join_alias = $joinModel->table_join_alias;
 
 			if (!array_key_exists($join->group_id, $tableGroups))
 			{

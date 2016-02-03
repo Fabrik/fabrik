@@ -778,7 +778,7 @@ class PlgFabrik_Element extends FabrikPlugin
 				$jKey = 'AES_DECRYPT(' . $jKey . ', ' . $db->q($secret) . ')';
 			}
 
-			$joinTable = $this->getJoinModel()->getJoin()->table_join;
+			$joinTable = $this->getJoinModel()->getJoin()->table_join_alias;
 			$fullElName = FArrayHelper::getValue($opts, 'alias', $k);
 			$str = $this->buildQueryElementConcat($jKey);
 		}
@@ -1947,7 +1947,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$joinModel = $groupModel->getJoinModel();
 			$join = $joinModel->getJoin();
-			$fullName = $join->table_join . $thisStep . $element->name;
+			$fullName = $join->table_join_alias . $thisStep . $element->name;
 		}
 		else
 		{
@@ -2718,7 +2718,7 @@ class PlgFabrik_Element extends FabrikPlugin
 			{
 				$joinModel = $groupModel->getJoinModel();
 				$joinTable = $joinModel->getJoin();
-				$fullName = $joinTable->table_join . '___' . $element->name;
+				$fullName = $joinTable->table_join_alias . '___' . $element->name;
 			}
 			else
 			{
@@ -2759,7 +2759,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$joinModel = $groupModel->getJoinModel();
 			$joinTable = $joinModel->getJoin();
-			$fullName = $joinTable->table_join . '___' . $element->name;
+			$fullName = $joinTable->table_join_alias . '___' . $element->name;
 		}
 		else
 		{
@@ -6793,7 +6793,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$joinModel = $groupModel->getJoinModel();
 
-			return $joinModel->getJoin()->table_join;
+			return $joinModel->getJoin()->table_join_alias;
 		}
 
 		$listModel = $this->getListModel();
@@ -7431,7 +7431,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		if ($this->getGroupModel()->isJoin())
 		{
 			$join = $this->getJoin();
-			$idKey = $join->table_join . '___id';
+			$idKey = $join->table_join_alias . '___id';
 		}
 		else
 		{
@@ -7459,7 +7459,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		if ($this->getGroupModel()->isJoin())
 		{
 			$join = $this->getJoin();
-			$paramsKey = $join->table_join . '___params';
+			$paramsKey = $join->table_join_alias . '___params';
 		}
 		else
 		{
