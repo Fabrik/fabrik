@@ -784,8 +784,8 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		$isNew          = $user->get('id') < 1;
 		$params         = $this->getParams();
 		$this->gidfield = $this->getFieldName('juser_field_usertype');
-		$defaultGroup   = (int) $params->get('juser_field_default_group');
-		$groupIds       = (array) $this->getFieldValue('juser_field_usertype', $formModel->formData, $defaultGroup);
+		$defaultGroups  = (array) $params->get('juser_field_default_group', array());
+		$groupIds       = (array) $this->getFieldValue('juser_field_usertype', $formModel->formData, $defaultGroups);
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
 		if (!empty($groupIds) && is_object($groupIds[0]))
@@ -803,10 +803,10 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 				//If array but empty (e.g. from an empty user_groups element)
 				if (empty($groupIds))
 				{
-					$groupIds = (array) $defaultGroup;
+					$groupIds = $defaultGroups;
 				}
 
-				$data = count($groupIds) === 1 && $groupIds[0] == 0 ? (array) $defaultGroup :
+				$data = count($groupIds) === 1 && $groupIds[0] == 0 ? $defaultGroups :
 					$this->filterGroupIds($data, $me, $groupIds);
 			}
 			else
@@ -817,7 +817,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		else
 		{
 			// If editing an existing user and no gid field being used,  use default group id
-			$data[] = $defaultGroup;
+			$data[] = $defaultGroups;
 		}
 
 		return $data;
@@ -835,12 +835,12 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 	private function filterGroupIds($data, $me, $groupIds)
 	{
 		$params       = $this->getParams();
-		$defaultGroup = (int) $params->get('juser_field_default_group');
+		$defaultGroups = (array) $params->get('juser_field_default_group', array());
 		$authLevels   = array_merge((array) $params->get('juser_group_whitelist', array()), $me->getAuthorisedGroups());
 
 		foreach ($groupIds as $groupId)
 		{
-			if (in_array($groupId, $authLevels) || $me->authorise('core.admin', 'com_users') || $groupId == $defaultGroup)
+			if (in_array($groupId, $authLevels) || $me->authorise('core.admin', 'com_users') || in_array($groupId, $defaultGroups))
 			{
 				$data[] = $groupId;
 			}

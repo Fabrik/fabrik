@@ -115,6 +115,7 @@
 			<field name="juser_field_default_group"
 				type="usergroup"
 				default="0"
+				multiple="true"
 				description="PLG_FABRIK_FORM_JUSER_DEFAULT_USERTYPE_FIELD_DESC"
 				label="PLG_FABRIK_FORM_JUSER_DEFAULT_USERTYPE_FIELD_LABEL"
 				repeat="true" />
