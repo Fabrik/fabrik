@@ -817,7 +817,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		else
 		{
 			// If editing an existing user and no gid field being used,  use default group id
-			$data[] = $defaultGroups;
+			$data = $defaultGroups;
 		}
 
 		return $data;
