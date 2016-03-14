@@ -417,10 +417,18 @@ class PlgFabrik_FormTwitter extends PlgFabrik_Form
 		$formModel = $this->buildModel($input->getInt('formid'));
 		$params = $formModel->getParams();
 		$counter = $input->get('repeatCounter');
-		$consumerKey = FArrayHelper::fromObject($params->get('twitter_consumer_key'));
+		$consumerKey = $params->get('twitter_consumer_key');
+		if (is_object($consumerKey))
+		{
+			$consumerKey = FArrayHelper::fromObject($consumerKey);
+		}
 		$consumerKey = $consumerKey[$counter];
 
-		$consumerSecret = FArrayHelper::fromObject($params->get('twitter_consumer_secret'));
+		$consumerSecret = $params->get('twitter_consumer_secret');
+		if (is_object($consumerSecret))
+		{
+			$consumerSecret = FArrayHelper::fromObject($consumerSecret);
+		}
 		$consumerSecret = $consumerSecret[$counter];
 
 		$callback = COM_FABRIK_LIVESITE
