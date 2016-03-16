@@ -12,6 +12,7 @@ $d = $displayData;
 
 $span = floor(12 / $d->columns);
 $i    = 0;
+$id   = is_null($d->spanId) ? '' : ' id="' . $d->spanId . '"';
 $grid = array();
 
 foreach ($d->items as $i => $s)
@@ -29,7 +30,7 @@ foreach ($d->items as $i => $s)
 		$grid[] = '<div class="row-fluid">';
 	}
 
-	$grid[] = '<div class="' . $d->spanClass . ' span' . $span . '">' . $s . '</div>';
+	$grid[] = '<div class="' . $d->spanClass . ' span' . $span . '"' . $id . '>' . $s . '</div>';
 }
 
 if (!empty($d->items))

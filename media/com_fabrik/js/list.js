@@ -1047,7 +1047,7 @@ var FbList = new Class({
      */
     _updateRows: function (data) {
         var tbody, itemTemplate, i, groupHeading, columnCount, parent, items = [], item,
-            rowTemplate, cell, form = jQuery(this.form);
+            rowTemplate, cell, cells, form = jQuery(this.form), self = this, fullRow;
         if (typeOf(data) !== 'object') {
             return;
         }
@@ -1061,8 +1061,16 @@ var FbList = new Class({
         this.setItemTemplate();
 
         cell = jQuery(this.list).find('.fabrik_row').first();
-        parent = cell.parent();
-        columnCount = parent.children().length;
+
+        if (cell.prop('tagName') === 'TR') {
+            parent = cell;
+            columnCount = 1;
+        } else {
+            parent = cell.parent();
+            columnCount = form.find('.fabrikDataContainer').data('cols');
+        }
+
+        columnCount = columnCount === undefined ? 1 : columnCount;
         rowTemplate = parent.clone().empty();
         itemTemplate = cell.clone();
 
@@ -1079,12 +1087,12 @@ var FbList = new Class({
         var gdata = this.options.isGrouped || this.options.groupedBy !== '' ? $H(data.data) : data.data;
         var gcounter = 0;
         gdata.each(function (groupData, groupKey) {
-            tbody = this.options.isGrouped ? this.list.getElements('.fabrik_groupdata')[gcounter] : this.tbody;
+            tbody = self.options.isGrouped ? self.list.getElements('.fabrik_groupdata')[gcounter] : self.tbody;
             tbody = jQuery(tbody);
             tbody.empty();
 
             // Set the group by heading
-            if (this.options.isGrouped) {
+            if (self.options.isGrouped) {
                 groupHeading = tbody.prev();
                 groupHeading.find('.groupTitle').html(groupData[0].groupHeading);
             }
@@ -1092,16 +1100,22 @@ var FbList = new Class({
             gcounter++;
             for (i = 0; i < groupData.length; i++) {
                 var row = $H(groupData[i]);
-                item = this.injectItemData(itemTemplate, row);
+                item = self.injectItemData(itemTemplate, row);
                 items.push(item);
             }
 
             items = Fabrik.Array.chunk(items, columnCount);
             for (i = 0; i < items.length; i++) {
-                var fullRow = rowTemplate.clone().append(items[i]);
+                if (items[i].length > 0) {
+                    // We need to treat <tr>s differently from div templates
+                    cells = items[i][0].prop('tagName') === 'TR' ? items[i][0].children() : items[i];
+                } else {
+                    cells = items[i];
+                }
+                fullRow = rowTemplate.clone().append(cells);
                 tbody.append(fullRow);
             }
-        }.bind(this));
+        });
 
         this._updateGroupByTables();
         this._updateEmptyDataMsg(items.length === 0);
@@ -1146,7 +1160,7 @@ var FbList = new Class({
      */
     injectItemData: function (template, row) {
         var r, cell, c, j;
-        $H(row.data).each(function (val, key) {
+        jQuery.each(row.data, function (key, val) {
             cell = template.find('.' + key);
             if (cell.prop('tagName') !== 'A') {
                 cell.html(val);

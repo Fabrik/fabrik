@@ -47,11 +47,11 @@ var FbListFilter = new Class({
         var c = this.container.find('.clearFilters');
         c.off();
         c.on('click', function (e) {
-            e.stopPropagation();
+            e.preventDefault();
 
             // Reset the filter fields that contain previously selected values
-            self.container.find('.fabrik_filter').each(function (f) {
-                self.clearAFilter(f);
+            self.container.find('.fabrik_filter').each(function (i, f) {
+                self.clearAFilter(jQuery(f));
             });
             self.clearPlugins();
             self.submitClearForm();
@@ -91,7 +91,7 @@ var FbListFilter = new Class({
 
         this.filterContainer.find('.advancedSelect').each(function () {
             jQuery('#' + this.id).on('change', {changeEvent: 'change'}, function (event) {
-                jQuery('#' + this.id).fireEvent(event.data.changeEvent,
+                jQuery(this).fireEvent(event.data.changeEvent,
                     new Event.Mock(document.getElementById(this.id), event.data.changeEvent));
             });
         });
@@ -164,18 +164,20 @@ var FbListFilter = new Class({
 
     /**
      * Clear a single filter
-     * @param {node} f
+     * @param {jQuery} f
      */
     clearAFilter: function (f) {
-        if ((f.name && (f.name.contains('[value]') || f.name.contains('fabrik_list_filter_all'))) ||
+        var sel;
+        if (((f.prop('name').contains('[value]') || f.prop('name').contains('fabrik_list_filter_all'))) ||
             f.hasClass('autocomplete-trigger')) {
-            if (f.get('tag') === 'select') {
-                f.selectedIndex = f.get('multiple') ? -1 : 0;
+            if (f.prop('tagName') === 'SELECT') {
+                sel = f.prop('multiple') ? -1 : 0;
+                f.prop('selectedIndex', sel);
             } else {
-                if (f.get('type') === 'checkbox') {
-                    f.checked = false;
+                if (f.prop('type') === 'checkbox') {
+                    f.prop('checked', false);
                 } else {
-                    f.value = '';
+                    f.val('');
                 }
             }
         }
@@ -203,7 +205,7 @@ var FbListFilter = new Class({
             'name' : 'resetfilters',
             'value': 1,
             'type' : 'hidden'
-        }).inject(injectForm);
+        }).appendTo(injectForm);
         if (this.options.type === 'list') {
             this.list.submit('list.clearfilter');
         } else {
@@ -218,11 +220,11 @@ var FbListFilter = new Class({
         var self = this;
         this.container.find('*[data-filter-clear]').on('click', function (e) {
             e.stopPropagation();
-            var key = $(e.event.currentTarget).data('filter-clear'),
-                filters = $('*[data-filter-name="' + key + '"]');
+            var key = jQuery(e.event.currentTarget).data('filter-clear'),
+                filters = jQuery('*[data-filter-name="' + key + '"]');
 
-            filters.each(function (filter) {
-                self.clearAFilter(filter);
+            filters.each(function (i, filter) {
+                self.clearAFilter(jQuery(filter));
             });
 
             self.submitClearForm();

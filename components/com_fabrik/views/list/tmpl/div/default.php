@@ -48,7 +48,7 @@ if ($this->showFilters) {
 }
 ?>
 
-<div class="fabrikDataContainer">
+<div class="fabrikDataContainer" data-cols="<?php echo $columns;?>">
 
 <?php foreach ($this->pluginBeforeList as $c) {
 	echo $c;
@@ -81,7 +81,8 @@ if ($this->showFilters) {
 	foreach ($group as $this->_row) :
 		$items[] = $this->loadTemplate('row');
 	endforeach;
-	echo FabrikHelperHTML::bootstrapGrid($items, $columns, 'well', true);
+	$class = 'fabrik_row well row-striped ' . $this->_row->class;
+	echo FabrikHelperHTML::bootstrapGrid($items, $columns, $class, true, $this->_row->id);
 	?>
 	</div>
 	<?php

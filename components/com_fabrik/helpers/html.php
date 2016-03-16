@@ -2231,13 +2231,14 @@ EOD;
 	 *
 	 * @return mixed  string/array based on $explode parameter
 	 */
-	public static function bootstrapGrid($items, $columns, $spanClass = '', $explode = false)
+	public static function bootstrapGrid($items, $columns, $spanClass = '', $explode = false, $spanId = null)
 	{
 		$layout                 = self::getLayout('fabrik-bootstrap-grid');
 		$displayData            = new stdClass;
 		$displayData->items     = $items;
 		$displayData->columns   = $columns;
 		$displayData->spanClass = $spanClass;
+		$displayData->spanId = $spanId;
 		$displayData->explode   = $explode;
 
 		$grid = $layout->render($displayData);
