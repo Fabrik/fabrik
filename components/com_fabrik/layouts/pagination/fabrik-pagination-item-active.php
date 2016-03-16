@@ -9,18 +9,10 @@
  * @since       3.4.2
  */
 
-$d    = $displayData;
+$d = $displayData;
 $item = $d->item;
-$app  = JFactory::getApplication();
 
-if ($app->isAdmin()) :
-	?>
-	<span><?php echo $item->text; ?></span>
-	<?php
-else :
-	?>
+?>
+<a title="<?php echo $item->text; ?>" href="<?php echo $item->link; ?>" class="pagenav"><?php echo $item->text; ?></a>
 
-	<span class="pagenav"><?php echo $item->text; ?></span>
-	<?php
-endif;
 
