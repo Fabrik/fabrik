@@ -69,7 +69,7 @@ class PlgFabrik_FormTwitter extends PlgFabrik_Form
 	public function onAfterProcess()
 	{
 		$this->_process();
-
+		
 		// Stop default redirect from occurring
 		return false;
 	}
@@ -394,6 +394,14 @@ class PlgFabrik_FormTwitter extends PlgFabrik_Form
 		{
 			$w = new FabrikWorker;
 			$msg = $w->parseMessageForPlaceHolder($params->get('twitter_msg_tmpl'), $data);
+		}
+		
+		$twitterEval = $params->get('twitter_msg_field_eval', '');
+	
+		if ($twitterEval != '')
+		{
+			$msg = eval($twitterEval);
+			FabrikWorker::logEval($twitterEval, 'Caught exception on eval twitter eval : %s');
 		}
 
 		$msg = $this->bitlifyMessage($msg);

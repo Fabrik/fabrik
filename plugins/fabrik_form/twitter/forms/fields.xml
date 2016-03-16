@@ -28,7 +28,7 @@
 				label="PLG_FORM_TWITTERMSGFIELD_LABEL"
 				onlytablefields="0"
 				repeat="true" />
-
+				
 			<field name="twitter_msg_tmpl"
 				type="textarea"
 				cols="30"
@@ -36,6 +36,15 @@
 				label="PLG_FORM_TWITTERTMPLFIELD_LABEL"
 				repeat="true"
 				rows="6" />
+
+			<field name="twitter_msg_field_eval"
+				type="fabrikeditor"
+				mode="php"
+				default=""
+				description="PLG_FORM_TWITTERMSGFIELD_EVAL_DESC"
+				label="PLG_FORM_TWITTERMSGFIELD_EVAL_LABEL"
+				repeat="true" />
+
 
 			<field name="twitter-show-success-msg"
 				type="radio"
