@@ -828,7 +828,8 @@ EOD;
 			$app     = JFactory::getApplication();
 			$version = new JVersion;
 			FabrikHelperHTML::modalJLayouts();
-			$jsAssetBaseURI = self::getJSAssetBaseURI();
+			$liveSiteSrc    = array();
+			$liveSiteReq    = array();
 			$fbConfig       = JComponentHelper::getParams('com_fabrik');
 
 			// Only use template test for testing in 2.5 with my temp J bootstrap template.
@@ -852,8 +853,9 @@ EOD;
 			if ($fbConfig->get('advanced_behavior', '0') == '1')
 			{
 				$chosenOptions = $fbConfig->get('advanced_behavior_options', '{}');
-				$chosenOptions = empty($chosenOptions) ? array() : ArrayHelper::fromObject(json_decode($chosenOptions));
-				JHtml::_('formbehavior.chosen', 'select.advancedSelect', null, $chosenOptions);
+				$chosenOptions = empty($chosenOptions) ? new stdClass : ArrayHelper::fromObject(json_decode($chosenOptions));
+				JHtml::_('stylesheet', 'jui/chosen.css', false, true);
+				$liveSiteReq[] = 'media/com_fabrik/js/chosen-loader.js';
 			}
 
 			if (self::inAjaxLoadedPage() && !$bootstrapped)
@@ -872,7 +874,6 @@ EOD;
 
 				self::styleSheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/css/fabrik.css');
 
-				$liveSiteReq   = array();
 				$liveSiteReq[] = 'media/com_fabrik/js/fabrik' . $ext;
 
 				if ($bootstrapped)
@@ -884,7 +885,13 @@ EOD;
 					$liveSiteReq[] = 'media/com_fabrik/js/tips' . $ext;
 				}
 
-				$liveSiteSrc   = array();
+				$liveSiteSrc[] = "var chosenInterval = window.setInterval(function () {
+					if (Fabrik.buildChosen) {
+						window.clearInterval(chosenInterval);
+                        Fabrik.buildChosen('select.advancedSelect', " . json_encode($chosenOptions) . ");
+					}
+				}, 100);";
+
 				$liveSiteSrc[] = "\tFabrik.liveSite = '" . COM_FABRIK_LIVESITE . "';";
 				$liveSiteSrc[] = "\tFabrik.package = '" . $app->getUserState('com_fabrik.package', 'fabrik') . "';";
 				$liveSiteSrc[] = "\tFabrik.debug = " . (self::isDebug() ? 'true;' : 'false;');
@@ -905,7 +912,6 @@ EOD;
 
 				$liveSiteSrc[] = self::tipInt();
 				$liveSiteSrc   = implode("\n", $liveSiteSrc);
-				self::script($liveSiteReq, $liveSiteSrc);
 			}
 			else
 			{
@@ -919,15 +925,18 @@ EOD;
 					$liveSiteSrc[] = "\tFabrik.bootstrapped = false;";
 				}
 
+				if ($fbConfig->get('advanced_behavior', '0') == '1')
+				{
+					$liveSiteSrc[] = "\tFabrik.buildChosen('select.advancedSelect', " . json_encode($chosenOptions) . ');';
+				}
 				$liveSiteSrc[] = "\tif (!Fabrik.jLayouts) {
 				Fabrik.jLayouts = {};
 				}
 				Fabrik.jLayouts = jQuery.extend(Fabrik.jLayouts, %%jLayouts%%);";
 				$liveSiteReq[] = 'media/com_fabrik/js/fabrik' . $ext;
-				self::script($liveSiteReq, $liveSiteSrc);
-
 			}
 
+			self::script($liveSiteReq, $liveSiteSrc);
 			self::$framework = $src;
 		}
 
@@ -1011,7 +1020,6 @@ EOD;
 	{
 		$session      = JFactory::getSession();
 		$requirePaths = self::requirePaths();
-		$pathBits     = array();
 		$framework    = array();
 		$deps         = array();
 		$j3           = FabrikWorker::j3();
@@ -1078,15 +1086,7 @@ EOD;
 		self::addRequireJsShim($framework, 'fab/autocomplete-bootstrap', array('fab/fabrik' . $ext));
 
 		$newShim = array_merge($framework, $newShim);
-		$shim    = json_encode($newShim);
-
-		foreach ($requirePaths as $reqK => $repPath)
-		{
-			$pathBits[] = "\n\t\t$reqK : '$repPath'";
-		}
-
-		$pathString = '{' . implode(',', $pathBits) . '}';
-		$config     = array();
+		$config  = array();
 
 		$config[] = "define('jquery', [], function() {
 			return jQuery;
@@ -1097,12 +1097,15 @@ EOD;
 			return moment;
 		});";
 
-		$config[] = "requirejs.config({";
-		$config[] = "\tbaseUrl: '" . $requirejsBaseURI . "',";
-		$config[] = "\tpaths: " . $pathString . ",";
-		$config[] = "\tshim: " . $shim . ',';
-		$config[] = "\twaitSeconds: 30,";
-		$config[] = "});";
+		$opts     = array(
+			'baseUrl' => $requirejsBaseURI,
+			'paths' => $requirePaths,
+			'shim' => $newShim,
+			'waitSeconds' => 30
+		);
+		$config[] = "requirejs.config(";
+		$config[] = json_encode($opts, self::isDebug() && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+		$config[] = ");";
 		$config[] = "\n";
 
 		// Store in session - included in fabrik system plugin
@@ -2238,7 +2241,7 @@ EOD;
 		$displayData->items     = $items;
 		$displayData->columns   = $columns;
 		$displayData->spanClass = $spanClass;
-		$displayData->spanId = $spanId;
+		$displayData->spanId    = $spanId;
 		$displayData->explode   = $explode;
 
 		$grid = $layout->render($displayData);

@@ -764,6 +764,7 @@ if (typeof (Fabrik) === 'undefined') {
     };
 
     window.fireEvent('fabrik.loaded');
+
 }
 
 // Allow fabrik to be loaded with :
