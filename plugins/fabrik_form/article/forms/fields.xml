@@ -77,11 +77,23 @@
 				description="PLG_FABRIK_FORM_ARTICLE_TITLE_DESC"
 				label="PLG_FABRIK_FORM_ARTICLE_TITLE_LABEL" />
 				
+			<field name="title alias"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_TITLE_ALIAS_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_TITLE_ALIAS_LABEL" />
+				
 			<field name="created_by"
 				type="listfields"
 				repeat="true"
 				description="PLG_FABRIK_FORM_ARTICLE_AUTHOR_DESC"
 				label="PLG_FABRIK_FORM_ARTICLE_AUTHOR_LABEL" />
+				
+			<field name="created_by_alias"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_AUTHOR_ALIAS_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_AUTHOR_ALIAS_LABEL" />
 				
 			<field name="publish_up"
 				type="listfields"

@@ -133,6 +133,8 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		$data       = array('articletext' => $this->buildContent(), 'catid' => $catId, 'state' => 1, 'language' => '*');
 		$attributes = array(
 			'title' => '',
+			'alias' => '',
+			'created_by_alias' => '',
 			'publish_up' => '',
 			'publish_down' => '',
 			'featured' => '0',
@@ -176,12 +178,16 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		$item = JTable::getInstance('Content');
 		$item->load($id);
 		$item->bind($data);
-
+		
 		// Trigger the onContentBeforeSave event.
 		$dispatcher->trigger('onContentBeforeSave', array('com_content.article', $item, $isNew));
 
 		$item->store();
 
+		$session = JFactory::getSession();
+		$session->set('articleRefId', $item->id);
+		$session->set('articleAlias', $item->alias);
+		
 		/**
 		 * Featured is handled by the admin content model, when you are saving in ADMIN
 		 * Otherwise we've had to hack over the admin featured() method into this plugin for the front end
