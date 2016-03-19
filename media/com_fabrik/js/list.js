@@ -212,15 +212,16 @@ var FbList = new Class({
         var self = this;
         this.exportWindowOpts.content = this.makeCSVExportForm();
         this.csvWindow = Fabrik.getWindow(this.exportWindowOpts);
-
         jQuery('.exportCSVButton').on('click', function (e) {
             e.stopPropagation();
             this.disabled = true;
+			this.hide();
+			jQuery('div.itemContent').hide();
             var csvMsg = jQuery('#csvmsg');
             if (csvMsg.length === 0) {
                 csvMsg = jQuery('<div />').attr({
                     'id': 'csvmsg'
-                }).insertBefore(jQuery(this));
+                }).css('text-align','center').insertBefore(jQuery(this));
             }
             csvMsg.html(Joomla.JText._('COM_FABRIK_LOADING') +
                 ' <br /><span id="csvcount">0</span> / <span id="csvtotal"></span> ' +
@@ -253,6 +254,47 @@ var FbList = new Class({
         this.triggerCSVExport(-1);
         return c;
     },
+	
+    /**
+     * Create a csv file types div.
+     * @param {string} name
+     * @param {boolean} fileTypeValue
+     * @param {string} fileTypeLabel
+     * @param {string} noLabel
+     * @param {string} title
+     * @returns {*}
+     * @private
+     */
+    _csvFileTypes: function (selectedValue, fileTypeValues, fileTypeLabels) {
+        var titleLabel = jQuery('<div>').css({
+                'width': '200px',
+				'display': 'inline-block',
+                'float': 'left'
+        }).text(Joomla.JText._('COM_FABRIK_FILE_TYPE'));		
+		var wrapper = jQuery('<div>').css({'clear':'left','border-top':'1px solid'}).append(titleLabel);		
+        var label = jQuery('<label />').css({'float':'left','margin-left':'15px'});
+		var index,isChecked,thisOpt;
+		var typeOptions = jQuery('<div>').css({
+			'display': 'inline-block',
+            'float': 'left'
+        });
+		for (index = 0; index < fileTypeValues.length; ++index) {
+			isChecked = selectedValue == index;
+		    thisOpt  = label.clone().append(
+            [jQuery('<input />').attr({
+                'type' : 'radio',
+                'name' : 'excel',
+                'value': fileTypeValues[index],
+                checked: isChecked
+            }),
+                jQuery('<span />').text(fileTypeLabels[index])
+            ]);
+			typeOptions.append(thisOpt);
+		}
+		wrapper.append(typeOptions);
+        return wrapper;
+    },
+	
 
     /**
      * Create a csv yes/no radio div.
@@ -265,7 +307,7 @@ var FbList = new Class({
      * @private
      */
     _csvYesNo: function (name, yesValue, yesLabel, noLabel, title) {
-        var label = jQuery('<label />').css('float', 'left');
+        var label = jQuery('<label />').css({'float':'left','margin-left':'15px'});
 
         var yes = label.clone().append(
             [jQuery('<input />').attr({
@@ -291,7 +333,7 @@ var FbList = new Class({
                 'float': 'left'
             }).text(title);
 
-        return jQuery('<div>').append([titleLabel, yes, no]);
+        return jQuery('<div>').css({'clear':'left','border-top':'1px solid'}).append([titleLabel, yes, no]);
 
     },
 
@@ -301,6 +343,14 @@ var FbList = new Class({
      * @private
      */
     _csvExportForm: function () {
+  	 /* Bauer added these 2 array vars (sent to _csvFileTypes function) as a way of	handling 
+		more than just 2 'File Type' options - i.e. a future feature that would allow 
+		additional File types, which would use admin-entered php code (e.g. phpExcel library)
+		to convert the exported CSV file into another 'Custom' file type.
+		*/
+		var fileTypeLabels = ['CSV','Excel CSV'];
+		var fileTypeValues = ['0','1'];
+		
         var yes = Joomla.JText._('JYES'),
             no = Joomla.JText._('JNO'),
             self = this,
@@ -312,8 +362,8 @@ var FbList = new Class({
             'action': url,
             'method': 'post'
         }).append([
-            this._csvYesNo('excel', this.options.csvOpts.excel,
-                'Excel CSV', 'CSV', Joomla.JText._('COM_FABRIK_FILE_TYPE')),
+            this._csvFileTypes(this.options.csvOpts.excel,
+                fileTypeValues, fileTypeLabels),
             this._csvYesNo('incfilters', this.options.csvOpts.incfilters,
                 yes, no, Joomla.JText._('COM_FABRIK_INCLUDE_FILTERS')),
             this._csvYesNo('inctabledata', this.options.csvOpts.inctabledata,
@@ -324,7 +374,7 @@ var FbList = new Class({
                 yes, no, Joomla.JText._('COM_FABRIK_INCLUDE_CALCULATIONS')),
 
         ]);
-        jQuery('<h4 />').css('clear', 'left').text(Joomla.JText._('COM_FABRIK_SELECT_COLUMNS_TO_EXPORT')).appendTo(c);
+        jQuery('<h4 />').css({'clear':'left','border-top':'2px solid','margin':'0','padding':'5px 0'}).text(Joomla.JText._('COM_FABRIK_SELECT_COLUMNS_TO_EXPORT')).appendTo(c);
         var g = '';
         var i = 0;
         jQuery.each(this.options.labels, function (k, labelText) {
@@ -332,7 +382,7 @@ var FbList = new Class({
                 var newg = k.split('___')[0];
                 if (newg !== g) {
                     g = newg;
-                    jQuery('<h5 />').text(g).appendTo(c);
+                    jQuery('<h5 />').css({'clear':'left','border-top':'2px solid','margin':'0','padding':'5px 0'}).text(g).appendTo(c);
                 }
 
                 labelText = labelText.replace(/<\/?[^>]+(>|jQuery)/g, '');
@@ -345,7 +395,7 @@ var FbList = new Class({
 
         // elements not shown in table
         if (this.options.formels.length > 0) {
-            jQuery('<h5 />').css('clear', 'left').text(Joomla.JText._('COM_FABRIK_FORM_FIELDS')).appendTo(c);
+            jQuery('<h5 />').css({'clear':'left','border-top':'2px solid','margin':'0','padding':'5px 0'}).text(Joomla.JText._('COM_FABRIK_FORM_FIELDS')).appendTo(c);
             this.options.formels.each(function (el) {
                 self._csvYesNo('fields[' + el.name + ']', false,
                     yes, no, el.label).appendTo(c);
@@ -467,8 +517,12 @@ var FbList = new Class({
                         this.csvWindow.center();
                         document.getElements('input.exportCSVButton').removeProperty('disabled');
 
-                        jQuery('#csvmsg a.btn-success').focusout(function () {
-                            Fabrik.Windows.exportcsv.close(true);
+                        jQuery('#csvmsg a.btn-success').mouseup(function () {
+                            jQuery(this).css( "display", "none" );
+                        });						
+						// Do we want this or not?
+                        jQuery('#csvmsg').focusout(function () {
+							Fabrik.Windows.exportcsv.close(true);
                         });
                     }
                 }
