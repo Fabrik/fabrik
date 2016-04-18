@@ -576,6 +576,40 @@ class FabrikWorker
 	}
 
 	/**
+	* 	Converts integers to romanic numbers
+	*	http://php.net/manual/en/function.base-convert.php#92960
+	* 
+	* @param   array 	$table  
+	* @param   string 	$rom    	Romanic number in array
+	* @param   int   	$arb 		Arabian number in array
+	* @param   int   	$integer	Convertable value using 
+	*					$w = new FabrikWorker; 
+	*					$integer = $w->romanicNumber($integer, true);
+	*
+	* @return $romanic
+	*/
+
+	 public static function romanicNumber($integer, $upcase = true) 
+	{ 
+		$table = array('M'=>1000, 'CM'=>900, 'D'=>500, 'CD'=>400, 'C'=>100, 'XC'=>90, 'L'=>50, 'XL'=>40, 'X'=>10, 'IX'=>9, 'V'=>5, 'IV'=>4, 'I'=>1); 
+		$romanic = ''; 
+		while($integer > 0) 
+		{ 
+			foreach($table as $rom=>$arb) 
+			{ 
+				if($integer >= $arb) 
+				{ 
+					$integer -= $arb; 
+					$romanic .= $rom; 
+					break; 
+				} 
+			} 
+		} 
+
+		return $romanic; 
+	} 	
+
+	/**
 	 * Check a string is not reserved by Fabrik
 	 *
 	 * @param   string $str    To check

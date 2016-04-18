@@ -19,7 +19,9 @@ $layoutData = (object) array(
 );
 ?>
 <tr class="fabrik___heading">
-<?php foreach ($this->headings as $key => $heading) :
+<?php 
+echo $this->rowNumHeader;
+foreach ($this->headings as $key => $heading) :
 	$h = $this->headingClass[$key];
 	$style = empty($h['style']) ? '' : 'style="' . $h['style'] . '"';?>
 	<th class="heading <?php echo $h['class']?>" <?php echo $style?>>

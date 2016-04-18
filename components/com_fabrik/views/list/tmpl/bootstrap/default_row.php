@@ -13,7 +13,10 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <tr id="<?php echo $this->_row->id;?>" class="<?php echo $this->_row->class;?>">
-	<?php foreach ($this->headings as $heading => $label) {
+	<?php 
+	echo $this->_row->rtag[0] . $this->_row->rowNum . $this->_row->rtag[1]; 
+	foreach ($this->headings as $heading => $label) 
+	{
 		$style = empty($this->cellClass[$heading]['style']) ? '' : 'style="'.$this->cellClass[$heading]['style'].'"';
 		?>
 		<td class="<?php echo $this->cellClass[$heading]['class']?>" <?php echo $style?>>

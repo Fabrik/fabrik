@@ -587,6 +587,27 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="list_row_number"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="COM_FABRIK_FIELD_USE_ROW_NUM_DESC"
+				label="COM_FABRIK_FIELD_USE_ROW_NUM_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			
+			<field name="list_romanic_number"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="COM_FABRIK_FIELD_USE_ROMANIC_DESC"
+				label="COM_FABRIK_FIELD_USE_ROMANIC_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 		</fieldset>
 

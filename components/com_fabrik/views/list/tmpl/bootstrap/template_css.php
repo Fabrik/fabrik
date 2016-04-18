@@ -59,4 +59,19 @@ list-style: none;
 	text-align: left;
 	display: inline-block;
 }
+
+td#rownumber {
+	padding-right: 5px;
+}
+div.rownumber {
+    border-radius: 5px;
+    background: #eeeddc;
+	border: 2px solid #999999;
+    padding: 3px; 
+    width: 80%;
+    height: 80%;
+	text-align: right;
+	margin-right: 2px;
+}
+
 ";?>

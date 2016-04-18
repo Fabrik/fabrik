@@ -377,6 +377,7 @@ class FabrikViewListBase extends FabrikView
 
 		/** @var FabrikFEModelList $model */
 		$model = $this->getModel();
+		$params = $model->getParams();
 
 		// Force front end templates
 		$tmpl            = $model->getTmpl();
@@ -395,6 +396,9 @@ class FabrikViewListBase extends FabrikView
 		$form = $model->getFormModel();
 		$nav  = $model->getPagination();
 		$this->setCanonicalLink();
+		$this->useRowNumber = (bool) $params->get('list_row_number', 0);
+		$this->useRomanicNumber = (bool) $params->get('list_romanic_number', 0);
+		$this->rowNumHeader = $this->useRowNumber ? '<th class="heading">' . FText::_('#') . '</th>' : '';
 
 		foreach ($data as $groupk => $group)
 		{
@@ -407,6 +411,21 @@ class FabrikViewListBase extends FabrikView
 				// $$$ rob moved merge wip code to FabrikModelTable::formatForJoins() - should contain fix for pagination
 				$o->data           = $data[$groupk][$i];
 				$o->cursor         = $num_rows + $nav->limitstart;
+				
+				// Jaanus: here we generate row ordering numbers for list and optionally convert numbers to romanic
+				
+				if ($this->useRowNumber)
+				{
+					if ($this->useRomanicNumber)
+					{
+						$w = new FabrikWorker;
+						$o->cursor = $w->romanicNumber($o->cursor, true);
+					}
+					
+					$o->rtag = array('<td id="rownumber">', '</td>');
+					$o->rowNum	= '<div class="rownumber">' . $o->cursor . '</div>';		
+				}
+				
 				$o->total          = $nav->total;
 				$o->id             = 'list_' . $model->getRenderContext() . '_row_' . @$o->data->__pk_val;
 				$o->class          = 'fabrik_row oddRow' . $c;
@@ -440,7 +459,6 @@ class FabrikViewListBase extends FabrikView
 		$this->nodata               = (empty($this->rows) || (count($this->rows) == 1 && empty($firstRow)) || !$this->requiredFiltersFound) ? true : false;
 		$this->tableStyle           = $this->nodata ? 'display:none' : '';
 		$this->emptyStyle           = $this->nodata ? '' : 'display:none';
-		$params                     = $model->getParams();
 
 		if (!$this->access($model))
 		{
