@@ -5952,7 +5952,7 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		foreach ($data as $i => &$d)
 		{
-			if (empty($d))
+			if ($d=='')
 			{
 				$d = '&nbsp;';
 			}
@@ -5987,29 +5987,33 @@ class PlgFabrik_Element extends FabrikPlugin
 	 */
 	protected function renderListDataFinal($data)
 	{
-		if (is_array($data) && count($data) > 1)
-		{
-			if (!array_key_exists(0, $data))
+		if (is_array($data)) {
+			if(count($data) > 1)
 			{
-				// Occurs if we have created a list from an existing table whose data contains json objects (e.g. #__users.params)
-				$obj     = ArrayHelper::toObject($data);
-				$data    = array();
-				$data[0] = $obj;
-			}
-			// If we are storing info as json the data will contain an array of objects
-			if (is_object($data[0]))
-			{
-				foreach ($data as &$o)
+				if (!array_key_exists(0, $data))
 				{
-					$this->convertDataToString($o);
+					// Occurs if we have created a list from an existing table whose data contains json objects (e.g. #__users.params)
+					$obj     = ArrayHelper::toObject($data);
+					$data    = array();
+					$data[0] = $obj;
 				}
-			}
+				// If we are storing info as json the data will contain an array of objects
+				if (is_object($data[0]))
+				{
+					foreach ($data as &$o)
+					{
+						$this->convertDataToString($o);
+					}
+				}
 
-			$r = '<ul class="fabrikRepeatData"><li>' . implode('</li><li>', $data) . '</li></ul>';
-		}
-		else
-		{
-			$r = empty($data) ? '' : array_shift($data);
+				$r = '<ul class="fabrikRepeatData"><li>' . implode('</li><li>', $data) . '</li></ul>';
+			}
+			else
+			{
+				$r = empty($data) ? '' : array_shift($data);
+			}
+		}else{
+			$r = $data;
 		}
 
 		$layout            = $this->getLayout('list');
