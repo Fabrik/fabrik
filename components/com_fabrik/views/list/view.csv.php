@@ -77,6 +77,14 @@ class FabrikViewList extends FabrikViewListBase
 		{
 			// Only get the total if not set - otherwise causes memory issues when we downloading
 			$total = $model->getTotalRecords();
+			if ((int) $total === 0)
+			{
+				$notice = new stdClass;
+				$notice->err = FText::_('COM_FABRIK_CSV_EXPORT_NO_RECORDS');
+				echo json_encode($notice);
+
+				return;
+			}
 			$this->session->set($key, $total);
 		}
 		else
@@ -86,15 +94,6 @@ class FabrikViewList extends FabrikViewListBase
 
 		if ($start < $total)
 		{
-			if ((int) $total === 0)
-			{
-				$notice = new stdClass;
-				$notice->err = FText::_('COM_FABRIK_CSV_EXPORT_NO_RECORDS');
-				echo json_encode($notice);
-
-				return;
-			}
-
 			$download = (bool) $input->getInt('download', true);
 			$canDownload = ($start + $limit >= $total) && $download;
 			$exporter->writeFile($total, $canDownload);
