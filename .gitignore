@@ -99,3 +99,7 @@ custom.css
 /ZendFramework-1.12.3
 /mobiquo
 /node_modules
+
+components/com_fabrik/language/.DS_Store
+
+components/com_fabrik/models/.DS_Store

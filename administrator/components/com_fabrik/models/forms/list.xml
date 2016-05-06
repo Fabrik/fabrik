@@ -690,7 +690,18 @@
 				<option value="nl">COM_FABRIK_LEAVE_CR_LF</option>
 				<option value="remove">COM_FABRIK_REMOVE</option>
 			</field>
-
+            
+            <field name="csv_clean_html"
+                type="list"
+                default="leave"
+                label="COM_FABRIK_FIELD_CSV_CLEAN_HTML_LABEL"
+                description="COM_FABRIK_FIELD_CSV_CLEAN_HTML_DESC"
+                >
+                <option value="leave">COM_FABRIK_LEAVE_HTML</option>
+                <option value="replaceli">COM_FABRIK_REPLACE_LI</option>
+                <option value="remove">COM_FABRIK_REMOVE</option>
+            </field>
+            
 			<field name="csv_custom_qs"
 			       type="text"
 			       class="input-xxlarge"
@@ -837,9 +848,20 @@
 			       class="input-mini"
 			       size="20"
 			       default=""
-			       label="COM_FABRIK_FIELD_CSV_LOCAL_DELIMITER"
-			       description="COM_FABRIK_FIELD_LOCAL_DELIMITER_DESC"
+			       label="COM_FABRIK_FIELD_CSV_LOCAL_DELIMITER_LABEL"
+			       description="COM_FABRIK_FIELD_CSV_LOCAL_DELIMITER_DESC"
 			/>
+
+			<field name="csv_end_of_line"
+			       type="radio"
+			       class="btn-group"
+			       default="n"
+			       label="COM_FABRIK_FIELD_CSV_END_OF_LINE_LABEL"
+			       description="COM_FABRIK_FIELD_CSV_END_OF_LINE_DESC"
+			>
+				<option value="n">n</option>
+				<option value="r">r</option>
+			</field>
 
 		</fieldset>
 
