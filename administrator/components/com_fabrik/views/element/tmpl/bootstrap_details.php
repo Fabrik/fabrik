@@ -28,6 +28,12 @@ defined('_JEXEC') or die('Restricted access');
 		foreach ($this->form->getFieldset('details2') as $this->field) :
 			echo $this->loadTemplate('control_group');
 		endforeach;
+ 
+    if (!in_array($this->item->plugin, array('internalid','timestamp')) && $this->item->id > 0) :
+      foreach ($this->form->getFieldset('hidden') as $this->field) :
+        echo $this->loadTemplate('control_group');
+      endforeach;
+    endif;
 		?>
 		</div>
 

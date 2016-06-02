@@ -6,13 +6,6 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_DATE_HELP_SERVER" />
 
-			<field default="0"
-				class="btn-group"
-				label="PLG_ELEMENT_DATE_HIDDEN_LABEL" name="hidden" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"

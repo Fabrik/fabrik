@@ -13,4 +13,3 @@ defined('JPATH_BASE') or die;
 		</div>
 	</div>
 </div>
-

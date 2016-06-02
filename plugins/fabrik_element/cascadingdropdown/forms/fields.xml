@@ -7,15 +7,6 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_CASCADINGDROPDOWN_HELP_SERVER" />
 
-			<field name="hidden"
-				type="radio"
-				default="0"
-				class="btn-group"
-				label="PLG_ELEMENT_CDD_HIDDEN">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-
 			<field name="eval"
 				type="radio"
 				default="0"
