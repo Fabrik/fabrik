@@ -437,7 +437,6 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             });
 
             this.uploader.bind('Error', function (up, err) {
-                var self = this;
                 self.lastAddedFiles.each(function (file) {
                     var row = jQuery('#' + file.id);
                     if (row.length > 0) {
@@ -805,7 +804,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                 'type'           : 'modal',
                 loadMethod       : 'html',
                 width            : parseInt(this.imageDefault.imagedim.w, 10) + 40,
-                height           : parseInt(this.imageDefault.imagedim.h, 10) + 150,
+                height           : parseInt(this.imageDefault.imagedim.h, 10) + 170,
                 storeOnClose     : true,
                 createShowOverLay: false,
                 crop             : opts.crop,

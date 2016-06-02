@@ -105,6 +105,7 @@
 			label="COM_FABRIK_REPEAT_GROUP_BUTTON_LABEL" >
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="2">COM_FABRIK_REPEAT_GROUP_JOIN_NOREPEAT</option>
 			</field>
 
 			<field name="repeat_template"

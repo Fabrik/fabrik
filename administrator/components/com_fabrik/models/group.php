@@ -160,7 +160,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 
 		if ($this->checkRepeatAndPK($data))
 		{
-			$makeJoin = ($data['params']['repeat_group_button'] == 1);
+			$makeJoin = in_array($data['params']['repeat_group_button'], array(1,2));
 
 			if ($makeJoin)
 			{
@@ -181,7 +181,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		}
 		else
 		{
-			if (($data['params']['repeat_group_button'] == 1))
+			if (in_array($data['params']['repeat_group_button'], array(1,2)))
 			{
 				$data['params']['repeat_group_button'] = 0;
 				$this->app->enqueueMessage('You can not set the group containing the list primary key to be repeatable', 'notice');
@@ -335,14 +335,16 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		/** @var FabrikFEModelGroup $groupModel */
 		$groupModel = JModelLegacy::getInstance('Group', 'FabrikFEModel');
 		$groupModel->setId($data['id']);
-		$listModel          = $groupModel->getListModel();
-		$db                 = $listModel->getDb();
-		$list               = $listModel->getTable();
-		$elements           = (array) $groupModel->getMyElements();
-		$names              = array();
-		$fields             = $listModel->getDBFields(null, 'Field');
-		$names['id']        = "id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY";
-		$names['parent_id'] = "parent_id INT(11)";
+		$listModel = $groupModel->getListModel();
+		$pluginManager = FabrikWorker::getPluginManager();
+		$db = $listModel->getDb();
+		$list = $listModel->getTable();
+		$elements = (array) $groupModel->getMyElements();
+		$names = array();
+		$listpk = FabrikString::shortColName($list->db_primary_key);
+		$parentid = $list->db_table_name . '_' . $listpk;
+		$names['id'] = "id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY";
+		$names[$db->quote($parentid)] = $list->db_table_name . '_' . $listpk . " INT(11)";
 
 		foreach ($elements as $element)
 		{
@@ -418,7 +420,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		// Create the join as well
 
 		$jData = array('list_id' => $list->id, 'element_id' => 0, 'join_from_table' => $list->db_table_name, 'table_join' => $newTableName,
-			'table_key' => FabrikString::shortColName($list->db_primary_key), 'table_join_key' => 'parent_id', 'join_type' => 'left',
+			'table_key' => $listpk, 'table_join_key' => $parentid, 'join_type' => 'left',
 			'group_id' => $data['id']);
 
 		// Load the matching join if found.
@@ -433,7 +435,7 @@ class FabrikAdminModelGroup extends FabModelAdmin
 		$join->store();
 		$data['is_join'] = 1;
 
-		$listModel->addIndex($newTableName . '___parent_id', 'parent_fk', 'INDEX', '');
+		$listModel->addIndex($newTableName . '___' . $parentid, 'parent_fk', 'INDEX', '');
 
 		return true;
 	}
@@ -454,15 +456,20 @@ class FabrikAdminModelGroup extends FabModelAdmin
 			return false;
 		}
 
-		$db    = FabrikWorker::getDbo(true);
+		$groupModel = JModelLegacy::getInstance('Group', 'FabrikFEModel');
+		$listModel = $groupModel->getListModel();
+		$list = $listModel->getTable();
+		$listpk = FabrikString::shortColName($list->db_primary_key);
+		$parentid = $list->db_table_name . '_' . $listpk;
+
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->delete('#__{package}_joins')->where('group_id = ' . $data['id']);
 		$db->setQuery($query);
 		$return = $db->execute();
 
 		$query = $db->getQuery(true);
-		$query->select('id')->from('#__{package}_elements')
-			->where('group_id  = ' . $data['id'] . ' AND name IN ("id", "parent_id")');
+		$query->select('id')->from('#__{package}_elements')->where('group_id  = ' . $data['id'] . ' AND name IN ("id", "' . $parentid . '")');
 		$db->setQuery($query);
 		$elementIds   = $db->loadColumn();
 		$elementModel = JModelLegacy::getInstance('Element', 'FabrikModel');

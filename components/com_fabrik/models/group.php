@@ -824,7 +824,9 @@ class FabrikFEModelGroup extends FabModel
 	 */
 	public function canRepeat()
 	{
-		return $this->getParams()->get('repeat_group_button');
+		$params = $this->getParams();
+
+		return $params->get('repeat_group_button') == 1;
 	}
 
 	/**
@@ -1001,7 +1003,7 @@ class FabrikFEModelGroup extends FabModel
 		}
 
 		$group->editable = $this->editable;
-		$group->canRepeat = $params->get('repeat_group_button', '0');
+		$group->canRepeat = $this->canRepeat(); 
 		$showGroup = $params->def('repeat_group_show_first', '1');
 		$pages = $formModel->getPages();
 		$startPage = isset($formModel->sessionModel->last_page) ? $formModel->sessionModel->last_page : 0;
