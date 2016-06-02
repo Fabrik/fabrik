@@ -1509,9 +1509,18 @@ class PlgFabrik_Element extends FabrikPlugin
 	 */
 	public function isHidden()
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$view = $input->get('view');
 		$element = $this->getElement();
+		$hidden = false;
 
-		return ($element->hidden == true) ? true : false;
+		if ($element->hidden == 1 || ($element->hidden == 2 && $view == 'form') || ($element->hidden == 3 && $view == 'details'))
+		{
+      $hidden = true;
+    }
+		
+		return $hidden;
 	}
 
 	/**

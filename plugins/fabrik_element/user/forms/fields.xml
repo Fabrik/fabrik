@@ -6,15 +6,6 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_USER_HELP_SERVER" />
 
-			<field name="hidden"
-				type="radio"
-				default="0"
-				class="btn-group"
-				label="PLG_ELEMENT_USER_HIDDEN_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-
 		</fieldset>
 	</fields>
 
