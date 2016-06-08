@@ -848,7 +848,7 @@ EOD;
 
 			//$ext = self::isDebug() ? '.js' : '-min.js';
 			$mediaFolder = self::getMediaFolder();
-			$src         = array();
+			$src = array();
 			JHtml::_('behavior.framework', true);
 
 			// Ensure bootstrap js is loaded - as J template may not load it.
@@ -1022,7 +1022,7 @@ EOD;
 	 * Stores the shim and config to the session, which Fabrik system plugin
 	 * then uses to inject scripts into document.
 	 *
-	 * @param   array $shim  Shim js files
+	 * @param   array $shim Shim js files
 	 * @param   array $paths Additional require js paths
 	 *
 	 * @since   3.1
@@ -1170,8 +1170,6 @@ EOD;
 		$r->adminfields = 'administrator/components/com_fabrik/models/fields';
 
 		$r->jQueryUI = 'media/com_fabrik/js/lib/jquery-ui/jquery-ui';
-		$r->chosen   = 'media/jui/js/chosen.jquery.min';
-		$r->ajaxChosen   = 'media/jui/js/ajax-chosen.min';
 
 		// We are now loading compressed js fabrik files from the media/com_fabrik/js/dist folder
 		// This avoids AMD issues where we were loading fab/form or fab/form-min.
@@ -1297,6 +1295,7 @@ EOD;
 	 *
 	 * @return  bool
 	 */
+
 	public static function inAjaxLoadedPage()
 	{
 		$app     = JFactory::getApplication();
@@ -2331,7 +2330,7 @@ EOD;
 	 */
 	public static function runContentPlugins(&$text)
 	{
-		$app    = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$input  = $app->input;
 		$opt    = $input->get('option');
 		$view   = $input->get('view');
