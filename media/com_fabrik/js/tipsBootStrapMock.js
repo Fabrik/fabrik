@@ -193,7 +193,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         .appendTo(inside ? this.$element : document.body);
 
                     pos = this.getPosition(inside);
-
+                    var setArrow = true; 
                     actualWidth = $tip[0].offsetWidth;
                     actualHeight = $tip[0].offsetHeight;
 
@@ -222,9 +222,11 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                             break;
                         case 'left':
                             tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'maxwidth': + this.options.tipwidth};
+                            setArrow = false;
                             break;
                         case 'right':
                             tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'maxwidth': + this.options.tipwidth};
+                            setArrow = false;
                             break;
                     }
                     var tpA = $.makeArray( tp );
@@ -267,7 +269,9 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                             arrowX = parseInt(event.pageX-tpA[0].left)+'px';
                         }
                     }
-                    $tip.find('.arrow').css({'left': arrowX});                          
+                    if(setArrow == true){                    
+                        $tip.find('.arrow').css({'left': arrowX});
+                    }    
                 }
             }
         });
