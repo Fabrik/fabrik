@@ -1757,6 +1757,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		$params         = $this->getParams();
 		$opts           = new stdClass;
 		$pos            = $params->get('tiplocation', 'top');
+        	$opts->tipwidth = $params->get('tipwidth', 276);        
 		$opts->formTip  = true;
 		$opts->position = $pos;
 		$opts->trigger  = 'hover';
