@@ -15,6 +15,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
         options: {
             fxProperties: {transition: Fx.Transitions.linear, duration: 500},
             'position'  : 'top',
+            'tipwidth'  : 276,
             'trigger'   : 'hover',
             'content'   : 'title',
             'distance'  : 50,
@@ -169,6 +170,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         this.$tip.addClass(this.options.modifier);
                     }
                 }
+                this.$tip.css('max-width',this.options.tipwidth+'px');
                 return this.$tip;
             },
 
@@ -197,39 +199,75 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 
                     switch (inside ? placement.split(' ')[1] : placement) {
                         case 'bottom':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': + this.options.tipwidth};
                             break;
                         case 'bottom-left':
-                            tp = {top: pos.top + pos.height, left: pos.left};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left, 'maxwidth': + this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'bottom-right':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width - actualWidth, 'maxwidth': + this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'top':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': + this.options.tipwidth};
                             break;
                         case 'top-left':
-                            tp = {top: pos.top - actualHeight, left: pos.left};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left, 'maxwidth': + this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'top-right':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width - actualWidth, 'maxwidth': + this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'left':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'maxwidth': + this.options.tipwidth};
                             break;
                         case 'right':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'maxwidth': + this.options.tipwidth};
                             break;
                     }
+                    var tpA = $.makeArray( tp );
 
                     $tip
                         .css(tp)
                         .addClass(placement)
                         .addClass('in');
+                        
+                    /* This positions the arrow at the X position where the mouse
+                     * pointer was clicked and prevents wide tips from being truncated
+                     * off the left or right side of the browser viewport. 
+                     */
+                    //  event = event || window.event; // IE-ism
+                    viewWidth = $(window).width();
+                    arrowX = parseInt(event.pageX);  
+                    if(tpA[0].left < 0) {
+                        $tip.css('left','0px');
+                        if(arrowX > Math.max(pos.width,tpA[0].maxwidth) -15){
+                            arrowX = '91%';
+                        }else{
+                            arrowX = arrowX+'px';
+                        }   
+                    }else if(tpA[0].left + Math.max(pos.width,tpA[0].maxwidth) > viewWidth) {
+                        $tip.css('left',(viewWidth-actualWidth)+'px'); 
+                        arrowX = (Math.max(pos.width,tpA[0].maxwidth) - (viewWidth-arrowX));
+                        if(arrowX < 15) {
+                            arrowX = '9%';
+                        } else if(arrowX > tpA[0].maxwidth-15) {
+                            arrowX = '91%';
+                        } else {
+                            arrowX = arrowX+'px'
+                        }
+                    }else{
+                        if(arrowX < tpA[0].left + 15){
+                            arrowX = '9%';
+                        }else if(arrowX > pos.right || arrowX > pos.left + actualWidth - 15){
+                            arrowX = '91%';                       
+                        }else{
+                            arrowX = parseInt(event.pageX-tpA[0].left)+'px';
+                        }
+                    }
+                    $tip.find('.arrow').css({'left': arrowX});                          
                 }
             }
         });
