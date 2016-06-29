@@ -16,6 +16,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
             fxProperties: {transition: Fx.Transitions.linear, duration: 500},
             'position'  : 'top',
             'tipwidth'  : 276,
+            'xpos'      : 0,            
             'trigger'   : 'hover',
             'content'   : 'title',
             'distance'  : 50,
@@ -175,7 +176,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
             },
 
             show: function () {
-                var $tip, inside, pos, actualWidth, actualHeight, placement, tp;
+                var $tip, inside, pos, actualWidth, actualHeight, placement, tp, viewWidth, arrowX;;
                 if (this.hasContent() && this.enabled) {
                     $tip = this.tip();
                     this.setContent();
@@ -240,9 +241,8 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                      * pointer was clicked and prevents wide tips from being truncated
                      * off the left or right side of the browser viewport. 
                      */
-                    //  event = event || window.event; // IE-ism
                     viewWidth = $(window).width();
-                    arrowX = parseInt(event.pageX);  
+                    arrowX = this.options.xpos;  
                     if(tpA[0].left < 0) {
                         $tip.css('left','0px');
                         if(arrowX > Math.max(pos.width,tpA[0].maxwidth) -15){
@@ -266,7 +266,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         }else if(arrowX > pos.right || arrowX > pos.left + actualWidth - 15){
                             arrowX = '91%';                       
                         }else{
-                            arrowX = parseInt(event.pageX-tpA[0].left)+'px';
+                            arrowX = parseInt(arrowX-tpA[0].left)+'px';
                         }
                     }
                     if(setArrow == true){                    
@@ -281,6 +281,11 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 var $this = $(this),
                     data = $this.data('popover'),
                     options = typeof option === 'object' && option;
+
+                $($this).on('mouseover', function(e) {
+                    data.options.xpos = e.pageX;
+                });                    
+                    
                 if (!data) {
                     $this.data('popover', (data = new PopoverEx(this, options)));
                 }
