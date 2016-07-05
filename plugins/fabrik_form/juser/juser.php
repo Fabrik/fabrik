@@ -212,14 +212,22 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 							$groupElement      = FabrikWorker::getPluginManager()->getElementPlugin($params->get('juser_field_usertype'));
 							$groupElementClass = get_class($groupElement);
 							$gid               = $user->groups;
+							$groupLabels	= $gid;
 
 							if ($groupElementClass !== 'PlgFabrik_ElementUsergroup')
 							{
 								$gid = array_shift($gid);
+								//Get group title
+								$grdb = JFactory::getDbo();
+								$grquery = $grdb->getQuery(true);
+								$grquery->select('title')->from('#__usergroups')->where('id =' . $gid);
+								$grdb->setQuery($grquery);
+
+								$groupLabels = $grdb->loadResult();
 							}
 
 							$this->gidfield                            = $this->getFieldName('juser_field_usertype');
-							$formModel->data[$this->gidfield]          = $gid;
+							$formModel->data[$this->gidfield]          = $groupLabels;
 							$formModel->data[$this->gidfield . '_raw'] = $gid;
 						}
 
