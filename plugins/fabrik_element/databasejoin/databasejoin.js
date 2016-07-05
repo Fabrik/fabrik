@@ -77,8 +77,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             if (e) {
                 // Loading from click
                 e.stop();
-                onContentLoaded = function (win) {
-                    this.fitToContent();
+                onContentLoaded = function () {
+                    this.fitToContent(false);
                 };
 
                 // @FIXME - if set to true, then click addrow, click select rows, click add row => can't submit the form

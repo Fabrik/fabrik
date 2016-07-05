@@ -29,6 +29,8 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			
+
 
 		</fieldset>
 	</fields>
@@ -104,7 +106,21 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-
+			
+			<field name="aggregate"
+				type="list"
+				default="0"
+				description="PLG_ELEMENT_FIELD_AGGREGATE_DESC"
+				label="PLG_ELEMENT_FIELD_AGGREGATE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">AVG</option>
+					<option value="2">COUNT</option>
+					<option value="3">COUNT DISTINCT</option>
+					<option value="4">MAX</option>
+					<option value="5">MIN</option>
+					<option value="6">SUM</option>
+			</field>
+			
 		</fieldset>
 
 		<fieldset label="PLG_ELEMENT_FIELD_FORMATTING" name="plg-field-formatting">
@@ -205,6 +221,8 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			
+
 
 		</fieldset>
 

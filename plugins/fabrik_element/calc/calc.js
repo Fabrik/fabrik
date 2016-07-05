@@ -113,13 +113,14 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             };
             data = Object.append(formData, data);
             Fabrik.loader.start(this.element.getParent(), Joomla.JText._('COM_FABRIK_LOADING'));
-            new Request({
+            new Request.HTML({
                 'url'     : '',
                 method    : 'post',
                 'data'    : data,
-                onComplete: function (r) {
+                onSuccess: function (tree, elements, r, scripts) {
                     Fabrik.loader.stop(this.element.getParent());
                     this.update(r);
+                    eval(scripts);
                     if (this.options.validations) {
 
                         // If we have a validation on the element run it after AJAX calc is done

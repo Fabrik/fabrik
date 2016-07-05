@@ -40,7 +40,7 @@ class FabrikViewPopupwin extends JViewLegacy
 		$this->_setPath('template', $path);
 
 		$this->showToField = $model->getShowToField();
-		$records           = $model->getRecords();
+		$records = $model->getRecords();
 
 		if (count($records) == 0)
 		{

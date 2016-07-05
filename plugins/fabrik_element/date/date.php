@@ -635,7 +635,8 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 		}
 
 		// $$$ hugh - need to convert to database format so we GMT-ified date
-		return $this->renderListData($value, new stdClass);
+		$dummy = new stdClass;
+		return $this->renderListData($value, $dummy);
 		/* $$$ rob - no need to covert to db format now as its posted as db format already.
 		 *return $this->renderListData($this->storeDatabaseFormat($value, $data), new stdClass);
 		 */

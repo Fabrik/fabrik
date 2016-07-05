@@ -6727,10 +6727,15 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$thousandSep = ' ';
 		}
+<<<<<<< HEAD
+
 		else if ($thousandSep == '#00')
+
 		{
 			$thousandSep = '';
 		}
+=======
+>>>>>>> parent of 113570e... Empty thousand separator
 
 		return number_format((float) $data, $decimalLength, $decimalSep, $thousandSep);
 	}
@@ -6762,11 +6767,15 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$thousandSep = ' ';
 		}
+
+<<<<<<< HEAD
 		else if ($thousandSep == '#00')
 		{
 			$thousandSep = '';
 		}
 		
+=======
+>>>>>>> parent of 113570e... Empty thousand separator
 		$val = str_replace($thousandSep, '', $val);
 		$val = str_replace($decimalSep, '.', $val);
 

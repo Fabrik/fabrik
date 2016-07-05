@@ -336,15 +336,23 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 targetInRepeat = target.options.inRepeatGroup;
             }
 
+            if (id.slice(0, 21) === 'fabrik_trigger_group_') {
+                groupfx = true;
+            }
+            else {
+                groupfx = false;
+            }
+
             // Update the element id that we will apply the fx to to be that of the calling elementModels group
             // (if in a repeat group)
-            if (elementModel && targetInRepeat) {
+            if (elementModel && targetInRepeat && !groupfx) {
                 if (elementModel.options.inRepeatGroup) {
                     var bits = id.split('_');
                     bits[bits.length - 1] = elementModel.options.repeatCounter;
                     id = bits.join('_');
                 }
             }
+
             // Create the fx key
             id = id.replace('fabrik_trigger_', '');
             if (id.slice(0, 6) === 'group_') {
@@ -354,9 +362,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     id = id.slice(6, id.length);
                 }
                 k = id;
-                groupfx = true;
             } else {
-                groupfx = false;
                 id = id.slice(8, id.length);
                 k = 'element' + id;
             }

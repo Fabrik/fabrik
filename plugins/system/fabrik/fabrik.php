@@ -115,6 +115,27 @@ class PlgSystemFabrik extends JPlugin
 	}
 
 	/**
+	 * Store head script in session js store,
+	 * used by partial document type to exclude scripts already loaded
+	 *
+	 * @return  void
+	 */
+	public static function storeHeadJs()
+	{
+		$session = JFactory::getSession();
+		$doc = JFactory::getDocument();
+		$app = JFactory::getApplication();
+		$key = md5($app->input->server->get('REQUEST_URI', '', 'string'));
+
+		if (!empty($key))
+		{
+			$key = 'fabrik.js.head.cache.' . $key;
+			$scripts = json_encode($doc->_scripts);
+			$session->set($key, $scripts);
+		}
+	}
+
+	/**
 	 * Build Page <script> tag for insertion into DOM
 	 *
 	 * @return string
@@ -180,6 +201,7 @@ class PlgSystemFabrik extends JPlugin
 		$app    = JFactory::getApplication();
 		$script = self::js();
 		self::clearJs();
+		self::storeHeadJs();
 
 		$version           = new JVersion;
 		$lessThanThreeFour = version_compare($version->RELEASE, '3.4', '<');

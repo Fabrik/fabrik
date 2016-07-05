@@ -26,6 +26,12 @@ language/*
 libraries/*
 !libraries/dompdf/
 !libraries/fabrik/fabrik/*
+!libraries/joomla
+libraries/joomla/*
+!libraries/joomla/document
+libraries/joomla/document/*
+!libraries/joomla/document/partial/
+!libraries/joomla/document/partial/*
 libraries/dompdf/lib/fonts/log.htm
 logs
 modules/*

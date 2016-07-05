@@ -305,6 +305,13 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			
+			<field name="sql_groupby"
+		       type="listfields"
+		       valueformat="tableelement"
+		       label="COM_FABRIK_FIELD_SQL_GROUPBY_LABEL"
+		       description="COM_FABRIK_FIELD_SQL_GROUPBY_DESC"
+		/>
 
 		</fieldset>
 

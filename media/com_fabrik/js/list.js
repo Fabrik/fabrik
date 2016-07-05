@@ -227,7 +227,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                 if(start >= 0 || jQuery('div.itemContent').outerHeight()==0){
                     /* If selectable options - hide and remove space in DOM by setting outerHeight to 0 */
                     if(jQuery('div.modal-footer').length) {
-                        jQuery('div.itemContent').outerHeight(0);
+                        //jQuery('div.itemContent').outerHeight(0);
                         jQuery('div.modal').css('height','auto');
                     }else{
                         jQuery('div.itemContent').css('overflow','initial');

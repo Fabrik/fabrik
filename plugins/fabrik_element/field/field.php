@@ -412,6 +412,49 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	}
 
 	/**
+	 * Create the SQL select 'name AS alias' segment for list/form queries
+	 *
+	 * @param   array  &$aFields    array of element names
+	 * @param   array  &$aAsFields  array of 'name AS alias' fields
+	 * @param   array  $opts        options
+	 *
+	 * @return  void
+	 */
+	 
+	public function getAsField_html(&$aFields, &$aAsFields, $opts = array())
+	{
+		$params = $this->getParams();
+		$aggregate = $params->get('aggregate', 0);
+		$functions = array ('NO', 'AVG', 'COUNT', 'COUNT', 'MAX', 'MIN', 'SUM');
+		
+		if ($aggregate == 0)
+		{
+			parent::getAsField_html($aFields, $aAsFields, $opts = array());
+		}
+		else
+		{
+			$dbTable = $this->actualTableName();
+			$db = FabrikWorker::getDbo();
+
+			if ($this->app->input->get('c') != 'form')
+			{
+				$fullElName = FArrayHelper::getValue($opts, 'alias', $db->qn($dbTable . '___' . $this->getElement()->name));
+				if ($aggregate == 3)
+				{
+					$r = $functions[$aggregate] . '(DISTINCT ' . $this->getElement()->name . ')';
+				}
+				else
+				{
+					$r = $functions[$aggregate] . '(' . $this->getElement()->name . ')';
+				}
+				$aFields[] = $r . ' AS ' . $fullElName;
+				$aAsFields[] = $fullElName;
+				$aAsFields[] = $db->qn($dbTable . '___' . $this->getElement()->name . '_raw');
+			}
+		}
+	}
+	
+	/**
 	 * Get Joomfish options
 	 *
 	 * @deprecated - not supporting joomfish
