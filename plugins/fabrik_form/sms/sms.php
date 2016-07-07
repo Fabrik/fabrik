@@ -59,7 +59,12 @@ class PlgFabrik_FormSMS extends PlgFabrik_Form
 		$message = $this->getMessage();
 		$gateway = $this->getInstance();
 
-		return $gateway->process($message, $opts);
+		if (!$this->shouldProcess('sms_conditon', null, $params))
+		{
+			return;
+		} else {
+      			return $gateway->process($message, $opts);
+      }
 	}
 
 	/**
