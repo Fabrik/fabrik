@@ -2186,8 +2186,10 @@ class FabrikFEModelForm extends FabModelForm
 			foreach ($elementModels as $elementModel)
 			{
 				// If the user can't view or edit the element, then don't validate it. Otherwise user sees failed validation but no indication of what failed
-				if (!$elementModel->canUse() && !$elementModel->canView())
-				{
+				// if (!$elementModel->canUse() && !$elementModel->canView())
+				// Bauer note: This is wrong. For example, if !canUse, but canView, this would not be skipped because both are not false! 	
+				// It should be either... if (!$elementModel->canUse() || !$elementModel->canView()) - or...
+				if (!($elementModel->canUse() && $elementModel->canView()))				{
 					continue;
 				}
 
@@ -2333,14 +2335,18 @@ class FabrikFEModelForm extends FabModelForm
 			$post[$key] = $val;
 		}
 
-		if (!empty($this->errors))
+		// (Bauer) This would always be run because $this-errors contains an array with keys for each element - so $this->errors will never be an empty array. 
+		// Isn't that why the $ok flag was created to begin with???
+		// if (!empty($this->errors))
+		if(!$ok)
 		{
 			FabrikWorker::getPluginManager()->runPlugins('onError', $this);
-		}
-
-		FabrikHelperHTML::debug($this->errors, 'form:errors');
-		//echo "<pre>";print_r($this->errors);exit;
-		$this->setErrors($this->errors);
+			FabrikHelperHTML::debug($this->errors, 'form:errors');
+			//echo "<pre>";print_r($this->errors);exit;
+		
+			// (Bauer) Does this even need to be done if $ok is true? 
+			$this->setErrors($this->errors);
+		}	
 
 		return $ok;
 	}
