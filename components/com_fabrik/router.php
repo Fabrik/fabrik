@@ -216,7 +216,7 @@ function _fabrikRouteMatchesMenuItem($query, $menuItem)
 	switch ($queryView)
 	{
 		case 'list':
-			if (!isset($query['listid']))
+			if (isset($query['id']) && !isset($query['listid']))
 			{
 				$query['listid'] = $query['id'];
 				unset($query['id']);
@@ -226,7 +226,7 @@ function _fabrikRouteMatchesMenuItem($query, $menuItem)
 
 		case 'details':
 		case 'form':
-			if (!isset($menuItem->query['rowid']))
+			if (isset($query['rowid']) && !isset($menuItem->query['rowid']))
 			{
 				$menuItem->query['rowid'] = $query['rowid'];
 			}
@@ -236,7 +236,7 @@ function _fabrikRouteMatchesMenuItem($query, $menuItem)
 
 	return $query === $menuItem->query;
 
-	return true;
+//	return true; WHY?
 }
 
 /**
