@@ -431,7 +431,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		$data = array();
 
 		$this->passwordfield = $this->getFieldName('juser_field_password');
-		$this->passwordvalue = $this->getFieldValue('juser_field_password', $formModel->formData);
+		$this->passwordvalue = $this->getFieldValue('juser_field_password', $input->post->getArray());
 
 		$this->namefield = $this->getFieldName('juser_field_name');
 		$this->namevalue = $this->getFieldValue('juser_field_name', $formModel->formData);
