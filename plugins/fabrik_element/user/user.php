@@ -1089,4 +1089,23 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 		return array($ar);
 	}
+
+	/**
+	 * Create the sql query used to get the join data
+	 *
+	 * @param   array $data     data
+	 * @param   bool  $incWhere include where
+	 * @param   array $opts     query options
+	 *
+	 * @return  mixed    JDatabaseQuery or false if query can't be built
+	 */
+	protected function buildQuery($data = array(), $incWhere = true, $opts = array())
+	{
+		if ($this->isHidden())
+		{
+			return false;
+		}
+
+		return parent::buildQuery($data, $incWhere, $opts);
+	}
 }
