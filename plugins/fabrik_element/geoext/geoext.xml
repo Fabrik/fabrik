@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_element" method="upgrade" type="plugin" version="30">
+	<name>plg_fabrik_element_geoext</name>
+	<author>Clement Brunet</author>
+	<creationDate>2014</creationDate>
+	<copyright>Copyright (C) 2014  - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>brunet@apem.asso.fr</authorEmail>
+	<authorUrl>www.apem.asso.fr</authorUrl>
+	<version>3.1</version>
+	<help url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER"/>
+	<description>PLG_ELEMENT_GEOEXT_DESCRIPTION</description>
+	<files>
+		<filename plugin="geoext">geoext.php</filename>
+		<filename>geoext.js</filename>
+		<filename>geoext-min.js</filename>
+		<filename>index.html</filename>
+		<folder>forms</folder>
+		<folder>images</folder>
+		<folder>language</folder>
+		<folder>script</folder>
+	</files>
+</extension>
