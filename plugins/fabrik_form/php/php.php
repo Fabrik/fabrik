@@ -193,7 +193,13 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 		{
 			if ($this->_runPHP() === false)
 			{
-				return JError::raiseWarning(E_WARNING, 'php form plugin failed');
+				$user = JFactory::getUser();
+				$code = $params->get('curl_code', '');
+				$error = error_get_last();
+				$error_message = FabrikHelperHTML::isDebug() && $user->authorise('core.admin','com_users')
+				? '<br>' . $error['type'] . ': ' . $error['message'] . '<br>'. $code
+				: ', please contact a site administrator';
+				return JError::raiseWarning(E_WARNING, 'php form plugin failed'.$error_message);
 			}
 		}
 
