@@ -76,29 +76,22 @@ class FabrikPDFHelper
 		$data = str_replace('xmlns=', 'ns=', $data);
 		libxml_use_internal_errors(true);
 
+		$base = JURI::base(false); // scheme, host, port, subdir (with trailing /)
+
 		try
 		{
 			$ok = new SimpleXMLElement($data);
 
 			if ($ok)
 			{
-				$uri = JUri::getInstance();
-				$host = $uri->getHost();
 
-				// If the port is not default, add it
-				if (! (($uri->getScheme() == 'http' && $uri->getPort() == 80) ||
-					($uri->getScheme() == 'https' && $uri->getPort() == 443))) {
-					$host .= ':' . $uri->getPort();
-				}
-
-				$base = $uri->getScheme() . '://' . $host;
 				$imgs = $ok->xpath('//img');
 
 				foreach ($imgs as &$img)
 				{
 					if (!strstr($img['src'], $base))
 					{
-						$img['src'] = $base . $img['src'];
+						$img['src'] = $base . ltrim($img['src'],'/');
 					}
 				}
 
@@ -109,7 +102,7 @@ class FabrikPDFHelper
 				{
 					if (!strstr($a['href'], $base))
 					{
-						$a['href'] = $base . $a['href'];
+						$a['href'] = $base . ltrim($a['href']);
 					}
 				}
 
@@ -120,7 +113,7 @@ class FabrikPDFHelper
 				{
 					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $base))
 					{
-						$link['href'] = $base . $link['href'];
+						$link['href'] = $base . ltrim($link['href']);
 					}
 				}
 
@@ -143,14 +136,13 @@ class FabrikPDFHelper
 				exit;
 			}
 			//Create the full path via general str_replace
+			//todo: relative URL starting without /
 			else
 			{
-				$uri = JUri::getInstance();
-				$base = $uri->getScheme() . '://' . $uri->getHost();
-				$data = str_replace('href="/', 'href="'.$base.'/', $data);
-				$data = str_replace('src="/', 'src="'.$base.'/', $data);
-				$data = str_replace("href='/", "href='".$base.'/', $data);
-				$data = str_replace("src='/", "src='".$base.'/', $data);
+				$data = str_replace('href="/', 'href="' . $base, $data);
+				$data = str_replace('src="/',  'src="'  . $base, $data);
+				$data = str_replace("href='/", "href='" . $base, $data);
+				$data = str_replace("src='/",  "src='"  . $base, $data);
 			}
 		}
 	}
