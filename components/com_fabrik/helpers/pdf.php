@@ -76,7 +76,7 @@ class FabrikPDFHelper
 		$data = str_replace('xmlns=', 'ns=', $data);
 		libxml_use_internal_errors(true);
 
-		$base = JURI::base(false); // scheme, host, port, subdir (with trailing /)
+		$base = JURI::root(); // scheme, host, port, subdir (with trailing /);
 
 		try
 		{
