@@ -76,7 +76,7 @@ class FabrikPDFHelper
 		$data = str_replace('xmlns=', 'ns=', $data);
 		libxml_use_internal_errors(true);
 
-		$base = JURI::root(); // scheme, host, port, subdir (with trailing /);
+		$base = COM_FABRIK_LIVESITE; // scheme, host, port, subdir (with trailing /)
 
 		try
 		{
@@ -109,6 +109,7 @@ class FabrikPDFHelper
 				// CSS files.
 				$links = $ok->xpath('//link');
 
+				$base = COM_FABRIK_LIVESITE_ROOT;; // scheme, host, port(with trailing /); subdirs are already in stylesheet href
 				foreach ($links as &$link)
 				{
 					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $base))
