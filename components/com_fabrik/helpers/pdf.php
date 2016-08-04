@@ -76,7 +76,11 @@ class FabrikPDFHelper
 		$data = str_replace('xmlns=', 'ns=', $data);
 		libxml_use_internal_errors(true);
 
-		$base = COM_FABRIK_LIVESITE; // scheme, host, port, subdir (with trailing /)
+		$base_root = COM_FABRIK_LIVESITE_ROOT . '/'; // scheme, host, port, without trailing /,add it
+		$subdir = str_replace(COM_FABRIK_LIVESITE_ROOT,'',COM_FABRIK_LIVESITE); // subdir /xx/
+		$subdir = ltrim($subdir,'/');
+
+		$schemeString = '://'; //if no schemeString found assume path is relative
 
 		try
 		{
@@ -84,13 +88,13 @@ class FabrikPDFHelper
 
 			if ($ok)
 			{
-
 				$imgs = $ok->xpath('//img');
 
 				foreach ($imgs as &$img)
 				{
-					if (!strstr($img['src'], $base))
+					if (!strstr($img['src'], $schemeString))
 					{
+						$base = strstr($img['src'], $subdir) ? $base_root : $base_root . $subdir;
 						$img['src'] = $base . ltrim($img['src'],'/');
 					}
 				}
@@ -100,8 +104,9 @@ class FabrikPDFHelper
 
 				foreach ($as as &$a)
 				{
-					if (!strstr($a['href'], $base))
+					if (!strstr($a['href'], $schemeString))
 					{
+						$base = strstr($a['href'], $subdir) ? $base_root : $base_root . $subdir;
 						$a['href'] = $base . ltrim($a['href']);
 					}
 				}
@@ -109,11 +114,11 @@ class FabrikPDFHelper
 				// CSS files.
 				$links = $ok->xpath('//link');
 
-				$base = COM_FABRIK_LIVESITE_ROOT;; // scheme, host, port(with trailing /); subdirs are already in stylesheet href
 				foreach ($links as &$link)
 				{
-					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $base))
+					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $schemeString))
 					{
+						$base = strstr($link['href'], $subdir) ? $base_root : $base_root . $subdir;
 						$link['href'] = $base . ltrim($link['href']);
 					}
 				}
@@ -140,6 +145,7 @@ class FabrikPDFHelper
 			//todo: relative URL starting without /
 			else
 			{
+				$base = $base_root . $subdir;
 				$data = str_replace('href="/', 'href="' . $base, $data);
 				$data = str_replace('src="/',  'src="'  . $base, $data);
 				$data = str_replace("href='/", "href='" . $base, $data);
