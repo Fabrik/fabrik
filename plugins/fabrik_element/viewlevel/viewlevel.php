@@ -55,8 +55,36 @@ class PlgFabrik_ElementViewlevel extends PlgFabrik_ElementList
 		$name = $this->getFullName(true, false);
 		$id = $this->getHTMLId($repeatCounter);
 		$selected = $this->user->getAuthorisedViewLevels();
-		arsort($selected);
-		$selected = array_shift($selected);
+		/* proposed fix for issue: https://github.com/Fabrik/fabrik/issues/1721 */
+		//arsort($selected);  
+		//$selected = array_shift($selected);	
+		
+		//Instead of sorting by ID, get the ordering of the viewlevels, reverse sort by that, and get the last one.
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('id, ordering')
+			->from($db->quoteName('#__viewlevels'));
+
+		$db->setQuery($query);
+		$viewLevels = $db->loadAssocList('id');
+		
+		//there should be a better way of doing this, someone better versed in php should take a look
+		$selectedViewLevels=array();	
+		$orderings=array();
+		foreach ($selected as $selectedLevel){
+			$temp['id']=$selectedLevel;
+			$temp['ordering']=$viewLevels[(string)$selectedLevel]['ordering'];
+			$selectedViewLevels[]=$temp;
+		}
+		foreach ($selectedViewLevels as $key => $row)
+		{
+			$orderings[$key] = $row['ordering'];
+		}
+		array_multisort($orderings, SORT_DESC, $selectedViewLevels);
+		$selected=array_shift($selectedViewLevels);
+		$selected=$selected['id'];
+		/* --- */
 
 		if (isset($data[$name]))
 		{
