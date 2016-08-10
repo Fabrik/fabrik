@@ -163,6 +163,10 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 						}
 					});
 
+					google.maps.event.addListener(Fabrik.radiusSearch[mapid].map, 'drag', function (event) {
+						fconsole('dragged');
+					});
+
 				}.bind(this));
 
 				Fabrik.loadGoogleMap(this.options.key, 'geoCode');
@@ -276,6 +280,11 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 				w.center();
 				w.open();
 				w.fitToContent();
+
+				var mapid = 'radius_search_geocode_map' + this.options.renderOrder;
+				if (mapid in Fabrik.radiusSearch) {
+					google.maps.event.trigger(Fabrik.radiusSearch[mapid].map, 'resize');
+				}
 			}.bind(this));
 
 			b.store('win', win);

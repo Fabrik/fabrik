@@ -323,13 +323,17 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
                 hclass += ' draggable';
                 draggerC = jQuery('<div />').addClass('bottomBar modal-footer');
                 dragger = jQuery('<div />').addClass('dragger');
-                resizeIcon = jQuery(Fabrik.jLayouts['icon-expand']);
-                resizeIcon.prependTo(dragger);
+                // not really compatible with using jQuery resizeable()
+                //resizeIcon = jQuery(Fabrik.jLayouts['icon-expand']);
+                //resizeIcon.prependTo(dragger);
                 draggerC.append(dragger);
             }
 
             expandIcon = jQuery(Fabrik.jLayouts['icon-full-screen']);
             label = jQuery('<h3 />').addClass(hclass).text(this.options.title);
+            jQuery(label).data('role', 'title');
+            // turns out you can find() data attrs added with data()
+            jQuery(label).attr('data-role', 'title');
 
             handleParts.push(label);
             if (this.options.expandable && this.options.modal === false) {

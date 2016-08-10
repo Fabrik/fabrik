@@ -130,7 +130,9 @@ class FabrikFEModelListfilter extends FabModel
 		 */
 
 		// $$$ rob 20/03/2011 - request resetfilters should overwrite menu option - otherwise filter then nav will remove filter.
-		if (($input->get('filterclear') == 1 || FabrikWorker::getMenuOrRequestVar('resetfilters', 0, false, 'request') == 1)
+		if (
+			!$input->get('incfilters', 0)
+			&& ($input->get('filterclear') == 1 || FabrikWorker::getMenuOrRequestVar('resetfilters', 0, false, 'request') == 1)
 			&& $this->activeTable())
 		{
 			$this->clearFilters();

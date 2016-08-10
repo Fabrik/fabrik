@@ -29,7 +29,7 @@ foreach ($this->elements as $element) :
 	$style = $element->hidden ? 'style="display:none"' : '';
 
 	if ($element->startRow) : ?>
-			<div class="row-fluid <?php echo $single ? 'fabrikElementContainer' : ''; ?>" <?php echo $style?>><!-- start element row -->
+			<div class="row-fluid <?php echo $single ? 'fabrikElementContainer ' : ''; echo $single && $element->dataEmpty ? 'fabrikDataEmpty ' : ''; ?>" <?php echo $style?>><!-- start element row -->
 	<?php
 		$rowStarted = true;
 	endif;

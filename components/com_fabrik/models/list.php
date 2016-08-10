@@ -6140,7 +6140,7 @@ class FabrikFEModelList extends JModelForm
 
 		foreach ($types as $i => $type)
 		{
-			if ($type != 'prefilter')
+			if ($type != 'prefilter' && $type != 'menuPrefilter')
 			{
 				return true;
 			}
