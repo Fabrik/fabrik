@@ -284,7 +284,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		 */
 		if (is_object($join) && ($params->get($this->concatLabelParam) != ''))
 		{
-			if ($this->app->input->get('override_join_val_column_concat') != 1)
+			if ($this->app->input->get('override_join_val_column_concat', '0') !== '1')
 			{
 				$val                                 = $this->parseThisTable($params->get($this->concatLabelParam), $join);
 				$w                                   = new FabrikWorker;
@@ -1138,7 +1138,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 		$join   = $this->getJoin();
 
-		if ($params->get($this->concatLabelParam) == '')
+		if ($params->get($this->concatLabelParam) == '' || $this->app->input->get('override_join_val_column_concat', '0') === '1')
 		{
 			return $this->getLabelParamVal();
 		}

@@ -20,7 +20,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             this.folderdiv = el.find('.folderselect');
 
             jQuery(this.folderdiv).slideUp({duration: 0});
-            this.hiddenField = el.find('.folderpath');
+            this.hiddenField = el.find('.folderpath')[0];
             el.find('.toggle').on('click', function (e) {
                 e.preventDefault();
                 jQuery(self.folderdiv).slideToggle();
@@ -122,9 +122,9 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     jQuery(self.folderdiv).slideUp();
                 }
                 self.watchAjaxFolderLinks();
-                self.hiddenField.val('/' + self.folderlist.join('/') + '/');
+                jQuery(self.hiddenField).val('/' + self.folderlist.join('/') + '/');
                 self.fireEvent('onBrowse');
-            })
+            });
         },
 
         /**

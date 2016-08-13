@@ -40,13 +40,15 @@ $group = $this->group;
 	<tbody>
 		<?php
 
-		// Load each repeated group in a <tr>
-		$this->i = 0;
-		foreach ($group->subgroups as $subgroup) :
-			$this->elements = $subgroup;
-			echo $this->loadTemplate('repeatgroup_row');
-			$this->i ++;
-		endforeach;
+		if (!$group->newGroup) :
+			// Load each repeated group in a <tr>
+			$this->i = 0;
+			foreach ($group->subgroups as $subgroup) :
+				$this->elements = $subgroup;
+				echo $this->loadTemplate('repeatgroup_row');
+				$this->i ++;
+			endforeach;
+		endif;
 		?>
 	</tbody>
 </table>

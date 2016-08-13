@@ -85,7 +85,7 @@ class FabrikViewFusionchart extends JViewLegacy
 		FabrikHelperHTML::iniRequireJs($model->getShim());
 		FabrikHelperHTML::script($srcs, $js);
 		$text = $this->loadTemplate();
-		FabrikHelperHTML::runContentPlugins($text);
+		FabrikHelperHTML::runContentPlugins($text, true);
 		echo $text;
 	}
 }

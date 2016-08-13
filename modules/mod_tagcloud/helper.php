@@ -61,7 +61,7 @@ class tagCloud{
 	 * @return tagCloud
 	 */
 
-	function tagCloud($rows, $url,  $min = 1, $maxRecords = 20, $seperator = ' :: ', $splitter = ',' )
+	function __construct($rows, $url,  $min = 1, $maxRecords = 20, $seperator = ' :: ', $splitter = ',' )
 	{
 		$this->rows = $rows;
 		$this->url = $url;

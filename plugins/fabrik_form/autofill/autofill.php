@@ -88,7 +88,7 @@ class PlgFabrik_FormAutofill extends PlgFabrik_Form
 		}
 
 		$this->formJavascriptClass($params, $formModel);
-		$formModel->formPluginJS['Autofill'] = 'var autofill = new Autofill(' . $opts . ');';
+		$formModel->formPluginJS['Autofill' . $this->renderOrder] = 'var autofill = new Autofill(' . $opts . ');';
 	}
 
 	/**

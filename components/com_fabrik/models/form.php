@@ -4777,6 +4777,7 @@ class FabrikFEModelForm extends FabModelForm
 			}
 
 			$group->class = implode(' ', $group->class);
+			$group->newGroup = $newGroup;
 
 			// Only create the group if there are some element inside it
 			if (count($aElements) != 0 && $groupModel->canView() !== false)

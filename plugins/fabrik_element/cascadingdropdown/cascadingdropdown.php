@@ -127,7 +127,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$join = $this->getJoin();
 		$db = $this->getDb();
 
-		if (($params->get('cascadingdropdown_label_concat') != '') && $this->app->input->get('override_join_val_column_concat') != 1)
+		if (($params->get('cascadingdropdown_label_concat') != '') && $this->app->input->get('override_join_val_column_concat', '0') !== '1')
 		{
 			$val = $params->get('cascadingdropdown_label_concat');
 
@@ -869,7 +869,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
 		$val = $params->get('cascadingdropdown_label_concat');
 
-		if (!empty($val))
+		if (!empty($val) && $this->app->input->get('override_join_val_column_concat', '0') !== '1')
 		{
 			$val = $this->parseThisTable($val, $join);
 			$val = $w->parseMessageForPlaceHolder($val, $data);
@@ -967,7 +967,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$params = $this->getParams();
 		$join = $this->getJoin();
 
-		if ($params->get('cascadingdropdown_label_concat') == '')
+		if ($params->get('cascadingdropdown_label_concat') == '' || $this->app->input->get('override_join_val_column_concat', '0') === '1')
 		{
 			return $this->getLabelParamVal();
 		}

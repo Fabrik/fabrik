@@ -378,6 +378,15 @@ class PlgSystemFabrik extends JPlugin
 					break;
 				}
 			}
+
+			// Test for swap too boolean mode
+			$mode = $input->get('searchphrase', '') === 'all' ? 0 : 1;
+
+			if ($mode)
+			{
+				$input->set('override_join_val_column_concat', 1);
+			}
+
 			// $$$rob set this to current table
 			// Otherwise the fabrik_list_filter_all var is not used
 			$input->set('listid', $id);
@@ -406,9 +415,6 @@ class PlgSystemFabrik extends JPlugin
 			{
 				continue;
 			}
-
-			// Test for swap too boolean mode
-			$mode = $input->get('searchphrase', '') === 'all' ? 0 : 1;
 
 			// $params->set('search-mode-advanced', true);
 			$params->set('search-mode-advanced', $mode);

@@ -398,7 +398,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		$tbl = array_shift(explode('.', $emailColumn));
 		$db = $this->_db;
 		$userIdsEmails = array();
-		$query = $db->getQuery();
+		$query = $db->getQuery(true);
 		$query->select('#__users.id AS id, #__users.email AS email')
 		->from('#__users')->join('LEFT', $tbl . ' ON #__users.id = ' . $emailColumn)
 		->where($item->db_primary_key . ' IN (' . $ids . ')');

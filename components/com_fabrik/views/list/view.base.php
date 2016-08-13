@@ -678,7 +678,8 @@ class FabrikViewListBase extends FabrikView
 
 		if ($params->get('process-jplugins'))
 		{
-			FabrikHelperHTML::runContentPlugins($text);
+			$cloak = $params->get('cloak_emails', '0') === '1';
+			FabrikHelperHTML::runContentPlugins($text, $cloak);
 		}
 
 		JDEBUG ? $profiler->mark('end fabrik display') : null;

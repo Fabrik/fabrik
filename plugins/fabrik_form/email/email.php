@@ -115,7 +115,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 			if ($runContentPlugins === true)
 			{
-				FabrikHelperHTML::runContentPlugins($messageTemplate);
+				FabrikHelperHTML::runContentPlugins($messageTemplate, false);
 			}
 
 			$messageTemplate = str_replace('{content}', $content, $messageTemplate);
@@ -128,7 +128,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 			if ($runContentPlugins === true)
 			{
-				FabrikHelperHTML::runContentPlugins($messageText);
+				FabrikHelperHTML::runContentPlugins($messageText, false);
 			}
 
 			$messageText = str_replace('{content}', $content, $messageText);

@@ -187,6 +187,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
 		$layoutData->attributes = $bits;
+		$layoutData->sizeClass = $params->get('bootstrap_class', '');
 
 		return $layout->render($layoutData);
 	}
