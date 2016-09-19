@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -317,7 +317,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 
 			// Used in list model setLimits
 			$input->set('limit' . $listId, $recLimit);
-			$listModel->setLimits();
+			$listModel->setLimits(0, $recLimit);
 			$listModel->getPagination(0, 0, $recLimit);
 			$data = $listModel->getData();
 			$this->txt = array();
@@ -390,6 +390,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 
 							$html .= $rowData['fabrik_view'];
 						}
+						$template_nl2br = false;
 					}
 
 					if ($template_nl2br)
@@ -710,6 +711,27 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 
 		$uri = JURI::getInstance();
 		$src = $uri->getScheme() . "://maps.google.com/staticmap?center=$lat,$lon&zoom={$z}&size={$w}x{$h}&maptype=mobile$iconStr";
+
+		$config = JComponentHelper::getParams('com_fabrik');
+		$apiKey = $config->get('google_api_key', '');
+		$client = $config->get('google_buisness_client_id', '');
+		$signature = $config->get('google_buisness_signature', '');
+
+		if ($client !== '')
+		{
+			if ($signature === '')
+			{
+				throw new Exception('You have entered a Google Maps Business Client id, but have not supplied a signature value');
+			}
+
+			$src .= '&client=' . $client;
+			$src .= '&signature=' . $signature;
+		}
+		elseif ($apiKey !== '')
+		{
+			$src .= '&key=' . $apiKey;
+		}
+
 		$str = '<img src="' . $src . '" alt="static map" />';
 
 		return $str;

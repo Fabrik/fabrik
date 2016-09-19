@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -106,6 +106,8 @@ class FabrikControllerForm extends JControllerLegacy
 
 		$view->setModel($model, true);
 		$view->isMambot = $this->isMambot;
+
+		FabrikWorker::getPluginManager()->runPlugins('onBeforeGetData', $model);
 
 		// Get data as it will be needed for ACL when testing if current row is editable.
 		$model->getData();

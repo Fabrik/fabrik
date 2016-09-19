@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -295,6 +295,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	public function iconImage()
 	{
 		$plugin = JPluginHelper::getPlugin('fabrik_validationrule', $this->pluginName);
+		$elIcon = $this->params->get('icon', '');
 
 		/**
 		 * $$$ hugh - this code doesn't belong here, but am working on an issue whereby if a validation rule plugin
@@ -314,9 +315,13 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 		*/
 
-		$params = new Registry($plugin->params);
+		if (empty($elIcon))
+		{
+			$params = new Registry($plugin->params);
+			$elIcon = $params->get('icon', 'star');
+		}
 
-		return $params->get('icon', 'star');
+		return $elIcon;
 	}
 
 	/**
@@ -329,8 +334,12 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 */
 	public function getHoverText($c = null, $tmpl = '')
 	{
-		$name = $this->elementModel->validator->getIcon($c);
-		$i = FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
+		$i = '';
+		if ($this->params->get('show_icon', '1') === '1')
+		{
+			$name = $this->elementModel->validator->getIcon($c);
+			$i    = FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
+		}
 
 		return $i . ' ' . $this->getLabel();
 	}

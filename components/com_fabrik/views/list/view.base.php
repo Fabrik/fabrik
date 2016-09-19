@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -40,6 +40,7 @@ class FabrikViewListBase extends FabrikView
 	protected function csvJS(&$opts, $model)
 	{
 		$params                = $model->getParams();
+		$w                     = new FabrikWorker;
 		$opts->csvChoose       = (bool) $params->get('csv_frontend_selection');
 		$csvOpts               = new stdClass;
 		$csvOpts->excel        = (int) $params->get('csv_format');
@@ -47,13 +48,13 @@ class FabrikViewListBase extends FabrikView
 		$csvOpts->incraw       = (int) $params->get('csv_include_raw_data');
 		$csvOpts->inccalcs     = (int) $params->get('csv_include_calculations');
 		$csvOpts->custom_qs    = $params->get('csv_custom_qs', '');
+		$w->replaceRequest($csvOpts->custom_qs);
 		$csvOpts->incfilters   = (int) $params->get('incfilters');
 		$csvOpts->popupwidth   = FabrikWorker::getMenuOrRequestVar('popup_width','340',false,'menu');
 		$csvOpts->optswidth    = FabrikWorker::getMenuOrRequestVar('popup_opts_width','200',false,'menu');
 		$opts->csvOpts         = $csvOpts;
-
-		$opts->csvFields = $model->getCsvFields();
-		$modalOpts       = array(
+		$opts->csvFields       = $model->getCsvFields();
+		$modalOpts             = array(
 			'content' => '',
 			'id' => 'ajax_links',
 			'title' => 'Export csv jlayout',

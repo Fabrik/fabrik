@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.textarea
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -395,7 +395,9 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 			$value = $value[$repeatCounter];
 		}
 
-		return $this->renderListData($value, new stdClass);
+		$oData = FArrayHelper::toObject($data);
+
+		return $this->renderListData($value, $oData);
 	}
 
 	/**

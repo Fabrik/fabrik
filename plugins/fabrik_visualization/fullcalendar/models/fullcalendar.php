@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.calendar
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -495,7 +495,9 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 							$defaultURL = 'index.php?option=com_' . $package . '&Itemid=' . $Itemid . '&view=form&formid='
 								. $table->form_id . '&rowid=' . $row->id . '&tmpl=component';
 							$thisCustomUrl = $w->parseMessageForPlaceHolder($customUrl, $row);
-							$row->link = $thisCustomUrl !== '' ? $thisCustomUrl : $defaultURL;
+							//$row->link = $thisCustomUrl !== '' ? $thisCustomUrl : $defaultURL;
+							$row->link = $defaultURL;
+							$row->customLink = $thisCustomUrl;
 							$row->details = 'index.php?option=com_' . $package . '&Itemid=' . $Itemid . '&view=details&formid='
 								. $table->form_id . '&rowid=' . $row->id . '&tmpl=component';
 							$row->custom = $customUrl != '';

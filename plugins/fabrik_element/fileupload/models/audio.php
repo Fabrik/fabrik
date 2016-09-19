@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -55,7 +55,7 @@ class AudioRenderModel extends FabModel
 	{
 		$layout = $model->getLayout('audio');
 		$displayData = new stdClass;
-		$displayData->file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$displayData->file = $model->getStorage()->getFileUrl($file);
 
 		$this->output = $layout->render($displayData);
 	}

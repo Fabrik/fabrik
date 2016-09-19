@@ -67,7 +67,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     this.form.repeatGroupMarkers.each(function (v, k) {
                         o2 = '';
                         for (v2 = 0; v2 < v; v2++) {
-                            o2 = 'join___' + this.form.options.group_join_ids[k] + '___' + o + '_' + v2;
+                            o2 = o + '_' + v2;
                             if (this.form.formElements[o2]) {
                                 // $$$ hugh - think we can add this one as sticky ...
                                 this.form.formElements[o2].addNewEvent(this.form.formElements[o2].getChangeEvent(),
@@ -86,7 +86,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             var testData = $H(this.form.getFormData(false));
 
             testData.each(function (v, k) {
-                if (k.test(/^join\[\d+\]/) || k.test(/^fabrik_vars/)) {
+                if (k.test(/\[\d+\]$/) || k.test(/^fabrik_vars/)) {
                     formData[k] = v;
                 }
             }.bind(this));

@@ -15,10 +15,9 @@
 defined('JPATH_BASE') or die();
 
 file_exists(JPATH_LIBRARIES . '/joomla/document/html/html.php') && require_once JPATH_LIBRARIES . '/joomla/document/html/html.php';
-require_once JPATH_SITE . '/components/com_fabrik/helpers/pdf.php';
 
 /**
- * DocumentPDF class, provides an easy interface to parse and display a pdf document
+ * Documentpartial class, used by Fabrik to load popups, avoiding re-including jQuery in head
  *
  * @package     Joomla.Framework
  * @subpackage  Document

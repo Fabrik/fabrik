@@ -47,10 +47,12 @@ define(['jquery'], function (jQuery) {
             }
 
             // In ajax pop up form. Close the validation tip message when we focus in the element
-            Fabrik.on('fabrik.form.element.added', function () {
-                self.addNewEvent(self.getFocusEvent(), function () {
-                    self.removeTipMsg();
-                });
+            Fabrik.on('fabrik.form.element.added', function (form, elId, el) {
+                if (el === self) {
+                    self.addNewEvent(self.getFocusEvent(), function () {
+                        self.removeTipMsg();
+                    });
+                }
             });
 
             return this.setElement();
@@ -574,8 +576,8 @@ define(['jquery'], function (jQuery) {
          */
         moveTip: function (top, left) {
             var t = this.tips(), tip, origPos;
-            t = jQuery(t[0]);
             if (t.length > 0) {
+                t = jQuery(t[0]);
                 tip = t.data('popover').$tip;
                 if (tip) {
                     origPos = tip.data('origPos');

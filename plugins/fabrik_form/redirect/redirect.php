@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.redirect
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -137,7 +137,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		// Don't display system message if thanks is empty
 		if (FArrayHelper::getValue($this->data, 'thanks_message', '') !== '')
 		{
-			$this->session->set($context . 'msg', $smsg);
+			$this->session->set($context . 'msg', $smsg[$this->renderOrder]);
 		}
 
 		return true;

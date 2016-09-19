@@ -90,6 +90,7 @@
 								<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
 								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+								<option value="nextweek1">COM_FABRIK_NEXT_MONTH</option>
 						</field>
 
 						<field

@@ -2,11 +2,47 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-form-kunena">
-			<field checkexists="true" description="PLG_FORM_KUNENA_CATEGORY_DESC" label="PLG_FORM_KUNENA_CATEGORY_LABEL" name="kunena_category" query="SELECT id AS value, name AS text FROM #__kunena_categories WHERE published = 1" repeat="true" type="sql2" value_field="name"/>
+			<field
+				checkexists="true"
+				description="PLG_FORM_KUNENA_CATEGORY_DESC"
+				label="PLG_FORM_KUNENA_CATEGORY_LABEL"
+				name="kunena_category"
+				query="SELECT id AS value, name AS text FROM #__kunena_categories WHERE published = 1"
+				repeat="true"
+				type="sql2"
+				value_field="name"
+			/>
 				
-			<field description="PLG_FORM_KUNENA_TITLE_DESC" label="PLG_FORM_KUNENA_TITLE_LABEL" name="kunena_title" repeat="true" type="text"/>
+			<field
+				description="PLG_FORM_KUNENA_TITLE_DESC"
+				label="PLG_FORM_KUNENA_TITLE_LABEL"
+				name="kunena_title"
+				repeat="true"
+				type="text"
+			/>
 				
-			<field cols="30" description="PLG_FORM_KUNENA_CONTENT_DESC" label="PLG_FORM_KUNENA_CONTENT_LABEL" name="kunena_content" repeat="true" rows="6" type="textarea"/>
+			<field
+				cols="30"
+				description="PLG_FORM_KUNENA_CONTENT_DESC"
+				label="PLG_FORM_KUNENA_CONTENT_LABEL"
+				name="kunena_content"
+				repeat="true"
+				rows="6"
+				type="textarea"
+			/>
+
+			<field
+				name="kunena_notify"
+				label="PLG_FORM_KUNENA_NOTIFY_LABEL"
+				description="PLG_FORM_KUNENA_NOTIFY_DESC"
+				repeat="true"
+				type="radio"
+				class="btn-group"
+				default="0">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
 		</fieldset>	
 	</fields>
 </form>

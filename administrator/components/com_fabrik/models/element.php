@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -397,6 +397,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 
 		$listModel = $elementModel->getListModel();
+		$groupModel = $elementModel->getGroupModel();
+
 		/**
 		 * Test for duplicate names
 		 * un-linking produces this error
@@ -414,12 +416,13 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$query->join('INNER', '#__{package}_lists AS t ON j.table_join = t.db_table_name');
 			$query->where('group_id = ' . (int) $data['group_id'] . ' AND element_id = 0');
 			$db->setQuery($query);
+			$sql = (string)$query;
 			$joinTblId = (int) $db->loadResult();
 			$ignore    = array($data['id']);
 
 			if ($joinTblId === 0)
 			{
-				if ($listModel->fieldExists($data['name'], $ignore))
+				if ($listModel->fieldExists($data['name'], $ignore, $groupModel))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}
@@ -439,7 +442,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 					}
 				}
 
-				if ($joinListModel->fieldExists($data['name'], $ignore))
+				if ($joinListModel->fieldExists($data['name'], $ignore, $groupModel))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}

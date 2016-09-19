@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -269,6 +269,8 @@ function fabrikParseRoute($segments)
 	 * and (dear reader) if you wanna do that be my guest.
 	 */
 
+	$viewFound = true;
+
 	switch ($view)
 	{
 		case 'form':
@@ -294,7 +296,67 @@ function fabrikParseRoute($segments)
 			$vars['format'] = ArrayHelper::getValue($segments, 2, 'html');
 			break;
 		default:
+			$viewFound = false;
 			break;
+	}
+
+	 /*
+	 * if a Fabrik view is home page, and this is a 404, no segments, but J! will still try and route com_fabrik
+	 * So have a peek at the active menu, and break down the link
+	 */
+	if (!$viewFound)
+	{
+		$app   = JFactory::getApplication();
+		$app->enqueueMessage(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
+		$menus = JMenu::getInstance('site');
+		$menu  = $menus->getActive();
+		$link  = parse_url($menu->link);
+		$qs    = array();
+		if (array_key_exists('query', $link))
+		{
+			parse_str($link['query'], $qs);
+			$option = ArrayHelper::getValue($qs, 'option', '');
+			if ($option == 'com_fabrik')
+			{
+				switch ($qs['view'])
+				{
+					case 'form':
+					case 'details':
+					case 'emailform':
+						$vars['view']   = $qs['view'];
+						$vars['formid'] = ArrayHelper::getValue($qs, 'formid', '');
+						$vars['rowid']  = ArrayHelper::getValue($qs, 'rowid', '');
+						$vars['format'] = ArrayHelper::getValue($qs, 'format', 'html');
+						$viewFound = true;
+						break;
+					case 'table':
+					case 'list':
+						$vars['view']   = $qs['view'];
+						$vars['listid'] = ArrayHelper::getValue($qs, 'listid', '');
+						$viewFound = true;
+						break;
+					case 'import':
+						$vars['view']     = 'import';
+						$vars['listid']   = ArrayHelper::getValue($qs, 'listid', '');
+						$vars['filetype'] = ArrayHelper::getValue($qs, 'filetype', '');
+						$viewFound = true;
+						break;
+					case 'visualization':
+						$vars['view']   = 'visualization';
+						$vars['id']     = ArrayHelper::getValue($qs, 'id', '');
+						$vars['format'] = ArrayHelper::getValue($qs, 'format', 'html');
+						$viewFound = true;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+
+	if (!$viewFound)
+	{
+		JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
 	}
 
 	return $vars;

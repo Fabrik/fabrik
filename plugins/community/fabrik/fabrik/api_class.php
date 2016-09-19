@@ -2,7 +2,7 @@
 /**
  * @package		Joomla
  * @subpackage	Fabik
- * @copyright	Copyright (C) 2005 - 2008 Pollen 8 Design Ltd. All rights reserved.
+ * @copyright	Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license		GNU/GPL
  */
 

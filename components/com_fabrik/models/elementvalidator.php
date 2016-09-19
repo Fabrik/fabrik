@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -73,7 +73,6 @@ class FabrikFEModelElementValidator extends FabModel
 		$usedPlugins = (array) FArrayHelper::getValue($validations, 'plugin', array());
 		$published = FArrayHelper::getValue($validations, 'plugin_published', array());
 		$showIcon = FArrayHelper::getValue($validations, 'show_icon', array());
-		$mustValidate = FArrayHelper::getValue($validations, 'must_validate', array());
 		$validateIn = FArrayHelper::getValue($validations, 'validate_in', array());
 		$validationOn = FArrayHelper::getValue($validations, 'validation_on', array());
 		$mustValidate = FArrayHelper::getValue($validations, 'must_validate', array());

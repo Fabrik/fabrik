@@ -141,7 +141,7 @@
 			       type="field"
 			       default="100"
 			       label="COM_FABRIK_CRON_FIELD_ROW_LIMIT_LABEL"
-			       DESCRIPTION="COM_FABRIK_CRON_FIELD_ROW_LIMIT_DESC" />
+			       description="COM_FABRIK_CRON_FIELD_ROW_LIMIT_DESC" />
 
 		</fieldset>
 	</fields>

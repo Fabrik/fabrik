@@ -8,7 +8,7 @@
  * @author      Matthias Bauer <matthias@pulpmedia.at>
  * @see 		    http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
  * @copyright	  Original file: 2008, Pulpmedia Medientechnik und -design GmbH
- *              Enhancements and fixes:  Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ *              Enhancements and fixes:  Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  */
 
  /**

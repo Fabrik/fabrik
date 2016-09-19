@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.comment
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -719,6 +719,39 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 			}
 		}
 
+		// Notify original poster
+		$owner = $params->get('comment_user_element', '');
+
+		if (!empty($owner))
+		{
+			$owner = str_replace('.', '___', $owner) . '_raw';
+			$listModel = $formModel->getlistModel();
+			$rowData   = $listModel->getRow($row->row_id);
+
+			if (isset($rowData->$owner) && !empty($rowData->$owner))
+			{
+				$userId = $rowData->$owner;
+
+				if (is_numeric($userId))
+				{
+					$query->clear->insert('#__{package}_notification')
+						->set(array('reason = ' . $db->q('owner'), 'user_id = ' . $userId, 'reference = ' . $ref, 'label = ' . $label));
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						JLog::add('Couldn\'t save fabrik comment notification: ' + $db->stderr(true), JLog::WARNING, 'fabrik');
+
+						return false;
+					}
+				}
+			}
+		}
+
 		if ($params->get('comment-notify-admins') == 1)
 		{
 			$rows = $this->getAdminInfo();
@@ -820,20 +853,37 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 
 				if ($shouldSend && !in_array($comment->email, $sentTo))
 				{
-					$mail->sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $comment->email, $title, $message, true);
+					FabrikWorker::sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $comment->email, $title, $message, true);
 					$sentTo[] = $comment->email;
 				}
 			}
 		}
 
-		// Notify original poster (hack for ideenbus)
-		$listModel = $formModel->getlistModel();
-		$rowData = $listModel->getRow($row->row_id);
+		// Notify original poster
+		$owner = $params->get('comment_user_element', '');
 
-		if (isset($rowData->ide_idea___email_raw) && !in_array($rowData->ide_idea___email_raw, $sentTo))
+		if (!empty($owner))
 		{
-			$mail->sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $rowData->ide_idea___email_raw, $title, $message, true);
-			$sentTo[] = $rowData->ide_idea___email_raw;
+			$owner = str_replace('.', '___', $owner) . '_raw';
+			$listModel = $formModel->getlistModel();
+			$rowData   = $listModel->getRow($row->row_id);
+
+			if (isset($rowData->$owner) && !empty($rowData->$owner))
+			{
+				$ownerEmail = $rowData->$owner;
+
+				if (is_numeric($ownerEmail))
+				{
+					$ownerUser = JFactory::getUser((int)$rowData->$owner);
+					$ownerEmail = $ownerUser->get('email');
+				}
+
+				if (FabrikWorker::isEmail($ownerEmail))
+				{
+					FabrikWorker::sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $ownerEmail, $title, $message, true);
+					$sentTo[] = $rowData->ide_idea___email_raw;
+				}
+			}
 		}
 
 		if ($params->get('comment-notify-admins') == 1)
@@ -846,7 +896,7 @@ class PlgFabrik_FormComment extends PlgFabrik_Form
 			{
 				if (!in_array($row->email, $sentTo))
 				{
-					$mail->sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $row->email, $title, $message, true);
+					FabrikWorker::sendMail($this->app->get('mailfrom'), $this->app->get('fromname'), $row->email, $title, $message, true);
 					$sentTo[] = $row->email;
 				}
 			}

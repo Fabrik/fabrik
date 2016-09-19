@@ -1612,6 +1612,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 }
 
                 var min = this.options.minRepeat[groupId].toInt();
+                var group = this.form.getElement('#group' + groupId);
 
                 /**
                  * $$$ hugh - added ability to override min count
@@ -1626,8 +1627,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     // Create mock event
                     deleteButton = this.form.getElement('#group' + groupId + ' .deleteGroup');
                     deleteEvent = typeOf(deleteButton) !== 'null' ? new Event.Mock(deleteButton, 'click') : false;
-                    var group = this.form.getElement('#group' + groupId),
-                        subGroup = group.getElement('.fabrikSubGroup');
+                    var subGroup = group.getElement('.fabrikSubGroup');
                     // Remove only group
                     this.deleteGroup(deleteEvent, group, subGroup);
 
@@ -1644,6 +1644,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                         }
                     }
                 }
+
+                this.setRepeatGroupIntro(group, groupId);
             }.bind(this));
         },
 

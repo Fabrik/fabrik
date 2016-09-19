@@ -2,7 +2,7 @@
 <extension type="library" method="upgrade" version="3">
 	<name>Fabrik library</name>
 	<libraryname>fabrik</libraryname>
-	<author>Fabrikar</author>
+	<author>Media A-Team, Inc.</author>
 	<creationDate>Feb 2016</creationDate>
 	<copyright>Copyright (C) 2016</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

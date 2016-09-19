@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -1153,7 +1153,7 @@ class FabrikAdminModelPackage extends FabModelAdmin
 	<version>' . $row->version . '</version>
 	<url>http://www.fabrikar.com</url>
 	<packager>Rob Clayburn</packager>
-	<author>Rob Clayburn</author>
+	<author>Media A-Team, Inc.</author>
 	<creationDate>' . $date->format('M Y') . '</creationDate>
 	<packagerurl>http://www.fabrikar.com</packagerurl>
 	<description>Created by Fabrik</description>
@@ -1248,10 +1248,10 @@ class FabrikAdminModelPackage extends FabModelAdmin
 	<creationDate>' . $date->format('M Y')
 			. '</creationDate>
 	<author>Fabrik</author>
-	<copyright>Pollen 8 Design Ltd</copyright>
+	<copyright>Media A-Team, Inc.</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
-	<authorUrl>www.pollen-8.co.uk</authorUrl>
+	<authorUrl>www.fabrikar.com</authorUrl>
 	<version>' . $row->version
 			. '</version>
 	<description>Created with Fabrik: THE Joomla Application Creation Component</description>

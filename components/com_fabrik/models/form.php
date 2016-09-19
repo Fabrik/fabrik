@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -3136,6 +3136,8 @@ class FabrikFEModelForm extends FabModelForm
 						 * but from this point on, code is expecting even non-repeat join data to be arrays.
 						 */
 						$tmp_data = unserialize($sessionRow->data);
+
+						/*
 						$groups = $this->getGroupsHiarachy();
 
 						foreach ($groups as $groupModel)
@@ -3148,6 +3150,7 @@ class FabrikFEModelForm extends FabModelForm
 								}
 							}
 						}
+						*/
 
 						$bits = $data;
 						$bits = array_merge($tmp_data, $bits);
@@ -3253,12 +3256,14 @@ class FabrikFEModelForm extends FabModelForm
 							}
 						}
 					}
+
+					// No need to setJoinData if you are correcting a failed validation
+					if (!empty($data))
+					{
+						$this->setJoinData($data);
+					}
 				}
-				// No need to setJoinData if you are correcting a failed validation
-				if (!empty($data))
-				{
-					$this->setJoinData($data);
-				}
+
 			}
 		}
 

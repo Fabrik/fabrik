@@ -22,7 +22,7 @@ else:
 		<?php echo implode('</li><li>', $ul);
 		echo '</li></ul>';
 	else:
-		echo implode(' ', $ul);
+		echo implode($d->sepChar, $ul);
 	endif;
 
 	endforeach;

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.kunena
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -166,14 +166,21 @@ class PlgFabrik_FormKunena extends PlgFabrik_Form
 			$message->setTopic($topic);
 
 			$message->subject = $subject;
-			$message->catid = $catid;
-			$message->name = $user->get('name');
-			$message->time = $now->toUnix();
+			$message->catid   = $catid;
+			$message->name    = $user->get('name');
+			$message->time    = $now->toUnix();
 			$message->message = $msg;
+			$message->userid  = $user->get('id');
+			$message->email   = $user->get('email');
 
 			if (!$message->save())
 			{
 				$app->enqueueMessage(FText::_('PLG_FORM_KUNENA_ERR_DIDNT_SAVE_MESSAGE') . ': ' . $message->getError(), 'error');
+			}
+
+			if ($params->get('kunena_notify', '0') === '1')
+			{
+				$message->sendNotification();
 			}
 		}
 		else

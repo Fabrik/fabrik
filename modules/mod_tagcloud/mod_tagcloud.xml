@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="30" client="site" method="upgrade">
 	<name>MOD_TAGCLOUD</name>
-	<author>Rob Clayburn</author>
+	<author>Media A-Team, Inc.</author>
 	<creationDate>January 2012</creationDate>
-	<copyright>Copyright (C) 2005-2013 fabrikar.com - All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>

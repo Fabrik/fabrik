@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.cron.geocode
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -73,6 +73,9 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 		$primary_key = $table->db_primary_key;
 		$primary_key_element = FabrikString::shortColName($table->db_primary_key);
 		$primary_key_element_long = $table_name . '___' . $primary_key_element . '_raw';
+
+		$config = JComponentHelper::getParams('com_fabrik');
+		$apiKey = $config->get('google_api_key', '');
 
 		$connection = (int) $params->get('connection');
 
@@ -214,7 +217,8 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 						{
 							// OK!  Lets try and geocode it ...
 							$total_attempts++;
-							$res = $gmap->getLatLng($full_addr);
+							$full_addr = urlencode($full_addr);
+							$res = $gmap->getLatLng($full_addr, 'array', $apiKey);
 
 							if ($res['status'] == 'OK')
 							{

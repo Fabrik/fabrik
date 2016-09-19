@@ -1,7 +1,7 @@
 /**
  * Date Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/element'], function (jQuery, FbElement) {
@@ -460,9 +460,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 }
             }
             else {
-                d.setHours(0);
-                d.setMinutes(0);
-                d.setSeconds(0);
+                if (this.options.dateTimeFormat === '') {
+                    d.setHours(0);
+                    d.setMinutes(0);
+                    d.setSeconds(0);
+                }
             }
             return d;
         },

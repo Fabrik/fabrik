@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.j2store
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -80,9 +80,24 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 		$productTable->load(array('product_source' => $source, 'product_source_id' => $this->getModel()->getInsertId()));
 		$productId = $productTable->get('j2store_product_id');
 
-		$props = array('enabled', 'product_type', 'visibility', 'sku', 'upc', 'price', 'manufacturer_id',
-			'addtocart_text', 'shipping', 'length', 'width', 'height', 'weight', 'length_class_id', 'weight_class_id',
-			'taxprofile_id');
+		$props = array(
+			'enabled',
+			'product_type',
+			'visibility',
+			'sku',
+			'upc',
+			'price',
+			'manufacturer_id',
+			'addtocart_text',
+			'shipping',
+			'length',
+			'width',
+			'height',
+			'weight',
+			'length_class_id',
+			'weight_class_id',
+			'taxprofile_id'
+		);
 
 		foreach ($props as $prop)
 		{
@@ -94,7 +109,16 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 		$this->appendProperty($productParams, 'download_expiry', $formData);
 		$data['params'] = json_encode($productParams);
 
-		$data['product_type']       = $data['product_type'] === 'downloadable' || 'simple' ? $data['product_type'] : 'simple';
+		$productTypes = array(
+			'downloadable',
+			'simple'
+		);
+
+		if (!in_array($data['product_type'], $productTypes))
+		{
+			$data['product_type'] = 'simple';
+		}
+
 		$data['product_source']     = $source;
 		$data['product_source_id']  = $this->getModel()->getInsertId();
 		$data['pricing_calculator'] = 'standard';
@@ -124,6 +148,9 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	{
 		$table = F0FTable::getAnInstance('Variant', 'J2StoreTable');
 		$table->load(array('product_id' => $productId));
+
+		$data['product_id'] = $productId;
+		$data['is_master'] = 1;
 
 		return $table->save($data);
 	}

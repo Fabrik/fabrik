@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension client="administrator" method="upgrade" type="module" version="3">
 	<name>mod_fabrik_list</name>
-	<author>Rob Clayburn</author>
-	<creationDate>July 2016</creationDate>
-	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>September 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.5</version>
+	<version>3.5.1</version>
 	<description>MOD_FABRIK_LIST_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_list">mod_fabrik_list.php</filename>
@@ -103,6 +103,7 @@
 								<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
 								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+								<option value="nextweek1">COM_FABRIK_NEXT_WEEK1</option>
 							</field>
 
 							<field name="filter-value" type="textarea" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>

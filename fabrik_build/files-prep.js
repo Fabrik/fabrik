@@ -31,7 +31,7 @@ var updateAFile = function (path, grunt) {
         xml = fs.readFileSync(path);
         xmlDoc = libxmljs.parseXmlString(xml.toString());
         xmlDoc.get('//creationDate').text(createDate);
-        xmlDoc.get('//copyright').text('Copyright (C) 2005-' + date.getFullYear() + ' fabrikar.com - All rights reserved.');
+        xmlDoc.get('//copyright').text('Copyright (C) 2005-' + date.getFullYear() + ' Media A-Team, Inc. - All rights reserved.');
         xmlDoc.get('//version').text(version);
 
         var ext = xmlDoc.get('//extension');

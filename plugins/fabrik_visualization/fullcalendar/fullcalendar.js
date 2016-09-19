@@ -274,16 +274,17 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
 				
                 events.push(
                     {
-                        id       : popup.id,
-                        title    : jQuery(popup).prop('outerHTML'),
-                        start    : e.startdate,
-                        end      : e.enddate,
-                        url      : e.link,
-                        className: e.status,
-                        allDay   : e.allday,
-                        listid   : e._listid,
-                        rowid    : e.__pk_val,
-                        formid   : e._formid
+                        id        : popup.id,
+                        title     : jQuery(popup).prop('outerHTML'),
+                        start     : e.startdate,
+                        end       : e.enddate,
+                        url       : e.link,
+                        customURL : e.customLink,
+                        className : e.status,
+                        allDay    : e.allday,
+                        listid    : e._listid,
+                        rowid     : e.__pk_val,
+                        formid    : e._formid
                     }
                 );
             }.bind(events));
@@ -383,7 +384,10 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
         },
 
         clickEntry: function (calEvent) {
-            if (this.options.showFullDetails === false) {
+            if (calEvent.customURL !== '') {
+                window.open(calEvent.customURL, '_blank');
+            }
+            else if (this.options.showFullDetails === false) {
                 var feModal = jQuery('#fabrikEvent_modal.modal');
 				feModal.find('.modal-title').html(jQuery('#' + calEvent.id).attr('data-title'));
 				feModal.find('.modal-body').html(jQuery('#' + calEvent.id).attr('data-content'));

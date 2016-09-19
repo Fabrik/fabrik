@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <extension client="site" method="upgrade" type="module" version="2.5">
 	<name>mod_{component_name}_form</name>
-	<author>Rob Clayburn</author>
+	<author>Media A-Team, Inc.</author>
 	<creationDate>${createdate}</creationDate>
 	<copyright>(C) 2005-${year} fabrikar.com</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.email
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -342,6 +342,8 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 					}
 				}
 
+				JDEBUG ? $profiler->mark("email: sendMail start: " . $email) : null;
+
 				$res = FabrikWorker::sendMail(
 					$emailFrom,
 					$emailFromName,
@@ -356,6 +358,8 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 					$returnPathName,
 					$customHeaders
 				);
+
+				JDEBUG ? $profiler->mark("email: sendMail end: " . $email) : null;
 
 				/*
 				 * $$$ hugh - added some error reporting, but not sure if 'invalid address' is the appropriate message,
@@ -386,6 +390,8 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		}
 
 		$this->updateRow();
+
+		JDEBUG ? $profiler->mark("email: end: onAfterProcess") : null;
 
 		return true;
 	}

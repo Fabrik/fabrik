@@ -192,6 +192,14 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="comment_user_element"
+			       type="listfields"
+			       description="PLG_FORM_COMMENT_USER_ELEMENT_DESC"
+			       label="PLG_FORM_COMMENT_USER_ELEMENT_LABEL"
+			       repeat="true"
+			       valueformat="tableelement"/>
+
 		</fieldset>
 	</fields>
 </form>

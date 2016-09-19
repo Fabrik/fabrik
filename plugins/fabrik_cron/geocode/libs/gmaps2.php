@@ -11,10 +11,12 @@ Class GeoCode
 {
     private $address = "";
     private $url = "";
+	private $apiKey = "";
 
-    public function getLatLng($addr,$returnType="array")
+    public function getLatLng($addr, $returnType="array", $apiKey = "")
     {
         $this->address = $addr;
+	    $this->apiKey  = $apiKey;
 
         $this-> makeUrl();
 
@@ -39,7 +41,11 @@ Class GeoCode
     private function makeUrl()
     {
         $this->address = str_replace(" ", "+",$this->address);
-        $this->url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$this->address;
+        $this->url = "https://maps.googleapis.com/maps/api/geocode/json?address=".$this->address;
+
+        if (!empty($this->apiKey)) {
+        	$this->url .= "&key=" . $this->apiKey;
+        }
     }
 
     private function parseGeoData()

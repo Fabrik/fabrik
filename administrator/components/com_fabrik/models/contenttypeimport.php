@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.3.5
  */
@@ -211,6 +211,7 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 				$elementData['params']   = json_encode(FabrikContentTypHelper::nodeParams($element));
 				$elementData['group_id'] = $groupId;
 				$this->mapElementACL($elementData);
+				$this->massageElementData($elementData);
 				$name          = (string) $element->getAttribute('name');
 				$fields[$name] = $this->listModel->makeElement($name, $elementData);
 
@@ -231,6 +232,16 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 		$this->importTables($dbTableName);
 
 		return $fields;
+	}
+
+	/**
+	 * Massage any element param data, for instance replacing #__ prefix in join element params
+	 *
+	 * @param   &$data  Element Data
+	 */
+	private function massageElementData(&$data)
+	{
+
 	}
 
 	/**

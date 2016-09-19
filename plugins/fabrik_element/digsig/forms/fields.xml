@@ -63,6 +63,14 @@
 				size="3"
 				type="text"/>
 
+			<field name="digsig_pdf_secret"
+		       class="input-mini"
+		       default="175"
+		       label="PLG_ELEMENT_DIGSIG_PDF_SECRET_LABEL"
+		       description="PLG_ELEMENT_DIGSIG_PDF_SECRET_DESC"
+		       size="15"
+		       type="text"/>
+
 		</fieldset>
 
 	</fields>

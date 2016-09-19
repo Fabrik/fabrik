@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -1154,6 +1154,10 @@ class FabrikFEModelListfilter extends FabModel
 	 *
 	 * @param   array  &$filters  filter array
 	 *
+	 * @since   3.5.1
+	 *
+	 * @throws  UnexpectedValueException
+	 *
 	 * @return  void
 	 */
 	private function getPostFilters(&$filters)
@@ -1363,14 +1367,23 @@ class FabrikFEModelListfilter extends FabModel
 				 * CONCAT's get munged into things like CONCAT(last_name,\', \',first_name)
 				 * which then blows up the WHERE query.
 				 */
+
+				$elKey = htmlspecialchars_decode($elementModel->getFilterFullName(), ENT_QUOTES);
 				if (get_magic_quotes_gpc())
 				{
-					$filters['key'][] = stripslashes(urldecode($key));
+					$decodedKey = stripslashes(urldecode($key));
 				}
 				else
 				{
-					$filters['key'][] = urldecode($key);
+					$decodedKey = urldecode($key);
 				}
+
+				if ($decodedKey !== $elKey)
+				{
+					throw new UnexpectedValueException(FText::_('Unexpected key for list filter'));
+				}
+
+				$filters['key'][] = $decodedKey;
 
 				$filters['search_type'][] = FArrayHelper::getValue($request['search_type'], $i, 'normal');
 				$filters['match'][] = $element->filter_exact_match;

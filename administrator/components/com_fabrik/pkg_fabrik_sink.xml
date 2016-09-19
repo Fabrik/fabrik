@@ -2,12 +2,12 @@
 <extension type="package" version="3">
 	<name>Fabrik Package</name>
 	<packagename>fabrik</packagename>
-	<version>3.5</version>
+	<version>3.5.1</version>
 	<url>http://www.joomla.org</url>
 	<packager>Rob Clayburn</packager>
 	<packagerurl>http://www.fabrikar.com</packagerurl>
-	<creationDate>July 2016</creationDate>
-	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
+	<creationDate>September 2016</creationDate>
+	<copyright>Copyright (C) 2005-2016 Media A-Team, Inc. - All rights reserved.</copyright>
 	<description>Fabrik Free Package</description>
 	<update>http://fabrikar.com/update/packages/free</update>
 	<files folder="packages">

@@ -50,28 +50,30 @@ var FbGoogleMapViz = new Class({
 		this.icons = [];
 		this.setOptions(options);
 
+		this.updater = new Request.JSON({url: '',
+			data : {
+				'option': 'com_fabrik',
+				'format': 'raw',
+				'task': 'ajax_getMarkers',
+				'view': 'visualization',
+				'controller': 'visualization.googlemap',
+				'visualizationid': this.options.id
+			},
+			onSuccess: function (json) {
+				this.clearIcons();
+				this.clearPolyLines();
+				this.options.icons = json;
+				this.addIcons();
+				this.setPolyLines();
+				if (this.options.ajax_refresh_center) {
+					this.center();
+				}
+				Fabrik.fireEvent('fabrik.viz.googlemap.ajax.refresh', [this]);
+				Fabrik.loader.stop(this.container);
+			}.bind(this)
+		});
+
 		if (this.options.ajax_refresh) {
-			this.updater = new Request.JSON({url: '',
-				data : {
-					'option': 'com_fabrik',
-					'format': 'raw',
-					'task': 'ajax_getMarkers',
-					'view': 'visualization',
-					'controller': 'visualization.googlemap',
-					'visualizationid': this.options.id
-				},
-				onSuccess: function (json) {
-					this.clearIcons();
-					this.clearPolyLines();
-					this.options.icons = json;
-					this.addIcons();
-					this.setPolyLines();
-					if (this.options.ajax_refresh_center) {
-						this.center();
-					}
-					Fabrik.fireEvent('fabrik.viz.googlemap.ajax.refresh', [this]);
-				}.bind(this)
-			});
 			this.timer = this.update.periodical(this.options.refresh_rate, this);
 		}
 
@@ -243,6 +245,7 @@ var FbGoogleMapViz = new Class({
 	},
 
 	update: function () {
+		Fabrik.loader.start(this.container);
 		this.updater.send();
 	},
 

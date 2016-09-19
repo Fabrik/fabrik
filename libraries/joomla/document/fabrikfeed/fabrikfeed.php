@@ -442,7 +442,7 @@ class JFabrikFeedEnclosure extends JObject
 
 	// $$$ hugh - added class creator which takes the $enclosure array
 	// and stuffs the elements into the class vars
-	function JFabrikFeedEnclosure($enclosure)
+	function __construct($enclosure)
 	{
 		if (!empty($enclosure))
 		{

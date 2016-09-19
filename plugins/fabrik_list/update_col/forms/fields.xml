@@ -169,6 +169,17 @@
 				label="COM_FABRIK_EVAL"
 				repeat="true"/>
 
+			<field name="update_email_after_update"
+			       type="radio"
+			       class="btn-group"
+			       repeat="true"
+			       default="1"
+			       label="PLG_LIST_UPDATE_COL_EMAIL_AFTER_UPDATE_LABEL"
+			       description="PLG_LIST_UPDATE_COL_EMAIL_AFTER_UPDATE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 	</fields>
 </form>

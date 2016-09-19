@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.paypal
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -188,6 +188,10 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 			->where($idEl . ' = ' . $subDb->quote($itemRaw));
 			$subDb->setQuery($query);
 			$sub = $subDb->loadObject();
+
+			// Log the query
+			$this->doLog('fabrik.paypal.onAfterProcess.debug', "Subscription query: " . (string)$query);
+
 
 			if (is_object($sub))
 			{

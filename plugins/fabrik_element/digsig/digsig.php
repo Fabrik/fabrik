@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.digsig
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -87,10 +87,13 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 				$formId    = $formModel->getId();
 				$rowId     = ArrayHelper::getValue($data, $pk);
 				$elementId = $this->getId();
+				$pdfSecret = $params->get('digsig_pdf_secret', '');
 
 				$layoutData->link = COM_FABRIK_LIVESITE
-					. 'index.php?option=com_' . $this->package . '&amp;task=plugin.pluginAjax&amp;plugin=digsig&amp;method=ajax_signature_to_image&amp;'
-					. 'format=raw&amp;element_id=' . $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId . '&amp;repeatcount=0';
+					. 'index.php?option=com_' . $this->package
+					. '&amp;task=plugin.pluginAjax&amp;plugin=digsig&amp;method=ajax_signature_to_image&amp;'
+					. 'format=raw&amp;element_id=' . $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId
+					. '&amp;repeatcount=0&amp;pdf_secret=' . $pdfSecret;
 
 				$layout = new JLayoutFile('fabrik-element-digsig-details-pdf', $basePath, array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site'));
 			}
@@ -187,12 +190,23 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 		$this->loadMeForAjax();
 		$this->getElement();
 		$params        = $this->getParams();
-		$digsig_width  = (int) $params->get('digsig_list_width', '200');
-		$digsig_height = (int) $params->get('digsig_list_height', '75');
+		$digsig_width  = (int) $params->get('digsig_form_width', '400');
+		$digsig_height = (int) $params->get('digsig_form_height', '250');
 		$this->lang->load('com_fabrik.plg.element.fabrikdigsig', JPATH_ADMINISTRATOR);
 		$url = 'index.php';
 
-		if (!$this->canView())
+		$pdfSecretQS = $this->app->input->get('pdf_secret', '');
+
+		if (!empty($pdfSecretQS))
+		{
+			if ($pdfSecretQS !== $params->get('digsig_pdf_secret', ''))
+			{
+				$this->app->enqueueMessage(FText::_('PLG_ELEMENT_DIGSIG_NO_PERMISSION'));
+				$this->app->redirect($url);
+				exit;
+			}
+		}
+		else if (!$this->canView())
 		{
 			$this->app->enqueueMessage(FText::_('PLG_ELEMENT_DIGSIG_NO_PERMISSION'));
 			$this->app->redirect($url);

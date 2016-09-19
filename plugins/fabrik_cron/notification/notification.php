@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.cron.notification
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,6 +43,7 @@ class PlgFabrik_Cronnotification extends PlgFabrik_Cron
 	 *
 	 * @param   array  &$data  Record data
 	 * @param   object  &$listModel  List model
+	 *
 	 * @return number of records updated
 	 */
 

@@ -97,6 +97,9 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         getValue: function () {
             if (!this.options.editable) {
+                if (!this.options.multiple) {
+                    return this.options.value[0];
+                }
                 return this.options.value;
             }
             if (typeOf(this.element.get('value')) === 'null') {

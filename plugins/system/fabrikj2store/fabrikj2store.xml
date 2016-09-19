@@ -2,10 +2,10 @@
 <extension version="2.5.0" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_J2STORE_FABRIK</name>
 	<creationDate>Nov 2015</creationDate>
-	<author>Fabrikar</author>
+	<author>Media A-Team, Inc.</author>
 	<authorEmail>fabrikar@gmail.com</authorEmail>
 	<authorUrl>http://www.fabrikar.com</authorUrl>
-	<copyright>Copyright (C) 2005-2015 fabrikar.com - All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<version>1.0.0</version>
 	<description>PLG_SYSTEM_J2STORE_FABRIK_DESC</description>
