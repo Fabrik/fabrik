@@ -10866,7 +10866,7 @@ class FabrikFEModelList extends JModelForm
 			}
 			else
 			{
-				$this->tmpl = $input->get('layout', $item->template);
+				$this->tmpl = basename($input->get('layout', $item->template, 'RAW'));
 
 				if ($this->app->scope !== 'mod_fabrik_list')
 				{
