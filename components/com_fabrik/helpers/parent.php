@@ -2091,9 +2091,12 @@ class FabrikWorker
 		 * a multipart MIME type, with an alt body for plain text.  If we don't do this,
 		 * the default behavior is to send it as just text/html, which causes spam filters
 		 * to downgrade it.
+		 * @@@trob: insert \n before  <br to keep newlines(strip_tag may then strip <br> or <br /> etc, decode html
 		 */
 		if ($mode)
 		{
+			$body = str_replace("<br", "\n<br", $body);
+			$body = html_entity_decode($body);
 			$mailer->AltBody = JMailHelper::cleanText(strip_tags($body));
 		}
 
