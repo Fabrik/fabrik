@@ -458,7 +458,7 @@
 				type="text"
 				size="3"
 				class="input-mini"
-				default="600"
+				default=""
 				label="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_LABEL"
 				description="PLG_VISUALIZATION_GOOGLEMAP_WIDTH_DESC" />
 
