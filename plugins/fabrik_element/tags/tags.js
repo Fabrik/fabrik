@@ -1,12 +1,11 @@
 /**
  * Tags Element
  *
- * @copyright: Copyright (C) 2005-2016, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-define(['jquery', 'fab/fabrik', 'fab/chosen-loader', 'fab/element'],
-	function (jQuery, Fabrik, Chosen, FbElement) {
+define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 	window.FbTags = new Class({
 
 		options: {
@@ -25,12 +24,12 @@ define(['jquery', 'fab/fabrik', 'fab/chosen-loader', 'fab/element'],
 
 		setUp: function () {
 
-			Fabrik.buildChosen('#' + this.options.element, {
+			jQuery('#' + this.options.element).chosen({
 				disable_search_threshold: 10,
 				allow_single_deselect   : true
 			});
 
-			Fabrik.buildAjaxChosen('#' + this.options.element, {
+			this.sel = jQuery('#' + this.options.element).ajaxChosen({
 
 				type          : 'GET',
 				url           : Fabrik.liveSite + 'index.php?option=com_fabrik&view=list&listid=' + this.options.listid + '&format=tags&elID=' + this.options.id,
@@ -50,7 +49,7 @@ define(['jquery', 'fab/fabrik', 'fab/chosen-loader', 'fab/element'],
 			});
 
 			var sel = this.sel;
-			jQuery(sel).on('change', function () {
+			this.sel.on('change', function (e) {
 				var opts = jQuery(sel).find('option');
 				jQuery(sel.data().chosen.results_data).each(function () {
 					jQuery(opts[this.options_index]).attr('selected', this.selected);

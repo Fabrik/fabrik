@@ -177,6 +177,10 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			$plupShim->deps = array($folder . 'plupload');
 			$s->deps[]      = $folder . 'plupload';
 
+			// MCL test
+			$mcl = FabrikHelperHTML::mcl();
+			$s->deps[] = array_merge($s->deps, $mcl);
+
 			if (strstr($runtimes, 'html5'))
 			{
 				$s->deps[]                        = $folder . 'plupload.html5';
