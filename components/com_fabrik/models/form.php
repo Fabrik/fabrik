@@ -4060,6 +4060,10 @@ class FabrikFEModelForm extends FabModelForm
 			$text = preg_replace("/{details:\s*.*?}/is", '', $text);
 		}
 
+		//trob: to enable ([placeholders]) inside new:/edit:/details: string
+		$text = str_replace('([', '{', $text);
+		$text = str_replace('])', '}', $text);
+
 		$w = new FabrikWorker;
 		$text = $w->parseMessageForPlaceHolder($text, $this->data, true);
 
