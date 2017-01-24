@@ -142,29 +142,5 @@
 				size="2" />
 
 		</fieldset>
-
-		<fieldset
-			label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_FIELDSET_LABEL"
-			name="plg-captcha-playthru">
-
-			<field
-				type="helplink"
-				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
-
-			<field name="playthru_publisher_key"
-				type="text"
-				description="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_DESC"
-				label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_LABEL"
-				size="30" />
-
-			<field name="playthru_scoring_key"
-				type="text"
-				default=""
-				descripton="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_DESC"
-				label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_LABEL"
-				size="30" />
-
-		</fieldset>
-
 	</fields>
 </form>
