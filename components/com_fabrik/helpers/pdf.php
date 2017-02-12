@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -76,35 +76,26 @@ class FabrikPDFHelper
 		$data = str_replace('xmlns=', 'ns=', $data);
 		libxml_use_internal_errors(true);
 
+		$base_root = COM_FABRIK_LIVESITE_ROOT . '/'; // scheme, host, port, without trailing /,add it
+		$subdir = str_replace(COM_FABRIK_LIVESITE_ROOT,'',COM_FABRIK_LIVESITE); // subdir /xx/
+		$subdir = ltrim($subdir,'/');
+
+		$schemeString = '://'; //if no schemeString found assume path is relative
+
 		try
 		{
 			$ok = new SimpleXMLElement($data);
 
 			if ($ok)
 			{
-				$uri = JUri::getInstance();
-				$host = $uri->getHost();
-				$port = $uri->getPort();
-
-				if (empty($port))
-				{
-					$port = 80;
-				}
-
-				// If the port is not default, add it
-				if (! (($uri->getScheme() == 'http' && $port == 80) ||
-					($uri->getScheme() == 'https' && $port == 443))) {
-					$host .= ':' . $port;
-				}
-
-				$base = $uri->getScheme() . '://' . $host;
 				$imgs = $ok->xpath('//img');
 
 				foreach ($imgs as &$img)
 				{
-					if (!strstr($img['src'], $base))
+					if (!strstr($img['src'], $schemeString))
 					{
-						$img['src'] = $base . $img['src'];
+						$base = strstr($img['src'], $subdir) ? $base_root : $base_root . $subdir;
+						$img['src'] = $base . ltrim($img['src'],'/');
 					}
 				}
 
@@ -113,9 +104,10 @@ class FabrikPDFHelper
 
 				foreach ($as as &$a)
 				{
-					if (!strstr($a['href'], $base))
+					if (!strstr($a['href'], $schemeString))
 					{
-						$a['href'] = $base . $a['href'];
+						$base = strstr($a['href'], $subdir) ? $base_root : $base_root . $subdir;
+						$a['href'] = $base . ltrim($a['href']);
 					}
 				}
 
@@ -124,9 +116,10 @@ class FabrikPDFHelper
 
 				foreach ($links as &$link)
 				{
-					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $base))
+					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $schemeString))
 					{
-						$link['href'] = $base . $link['href'];
+						$base = strstr($link['href'], $subdir) ? $base_root : $base_root . $subdir;
+						$link['href'] = $base . ltrim($link['href']);
 					}
 				}
 
@@ -149,14 +142,14 @@ class FabrikPDFHelper
 				exit;
 			}
 			//Create the full path via general str_replace
+			//todo: relative URL starting without /
 			else
 			{
-				$uri = JUri::getInstance();
-				$base = $uri->getScheme() . '://' . $uri->getHost();
-				$data = str_replace('href="/', 'href="'.$base.'/', $data);
-				$data = str_replace('src="/', 'src="'.$base.'/', $data);
-				$data = str_replace("href='/", "href='".$base.'/', $data);
-				$data = str_replace("src='/", "src='".$base.'/', $data);
+				$base = $base_root . $subdir;
+				$data = str_replace('href="/', 'href="' . $base, $data);
+				$data = str_replace('src="/',  'src="'  . $base, $data);
+				$data = str_replace("href='/", "href='" . $base, $data);
+				$data = str_replace("src='/",  "src='"  . $base, $data);
 			}
 		}
 	}
