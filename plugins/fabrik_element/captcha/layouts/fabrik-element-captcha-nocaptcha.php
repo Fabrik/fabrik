@@ -15,4 +15,4 @@ var onloadCallback = function() {
 <div class="captcha_input" id="<?php echo $d->id; ?>">
 </div>
 
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $d->lang; ?>" async defer></script>
