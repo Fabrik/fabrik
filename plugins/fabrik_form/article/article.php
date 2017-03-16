@@ -21,6 +21,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  * @subpackage  Fabrik.form.article
  * @since       3.0
  */
+
 class PlgFabrik_FormArticle extends PlgFabrik_Form
 {
 	/**
@@ -35,6 +36,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 *
 	 * @return    bool
 	 */
+
 	public function onAfterProcess()
 	{
 		/** @var FabrikFEModelForm $formModel */
@@ -87,6 +89,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 */
 	protected function mapCategoryChanges($categories, &$store)
 	{
+
 		$defaultArticleId = null;
 
 		if (!empty($categories))
@@ -130,7 +133,9 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		JPluginHelper::importPlugin('content');
 
 		$params     = $this->getParams();
+
 		$data       = array('articletext' => $this->buildContent(), 'catid' => $catId, 'state' => 1, 'language' => '*');
+
 		$attributes = array(
 			'title' => '',
 			'publish_up' => '',
@@ -139,12 +144,16 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 			'state' => '1',
 			'metadesc' => '',
 			'metakey' => '',
-			'tags' => ''
+			'tags' => '',
+			'alias' => ''
 		);
 
 		$data['images'] = json_encode($this->images());
 
+		$data['language'] = $this->getLang();
+		$data['access'] = $this->getLevel();
 		$isNew = is_null($id) ? true : false;
+
 
 		if ($isNew)
 		{
@@ -165,6 +174,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 		$data['tags'] = (array) $data['tags'];
 
+
 		$this->generateNewTitle($id, $catId, $data);
 
 		if (!$isNew)
@@ -173,9 +183,11 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 			$data['articletext'] = str_replace('{readmore}', $readMore, $data['articletext']);
 		}
 
+
 		$item = JTable::getInstance('Content');
 		$item->load($id);
 		$item->bind($data);
+
 
 		// Trigger the onContentBeforeSave event.
 		$dispatcher->trigger('onContentBeforeSave', array('com_content.article', $item, $isNew));
@@ -184,13 +196,19 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 		/**
 		 * Featured is handled by the admin content model, when you are saving in ADMIN
+
 		 * Otherwise we've had to hack over the admin featured() method into this plugin for the front end
 		 */
+
+
+
+
 
 		JTable::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/tables');
 
 		if ($this->app->isAdmin())
 		{
+
 			JModelLegacy::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/models');
 			$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
 			$articleModel->featured($item->id, $item->featured);
@@ -217,6 +235,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 			$cache = JFactory::getCache('com_content');
 			$cache->clean($id);
 		}
+
 
 		return $item;
 	}
@@ -507,6 +526,66 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	}
 
 	/**
+	 * Get selected language
+	 *
+	 * @return string
+	 */
+	protected function getLang()
+	{
+            $params     = $this->getParams();
+            $lang = '*';
+            $languageElement = $params->get('language_element');
+            
+            if (empty($languageElement))
+            {
+                $language = $params->get('language');
+                if (!empty($language))
+                {
+                    $lang = $language;
+                }
+            }
+            else
+            {
+                $language = $this->findElementData($languageElement);
+                if (!empty($language))
+                {
+                    $lang = $language;
+                }
+            }
+            return $lang;
+	}
+	
+		/**
+	 * Get selected access level
+	 *
+	 * @return string
+	 */
+	protected function getLevel()
+	{
+            $params     = $this->getParams();
+            $levelID = '1';
+            $levelElement = $params->get('level_element');
+            
+            if (empty($levelElement))
+            {
+                $level = $params->get('level');
+                if (!empty($level))
+                {
+                    $levelID = $level;
+                }
+            }
+            else
+            {
+                $level = $this->findElementData($levelElement);
+                if (!empty($level))
+                {
+                    $levelID = $level;
+                }
+            }
+            return $levelID;
+	}
+	
+	/**
 	 * Method to change the title & alias.
 	 *
 	 * @param   integer $id    Article id
@@ -518,31 +597,41 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	protected function generateNewTitle($id, $catId, &$data)
 	{
 		$table         = JTable::getInstance('Content');
-		$alias         = JApplication::stringURLSafe(JStringNormalise::toDashSeparated($data['title']));
+		$alias		   = empty($data['alias']) ? $data['title'] : $data['alias'];
+		$alias         = JApplication::stringURLSafe(JStringNormalise::toDashSeparated( $alias ));
 		$data['alias'] = $alias;
 		$title         = $data['title'];
 		$titles        = array();
 		$aliases       = array();
 
 		// Test even if an existing article, we then remove that article title from the $titles array.
+
 		// Means that changing an existing Fabrik title to an existing article title
 		// should increment the Joomla article title.
 		while ($table->load(array('alias' => $alias, 'catid' => $catId)))
 		{
+
+
 			$title                      = JString::increment($title);
 			$titles[$table->get('id')]  = $title;
 			$alias                      = JString::increment($alias, 'dash');
 			$aliases[$table->get('id')] = $alias;
 		}
 
+
+
+
 		unset($titles[$id]);
 		unset($aliases[$id]);
 		$title = empty($titles) ? $data['title'] : array_pop($titles);
 		$alias = empty($aliases) ? $data['alias'] : array_pop($aliases);
 
+
 		// Update the Fabrik record's title if the article alias changes..
 		if ($title <> $data['title'])
 		{
+
+
 			/** @var FabrikFEModelForm $formModel */
 			$formModel  = $this->getModel();
 			$listModel  = $formModel->getListModel();
@@ -626,6 +715,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 *
 	 * @return    bool
 	 */
+
 	public function onDeleteRowsForm(&$groups)
 	{
 		/** @var FabrikFEModelForm $formModel */
@@ -686,7 +776,9 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	{
 		$images          = $this->images();
 		$formModel       = $this->getModel();
+
 		$input           = $this->app->input;
+
 		$params          = $this->getParams();
 		$template        = JPath::clean(JPATH_SITE . '/plugins/fabrik_form/article/tmpl/' . $params->get('template', ''));
 		$contentTemplate = $params->get('template_content');
@@ -700,7 +792,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 			if ($content !== '')
 			{
-				$messageTemplate = str_replace('{content}', $content, $messageTemplate);
+				$messageTemplate = str_replace('{content}', $messageTemplate, $content);
 			}
 		}
 
@@ -747,6 +839,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 *
 	 * @return string email message
 	 */
+
 	protected function _getPHPTemplateEmail($tmpl)
 	{
 		$emailData = $this->data;
@@ -772,6 +865,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 *
 	 * @return  string    email message
 	 */
+
 	protected function _getTemplateEmail($template)
 	{
 		return file_get_contents($template);
@@ -784,10 +878,14 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 *
 	 * @return  string  content item html (translated with Joomfish if installed)
 	 */
+
 	protected function _getContentTemplate($contentTemplate)
 	{
+
+
 		if ($this->app->isAdmin())
 		{
+
 			$db    = $this->_db;
 			$query = $db->getQuery(true);
 			$query->select('introtext, ' . $db->qn('fulltext'))->from('#__content')->where('id = ' . (int) $contentTemplate);
