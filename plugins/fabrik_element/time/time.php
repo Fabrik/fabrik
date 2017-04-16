@@ -322,6 +322,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 
 	public function elementJavascript($repeatCounter)
 	{
+		JHtml::_('formbehavior.chosen', 'select');
 		$params = $this->getParams();
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
