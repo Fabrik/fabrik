@@ -581,7 +581,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 		// $$$ rob 18/06/2012 cache the option vals on a per query basis (was previously incwhere but this was not ok
 		// for auto-completes in repeating groups
-		$sql = $this->buildQuery($data, $incWhere, $opts);
+		$sql = $this->buildQuery($data, $repeatCounter, $incWhere, $opts);
 
 		if (!$sql)
 		{
@@ -829,7 +829,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @return  mixed    JDatabaseQuery or false if query can't be built
 	 */
-	protected function buildQuery($data = array(), $incWhere = true, $opts = array())
+	protected function buildQuery($data = array(), $repeatCounter = 0, $incWhere = true, $opts = array())
 	{
 		$sig = isset($this->autocomplete_where) ? $this->autocomplete_where . '.' . $incWhere : $incWhere;
 		$sig .= '.' . serialize($opts);
@@ -842,7 +842,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$params = $this->getParams();
-		$query  = $this->buildQueryWhere($data, $incWhere, null, $opts, $query);
+		$query  = $this->buildQueryWhere($data, $repeatCounter, $incWhere, null, $opts, $query);
 
 		// $$$rob not sure these should be used anyway?
 		$table = $params->get('join_db_name');
@@ -1035,7 +1035,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @return string|JDatabaseQuery
 	 */
-	protected function buildQueryWhere($data = array(), $incWhere = true, $thisTableAlias = null, $opts = array(), $query = false)
+	protected function buildQueryWhere($data = array(), $repeatCounter = 0, $incWhere = true, $thisTableAlias = null, $opts = array(), $query = false)
 	{
 		$params         = $this->getParams();
 		$element        = $this->getElement();
@@ -2332,7 +2332,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// $$$ hugh - select all values for performance gain over selecting distinct records from recorded data
 		$sql   = "SELECT DISTINCT( $joinVal ) AS text, $joinKey AS value \n FROM " . $fabrikDb->qn($joinTable) . ' AS '
 			. $fabrikDb->qn($joinTableName) . " \n ";
-		$where = $this->buildQueryWhere(array(), true, null, array('mode' => 'filter'));
+		$where = $this->buildQueryWhere(array(), $repeatCounter, true, null, array('mode' => 'filter'));
 
 		// Ensure table pre-filter is applied to query
 		$preFilterWhere = $listModel->buildQueryPrefilterWhere($this);
@@ -2722,7 +2722,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$query->select($joinTable . '.parent_id, ' . $v . ' AS value, ' . $label . ' AS text')->from($joinTable)
 			->join('LEFT', $to . ' ON ' . $key . ' = ' . $joinTable . '.' . $shortName);
 
-		$this->buildQueryWhere(array(), true, null, array('mode' => 'filter'), $query);
+		$this->buildQueryWhere(array(), 0, true, null, array('mode' => 'filter'), $query);
 
 		if (!is_null($condition) && !is_null($value))
 		{
@@ -3391,7 +3391,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$db    = $this->getDb();
-		$query = $this->buildQuery(array(), false);
+		$query = $this->buildQuery(array(), $repeatCounter = 0, false);
 
 		if (!$query)
 		{
@@ -3645,7 +3645,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$joinTable = $join->table_join;
 		$params    = $this->getParams();
 		$jKey      = $this->getLabelOrConcatVal();
-		$where     = $this->buildQueryWhere(array(), true, $params->get('join_db_name'));
+		$where     = $this->buildQueryWhere(array(), $repeatCounter, true, $params->get('join_db_name'));
 		$where     = JString::stristr($where, 'order by') ? $where : '';
 		$dbName    = $this->getDbName();
 		/**

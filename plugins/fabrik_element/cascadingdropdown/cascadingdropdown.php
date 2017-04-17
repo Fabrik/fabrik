@@ -511,7 +511,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$db = $this->getDb();
 		$opts = array();
 		$opts['repeatCounter'] = $repeatCounter;
-		$sql = $this->buildQuery($data, $incWhere, $opts);
+		$sql = $this->buildQuery($data, $repeatCounter, $incWhere, $opts);
 		$sqlKey = (string) $sql;
 		$sqlKey .= $this->isEditable() ? '0' : '1';
 
@@ -691,7 +691,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 	 *
 	 * @return  mixed	JDatabaseQuery or false if query can't be built
 	 */
-	protected function buildQuery($data = array(), $incWhere = true, $opts = array())
+	protected function buildQuery($data = array(), $repeatCounter = 0, $incWhere = true, $opts = array())
 	{
 		$input = $this->app->input;
 		$sig = isset($this->autocomplete_where) ? $this->autocomplete_where . '.' . $incWhere : $incWhere;

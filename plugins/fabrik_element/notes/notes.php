@@ -96,8 +96,11 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		$params = $this->getParams();
 		$txt = '';
 		$header = array();
+		$useHeaders = (int) $params->get('notes_use_headers', 0);
 
-		if ($params->get('showuser', true))
+		// Jaanus - set the following default to false otherwise even if the param was not used there were still an array key present and an empty div was displayed
+		
+		if ($params->get('userid', false))
 		{
 			$header[] = $this->getUserNameLinked($row);
 		}
@@ -107,16 +110,29 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 			$header[] = $this->getFormattedDate($row);
 		}
 
-		if (!empty($header))
+		if (!empty($header) && $useHeaders > 0)
 		{
-			$spanX = 12 / count($header);
-
-			foreach ($header as $head)
+			if ($useHeaders == 1) 
 			{
-				$txt .= '<div class="span' . $spanX . '">' . $head . '</div>';
+				$spanX = 12 / count($header);
+
+				foreach ($header as $head)
+				{
+					$txt .= '<div class="span' . $spanX . '">' . $head . '</div>';
+				}
+
+				$txt = '<div class="row-fluid">' . $txt . '</div>';
 			}
 
-			$txt = '<div class="row-fluid">' . $txt . '</div>';
+			if ($useHeaders == 2) 
+			{
+				foreach ($header as $head)
+				{
+					$txt .= $head . ' ';
+				}
+			}
+
+			$txt .= ' -  ';
 		}
 
 		$txt .= $row->text;
@@ -220,7 +236,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	 *
 	 * @return string|JDatabaseQuery
 	 */
-	protected function buildQueryWhere($data = array(), $incWhere = true, $thisTableAlias = null, $opts = array(), $query = false)
+	protected function buildQueryWhere($data = array(), $repeatCounter = 0, $incWhere = true, $thisTableAlias = null, $opts = array(), $query = false)
 	{
 		$params = $this->getParams();
 		$db = $this->getDb();

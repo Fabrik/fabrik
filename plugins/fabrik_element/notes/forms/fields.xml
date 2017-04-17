@@ -97,6 +97,17 @@
 					<option value="DESC">DESC</option>
 			</field>
 
+			<field name="notes_use_headers"
+				type="radio"
+			    class="btn-group"
+				description="PLG_ELEMENT_NOTES_USE_HEADERS_DESC"
+				label="PLG_ELEMENT_NOTES_USE_HEADERS_LABEL"
+				default="0">
+				<option value="0">JNO</option>
+				<option value="1">PLG_ELEMENT_NOTES_USE_HEADERS_TOP</option>
+				<option value="2">PLG_ELEMENT_NOTES_USE_HEADERS_SIDE</option>
+				</field>
+
 			<field name="userid"
 				type="listfields"
 				connection="params_join_conn_id"
@@ -121,6 +132,12 @@
 				type="text"
 				description="PLG_ELEMENT_NOTES_DATE_FORMAT_DESC"
 				label="PLG_ELEMENT_NOTES_DATE_FORMAT_LABEL"
+				size="40" />
+							
+			<field name="notes_today_format"
+				type="text"
+				description="PLG_ELEMENT_NOTES_TODAY_FORMAT_DESC"
+				label="PLG_ELEMENT_NOTES_TODAY_FORMAT_LABEL"
 				size="40" />
 							
 		</fieldset>
