@@ -501,7 +501,7 @@ class FabrikViewListBase extends FabrikView
 
 		if ($this->showPDF)
 		{
-			FabrikWorker::canPdf();
+			$this->showPdf = FabrikWorker::canPdf(false);
 		}
 
 		$this->emptyLink     = $model->canEmpty() ? '#' : '';

@@ -2401,17 +2401,26 @@ class FabrikWorker
 	/**
 	 * Can Fabrik render PDF - required the DOMPDF library to be installed in Joomla libraries folder
 	 *
+	 * @param  bool  $puke  throw an exception if can't
+	 *
 	 * @throws RuntimeException
 	 *
 	 * @return bool
 	 */
-	public static function canPdf()
+	public static function canPdf($puke = true)
 	{
-		$file = JPATH_LIBRARIES . '/dompdf/dompdf_config.inc.php';
+		$file = COM_FABRIK_LIBRARY . '/vendor/dompdf/dompdf/autoload.inc.php';
 
 		if (!JFile::exists($file))
 		{
-			throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
+			if ($puke)
+			{
+				throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		return true;

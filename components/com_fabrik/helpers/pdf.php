@@ -13,6 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 /**
  * PDF Set up helper
  *
@@ -26,41 +29,26 @@ class FabrikPDFHelper
 	/**
 	 * Set up DomPDF engine
 	 *
+	 * @param  bool  $puke  throw exception if not installed (true) or just return false
+	 *
 	 * @return  bool
 	 */
 
-	public static function iniDomPdf()
+	public static function iniDomPdf($puke = false)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-
-		$file = JPATH_LIBRARIES . '/dompdf/dompdf_config.inc.php';
-
-		if (!JFile::exists($file))
+		if (!FabrikWorker::canPdf($puke))
 		{
 			return false;
 		}
 
-		if (!defined('DOMPDF_ENABLE_REMOTE'))
-		{
-			define('DOMPDF_ENABLE_REMOTE', true);
-		}
-
 		$config = JFactory::getConfig();
 
-		if (!defined('DOMPDF_FONT_CACHE'))
-		{
-			define('DOMPDF_FONT_CACHE', $config->get('tmp_path'));
-		}
+		$options = new Options();
+		$options->set('isRemoteEnabled', true);
+		$options->set('fontCache', $config->get('tmp_path'));
+		$options->set('tempDir', $config->get('tmp_path'));
 
-		if (!defined('DOMPDF_TEMP_DIR'))
-		{
-			define('DOMPDF_TEMP_DIR', $config->get('tmp_path'));
-		}
-
-		require_once $file;
-
-		return true;
+		return new Dompdf($options);
 	}
 
 	/**

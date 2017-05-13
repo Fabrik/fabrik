@@ -457,6 +457,13 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 		try
 		{
+			// Require files and set up DOM pdf
+			require_once JPATH_SITE . '/components/com_fabrik/helpers/pdf.php';
+			require_once JPATH_SITE . '/components/com_fabrik/controllers/details.php';
+
+			// if DOMPDF isn't installed, this will throw an exception which we should catch
+			$domPdf = FabrikPDFHelper::iniDomPdf(true);
+
 			$model->getFormCss();
 
 			foreach ($document->_styleSheets as $url => $ss)
@@ -470,11 +477,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 				$formCss[] = file_get_contents($url);
 			}
 
-			// Require files and set up DOM pdf
-			require_once JPATH_SITE . '/components/com_fabrik/helpers/pdf.php';
-			require_once JPATH_SITE . '/components/com_fabrik/controllers/details.php';
-			FabrikPDFHelper::iniDomPdf();
-			$domPdf = new DOMPDF;
+
 			$size = strtoupper($params->get('pdf_size', 'A4'));
 			$orientation = $params->get('pdf_orientation', 'portrait');
 			$domPdf->set_paper($size, $orientation);

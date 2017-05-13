@@ -3063,4 +3063,19 @@ EOD;
 		FabrikHelperHTML::jLayoutJs('icon-expand', 'fabrik-icon', (object) array('icon' => 'icon-expand'));
 		FabrikHelperHTML::jLayoutJs('icon-full-screen', 'fabrik-icon', (object) array('icon' => 'icon-out-2 icon-fullscreen'));
 	}
+
+	/**
+	 * Get framework specific grid span class
+	 *
+	 * @param   string  $spanSize  numeric span size
+	 *
+	 * @return  void
+	 */
+	public static function getGridSpan($spanSize)
+	{
+		$layout                = self::getLayout('fabrik-grid-span');
+		$displayData           = new stdClass;
+		$displayData->spanSize = $spanSize;
+		return $layout->render($displayData);
+	}
 }

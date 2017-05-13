@@ -1124,7 +1124,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	protected function _fileUploadSizeOK($myFileSize)
 	{
 		$params   = $this->getParams();
-		$max_size = $params->get('ul_max_file_size') * 1000;
+		$max_size = $params->get('ul_max_file_size') * 1024;
 
 		if ($myFileSize <= $max_size)
 		{

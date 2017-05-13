@@ -2021,7 +2021,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					}
 				}
 
-				$val = $this->renderListData($value, new stdClass);
+				$oData = new stdClass;
+				$val = $this->renderListData($value, $oData);
 			}
 		}
 

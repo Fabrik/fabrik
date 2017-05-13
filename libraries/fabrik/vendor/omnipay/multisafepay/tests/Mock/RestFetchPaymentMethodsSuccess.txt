@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: Fri, 05 Feb 2016 10:25:42 GMT
-Server: Apache
-Vary: Accept-Encoding
-Content-Length: 52
-Content-Type: application/json; charset=UTF-8;
-
-{"success":true,"data":[{"id":"BANKTRANS","description":"Wire Transfer"},{"id":"MAESTRO","description":"Maestro"},{"id":"VISA","description":"Visa"},{"id":"WALLET","description":"MultiSafepay"},{"id":"IDEAL","description":"iDEAL"},{"id":"MASTERCARD","description":"MasterCard"}]}

@@ -427,7 +427,7 @@ class FabrikFEModelGroup extends FabModel
 		{
 			$element->startRow = true;
 			$element->endRow = 1;
-			$element->span = ' span12';
+			$element->span = FabrikHelperHTML::getGridSpan('12');
 			$element->column = ' style="clear:both;width:100%;"';
 			$rowIx = -1;
 
@@ -471,7 +471,7 @@ class FabrikFEModelGroup extends FabModel
 		$element->column .= '" ';
 		$spans = $this->columnSpans();
 		$spanKey = $rowIx % $colCount;
-		$element->span = $element->hidden ? '' : FArrayHelper::getValue($spans, $spanKey, 'span' . floor(12 / $colCount));
+		$element->span = $element->hidden ? '' : FArrayHelper::getValue($spans, $spanKey, FabrikHelperHTML::getGridSpan(floor(12 / $colCount)));
 
 		if (!$element->hidden)
 		{
@@ -528,7 +528,7 @@ class FabrikFEModelGroup extends FabModel
 					$w = floor(($w / 100) * 12);
 				}
 
-				$w = ' span' . $w;
+				$w = ' ' . FabrikHelperHTML::getGridSpan($w);
 			}
 		}
 

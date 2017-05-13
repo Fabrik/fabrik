@@ -17,7 +17,7 @@ if ($this->hasActions) : ?>
 <div class="fabrikActions form-actions">
 	<div class="row-fluid">
 		<?php if ( $form->submitButton || $form->applyButton || $form->copyButton ): ?>
-			<div class="span4">
+			<div class="<?php FabrikHelperHTML::getGridSpan(4); ?>">
 				<div class="btn-group">
 					<?php
 					echo $form->submitButton . ' ';
@@ -27,15 +27,22 @@ if ($this->hasActions) : ?>
 				</div>
 			</div>
 		<?php endif; ?>
+		<?php if ($form->customButtons): ?>
+			<div class="fabrikCustomButtons <?php FabrikHelperHTML::getGridSpan(2); ?>"">
+				<div class="btn-group">
+					<?php echo $form->customButtons; ?>
+				</div>
+			</div>
+		<?php endif; ?>
 		<?php if ( $form->prevButton || $form->nextButton ): ?>
-			<div class="offset1 span2">
+			<div class="offset1 <?php FabrikHelperHTML::getGridSpan(2); ?>">
 				<div class="btn-group">
 					<?php echo $form->prevButton . ' ' . $form->nextButton; ?>
 				</div>
 			</div>
 		<?php endif; ?>
 		<?php if ( $form->gobackButton || $form->resetButton || $form->deleteButton || $form->clearMultipageSessionButton): ?>
-			<div class="offset1 span4">
+			<div class="offset1 <?php FabrikHelperHTML::getGridSpan(4); ?>">
 				<div class="pull-right btn-group">
 					<?php
 					echo $form->gobackButton;

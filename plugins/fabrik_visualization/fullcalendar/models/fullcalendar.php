@@ -525,7 +525,14 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 								$row->startdate = $date->format('Y-m-d H:i:s', true);
 							}
 
-							$date         = JFactory::getDate($row->enddate);
+							$date = JFactory::getDate($row->enddate);
+
+							// Full Calendar allDay end date is now exclusive, need to add a day
+							if ($row->allday)
+							{
+								$date->modify('+1 day');
+							}
+
 							$row->enddate = $date->format('Y-m-d H:i:s', true);
 
 							if (!$endLocal)
@@ -555,156 +562,150 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 			}
 		}
 
-$params   = $this->getParams();
-$addEvent = json_encode($jsevents);
+		$params   = $this->getParams();
+		$addEvent = json_encode($jsevents);
 
-return $addEvent;
-}
+		return $addEvent;
+	}
 
-/**
- * Get the js code to create the legend
- *
- * @return  string
- */
+	/**
+	 * Get the js code to create the legend
+	 *
+	 * @return  string
+	 */
 
-public
-function getLegend()
-{
-	$db     = FabrikWorker::getDbo();
-	$params = $this->getParams();
-	$this->setupEvents();
-	$tables = (array) $params->get('fullcalendar_table');
-	$colour = (array) $params->get('colour');
-	$legend = (array) $params->get('legendtext');
-
-	// @TODO: json encode the returned value and move to the view
-	$calendar = $this->getRow();
-	$aLegend  = array();
-	$jsevents = array();
-
-	foreach ($this->events as $listid => $record)
+	public function getLegend()
 	{
-		$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
-		$listModel->setId($listid);
-		$table = $listModel->getTable();
+		$db     = FabrikWorker::getDbo();
+		$params = $this->getParams();
+		$this->setupEvents();
+		$tables = (array) $params->get('fullcalendar_table');
+		$colour = (array) $params->get('colour');
+		$legend = (array) $params->get('legendtext');
 
-		foreach ($record as $data)
+		// @TODO: json encode the returned value and move to the view
+		$calendar = $this->getRow();
+		$aLegend  = array();
+		$jsevents = array();
+
+		foreach ($this->events as $listid => $record)
 		{
-			$rubbish   = $table->db_table_name . '___';
-			$colour    = FabrikString::ltrimword($data['colour'], $rubbish);
-			$legend    = FabrikString::ltrimword($data['legendtext'], $rubbish);
-			$label     = (empty($legend)) ? $table->label : $legend;
-			$aLegend[] = array('label' => $label, 'colour' => $colour);
+			$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
+			$listModel->setId($listid);
+			$table = $listModel->getTable();
+
+			foreach ($record as $data)
+			{
+				$rubbish   = $table->db_table_name . '___';
+				$colour    = FabrikString::ltrimword($data['colour'], $rubbish);
+				$legend    = FabrikString::ltrimword($data['legendtext'], $rubbish);
+				$label     = (empty($legend)) ? $table->label : $legend;
+				$aLegend[] = array('label' => $label, 'colour' => $colour);
+			}
+		}
+
+		return $aLegend;
+	}
+
+	/**
+	 * Get calendar js name
+	 *
+	 * @deprecated  Use getJSRenderContext() instead
+	 *
+	 * @return NULL
+	 */
+
+	public function getCalName()
+	{
+		if (is_null($this->calName))
+		{
+			$calendar      = $this->getRow();
+			$this->calName = 'oCalendar' . $calendar->id;
+		}
+
+		return $this->calName;
+	}
+
+	/**
+	 * Update an event - Not working/used!
+	 *
+	 * @return  void
+	 */
+
+	public function updateevent()
+	{
+		$oPluginManager = FabrikWorker::getPluginManager();
+	}
+
+	/**
+	 * Delete an event
+	 *
+	 * @return  void
+	 */
+
+	public function deleteEvent()
+	{
+		$app    = JFactory::getApplication();
+		$input  = $app->input;
+		$id     = $input->getInt('id');
+		$listid = $input->getInt('listid');
+		if (!empty($id) && !empty($listid))
+		{
+			$ids       = array($id);
+			$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
+			$listModel->setId($listid);
+			$ok = $listModel->deleteRows($ids);
 		}
 	}
 
-	return $aLegend;
-}
-
-/**
- * Get calendar js name
- *
- * @deprecated  Use getJSRenderContext() instead
- *
- * @return NULL
- */
-
-public
-function getCalName()
-{
-	if (is_null($this->calName))
+	/**
+	 * Create the min/max dates between which events can be added.
+	 *
+	 * @return stdClass  min/max properties containing sql formatted dates
+	 */
+	public function getDateLimits()
 	{
-		$calendar      = $this->getRow();
-		$this->calName = 'oCalendar' . $calendar->id;
+		$params = $this->getParams();
+		$limits = new stdClass;
+		$min    = $params->get('limit_min', '');
+		$max    = $params->get('limit_max', '');
+		/**@@@trob: seems Firefox needs this date format in calendar.js (limits not working with toSQL */
+		$limits->min = ($min === '') ? '' : JFactory::getDate($min)->toISO8601();
+		$limits->max = ($max === '') ? '' : JFactory::getDate($max)->toISO8601();
+
+		return $limits;
 	}
 
-	return $this->calName;
-}
-
-/**
- * Update an event - Not working/used!
- *
- * @return  void
- */
-
-public
-function updateevent()
-{
-	$oPluginManager = FabrikWorker::getPluginManager();
-}
-
-/**
- * Delete an event
- *
- * @return  void
- */
-
-public
-function deleteEvent()
-{
-	$app    = JFactory::getApplication();
-	$input  = $app->input;
-	$id     = $input->getInt('id');
-	$listid = $input->getInt('listid');
-	if (!empty($id) && !empty($listid))
+	/**
+	 * Build the notice which explains between which dates you can add events.
+	 *
+	 * @return string
+	 */
+	public function getDateLimitsMsg()
 	{
-		$ids       = array($id);
-		$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
-		$listModel->setId($listid);
-		$ok = $listModel->deleteRows($ids);
+		$params = $this->getParams();
+		$min    = $params->get('limit_min', '');
+		$max    = $params->get('limit_max', '');
+		$msg    = '';
+		$f      = FText::_('DATE_FORMAT_LC2');
+
+		if ($min !== '' && $max === '')
+		{
+			$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_AFTER', JFactory::getDate($min)->format($f));
+		}
+
+		if ($min === '' && $max !== '')
+		{
+			$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_BEFORE', JFactory::getDate($max)->format($f));
+		}
+
+		if ($min !== '' && $max !== '')
+		{
+			$min = JFactory::getDate($min)->format($f);
+			$max = JFactory::getDate($max)->format($f);
+			$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_RANGE', $min, $max);
+		}
+
+		return $msg;
 	}
-}
-
-/**
- * Create the min/max dates between which events can be added.
- *
- * @return stdClass  min/max properties containing sql formatted dates
- */
-public
-function getDateLimits()
-{
-	$params = $this->getParams();
-	$limits = new stdClass;
-	$min    = $params->get('limit_min', '');
-	$max    = $params->get('limit_max', '');
-	/**@@@trob: seems Firefox needs this date format in calendar.js (limits not working with toSQL */
-	$limits->min = ($min === '') ? '' : JFactory::getDate($min)->toISO8601();
-	$limits->max = ($max === '') ? '' : JFactory::getDate($max)->toISO8601();
-
-	return $limits;
-}
-
-/**
- * Build the notice which explains between which dates you can add events.
- *
- * @return string
- */
-public
-function getDateLimitsMsg()
-{
-	$params = $this->getParams();
-	$min    = $params->get('limit_min', '');
-	$max    = $params->get('limit_max', '');
-	$msg    = '';
-	$f      = FText::_('DATE_FORMAT_LC2');
-
-	if ($min !== '' && $max === '')
-	{
-		$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_AFTER', JFactory::getDate($min)->format($f));
-	}
-
-	if ($min === '' && $max !== '')
-	{
-		$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_BEFORE', JFactory::getDate($max)->format($f));
-	}
-
-	if ($min !== '' && $max !== '')
-	{
-		$min = JFactory::getDate($min)->format($f);
-		$max = JFactory::getDate($max)->format($f);
-		$msg = '<br />' . JText::sprintf('PLG_VISUALIZATION_FULLCALENDAR_LIMIT_RANGE', $min, $max);
-	}
-
-	return $msg;
-}
 }

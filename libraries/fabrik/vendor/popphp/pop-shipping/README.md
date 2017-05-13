@@ -1,8 +1,12 @@
 pop-shipping
 ============
 
+END OF LIFE
+-----------
+The `pop-shipping` component v2.1.0 is now end-of-life and will no longer be maintained.
+
 [![Build Status](https://travis-ci.org/popphp/pop-shipping.svg?branch=master)](https://travis-ci.org/popphp/pop-shipping)
-[![Coverage Status](http://www.popphp.org/cc/coverage.php?comp=pop-shipping)](http://www.popphp.org/cc/pop-shipping/)
+[![Coverage Status](http://cc.popphp.org/coverage.php?comp=pop-shipping)](http://cc.popphp.org/pop-shipping/)
 
 OVERVIEW
 --------
@@ -30,7 +34,7 @@ the shipping vendor:
 ##### FedEx
 
 The FedEx API utilizes SOAP, so you'll have to obtain a copy of the WSDL file and
-point to its location on your sever: 
+point to its location on your sever:
 
 ```php
 use Pop\Shipping\Shipping;
@@ -38,7 +42,7 @@ use Pop\Shipping\Adapter\Fedex;
 
 $shipping = new Shipping(
     new Fedex('USER_KEY', 'PASSWORD', 'ACCOUNT_NUM', 'METER_NUM', 'WSDL_FILE')
-); 
+);
 ```
 
 ##### UPS
@@ -51,7 +55,7 @@ use Pop\Shipping\Adapter\Ups;
 
 $shipping = new Shipping(
     new Ups('ACCESS_KEY', 'USER_ID', 'PASSWORD')
-); 
+);
 ```
 
 ##### US Post Office
@@ -64,7 +68,7 @@ use Pop\Shipping\Adapter\Usps;
 
 $shipping = new Shipping(
     new Usps('USERNAME', 'PASSWORD')
-); 
+);
 ```
 
 ### Using the shipping object to get the rates
@@ -75,7 +79,7 @@ use Pop\Shipping\Adapter\Ups;
 
 $shipping = new Shipping(
     new Ups('ACCESS_KEY', 'USER_ID', 'PASSWORD')
-); 
+);
 
 // Set the 'ship to' address
 $shipping->shipTo([

@@ -195,7 +195,12 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     var url = jQuery(e.target).prop('href');
                     url = url.replace(/&rowid=\d+/, '&rowid=' + this.options.rowid);
                     if (this.options.lang !== false) {
-                        url += '&lang=' + this.options.lang;
+                        if (url.test(/\?/)) {
+	                        url += '&lang=' + this.options.lang;
+                        }
+                        else {
+	                        url += '?lang=' + this.options.lang;
+                        }
                     }
                     window.open(
                         url,
@@ -213,10 +218,15 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             this.form.getElements('*[data-role="open-form-pdf"]').addEvent('click', function (e) {
                 e.stop();
                 // Build URL as we could have changed the rowid via ajax pagination.
+                // @FIXME for SEF
                 var url = e.event.currentTarget.href.replace(/(rowid=\d*)/, 'rowid=' + this.options.rowid);
                 if (this.options.lang !== false) {
-                    url += '&lang=' + this.options.lang;
-                }
+	                if (url.test(/\?/)) {
+		                url += '&lang=' + this.options.lang;
+	                }
+	                else {
+		                url += '?lang=' + this.options.lang;
+	                }                }
                 window.location = url;
             }.bind(this));
         },

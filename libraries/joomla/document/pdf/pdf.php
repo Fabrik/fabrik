@@ -53,9 +53,10 @@ class JDocumentpdf extends JDocumentHTML
 			// Set document type
 			$this->_type = 'pdf';
 		}
+
 		if (!$this->iniDomPdf())
 		{
-			throw new RuntimeException(FText::_('COM_FABRIK_ERR_NO_PDF_LIB_FOUND'), 500);
+			throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
 		}
 	}
 
@@ -66,15 +67,9 @@ class JDocumentpdf extends JDocumentHTML
 	 */
 	protected function iniDomPdf()
 	{
-		if (FabrikPDFHelper::iniDomPdf())
-		{
-			// Default settings are a portrait layout with an A4 configuration using millimeters as units
-			$this->engine = new DOMPDF;
+		$this->engine = FabrikPDFHelper::iniDomPdf(true);
 
-			return true;
-		}
-
-		return false;
+		return $this->engine;
 	}
 
 	/**
@@ -129,11 +124,11 @@ class JDocumentpdf extends JDocumentHTML
 	public function render($cache = false, $params = array())
 	{
 		// mb_encoding foo when content-type had been set to text/html; uft-8;
- 		$this->_metaTags['http-equiv'] = array();
+		$this->_metaTags['http-equiv'] = array();
 		$this->_metaTags['http-equiv']['content-type'] = 'text/html';
 
 		// Testing using futural font.
- 		// $this->addStyleDeclaration('body: { font-family: futural !important; }');
+		// $this->addStyleDeclaration('body: { font-family: futural !important; }');
 		$pdf = $this->engine;
 		$data = parent::render();
 		FabrikPDFHelper::fullPaths($data);
@@ -147,7 +142,7 @@ class JDocumentpdf extends JDocumentHTML
 		$pdf->load_html($data);
 		$config = JComponentHelper::getParams('com_fabrik');
 
-		if ($config->get('pdf_debug', true))
+		if ($config->get('pdf_debug', false))
 		{
 			return $pdf->output_html();
 		}

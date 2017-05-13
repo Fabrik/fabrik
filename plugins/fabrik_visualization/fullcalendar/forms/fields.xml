@@ -243,8 +243,9 @@
 			</field>
 			
 			<field name="calOptions"
-				type="text"
-				class="input-large"
+				type="textarea"
+				cols="40"
+				rows="8"
 				default=""
 				description="PLG_VISUALIZATION_FULLCALENDAR_CAL_OPTIONS_DESC"
 				label="PLG_VISUALIZATION_FULLCALENDAR_CAL_OPTIONS_LABEL" />

@@ -9,6 +9,8 @@ php.ini
 build/
 cache/*
 administrator/*
+!administrator/components/
+administrator/components/*
 !administrator/components/com_fabrik/
 !administrator/components/com_fabrik/*
 components/*
@@ -17,13 +19,10 @@ components/com_fabrik/js/*
 components/com_fabrik/user_ajax.php
 components/com_fabrik/xf_group_sync.php
 cli/*
-/downloads
-/downloads_debug
 images/*
 includes/*
 language/*
 libraries/*
-!libraries/dompdf/
 !libraries/fabrik/
 !libraries/joomla
 libraries/joomla/*
@@ -31,6 +30,8 @@ libraries/joomla/*
 libraries/joomla/document/*
 !libraries/joomla/document/partial/
 !libraries/joomla/document/partial/*
+!libraries/joomla/document/pdf/
+!libraries/joomla/document/pdf/*
 libraries/dompdf/lib/fonts/log.htm
 logs
 modules/*
@@ -49,15 +50,11 @@ plugins/*
 plugins/search/*
 !plugins/search/fabrik
 plugins/system/*
-plugins/fabrik_list/sphera_php_events
 plugins/fabrik_list/download/libs
 !plugins/system/fabrik/
 !plugins/fabrik_element/
-plugins/fabrik_element/mytristate/
 !plugins/fabrik_form/
-plugins/fabrik_form/payments/
 plugins/fabrik_form/php/scripts/
-plugins/fabrik_form/caneditgroup/
 !plugins/fabrik_list/
 plugins/fabrik_list/php/scripts/
 !plugins/fabrik_cron/
@@ -65,8 +62,6 @@ plugins/fabrik_list/php/scripts/
 !plugins/fabrik_visualization/
 plugins/community/*
 !plugins/community/fabrik/
-premium/*
-!tttplugins/system/fabrikcron/
 robots.txt
 sql/*
 tests/*
@@ -92,7 +87,6 @@ fabrik_build/cli/
 /language
 /docs
 /uploads
-libraries/dompdf/lib/fonts/dompdf_font_family_cache.dist.php
 /t3-assets
 /joomlatools-files
 /bin
