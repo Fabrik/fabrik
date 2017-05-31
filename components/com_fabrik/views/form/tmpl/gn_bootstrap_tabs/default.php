@@ -12,9 +12,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-/* AJB 2017-04-26 BOC 1 */
+/* BOC 1 - AJB 2017-05-19 */
 $mainGroupId = '115';
-/* AJB 2017-04-26 EOC 1 */
+/* EOC 1 - AJB 2017-05-19 */
 
 $form = $this->form;
 $model = $this->getModel();
@@ -73,6 +73,9 @@ $tabs = array();
 $is_err = false;
 
 foreach ($this->groups as $group) :
+  /* BOC 2 - AJB 2017-05-19 */
+	if ($group->id == $mainGroupId) : $mainGroup = $group; continue; endif;
+  /* EOC 2 - AJB 2017-05-19 */	
 	foreach ($group->elements as $element) {
 		if ($element->error != '') {
 			$is_err = true;
@@ -81,9 +84,6 @@ foreach ($this->groups as $group) :
 	}
 	$err_class = $is_err ? 'fabrikErrorGroup' : '';
 	$tabId = $this->form->id . '_' . (int)$this->rowid . '_' . $i;
-/* AJB 2017-04-26 BOC 2 */
-	if ($group->id == $mainGroupId) : $mainGroup = $group; continue; endif;
-/* AJB 2017-04-26 EOC 2 */	
 
 	// If this is multi-page then groups are consolidated until a group with a page break
 	// So we should only show a tab if: it is first tab, or if it is a page break
@@ -100,7 +100,8 @@ foreach ($this->groups as $group) :
 	endif;
 endforeach;
 ?>
-<?php /* AJB 2017-04-26 BOC 3 */ ?>
+
+<?php /* BOC 3 - AJB 2017-05-19 */ ?>
 <?php
 $group = $mainGroup;
 ?>
@@ -130,7 +131,8 @@ $group = $mainGroup;
 	endif;
 	?>
 </fieldset>
-<?php /* AJB 2017-04-26 EOC 3 */ ?>
+<?php /* EOC 3 - AJB 2017-05-19 */ ?>
+
 <?php
 echo FabrikHelperHTML::getLayout('fabrik-tabs')->render((object) array('tabs' => $tabs));
 ?>
@@ -141,9 +143,10 @@ echo FabrikHelperHTML::getLayout('fabrik-tabs')->render((object) array('tabs' =>
 	$i = 0;
 	foreach ($this->groups as $group) :
 	
-/* AJB 2017-04-26 BOC 4 */
+/* BOC 4 - AJB 2017-05-19 */
 		if ($group->id == $mainGroupId) : continue; endif;
-/* AJB 2017-04-26 EOC 4 */
+/* EOC 4 - AJB 2017-05-19 */
+
 		$this->group = $group;
 		$tabId = $this->form->id . '_' . (int)$this->rowid . '_' . $i;
 		if ($i == 0 || !$model->isMultiPage() || $group->splitPage) :
