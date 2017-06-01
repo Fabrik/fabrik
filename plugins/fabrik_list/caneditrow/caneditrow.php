@@ -57,6 +57,15 @@ class PlgFabrik_ListCaneditrow extends PlgFabrik_List
 			return true;
 		}
 
+		// if this is a form submission, check to see if they want us running or not
+		if ($this->app->input->get('task', '') === 'form.process')
+		{
+			if ($params->get('caneditrow_on_submit', '1') === '0')
+			{
+				return true;
+			}
+		}
+
 		if (is_array($row[0]))
 		{
 			$data = ArrayHelper::toObject($row[0]);

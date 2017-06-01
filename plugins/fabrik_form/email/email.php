@@ -85,6 +85,14 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			return true;
 		}
 
+		// set up some useful placeholders for links to form
+		$this->data['fabrik_editurl'] = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $this->package . '&amp;view=form&amp;formid=' . $formModel->get('id') . '&amp;rowid='
+			. $input->get('rowid', '', 'string');
+		$this->data['fabrik_viewurl'] = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $this->package . '&amp;view=details&amp;formid=' . $formModel->get('id') . '&amp;rowid='
+			. $input->get('rowid', '', 'string');
+		$this->data['fabrik_editlink'] = '<a href="' . $this->data['fabrik_editurl'] . '">' . FText::_('EDIT') . '</a>';
+		$this->data['fabrik_viewlink'] = '<a href="' . $this->data['fabrik_viewurl'] . '">' . FText::_('VIEW') . '</a>';
+
 		/**
 		 * Added option to run content plugins on message text.  Note that rather than run it one time at the
 		 * end of the following code, after we have assembled all the various options in to a single $message,
@@ -161,16 +169,6 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 		// $$$ hugh - test stripslashes(), should be safe enough.
 		$message = stripslashes($message);
 
-		$editURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $this->package . '&amp;view=form&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
-			. $input->get('rowid', '', 'string');
-		$viewURL = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $this->package . '&amp;view=details&amp;fabrik=' . $formModel->get('id') . '&amp;rowid='
-			. $input->get('rowid', '', 'string');
-		$editLink = '<a href="' . $editURL . '">' . FText::_('EDIT') . '</a>';
-		$viewLink = '<a href="' . $viewURL . '">' . FText::_('VIEW') . '</a>';
-		$message = str_replace('{fabrik_editlink}', $editLink, $message);
-		$message = str_replace('{fabrik_viewlink}', $viewLink, $message);
-		$message = str_replace('{fabrik_editurl}', $editURL, $message);
-		$message = str_replace('{fabrik_viewurl}', $viewURL, $message);
 		FabrikPDFHelper::fullPaths($message);
 
 

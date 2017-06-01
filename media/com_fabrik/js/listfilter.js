@@ -256,7 +256,7 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
                 } else {
                     v = v2 = input.val();
                 }
-                if (v !== '' && v2 !== '') {
+                if (typeof v !== 'undefined' && v !== null && v !== '' && v2 !== '') {
                     show = true;
                     clone = label.clone();
                     clone.find('*[data-filter-clear]').data('filter-clear', filter.name);

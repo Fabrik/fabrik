@@ -450,6 +450,11 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$canSelect = ($params->get('image_front_end_select', '0') && JString::substr($value, 0, 4) !== 'http');
 		$defaultImg = $params->get('imagepath');
 
+		if (JFile::exists($defaultImg) || JFile::exists(COM_FABRIK_BASE . $defaultImg))
+		{
+			$defaultImg = dirname($defaultImg);
+		}
+
 		// Changed first || from a && - http://fabrikar.com/forums/index.php?threads/3-1rc1-image-list-options-bug.36585/#post-184266
 		if ($canSelect || (JFolder::exists($defaultImg) || JFolder::exists(COM_FABRIK_BASE . $defaultImg)))
 		{

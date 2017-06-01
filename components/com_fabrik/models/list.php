@@ -5173,6 +5173,16 @@ class FabrikFEModelList extends JModelForm
 				$this->app->setUserState($key, array_values($val));
 			}
 		}
+
+		FabrikWorker::getPluginManager()->runPlugins(
+			'onStoreRequestData',
+			$this,
+			'list',
+			array (
+				'context' => $context,
+				'request' => $request
+			)
+		);
 	}
 
 	/**
@@ -11237,6 +11247,19 @@ class FabrikFEModelList extends JModelForm
 	{
 		$input = $this->app->input;
 		$task = $input->getCmd('task');
+		$scope = $this->app->scope;
+
+		/**
+		 * Meh, nasty hack for nasty gotcha.  If a list is being rendered in a content plugin inside a form (intro /
+		 * outro), the app scope will be com_fabrik.  If that plugin sets a 'jpluginfilter' (foo___bar=XYZ), that
+		 * filter will be stored with a com_fabrik render context, and will then get applied in the component view
+		 * of that list.  When we run plugins, we already set 'option' input to com_content.  So let's check to see if
+		 * we have a scope of com_fabrik, and an 'option' of something else.  If so, use the 'option' as the scope.
+		 */
+		if ($input->get('option', 'com_fabrik') !== 'com_fabrik' && $this->app->scope === 'com_fabrik')
+		{
+			$scope = $input->get('option');
+		}
 
 		if (strstr($task, '.'))
 		{
@@ -11261,13 +11284,13 @@ class FabrikFEModelList extends JModelForm
 			}
 			else
 			{
-				$this->renderContext = '_' . $this->app->scope . '_' . $id;
+				$this->renderContext = '_' . $scope . '_' . $id;
 			}
 		}
 
 		if ($this->renderContext == '')
 		{
-			$this->renderContext = '_' . $this->app->scope . '_' . $id;
+			$this->renderContext = '_' . $scope . '_' . $id;
 		}
 	}
 

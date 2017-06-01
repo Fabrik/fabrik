@@ -738,7 +738,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	{
 		$db = FabrikWorker::getDbo();
 		$query = "CREATE TABLE IF NOT EXISTS  `#__{package}_thumbs` (
-	`user_id` VARCHAR( 255 ) NOT NULL ,
+	`user_id` VARCHAR( 40 ) NOT NULL ,
 	`listid` INT( 6 ) NOT NULL ,
 	`formid` INT( 6 ) NOT NULL ,
 	`row_id` INT( 6 ) NOT NULL ,

@@ -670,6 +670,7 @@ class PlgFabrik_Element extends FabrikPlugin
 
 					if ($params->get('icon_hovertext', true))
 					{
+						//$aHref  = 'javascript:void(0)';
 						$aHref  = '#';
 						$target = '';
 
@@ -3347,7 +3348,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		$element = $this->getElement();
 		$id      = $this->getHTMLId() . 'value';
 
-		if ($element->filter_type === 'dropdown')
+		if ($element->filter_type === 'dropdown' || $element->filter_type === 'multiselect')
 		{
 			$advancedClass = $this->getAdvancedSelectClass();
 			$class .= !empty($advancedClass) ? ' ' . $advancedClass : '';
@@ -6287,9 +6288,25 @@ class PlgFabrik_Element extends FabrikPlugin
 		$db              = FabrikWorker::getDbo(true);
 		$element->params = $this->getParams()->toString();
 
+		/*
+		 * Trying to save JSON params larger than the params field totally breaks the backend.  Original size
+		 * of params field was TEXT, and a large serialized calculation could blow that away.
+		 *
+		 * In 3.6.1 we increased the size of params to MEDIUMTEXT, but people only updating from github
+		 * may not get that update right away.  So just to be on the safe side, we'll update it on the fly
+		 * if params are big.  Leave this in till 3.7.
+		 */
 		if (strlen($element->params) > 65535)
 		{
-			throw new RuntimeException(sprintf(FText::_('COM_FABRIK_ELEMENT_PARAMS_TOO_BIG'), $this->getId()));
+			$db->setQuery("ALTER TABLE `#__fabrik_elements` MODIFY `params` MEDIUMTEXT");
+			try
+			{
+				$db->execute;
+			}
+			catch (RuntimeException $e)
+			{
+				// meh
+			}
 		}
 
 		$query           = $db->getQuery(true);

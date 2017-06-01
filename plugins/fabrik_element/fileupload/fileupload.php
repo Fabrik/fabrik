@@ -996,7 +996,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		$name  = $this->getFullName(true, false);
 		$ok    = true;
-		$files = $input->files->get($name, array(), 'cmd');
+		$files = $input->files->get($name, array(), 'raw');
 
 		if (array_key_exists($repeatCounter, $files))
 		{
@@ -1019,14 +1019,17 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		if (!$this->_fileUploadFileTypeOK($fileName))
 		{
+			// zap the temp file, just to be safe (might be a malicious PHP file)
+			JFile::delete($file['tmp_name']);
 			$errors[] = FText::_('PLG_ELEMENT_FILEUPLOAD_FILE_TYPE_NOT_ALLOWED');
 			$ok       = false;
 		}
 
 		if (!$this->_fileUploadSizeOK($fileSize))
 		{
+			JFile::delete($file['tmp_name']);
 			$ok       = false;
-			$size     = $fileSize / 1000;
+			$size     = $fileSize / 1024;
 			$errors[] = JText::sprintf('PLG_ELEMENT_FILEUPLOAD_FILE_TOO_LARGE', $params->get('ul_max_file_size'), $size);
 		}
 
@@ -3228,8 +3231,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		if ((int) $params->get('fu_download_log', 0))
 		{
 			$input = $this->app->input;
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fabrik/tables');
-			$log                = JTable::getInstance('log', 'Table');
+			$log                = FabTable::getInstance('log', 'FabrikTable');
 			$log->message_type  = 'fabrik.fileupload.download';
 			$msg                = new stdClass;
 			$msg->file          = $filePath;
