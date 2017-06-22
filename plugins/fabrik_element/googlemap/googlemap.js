@@ -324,6 +324,7 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                     if (this.options.directionsFrom) {
                         this.calcRoute();
                     }
+                    Fabrik.fireEvent('fabrik.map.marker.moved', this);
                 }.bind(this));
 
                 //google.maps.event.addListener(map, 'drag', centerMarker);

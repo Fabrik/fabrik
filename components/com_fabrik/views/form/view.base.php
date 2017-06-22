@@ -1082,6 +1082,7 @@ class FabrikViewFormBase extends FabrikView
 				'class' => 'btn-primary button ' . $submitClass,
 				'name' => 'Submit',
 				'label' => $submitLabel,
+				'id' => 'fabrikSubmit_' . $model->getId(),
 				'formModel' => $model
 			);
 

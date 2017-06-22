@@ -198,6 +198,11 @@ module.exports = function (grunt) {
 			dest = 'fabrik_build/output/pkg_fabrik_sink/packages/' +  config.fileName.replace('{version}', version);
 			zipPromises.push(zipPlugin(config.path, dest));
 		}
+        for (i = 0; i < buildConfig.libraries.length; i++) {
+            config = buildConfig.libraries[i];
+            dest = 'fabrik_build/output/pkg_fabrik_sink/packages/' +  config.fileName.replace('{version}', version);
+            zipPromises.push(zipPlugin(config.path, dest));
+        }
 
 		buildPHPDocs(grunt);
 		uploadPHPDocs(grunt);

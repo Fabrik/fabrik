@@ -1,2 +1,3 @@
 /*! Fabrik */
+
 define(["jquery","fab/elementlist"],function(a,b){return window.FbLink=new Class({Extends:b,initialize:function(a,b){this.setPlugin("fabrikLink"),this.parent(a,b),this.subElements=this._getSubElements()},update:function(a){this.getElement();var b=this.element.getElements(".fabrikinput");"object"===typeOf(a)?(b[0].value=a.label,b[1].value=a.link):b.each(function(b){b.value=a})},getValue:function(){if(!this.options.editable)return this.options.value;var a=this._getSubElements(),b=[];return a.each(function(a){b.push(a.get("value"))}),b}}),window.FbLink});

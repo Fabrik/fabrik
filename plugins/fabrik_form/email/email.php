@@ -494,7 +494,13 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			 * submitted data.  "One of these days" we need to have a serious look at normalizing the data formats,
 			 * so submitted data is in the same format (once processed) as data read from the database.
 			 */
-			$controller->_model->data = $this->model->getData();
+			$model->data = null;
+			$controller->_model->data = $model->getData();
+
+			/*
+			 * Allows us to bypass "view records" ACL settings for creating the details view
+			 */
+			$model->getListModel()->setLocalPdf();
 
 			// Store in output buffer
 			ob_start();

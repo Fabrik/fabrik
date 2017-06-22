@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.modelform');
 
-use \Joomla\Registry\Registry;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 require_once COM_FABRIK_FRONTEND . '/helpers/pagination.php';
@@ -497,6 +497,13 @@ class FabrikFEModelList extends JModelForm
 	 * @var JLanguage
 	 */
 	protected $lang;
+
+    /**
+     * Set by (for example) email plugin, to allow bypassing detail view ACL for producing PDF
+     *
+     * @var bool
+     */
+	protected $localPdf = false;
 
 	/**
 	 * Load form
@@ -4033,6 +4040,11 @@ class FabrikFEModelList extends JModelForm
 		return $this->access->allow_drop;
 	}
 
+	public function setLocalPdf()
+    {
+        $this->localPdf = true;
+    }
+
 	/**
 	 * Check if the user can view the detailed records
 	 *
@@ -4050,20 +4062,25 @@ class FabrikFEModelList extends JModelForm
 
 				if ($config->get('allow_pdf_localhost_view', '0') === '1')
 				{
-					$whitelist = array(
-						'127.0.0.1',
-						'::1'
-					);
-					$pdfLocalhostIP = $config->get('allow_pdf_localhost_ip', '');
+				    if ($this->localPdf)
+                    {
+                        $allowPDF = true;
+                    }
+                    else {
+                        $whitelist = array(
+                            '127.0.0.1',
+                            '::1'
+                        );
+                        $pdfLocalhostIP = $config->get('allow_pdf_localhost_ip', '');
 
-					if (!empty($pdfLocalhostIP))
-					{
-						$whitelist[] = $pdfLocalhostIP;
-					}
+                        if (!empty($pdfLocalhostIP)) {
+                            $whitelist[] = $pdfLocalhostIP;
+                        }
 
-					if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
-						$allowPDF = true;
-					}
+                        if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+                            $allowPDF = true;
+                        }
+                    }
 				}
 
 			}

@@ -2440,7 +2440,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 						$singleCropImg = array_keys($singleCropImg);
 					}
 
-					$value = FArrayHelper::getValue($singleCropImg, 0, '');
+					$value = (array) FArrayHelper::getValue($singleCropImg, 0, '');
 				}
 			}
 		}
