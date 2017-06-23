@@ -36,7 +36,10 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$data = FabrikWorker::JSONtoData($data, true);
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $data = FabrikWorker::JSONtoData($data, true);
 		$params = $this->getParams();
 
 		foreach ($data as &$d)

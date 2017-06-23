@@ -131,7 +131,10 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$options = $this->getOpts();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $options = $this->getOpts();
 		$text = '';
 
 		if ((string) $data !== '')

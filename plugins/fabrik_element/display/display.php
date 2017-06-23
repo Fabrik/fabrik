@@ -99,7 +99,10 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		unset($this->default);
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        unset($this->default);
 		$value = $this->getValue(ArrayHelper::fromObject($thisRow));
 
 		return parent::renderListData($value, $thisRow, $opts);

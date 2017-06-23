@@ -33,7 +33,10 @@ class PlgFabrik_ElementJSPeriodical extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$format = $params->get('text_format_string');
 		$format_blank = $params->get('field_format_string_blank', true);
 

@@ -65,7 +65,10 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		if ($this->app->input->get('format') === 'raw')
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        if ($this->app->input->get('format') === 'raw')
 		{
 			return $data;
 		}

@@ -505,7 +505,10 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$groupModel = $this->getGroup();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $groupModel = $this->getGroup();
 		/**
 		 * Jaanus: json_decode replaced with FabrikWorker::JSONtoData that made visible also single data in repeated group
 		 *

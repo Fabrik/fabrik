@@ -68,7 +68,10 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		if ($data == '')
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        if ($data == '')
 		{
 			return parent::renderListData($data, $thisRow, $opts);
 		}

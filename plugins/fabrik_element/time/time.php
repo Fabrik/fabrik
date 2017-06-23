@@ -352,7 +352,10 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$groupModel = $this->getGroup();
 		/*
 		 * Jaanus: removed condition canrepeat() from renderListData:

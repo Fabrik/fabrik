@@ -123,7 +123,10 @@ class PlgFabrik_ElementGoogleometer extends PlgFabrik_Element
 		static $range;
 		static $fullName;
 
-		if (!isset($range))
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        if (!isset($range))
 		{
 			$range    = $this->getRange();
 			$fullName = $this->getDataElementFullName() . '_raw';

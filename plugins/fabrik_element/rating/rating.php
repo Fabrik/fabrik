@@ -79,7 +79,10 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$formId = $this->getFormModel()->getId();
 		$listId = $this->getListModel()->getId();
 		$rowId  = isset($thisRow->__pk_val) ? $thisRow->__pk_val : $thisRow->id;
