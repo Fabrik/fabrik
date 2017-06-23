@@ -132,10 +132,21 @@ class FabrikViewFullcalendar extends JViewLegacy
 
 		// Don't JRoute as its wont load with sef?
 		$urls->del = 'index.php?option=com_' . $package
-			. '&controller=visualization.fullcalendar&view=visualization&task=deleteEvent&format=raw&Itemid=' . $Itemid
-			. '&id=' . $model->getId();
+			. '&controller=visualization.fullcalendar&view=visualization&format=raw&Itemid=' . $Itemid
+			. '&id=' . $model->getId() . '&visualizationid=' . $model->getId();
 		$urls->add = 'index.php?option=com_' . $package . '&view=visualization&format=raw&Itemid=' . $Itemid
-			. '&id=' . $model->getId();
+			. '&id=' . $model->getId() . '&visualizationid=' . $model->getId();
+		$urls->choose = 'index.php?option=com_fabrik&tmpl=component&view=visualization'
+			. '&controller=visualization.fullcalendar&format=partial'
+			. '&id=' . $model->getId() . '&visualizationid=' . $model->getId();
+		$urls->addev = 'index.php?option=com_fabrik&controller=visualization.fullcalendar'
+			. '&view=visualization&id=' . $model->getId()  . '&visualizationid=' . $model->getId()
+			. '&format=partial';
+
+		foreach ($urls as &$url)
+		{
+			$url = JRoute::_($url, false);
+		}
 
 		$options                  = new stdClass;
 		$options->url             = $urls;

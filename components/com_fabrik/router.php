@@ -292,6 +292,7 @@ function fabrikParseRoute($segments)
 			$vars['filetype'] = ArrayHelper::getValue($segments, 2, 0);
 			break;
 		case 'visualization':
+			$vars['view'] = 'visualization';
 			$vars['id'] = ArrayHelper::getValue($segments, 1, 0);
 			$vars['format'] = ArrayHelper::getValue($segments, 2, 'html');
 			break;

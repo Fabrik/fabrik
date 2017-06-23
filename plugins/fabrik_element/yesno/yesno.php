@@ -66,7 +66,10 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/yesno/images/', 'image', 'list', false);
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        FabrikHelperHTML::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/yesno/images/', 'image', 'list', false);
 
 		// Check if the data is in csv format, if so then the element is a multi drop down
 		$raw = $this->getFullName(true, false) . '_raw';

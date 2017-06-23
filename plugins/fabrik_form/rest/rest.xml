@@ -12,6 +12,7 @@
 	<description>PLG_FORM_REST_DESCRIPTION</description>
 	<files>
 		<filename plugin="rest">rest.php</filename>
+		<filename>fabrikOAuth.php</filename>
 		<filename>index.html</filename>
 		<folder>forms</folder>
 		<folder>language</folder>

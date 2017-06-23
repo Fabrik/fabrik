@@ -11,7 +11,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\Registry\Registry;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
@@ -3099,6 +3099,7 @@ class FabrikFEModelForm extends FabModelForm
 		 */
 
 		$clean_request = $f->clean($_REQUEST, 'array');
+		$qs_request = array();
 
 		foreach ($clean_request as $key => $value)
 		{
@@ -3107,10 +3108,16 @@ class FabrikFEModelForm extends FabModelForm
 
 			if ($elementModel !== false)
 			{
-				if (!$elementModel->canUse() || $this->app->input->get('task', '') === 'form.process')
+				if (!$elementModel->canUse()
+					|| $this->app->input->get('task', '') === 'form.process'
+					|| $this->app->input->get('task', '') === 'process')
 				{
 					unset($clean_request[$key]);
 				}
+				else
+                {
+                    $qs_request[$key] = $value;
+                }
 			}
 		}
 
@@ -3216,7 +3223,10 @@ class FabrikFEModelForm extends FabModelForm
 					 * use !== '' as rowid may be alphanumeric.
 					 * Unlike 3.0 rowId does equal '' if using rowid=-1 and user not logged in
 					 */
-					$useKey = FabrikWorker::getMenuOrRequestVar('usekey', '', $this->isMambot);
+                    $opts = array(
+                        'formid' => $this->getId()
+                    );
+					$useKey = FabrikWorker::getMenuOrRequestVar('usekey', '', $this->isMambot, 'var', $opts);
 
 					if (!empty($useKey) || $this->rowId !== '')
 					{
@@ -3281,6 +3291,8 @@ class FabrikFEModelForm extends FabModelForm
 							// $$$ hugh - special case when using -1, if user doesn't have a record yet
 							if ($this->isUserRowId())
 							{
+							    // set data to just elements that have been set on the qs (and "cleaned" / ACL checked)
+							    $this->data = $qs_request;
 								return;
 							}
 							else
@@ -3593,7 +3605,10 @@ class FabrikFEModelForm extends FabModelForm
 		$sql .= $listModel->buildQueryJoin();
 		$emptyRowId = $this->rowId === '' ? true : false;
 		$random = $input->get('random');
-		$useKey = FabrikWorker::getMenuOrRequestVar('usekey', '', $this->isMambot, 'var');
+        $opts = array(
+            'formid' => $this->getId()
+        );
+		$useKey = FabrikWorker::getMenuOrRequestVar('usekey', '', $this->isMambot, 'var', $opts);
 
 		if ($useKey != '')
 		{

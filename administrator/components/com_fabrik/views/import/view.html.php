@@ -31,6 +31,9 @@ class FabrikAdminViewImport extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+        $srcs = FabrikHelperHTML::framework();
+        FabrikHelperHTML::script($srcs);
+        FabrikHelperHTML::iniRequireJs();
 		$this->form = $this->get('Form');
 		$this->addToolBar();
 		FabrikAdminHelper::setViewLayout($this);

@@ -144,5 +144,14 @@ module.exports = {
             'element' : 'fabrik',
             'xmlFile' : 'plg_fabrik_search.xml'
         }]
+    },
+    'libraries'         : {
+        'fabrik'   : [{
+            'name'    : 'Fabrik Library',
+            'path'    : 'libraries/fabrik',
+            'fileName': 'lib_fabrik_{version}.zip',
+            'element' : 'fabrik',
+            'xmlFile' : 'fabrik.xml'
+        }]
     }
 }

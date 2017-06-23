@@ -2280,55 +2280,81 @@ class FabrikWorker
 	 *
 	 * @return  string
 	 */
-	public static function getMenuOrRequestVar($name, $val = '', $mambot = false, $priority = 'menu', $opts = array())
-	{
-		$app   = JFactory::getApplication();
-		$input = $app->input;
+    public static function getMenuOrRequestVar($name, $val = '', $mambot = false, $priority = 'menu', $opts = array())
+    {
+        $app   = JFactory::getApplication();
+        $input = $app->input;
 
-		if ($priority === 'menu')
-		{
+        if ($priority === 'menu')
+        {
 
-			$val = $input->get($name, $val, 'string');
+            $val = $input->get($name, $val, 'string');
 
-			if (!$app->isAdmin())
-			{
-				if (!$mambot)
-				{
-					$menus = $app->getMenu();
-					$menu  = $menus->getActive();
+            if (!$app->isAdmin())
+            {
+                if (!$mambot)
+                {
+                    $menus = $app->getMenu();
+                    $menu  = $menus->getActive();
 
-					if (is_object($menu))
-					{
-						$menuListId  = ArrayHelper::getValue($menu->query, 'listid', '');
-						$checkListId = ArrayHelper::getValue($opts, 'listid', $menuListId);
+                    if (is_object($menu))
+                    {
+                        $match = true;
 
-						if ((int) $menuListId === (int) $checkListId)
-						{
-							$val = $menu->params->get($name, $val);
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			if (!$app->isAdmin())
-			{
-				$menus = $app->getMenu();
-				$menu  = $menus->getActive();
+                        if (array_key_exists('listid', $opts)) {
+                            $menuListId = ArrayHelper::getValue($menu->query, 'listid', '');
+                            $checkListId = ArrayHelper::getValue($opts, 'listid', $menuListId);
+                            $match = (int) $menuListId === (int) $checkListId;
+                        }
+                        else if (array_key_exists('formid', $opts)) {
+                            $menuFormId  = ArrayHelper::getValue($menu->query, 'formid', '');
+                            $checkFormId = ArrayHelper::getValue($opts, 'formid', $menuFormId);
+                            $match = (int) $menuFormId === (int) $checkFormId;
+                        }
 
-				// If there is a menu item available AND the view is not rendered in a content plugin
-				if (is_object($menu) && !$mambot)
-				{
-					$val = $menu->params->get($name, $val);
-				}
-			}
+                        if ($match)
+                        {
+                            $val = $menu->params->get($name, $val);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (!$app->isAdmin())
+            {
+                $menus = $app->getMenu();
+                $menu  = $menus->getActive();
 
-			$val = $input->get($name, $val, 'string');
-		}
+                // If there is a menu item available AND the view is not rendered in a content plugin
+                if (is_object($menu) && !$mambot)
+                {
+                    $match = true;
 
-		return $val;
-	}
+                    if (array_key_exists('listid', $opts)) {
+                        $menuListId = ArrayHelper::getValue($menu->query, 'listid', '');
+                        $checkListId = ArrayHelper::getValue($opts, 'listid', $menuListId);
+                        $match = (int) $menuListId === (int) $checkListId;
+                    }
+                    else if (array_key_exists('formid', $opts)) {
+                        $menuFormId  = ArrayHelper::getValue($menu->query, 'formid', '');
+                        $checkFormId = ArrayHelper::getValue($opts, 'formid', $menuFormId);
+                        $match = (int) $menuFormId === (int) $checkFormId;
+                    }
+
+                    if ($match)
+                    {
+                        $val = $menu->params->get($name, $val);
+                    }
+                }
+            }
+
+            $val = $input->get($name, $val, 'string');
+        }
+
+        return $val;
+    }
 
 	/**
 	 * Access control function for determining if the user can perform

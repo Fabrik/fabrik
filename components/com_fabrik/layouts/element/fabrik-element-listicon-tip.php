@@ -7,6 +7,7 @@ $d = $displayData;
 
 <a
 		class="fabrikTip"
+   		onclick="return false" 
 		<?php echo $d->target; ?>
 		href="<?php echo $d->href; ?>"
 		opts='<?php echo $d->opts; ?>'

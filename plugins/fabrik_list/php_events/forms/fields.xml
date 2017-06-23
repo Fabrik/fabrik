@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields"
+	        name="params">
 		<fieldset name="plg-list-php_events">
-		
-		<field type="helplink"
-			url="PLG_LIST_PHP_EVENTS_HELP_SERVER" />
 
-      <field name="list_phpevents_onfiltersgot"
-      	type="fabrikeditor"
-		mode="php"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONFILTERSGOT_LABEL"
-      	repeat="true" />
-      
-      <field name="list_phpevents_onmakefilters"
-      	type="fabrikeditor"
-		mode="php"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONMAKEFILTERS_LABEL"
-      	repeat="true" />
-      
-      <field name="list_phpevents_process"
-      	type="fabrikeditor"
-		mode="php"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_PROCESS_LABEL"
-      	repeat="true" />
-      
-      <field name="list_phpevents_onpreloaddata"
-      	type="fabrikeditor"
-		mode="php"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONPRELOADDATA_LABEL"
-      	repeat="true" />
-      
-      <field name="list_phpevents_onloaddata"
-      	type="fabrikeditor"
-		mode="php"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONLOADDATA_LABEL"
-      	repeat="true" />
-      
-      <field name="list_phpevents_ondeleterows"
-      	type="fabrikeditor"
-		mode="php"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_LABEL"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_DESC"
-      	repeat="true" />
-      	
-	<field name="list_phpevents_onafterdeleterows"
-      	type="fabrikeditor"
-		mode="php"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONAFTERDELETEROWS_LABEL"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_ONAFTERDELETEROWS_DESC"
-      	repeat="true" />
-      	
-      <field name="list_phpevents_onbuildquerywhere"
-      	type="fabrikeditor"
-		mode="php"
-      	label="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_LABEL"
-      	description="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_DESC"
-      	repeat="true" />
-      	
-    </fieldset>
-  </fields>
+			<field type="helplink"
+			       url="PLG_LIST_PHP_EVENTS_HELP_SERVER"/>
+
+			<field name="list_phpevents_onfiltersgot"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONFILTERSGOT_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onstorerequestdata"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_ONSTOREREQUESTDATA_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONSTOREREQUESTDATA_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onmakefilters"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONMAKEFILTERS_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_process"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_PROCESS_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onpreloaddata"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONPRELOADDATA_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onloaddata"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_COMMON_DESC"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONLOADDATA_LABEL"
+			       repeat="true"/>
+
+			<field name="list_phpevents_ondeleterows"
+			       type="fabrikeditor"
+			       mode="php"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_LABEL"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_ONDELETEROWS_DESC"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onafterdeleterows"
+			       type="fabrikeditor"
+			       mode="php"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONAFTERDELETEROWS_LABEL"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_ONAFTERDELETEROWS_DESC"
+			       repeat="true"/>
+
+			<field name="list_phpevents_onbuildquerywhere"
+			       type="fabrikeditor"
+			       mode="php"
+			       label="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_LABEL"
+			       description="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_DESC"
+			       repeat="true"/>
+
+		</fieldset>
+	</fields>
 </form>

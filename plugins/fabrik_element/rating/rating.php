@@ -79,7 +79,10 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$formId = $this->getFormModel()->getId();
 		$listId = $this->getListModel()->getId();
 		$rowId  = isset($thisRow->__pk_val) ? $thisRow->__pk_val : $thisRow->id;
@@ -471,8 +474,16 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 	{
 		$cookieName = "rating-table_{$listId}_row_{$rowId}" . FabrikString::filteredIp();
 		jimport('joomla.utilities.utility');
+		$version = new JVersion;
 
-		return JApplication::getHash($cookieName);
+		if (version_compare($version->RELEASE, '3.1', '>'))
+		{
+			return JApplicationHelper::getHash($cookieName);
+		}
+		else
+		{
+			return JApplication::getHash($cookieName);
+		}
 	}
 
 	/**
@@ -487,7 +498,7 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 			->setQuery(
 				"
 			CREATE TABLE IF NOT EXISTS  `#__fabrik_ratings` (
-			`user_id` VARCHAR( 255 ) NOT NULL ,
+			`user_id` VARCHAR( 40 ) NOT NULL ,
 			`listid` INT( 6 ) NOT NULL ,
 			`formid` INT( 6 ) NOT NULL ,
 			`row_id` INT( 6 ) NOT NULL ,

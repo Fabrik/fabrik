@@ -37,7 +37,10 @@ class PlgFabrik_ElementSpotify extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		return $this->constructPlayer($data, 'list');
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        return $this->constructPlayer($data, 'list');
 	}
 
 	/**

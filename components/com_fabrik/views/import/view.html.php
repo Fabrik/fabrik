@@ -35,6 +35,7 @@ class FabrikViewImport extends FabrikView
 	{
 		$srcs = FabrikHelperHTML::framework();
 		FabrikHelperHTML::script($srcs);
+        FabrikHelperHTML::iniRequireJs();
 		$input        = $this->app->input;
 		$this->listid = $input->getInt('listid', 0);
 		$this->model  = JModelLegacy::getInstance('List', 'FabrikFEModel');

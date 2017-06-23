@@ -86,7 +86,10 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$tz_offset = $params->get('gmt_or_local', '0') == '0';
 		$data = JHTML::_('date', $data, FText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')), $tz_offset);
 

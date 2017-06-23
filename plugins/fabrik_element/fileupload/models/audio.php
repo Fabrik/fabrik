@@ -39,7 +39,7 @@ class AudioRenderModel extends FabModel
 	 */
 	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
-		$this->render($model, $params, $file);
+	    $this->render($model, $params, $file);
 	}
 
 	/**

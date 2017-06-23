@@ -11,8 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\Registry\Registry;
-use \Joomla\Utilities\ArrayHelper;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  *  Plugin element to render list of data looked up from a database table
@@ -2045,7 +2045,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$groupModel = $this->getGroupModel();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $groupModel = $this->getGroupModel();
 		$labelData  = array();
 
 		if (!$groupModel->isJoin() && $groupModel->canRepeat())

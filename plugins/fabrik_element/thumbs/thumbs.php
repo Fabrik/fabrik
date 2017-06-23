@@ -70,7 +70,10 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$input = $this->app->input;
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $input = $this->app->input;
 		$j3 = FabrikWorker::j3();
 		$params = $this->getParams();
 		$imagePath = COM_FABRIK_LIVESITE . 'plugins/fabrik_element/thumbs/images/';
@@ -738,7 +741,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	{
 		$db = FabrikWorker::getDbo();
 		$query = "CREATE TABLE IF NOT EXISTS  `#__{package}_thumbs` (
-	`user_id` VARCHAR( 255 ) NOT NULL ,
+	`user_id` VARCHAR( 40 ) NOT NULL ,
 	`listid` INT( 6 ) NOT NULL ,
 	`formid` INT( 6 ) NOT NULL ,
 	`row_id` INT( 6 ) NOT NULL ,
