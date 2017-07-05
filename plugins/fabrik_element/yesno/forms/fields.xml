@@ -15,12 +15,23 @@
 					<option value="1">JYES</option>
 			</field>
 			
-			<field name="options_per_row"
-				type="field"
-				default="4"
-				size="1"
-				class="input-mini"
-				label="PLG_ELEMENT_YESNO_OPTIONS_PER_ROW"/>
+            		<field name="yes_image"
+			    	type="text"
+			    	label="PLG_ELEMENT_YESNO_YES_IMAGE_LABEL"
+			    	description="PLG_ELEMENT_YESNO_YES_IMAGE_DESC"                   
+			    	size="30"/>
+                   
+			<field name="no_image"
+			    	type="text"
+			    	label="PLG_ELEMENT_YESNO_NO_IMAGE_LABEL"
+			    	description="PLG_ELEMENT_YESNO_NO_IMAGE_DESC"                   
+			    	size="30"/>   
+
+			<field name="image_height"
+			    	type="text"
+			    	class="input-mini"
+			    	label="PLG_ELEMENT_YESNO_IMAGE_HEIGHT_LABEL"
+			    	description="PLG_ELEMENT_YESNO_IMAGE_HEIGHT_DESC" />   				
 				
 			<field name="toggle_others"
 				type="radio"
