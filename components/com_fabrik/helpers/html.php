@@ -2028,6 +2028,7 @@ EOD;
 		$json->formRef   = FArrayHelper::getValue($opts, 'formRef', 'form_' . $formId);
 		$json->container = FArrayHelper::getValue($opts, 'container', 'fabrikElementContainer');
 		$json->menuclass = FArrayHelper::getValue($opts, 'menuclass', 'auto-complete-container');
+		$json->max = FArrayHelper::getValue($opts, 'autocomplete_rows', 10);
 
 		return $json;
 	}

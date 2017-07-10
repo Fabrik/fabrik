@@ -3581,6 +3581,10 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		$element = $this->getElement();
 		$formId  = $this->getFormModel()->getId();
+
+		$params = $registry = new Registry($element->params);
+		$opts['autocomplete_rows'] = $params->get('autocomplete_rows', 10);
+
 		FabrikHelperHTML::autoComplete($selector, $element->id, $formId, $element->plugin, $opts);
 
 		return $return;
