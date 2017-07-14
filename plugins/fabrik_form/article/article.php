@@ -140,7 +140,8 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 			'metadesc' => '',
 			'metakey' => '',
 			'tags' => '',
-			'alias' => ''
+			'alias' => '',
+            'ordering' => ''
 		);
 
 		$data['images'] = json_encode($this->images());

@@ -131,7 +131,7 @@ class JDocumentpdf extends JDocumentHTML
  		// $this->addStyleDeclaration('body: { font-family: futural !important; }');
 		$pdf = $this->engine;
 		$data = parent::render();
-		Pdf::fullPaths($data);
+        FabrikPDFHelper::fullPaths($data);
 
 		/**
 		 * I think we need this to handle some HTML entities when rendering otherlanguages (like Polish),

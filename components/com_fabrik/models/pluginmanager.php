@@ -293,11 +293,12 @@ class FabrikFEModelPluginmanager extends FabModel
 		}
 
 		$group = JString::strtolower($group);
-		/* $$$ rob ONLY import the actual plugin you need otherwise ALL $group plugins are loaded regardless of whether they
-		* are used or not memory changes:
-		* Application 0.322 seconds (+0.081); 22.92 MB (+3.054) - pluginmanager: form email imported
-		* Application 0.242 seconds (+0.005); 20.13 MB (+0.268) - pluginmanager: form email imported
-		*/
+
+		if (!JPluginHelper::isEnabled('fabrik_' . $group, $className))
+        {
+            throw new RuntimeException('plugin manager: plugin is disabled: ' . $className);
+        }
+
 		JPluginHelper::importPlugin('fabrik_' . $group, $className);
 		$dispatcher = JEventDispatcher::getInstance();
 

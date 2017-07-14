@@ -388,6 +388,11 @@ class FabrikViewListBase extends FabrikView
 		/** @var FabrikFEModelList $model */
 		$model = $this->getModel();
 
+        if (!$this->access($model))
+        {
+            return false;
+        }
+
 		// Force front end templates
 		$tmpl            = $model->getTmpl();
 		$this->_basePath = COM_FABRIK_FRONTEND . '/views';
@@ -450,11 +455,6 @@ class FabrikViewListBase extends FabrikView
 		$this->tableStyle           = $this->nodata ? 'display:none' : '';
 		$this->emptyStyle           = $this->nodata ? '' : 'display:none';
 		$params                     = $model->getParams();
-
-		if (!$this->access($model))
-		{
-			return false;
-		}
 
 		if (!class_exists('JSite'))
 		{

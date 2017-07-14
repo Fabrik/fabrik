@@ -507,6 +507,9 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 		if ($new)
 		{
+		    // Can't have elements starting with _
+		    $name = ltrim($name, '_');
+		    $data['name'] = $name;
 			// Have to forcefully set group id otherwise list model id is blank
 			$elementModel->getElement()->group_id = $data['group_id'];
 		}

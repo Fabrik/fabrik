@@ -260,12 +260,12 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$layoutData->day_name = preg_replace('#(\[\])$#', '[0]', $name);
 			$layoutData->day_id = $id . '_0';
 			$layoutData->day_options = $this->_dayOptions();
-			$layoutData->day_value = $dayValue;
+			$layoutData->day_value = ltrim($dayValue, "0");
 
 			$layoutData->month_name = preg_replace('#(\[\])$#', '[1]', $name);
 			$layoutData->month_id = $id . '_1';
 			$layoutData->month_options = $this->_monthOptions();
-			$layoutData->month_value = $monthValue;
+			$layoutData->month_value = ltrim($monthValue, '0');
 
 			$layoutData->year_name = preg_replace('#(\[\])$#', '[2]', $name);
 			$layoutData->year_id = $id . '_2';
@@ -308,7 +308,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		for ($i = 1; $i < 32; $i++)
 		{
-			$days[] = JHTML::_('select.option', $i);
+			$days[] = JHTML::_('select.option', (string) $i);
 		}
 
 		return $days;
@@ -336,7 +336,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		for ($i = 0; $i < count($monthLabels); $i++)
 		{
-			$months[] = JHTML::_('select.option', $i + 1, $monthLabels[$i]);
+			$months[] = JHTML::_('select.option', (string) ($i + 1), $monthLabels[$i]);
 		}
 
 		return $months;
@@ -368,7 +368,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		for ($i = $date; $i >= $date - $yearDiff; $i--)
 		{
-			$years[] = JHTML::_('select.option', $i);
+			$years[] = JHTML::_('select.option', (string) $i);
 		}
 
 		return $years;

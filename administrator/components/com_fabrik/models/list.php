@@ -14,8 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once 'fabmodeladmin.php';
 
-use \Joomla\Utilities\ArrayHelper;
-use \Joomla\Registry\Registry;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Fabrik Admin List Model
@@ -695,6 +695,9 @@ class FabrikAdminModelList extends FabModelAdmin
 
 			// Mysql will force db table names to lower case even if you set the db name to upper case - so use clean()
 			$newTable = FabrikString::clean($newTable);
+
+			// can't have table names ending in _
+            $newTable = rtrim($newTable, '_');
 
 			// Check the entered database table doesn't already exist
 			if ($newTable != '' && $this->databaseTableExists($newTable))

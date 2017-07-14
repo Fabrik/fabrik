@@ -145,12 +145,20 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			}
 		}
 
+		$rowId = FabrikWorker::getMenuOrRequestVar('rowid');
+		$loadCurrentUser = $rowId === '-1' && $this->getFieldName('juser_sync_load_current_user');
+
 		// If we are editing a user, we need to make sure the password field is cleared
-		if (FabrikWorker::getMenuOrRequestVar('rowid'))
+		if ($rowId > 0 || $loadCurrentUser)
 		{
 			$this->passwordfield                            = $this->getFieldName('juser_field_password');
 			$formModel->data[$this->passwordfield]          = '';
 			$formModel->data[$this->passwordfield . '_raw'] = '';
+
+			if ($userId == null && $loadCurrentUser)
+			{
+				$userId = JFactory::getUser()->id;
+			}
 
 			// $$$$ hugh - testing 'sync on edit'
 			if ($params->get('juser_sync_on_edit', 0) == 1)

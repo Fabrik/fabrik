@@ -1895,10 +1895,11 @@ class FabrikWorker
 	 * Test if a string is a compatible date
 	 *
 	 * @param   string $d Date to test
+     * @param   bool   $notNull  don't allow null / empty dates
 	 *
 	 * @return    bool
 	 */
-	public static function isDate($d)
+	public static function isDate($d, $notNull = true)
 	{
 		$db         = self::getDbo();
 		$aNullDates = array('0000-00-000000-00-00', '0000-00-00 00:00:00', '0000-00-00', '', $db->getNullDate());
@@ -1909,7 +1910,7 @@ class FabrikWorker
 			return false;
 		}
 
-		if (in_array($d, $aNullDates))
+		if ($notNull && in_array($d, $aNullDates))
 		{
 			return false;
 		}

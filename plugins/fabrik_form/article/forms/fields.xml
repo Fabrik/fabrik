@@ -129,7 +129,13 @@
 				type="listfields"
 				repeat="true"
 				description="PLG_FABRIK_FORM_ARTICLE_ALIAS_DESC"
-				label="PLG_FABRIK_FORM_ARTICLE_ALIAS_LABEL" />	
+				label="PLG_FABRIK_FORM_ARTICLE_ALIAS_LABEL" />
+
+			<field name="ordering"
+				   type="listfields"
+				   repeat="true"
+				   description="PLG_FABRIK_FORM_ARTICLE_ORDERING_DESC"
+				   label="PLG_FABRIK_FORM_ARTICLE_ORDERING_LABEL" />
 
 			<field name="level"
 				type="sql2"

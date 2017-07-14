@@ -66,7 +66,7 @@ endforeach;
 		</table>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="#" class="btn" data-dismiss="modal"><?php echo FabrikHelperHTML::icon('icon-cancel', FText::_('COM_FABRIK_CLOSE_WINDOW')); ?></a>
 		<?php
 		if ($d->showClearFilters) : ?>
 			<a class="btn clearFilters" href="#">

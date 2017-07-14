@@ -24,6 +24,8 @@ var updateAFile = function (path, grunt) {
             return;
         }
 
+        console.log('--- updateAFile: ' + path);
+
         var version = grunt.config.get('pkg.version');
         var date = new Date(),
             xml;

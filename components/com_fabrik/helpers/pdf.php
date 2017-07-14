@@ -94,7 +94,7 @@ class FabrikPDFHelper
 				{
 					if (!strstr($a['href'], $schemeString))
 					{
-						$base = strstr($a['href'], $subdir) ? $base_root : $base_root . $subdir;
+                        $base = empty($subdir) || strstr($a['href'], $subdir) ? $base_root : $base_root . $subdir;
 						$a['href'] = $base . ltrim($a['href'],'/');
 					}
 				}
@@ -106,7 +106,7 @@ class FabrikPDFHelper
 				{
 					if ($link['rel'] == 'stylesheet' && !strstr($link['href'], $schemeString))
 					{
-						$base = strstr($link['href'], $subdir) ? $base_root : $base_root . $subdir;
+						$base = empty($subdir) || strstr($link['href'], $subdir) ? $base_root : $base_root . $subdir;
 						$link['href'] = $base . ltrim($link['href'],'/');
 					}
 				}

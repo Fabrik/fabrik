@@ -2,12 +2,12 @@
 <extension client="site" method="upgrade" type="module" version="3">
 	<name>mod_fabrik_form</name>
 	<author>Media A-Team, Inc.</author>
-	<creationDate>April 2017</creationDate>
+	<creationDate>July 2017</creationDate>
 	<copyright>Copyright (C) 2005-2017 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.6</version>
+	<version>3.7</version>
 	<description>MOD_FABRIK_FORM_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_form">mod_fabrik_form.php</filename>

@@ -31,6 +31,11 @@ endif;
 <?php if ($this->tablePicker != '') { ?>
 	<div style="text-align:right"><?php echo FText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
 <?php }
+
+if ($this->params->get('show_page_heading')) :
+	echo '<h1>' . $this->params->get('page_heading') . '</h1>';
+endif;
+
 if ($this->showTitle == 1) { ?>
 	<h1><?php echo $this->table->label;?></h1>
 <?php }?>
