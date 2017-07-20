@@ -125,7 +125,7 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
          * Center the modal window
          */
         center: function () {
-            var source = this.window.find('*[data-draggable]').length === 0 ? this.window : this.window.find('*[data-draggable]'),
+            var source = this.window,
                 pxWidth = this.windowDimensionInPx('width'),
                 pxHeight = this.windowDimensionInPx('height'),
                 w = source.width(),

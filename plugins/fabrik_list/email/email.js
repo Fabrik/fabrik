@@ -20,7 +20,10 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
                 if (typeof WFEditor !== 'undefined') {
                     WFEditor.getContent('message');
                 }
-                var url = 'index.php';
+                else if (typeof tinymce !== 'undefined') {
+                    tinyMCE.activeEditor.save();
+                }
+                var url = Fabrik.liveSite + '/index.php';
                 if (self.options.additionalQS !== '') {
                     url += '?' + self.options.additionalQS;
                 }
@@ -77,7 +80,7 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
         },
 
         buttonAction: function () {
-            var url = 'index.php?option=com_fabrik&controller=list.email&task=popupwin&tmpl=component&ajax=1&id=' +
+            var url = Fabrik.liveSite + '/index.php?option=com_fabrik&controller=list.email&task=popupwin&tmpl=component&ajax=1&id=' +
                     this.listid + '&renderOrder=' + this.options.renderOrder,
                 self = this;
             this.listform.getElements('input[name^=ids]').each(function (id) {

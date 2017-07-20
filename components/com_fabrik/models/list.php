@@ -927,6 +927,11 @@ class FabrikFEModelList extends JModelForm
 			{
 				$msg .= '<br /><pre>' . $e->getMessage() . '</pre>';
 			}
+
+			if ($this->config->get('debug'))
+            {
+
+            }
 			throw new RuntimeException($msg, 500);
 		}
 
@@ -976,6 +981,13 @@ class FabrikFEModelList extends JModelForm
 		* $$$ rob 26/09/2011 note Joomfish not currently released for J1.7
 		*/
 		$this->data = $fabrikDb->loadObjectList('', 'stdClass', false);
+
+		// fire a plugin hook before we format the data
+		$args       = new stdClass;
+		$args->data = $this->data;
+		$pluginManager = FabrikWorker::getPluginManager();
+		$pluginManager->runPlugins('onLoadedData', $this, 'list', $args);
+		$pluginManager->runPlugins('onLoadedListData', $this->getFormModel(), 'form', $args);
 
 		// $$$ rob better way of getting total records
 		if ($this->mergeJoinedData())
@@ -1975,7 +1987,8 @@ class FabrikFEModelList extends JModelForm
 		// $$$ Jannus - see http://fabrikar.com/forums/showthread.php?t=20751
 		$distinct = $listModel->mergeJoinedData() ? 'DISTINCT ' : '';
 		$item = $listModel->getTable();
-		$query->select($k2 . ' AS linkKey, ' . $linkKey . ' AS id, COUNT(' . $distinct . $item->db_primary_key . ') AS total')->from($item->db_table_name);
+		$query->select($k2 . ' AS linkKey, ' . $linkKey . ' AS id, COUNT(' . $distinct . $item->db_primary_key . ') AS total')
+            ->from($db->quoteName($item->db_table_name));
 		$query = $listModel->buildQueryJoin($query);
 		$listModel->set('includeCddInJoin', true);
 		$query->group($linkKey);

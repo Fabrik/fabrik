@@ -186,7 +186,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		 */
 		$value     = urldecode($this->getValue($_REQUEST, $repeatCounter));
 		$name      = $this->getFullName(true, false);
-		$checkName = str_replace($element->name, $element->name . '_check', $name);
+		$checkName = $name . '_check';
 
 		/**
 		 * $$$ hugh - there must be a better way of doing this, but ...
@@ -232,7 +232,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 			}
 
 			// $$$ rob add rowid test as well as if using row=-1 and usekey=field $k may have a value
-			if (($rowId === '' || empty($rowId)) && $keyVal === 0 && $value === '')
+			if (($rowId === '' || empty($rowId)) && ($keyVal === 0 || $keyVal === '') && $value === '')
 			{
 				/**
 				 * Why are we using .= here, but nowhere else?
