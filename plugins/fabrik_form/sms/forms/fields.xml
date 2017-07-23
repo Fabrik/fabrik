@@ -48,6 +48,15 @@
 			       type="textarea"
 			       label="PLG_FORM_SMS_MESSAGE_LABEL"
 					description="PLG_FORM_SMS_MESSAGE_DESC"/>
+
+
+			<field name="sms_conditon"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FABRIK_FORM_SMS_CONDITION_DESC"
+				   label="PLG_FABRIK_FORM_SMS_CONDITION_LABEL"
+				   repeat="true" />
+
 		</fieldset>
 	</fields>
 </form>
