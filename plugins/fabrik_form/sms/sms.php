@@ -46,6 +46,12 @@ class PlgFabrik_FormSMS extends PlgFabrik_Form
 		$formModel = $this->getModel();
 		$params = $this->getParams();
 		$data = $formModel->formData;
+
+		if (!$this->shouldProcess('sms_conditon', $data, $params))
+		{
+			return true;
+		}
+
 		$w = new FabrikWorker;
 		$opts = array();
 		$userName = $params->get('sms-username');
