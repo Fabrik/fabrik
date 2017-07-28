@@ -11,7 +11,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\Utilities\ArrayHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * if using file extensions sef and htaccess :
@@ -304,8 +304,14 @@ function fabrikParseRoute($segments)
 	 /*
 	 * if a Fabrik view is home page, and this is a 404, no segments, but J! will still try and route com_fabrik
 	 * So have a peek at the active menu, and break down the link
+	  *
+	  * 7/25/2017, made this behavior an option, as can cause SEF issues with duplicate pages
 	 */
-	if (!$viewFound)
+
+    $config = JComponentHelper::getParams('com_fabrik');
+    $home404 = $config->get('fabrik_home_404', '0') === '1';
+
+	if (!$home404 && !$viewFound)
 	{
 		$app   = JFactory::getApplication();
 		$app->enqueueMessage(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
@@ -357,7 +363,8 @@ function fabrikParseRoute($segments)
 
 	if (!$viewFound)
 	{
-		JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
+		//JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
+        throw new \Exception('JGLOBAL_RESOURCE_NOT_FOUND.', 404);
 	}
 
 	return $vars;

@@ -269,6 +269,14 @@
 			       label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_LABEL"
 			       size="3"/>
 
+			<field name="dbjoin_autocomplete_rows"
+				   type="field"
+				   class="input-mini"
+				   default="10"
+				   description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_DESC"
+				   label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_LABEL"
+				   size="3"/>
+
 			<field name="bootstrap_class"
 			       default="input-large"
 			       type="bootstrapfieldclass"
@@ -306,6 +314,7 @@
 				<option value="words">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_WORDS</option>
 				<option value="starts_with">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_STARTS_WITH</option>
 			</field>
+
 
 			<field name="clean_concat"
 			       type="radio"

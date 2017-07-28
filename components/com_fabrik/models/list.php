@@ -10358,6 +10358,12 @@ class FabrikFEModelList extends JModelForm
 			}
 		}
 
+		// keep XSS checkers happy
+		foreach ($qs as &$q)
+        {
+            $q = htmlspecialchars($q, ENT_QUOTES, 'UTF-8');
+        }
+
 		$action = $page . implode('&amp;', $qs);
 		$action = preg_replace("/limitstart{$this->getId()}=(\d+)?(&amp;|)/", '', $action);
 		$action = FabrikString::removeQSVar($action, 'fabrik_incsessionfilters');

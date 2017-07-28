@@ -2007,9 +2007,15 @@ EOD;
 			$json->minTriggerChars = (int) $usersConfig->get('autocomplete_min_trigger_chars', '1');
 		}
 
+        if (!array_key_exists('max', $opts))
+        {
+            $usersConfig = JComponentHelper::getParams('com_fabrik');
+            $json->max   = (int) $usersConfig->get('autocomplete_max_rows', '1');
+        }
+
 		$app       = JFactory::getApplication();
 		$package   = $app->getUserState('com_fabrik.package', 'fabrik');
-		$json->url = 'index.php?option=com_' . $package . '&format=raw';
+		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
 		$json->url .= $app->isAdmin() ? '&task=plugin.pluginAjax' : '&view=plugin&task=pluginAjax';
 		$json->url .= '&g=element&element_id=' . $elementId
 			. '&formid=' . $formId . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;

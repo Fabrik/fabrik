@@ -36,9 +36,11 @@
 header('Content-type: text/css');
 $c = $_REQUEST['c'];
 echo <<<EOT
+/* BEGIN - Your CSS styling starts here */
 
 #listform_$c .fabrikForm {
 	margin-top: 25px !important;
 }
 
+/* END - Your CSS styling ends here */
 EOT;

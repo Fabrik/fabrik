@@ -1094,8 +1094,11 @@ class FabrikFEModelForm extends FabModelForm
 			 * the rowid will be set to the actual form tables's rowid, not the userid,
 			 * so we need to unset 'usekey', otherwise we end up with the wrong row.
 			 * I thought we used to take care of this elsewhere?
+			 *
+			 * $$$ 7/25/2017 - don't think this is true any more
 			 */
 
+			/*
 			$isUserRow = $this->isUserRowId();
 
 			if ($isUserRow)
@@ -1103,6 +1106,7 @@ class FabrikFEModelForm extends FabModelForm
 				$origUseKey = $input->get('usekey', '');
 				$input->set('usekey', '');
 			}
+			*/
 
 			$listModel = $this->getListModel();
 			$fabrikDb = $listModel->getDb();
@@ -1110,10 +1114,12 @@ class FabrikFEModelForm extends FabModelForm
 			$fabrikDb->setQuery($sql);
 			$this->_origData = $fabrikDb->loadObjectList();
 
+			/*
 			if ($isUserRow)
 			{
 				$input->set('usekey', $origUseKey);
 			}
+			*/
 		}
 	}
 
@@ -3819,15 +3825,33 @@ class FabrikFEModelForm extends FabModelForm
 	public function isMultiPage()
 	{
 		$groups = $this->getGroupsHiarachy();
+        $view =   $this->app->input->get('view', 'form');
 
 		foreach ($groups as $groupModel)
 		{
 			$params = $groupModel->getParams();
 
-			if ($params->get('split_page'))
-			{
-				return true;
-			}
+			switch ($params->get('split_page'))
+            {
+                default:
+                case '0':
+                    break;
+                case '1':
+                    return true;
+                    break;
+                case '2':
+                    if ($view === 'form')
+                    {
+                        return true;
+                    }
+                    break;
+                case '3':
+                    if ($view == 'details')
+                    {
+                        return true;
+                    }
+                    break;
+            }
 		}
 
 		return false;
@@ -3854,7 +3878,7 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			$params = $groupModel->getParams();
 
-			if ($params->get('split_page') && $c != 0 && $groupModel->canView())
+			if ($groupModel->isSplitPage() && $c != 0 && $groupModel->canView())
 			{
 				$pageCounter++;
 			}

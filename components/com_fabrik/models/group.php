@@ -11,7 +11,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\Registry\Registry;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
@@ -120,6 +120,13 @@ class FabrikFEModelGroup extends FabModel
 	 * @var bool
 	 */
 	protected $canEdit = null;
+
+	/*
+	 * cache for properties object
+	 *
+	 * @var object
+	 */
+	protected $groupProperties = null;
 
 	/**
 	 * Method to set the group id
@@ -958,6 +965,31 @@ class FabrikFEModelGroup extends FabModel
 		return $this->params;
 	}
 
+	public function isSplitPage()
+    {
+        $params = $this->getParams();
+        $view = $this->app->input->get('view');
+
+        $splitPage = (int)$params->get('split_page', 0);
+
+        switch ($splitPage) {
+            case 0:
+                $splitPage = false;
+                break;
+            case 1:
+                $splitPage = true;
+                break;
+            case 2:
+                $splitPage = ($view === 'form');
+                break;
+            case 3:
+                $splitPage = ($view === 'details');
+                break;
+        }
+
+        return $splitPage;
+    }
+
 	/**
 	 * Make a group object to be used in the form view. Object contains
 	 * group display properties
@@ -968,99 +1000,94 @@ class FabrikFEModelGroup extends FabModel
 	 */
 	public function getGroupProperties(&$formModel)
 	{
-		$w = new FabrikWorker;
-		$input = $this->app->input;
-		$group = new stdClass;
-		$groupTable = $this->getGroup();
-		$params = $this->getParams();
-		$view = $input->get('view');
+	    if (!isset($this->groupProperties)) {
+            $w = new FabrikWorker;
+            $input = $this->app->input;
+            $group = new stdClass;
+            $groupTable = $this->getGroup();
+            $params = $this->getParams();
+            $view = $input->get('view');
 
-		if (!isset($this->editable))
-		{
-			$this->editable = $formModel->isEditable();
-		}
+            if (!isset($this->editable)) {
+                $this->editable = $formModel->isEditable();
+            }
 
-		if ($this->editable)
-		{
-			// If all of the groups elements are not editable then set the group to uneditable
-			$elements = $this->getPublishedElements();
-			$editable = false;
+            if ($this->editable) {
+                // If all of the groups elements are not editable then set the group to uneditable
+                $elements = $this->getPublishedElements();
+                $editable = false;
 
-			foreach ($elements as $element)
-			{
-				if ($element->canUse())
-				{
-					$editable = true;
-				}
-			}
+                foreach ($elements as $element) {
+                    if ($element->canUse()) {
+                        $editable = true;
+                    }
+                }
 
-			if (!$editable)
-			{
-				$this->editable = false;
-			}
-		}
+                if (!$editable) {
+                    $this->editable = false;
+                }
+            }
 
-		$group->editable = $this->editable;
-		$group->canRepeat = $params->get('repeat_group_button', '0');
-		$showGroup = $params->def('repeat_group_show_first', '1');
-		$pages = $formModel->getPages();
-		$startPage = isset($formModel->sessionModel->last_page) ? $formModel->sessionModel->last_page : 0;
-		/**
-		 * $$$ hugh - added array_key_exists for (I think!) corner case where group properties have been
-		 * changed to remove (or change) paging, but user still has session state set.  So it was throwing
-		 * a PHP 'undefined index' notice.
-		 */
+            $group->editable = $this->editable;
+            $group->canRepeat = $params->get('repeat_group_button', '0');
+            $showGroup = $params->def('repeat_group_show_first', '1');
+            $pages = $formModel->getPages();
+            $startPage = isset($formModel->sessionModel->last_page) ? $formModel->sessionModel->last_page : 0;
+            /**
+             * $$$ hugh - added array_key_exists for (I think!) corner case where group properties have been
+             * changed to remove (or change) paging, but user still has session state set.  So it was throwing
+             * a PHP 'undefined index' notice.
+             */
 
-		if (array_key_exists($startPage, $pages) && is_array($pages[$startPage])
-			&& !in_array($groupTable->id, $pages[$startPage]) || $showGroup == -1 || $showGroup == 0 || ($view == 'form' && $showGroup == -2) || ($view == 'details' && $showGroup == -3))
-		{
-			$groupTable->css .= ";display:none;";
-		}
+            if (array_key_exists($startPage, $pages) && is_array($pages[$startPage])
+                && !in_array($groupTable->id, $pages[$startPage]) || $showGroup == -1 || $showGroup == 0 || ($view == 'form' && $showGroup == -2) || ($view == 'details' && $showGroup == -3)) {
+                $groupTable->css .= ";display:none;";
+            }
 
-		$group->css = trim(str_replace(array("<br />", "<br>"), "", $groupTable->css));
-		$group->id = $groupTable->id;
+            $group->css = trim(str_replace(array("<br />", "<br>"), "", $groupTable->css));
+            $group->id = $groupTable->id;
 
-		$label = $input->getString('group' . $group->id . '_label', $groupTable->label);
+            $label = $input->getString('group' . $group->id . '_label', $groupTable->label);
 
-		if (JString::stristr($label, "{Add/Edit}"))
-		{
-			$replace = $formModel->isNewRecord() ? FText::_('COM_FABRIK_ADD') : FText::_('COM_FABRIK_EDIT');
-			$label = str_replace("{Add/Edit}", $replace, $label);
-		}
+            if (JString::stristr($label, "{Add/Edit}")) {
+                $replace = $formModel->isNewRecord() ? FText::_('COM_FABRIK_ADD') : FText::_('COM_FABRIK_EDIT');
+                $label = str_replace("{Add/Edit}", $replace, $label);
+            }
 
-		$groupTable->label = $label;
-		$group->title = $w->parseMessageForPlaceHolder($groupTable->label, $formModel->data, false);
-		$group->title = FText::_($group->title);
-		$group->name = $groupTable->name;
-		$group->displaystate = ($group->canRepeat == 1 && $formModel->isEditable()) ? 1 : 0;
-		$group->maxRepeat = (int) $params->get('repeat_max');
-		$group->minRepeat = $params->get('repeat_min', '') === '' ? 1 : (int) $params->get('repeat_min', '');
-		$group->numRepeatElement = $params->get('repeat_num_element', '');
-		$group->showMaxRepeats  = $params->get('show_repeat_max', '0') == '1';
-		$group->minMaxErrMsg = $params->get('repeat_error_message', '');
-		$group->minMaxErrMsg = FText::_($group->minMaxErrMsg);
-		$group->canAddRepeat = $this->canAddRepeat();
-		$group->canDeleteRepeat = $this->canDeleteRepeat();
-		$intro = FabrikString::translate($params->get('intro'));
-		$group->intro = $formModel->parseIntroOutroPlaceHolders($intro, $group->editable, $formModel->isNewRecord());
-		$outro = FText::_($params->get('outro'));
-		$group->outro = $formModel->parseIntroOutroPlaceHolders($outro, $group->editable, $formModel->isNewRecord());
-		$group->columns = $params->get('group_columns', 1);
-		$group->splitPage = $params->get('split_page', 0);
-		$group->showLegend = $this->showLegend($group);
-		$group->labels = $params->get('labels_above', -1);
-		$group->dlabels = $params->get('labels_above_details', -1);
+            $groupTable->label = $label;
+            $group->title = $w->parseMessageForPlaceHolder($groupTable->label, $formModel->data, false);
+            $group->title = FText::_($group->title);
+            $group->name = $groupTable->name;
+            $group->displaystate = ($group->canRepeat == 1 && $formModel->isEditable()) ? 1 : 0;
+            $group->maxRepeat = (int)$params->get('repeat_max');
+            $group->minRepeat = $params->get('repeat_min', '') === '' ? 1 : (int)$params->get('repeat_min', '');
+            $group->numRepeatElement = $params->get('repeat_num_element', '');
+            $group->showMaxRepeats = $params->get('show_repeat_max', '0') == '1';
+            $group->minMaxErrMsg = $params->get('repeat_error_message', '');
+            $group->minMaxErrMsg = FText::_($group->minMaxErrMsg);
+            $group->canAddRepeat = $this->canAddRepeat();
+            $group->canDeleteRepeat = $this->canDeleteRepeat();
+            $intro = FabrikString::translate($params->get('intro'));
+            $group->intro = $formModel->parseIntroOutroPlaceHolders($intro, $group->editable, $formModel->isNewRecord());
+            $outro = FText::_($params->get('outro'));
+            $group->outro = $formModel->parseIntroOutroPlaceHolders($outro, $group->editable, $formModel->isNewRecord());
+            $group->columns = $params->get('group_columns', 1);
+            $group->splitPage = $this->isSplitPage();
 
-		if ($this->canRepeat())
-		{
-			$group->tmpl = $params->get('repeat_template', 'repeatgroup');
-		}
-		else
-		{
-			$group->tmpl = 'group';
-		}
+            $group->showLegend = $this->showLegend($group);
+            $group->labels = $params->get('labels_above', -1);
+            $group->dlabels = $params->get('labels_above_details', -1);
 
-		return $group;
+            if ($this->canRepeat()) {
+                $group->tmpl = $params->get('repeat_template', 'repeatgroup');
+            } else {
+                $group->tmpl = 'group';
+            }
+
+            $this->groupProperties = $group;
+        }
+
+		return $this->groupProperties;
 	}
 	
 	/**
