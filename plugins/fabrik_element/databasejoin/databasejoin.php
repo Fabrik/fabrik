@@ -2894,8 +2894,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		if ($this->getParams()->get('database_join_display_type', 'dropdown') == 'auto-complete')
 		{
-			$autoOpts                            = array();
-			$autoOpts['max']                     = $this->getParams()->get('autocomplete_rows', '10');
+            $usersConfig           = JComponentHelper::getParams('com_fabrik');
+            $autoOpts                            = array();
+			$autoOpts['max']                     = $this->getParams()->get(
+			    'dbjoin_autocomplete_rows',
+                $usersConfig->get('autocomplete_max_rows', '10')
+            );
 			$autoOpts['storeMatchedResultsOnly'] = true;
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->get('id'), $this->getFormModel()->getId(), 'databasejoin', $autoOpts);
 		}

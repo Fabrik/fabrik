@@ -744,7 +744,9 @@ class FabrikViewFormBase extends FabrikView
 
 		if ($startPage !== 0)
 		{
-			$this->app->enqueueMessage(FText::_('COM_FABRIK_RESTARTING_MULTIPAGE_FORM'));
+		    if ($this->app->input->get('view', 'form') === 'form') {
+                $this->app->enqueueMessage(FText::_('COM_FABRIK_RESTARTING_MULTIPAGE_FORM'));
+            }
 		}
 		else
 		{

@@ -57,13 +57,14 @@
 		          name="pagination">
 
 			<field name="split_page"
-			       type="radio"
-			       class="btn-group"
+			       type="list"
 			       default="0"
 			       description="COM_FABRIK_SPLIT_PAGE_DESC"
 			       label="COM_FABRIK_SPLIT_PAGE_LABEL">
 				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="1">COM_FABRIK_BOTH</option>
+				<option value="2">COM_FABRIK_FORM</option>
+				<option value="3">COM_FABRIK_DETAILS</option>
 			</field>
 
 		</fieldset>
