@@ -125,7 +125,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         update: function (val) {
             var opts = [];
             if ((typeOf(val) === 'string') && (JSON.validate(val))) {
-                val = JSON.decode(val);
+                val = JSON.parse(val);
             }
             if (typeOf(val) === 'null') {
                 val = [];

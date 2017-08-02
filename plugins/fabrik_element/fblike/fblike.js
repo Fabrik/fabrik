@@ -40,7 +40,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 				url       : '',
 				'data'    : data,
 				onComplete: function (r) {
-					r = JSON.decode(r);
+					r = JSON.parse(r);
 					if (r.error) {
 						console.log(r.error);
 					}

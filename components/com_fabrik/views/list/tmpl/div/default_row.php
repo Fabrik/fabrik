@@ -18,13 +18,18 @@ defined('_JEXEC') or die('Restricted access');
 	$d = @$this->_row->data->$heading;
 	if (isset($this->showEmpty) && $this->showEmpty === false && trim(strip_tags($d)) == '') :
 		continue;
-	endif; ?>
-	<div class="row-fluid <?php echo $this->cellClass[$heading]['class'] ?>">
+	endif;
+	$h = $this->headingClass[$heading];
+	$c = $this->cellClass[$heading];
+	$hStyle = empty($h['style']) ? '' : 'style="' . $h['style'] . '"';
+	$cStyle = empty($c['style']) ? '' : 'style="'. $c['style'].'"';
+	?>
+    <div class="row-fluid">
 		<?php if (isset($this->showLabels) && $this->showLabels) :
-			echo '<span class="muted">' . $label . ': </span>';
+			echo '<span class="muted ' . $h['class'] . '" ' . $hStyle . '>' . $label . ': </span>';
 		endif; ?>
 
-		<?php echo $d ?>
+		<?php echo '<span class="' . $c['class'] . '" ' . $cStyle . '>' . $d . '</span>'; ?>
 	</div>
 	<?php
 endforeach;

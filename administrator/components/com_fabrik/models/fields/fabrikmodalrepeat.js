@@ -268,7 +268,7 @@ var FabrikModalRepeat = new Class({
             this.makeWin(target);
         }
 
-        var a = JSON.decode(this.field[target].get('value'));
+        var a = JSON.parse(this.field[target].get('value'));
         if (typeOf(a) === 'null') {
             a = {};
         }
@@ -342,7 +342,7 @@ var FabrikModalRepeat = new Class({
             }.bind(this));
         }
         // Store them in the parent field.
-        this.field[target].value = JSON.encode(json);
+        this.field[target].value = JSON.stringify(json);
         return true;
     }
 

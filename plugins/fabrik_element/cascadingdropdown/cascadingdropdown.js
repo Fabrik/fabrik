@@ -127,7 +127,7 @@ define(['jquery', 'element/databasejoin/databasejoin', 'fab/autocomplete-bootstr
                         c;
                     this.spinner.hide();
 
-                    json = JSON.decode(json);
+                    json = JSON.parse(json);
                     if (this.options.editable) {
                         this.destroyElement();
                     } else {

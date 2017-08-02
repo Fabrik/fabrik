@@ -105,7 +105,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                         return item.id
                             .replace(this.options.element + '_value_', '');
                     }.bind(this));
-            this.element.value = JSON.encode(v);
+            this.element.value = JSON.stringify(v);
         },
 
         watchAdd: function () {

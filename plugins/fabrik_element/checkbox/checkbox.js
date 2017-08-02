@@ -65,7 +65,7 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
             var h, chx;
             this.getElement();
             if (typeOf(val) === 'string') {
-                val = val === '' ? [] : JSON.decode(val);
+                val = val === '' ? [] : JSON.parse(val);
             }
             if (!this.options.editable) {
                 this.element.innerHTML = '';

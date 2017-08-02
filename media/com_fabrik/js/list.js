@@ -518,6 +518,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                                         '&start=' + res.count;
                                 }
                                 else {
+                                    /*
                                     finalurl = Fabrik.liveSite + '/index.php' +
                                         '?option=com_fabrik' +
                                         '&view=list' +
@@ -525,6 +526,10 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                                         '&listid=' + self.id +
                                         '&start=' + res.count +
                                         '&Itemid=' + self.options.Itemid;
+                                        */
+                                    finalurl = self.options.csvOpts.exportLink;
+                                    finalurl += finalurl.contains('?') ? '&' : '?';
+                                    finalurl += 'start=' + res.count;
                                 }
                                 var msg = '<div class="alert alert-success" style="padding:10px;margin-bottom:3px"><h3>' + Joomla.JText._('COM_FABRIK_CSV_COMPLETE');
                                 msg += '</h3><p><a class="btn btn-success" href="' + finalurl + '">' +
@@ -989,7 +994,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                             'url'     : this.form.get('action'),
                             'data'    : data,
                             onComplete: function (json) {
-                                json = JSON.decode(json);
+                                json = JSON.parse(json);
                                 self._updateRows(json);
                                 Fabrik.loader.stop('listform_' + self.options.listRef);
                                 Fabrik['filter_listform_' + self.options.listRef].onUpdateData();
@@ -1142,7 +1147,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                     'evalScripts': false,
                     onSuccess    : function (json) {
                         json = json.stripScripts();
-                        json = JSON.decode(json);
+                        json = JSON.parse(json);
                         self._updateRows(json);
                         // Fabrik.fireEvent('fabrik.list.update', [this, json]);
                     },

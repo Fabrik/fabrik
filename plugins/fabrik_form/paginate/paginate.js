@@ -25,7 +25,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 		},
 
 		doUpdate: function (json) {
-			var o = JSON.decode(json),
+			var o = JSON.parse(json),
 				r = this.view === 'form' ? o.data : o.html,
 				s;
 			this.options.ids = o.ids;
