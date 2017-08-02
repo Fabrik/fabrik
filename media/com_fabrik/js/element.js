@@ -280,14 +280,14 @@ define(['jquery'], function (jQuery) {
             var added = document.id(this.options.element + '_additions').value;
             var json = {'val': val, 'label': label};
             if (added !== '') {
-                a = JSON.decode(added);
+                a = JSON.parse(added);
             } else {
                 a = [];
             }
             a.push(json);
             var s = '[';
             for (var i = 0; i < a.length; i++) {
-                s += JSON.encode(a[i]) + ',';
+                s += JSON.stringify(a[i]) + ',';
             }
             s = s.substring(0, s.length - 1) + ']';
             document.id(this.options.element + '_additions').value = s;

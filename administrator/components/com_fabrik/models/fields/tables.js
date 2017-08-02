@@ -76,7 +76,7 @@ var tablesElement = new Class({
 				'cid': cid.toInt()
 			},
 			onComplete: function (r) {
-				var opts = JSON.decode(r);
+				var opts = JSON.parse(r);
 				if (typeOf(opts) !== 'null') {
 					if (opts.err) {
 						alert(opts.err);

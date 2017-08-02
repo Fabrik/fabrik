@@ -296,7 +296,7 @@ class FabrikFEModelPluginmanager extends FabModel
 
 		if (!JPluginHelper::isEnabled('fabrik_' . $group, $className))
         {
-            throw new RuntimeException('plugin manager: plugin is disabled: ' . $className);
+            throw new RuntimeException('plugin manager: plugin is disabled or ACL protected: ' . $className);
         }
 
 		JPluginHelper::importPlugin('fabrik_' . $group, $className);

@@ -1100,7 +1100,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
          * @private
          */
         _completeValidaton: function (r, id, origid) {
-            r = JSON.decode(r);
+            r = JSON.parse(r);
             if (typeOf(r) === 'null') {
                 this._showElementError(['Oups'], id);
                 this.result = true;

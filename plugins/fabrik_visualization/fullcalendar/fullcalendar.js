@@ -252,7 +252,7 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
         },
 
         processEvents: function (json, callback) {
-            json = $H(JSON.decode(json));
+            json = $H(JSON.parse(json));
             var events = [], dispStartTime, dispEndTime, buttons, width, bDelete, bEdit, bView,
                 dispStartDate, dispEndDate, popup, id, body, mStartDate, mEndDate;
             json.each(function (e) {

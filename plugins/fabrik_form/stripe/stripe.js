@@ -50,7 +50,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 						}));
 						Fabrik.FabrikStripeForm.form.adopt(new Element('input', {
 							'name' : 'stripe_token_opts',
-							'value': JSON.encode(opts),
+							'value': JSON.stringify(opts),
 							'type' : 'hidden'
 						}));
 						Fabrik.FabrikStripeForm.mockSubmit();
@@ -107,7 +107,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 							}));
 							Fabrik.FabrikStripeForm.form.adopt(new Element('input', {
 								'name' : 'stripe_token_opts',
-								'value': JSON.encode(opts),
+								'value': JSON.stringify(opts),
 								'type' : 'hidden'
 							}));
 							jQuery('.fabrikStripeLast4').text(Joomla.JText._('PLG_FORM_STRIPE_CUSTOMERS_UPDATE_CC_UPDATED'));

@@ -80,7 +80,7 @@ var CascadeFilter = new Class({
 	},
 
 	ajaxComplete: function (json) {
-		json = JSON.decode(json);
+		json = JSON.parse(json);
 		/*
 		this.periodcount ++;
 		if (this.periodcount > 5) {

@@ -229,7 +229,7 @@ define(['jquery'], function (jQuery) {
 						var thumbup = row.getElements('.thumbup');
 						var thumbdown = row.getElements('.thumbdown');
 						Fabrik.loader.stop(row);
-						r = JSON.decode(r);
+						r = JSON.parse(r);
 
 						if (r.error) {
 							console.log(r.error);

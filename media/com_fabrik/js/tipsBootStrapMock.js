@@ -38,7 +38,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 Fabrik.fireEvent('bootstrap.tips.place', [tip, ele]);
                 var pos = Fabrik.eventResults.length === 0 ? false : Fabrik.eventResults[0];
                 if (pos === false) {
-                    var opts = JSON.decode(ele.get('opts', '{}').opts);
+                    var opts = JSON.parse(ele.get('opts', '{}').opts);
                     return opts && opts.position ? opts.position : 'top';
                 } else {
                     return pos;

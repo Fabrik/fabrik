@@ -150,7 +150,7 @@ var FbAutocomplete = new Class({
 
 	completeAjax: function (r, v) {
 		Fabrik.loader.stop(this.getInputElement());
-		r = JSON.decode(r);
+		r = JSON.parse(r);
 		this.cache[v] = r;
 		this.populateMenu(r);
 		this.openMenu();

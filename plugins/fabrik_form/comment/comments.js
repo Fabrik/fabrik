@@ -65,7 +65,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 		},
 
 		ajaxComplete: function (d) {
-			d = JSON.decode(d);
+			d = JSON.parse(d);
 			var depth = (d.depth.toInt() * 20) + 'px';
 			var id = 'comment_' + d.id;
 			var li = new Element('li', {

@@ -157,7 +157,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
         },
 
         completeAjax: function (r, v) {
-            r = JSON.decode(r);
+            r = JSON.parse(r);
             this.cache[v] = r;
             if (this.populateMenu(r)) {
                 this.openMenu();
