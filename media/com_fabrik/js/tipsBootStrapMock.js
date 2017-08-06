@@ -176,7 +176,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
             },
 
             show: function () {
-                var $tip, inside, pos, actualWidth, actualHeight, placement, tp, viewWidth, arrowX;;
+                var $tip, inside, pos, actualWidth, actualHeight, placement, tp, viewWidth, arrowX;
                 if (this.hasContent() && this.enabled) {
                     $tip = this.tip();
                     this.setContent();
