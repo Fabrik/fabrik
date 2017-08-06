@@ -200,33 +200,33 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 
                     switch (inside ? placement.split(' ')[1] : placement) {
                         case 'bottom':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': this.options.tipwidth};
                             break;
                         case 'bottom-left':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left, 'maxwidth': this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'bottom-right':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width - actualWidth, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width - actualWidth, 'maxwidth': this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'top':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': this.options.tipwidth};
                             break;
                         case 'top-left':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left, 'maxwidth': this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'top-right':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width - actualWidth, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width - actualWidth, 'maxwidth': this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'left':
-                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'maxwidth': this.options.tipwidth};
                             setArrow = false;
                             break;
                         case 'right':
-                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'maxwidth': + this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'maxwidth': this.options.tipwidth};
                             setArrow = false;
                             break;
                     }
