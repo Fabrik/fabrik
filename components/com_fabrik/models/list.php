@@ -915,6 +915,9 @@ class FabrikFEModelList extends JModelForm
 		$this->setLimits();
 		JDEBUG ? $profiler->mark('query build end') : null;
 
+		$config = JComponentHelper::getParams('com_fabrik');
+		$opts['custom_layout'] = $config->get('fabrik_check_custom_list_layout', '0');
+
 		try
 		{
 			$this->finesseData($opts);

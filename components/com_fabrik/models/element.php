@@ -1800,21 +1800,25 @@ class PlgFabrik_Element extends FabrikPlugin
 			$data = ArrayHelper::fromObject($data);
 		}
 
-		//$title = $this->tipTextAndValidations($mode, $data);
-		//$opts = $this->tipOpts();
-		//$opts = json_encode($opts);
+		$title    = $this->tipTextAndValidations($mode, $data);
 
-		//return $title !== '' ? 'title="' . $title . '" opts=\'' . $opts . '\'' : '';
+		// $$$ hugh - only run the layout if there's a title, save row rendering time
+		if (!empty($title))
+		{
+			$layout                  = FabrikHelperHTML::getLayout('element.fabrik-element-tip');
+			$displayData             = new stdClass;
+			$displayData->tipTitle   = $title;
+			$displayData->tipText    = $txt;
+			$displayData->rollOver   = $this->isTipped();
+			$displayData->isEditable = $this->isEditable();
+			$displayData->tipOpts    = $this->tipOpts();
 
-		$layout                  = FabrikHelperHTML::getLayout('element.fabrik-element-tip');
-		$displayData             = new stdClass;
-		$displayData->tipTitle   = $this->tipTextAndValidations($mode, $data);
-		$displayData->tipText    = $txt;
-		$displayData->rollOver   = $this->isTipped();
-		$displayData->isEditable = $this->isEditable();
-		$displayData->tipOpts    = $this->tipOpts();
-
-		$rollOver = $layout->render($displayData);
+			$rollOver = $layout->render($displayData);
+		}
+		else
+		{
+			$rollOver = is_string($txt) ? $txt : '';
+		}
 
 		return $rollOver;
 	}
