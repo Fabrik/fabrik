@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 	$hStyle = empty($h['style']) ? '' : 'style="' . $h['style'] . '"';
 	$cStyle = empty($c['style']) ? '' : 'style="'. $c['style'].'"';
 	?>
-    <div class="row-fluid">
+    <div class="row-fluid fabrikDivElement">
 		<?php if (isset($this->showLabels) && $this->showLabels) :
 			echo '<span class="muted ' . $h['class'] . '" ' . $hStyle . '>' . $label . ': </span>';
 		endif; ?>

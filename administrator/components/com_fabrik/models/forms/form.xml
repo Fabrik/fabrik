@@ -457,7 +457,10 @@
 			       label="COM_FABRIK_FIELD_PDF_ICON_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
+				<option value="2">COM_FABRIK_FORM_VIEW_ONLY</option>
+				<option value="3">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+
 			</field>
 
 		</fieldset>

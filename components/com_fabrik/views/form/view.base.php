@@ -458,7 +458,18 @@ class FabrikViewFormBase extends FabrikView
 			}
 		}
 
+		// 0 = no, 1 = both, 2 = form only, 3 = details only
 		$this->showPDF = $params->get('pdf', $fbConfig->get('form_pdf', false));
+
+		if ($this->showPDF === '2' && !$model->isEditable())
+		{
+			$this->showPDF = false;
+		}
+
+		if ($this->showPDF === '3' && $model->isEditable())
+		{
+			$this->showPDF = false;
+		}
 
 		if ($this->showPDF)
 		{

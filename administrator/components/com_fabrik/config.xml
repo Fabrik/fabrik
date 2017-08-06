@@ -171,6 +171,17 @@
 		       description="COM_FABRIK_FIELD_CSV_DELIMITER_OVERRIDE_DESC"
 		       label="COM_FABRIK_FIELD_CSV_DELIMITER_OVERRIDE_LABEL" />
 
+		<field name="fabrik_check_custom_list_layout"
+			   type="radio"
+			   default="0"
+			   class="radio btn-group"
+			   description="COM_FABRIK_FIELD_CHECK_CUSTOM_LIST_LAYOUT_DESC"
+			   label="COM_FABRIK_FIELD_CHECK_CUSTOM_LIST_LAYOUT_LABEL"
+			   menu="hide" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset label="COM_FABRIK_ELEMENTS" name="elements" addfieldpath="/administrator/components/com_fabrik/models/fields">
@@ -360,7 +371,9 @@
 			menu="hide"
 			class="radio btn-group">
 				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
+				<option value="2">COM_FABRIK_FORM_VIEW_ONLY</option>
+				<option value="3">COM_FABRIK_DETAILS_VIEW_ONLY</option>
 		</field>
 
 		<field name="error_icon"
