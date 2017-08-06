@@ -1,0 +1,76 @@
+------------------- Fabrik Toolbar ----------------------
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar" id="toolbar">
+   <div class="btn-wrapper"  id="toolbar-new">
+	    <button onclick="Joomla.submitbutton('list.add');"
+	            class="btn btn-small button-new btn-success">
+	    <span class="icon-new icon-white" aria-hidden="true"></span>
+	    New</button>
+   </div>
+   <div class="btn-wrapper"  id="toolbar-edit">
+	    <button onclick="if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton('list.edit'); }"
+	            class="btn btn-small button-edit">
+	    <span class="icon-edit" aria-hidden="true"></span>
+	    Edit</button>
+   </div>
+   <div class="btn-wrapper"  id="toolbar-copy">
+    	<button onclick="if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton('list.copy'); }"
+            	class="btn btn-small button-copy">
+	   <span class="icon-copy" aria-hidden="true"></span>l
+    	Copy</button>
+   </div>
+   
+------------------- Gantry Menu -------------------------
+
+<nav class="g-main-nav" role="navigation" data-g-hover-expand="true">
+   <ul class="g-toplevel">
+      <li class="g-menu-item g-menu-item-type-component g-menu-item-101 g-standard  ">
+         <a class="g-menu-item-container" href="/index.php">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span class="g-menu-item-content">
+               <span class="g-menu-item-title">Home</span>
+            </span>
+         </a>
+      </li>
+      <li class="g-menu-item g-menu-item-type-component g-menu-item-112 g-standard  ">
+         <a class="g-menu-item-container" href="/index.php/gollynums">
+            <i class="fa fa-exclamation" aria-hidden="true"></i>
+            <span class="g-menu-item-content">
+               <span class="g-menu-item-title">GollyNums</span>
+            </span>
+         </a>
+      <li class="g-menu-item g-menu-item-type-component g-menu-item-113 g-standard  ">
+         <a class="g-menu-item-container" href="/index.php/units-of-measure">
+            <i class="fa fa-balance-scale" aria-hidden="true"></i>
+            <span class="g-menu-item-content">
+               <span class="g-menu-item-title">Units Of Measure</span>
+            </span>
+         </a>
+      </li>
+
+------------------- GollyNums Menu -------------------------
+
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar" id="toolbar">
+   <div class="btn-wrapper"  id="toolbar-new">
+	    <button onclick="Joomla.submitbutton('list.add');"
+	            class="btn btn-small button-new btn-success">
+	       <span class="icon-new icon-white" aria-hidden="true"></span>
+	       New
+	    </button>
+   </div>
+
+
+<div id="gn-bogus"class=" !!GollyNums!! g-block size-60">
+   <div class="g-content g-particle">
+      <nav class="g-main-nav" role="navigation" data-g-hover-expand="true">
+         <ul class="g-toplevel">
+            <li class=" !!GollyNums!! g-menu-item g-menu-item-type-component g-menu-item-101 g-standard ">
+               <a class="g-menu-item-container" href="/index.php">
+                  <i class="fa fa-home" aria-hidden="true"></i>
+                  <span class="g-menu-item-content">
+                     <span class="g-menu-item-title">Home</span>
+                  </span>
+               </a>
+            </li>
+
+
+

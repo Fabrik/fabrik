@@ -1,0 +1,59 @@
+html, body {
+    height: 100%;
+}
+
+.container {
+    width: 700px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    
+    margin-top: -300px;
+    margin-left: -350px;
+
+    opacity: 0.8;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 800;
+}
+
+h1 i {
+    font-size: 100px;
+}
+
+.lead {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    
+    background: #eeeeee; /* Old browsers */
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #cecece 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cecece)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#cecece 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #eeeeee 0%,#cecece 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#cecece 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #eeeeee 0%,#cecece 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cecece',GradientType=0 ); /* IE6-9 */    
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+    margin: 10px;
+}
+
+.jumbotron .btn small {
+    display:block;
+    font-size: 12px;
+}
+
+iframe {
+    width: 100%;
+    height: 99%;
+}

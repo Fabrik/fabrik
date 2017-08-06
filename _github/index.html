@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Easy Git Deployment</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js" rel="stylesheet">
+    <link href="inc/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>
+            <i class="icon-github"></i>
+            <i class="icon-bitbucket"></i>
+            #EasyGitDeploy
+        </h1>
+
+        <div class="jumbotron">
+
+            <p class="lead">
+                Tired of complex shell scripts for managing GIT on your web server?
+                This tool has exactly one button for each direction. That's all!
+            </p>
+
+            <a class="btn btn-lg btn-success" href="push.php" target="the_iframe">
+                <i class="icon-arrow-up"></i>
+                PUSH
+                <small>to remote</small>
+            </a>
+
+            <a class="btn btn-lg btn-success" href="pull.php" target="the_iframe">
+                <i class="icon-arrow-down"></i>
+                PULL
+                <small>from remote</small>
+            </a>
+        </div>
+    </div>
+<br>
+
+    <iframe name="the_iframe" src="info.php"></iframe>
+
+</body>
+</html>
