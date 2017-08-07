@@ -72,7 +72,7 @@ background: red; color: white;
 }
 
 h1 {
-    font-family: Orbitron; font-size: 200%;
+    font-family: Orbitron; font-size: 250%;
 }
 
 /* END - Your CSS styling ends here */
