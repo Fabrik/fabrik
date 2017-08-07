@@ -65,10 +65,10 @@ plugins/community/*
 robots.txt
 sql/*
 tests/*
-templates/*
+# AJB 2017-07-30 templates/*
 tmp/*
 transfer/*
-/templates
+# AJB 2017-07-30 /templates
 /tmp
 /transfer
 /tests
@@ -93,8 +93,8 @@ fabrik_build/cli/
 /layouts
 =======
 /.externalToolBuilders
-custom_css.php
-custom.css
+# AJB 2017-07-30 custom_css.php
+# AJB 2017-07-30 custom.css
 !contribution_license.txt
 !software_license.txt
 /ZendFramework-1.12.3
@@ -104,3 +104,5 @@ components/com_fabrik/language/.DS_Store
 components/com_fabrik/models/.DS_Store
 .transifexrc
 private.json
+#==================================
+/_github/
