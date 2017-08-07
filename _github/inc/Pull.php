@@ -23,7 +23,7 @@ class Pull extends VcsAbstract {
             else {
 
                 // 1. Move to master branch.
-                $this->exec_and_log('Switching to ' . $this->_branch . ' branch.', 'git checkout ' . $this->_branch);
+                $this->exec_and_log('Switching to master branch.', 'git checkout ' . $this->_branch);
 
                 // 2. Update the local repository
                 $this->exec_and_log('Pulling in changes.', 'git pull');
