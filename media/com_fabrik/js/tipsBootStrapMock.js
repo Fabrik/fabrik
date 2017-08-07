@@ -200,33 +200,33 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 
                     switch (inside ? placement.split(' ')[1] : placement) {
                         case 'bottom':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'width': this.options.tipwidth};
                             break;
                         case 'bottom-left':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left, 'width': this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'bottom-right':
-                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width - actualWidth, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height, 'left': pos.left + pos.width - actualWidth, 'width': this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'top':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width / 2 - actualWidth / 2, 'width': this.options.tipwidth};
                             break;
                         case 'top-left':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left, 'width': this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'top-right':
-                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width - actualWidth, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top - actualHeight, 'left': pos.left + pos.width - actualWidth, 'width': this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'left':
-                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left - actualWidth, 'width': this.options.tipwidth};
                             setArrow = false;
                             break;
                         case 'right':
-                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'maxwidth': this.options.tipwidth};
+                            tp = {'top': pos.top + pos.height / 2 - actualHeight / 2, 'left': pos.left + pos.width, 'width': this.options.tipwidth};
                             setArrow = false;
                             break;
                     }
@@ -245,17 +245,17 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                     arrowX = this.options.xpos;  
                     if(tpA[0].left < 0) {
                         $tip.css('left','0px');
-                        if(arrowX > Math.max(pos.width,tpA[0].maxwidth) -15){
+                        if(arrowX > Math.max(pos.width,tpA[0].width) -15){
                             arrowX = '91%';
                         }else{
                             arrowX = arrowX+'px';
                         }   
-                    }else if(tpA[0].left + Math.max(pos.width,tpA[0].maxwidth) > viewWidth) {
+                    }else if(tpA[0].left + Math.max(pos.width,tpA[0].width) > viewWidth) {
                         $tip.css('left',(viewWidth-actualWidth)+'px'); 
-                        arrowX = (Math.max(pos.width,tpA[0].maxwidth) - (viewWidth-arrowX));
+                        arrowX = (Math.max(pos.width,tpA[0].width) - (viewWidth-arrowX));
                         if(arrowX < 15) {
                             arrowX = '9%';
-                        } else if(arrowX > tpA[0].maxwidth-15) {
+                        } else if(arrowX > tpA[0].width-15) {
                             arrowX = '91%';
                         } else {
                             arrowX = arrowX+'px'
