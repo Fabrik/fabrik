@@ -1020,6 +1020,12 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
             $name  = $this->getFullName(true, false);
             $files = $input->files->get($name, array(), 'raw');
 
+            // this will happen if AJAX validating another element
+            if (empty($files))
+            {
+            	return true;
+            }
+
             if (array_key_exists($repeatCounter, $files)) {
                 $file = FArrayHelper::getValue($files, $repeatCounter);
             } else {

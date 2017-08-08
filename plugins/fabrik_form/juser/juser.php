@@ -155,10 +155,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			$formModel->data[$this->passwordfield]          = '';
 			$formModel->data[$this->passwordfield . '_raw'] = '';
 
-			if ($userId == null && $loadCurrentUser)
-			{
-				$userId = JFactory::getUser()->id;
-			}
+			$userId = $loadCurrentUser ? JFactory::getUser()->id : null;
 
 			// $$$$ hugh - testing 'sync on edit'
 			if ($params->get('juser_sync_on_edit', 0) == 1)

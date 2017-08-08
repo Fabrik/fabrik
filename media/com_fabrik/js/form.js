@@ -188,10 +188,6 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     window.print();
                 } else {
                     // Build URL as we could have changed the rowid via ajax pagination
-                    /*
-                    var url = 'index.php?option=com_' + Fabrik.package + '&view=details&tmpl=component&formid=' + this.id +
-                        '&listid=' + this.options.listid + '&rowid=' + this.options.rowid + '&iframe=1&print=1';
-                    */
                     var url = jQuery(e.target).prop('href');
                     url = url.replace(/&rowid=\d+/, '&rowid=' + this.options.rowid);
                     if (this.options.lang !== false) {
@@ -1076,14 +1072,13 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             if (el.origId) {
                 origid = el.origId + '_0';
             }
-            //var origid = el.origId ? el.origId : id;
             el.options.repeatCounter = el.options.repeatCounter ? el.options.repeatCounter : 0;
-            var url = 'index.php?option=com_fabrik&form_id=' + this.id;
             if (this.options.lang !== false) {
-                url += '&lang=' + this.options.lang;
+                d.set('lang', this.options.lang);
             }
+
             var myAjax = new Request({
-                url       : url,
+                url       : '',
                 method    : this.options.ajaxmethod,
                 data      : d,
                 onComplete: function (e) {
