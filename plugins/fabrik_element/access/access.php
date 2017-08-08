@@ -98,15 +98,9 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 	private function getOpts($allowAll = true)
 	{
 		$this->_db
-			->setQuery(
-				'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' FROM #__usergroups AS a'
-					. ' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id' . ' ORDER BY a.lft ASC');
+			 ->setQuery(
+				'SELECT a.id AS value, a.title AS text' . ' FROM #__viewlevels AS a ORDER BY a.title ASC');
 		$options = $this->_db->loadObjectList();
-
-		for ($i = 0, $n = count($options); $i < $n; $i++)
-		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-		}
 
 		// If all user groups is allowed, push it into the array.
 		if ($allowAll)
