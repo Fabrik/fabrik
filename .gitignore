@@ -93,8 +93,8 @@ fabrik_build/cli/
 /layouts
 =======
 /.externalToolBuilders
-# AJB 2017-07-30 custom_css.php
-# AJB 2017-07-30 custom.css
+custom_css.php
+custom.css
 !contribution_license.txt
 !software_license.txt
 /ZendFramework-1.12.3
@@ -105,3 +105,8 @@ components/com_fabrik/models/.DS_Store
 .transifexrc
 private.json
 #=============================
+!**/gn_bootstrap/custom_css.php
+!**/gn_bootstrap/custom.css
+!**/gn_bootstrap_tabs/custom_css.php
+!**/gn_bootstrap_tabs/custom.css
+!templates/g5_helium/custom/*
