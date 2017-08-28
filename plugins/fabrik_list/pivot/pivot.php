@@ -300,8 +300,7 @@ class PlgFabrik_ListPivot extends PlgFabrik_List
 						if ($row->$xCol === $xColData && $row->$yCol === $yColData)
 						{
 							$newRow->$xColData = $row->$sums;
-							$total += (float) $this->unNumberFormat($row->$sums, $params);
-							//$total += (float) $row->$rawSums;
+							$total += (float) $this->unNumberFormat(trim(strip_tags($row->$sums)), $params);
 						}
 					}
 				}
@@ -368,8 +367,11 @@ class PlgFabrik_ListPivot extends PlgFabrik_List
 
 				foreach ($c as &$cc)
 				{
-					$cc = strip_tags($cc);
-					$yColTotals->$x += $this->unNumberFormat($cc, $params);
+					$cc = trim(strip_tags($cc));
+					if (!empty($cc))
+					{
+						$yColTotals->$x += $this->unNumberFormat($cc, $params);
+					}
 				}
 
 				$total += (float) $yColTotals->$x;

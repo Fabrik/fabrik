@@ -3020,9 +3020,14 @@ EOD;
 	 */
 	public static function getLayout($name, $paths = array(), $options = array())
 	{
-		$defaultOptions = array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site');
+		$defaultOptions = array(
+		        'debug' => false,
+                'component' => 'com_fabrik',
+                'client' => 'site'
+        );
+
 		$options        = array_merge($defaultOptions, $options);
-		$basePath       = COM_FABRIK_BASE . '/com_fabrik/layouts';
+		$basePath       = COM_FABRIK_FRONTEND . '/layouts';
 		$layout         = new FabrikLayoutFile($name, $basePath, $options);
 
 		$layout->addIncludePaths(JPATH_SITE . '/layouts');

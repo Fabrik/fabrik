@@ -31,52 +31,85 @@ class FabrikLayoutFile extends JLayoutFile
 	{
 		JLoader::import('joomla.filesystem.path');
 
-		if (is_null($this->fullPath) && !empty($this->layoutId))
+		$layoutId     = $this->getLayoutId();
+		$includePaths = $this->getIncludePaths();
+		$suffixes     = $this->getSuffixes();
+
+		$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
+
+		if (!$layoutId)
 		{
-			$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
+			$this->addDebugMessage('<strong>There is no active layout</strong>');
 
-			/*
-			 * Refresh paths - override is due to this line
-			 * -commenting out to stop default paths being re-instated in render()
-			 *
-			 * $this->refreshIncludePaths(false);
-			 */
+			return;
+		}
 
-			$this->addDebugMessage('<strong>Include Paths:</strong> ' . print_r($this->includePaths, true));
+		if (!$includePaths)
+		{
+			$this->addDebugMessage('<strong>There are no folders to search for layouts:</strong> ' . $layoutId);
 
-			$suffixes = $this->options->get('suffixes', array());
+			return;
+		}
 
-			// Search for suffixed versions. Example: tags.j31.php
-			if (!empty($suffixes))
+		$hash = md5(
+			json_encode(
+				array(
+					'paths'    => $includePaths,
+					'suffixes' => $suffixes,
+				)
+			)
+		);
+
+		if (isset(static::$cache[$layoutId][$hash]))
+		{
+			$this->addDebugMessage('<strong>Cached path:</strong> ' . static::$cache[$layoutId][$hash]);
+
+			return static::$cache[$layoutId][$hash];
+		}
+
+		$this->addDebugMessage('<strong>Include Paths:</strong> ' . print_r($includePaths, true));
+
+		// Search for suffixed versions. Example: tags.j31.php
+		if ($suffixes)
+		{
+			$this->addDebugMessage('<strong>Suffixes:</strong> ' . print_r($suffixes, true));
+
+			foreach ($suffixes as $suffix)
 			{
-				$this->addDebugMessage('<strong>Suffixes:</strong> ' . print_r($suffixes, true));
+				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-				foreach ($suffixes as $suffix)
+				if ($foundLayout = JPath::find($this->includePaths, $rawPath))
 				{
-					$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
-					$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
+					$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 
-					if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
-					{
-						$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
+					static::$cache[$layoutId][$hash] = $foundLayout;
 
-						return $this->fullPath;
-					}
+					return static::$cache[$layoutId][$hash];
 				}
-			}
-
-			// Standard version
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
-			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
-
-			$this->fullPath = JPath::find($this->includePaths, $rawPath);
-
-			if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
-			{
-				$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 			}
 		}
 
-		return $this->fullPath;
+		// Standard version
+		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
+
+		$foundLayout = JPath::find($this->includePaths, $rawPath);
+
+		if (!$foundLayout)
+		{
+			$this->addDebugMessage('<strong>Unable to find layout: </strong> ' . $layoutId);
+
+			static::$cache[$layoutId][$hash] = '';
+
+			return;
+		}
+
+		$this->addDebugMessage('<strong>Found layout:</strong> ' . $foundLayout);
+
+		static::$cache[$layoutId][$hash] = $foundLayout;
+
+		return static::$cache[$layoutId][$hash];
 	}
+
 }

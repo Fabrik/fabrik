@@ -79,11 +79,14 @@ class FabrikWebServiceRest extends FabrikWebService
 
 			if (!is_null($phpObj))
 			{
-				$startPoints = explode('.', $startPoint);
-
-				foreach ($startPoints as $p)
+				if (!empty($startPoint))
 				{
-					$phpObj = &$phpObj->$p;
+					$startPoints = explode('.', $startPoint);
+
+					foreach ($startPoints as $p)
+					{
+						$phpObj = &$phpObj->$p;
+					}
 				}
 
 				return $phpObj;

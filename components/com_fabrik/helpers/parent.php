@@ -1225,6 +1225,7 @@ class FabrikWorker
 			}
 
 			$match = $aPost;
+			$found = true;
 		}
 
 		if ($this->parseAddSlashes)

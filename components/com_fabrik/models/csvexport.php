@@ -483,11 +483,12 @@ class FabrikFEModelCSVExport extends FabModel
 
 							if (count($json) == 1)
 							{
-								$default = $json['Total']->value;
+								$default = $defaultRaw = $json['Total']->value;
 							}
 							else
 							{
-								$default = json_encode($json);
+								$default = strip_tags($calcs[$calKey][$aKey]);
+								$defaultRaw = json_encode($json);
 							}
 						}
 
@@ -524,7 +525,7 @@ class FabrikFEModelCSVExport extends FabModel
 
 							if ($incRaw)
 							{
-								$calculations[$calKey][$x + 1] = $default;
+								$calculations[$calKey][$x + 1] = $defaultRaw;
 							}
 						}
 					}
