@@ -767,7 +767,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 		            case 'auto-complete':
 		            case 'radio':
 		            default:
-		                if (typeof this.options.value === 'string') {
+		                if (!jQuery.isArray(this.options.value)) {
 		                    return this.options.value;
                         }
 		                else if (this.options.value.length !== 0) {

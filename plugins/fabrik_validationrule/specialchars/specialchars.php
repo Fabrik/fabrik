@@ -56,7 +56,7 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 
 			foreach ($v as $c)
 			{
-				if (strstr($data, $c))
+				if (!empty($c) && strstr($data, $c))
 				{
 					return false;
 				}
@@ -94,7 +94,10 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 
 			foreach ($v as $c)
 			{
-				$data = str_replace($c, $replace, $data);
+				if (!empty($c))
+				{
+					$data = str_replace($c, $replace, $data);
+				}
 			}
 		}
 

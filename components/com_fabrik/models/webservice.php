@@ -171,7 +171,7 @@ abstract class FabrikWebService
 				}
 				else
 				{
-					$row[$to] = $data->$map['from'];
+					$row[$to] = $map['from'];
 				}
 			}
 

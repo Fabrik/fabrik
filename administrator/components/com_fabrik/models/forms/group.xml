@@ -149,7 +149,7 @@
 			       type="listfields"
 			       valueformat="tableelement"
 			       label="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_LABEL"
-			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_LABEL"
+			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_DESC"
 			/>
 
 			<field name="repeat_error_message"

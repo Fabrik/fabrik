@@ -253,13 +253,21 @@
 			       label="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_LABEL"
 			       size="2"/>
 
-			<field name="dbjoin_multilist_size"
+			<field name="dbjoin_multiselect_max"
 			       type="field"
 			       class="input-mini"
-			       default="6"
-			       description="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_DESC"
-			       label="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_LABEL"
+			       default="0"
+			       description="PLG_ELEMENT_DBJOIN_MULTISELECT_MAX_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MULTISELECT_MAX_LABEL"
 			       size="2"/>
+
+			<field name="dbjoin_multilist_size"
+				   type="field"
+				   class="input-mini"
+				   default="6"
+				   description="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_DESC"
+				   label="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_LABEL"
+				   size="2"/>
 
 			<field name="dbjoin_autocomplete_size"
 			       type="field"

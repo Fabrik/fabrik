@@ -1726,9 +1726,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if ($this->isEditable())
 		{
 			$multiSize     = (int) $params->get('dbjoin_multilist_size', 6);
+			$multiMax      = $params->get('dbjoin_multiselect_max', '0');
 			$advancedClass = $this->getAdvancedSelectClass();
 			$attributes    = 'class="' . $class . ' ' . $advancedClass . '" size="' . $multiSize . '" multiple="true"';
-			//$attributes    .= ' data-chosen-options=\'{"max_selected_options":3}\'';
+
+			if (!empty($advancedClass) && (int)$multiMax > 0)
+			{
+				$attributes .= ' data-chosen-options=\'{"max_selected_options":' . $multiMax . '}\'';
+			}
+
 			$html[]        = JHTML::_('select.genericlist', $tmp, $elName, $attributes, 'value', 'text', $default, $id);
 		}
 		else
@@ -2708,6 +2714,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$join      = $this->getJoinModel()->getJoin();
 		$joinTable = $db->qn($join->table_join);
 		$shortName = $db->qn($this->getElement()->name);
+		$tableAlias = $join->table_join;
 
 		if (is_null($groupBy))
 		{
@@ -2726,12 +2733,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$jKey  = $this->getLabelOrConcatVal();
 			$jKey  = !strstr($jKey, 'CONCAT') ? $label : $jKey;
 			$label = str_replace($join->table_join, $to, $jKey);
+			$tableAlias = $to;
 		}
 
 		$query->select($joinTable . '.parent_id, ' . $v . ' AS value, ' . $label . ' AS text')->from($joinTable)
 			->join('LEFT', $to . ' ON ' . $key . ' = ' . $joinTable . '.' . $shortName);
 
-		$this->buildQueryWhere(array(), true, null, array('mode' => 'filter'), $query);
+		$this->buildQueryWhere(array(), true, $tableAlias, array('mode' => 'filter'), $query);
 
 		if (!is_null($condition) && !is_null($value))
 		{

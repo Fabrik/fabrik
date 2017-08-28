@@ -124,9 +124,15 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         update: function (val) {
             var opts = [];
+
+            if (typeOf(val) === 'string' && val === '') {
+                val = '[]';
+            }
+
             if ((typeOf(val) === 'string') && (JSON.validate(val))) {
                 val = JSON.parse(val);
             }
+
             if (typeOf(val) === 'null') {
                 val = [];
             }
@@ -157,6 +163,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     opts[i].selected = false;
                 }
             }
+
+            if (this.options.advanced) {
+                jQuery('#' + this.element.id).trigger('liszt:updated');
+            }
+
             this.watchAdd();
         },
 

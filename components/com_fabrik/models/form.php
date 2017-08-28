@@ -346,6 +346,15 @@ class FabrikFEModelForm extends FabModelForm
 	public $sessionData = null;
 
 	/**
+	 * cache tmpl name
+	 *
+	 * @since 3.7
+	 *
+	 * @var string
+	 */
+	public $tmpl = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -521,56 +530,60 @@ class FabrikFEModelForm extends FabModelForm
 	 */
 	public function getTmpl()
 	{
-		$input = $this->app->input;
-		$params = $this->getParams();
-		$item = $this->getForm();
-		$tmpl = '';
-		$default = FabrikWorker::j3() ? 'bootstrap' : 'default';
-		$jTmplFolder = FabrikWorker::j3() ? 'tmpl' : 'tmpl25';
-		$document = JFactory::getDocument();
+		if (!isset($this->tmpl))
+		{
+			$input       = $this->app->input;
+			$params      = $this->getParams();
+			$item        = $this->getForm();
+			$tmpl        = '';
+			$default     = FabrikWorker::j3() ? 'bootstrap' : 'default';
+			$jTmplFolder = FabrikWorker::j3() ? 'tmpl' : 'tmpl25';
+			$document    = JFactory::getDocument();
 
-		if ($document->getType() === 'pdf')
-		{
-			$tmpl = $params->get('pdf_template', '') !== '' ? $params->get('pdf_template') : $default;
-		}
-		else
-		{
-			if ($this->app->isAdmin())
+			if ($document->getType() === 'pdf')
 			{
-				$tmpl = $this->isEditable() ? $params->get('admin_form_template') : $params->get('admin_details_template');
-				$tmpl = $tmpl == '' ? $default : $tmpl;
+				$tmpl = $params->get('pdf_template', '') !== '' ? $params->get('pdf_template') : $default;
+			}
+			else
+			{
+				if ($this->app->isAdmin())
+				{
+					$tmpl = $this->isEditable() ? $params->get('admin_form_template') : $params->get('admin_details_template');
+					$tmpl = $tmpl == '' ? $default : $tmpl;
+				}
+
+				if ($tmpl == '')
+				{
+					if ($this->isEditable())
+					{
+						$tmpl = $item->form_template == '' ? $default : $item->form_template;
+					}
+					else
+					{
+						$tmpl = $item->view_only_template == '' ? $default : $item->view_only_template;
+					}
+				}
+
+				$tmpl = FabrikWorker::getMenuOrRequestVar('fabriklayout', $tmpl, $this->isMambot);
 			}
 
-			if ($tmpl == '')
+			// Finally see if the options are overridden by a querystring var
+			$baseTmpl = $tmpl;
+			$tmpl     = $input->get('layout', $tmpl);
+
+			// Test it exists - otherwise revert to baseTmpl tmpl
+			$folder = $this->isEditable() ? 'form' : 'details';
+
+			if (!JFolder::exists(JPATH_SITE . '/components/com_fabrik/views/' . $folder . '/' . $jTmplFolder . '/' . $tmpl))
 			{
-				if ($this->isEditable())
-				{
-					$tmpl = $item->form_template == '' ? $default : $item->form_template;
-				}
-				else
-				{
-					$tmpl = $item->view_only_template == '' ? $default : $item->view_only_template;
-				}
+				$tmpl = $baseTmpl;
 			}
+
+			$this->isEditable() ? $item->form_template = $tmpl : $item->view_only_template = $tmpl;
+			$this->tmpl = $tmpl;
 		}
 
-		$tmpl = FabrikWorker::getMenuOrRequestVar('fabriklayout', $tmpl, $this->isMambot);
-
-		// Finally see if the options are overridden by a querystring var
-		$baseTmpl = $tmpl;
-		$tmpl = $input->get('layout', $tmpl);
-
-		// Test it exists - otherwise revert to baseTmpl tmpl
-		$folder = $this->isEditable() ? 'form' : 'details';
-
-		if (!JFolder::exists(JPATH_SITE . '/components/com_fabrik/views/' . $folder . '/' . $jTmplFolder . '/' . $tmpl))
-		{
-			$tmpl = $baseTmpl;
-		}
-
-		$this->isEditable() ? $item->form_template = $tmpl : $item->view_only_template = $tmpl;
-
-		return $tmpl;
+		return $this->tmpl;
 	}
 
 	/**

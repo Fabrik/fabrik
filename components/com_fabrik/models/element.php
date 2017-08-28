@@ -275,6 +275,23 @@ class PlgFabrik_Element extends FabrikPlugin
 	protected $phpOptions = array();
 
 	/**
+	 *
+	 * Cache for suboptions
+	 *
+	 * @var null|array
+	 *
+	 * @since 3.7
+	 */
+	protected $subOptionValues = null;
+
+	/**
+	 * Cache for subpoption labels
+	 *
+	 * @var null|array
+	 */
+	protected $subOptionLabels = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object &$subject The object to observe
@@ -1867,8 +1884,6 @@ class PlgFabrik_Element extends FabrikPlugin
 			return '';
 		}
 
-		$lines[] = '<ul class="validation-notices" style="list-style:none">';
-
 		if ($this->isTipped($mode))
 		{
 			$lines[] = '<li>' . FabrikHelperHTML::image('question-sign', 'form', $tmpl) . ' ' . $this->getTipText($data) . '</li>';
@@ -1886,16 +1901,17 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		if (count($lines) > 0)
 		{
+			array_unshift($lines,'<ul class="validation-notices" style="list-style:none">');
 			$lines[] = '</ul>';
+			$lines    = array_unique($lines);
+			$rollOver = implode('', $lines);
+			// $$$ rob - looks like htmlspecialchars is needed otherwise invalid markup created and pdf output issues.
+			$rollOver = htmlspecialchars($rollOver, ENT_QUOTES);
 		}
-
-		$lines    = array_unique($lines);
-		$rollOver = implode('', $lines);
-
-		// $$$ rob - looks like htmlspecialchars is needed otherwise invalid markup created and pdf output issues.
-		$rollOver = htmlspecialchars($rollOver, ENT_QUOTES);
-
-		//$rollOver = str_replace('"', '&quot;', $rollOver);
+		else
+		{
+			$rollOver = '';
+		}
 
 		return $rollOver;
 	}
@@ -3716,9 +3732,16 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		if (!$phpOpts)
 		{
-			$params = $this->getParams();
-			$opts   = $params->get('sub_options', '');
-			$opts   = $opts == '' ? array() : (array) @$opts->sub_values;
+			// cache, as even just fetching the params can eat up time in list with lots of rows
+			if (!isset($this->subOptionValues))
+			{
+				$params = $this->getParams();
+				$opts   = $params->get('sub_options', '');
+				$opts   = $opts == '' ? array() : (array) @$opts->sub_values;
+				$this->subOptionValues = $opts;
+			}
+
+			return $this->subOptionValues;
 		}
 		else
 		{
@@ -3762,9 +3785,22 @@ class PlgFabrik_Element extends FabrikPlugin
 
 		if (!$phpOpts)
 		{
-			$params = $this->getParams();
-			$opts   = $params->get('sub_options', '');
-			$opts   = $opts == '' ? array() : (array) @$opts->sub_labels;
+			// cache, as running FText::() can eat up time with lots of options
+			if (!isset($this->subOptionLabels))
+			{
+				$params = $this->getParams();
+				$opts   = $params->get('sub_options', '');
+				$opts   = $opts == '' ? array() : (array) @$opts->sub_labels;
+
+				foreach ($opts as &$opt)
+				{
+					$opt = FText::_($opt);
+				}
+
+				$this->subOptionLabels = $opts;
+			}
+
+			return $this->subOptionLabels;
 		}
 		else
 		{
@@ -6324,7 +6360,7 @@ class PlgFabrik_Element extends FabrikPlugin
 			$db->setQuery("ALTER TABLE `#__fabrik_elements` MODIFY `params` MEDIUMTEXT");
 			try
 			{
-				$db->execute;
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -7799,8 +7835,6 @@ class PlgFabrik_Element extends FabrikPlugin
 		$view = $this->getFormModel()->isEditable() ? 'form' : 'details';
 		$layout->addIncludePaths(COM_FABRIK_FRONTEND . '/views/'. $view . '/tmpl/' . $this->getFormModel()->getTmpl() . '/layouts/element/');
 		$layout->addIncludePaths(COM_FABRIK_FRONTEND . '/views/'. $view . '/tmpl/' . $this->getFormModel()->getTmpl() . '/layouts/element/' . $this->getFullName(true, false));
-		$layout->addIncludePaths(COM_FABRIK_FRONTEND . '/views/list/tmpl/' . $this->getFormModel()->getListModel()->getTmpl() . '/layouts/element/');
-		$layout->addIncludePaths(COM_FABRIK_FRONTEND . '/views/list/tmpl/' . $this->getFormModel()->getListModel()->getTmpl() . '/layouts/element/' . $this->getFullName(true, false));
 		return $layout;
 	}
 

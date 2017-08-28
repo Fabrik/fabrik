@@ -2,83 +2,185 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-list-php">
-			<field default="1" label="PLG_FABRIK_LIST_WEBSERVICE_ACCESS_LABEL" name="webservice_access" repeat="true" type="accesslevel"/>
-				
-			<field label="PLG_FABRIK_LIST_WEBSERVICE_BUTTON_LABEL_LABEL" name="webservice_button_label" repeat="true" size="30" type="text"/>
-				
-			<field default="%s records added, %s records updated" description="PLG_FABRIK_LIST_WEBSERVICE_SUCCESS_MSG_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_SUCCESS_MSG_LABEL" name="webservice_msg" repeat="true" size="30" type="text"/>
-			
-			<field default="soap" description="PLG_FABRIK_LIST_WEBSERVICE_DRIVER_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_DRIVER_LABEL" name="webservice_driver" repeat="true" type="list">
-					<option value="soap">soap</option>
-					<option value="yql">yql</option>
-					<option value="rest">rest (json)</option>
+			<field default="1"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_ACCESS_LABEL"
+				   name="webservice_access"
+				   repeat="true"
+				   type="accesslevel"/>
+
+			<field label="PLG_FABRIK_LIST_WEBSERVICE_BUTTON_LABEL_LABEL"
+				   name="webservice_button_label"
+				   repeat="true"
+				   size="30"
+				   type="text"/>
+
+			<field name="list_webservice_image_name"
+				   type="text"
+				   default="arrow-up.png"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_IMAGE_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_IMAGE_LABEL"
+				   repeat="true"
+				   size="20"/>
+
+			<field default="%s records added, %s records updated"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_SUCCESS_MSG_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_SUCCESS_MSG_LABEL"
+				   name="webservice_msg"
+				   repeat="true"
+				   size="30"
+				   type="text"/>
+
+			<field default="soap"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_DRIVER_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_DRIVER_LABEL"
+				   name="webservice_driver"
+				   repeat="true"
+				   type="list">
+				<option value="soap">soap</option>
+				<option value="yql">yql</option>
+				<option value="rest">rest (json)</option>
 			</field>
-			
-			<field description="PLG_FABRIK_LIST_WEBSERVICE_URL_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_URL_LABEL" name="webservice_url" repeat="true" size="70" type="text"/>
-			
-			<field default="{}" description="PLG_FABRIK_LIST_WEBSERVICE_CREDENTIALS_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_CREDENTIALS_LABEL" name="webservice_credentials" repeat="true" type="fabrikmodalrepeat">
-				
+
+			<field description="PLG_FABRIK_LIST_WEBSERVICE_URL_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_URL_LABEL"
+				   name="webservice_url"
+				   repeat="true"
+				   size="70"
+				   type="text"/>
+
+			<field default="{}"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_CREDENTIALS_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_CREDENTIALS_LABEL"
+				   name="webservice_credentials"
+				   repeat="true"
+				   type="fabrikmodalrepeat">
+
 				<fields name="params">
 					<fieldset modal="true" name="webservice_credentials_modal" repeat="true">
-					
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_KEY_LABEL" name="webservice_credentials_key" repeat="true" size="20"/>
-							
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_VALUE_LABEL" name="webservice_credentials_value" repeat="true" size="20"/>
-								
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_KEY_LABEL"
+							   name="webservice_credentials_key"
+							   repeat="true"
+							   size="20"/>
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_VALUE_LABEL"
+							   name="webservice_credentials_value"
+							   repeat="true"
+							   size="20"/>
+
 					</fieldset>
-				</fields>	
-							
+				</fields>
+
 			</field>
-				
-			<field description="PLG_FABRIK_LIST_WEBSERVICE_GET_METHOD_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_GET_METHOD_LABEL" name="webservice_get_method" repeat="true" type="text"/>
-			
-			<field default="{}" description="PLG_FABRIK_LIST_WEBSERVICE_FILTERS_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_FILTERS_LABEL" name="webservice_filters" repeat="true" type="fabrikmodalrepeat">
-				
+
+			<field description="PLG_FABRIK_LIST_WEBSERVICE_GET_METHOD_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_GET_METHOD_LABEL"
+				   name="webservice_get_method"
+				   repeat="true"
+				   type="text"/>
+
+			<field default="{}"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_FILTERS_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_FILTERS_LABEL"
+				   name="webservice_filters"
+				   repeat="true"
+				   type="fabrikmodalrepeat">
+
 				<fields name="params">
 					<fieldset modal="true" name="webservice_filters_modal" repeat="true">
-					
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_KEY_LABEL" name="webservice_filters_key" repeat="true" size="20"/>
-							
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_VALUE_LABEL" name="webservice_filters_value" repeat="true" size="20"/>
-						
-						<field default="text" label="PLG_FABRIK_LIST_WEBSERVICE_TYPE_LABEL" name="webservice_filters_type" repeat="true" type="list">
-								<option value="text">text</option>
-								<option value="date">date</option>
-								<option value="boolean">boolean</option>
-						</field>	
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_KEY_LABEL"
+							   name="webservice_filters_key"
+							   repeat="true"
+							   size="20"/>
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_VALUE_LABEL"
+							   name="webservice_filters_value"
+							   repeat="true"
+							   size="20"/>
+
+						<field default="text"
+							   label="PLG_FABRIK_LIST_WEBSERVICE_TYPE_LABEL"
+							   name="webservice_filters_type"
+							   repeat="true"
+							   type="list">
+							<option value="text">text</option>
+							<option value="date">date</option>
+							<option value="boolean">boolean</option>
+						</field>
 					</fieldset>
-				</fields>	
-							
+				</fields>
+
 			</field>
-			
-			<field default="" description="PLG_FABRIK_LIST_WEBSERVICE_START_POINT_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_START_POINT_LABEL" name="webservice_start_point" repeat="true" type="text"/>
-			
-			<field default="" description="PLG_FABRIK_LIST_WEBSERVICE_FOREIGN_KEY_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_FOREIGN_KEY_LABEL" name="webservice_foreign_key" repeat="true" type="listfields"/>	
-				
-			<field default="{}" description="PLG_FABRIK_LIST_WEBSERVICE_MAP_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_MAP_LABEL" name="webservice_map" repeat="true" type="fabrikmodalrepeat">
-			
+
+			<field default=""
+				   description="PLG_FABRIK_LIST_WEBSERVICE_START_POINT_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_START_POINT_LABEL"
+				   name="webservice_start_point"
+				   repeat="true"
+				   type="text"/>
+
+			<field default=""
+				   description="PLG_FABRIK_LIST_WEBSERVICE_FOREIGN_KEY_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_FOREIGN_KEY_LABEL"
+				   name="webservice_foreign_key"
+				   repeat="true"
+				   type="listfields"/>
+
+			<field default="{}"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_MAP_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_MAP_LABEL"
+				   name="webservice_map"
+				   repeat="true"
+				   type="fabrikmodalrepeat">
+
 				<fields name="params">
 					<fieldset modal="true" name="webservice_map_modal" repeat="true">
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_FROM_LABEL" name="map_from" repeat="true" size="30"/>
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_TO_LABEL" name="map_to" repeat="true" type="listfields"/>
-						<field cols="30" label="PLG_FABRIK_LIST_WEBSERVICE_MAP_MATCH_LABEL" name="map_match" repeat="true" rows="3" type="textarea"/>
-						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_VALUE_LABEL" name="map_value" type="text"/>
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_FROM_LABEL"
+							   name="map_from"
+							   repeat="true"
+							   size="30"/>
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_TO_LABEL"
+							   name="map_to"
+							   repeat="true"
+							   type="listfields"/>
+
+						<field cols="30"
+							   label="PLG_FABRIK_LIST_WEBSERVICE_MAP_MATCH_LABEL"
+							   name="map_match"
+							   repeat="true"
+							   rows="3"
+							   type="textarea"/>
+
+						<field label="PLG_FABRIK_LIST_WEBSERVICE_MAP_VALUE_LABEL"
+							   name="map_value"
+							   repeat="true"
+							   type="text"/>
+
 						<field default="0"
-							label="PLG_FABRIK_LIST_WEBSERVICE_EVAL_LABEL" name="map_eval" repeat="true" type="list">
-								<option value="0">JNO</option>
-								<option value="1">JYES</option>	
+							   label="PLG_FABRIK_LIST_WEBSERVICE_EVAL_LABEL"
+							   name="map_eval"
+							   repeat="true"
+							   type="list">
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
 						</field>
 					</fieldset>
 				</fields>
 			</field>
-			
+
 			<field default="0"
-				class="btn-group"
-				description="PLG_FABRIK_LIST_WEBSERVICE_UPDATE_EXISTING_DESC" label="PLG_FABRIK_LIST_WEBSERVICE_UPDATE_EXISTING_LABEL" name="webservice_update_existing" repeat="true" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+				   class="btn-group"
+				   description="PLG_FABRIK_LIST_WEBSERVICE_UPDATE_EXISTING_DESC"
+				   label="PLG_FABRIK_LIST_WEBSERVICE_UPDATE_EXISTING_LABEL"
+				   name="webservice_update_existing"
+				   repeat="true"
+				   type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </form>

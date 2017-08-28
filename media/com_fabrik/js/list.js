@@ -809,12 +809,12 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
 
                 this.getFilters().each(function (x, f) {
                     f = jQuery(f);
-                    e = f.prop('tagName') === 'SELECT' ? 'change' : 'blur';
+                    e = f.prop('tagName') === 'SELECT' || f.prop('type') === 'checkbox' ? 'change' : 'blur';
                     if (self.options.filterMethod !== 'submitform') {
                         f.off(e);
                         f.on(e, function (e) {
                             e.preventDefault();
-                            if (f.data('initialvalue') !== f.val()) {
+                            if (f.prop('type') === 'checkbox' || f.data('initialvalue') !== f.val()) {
                                 self.doFilter();
                             }
                         });

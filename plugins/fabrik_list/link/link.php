@@ -28,6 +28,8 @@ class PlgFabrik_ListLink extends plgFabrik_List
 
 	protected $msg = null;
 
+	protected $heading = false;
+
 	/**
 	 * Prep the button if needed
 	 *
@@ -38,6 +40,15 @@ class PlgFabrik_ListLink extends plgFabrik_List
 
 	public function button(&$args)
 	{
+		if (is_array($args) && array_key_exists(0, $args))
+		{
+			$this->heading = FArrayHelper::getValue($args[0], 'heading', false);
+		}
+		else
+		{
+			$this->heading = false;
+		}
+
 		parent::button($args);
 
 		return true;
@@ -70,6 +81,23 @@ class PlgFabrik_ListLink extends plgFabrik_List
 	}
 
 	/**
+	 * Build the HTML for the plug-in button
+	 *
+	 * @return  string
+	 */
+	public function button_result()
+	{
+		if ($this->heading)
+		{
+			return '';
+		}
+		else
+		{
+			return parent::button_result();
+		}
+	}
+
+	/**
 	 * Get the parameter name that defines the plugins acl access
 	 *
 	 * @return  string
@@ -88,7 +116,7 @@ class PlgFabrik_ListLink extends plgFabrik_List
 
 	public function canSelectRows()
 	{
-		return true;
+		return false;
 	}
 
 	/**
