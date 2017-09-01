@@ -234,7 +234,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
         },
 
         decloned: function (groupid) {
-            var i = jQuery('#form_' + this.form.id).find('input[name=fabrik_deletedimages[' + groupid + ']');
+            var i = jQuery('#form_' + this.form.id).find('input[name=fabrik_deletedimages[' + groupid + ']]');
             if (i.length > 0) {
                 this.makeDeletedImageField(groupid, this.options.value).inject(this.form.form);
             }

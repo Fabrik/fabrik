@@ -867,9 +867,21 @@ class FabrikWorker
 		foreach ($matches as $match)
 		{
 			$bits   = explode('->', str_replace(array('{', '}'), '', $match));
+
+			if (count($bits) !== 3)
+			{
+				continue;
+			}
+
 			$userId = $app->input->getInt(FArrayHelper::getValue($bits, 1));
 
-			if ($userId !== 0)
+			// things like user elements might be single entry arrays
+			if (is_array($userId))
+			{
+				$userId = array_pop($userId);
+			}
+
+			if (!empty($userId))
 			{
 				$user = JFactory::getUser($userId);
 				$val  = $user->get(FArrayHelper::getValue($bits, 2));

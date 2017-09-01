@@ -46,6 +46,7 @@ class Kapow extends JObject
 		$smsfrom = FArrayHelper::getValue($opts, 'sms-from');
 		$smsto = FArrayHelper::getValue($opts, 'sms-to');
 		$smstos = explode(',', $smsto);
+		$message = urlencode($message);
 
 		foreach ($smstos as $smsto)
 		{
