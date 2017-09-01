@@ -14,7 +14,20 @@
 				description="PLG_CRON_EMAIL_RETURN_PATH_DESC"
 				label="PLG_CRON_EMAIL_RETURN_PATH_LABEL"
 				size="30" />
-				
+
+			<field name="cronemail_replyto"
+				   type="text"
+				   description="PLG_CRON_EMAIL_REPLYTO_DESC"
+				   label="PLG_CRON_EMAIL_REPLYTO_LABEL"
+				   size="30" />
+
+			<field name="cronemail_replytoname"
+				   type="text"
+				   description="PLG_CRON_EMAIL_REPLYTO_NAME_DESC"
+				   label="PLG_CRON_EMAIL_REPLYTO_NAME_LABEL"
+				   size="30" />
+
+
 			<field name="to"
 				type="text"
 				description="PLG_CRON_EMAIL_TO_DESC"

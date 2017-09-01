@@ -2710,6 +2710,11 @@ EOD;
 		$url  = $baseUrl;
 		$tags = array();
 
+		if (!is_array($data))
+        {
+            return $tags;
+        }
+
 		if ($url == '')
 		{
 			$url = self::tagBaseUrl();

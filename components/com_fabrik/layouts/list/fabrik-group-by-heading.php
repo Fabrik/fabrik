@@ -19,7 +19,7 @@ $imgProps = array('alt' => FText::_('COM_FABRIK_TOGGLE'), 'data-role' => 'toggle
 <?php if ($d->emptyDataMessage != '') : ?>
 <a href="#" class="toggle">
 	<?php else: ?>
-	<a href="#" class="toggle fabrikTip" title="<?php echo $d->emptyDataMessage ?>" opts='{trigger: "hover"}'>
+	<a href="#" class="toggle fabrikTip" title="<?php echo $d->emptyDataMessage ?>" opts='{"trigger": "hover"}'>
 		<?php endif; ?>
 		<?php echo FabrikHelperHTML::image('arrow-down', 'list', $d->tmpl, $imgProps); ?>
 		<span class="groupTitle">

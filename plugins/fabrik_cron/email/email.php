@@ -56,6 +56,8 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 		$w = new FabrikWorker;
 		($params->get('cronemail_return', '') != '') ? $MailFrom = $params->get('cronemail_return') : $MailFrom = $this->app->get('mailfrom');
 		($params->get('cronemail_from', '') != '') ? $FromName = $params->get('cronemail_from') : $FromName = $this->app->get('fromname');
+		($params->get('cronemail_replyto', '') != '') ? $replyTo = $params->get('cronemail_replyto') : $replyTo = $this->app->get('replyto');
+		($params->get('cronemail_replytoname', '') != '') ? $replyToName = $params->get('cronemail_replytoname') : $replyToName = $this->app->get('replytoname');
 		$subject   = $params->get('subject', 'Fabrik cron job');
 		$eval      = $params->get('cronemail-eval');
 		$condition = $params->get('cronemail_condition', '');
@@ -109,8 +111,19 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 							}
 
 							$thisSubject = $w->parseMessageForPlaceHolder($subject, $row);
-							$mail        = JFactory::getMailer();
-							$res         = $mail->sendMail($MailFrom, $FromName, $thisTo, $thisSubject, $thisMsg, true);
+							$res         = FabrikWorker::sendMail(
+								$MailFrom,
+								$FromName,
+								$thisTo,
+								$thisSubject,
+								$thisMsg,
+								true,
+								null,
+								null,
+								null,
+								$replyTo,
+								$replyToName
+							);
 
 							if (!$res)
 							{
