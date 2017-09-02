@@ -1,0 +1,28 @@
+2017-07-23 14:37:56-04:00 --- ERROR: Exception: Directory '../gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 14:56:11-04:00 --- ERROR: Exception: Directory '/gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 15:36:14-04:00 --- ERROR: Exception: Directory '/gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 15:51:47-04:00 --- ERROR: Exception: Directory '/gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 15:52:07-04:00 --- ERROR: Exception: Directory '/gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 16:03:32-04:00 --- ERROR: Exception: Directory '../gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}
+2017-07-23 16:46:42-04:00 --- ERROR: Exception: Directory '/gollynums.com' not found. in /home/greeng42/gollynums.com/_deploy/inc/Info.php:11
+Stack trace:
+#0 /home/greeng42/gollynums.com/_deploy/info.php(6): Info->execute()
+#1 {main}

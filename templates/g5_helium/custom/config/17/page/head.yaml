@@ -1,0 +1,28 @@
+atoms:
+  -
+    title: 'UIkit for Gantry5'
+    type: uikit
+    id: uikit-4874
+  -
+    title: 'Icon Fonts'
+    type: icon-fonts
+    attributes:
+      enabled: true
+      load:
+        octicons: 0
+        strokeicon7: 0
+        ionicons: 0
+        themify: 0
+        typicons: 0
+        medical: 0
+    id: icon-fonts-9077
+  -
+    id: fixed-header-6566
+    type: fixed-header
+    title: 'Fixed Header'
+    attributes:
+      enabled: '1'
+      cssselector: '#g-navigation'
+      mobile: disable
+      secondtrigger: '0'
+      secondoffset: ''

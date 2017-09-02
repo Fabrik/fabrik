@@ -1,0 +1,8 @@
+enabled: '0'
+stickyoffset: '130'
+smoothscrolloffset: '120'
+boundary: '#g-footer'
+css:
+  class: ''
+extra: {  }
+items: {  }

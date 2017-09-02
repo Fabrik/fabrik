@@ -1,0 +1,140 @@
+name: Tabs
+description: Display Tabs.
+type: particle
+
+configuration:
+  caching:
+    type: static
+
+form:
+  fields:
+    enabled:
+      type: input.checkbox
+      label: Enabled
+      description: Globally enable Tabs particles.
+      default: true
+
+    _note:
+      type: separator.note
+      class: alert alert-info
+      content: '<strong>This Particle requires the "UIkit for Gantry5" Atom to be loaded.</strong>'
+
+    mainheading:
+      type: input.text
+      label: Title
+      description: Type in the title.
+      placeholder: 'Enter Title'
+      default: ''
+
+    introtext:
+      type: textarea.textarea
+      label: Intro Text
+      description: Type in the intro text.
+      placeholder: 'Enter Intro Text'
+      default: ''
+
+    layout:
+      type: select.select
+      label: Layout
+      description: Select the tabs position.
+      placeholder: 'Select...'
+      default: top
+      options:
+        top: Top
+        bottom: Bottom
+        left: Left
+        right: Right
+
+    tabswidth:
+      type: select.select
+      label: Tabs Width
+      description: Select the tabs width ('Left' and 'Right' layout ONLY).
+      placeholder: 'Select...'
+      default: 2
+      options:
+        2: 50%
+        3: 33.3%
+        4: 25%
+        5: 20%
+        6: 16.6%
+
+    justify:
+      type: select.select
+      label: Justify tabs
+      description: Select if the tabs should be justified ('Top' and 'Bottom' layout ONLY).
+      placeholder: 'Select...'
+      default: no
+      options:
+        yes: Yes
+        no: No
+
+    justifynumber:
+      type: select.select
+      label: Justify tabs number
+      description: This should be the number of your tabs (if you have 3 tabs, then choose '3').
+      placeholder: 'Select...'
+      default: ""
+      options:
+        1: 1
+        2: 2
+        3: 3
+        4: 4
+        5: 5
+        6: 6
+
+    animation:
+      type: select.select
+      label: Animation
+      description: Select the tabs animation.
+      placeholder: 'Select...'
+      default: none
+      options:
+        none: None
+        fade: Fade
+        scale: Scale
+        slide-top: Slide Top
+        slide-bottom: Slide Bottom
+        slide-left: Slide Left
+        slide-right: Slide Right
+        slide-horizontal: Slide Horizontal
+        slide-vertical: Slide Vertical
+
+    css.class:
+      type: input.selectize
+      label: CSS Classes
+      description: CSS class name for the particle.
+      default: 
+
+    extra:
+      type: collection.keyvalue
+      label: Tag Attributes
+      description: Extra Tag attributes.
+      key_placeholder: Key (data-*, style, ...)
+      value_placeholder: Value
+      exclude: ['id', 'class']
+
+    items:
+      type: collection.list
+      array: true
+      label: Tab Items
+      description: Create each tab to display.
+      value: name
+      ajax: true
+
+      fields:
+
+        .icon:
+          type: input.icon
+          label: Title Icon
+
+        .title:
+          type: input.text
+          label: Title
+
+        .description:
+          type: textarea.textarea
+          label: Description
+
+        .class:
+          type: input.selectize
+          label: CSS Class

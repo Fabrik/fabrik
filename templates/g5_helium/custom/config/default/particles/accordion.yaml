@@ -1,0 +1,9 @@
+enabled: '0'
+mainheading: ''
+introtext: ''
+collapse: 'true'
+showfirst: 'true'
+css:
+  class: ''
+extra: {  }
+items: {  }

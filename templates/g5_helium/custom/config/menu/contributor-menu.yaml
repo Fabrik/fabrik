@@ -1,0 +1,72 @@
+ordering:
+  home: ''
+  gollynums: ''
+  events: ''
+  units-of-measure: ''
+  measurement-systems: ''
+  categories: ''
+  sources: ''
+  references: ''
+  prefixes: ''
+  lookups: ''
+items:
+  home:
+    id: 101
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-home'
+  gollynums:
+    id: 112
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-exclamation'
+  units-of-measure:
+    id: 113
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-balance-scale'
+  events:
+    id: 114
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-calendar'
+  categories:
+    id: 115
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-tasks'
+  measurement-systems:
+    id: 116
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-institution'
+  prefixes:
+    id: 117
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-angle-double-left'
+  references:
+    id: 118
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-book'
+  sources:
+    id: 119
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-book'
+  lookups:
+    id: 124
+    dropdown_dir: right
+    dropdown_hide: '0'
+    width: auto
+    icon: 'fa fa-search'
