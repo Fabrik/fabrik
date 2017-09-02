@@ -1,0 +1,132 @@
+version: 2
+preset:
+  image: 'gantry-admin://images/layouts/default.png'
+  name: default
+  timestamp: 1500347362
+layout:
+  /navigation/:
+    -
+      - 'logo-6423 30'
+      - 'menu-9745 70'
+    -
+      - system-messages-3199
+  /header/: {  }
+  /intro/: {  }
+  /features/: {  }
+  /utility/: {  }
+  /above/: {  }
+  /testimonials/: {  }
+  /expanded/: {  }
+  /container-main/:
+    -
+      -
+        'aside 5':
+          -
+            - position-position-4734
+      -
+        'mainbar 90':
+          -
+            - system-content-1587
+      -
+        'sidebar 5':
+          -
+            - position-position-3949
+  /footer/:
+    -
+      - 'logo-9571 35'
+      - 'copyright-1736 65'
+  offcanvas:
+    -
+      - mobile-menu-5697
+structure:
+  navigation:
+    type: section
+    attributes:
+      boxed: ''
+      class: ''
+  header:
+    attributes:
+      boxed: ''
+      class: ''
+  intro:
+    type: section
+    attributes:
+      boxed: ''
+  features:
+    type: section
+    attributes:
+      boxed: ''
+  utility:
+    type: section
+    attributes:
+      boxed: ''
+      class: ''
+  above:
+    type: section
+    attributes:
+      boxed: ''
+  testimonials:
+    type: section
+    attributes:
+      boxed: ''
+  expanded:
+    type: section
+    attributes:
+      boxed: ''
+  aside:
+    attributes:
+      class: ''
+    block:
+      fixed: '1'
+  mainbar:
+    type: section
+    subtype: main
+  sidebar:
+    type: section
+    subtype: aside
+    attributes:
+      class: ''
+    block:
+      fixed: '1'
+  container-main:
+    attributes:
+      boxed: ''
+  footer:
+    attributes:
+      boxed: ''
+  offcanvas:
+    attributes:
+      position: g-offcanvas-left
+      class: gn-bars
+      extra: {  }
+      swipe: '1'
+      css3animation: '1'
+content:
+  logo-6423:
+    title: 'Logo / Image'
+    attributes:
+      image: 'gantry-media://gollynums/GollyNums_logo.png'
+      svg: ''
+    block:
+      fixed: '1'
+  position-position-4734:
+    title: Aside
+    attributes:
+      key: aside
+  position-position-3949:
+    title: Sidebar
+    attributes:
+      key: sidebar
+  logo-9571:
+    title: 'Logo / Image'
+    attributes:
+      image: 'gantry-media://gollynums/GollyNums_logo.png'
+      svg: ''
+    block:
+      id: ajb
+      fixed: '1'
+  copyright-1736:
+    attributes:
+      owner: Benedetti.us
+      additional:
+        text: ''

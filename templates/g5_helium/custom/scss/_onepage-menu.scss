@@ -1,0 +1,60 @@
+// Set the variable defaults in case they are missing in the template
+$base-element-color: #f8f9fa !default;
+
+.g-onepage-menu {
+	ul {
+		margin: 0;
+		list-style: none;
+		background: #ffffff;
+		border: 1px solid $base-border-color;
+		border-radius: 3px;
+		li {
+			a {
+				padding: 0.625rem 1.25rem;
+				color: $base-text-color;
+				display: block;
+				border-bottom: 1px solid $base-border-color;
+				@include transition(all, 0.2s);
+				&:hover {
+					background: $base-element-color;
+					color: darken($base-text-color, 20%);
+				}
+				i {
+					margin-right: 5px;
+				}
+			}
+			&:last-child {
+				a {
+					border-bottom: none;
+				}
+			}
+			.submenu {
+				border: none;
+				display: none;
+				&.uk-active {
+					display: block;
+					a {
+						padding-left: 35px;
+					}					
+				}
+				li {
+					&:last-child {
+						border-bottom: 1px solid $base-border-color;
+					}
+				}
+			}
+			&.uk-active {
+				> a {
+					background: $base-element-color;
+					color: $accent-color-1;
+				}
+				.submenu {
+					display: block;
+					a {
+						padding-left: 35px;
+					}
+				}
+			}
+		}
+	}
+}

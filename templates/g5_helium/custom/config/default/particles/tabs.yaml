@@ -1,0 +1,12 @@
+enabled: '0'
+mainheading: ''
+introtext: ''
+layout: top
+tabswidth: '2'
+justify: 'no'
+justifynumber: '1'
+animation: none
+css:
+  class: ''
+extra: {  }
+items: {  }

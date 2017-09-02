@@ -1,0 +1,289 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% set attr_extra = '' %}
+{% if particle.extra %}
+    {% for attributes in particle.extra %}
+        {% for key, value in attributes %}
+            {% set attr_extra = attr_extra ~ ' ' ~ key|e ~ '="' ~ value|e('html_attr') ~ '"' %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{% set particleheading %}
+    <div class="g-particle-intro">
+        {% if particle.mainheading %}
+            <h3 class="g-title g-main-title">{{ particle.mainheading|raw }}</h3>
+            <div class="g-title-separator {% if particle.introtext == false %}no-intro-text{% endif %}"></div>
+        {% endif %} 
+        {% if particle.introtext %}<p class="g-introtext">{{ particle.introtext|raw }}</p>{% endif %}
+    </div>
+{% endset %}
+
+{%- set slideshow_settings -%}
+    {
+        autoplay:{{ particle.autoplay|default("true")|e }},
+        autoplayInterval:{{ particle.autoplayInterval|default(7000)|e }},
+        kenburns:{{ particle.kenburns|default("false")|e }},
+        animation:'{{ particle.animation|default('fade')|e }}',
+        duration:{{ particle.animationDuration|default(500)|e }},
+        pauseOnHover:{{ particle.pauseOnHover|default("true")|e }},
+        height:'{{ particle.height|default('auto')|e }}'
+    }
+{%- endset -%}
+
+{% set slideshow_slides %}
+    {% for item in particle.items %}
+
+        {% set slide_media %}
+            {% if item.image %}
+                <img alt="{{ item.alt|e }}" src="{{ url(item.image) }}" {{ item.image|imagesize|raw }}>
+            {% endif %}
+            {% if item.videoiframe %}
+                {{ item.videoiframe|raw }}
+            {% endif %}
+        {% endset %} 
+
+        {% set slide_overlay %}
+
+            {% set overlay_position %}
+                {%- if item.overlayposition|default('bottom') == 'bottom' -%}
+                    uk-overlay-bottom
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'left' -%}
+                    uk-overlay-left
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'right' -%}
+                    uk-overlay-right
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'top' -%}
+                    uk-overlay-top
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'bottom-left' -%}
+                    uk-flex-bottom
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'bottom-center' -%}
+                    uk-flex-bottom uk-flex-center
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'bottom-right' -%}
+                    uk-flex-bottom uk-flex-right
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'middle-left' -%}
+                    uk-flex-middle
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'middle-center' -%}
+                    uk-flex-middle uk-flex-center
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'middle-right' -%}
+                    uk-flex-middle uk-flex-right
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'top-left' -%}
+                    uk-flex-top
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'top-center' -%}
+                    uk-flex-top uk-flex-center
+                {%- endif -%}
+
+                {%- if item.overlayposition|default('bottom') == 'top-right' -%}
+                    uk-flex-top uk-flex-right
+                {%- endif -%}
+            {% endset %}
+
+            {% set slide_overlay_animation %}
+                {%- if item.overlayanimation|default('fade') == 'fade' -%}
+                    uk-overlay-fade
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-left' -%}
+                    uk-overlay-slide-left
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-right' -%}
+                    uk-overlay-slide-right
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-top' -%}
+                    uk-overlay-slide-top
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-bottom' -%}
+                    uk-overlay-slide-bottom
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-left-short' -%}
+                    uk-overlay-slide-left uk-overlay-left-short
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-right-short' -%}
+                    uk-overlay-slide-right uk-overlay-right-short
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-top-short' -%}
+                    uk-overlay-slide-top uk-overlay-top-short
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'slide-bottom-short' -%}
+                    uk-overlay-slide-bottom uk-overlay-bottom-short
+                {%- endif -%}
+
+                {%- if item.overlayanimation|default('fade') == 'scale' -%}
+                    uk-overlay-scale
+                {%- endif -%}
+            {% endset %}
+
+            {% set title %}
+                <h3 class="g-slideshow-title">
+                    {%- if item.link -%}
+                        <a target="{{ item.target|default('_parent')|e }}" href="{{ item.link|e }}">
+                    {%- endif -%}
+                        {{- gantry.platform.filter(item.title)|html|raw -}}
+                    {%- if item.link -%}
+                        </a>
+                    {%- endif -%}
+                </h3>
+            {% endset %}
+
+            {% set description %}
+                <div class="g-slideshow-desc">
+                    {{- gantry.platform.filter(item.description)|html|raw -}}
+                </div>
+            {% endset %}
+
+            {% set buttons %}
+                <div class="g-slideshow-buttons">
+                    {% for button in item.buttons %}
+                        <a class="button {{ button.buttonstyle|default('empty-light')|e }}" target="{{ button.target|default('_parent')|e }}" href="{{ button.link|e }}">
+                            {%- if button.buttonicon -%}
+                                <span class="{{ button.buttonicon|e }}"></span>
+                            {%- endif -%}
+                            {{- button.text|raw -}}
+                        </a>
+                    {% endfor %}    
+                </div>
+            {% endset %}
+
+            {% if item.overlaystyle|default('style1') == 'style1' %}
+
+                {% if (item.overlayposition|default('bottom') == 'bottom') or (item.overlayposition|default('bottom') == 'top') or (item.overlayposition|default('bottom') == 'left') or (item.overlayposition|default('bottom') == 'right') %}
+                    <div class="uk-overlay-panel uk-overlay-background {{ overlay_position }} {{ slide_overlay_animation }} {% if item.overlaywidth|default(auto)|e != 'auto' %} uk-width-1-{{ item.overlaywidth|default(auto)|e }}{% endif %} {{ item.overlaystyle|default("style1")|e }}">
+                        <div class="slideshow-caption">
+                            {% if item.title %}
+                                {{ title }}
+                            {% endif %}
+
+                            {% if item.description %}
+                                {{ description }}
+                            {% endif %}
+
+                            {% if item.buttons %}
+                                {{ buttons }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="uk-overlay-panel uk-flex {{ overlay_position }} {{ slide_overlay_animation }}{% if item.overlaycontainer|default(0) == 1 %} g-overlay-container{% endif %} {{ item.overlaystyle|default("style1")|e }}">
+                        <div class="slideshow-caption uk-overlay-background{% if item.overlaywidth|default(auto)|e != 'auto' %} uk-width-1-{{ item.overlaywidth|default(auto)|e }}{% endif %}">
+                            {% if item.title %}
+                                {{ title }}
+                            {% endif %}
+
+                            {% if item.description %}
+                                {{ description }}
+                            {% endif %}
+
+                            {% if item.buttons %}
+                                {{ buttons }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endif %}
+
+            {% if item.overlaystyle|default('style1') == 'style2' or item.overlaystyle|default('style1') == 'style3' %}
+                
+                {% if (item.overlayposition|default('bottom') == 'bottom') or (item.overlayposition|default('bottom') == 'top') or (item.overlayposition|default('bottom') == 'left') or (item.overlayposition|default('bottom') == 'right') %}
+                     <div class="uk-overlay-panel {{ overlay_position }} {{ slide_overlay_animation }} {% if item.overlaywidth|default(auto)|e != 'auto' %} uk-width-1-{{ item.overlaywidth|default(auto)|e }}{% endif %} {{ item.overlaystyle|default("style1")|e }}">
+                        <div class="slideshow-caption">
+                            {% if item.title %}
+                                {{ title }}
+                            {% endif %}
+
+                            {% if item.description %}
+                                {{ description }}
+                            {% endif %}
+
+                            {% if item.buttons %}
+                                {{ buttons }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="uk-overlay-panel uk-flex {{ overlay_position }} {{ slide_overlay_animation }}{% if item.overlaycontainer|default(0) == 1 %} g-overlay-container{% endif %} {{ item.overlaystyle|default("style1")|e }}">
+                        <div class="slideshow-caption{% if item.overlaywidth|default(auto)|e != 'auto' %} uk-width-1-{{ item.overlaywidth|default(auto)|e }}{% endif %}">
+                            {% if item.title %}
+                                {{ title }}
+                            {% endif %}
+
+                            {% if item.description %}
+                                {{ description }}
+                            {% endif %}
+
+                            {% if item.buttons %}
+                                {{ buttons }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endif %}
+
+        {% endset %}
+
+        <li class="g-slideshow-item{% if item.class %} {{ item.class|e }}{% endif %}">
+            {{ slide_media }}
+            {% if item.title or item.description or item.buttons %}
+                {{ slide_overlay }}
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endset %}
+
+{% block particle %}
+    
+    <div class="g-slideshow{% if particle.css.class %} {{ particle.css.class|e }}{% endif %}" {% if particle.extra %}{{ attr_extra|raw }}{% endif %}>
+        {% if particle.mainheading or particle.introtext %}
+            {{ particleheading }}
+        {% endif %}
+        <div class="uk-slidenav-position{% if particle.fullscreen|default(0) %} fullscreen{% endif %}{% if particle.navigation|default('arrows') == 'arrowsvisible' or particle.navigation|default('arrows') == 'bothvisible' %} nav-visible{% endif %}" data-uk-slideshow="{{ slideshow_settings }}">
+            <ul class="uk-slideshow uk-overlay-active{% if particle.fullscreen|default(0) %} uk-slideshow-fullscreen{% endif %}">
+                {{ slideshow_slides }}
+            </ul>
+
+            {% if (particle.navigation|default('arrows') == 'arrows') or (particle.navigation|default('arrows') == 'arrowsvisible') or (particle.navigation|default('arrows') == 'both') or (particle.navigation|default('arrows') == 'bothvisible') %}
+                <a href="" class="uk-slidenav uk-slidenav-previous" data-uk-slideshow-item="previous"></a>
+                <a href="" class="uk-slidenav uk-slidenav-next" data-uk-slideshow-item="next"></a>
+            {% endif %}
+
+            {% if (particle.navigation|default('arrows') == 'dots') or (particle.navigation|default('arrows') == 'both') or (particle.navigation|default('arrows') == 'bothvisible') %}
+                <ul class="uk-dotnav uk-dotnav-contrast uk-position-bottom uk-flex-center">
+                {% set counter = 0 %}
+                {% for item in particle.items %}
+                    <li data-uk-slideshow-item="{{ counter }}"><a href=""></a></li>
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

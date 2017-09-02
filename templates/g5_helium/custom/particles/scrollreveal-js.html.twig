@@ -1,0 +1,11 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block javascript_footer %}
+	{% if particle.enabled %}
+		{{ parent() }}
+		<script src="{{ url('gantry-theme://js/scrollReveal.min.js') }}" type="text/javascript"></script>
+		<script type="text/javascript">
+			window.sr = new scrollReveal({ mobile: {{ particle.mobile|default("false")|e }} });
+		</script>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block stylesheets %}
+    {% if particle.enabled %}
+        {{ parent() }}
+        {% if particle.theme|default('dark-bottom') == 'dark-bottom' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/dark-bottom.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'dark-top' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/dark-top.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'dark-floating' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/dark-floating.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'dark-floating-tada' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/dark-floating-tada.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'dark-inline' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/dark-inline.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'light-bottom' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/light-bottom.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'light-top' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/light-top.css" type="text/css"/>
+        {% endif %}
+        {% if particle.theme|default('dark-bottom') == 'light-floating' %}
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/light-floating.css" type="text/css"/>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block javascript_footer %}
+    {% if particle.enabled %}
+        {{ parent() }}
+        <script type="text/javascript">
+            window.cookieconsent_options = {
+                message: '{{ particle.messagetext|default('This website uses cookies to ensure you get the best experience on our website.')|e('js') }}',
+                learnMore: '{{ particle.rmtext|default('Read More...')|e('js') }}',
+                {% if particle.rmlink %}
+                    link: '{{ particle.rmlink|raw }}',
+                    target: '{{ particle.target|default('_parent')|e }}',
+                {% endif %}
+                dismiss: '{{ particle.accepttext|default('Got it!')|e('js') }}',
+                theme: '{{ particle.theme|default('dark-bottom')|e }}'
+            };
+        </script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js" type="text/javascript"></script>
+    {% endif %}
+{% endblock %}
+
+

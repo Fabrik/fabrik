@@ -65,10 +65,10 @@ plugins/community/*
 robots.txt
 sql/*
 tests/*
-templates/*
+# AJB 2017-07-30 templates/*
 tmp/*
 transfer/*
-/templates
+# AJB 2017-07-30 /templates
 /tmp
 /transfer
 /tests
@@ -104,3 +104,9 @@ components/com_fabrik/language/.DS_Store
 components/com_fabrik/models/.DS_Store
 .transifexrc
 private.json
+#=============================
+!**/gn_bootstrap/custom_css.php
+!**/gn_bootstrap/custom.css
+!**/gn_bootstrap_tabs/custom_css.php
+!**/gn_bootstrap_tabs/custom.css
+!templates/g5_helium/custom/*

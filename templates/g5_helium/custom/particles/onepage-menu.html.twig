@@ -1,0 +1,127 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% set attr_extra = '' %}
+{% if particle.extra %}
+    {% for attributes in particle.extra %}
+        {% for key, value in attributes %}
+            {% set attr_extra = attr_extra ~ ' ' ~ key|e ~ '="' ~ value|e('html_attr') ~ '"' %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{% block particle %}
+    
+    <div class="g-onepage-menu{% if particle.css.class %} {{ particle.css.class|e }}{% endif %}" {% if particle.extra %}{{ attr_extra|raw }}{% endif %}>
+        <ul data-uk-scrollspy-nav="{closest:'li', smoothscroll: {offset: {{ particle.smoothscrolloffset|e }}}}" data-uk-sticky="{media:768, top:{{ particle.stickyoffset|e }}, boundary: '{{ particle.boundary|e }}'}">
+        {% for item in particle.items %}
+        	{% set attr_extra_item = '' %}
+			{% for extra in item.extra %}
+				{% set attr_extra_item = attr_extra_item ~ ' ' ~ extra|keys|first|e ~ '="' ~ extra|values|first|e('html_attr') ~ '"' %}
+			{% endfor %}
+        	<li class="g-onepage-menu-item{% if item.class %} {{ item.class|e }}{% endif %}" {% if item.extra %}{{ attr_extra_item|raw }}{% endif %}>
+                <a href="{% if item.link %}#{{ item.link|e }}{% endif %}">
+                    {%- if item.icon -%}
+                        <i class="{{ item.icon|e }}"></i>
+                    {%- endif -%}
+                    {{- item.title|raw -}}
+                </a>
+                {% if item.subtitle1 or item.subtitle2 or item.subtitle3 or item.subtitle4 or item.subtitle5 %}
+                    <ul class="submenu">
+                        {% if item.subtitle1 %}
+                            <li>
+                                <a href="{% if item.sublink1 %}#{{ item.sublink1|e }}{% endif %}">
+                                    {%- if item.subicon1 -%}
+                                        <i class="{{ item.subicon1|e }}"></i>
+                                    {%- endif -%}
+                                    {{- item.subtitle1|raw -}}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if item.subtitle2 %}
+                            <li>
+                                <a href="{% if item.sublink2 %}#{{ item.sublink2|e }}{% endif %}">
+                                    {%- if item.subicon2 -%}
+                                        <i class="{{ item.subicon2|e }}"></i>
+                                    {%- endif -%}
+                                    {{- item.subtitle2|raw -}}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if item.subtitle3 %}
+                            <li>
+                                <a href="{% if item.sublink3 %}#{{ item.sublink3|e }}{% endif %}">
+                                    {%- if item.subicon3 -%}
+                                        <i class="{{ item.subicon3|e }}"></i>
+                                    {%- endif -%}
+                                    {{- item.subtitle3|raw -}}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if item.subtitle4 %}
+                            <li>
+                                <a href="{% if item.sublink4 %}#{{ item.sublink4|e }}{% endif %}">
+                                    {%- if item.subicon4 -%}
+                                        <i class="{{ item.subicon4|e }}"></i>
+                                    {%- endif -%}
+                                    {{- item.subtitle4|raw -}}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if item.subtitle5 %}
+                            <li>
+                                <a href="{% if item.sublink5 %}#{{ item.sublink5|e }}{% endif %}">
+                                    {%- if item.subicon5 -%}
+                                        <i class="{{ item.subicon5|e }}"></i>
+                                    {%- endif -%}
+                                    {{- item.subtitle5|raw -}}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascript_footer %}
+    {{ parent() }}
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                if( $('.g-onepage-menu .submenu').length ) {
+                    // select the target node
+                    var onepageMenu = document.querySelector('.g-onepage-menu');
+                     
+                    // create an observer instance
+                    var observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            $('.g-onepage-menu .submenu li').each(function() {
+                                if( $(this).hasClass('uk-active') ) {
+                                    $(this).parent('.submenu').addClass('uk-active');
+                                }
+                            });
+
+                            $('.g-onepage-menu .submenu').each(function() {
+                                if( !$(this).children().hasClass('uk-active') ) {
+                                    $(this).removeClass('uk-active');
+                                }
+                            });
+                        });
+                    });
+                     
+                    // configuration of the observer:
+                    var config = { attributes: true, childList: true, characterData: true, subtree: true }
+                     
+                    // pass in the target node, as well as the observer options
+                    observer.observe(onepageMenu, config);
+                }
+            });
+        })(jQuery);
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+preset: preset1
+base:
+  background: '#ffffff'
+  text-color: '#000000'
+accent:
+  color-1: '#ffffff'
+  color-2: '#ff0000'
+link:
+  regular: '#0000ff'
+navigation:
+  background: '#9999ff'
+  text-color: '#ffffff'
+header:
+  background: '#9999ff'
+  background-image: ''
+  text-color: '#000000'
+testimonials:
+  background-image: 'gantry-media://testimonials/img01.jpg'
+footer:
+  background: '#9999ff'
+  text-color: '#000000'
+offcanvas:
+  background: '#9999ff'
+  text-color: '#000000'
+  toggle-color: '#ffffff'
+breakpoints:
+  large-desktop-container: 75rem
+  desktop-container: 60rem
+  tablet-container: 48rem
+  large-mobile-container: 30rem
+  mobile-menu-breakpoint: 48rem

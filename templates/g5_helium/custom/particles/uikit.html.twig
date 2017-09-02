@@ -1,0 +1,16 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block particle %}
+    {% assets in 'head' with { priority: 11 } %}
+        {% if particle.enabled %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://uikit/css/uikit.min.css') }}" type="text/css"/>
+        {% endif %}
+    {% endassets -%}
+
+    {% assets in particle.jslocation|default('footer') with { priority: 10 } %}
+        {% if particle.enabled %}
+            {% do gantry.load('jquery') %}
+            <script src="{{ url('gantry-theme://uikit/js/uikit.min.js') }}" type="text/javascript"></script>
+        {% endif %}
+    {% endassets -%}
+{% endblock %}

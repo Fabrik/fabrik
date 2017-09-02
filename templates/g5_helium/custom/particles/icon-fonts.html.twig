@@ -1,0 +1,28 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block stylesheets %}
+    {% if particle.enabled %}
+        {{ parent() }}
+        {% if particle.load.octicons %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/octicons/octicons.css') }}" type="text/css"/>
+        {% endif %}
+        {% if particle.load.strokeicon7 %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css') }}" type="text/css"/>
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/pe-icon-7-stroke/css/helper.css') }}" type="text/css"/>
+        {% endif %}
+        {% if particle.load.ionicons %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/ionicons/css/ionicons.min.css') }}" type="text/css"/>
+        {% endif %}
+        {% if particle.load.themify %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/themify-icons/themify-icons.css') }}" type="text/css"/>
+        {% endif %}
+        {% if particle.load.typicons %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/typicons/typicons.min.css') }}" type="text/css"/>
+        {% endif %}
+        {% if particle.load.medical %}
+            <link rel="stylesheet" href="{{ url('gantry-theme://fonts/webfont-medical-icons/css/wfmi-style.css') }}" type="text/css"/>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+

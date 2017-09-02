@@ -1,0 +1,64 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% block stylesheets %}
+    {% if particle.enabled %}
+        {{ parent() }}
+        <style type="text/css">
+            {{ particle.cssselector|e }}.g-fixed-element {
+                position: fixed;
+                width: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1003;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% block javascript_footer %}
+    {% if particle.enabled %}
+        {% do gantry.load('jquery') %}
+        {{ parent() }}
+        {% if particle.cssselector  %}
+            <script>
+                (function($) {
+                    $(window).load(function() {
+                        var stickyOffset = $('{{ particle.cssselector|e }}').offset().top;
+                        var stickyContainerHeight = $('{{ particle.cssselector|e }}').height();
+
+                        $('{{ particle.cssselector|e }}').wrap( "<div class='g-fixed-container'><\/div>" );
+                        $('.g-fixed-container').css("height", stickyContainerHeight);
+
+                        {% if particle.mobile|default('disable') == 'disable' %}
+                        $(window).resize(function() {
+                            if( $(window).width() < 768 && $('.g-fixed-container').length ) {
+                                $('{{ particle.cssselector|e }}').unwrap();
+                            }
+
+                            if( $(window).width() > 767 && $('.g-fixed-container').length == 0 ) {
+                                $('{{ particle.cssselector|e }}').wrap( "<div class='g-fixed-container'><\/div>" );
+                                $('.g-fixed-container').css("height", stickyContainerHeight);
+                            }
+                        });
+                        {% endif %}
+
+                        $(window).scroll(function(){
+                            var sticky = $('{{ particle.cssselector|e }}'),
+                                scroll = $(window).scrollTop();
+
+                            if (scroll > stickyOffset {% if particle.mobile|default('disable') == 'disable' %}&& $(window).width() > 767{% endif %}) sticky.addClass('g-fixed-element');
+                            else sticky.removeClass('g-fixed-element');
+
+                            {% if particle.secondtrigger  %}
+                                if (scroll >= {{ particle.secondoffset|e }} {% if particle.mobile|default('disable') == 'disable' %}&& $(window).width() > 767{% endif %}) sticky.addClass('g-fixed-second');
+                                else sticky.removeClass('g-fixed-second');
+                            {% endif %}
+                        });
+                    });
+                })(jQuery);
+            </script>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+

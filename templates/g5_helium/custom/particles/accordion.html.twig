@@ -1,0 +1,59 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+
+{% set attr_extra = '' %}
+{% if particle.extra %}
+    {% for attributes in particle.extra %}
+        {% for key, value in attributes %}
+            {% set attr_extra = attr_extra ~ ' ' ~ key|e ~ '="' ~ value|e('html_attr') ~ '"' %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{% block stylesheets %}
+    {% if particle.enabled %}
+        {{ parent() }}
+        <style type="text/css">
+            .uk-accordion {display: block !important;}
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% set particleheading %}
+    <div class="g-particle-intro">
+        {% if particle.mainheading %}
+            <h3 class="g-title g-main-title">{{ particle.mainheading|raw }}</h3>
+            <div class="g-title-separator {% if particle.introtext == false %}no-intro-text{% endif %}"></div>
+        {% endif %} 
+        {% if particle.introtext %}<p class="g-introtext">{{ particle.introtext|raw }}</p>{% endif %}
+    </div>
+{% endset %}
+
+{% block particle %}
+    <div class="g-accordion{% if particle.css.class %} {{ particle.css.class|e }}{% endif %}" {% if particle.extra %}{{ attr_extra|raw }}{% endif %}>
+        {% if particle.mainheading or particle.introtext %}
+            {{ particleheading }}
+        {% endif %}
+        
+        <div class="uk-accordion" data-uk-accordion="{collapse: {{ particle.collapse|default("true")|e }}, showfirst: {{ particle.showfirst|default("true")|e }}}">
+            {% for item in particle.items %}
+                {% set attr_extra_item = '' %}
+                {% for extra in item.extra %}
+                    {% set attr_extra_item = attr_extra_item ~ ' ' ~ extra|keys|first|e ~ '="' ~ extra|values|first|e('html_attr') ~ '"' %}
+                {% endfor %}
+                <div class="g-accordion-item{% if item.class %} {{ item.class|e }}{% endif %}" {% if item.extra %}{{ attr_extra_item|raw }}{% endif %}>
+                    {% if item.title %}
+                        <h3 class="uk-accordion-title">
+                            {{- item.title|raw -}}
+                        </h3>
+                    {% endif %}
+
+                    {% if item.description %}
+                        <div class="uk-accordion-content">
+                            {{- gantry.platform.filter(item.description)|html|raw -}}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

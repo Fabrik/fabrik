@@ -1,0 +1,5 @@
+enabled: '1'
+css:
+  class: date
+date:
+  formats: 'l, F d, Y'

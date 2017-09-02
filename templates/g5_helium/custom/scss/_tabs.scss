@@ -1,0 +1,236 @@
+// Set the variable defaults in case they are missing in the template
+$base-element-color: #f8f8f8 !default;
+
+.g-tabs {
+	background: #ffffff;
+	border: 1px solid $base-border-color;
+	.uk-tab {
+		border-color: $base-border-color;
+		> li {
+			> a {
+				border: none;
+				border-radius: 0;
+				margin: 0 !important;
+				color: $base-text-color;
+				text-shadow: none;
+				padding: 20px 25px !important;
+				@include transition(background, 0.2s);
+				&:hover {
+					color: $base-text-color;
+				}
+				@include breakpoint(tablet-range) {
+					padding: 20px 15px !important;
+				}
+			}
+			&.uk-active {
+				> a {
+					color: $base-text-color;
+				}
+			}
+			.g-title-icon {
+				margin-right: 10px;
+			}
+		}
+		.uk-tab-responsive {
+			margin: 0;
+			> a {
+				cursor: pointer;
+			}
+			.uk-dropdown {
+				margin: 0;
+				font-size: 0.9rem;
+				border-color: $base-border-color;
+				padding: 0;
+				border-radius: 0;
+				.uk-nav {
+					margin: 0;
+					li {
+						a {
+							padding: 15px 25px;
+							color: $base-text-color;
+							&:before {
+								border: none;
+							}
+							&:hover {
+								background: $base-element-color;
+								box-shadow: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.uk-tab-grid {
+		&:before {
+			border-color: $base-border-color;
+		}
+		margin: 0;
+		&.uk-tab-top, &.uk-tab-bottom {
+			.g-tab-nav {
+				@include breakpoint(mobile-only) {
+					width: auto;
+				}
+				> a {
+					border-right: none;
+					border-left: 1px solid $base-border-color;
+				}
+				&:first-child {
+					> a {
+						border-left: none;
+					}
+				}
+			}
+		}
+	}
+	.uk-tab-top {
+		border-bottom: 1px solid $base-border-color;
+		.g-tab-nav {
+			> a {
+				border-right: 1px solid $base-border-color;
+				&:before {
+					border-top: 3px solid transparent;
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+				}
+			}
+			&.uk-active {
+				> a {
+					&:before {
+						border-top-color: $accent-color-1;
+					}
+				}
+			}
+		}
+	}
+	.uk-tab-bottom {
+		border-top: 1px solid $base-border-color;
+		.g-tab-nav {
+			> a {
+				border-right: 1px solid $base-border-color;
+				&:before {
+					border-bottom: 3px solid transparent;
+					content: "";
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					width: 100%;
+				}
+			}
+			&.uk-active {
+				> a {
+					&:before {
+						border-bottom-color: $accent-color-1;
+					}
+				}
+			}
+		}
+	}
+	.uk-tab-left {
+		.g-tab-nav {
+			> a {
+				border-top: 1px solid $base-border-color;
+				&:before {
+					border-left: 3px solid transparent;
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					height: 100%;
+				}
+			}
+			&:first-child {
+				> a {
+					border-top: none;
+				}
+			}
+			&.uk-active {
+				> a {
+					&:before {
+						border-left-color: $accent-color-1;
+					}
+				}
+			}
+		}
+	}
+	.uk-tab-right {
+		.g-tab-nav {
+			> a {
+				border-top: 1px solid $base-border-color;
+				&:before {
+					border-right: 3px solid transparent;
+					content: "";
+					position: absolute;
+					top: 0;
+					right: 0;
+					height: 100%;
+				}
+			}
+			&:first-child {
+				> a {
+					border-top: none;
+				}
+			}
+			&.uk-active {
+				> a {
+					&:before {
+						border-right-color: $accent-color-1;
+					}
+				}
+			}
+		}
+	}
+	.tabs-content {
+		overflow: hidden;
+		&.uk-margin {
+			margin-bottom: 0;
+		}
+		p {
+			margin-bottom: 0;
+		}
+		.button {
+			margin-top: 25px;
+		}
+		&.left {
+			padding: 35px;
+			margin-left: -35px;
+			@include breakpoint(mobile-only) {
+				margin-left: 0;
+			}
+			p {
+				&:first-child {
+					margin-top: 0;
+				}
+			}
+		}
+		&.right {
+			padding: 35px;
+			margin-right: -35px;
+			@include breakpoint(mobile-only) {
+				margin-right: 0;
+			}
+			p {
+				&:first-child {
+					margin-top: 0;
+				}
+			}
+		}
+		&.top {
+			padding: 35px;
+			margin: 0;
+			> li {
+				margin: 0;
+			}
+		}
+		&.bottom {
+			padding: 35px;
+			margin: 0;
+			> li {
+				margin: 0;
+			}
+		}
+	}
+}
