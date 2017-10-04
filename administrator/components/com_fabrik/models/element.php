@@ -1139,18 +1139,64 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$listModel  = $elementModel->getListModel();
 		$groupModel = $elementModel->getGroupModel();
 		$tableName  = $this->getRepeatElementTableName($elementModel, $row);
+		$params = $elementModel->getParams();
+		$parentID	= $params->get('repeat_parent_id', 'parent_id');
+		$noParams = $params->get('no_params');
+		$paramsName	= $noParams ? '' : $params->get('repeat_params', 'params');
+		$paramsField = !empty($paramsName) ? ', ' . $db->qn($paramsField) . ' TEXT' : '';
 
 		// Create db table!
 		$formModel = $elementModel->getForm();
 		$db        = $listModel->getDb();
 		$desc      = $elementModel->getFieldDescription();
-		$name      = $db->qn($row->name);
-		$db
-			->setQuery(
-				'CREATE TABLE IF NOT EXISTS ' . $db->qn($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(11), '
-				. $name . ' ' . $desc . ', ' . $db->qn('params') . ' TEXT );');
+		$name      = $db->qn($params->get('repeat_element', $row->name));
+		$db->setQuery(
+				'CREATE TABLE IF NOT EXISTS ' . $db->qn($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, ' . $parentID . ' INT(11), '
+				. $name . ' ' . $desc . $paramsField . ');');
 		$db->execute();
 
+		// Add extra fields if set
+		$createExtraFields = array();
+		$extraFields = array();
+		$multiFieldElement = $params->get('multifield_element');
+		$mfDataType = $params->get('multifield_data_type');
+		$extraFK = $params->get('multifield_extra_fk');
+		
+		
+/*		$db = $listModel->getDb();
+		$db->setQuery('SHOW COLUMNS FROM ' . $db->qn($tableName));
+		$columns = $db->loadObjectList();
+		$col = array();
+		
+		foreach ($columns as $c)
+		{
+			$col[] = $c->Field;
+		}
+*/
+
+		$fields = $listModel->getDBFields($tableName, 'Field');
+		$fieldMF  = FArrayHelper::getValue($fields, $multiFieldElement, false);
+		$fieldExtraFK  = FArrayHelper::getValue($fields, $extraFK, false);
+
+		if (!empty($multiFieldElement) && !$fieldMF)
+		{
+			$db = $listModel->getDb();
+			$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD COLUMN ' . $multiFieldElement . ' ' . $mfDataType . ';');
+			$db->execute();
+			$fieldName = $tableName . '___' . $multiFieldElement;
+			$listModel->addIndex($fieldName, 'multifield_el', 'INDEX', $size);
+		}
+
+
+		if (!empty($extraFK) && !$fieldExtraFK)
+		{
+			$db = $listModel->getDb();
+			$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD COLUMN ' . $extraFK . ' INT(11);');
+			$db->execute();
+			$fieldName = $tableName . '___' . $extraFK;
+			$listModel->addIndex($fieldName, 'extra_fk', 'INDEX', $size);
+		}
+		
 		// Remove previous join records if found
 		if ((int) $row->id !== 0)
 		{
@@ -1171,7 +1217,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 
 		$data = array('list_id' => $listModel->getTable()->id, 'element_id' => $row->id, 'join_from_table' => $joinFromTable,
-			'table_join' => $tableName, 'table_key' => $row->name, 'table_join_key' => 'parent_id', 'join_type' => 'left');
+			'table_join' => $tableName, 'table_key' => $name, 'table_join_key' => $parentID, 'join_type' => 'left');
 		$join = $this->getTable('join');
 		$join->load(array('element_id' => $data['element_id']));
 		$opts           = new stdClass;
@@ -1181,7 +1227,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$join->bind($data);
 		$join->store();
 
-		$fieldName = $tableName . '___parent_id';
+		$fieldName = $tableName . '___' . $parentID;
 		$listModel->addIndex($fieldName, 'parent_fk', 'INDEX', '');
 
 		$fields = $listModel->getDBFields($tableName, 'Field');
@@ -1214,6 +1260,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 	{
 		$listModel  = $elementModel->getListModel();
 		$groupModel = $elementModel->getGroupModel();
+		$params = $elementModel->getParams();
 
 		if (is_null($row))
 		{
@@ -1228,8 +1275,10 @@ class FabrikAdminModelElement extends FabModelAdmin
 		{
 			$origTableName = $listModel->getTable()->db_table_name;
 		}
+		$defaultName = $origTableName . '_repeat_' . str_replace('`', '', $row->name);
+		$tableName = $params->get('repeat_db_name', $defaultName);
 
-		return $origTableName . '_repeat_' . str_replace('`', '', $row->name);
+		return $tableName;
 	}
 
 	/**

@@ -50,7 +50,13 @@
 				<option value="auto-complete">PLG_ELEMENT_DBJOIN_AUTO_COMPLETE</option>
 				<option value="checkbox">PLG_ELEMENT_DBJOIN_CHECKBOX</option>
 				<option value="multilist">PLG_ELEMENT_DBJOIN_MULTILIST</option>
+				<option value="multifield">PLG_ELEMENT_DBJOIN_MULTIFIELD</option>
 			</field>
+
+			<field name="single_instead_multiple"
+			       label="PLG_ELEMENT_DBJOIN_SINGLE_INSTEAD_MULTIPLE_LABEL"
+			       type="checkbox"
+				   value="1"/>
 
 		</fieldset>
 
@@ -89,7 +95,35 @@
 			       label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			       rows="6"/>
 
-		</fieldset>
+			<field name="repeat_db_name"
+			       label="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_LABEL"
+			       description="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_DESC"
+			       observe="params_join_conn_id"
+			       key="name"
+			       type="tables"
+				   mode="combo"
+				   />
+
+			<field name="repeat_parent_id"
+			       type="listfields"
+			       highlightpk="true"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_PARENT_ID_DESC"
+			       label="PLG_ELEMENT_DBJOIN_PARENT_ID_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+
+			<field name="repeat_element"
+			       type="listfields"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_THIS_FIELD_DESC"
+			       label="PLG_ELEMENT_DBJOIN_THIS_FIELD_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+
+		   </fieldset>
 
 		<fieldset label="PLG_FABRIK_DBJOIN_DATA_WHERE"
 		          name="plg-databasejoin-where">
@@ -335,5 +369,65 @@
 			</field>
 
 		</fieldset>
+
+		<fieldset label="COM_FABRIK_MULTIFIELD"
+		          name="plg-databasejoin-multifield">
+
+				<field name="multifield_element"
+			       type="listfields"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_MULTIFIELD_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MULTIFIELD_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+				 
+				<field name="multifield_extra_fk"
+			       type="listfields"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_MULTIFIELD_EXTRA_FK_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MULTIFIELD_EXTRA_FK_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+				 
+				<field name="multifield_extra_pk"
+			       type="listfields"
+				   valueformat="tableelement"
+			       description="PLG_ELEMENT_DBJOIN_MULTIFIELD_EXTRA_PK_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MULTIFIELD_EXTRA_PK_LABEL"/>
+
+			<field name="multifield_data_type"
+			       type="radio"
+				   class="btn-group"
+				   default="VARCHAR(255)"
+			       description="PLG_ELEMENT_DBJOIN_PARAMS_TYPE_DESC"
+			       label="PLG_ELEMENT_DBJOIN_PARAMS_TYPE_LABEL">
+					   <option value="VARCHAR(255)">VARCHAR(255)</option>
+					   <option value="INT(11)">INT(11)</option>
+				   </field>
+
+			<field name="multifield_element_type"
+			       type="radio"
+				   class="btn-group"
+				   default="textbox"
+			       description="PLG_ELEMENT_DBJOIN_PARAMS_ELEMENT_TYPE_DESC"
+			       label="PLG_ELEMENT_DBJOIN_PARAMS_ELEMENT_TYPE_LABEL">
+					   <option value="textbox">Textbox</option>
+					   <option value="radio">Radio</option>
+				   </field>
+				   
+			<field name="sub_options"
+					type="suboptions"
+					default_max="1"
+					label="COM_FABRIK_SUBOPTIONS"/>
+
+			<field name="no_params"
+					type="hidden"
+					default="1"/>
+
+		</fieldset>
+
+
 	</fields>
 </form>
