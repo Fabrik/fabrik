@@ -15,6 +15,8 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
         options: {
             fxProperties: {transition: Fx.Transitions.linear, duration: 500},
             'position'  : 'top',
+            'tipwidth'  : 276,
+            'xpos'      : 0,            
             'trigger'   : 'hover',
             'content'   : 'title',
             'distance'  : 50,
@@ -169,11 +171,12 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         this.$tip.addClass(this.options.modifier);
                     }
                 }
+                this.$tip.css('max-width',this.options.tipwidth+'px');
                 return this.$tip;
             },
 
             show: function () {
-                var $tip, inside, pos, actualWidth, actualHeight, placement, tp;
+                var $tip, inside, pos, actualWidth, actualHeight, placement, tp, viewWidth, arrowX;
                 if (this.hasContent() && this.enabled) {
                     $tip = this.tip();
                     this.setContent();
@@ -191,45 +194,84 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         .appendTo(inside ? this.$element : document.body);
 
                     pos = this.getPosition(inside);
-
+                    var setArrow = true; 
                     actualWidth = $tip[0].offsetWidth;
                     actualHeight = $tip[0].offsetHeight;
 
                     switch (inside ? placement.split(' ')[1] : placement) {
                         case 'bottom':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2, width: this.options.tipwidth};
                             break;
                         case 'bottom-left':
-                            tp = {top: pos.top + pos.height, left: pos.left};
+                            tp = {top: pos.top + pos.height, left: pos.left, width: this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'bottom-right':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth};
+                            tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth, width: this.options.tipwidth};
                             placement = 'bottom';
                             break;
                         case 'top':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2, width: this.options.tipwidth};
                             break;
                         case 'top-left':
-                            tp = {top: pos.top - actualHeight, left: pos.left};
+                            tp = {top: pos.top - actualHeight, left: pos.left, width: this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'top-right':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth};
+                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth, width: this.options.tipwidth};
                             placement = 'top';
                             break;
                         case 'left':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth, width: this.options.tipwidth};
+                            setArrow = false;
                             break;
                         case 'right':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width, width: this.options.tipwidth};
+                            setArrow = false;
                             break;
                     }
+                    var tpA = $.makeArray( tp );
 
                     $tip
                         .css(tp)
                         .addClass(placement)
                         .addClass('in');
+                        
+                    /* This positions the arrow at the X position where the mouse
+                     * pointer was clicked and prevents wide tips from being truncated
+                     * off the left or right side of the browser viewport. 
+                     */
+                    viewWidth = $(window).width();
+                    arrowX = this.options.xpos;  
+                    if(tpA[0].left < 0) {
+                        $tip.css('left','0px');
+                        if(arrowX > Math.max(pos.width,tpA[0].width) -15){
+                            arrowX = '91%';
+                        }else{
+                            arrowX = arrowX+'px';
+                        }   
+                    }else if(tpA[0].left + Math.max(pos.width,tpA[0].width) > viewWidth) {
+                        $tip.css('left',(viewWidth-actualWidth)+'px'); 
+                        arrowX = (Math.max(pos.width,tpA[0].width) - (viewWidth-arrowX));
+                        if(arrowX < 15) {
+                            arrowX = '9%';
+                        } else if(arrowX > tpA[0].width-15) {
+                            arrowX = '91%';
+                        } else {
+                            arrowX = arrowX+'px'
+                        }
+                    }else{
+                        if(arrowX < tpA[0].left + 15){
+                            arrowX = '9%';
+                        }else if(arrowX > pos.right || arrowX > pos.left + actualWidth - 15){
+                            arrowX = '91%';                       
+                        }else{
+                            arrowX = parseInt(arrowX-tpA[0].left)+'px';
+                        }
+                    }
+                    if(setArrow == true){                    
+                        $tip.find('.arrow').css({'left': arrowX});
+                    }    
                 }
             }
         });
@@ -239,6 +281,11 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 var $this = $(this),
                     data = $this.data('popover'),
                     options = typeof option === 'object' && option;
+
+                $($this).on('mouseover', function(e) {
+                    data.options.xpos = e.pageX;
+                });                    
+                    
                 if (!data) {
                     $this.data('popover', (data = new PopoverEx(this, options)));
                 }
