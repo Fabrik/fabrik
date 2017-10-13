@@ -14,13 +14,50 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
-			<field name="options_per_row"
-				type="field"
-				default="4"
-				size="1"
-				class="input-mini"
-				label="PLG_ELEMENT_YESNO_OPTIONS_PER_ROW"/>
+            
+       		<field name="yes_label"
+				type="text"
+				class="input-small"
+				default="Yes"                
+				label="PLG_ELEMENT_YESNO_YES_LABEL"
+				description="PLG_ELEMENT_YESNO_YES_LABEL_DESC"                         
+				size="30"/>
+                   
+			<field name="no_label"
+			    	type="text"
+                    class="input-small"
+                    default="No"                    
+			    	label="PLG_ELEMENT_YESNO_NO_LABEL"
+			    	description="PLG_ELEMENT_YESNO_NO_LABEL_DESC"                         
+			    	size="30"/>  
+
+			<field name="show_label"
+				type="radio"
+				class="btn-group"
+				default="0"                    
+		    	label="PLG_ELEMENT_YESNO_SHOW_LABEL"
+		    	description="PLG_ELEMENT_YESNO_SHOW_LABEL_DESC">                         
+		    		<option value="0">JNO</option>
+                    <option value="1">JYES</option>
+			</field>
+
+       		<field name="yes_image"
+				type="text"
+				label="PLG_ELEMENT_YESNO_YES_IMAGE_LABEL"
+				description="PLG_ELEMENT_YESNO_YES_IMAGE_DESC"                         
+				size="30"/>
+                   
+			<field name="no_image"
+			    	type="text"
+			    	label="PLG_ELEMENT_YESNO_NO_IMAGE_LABEL"
+			    	description="PLG_ELEMENT_YESNO_NO_IMAGE_DESC"                         
+			    	size="30"/>   
+
+			<field name="image_height"
+			    	type="text"
+			    	class="input-mini"
+			    	label="PLG_ELEMENT_YESNO_IMAGE_HEIGHT_LABEL"
+			    	description="PLG_ELEMENT_YESNO_IMAGE_HEIGHT_DESC" />   
 				
 			<field name="toggle_others"
 				type="radio"
