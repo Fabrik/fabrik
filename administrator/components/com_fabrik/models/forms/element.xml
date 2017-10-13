@@ -597,6 +597,14 @@
 						<option value="1">JYES</option>
 				</field>
 
+       				<field name="tipwidth"
+                    			type="text"
+                    			size="4"
+                    			default="276"
+                    			class="input-mini"
+                    			description="COM_FABRIK_FIELD_TIPS_WIDTH_DESC"
+                    			label="COM_FABRIK_FIELD_TIPS_WIDTH_LABEL" />                
+
 				<field name="tiplocation"
 					type="list"
 					default="top-left"
