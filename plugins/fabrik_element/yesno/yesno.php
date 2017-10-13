@@ -77,7 +77,14 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$rawData = FabrikWorker::JSONtoData($rawData, true);
 		$displayData        = new stdClass;
 		$displayData->tmpl  = isset($this->tmpl) ? $this->tmpl : '';
-		$displayData->format = $this->app->input->get('format', '');;
+		$displayData->format = $this->app->input->get('format', '');
+		$params = $this->getParams();
+		$displayData->yes_label = $params->get('yes_label', '');      
+       		$displayData->no_label = $params->get('no_label', '');        
+       		$displayData->show_label = $params->get('show_label', '');        
+		$displayData->yes_image = $params->get('yes_image', '');      
+       		$displayData->no_image = $params->get('no_image', '');  
+       		$displayData->image_height = $params->get('image_height', ''); 	        
 		$layout = $this->getLayout('list');
 		$labelData = array();
 
@@ -109,16 +116,17 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$j3 = FabrikWorker::j3();
 		$opts['forceImage'] = true;
 
+        $params = $this->getParams();
 		if ($data == '1')
 		{
 			$icon = '1.png';
-			$props['alt'] = FText::_('JYES');
+            		$props['alt'] = FText::_($params->get('yes_label', 'JYES')); 
 			return FabrikHelperHTML::image($icon, 'list', @$this->tmpl, $props, false, $opts);
 		}
 		else
 		{
 			$icon = '0.png';
-			$props['alt'] = FText::_('JNO');
+            		$props['alt'] = FText::_($params->get('no_label', 'JNO'));
 			return FabrikHelperHTML::image($icon, 'list', @$this->tmpl, $props, false, $opts);
 		}
 	}
@@ -138,9 +146,10 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$rawData = $thisRow->$raw;
 		$rawData = FabrikWorker::JSONtoData($rawData, true);
 
+        $params = $this->getParams();
 		foreach ($rawData as $d)
 		{
-			$ret[]    = (bool) $d ? FText::_('JYES') : FText::_('JNO');
+            		$ret[]    = (bool) $d ? FText::_($params->get('yes_label', 'JYES')) : FText::_($params->get('no_label', 'JNO'));
 		}
 
 		if (count($ret) > 1)
@@ -180,7 +189,10 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	protected function getSubOptionLabels($data = array())
 	{
-		return array(FText::_('JNO'), FText::_('JYES'));
+        $params = $this->getParams();
+        $retArray[] = FText::_($params->get('no_label', 'JNO')); 
+        $retArray[] = FText::_($params->get('yes_label', 'JYES'));      
+        return $retArray;
 	}
 
 	/**
@@ -224,7 +236,16 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$displayData = new stdClass;
 		$displayData->value = $value;
 		$displayData->tmpl = @$this->tmpl;
-		$displayData->format = $this->app->input->get('format', '');;
+		$displayData->format = $this->app->input->get('format', '');
+
+		$params = $this->getParams();
+		$displayData->yes_label = $params->get('yes_label', '');      
+       		$displayData->no_label = $params->get('no_label', '');  
+        	$displayData->show_label = $params->get('show_label', ''); 
+		$displayData->yes_image = $params->get('yes_image', '');      
+       		$displayData->no_image = $params->get('no_image', '');  
+       		$displayData->image_height = $params->get('image_height', ''); 	         
+        
 		$layout = $this->getLayout('details');
 		return $layout->render($displayData);
 	}
@@ -340,16 +361,17 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$opt = array($o);
 		$rows = parent::filterValueList_Exact($normal, $tableName, $label, $id, $incjoin);
 
+        $params = $this->getParams();
 		foreach ($rows as &$row)
 		{
 			if ($row->value == 1)
 			{
-				$row->text = FText::_('JYES');
+		                $row->text = FText::_($params->get('yes_label', 'JYES'));
 			}
 
 			if ($row->value == 0)
 			{
-				$row->text = FText::_('JNO');
+		                $row->text = FText::_($params->get('no_label', 'JNO'));
 			}
 		}
 
@@ -372,9 +394,9 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	protected function filterValueList_All($normal, $tableName = '', $label = '', $id = '', $incjoin = true)
 	{
-		$rows = array(JHTML::_('select.option', '', $this->filterSelectLabel()), JHTML::_('select.option', '0', FText::_('JNO')),
-			JHTML::_('select.option', '1', FText::_('JYES')));
-
+        $params = $this->getParams();
+		$rows = array(JHTML::_('select.option', '', $this->filterSelectLabel()), JHTML::_('select.option', '0', FText::_($params->get('no_label', 'JNO'))),
+			JHTML::_('select.option', '1', FText::_($params->get('yes_label', 'JYES'))));
 		return $rows;
 	}
 
@@ -496,3 +518,4 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	}
 
 }
+
