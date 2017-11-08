@@ -1365,7 +1365,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 hiddenElements = [];
                 // insert hidden element of hidden elements (!) used by validation code for "skip if hidden" option
                 jQuery.each(this.formElements, function (id, el) {
-                   if (el.element && jQuery(el.element.closest('.fabrikHide')).length !== 0) {
+                   if (el.element && jQuery(el.element).closest('.fabrikHide').length !== 0) {  
                        hiddenElements.push(id);
                    }
                 });
