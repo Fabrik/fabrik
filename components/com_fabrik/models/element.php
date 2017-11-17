@@ -1552,7 +1552,18 @@ class PlgFabrik_Element extends FabrikPlugin
 			{
 				$name .= '_raw';
 			}
-
+			
+	            	/**
+        	     	* NOTE - if we are coming from a list row copy, set value to default if element name 
+             		* was specified in list_copy_default_columns of the list copy plugin configuration.
+             		*
+             		*/
+            		if (array_key_exists('list_copy_default_columns', $data))
+            		{
+                		$adefaults = explode(' ',(string)$data['list_copy_default_columns']);
+                		if(in_array($name,$adefaults)) $data = null;
+            		}   
+			
 			/**
 			 * @FIXME - if an element is NULL in the table, we will be applying the default even if this
 			 * isn't a new form.  Probaby needs to be a global option, although not entirely sure what
