@@ -11709,6 +11709,10 @@ class FabrikFEModelList extends JModelForm
 			$formModel->copyFromRaw($row, true);
 			$row['Copy'] = '1';
 			$row['fabrik_copy_from_table'] = '1';
+
+            		$defaultcols = $this->getParams()->get('list_copy_default_columns', '');
+            		if(!empty($defaultcols)) $row['list_copy_default_columns'] = $defaultcols;
+			
 			$formModel->formData = $row;
 
 			if (!$formModel->process())
