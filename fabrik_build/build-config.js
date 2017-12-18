@@ -37,6 +37,7 @@ module.exports = {
         'plg_fabrik_list_copy_{version}.zip',
         'plg_fabrik_list_php_{version}.zip',
         'plg_fabrik_validationrule_isgreaterorlessthan_{version}.zip',
+        'plg_fabrik_validationrule_isuniquevalue_{version}.zip',
         'plg_fabrik_validationrule_notempty_{version}.zip',
         'plg_fabrik_validationrule_php_{version}.zip',
         'plg_fabrik_validationrule_regex_{version}.zip',
