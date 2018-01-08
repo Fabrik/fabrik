@@ -143,7 +143,7 @@ class PlgSystemFabrik extends JPlugin
 
 	/**
 	 * Store head script in session js store,
-	 * used by partial document type to exclude scripts already loaded
+	 * used by partial document type to exclude scripts already loaded, when building modal windows
 	 *
 	 * @return  void
 	 */
@@ -157,7 +157,28 @@ class PlgSystemFabrik extends JPlugin
 		if (!empty($key))
 		{
 			$key = 'fabrik.js.head.cache.' . $key;
-			$scripts = json_encode($doc->_scripts);
+
+			// if this is 'html', it's a main page load, so clear the cache for this page and start again
+			if ($app->input->get('format', 'html') === 'html')
+			{
+				$session->clear($key);
+			}
+
+			$scripts = $doc->_scripts;
+			$existing = $session->get($key);
+
+			/**
+			 * if we already have scripts for this page, merge the new ones.  For example, this might be an AJAX
+			 * call loading an element, so we just want to add any new scripts to the list, not blow it away and replace
+			 */
+			if (!empty($existing))
+			{
+				$existing = json_decode($existing);
+				$existing = ArrayHelper::fromObject($existing);
+				$scripts = array_merge($scripts, $existing);
+			}
+
+			$scripts = json_encode($scripts);
 			$session->set($key, $scripts);
 		}
 	}
@@ -400,8 +421,7 @@ class PlgSystemFabrik extends JPlugin
 		$input->set('resetfilters', 1);
 
 		// Ensure search doesn't go over memory limits
-		$memory    = ini_get('memory_limit');
-		$memory    = (int) FabrikString::rtrimword($memory, 'M') * 1000000;
+		$memory    = FabrikWorker::getMemoryLimit();
 		$usage     = array();
 		$memSafety = 0;
 

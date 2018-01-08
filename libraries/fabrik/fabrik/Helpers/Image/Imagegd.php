@@ -48,10 +48,10 @@ class Imagegd extends Image
 		}
 
 		ini_set('display_errors', true);
-		$memory    = ini_get('memory_limit');
-		$intMemory = StringHelper::rtrimword($memory, 'M');
+		$memory    = \FabrikWorker::getMemoryLimit(true);
+		$intMemory    = \FabrikWorker::getMemoryLimit();
 
-		if ($intMemory < 50)
+		if ($intMemory < (64 * 1024 * 1024))
 		{
 			ini_set('memory_limit', '50M');
 		}
@@ -79,6 +79,11 @@ class Imagegd extends Image
 			{
 				throw new Exception("imagecreate from gif not available");
 			}
+		}
+
+		if ($intMemory < (64 * 1024 * 1024))
+		{
+			ini_set('memory_limit', $memory);
 		}
 
 		return array($img, $header);

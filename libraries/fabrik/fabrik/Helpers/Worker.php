@@ -2731,4 +2731,29 @@ class Worker
 
 		return $getID3;
 	}
+
+	public static function getMemoryLimit($symbolic = false)
+	{
+		$memory    = trim(ini_get('memory_limit'));
+		$memory    = trim($memory);
+
+		if ($symbolic)
+		{
+			return $memory;
+		}
+
+		$last = strtolower($memory[strlen($memory)-1]);
+		$val  = substr($memory, 0, -1);
+
+		switch($last) {
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+
+		return $val;
+	}
 }

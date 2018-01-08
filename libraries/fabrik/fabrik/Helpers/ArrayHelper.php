@@ -513,26 +513,34 @@ class ArrayHelper
 	 */
     public static function chunk($array, $cols, $flip = false)
     {
-	    function getChunkFlipper($array, $cols) {
-		    $rows = ceil(count($array) / $cols);
-		    return function($x) use ($array, $cols, $rows){
-			    return ($x % $cols) * $cols + floor($x / $cols);
-		    };
-	    }
+    	$chunked = array_chunk($array, $cols);
 
-	    if ($flip)
+    	if ($flip)
 	    {
-		    $chunked     = array();
-		    $chunker = getChunkFlipper($array, $cols);
-		    for ($x = 0; $x < count($array); $x++)
+		    $rows = count($chunked);
+		    $ridx = 0;
+		    $cidx = 0;
+		    $flipped = array();
+
+		    foreach($chunked as $row)
 		    {
-			    $chunked[] = $array[$chunker($x)];
+			    foreach($row as $val)
+			    {
+				    $flipped[$ridx][$cidx] = $val;
+				    $ridx++;
+
+				    if($ridx >= $rows)
+				    {
+					    $cidx++;
+					    $ridx = 0;
+				    }
+			    }
 		    }
 
-		    return array_chunk($chunked, $cols);
+		    return $flipped;
 	    }
 
-	    return array_chunk($array, $cols);
+	    return $chunked;
     }
 
 }

@@ -25,7 +25,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 					js.delay(0, self, self);
 				}
 				else {
-					js = js.replace(/\bthis\b/g, 'self');
+					js = js.replace(/\bthis\b(?![^{]*})/g, 'self');
 					eval(js);
 				}
 			});

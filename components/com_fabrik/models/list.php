@@ -2593,6 +2593,7 @@ class FabrikFEModelList extends JModelForm
 			 * $$$ rob get an array containing the PRIMARY key values for each joined tables data.
 			 * Stop as soon as we have a set of ids totaling the sum of records contained in $idRows
 			*/
+			/*
 			while (count($ids) < $maxPossibleIds && $lookupC >= 0)
 			{
 				$ids = ArrayHelper::getColumn($idRows, '__pk_val' . $lookupC);
@@ -2614,6 +2615,13 @@ class FabrikFEModelList extends JModelForm
 					$lookupC--;
 				}
 			}
+			*/
+
+
+			foreach ($lookUpNames as $c => $lookUpName)
+			{
+				$ids[$lookUpName] = ArrayHelper::getColumn($idRows, '__pk_val' . $c);
+			}
 		}
 
 		// Now lets actually construct the query that will get the required records:
@@ -2634,9 +2642,18 @@ class FabrikFEModelList extends JModelForm
 			*/
 			if (!empty($ids))
 			{
+				/*
 				if ($lookUpNames[$lookupC] !== $table->db_primary_key)
 				{
 					$query->where($lookUpNames[$lookupC] . ' IN (' . implode(array_unique($ids), ',') . ')');
+				}
+				*/
+				foreach ($ids as $lookUpName => $pks)
+				{
+					if ($lookUpName !== $table->db_primary_key)
+					{
+						$query->where($lookUpName . ' IN (' . implode(array_unique($pks), ',') . ')');
+					}
 				}
 
 				if (!empty($mainKeys))
@@ -9526,7 +9543,7 @@ class FabrikFEModelList extends JModelForm
 	{
 		@set_time_limit(300);
 		$table = $this->getTable();
-		$memoryLimit = ini_get('memory_limit');
+		$memoryLimit = FabrikWorker::getMemoryLimit();
 		$db = $this->getDb();
 		/*
 		 * don't load in all the table data as on large tables this gives a memory error

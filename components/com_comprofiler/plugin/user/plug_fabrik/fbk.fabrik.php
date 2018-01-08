@@ -21,7 +21,7 @@ class getFabrikTab extends cbTabHandler {
 		$this->cbTabHandler();
 	}
 
-	function getDisplayTab($tab,$user,$ui)
+	function __construct($tab,$user,$ui)
 	{
 		// $$$ hugh - added privacy option, so you can restrict who sees the tab, requested on forums:
 		// http://fabrikar.com/forums/showthread.php?p=128127#post128127
