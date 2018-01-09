@@ -22,9 +22,10 @@ class EDTF {
      * @param $table e.g., "event", "people", or "..."
      * @param $type "Single Date", "Start/End", "Start/Duration", "Duration/End", or "Duration"
      *
-     * @TODO day becomes monthDay and add weekDay & yearDay -- dayOfMonth etc. ???
-     * @TODO "Purify" the code to that it can be moved to class of its own by getting the
+     * @todo day becomes monthDay and add weekDay & yearDay -- dayOfMonth etc. ???
+     * @todo "Purify" the code to that it can be moved to class of its own by getting the
      *       year, division, week & day ready before calling the buildEDTF function
+	 * @todo translate unicode ellipsis to ".." before save
      */
     function getEDTF($data, $table, $type) {
         $tableName = 'gn_' . $table . '___';
@@ -32,8 +33,8 @@ class EDTF {
         $tabType  = str_replace("%20", " ", $data[$typeName]);
         $tabChoice = ($tabType == 'Single Date') ? 'start' : $type;
         /* alert('|' . $typeName . '|' . $tabType . '|' . $type . '|' . $tabChoice . '|'); */
-        $dateOpen    = "\u{2022}\u{2006}\u{2022}\u{2006}\u{2022}";
-        $dateUnknown = "???";
+        $dateOpen    = "\u{2022}\u{2006}\u{2022}";
+        $dateUnknown = "??";
         
         $statusStart = $data[$tableName . 'start_status_raw'];
         $statusStart = ($statusStart == 'unknown') ? $dateUnknown : $statusStart;

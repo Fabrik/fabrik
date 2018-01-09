@@ -97,8 +97,10 @@ function commonDateDivisionValue(thisElement) {
  * start/duration, duration/end, duration)
  * 
  * @param {Object} thisElement - Fabrik element that called us via onLoad or onClick.
- * @TODO get list of groups plus new function to loop array of 3 "hide/show"s
+ *
+ * @todo get list of groups plus new function to loop array of 3 "hide/show"s
  *       for choice switch below
+ * @todo change "Start Date" to "Date" when "Single Date" is chosen 
  */
 function commonDateType(thisElement) {
 	var thisForm = thisElement.form;
