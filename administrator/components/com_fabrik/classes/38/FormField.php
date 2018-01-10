@@ -612,9 +612,10 @@ abstract class FormField
 		}
 
 		// Allow for repeatable elements
+		/*
 		$repeat = (string) $element['repeat'];
 		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
-
+*/
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 

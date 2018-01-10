@@ -503,6 +503,11 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 						$process = isset($row->$to);
 						$mailTo  = $row->$to;
 					}
+					else if ($toType == 'eval')
+					{
+						$process = true;
+						$mailTo = $this->_evalTo($row);
+					}
 					else
 					{
 						$process = true;
@@ -732,6 +737,30 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 		return $to;
 	}
+
+	/**
+	 * Eval to address
+	 *
+	 * param  object  row  row data
+	 * @return string
+	 * @throws Exception
+	 */
+	private function _evalTo($row)
+	{
+		$toType = $this->_toType();
+		$to = '';
+
+		if ($toType == 'eval')
+		{
+			$params = $this->getParams();
+			$php = $params->get('emailtable_to_eval');
+			$to = FabrikHelperHTML::isDebug() ? eval($php) : @eval($php);
+			FabrikWorker::logEval($to, 'Eval exception : listEmail::_evalTo() : %s');
+		}
+
+		return $to;
+	}
+
 
 	/**
 	 * Get the email address(es) specified in the admin's 'Email to

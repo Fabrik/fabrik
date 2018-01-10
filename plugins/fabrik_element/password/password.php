@@ -302,7 +302,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 	 *
 	 * @return  string
 	 */
-	public function internalValidataionText()
+	public function internalValidationText()
 	{
 		return FText::_('PLG_ELEMENT_PASSWORD_VALIDATION_TIP');
 	}

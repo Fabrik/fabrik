@@ -70,6 +70,13 @@
 			       description="PLG_FABRIK_LIST_PHPEVENTS_ONBUILDQUERYWHERE_DESC"
 			       repeat="true"/>
 
+			<field name="list_phpevents_ongetpluginrowheadings"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_FABRIK_LIST_PHPEVENTS_ONGETPLUGINROWHEADINGS_LABEL"
+				   description="PLG_FABRIK_LIST_PHPEVENTS_ONGETPLUGINROWHEADINGS_DESC"
+				   repeat="true"/>
+
 		</fieldset>
 	</fields>
 </form>

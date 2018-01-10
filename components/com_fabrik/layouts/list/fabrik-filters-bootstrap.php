@@ -35,7 +35,6 @@ $style = $d->toggleFilters ? 'style="display:none"' : '';
             </div>
         </div>
         <div class="row-fluid">
-            <div class="span12">
         <?php
             $chunkedFilters = array();
             $span = floor(12 / $d->filterCols);
@@ -64,9 +63,6 @@ EOT;
             $chunkedFilters = ArrayHelper::chunk($chunkedFilters, $d->filterCols, true);
 
             foreach ($chunkedFilters as $chunk) :
-                ?>
-                <div class="row-fluid">
-                    <?php
                 foreach ($chunk as $filter) :
                     ?>
                     <div class="span<?php echo $span; ?>">
@@ -76,12 +72,8 @@ EOT;
                     </div>
                     <?php
                 endforeach;
-                ?>
-                </div>
-                <?php
             endforeach;
         ?>
-            </div>
         </div>
             <?php
     endif;

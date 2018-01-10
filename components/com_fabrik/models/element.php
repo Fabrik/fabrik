@@ -7802,7 +7802,7 @@ class PlgFabrik_Element extends FabrikPlugin
 	 *
 	 * @return  string
 	 */
-	public function internalValidataionText()
+	public function internalValidationText()
 	{
 		return '';
 	}

@@ -248,7 +248,7 @@ class FabrikFEModelElementValidator extends FabModel
 	{
 		$validations = $this->findAll();
 
-		if (!empty($validations) || $this->elementModel->internalValidataionText() !== '')
+		if (!empty($validations) || $this->elementModel->internalValidationText() !== '')
 		{
 			return true;
 		}
@@ -275,7 +275,7 @@ class FabrikFEModelElementValidator extends FabModel
 				$texts[] = $validation->getHoverText($c, $tmpl);
 			}
 
-			$internal = $this->elementModel->internalValidataionText();
+			$internal = $this->elementModel->internalValidationText();
 
 			if ($internal !== '')
 			{

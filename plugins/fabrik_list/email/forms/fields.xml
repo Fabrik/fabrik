@@ -121,6 +121,7 @@
 				type="list">
 					<option value="list">PLG_LIST_EMAIL_TO_TYPE_LIST</option>
 					<option value="field">PLG_LIST_EMAIL_TO_TYPE_FIELD</option>
+					<option value="eval">PLG_LIST_EMAIL_TO_TYPE_EVAL</option>
 					<option value="table">PLG_LIST_EMAIL_TO_TYPE_TABLE</option>
 					<option value="table_picklist">PLG_LIST_EMAIL_TO_TYPE_TABLE_PICKLIST</option>
 			</field>
@@ -132,6 +133,15 @@
 				repeat="true"
 				size="40"
 				type="text"
+			/>
+
+			<field name="emailtable_to_eval"
+				   description="PLG_LIST_EMAIL_TO_EVAL_DESC"
+				   label="PLG_LIST_EMAIL_TO_EVAL_LABEL"
+				   repeat="true"
+				   type="fabrikeditor"
+				   mode="php"
+				   showon="emailtable_to_type:eval"
 			/>
 
 			<field name="emailtable_email_to_field_how"
