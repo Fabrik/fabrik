@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_element" method="upgrade" type="plugin" version="3">
+	<name>plg_fabrik_element_spacer</name>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>October 2017</creationDate>
+	<copyright>Copyright (C) 2005-2017 Media A-Team, Inc. - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>rob@pollen-8.co.uk</authorEmail>
+	<authorUrl>www.fabrikar.com</authorUrl>
+	<version>3.8</version>
+	<help url="PLG_ELEMENT_SPACER_HELP_SERVER"/>
+	<description>PLG_ELEMENT_SPACER_DESCRIPTION</description>
+	<files>
+		<filename plugin="spacer">spacer.php</filename>
+		<filename>spacer.js</filename>
+		<filename>spacer-min.js</filename>
+		<filename>index.html</filename>
+		<folder>forms</folder>
+		<folder>language</folder>
+		<folder>layouts</folder>
+	</files>
+
+</extension>

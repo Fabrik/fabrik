@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields>
+		<fieldset name="plg-element-spacer" label="COM_FABRIK_OPTIONS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_SPACER_HELP_SERVER" />
+
+			<field name="spacer_show_portrait"
+				type="radio"
+				default="1"
+				class="btn-group"
+				label="PLG_ELEMENT_SPACER_SHOW_PORTRAIT_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="spacer_show_landscape"
+				type="radio"
+				default="1"
+				class="btn-group"
+				label="PLG_ELEMENT_SPACER_SHOW_LANDSCAPE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</form>
