@@ -2652,7 +2652,10 @@ class FabrikFEModelList extends JModelForm
 				{
 					if ($lookUpName !== $table->db_primary_key)
 					{
-						$query->where($lookUpName . ' IN (' . implode(array_unique($pks), ',') . ')');
+						if (!empty($pks))
+						{
+							$query->where($lookUpName . ' IN (' . implode(array_unique($pks), ',') . ')');
+						}
 					}
 				}
 
