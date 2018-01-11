@@ -10,6 +10,10 @@ $d = $displayData;
 	</div>
 <?php
 	if ($d->editable) :
+        // Add styles to use absolute positioning for swatch color name on mouseover
+        $style = '#'.$d->id.'-swatch{position:relative;}#'.$d->id.'-swatch > div > span{position:absolute;top:-17px;left:5px;}';
+        $document = JFactory::getDocument();    
+        $document->addStyleDeclaration($style);   	
 ?>
 	<div class="colourPickerBackground colourpicker-widget fabrikWindow" style="display:none;min-width:350px;min-height:250px;">
 		<div class="draggable modal-header">
