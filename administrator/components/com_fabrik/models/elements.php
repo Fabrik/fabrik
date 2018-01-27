@@ -133,12 +133,21 @@ class FabrikAdminModelElements extends FabModelList
 		$orderCol  = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction');
 
-		if ($orderCol == 'ordering' || $orderCol == 'category_title')
-		{
-			$orderCol = 'ordering';
+		if ($orderCol == 'ordering' || $orderCol == 'category_title') {
+			$orderCol == 'e.ordering';
 		}
 
-		if (trim($orderCol) !== '')
+		if ($orderCol == 'e.ordering')
+		{
+			$query->order($db->quoteName('g.name') . ' ' .$orderDirn);
+			$query->order($db->quoteName('e.ordering') . ' ' .$orderDirn);
+		}
+		elseif ($orderCol == 'g.name')
+		{
+			$query->order($db->quoteName('g.name') . ' ' . $orderDirn);
+			$query->order($db->quoteName('e.ordering') . ' ASC');
+		}
+		elseif (trim($orderCol) !== '')
 		{
 			$query->order($db->escape($orderCol . ' ' . $orderDirn));
 		}
@@ -171,8 +180,6 @@ class FabrikAdminModelElements extends FabModelList
 			$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, l.db_table_name');
 			$query->select("(SELECT GROUP_CONCAT(ec.id SEPARATOR ',') FROM #__{package}_elements AS ec WHERE ec.parent_id = e.id) AS child_ids");
 		}
-
-		//$sql = (string)$query;
 
 		return $query;
 	}
@@ -309,11 +316,20 @@ class FabrikAdminModelElements extends FabModelList
 		$this->setState('filter.search', $search);
 
 		// Load the form state
+		$currentForm = $app->getUserState($this->context . '.filter.form', '');
 		$form = $app->getUserStateFromRequest($this->context . '.filter.form', 'filter_form', '');
 		$this->setState('filter.form', $form);
 
 		// Load the group state
-		$group = $app->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
+		if ($form === $currentForm)
+		{
+			$group = $app->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
+		}
+		else
+		{
+			$group = '';
+			$app->setUserState($this->context . '.filter.group', '');
+		}
 		$this->setState('filter.group', $group);
 
 		// Load the show in list state

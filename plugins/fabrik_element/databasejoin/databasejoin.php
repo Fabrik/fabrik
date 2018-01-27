@@ -2578,7 +2578,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   string $originalValue original filter value without quotes or %'s applied
 	 * @param   string $type          filter type advanced/normal/prefilter/search/querystring/searchall
 	 * @param   string  $evalFilter     evaled
-	 *                                  
+	 *
 	 * @return  string    sql query part e,g, "key = value"
 	 */
 	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
@@ -3061,7 +3061,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 
 			// remove any placeholders we don't want
-			$obs = array_diff($obs, array('thistable'));
+			$obs = array_diff($obs, array('thistable', $opts->fullName));
 		}
 
 		$opts->observe = array_values($obs);

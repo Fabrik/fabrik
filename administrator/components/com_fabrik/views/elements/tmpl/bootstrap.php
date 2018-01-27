@@ -26,11 +26,11 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$saveOrder	= $listOrder == 'e.ordering';
+$saveOrder	= $listOrder == 'e.ordering' || $listOrder == 'g.name' ;
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_fabrik&task=elements.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'elementList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('sortablelist.sortable', 'elementList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
 $states	= array(
