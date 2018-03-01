@@ -157,11 +157,6 @@
 			       label="COM_FABRIK_REPEAT_GROUP_MINMAX_ERR_LABEL"
 			       description="COM_FABRIK_REPEAT_GROUP_MINMAX_ERR_DESC"/>
 
-			<field name="repeat_intro"
-			       type="textarea"
-			       description="COM_FABRIK_REPEAT_INTRO_DESC"
-			       label="COM_FABRIK_REPEAT_INTRO_LABEL"/>
-
 			<field name="repeat_add_access"
 			       type="accesslevel"
 			       default="1"
@@ -200,6 +195,16 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="repeat_intro"
+			       type="editor"
+			       buttons="true"
+			       hide="readmore,pagebreak"
+			       filter="FabrikAdminHelper::filterText"
+			       rows="6"
+			       cols="20"
+			       description="COM_FABRIK_REPEAT_INTRO_DESC"
+			       label="COM_FABRIK_REPEAT_INTRO_LABEL"/>
 
 		</fieldset>
 
