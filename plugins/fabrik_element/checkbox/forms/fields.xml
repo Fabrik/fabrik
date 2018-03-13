@@ -1,103 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields name="params">
-		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-checkbox" label="COM_FABRIK_OPTIONS">
-
-			<field type="helplink"
+  <fields name="params">
+    <fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-checkbox" label="COM_FABRIK_OPTIONS">
+      <field type="helplink"
 				url="PLG_ELEMENT_CHECKBOX_HELP_SERVER" />
-
-			<field name="sub_options"
+      <field name="sub_options"
 				type="suboptions"
-				label="COM_FABRIK_SUBOPTIONS"/>
-
-			<field name="ck_options_per_row"
+				label="PLG_ELEMENT_CHECKBOX_SUBOPTIONS" />
+      <field name="ck_options_per_row"
 				class="input-mini"
 				default="4"
 				label="PLG_ELEMENT_CHECKBOX_OPTIONS_PER_ROW_LABEL"
 				size="2"
 				type="text"/>
-
-		</fieldset>
-
-		<fieldset label="PLG_ELEMENT_CHECKBOX_DEFAULTS" name="plg-element-checkbox-default">
-
-			<field type="helplink"
+    </fieldset>
+    <fieldset label="PLG_ELEMENT_CHECKBOX_DEFAULTS" name="plg-element-checkbox-default">
+      <field type="helplink"
 				url="PLG_ELEMENT_CHECKBOX_HELP_SERVER" />
-
-			<field name="sub_default_value"
+      <field name="sub_default_value"
 				type="text"
 				description="PLG_ELEMENT_CHECKBOX_NONE_SELECTED_VALUE_DESC"
 				label="PLG_ELEMENT_CHECKBOX_NONE_SELECTED_VALUE_LABEL"
 				size="30"/>
-
-			<field name="sub_default_label"
+      <field name="sub_default_label"
 				type="text"
 				description="PLG_ELEMENT_CHECKBOX_NONE_SELECTED_LABEL_DESC"
 				label="PLG_ELEMENT_CHECKBOX_NONE_SELECTED_LABEL_LABEL"
 				size="30"/>
-
-		</fieldset>
-
-		<fieldset label="PLG_ELEMENT_CHECKBOX_FRONTEND_SELECT" name="plg-checkbox-add">
-
-			<field type="helplink"
+    </fieldset>
+    <fieldset label="PLG_ELEMENT_CHECKBOX_FRONTEND_SELECT" name="plg-checkbox-add">
+      <field type="helplink"
 				url="PLG_ELEMENT_CHECKBOX_HELP_SERVER" />
-
-			<field name="allow_frontend_addtocheckbox"
+      <field name="allow_frontend_addtocheckbox"
 				type="radio"
 				default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_CHECKBOX_ALLOW_ADD_DESC"
 				label="PLG_ELEMENT_CHECKBOX_ALLOW_ADD_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-
-			<field name="chk-allowadd-onlylabel"
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="chk-allowadd-onlylabel"
 				type="radio"
 				default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_CHECKBOX_ONLY_ADD_LABEL_DESC"
 				label="PLG_ELEMENT_CHECKBOX_ONLY_ADD_LABEL_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-
-			<field name="chk-savenewadditions"
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="chk-savenewadditions"
 				type="radio"
 				default="0"
 				class="btn-group"
 				description="PLG_ELEMENT_CHECKBOX_SAVE_NEW_ADDITIONS_DESC"
 				label="PLG_ELEMENT_CHECKBOX_SAVE_NEW_ADDITIONS_LABEL" >
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-
-		</fieldset>
-
-		<fieldset name="plg-checkbox-advanced" label="COM_FABRIK_ADVANCED">
-
-			<field type="helplink"
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="plg-checkbox-advanced" label="COM_FABRIK_ADVANCED">
+      <field type="helplink"
 				url="PLG_ELEMENT_CHECKBOX_HELP_SERVER" />
-
-			<field name="options_split_str"
+      <field name="options_split_str"
 				type="text"
 				class="input-mini"
 				default=""
 				description="PLG_ELEMENT_CHECKBOX_SEPARATOR_DESC"
 				label="PLG_ELEMENT_CHECKBOX_SEPARATOR_LABEL"
 				size="10"/>
-
-			<field name="dropdown_populate"
+      <field name="dropdown_populate"
 				type="fabrikeditor"
 				mode="php"
 				description="PLG_ELEMENT_CHECKBOX_POPULATE_DESC"
 				label="PLG_ELEMENT_CHECKBOX_POPULATE_LABEL" />
-
-			<field name="dropdown_populate_inline_desc"
+      <field name="dropdown_populate_inline_desc"
 				type="spacer"
 				label="PLG_ELEMENT_CHECKBOX_POPULATE_DESC" />
-
-		</fieldset>
-	</fields>
+    </fieldset>
+  </fields>
 </form>
