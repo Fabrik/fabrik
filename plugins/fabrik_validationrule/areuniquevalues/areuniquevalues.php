@@ -130,6 +130,12 @@ class PlgFabrik_ValidationruleAreUniqueValues extends PlgFabrik_Validationrule
 		$db->setQuery($query);
 		$c = $db->loadResult();
 
+		if ($c != 0 && $params->get('areuniquevalues-message') == '')
+		{
+			$this->errorMsg = $this->getLabel();
+			return false;
+		}
+
 		return ($c == 0) ? true : false;
 	}
 
@@ -153,10 +159,11 @@ class PlgFabrik_ValidationruleAreUniqueValues extends PlgFabrik_Validationrule
 	 */
 	protected function getLabel()
 	{
-		$params            = $this->getParams();
-		$otherField        = $params->get('areuniquevalues-otherfield');
-		$otherField2        = $params->get('areuniquevalues-otherfield2');
-		$tipText           = $params->get('tip_text', '');
+		$params      = $this->getParams();
+		$otherField  = $params->get('areuniquevalues-otherfield');
+		$otherField2 = $params->get('areuniquevalues-otherfield2');
+		$tipText     = $params->get('tip_text', '');
+		$thisLabel   = $this->elementModel->getElement()->label;
 
 		if (empty($tipText) && ((int) $otherField !== 0 || (int) $otherField2 !== 0))
 		{
@@ -174,7 +181,7 @@ class PlgFabrik_ValidationruleAreUniqueValues extends PlgFabrik_Validationrule
 				$labels[] = $otherElementModel->getElement()->label;
 			}
 
-			$labels = implode(' ' . strtolower(JText::_('COM_FABRIK_AND')) . ' ', $labels);
+			$labels = '"' . implode('", "', $labels) . '" ' . strtolower(JText::_('COM_FABRIK_AND')) . ' "' . $thisLabel . '"';
 			return JText::sprintf('PLG_VALIDATIONRULE_AREUNIQUEVALUES_ADDITIONAL_LABEL', $labels);
 		}
 		else

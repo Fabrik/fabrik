@@ -2,41 +2,46 @@
 <form>
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-validationrule-areuniquevalues">
-		
+
 			<field name="areuniquevalues-message"
 				type="text"
 				description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_ERROR_DESC"
 				label="PLG_VALIDATIONRULE_AREUNIQUEVALUES_ERROR_LABEL"
 				repeat="true"
-				size="30" />
+				size="30"
+			/>
 
 			<field name="areuniquevalues-otherfield"
 				type="listfields"
 				description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD_DESC"
 				label="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD_LABEL"
-				repeat="true" />
+				repeat="true"
+			/>
 
 
 			<field name="areuniquevalues-otherfield2"
-				   type="listfields"
-				   description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD_DESC"
-				   label="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD_LABEL"
-				   repeat="true" />
+				type="listfields"
+				description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD2_DESC"
+				label="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD2_LABEL"
+				repeat="true"
+			/>
 
 			<field name="tip_text"
-			       type="textarea"
-			       repeat="true"
-			       cols="30"
-				   rows="3"
-			       description="COM_FABRIK_VALIDATION_TIP_TEXT_DESC"
-			       label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"/>
+				type="textarea"
+				repeat="true"
+				cols="30"
+				rows="3"
+				description="COM_FABRIK_VALIDATION_TIP_TEXT_DESC"
+				label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"
+			/>
 
 			<field name="icon"
-			       type="field"
-			       repeat="true"
-			       description="PLG_FABRIK_VALIDATION_ICON_DESC"
-			       label="PLG_FABRIK_VALIDATION_ICON_LABEL" />
-			
+				type="field"
+				repeat="true"
+				description="PLG_FABRIK_VALIDATION_ICON_DESC"
+				label="PLG_FABRIK_VALIDATION_ICON_LABEL"
+			/>
+
 		</fieldset>
 	</fields>
 </form>
