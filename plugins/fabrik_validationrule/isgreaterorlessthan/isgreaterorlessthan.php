@@ -31,6 +31,20 @@ class PlgFabrik_ValidationruleIsgreaterorlessthan extends PlgFabrik_Validationru
 	protected $pluginName = 'isgreaterorlessthan';
 
 	/**
+	 * Form data
+	 *
+	 * @var object
+	 */
+	private $formData = null;
+
+	/**
+	 * Condition values
+	 *
+	 * @var object
+	 */
+	private $condValues = array('<','>','<=','>=','==');
+
+	/**
 	 * Validate the elements data against the rule
 	 *
 	 * @param   string  $data           To check
@@ -46,55 +60,71 @@ class PlgFabrik_ValidationruleIsgreaterorlessthan extends PlgFabrik_Validationru
 			$data = implode('', $data);
 		}
 
-		$params = $this->getParams();
-		$elementModel = $this->elementModel;
-		$formData = $elementModel->getForm()->formData;
-		$cond = $params->get('isgreaterorlessthan-greaterthan');
-		$compareValue = $params->get('compare_value', '');
-
-		switch ($cond)
+		$c1 = $this->getOtherElement($repeatCounter);
+		$c2 = $this->getOtherElement($repeatCounter, '2');
+		$res = $this->elementModel->greaterOrLessThan($data, $c1['cond'], $c1['compare']);
+		if ($c2['cond'] !== '')
 		{
-			case '0':
-				$cond = '<';
-				$base = $data < $compareValue;
-				break;
-			case '1':
-				$cond = '>';
-				$base = $data > $compareValue;
-				break;
-			case '2':
-				$cond = '<=';
-				$base = $data <= $compareValue;
-				break;
-			case '3':
-				$cond = '>=';
-				$base = $data >= $compareValue;
-				break;
-			case '4':
-			default:
-				$cond = '==';
-				$base = $data == $compareValue;
-				break;
+			$res &= $this->elementModel->greaterOrLessThan($data, $c2['cond'], $c2['compare']);
 		}
 
-		$otherElementModel = $this->getOtherElement();
-		$compare = $compareValue === '' ? $otherElementModel->getValue($formData, $repeatCounter) : $compareValue;
-
-		if ($this->allowEmpty() && ($data === '' || $compare === ''))
+		if ($res)
 		{
 			return true;
 		}
 
-		if ($compareValue === '')
+		if ($this->allowEmpty())
 		{
-			$res = $elementModel->greaterOrLessThan($data, $cond, $compare);
-		}
-		else
-		{
-			return $base;
+			if ($data === '' || $c1['compare'] === '')
+			{
+				return true;
+			}
+			if ($c2['cond'] !== "" && $c2['compare'] === '')
+			{
+				return true;
+			}
 		}
 
+		$this->errorMsg = $this->getLabel();
 		return $res;
+	}
+
+	/**
+	 * Get the other element to compare this elements data against
+	 *
+	 * @return  object element model
+	 */
+	private function getOtherElement($repeatCounter, $suffix = '')
+	{
+		$params = $this->getParams();
+
+		$cond = $params->get('isgreaterorlessthan-greaterthan' . $suffix, '');
+		if ($cond == '')
+		{
+			return array('cond' => '', 'compare' => '', 'name' => '');
+		}
+		if (array_key_exists($cond, $this->condValues))
+		{
+			$cond = $this->condValues[$cond];
+		} else {
+			$cond = '==';
+		}
+
+		$compare = $params->get('compare_value' . $suffix, '');
+		$name = "'" . $compare . "'";
+		$fieldId = $params->get('isgreaterorlessthan-comparewith' . $suffix, '');
+
+		if ((int) $fieldId !== 0 && $compare === '') {
+			if (is_null($this->formData))
+			{
+				$this->formData = $this->elementModel->getForm()->formData;
+			}
+			$fieldElementModel = FabrikWorker::getPluginManager()->getElementPlugin($fieldId);
+			$compare = $fieldElementModel->getValue($this->formData, $repeatCounter);
+			$name = $fieldElementModel->getElement()->label;
+		}
+
+		return array('cond' => $cond, 'compare' => $compare, 'name' => $name);
 	}
 
 	/**
@@ -106,21 +136,35 @@ class PlgFabrik_ValidationruleIsgreaterorlessthan extends PlgFabrik_Validationru
 	protected function allowEmpty()
 	{
 		$params = $this->getParams();
-		$allow_empty = $params->get('isgreaterorlessthan-allow_empty');
+		$allow_empty = $params->get('isgreaterorlessthan-allow_empty', '');
 
 		return $allow_empty == '1';
 	}
 
 	/**
-	 * Get the other element to compare this elements data against
+	 * Gets the hover/alt text that appears over the validation rule icon in the form
 	 *
-	 * @return  object element model
+	 * @return    string    label
 	 */
-	private function getOtherElement()
+	protected function getLabel()
 	{
-		$params = $this->getParams();
-		$otherField = $params->get('isgreaterorlessthan-comparewith');
+		$params      = $this->getParams();
+		$tipText     = $params->get('tip_text', '');
 
-		return FabrikWorker::getPluginManager()->getElementPlugin($otherField);
+		$c1 = $this->getOtherElement(0);
+		$c2 = $this->getOtherElement(0, '2');
+
+		if (!empty($tipText) || $c1['name'] === '')
+		{
+			return parent::getLabel();
+		}
+
+		$text = $c1['cond'] . " " . $c1['name'];
+		if ($c2['name'] !== '')
+		{
+			$text .= ' ' . strtolower(JText::_('COM_FABRIK_AND')) . " " . $c2['cond'] . " " . $c2['name'];
+		}
+
+		return JText::sprintf('PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ADDITIONAL_LABEL', $text);
 	}
 }

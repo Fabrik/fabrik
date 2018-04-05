@@ -3,47 +3,95 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 		<fieldset name="plg-validationrule-isgreaterorlessthan">
 
-			<field name="isgreaterorlessthan-message"
+			<field
+				name="isgreaterorlessthan-message"
 				type="text"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ERROR_DESC"
 				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ERROR_LABEL"
 				repeat="true"
-				size="30" />
+				size="30"
+			/>
 
-			<field name="isgreaterorlessthan-greaterthan"
+			<field
+				name="isgreaterorlessthan-greaterthan"
 				type="list"
 				default="0"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_LESS_THAN_DESC"
 				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_LESS_THAN_LABEL"
-				repeat="true">
-					<option value="0">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN</option>
-					<option value="1">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN</option>
-					<option value="2">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN_OR_EQUAL</option>
-					<option value="3">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_EQUAL</option>
-					<option value="4">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_EQUAL</option>
+				repeat="true"
+			>
+				<option value="0">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN</option>
+				<option value="1">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN</option>
+				<option value="2">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN_OR_EQUAL</option>
+				<option value="3">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_EQUAL</option>
+				<option value="4">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_EQUAL</option>
 			</field>
 
-			<field name="isgreaterorlessthan-comparewith"
+			<field
+				name="isgreaterorlessthan-comparewith"
 				type="listfields"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ELEMENT_DESC"
 				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ELEMENT_LABEL"
-				repeat="true" />
-				
-			<field name="compare_value"
+				repeat="true"
+			/>
+
+			<field
+				name="compare_value"
 				type="text"
 				repeat="true"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_VALUE_DESC"
-				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_VALUE_LABEL" />
+				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_VALUE_LABEL"
+			/>
 
-			<field name="isgreaterorlessthan-allow_empty"
+			<field name="and"
+				type="spacer"
+				size="20"
+				label="COM_FABRIK_AND"
+			/>
+
+			<field
+				name="isgreaterorlessthan-greaterthan2"
+				type="list"
+				default=""
+				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_LESS_THAN_DESC"
+				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_LESS_THAN_LABEL"
+				repeat="true"
+			>
+				<option value="">-</option>
+				<option value="0">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN</option>
+				<option value="1">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN</option>
+				<option value="2">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_LESS_THAN_OR_EQUAL</option>
+				<option value="3">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_GREATER_THAN_OR_EQUAL</option>
+				<option value="4">PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_EQUAL</option>
+			</field>
+
+			<field
+				name="isgreaterorlessthan-comparewith2"
+				type="listfields"
+				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ELEMENT_DESC"
+				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ELEMENT_LABEL"
+				repeat="true"
+			/>
+
+			<field
+				name="compare_value2"
+				type="text"
+				repeat="true"
+				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_VALUE_DESC"
+				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_VALUE_LABEL"
+			/>
+
+			<field
+				name="isgreaterorlessthan-allow_empty"
 				type="radio"
 				class="btn-group"
 				default="0"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ALLOW_EMPTY_DESC"
 				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_ALLOW_EMPTY_LABEL"
-				repeat="true">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				repeat="true"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
@@ -52,20 +100,25 @@
 				mode="php"
 				description="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_CONDITION_DESC"
 				label="PLG_VALIDATIONRULE_ISGREATERORLESSTHAN_CONDITION_LABEL"
-				repeat="true" />
+				repeat="true"
+			/>
 
-			<field name="tip_text"
+			<field
+				name="tip_text"
 				type="textarea"
 				repeat="true"
 				cols="30" rows="3"
 				description="COM_FABRIK_VALIDATION_TIP_TEXT_DESC"
-				label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"/>
+				label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"
+			/>
 
-			<field name="icon"
-			       type="field"
-			       repeat="true"
-			       description="PLG_FABRIK_VALIDATION_ICON_DESC"
-			       label="PLG_FABRIK_VALIDATION_ICON_LABEL" />
+			<field
+				name="icon"
+				type="field"
+				repeat="true"
+				description="PLG_FABRIK_VALIDATION_ICON_DESC"
+				label="PLG_FABRIK_VALIDATION_ICON_LABEL"
+			/>
 
 		</fieldset>
 	</fields>
