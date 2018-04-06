@@ -127,6 +127,9 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 		$tableName = $this->getlistModel()->getTable()->db_table_name;
 		$elementId = $this->getElement()->id;
 
+		// create the table if it doesn't exist ... should get created on install, but ... eh ...
+		$this->createSequenceTable();
+
 		$method = $params->get('sequence_method', 'load');
 
 		if ($method !== 'pk')

@@ -742,24 +742,32 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                         if (this.options.reverse_geocode_fields.formatted_address) {
                             this.form.formElements.get(this.options.reverse_geocode_fields.formatted_address).update(results[0].formatted_address);
                         }
+
+                        var streetAddress = '';
+                        var streetNumber = '';
+                        var streetRoute = '';
+
                         results[0].address_components.each(function (component) {
                             component.types.each(function (type) {
                                 if (type === 'street_number') {
                                     if (this.options.reverse_geocode_fields.route) {
                                         //document.id(this.options.reverse_geocode_fields.route).value = component.long_name + ' ';
-                                        this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name + ' ');
+                                        //this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name + ' ');
+                                        streetNumber = component.long_name;
                                     }
                                 }
                                 else if (type === 'route') {
                                     if (this.options.reverse_geocode_fields.route) {
                                         //document.id(this.options.reverse_geocode_fields.route).value = component.long_name;
-                                        this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name);
+                                        //this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name);
+                                        streetRoute = component.long_name;
                                     }
                                 }
                                 else if (type === 'street_address') {
                                     if (this.options.reverse_geocode_fields.route) {
                                         //document.id(this.options.reverse_geocode_fields.route).value = component.long_name;
-                                        this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name);
+                                        //this.form.formElements.get(this.options.reverse_geocode_fields.route).update(component.long_name);
+                                        streetAddress = component.long_name;
                                     }
                                 }
                                 else if (type === 'neighborhood') {
@@ -794,6 +802,28 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                                 }
                             }.bind(this));
                         }.bind(this));
+
+                        if (this.options.reverse_geocode_fields.route) {
+                            /**
+                             * Create the street address.  I'm really not sure what the difference between 'route'
+                             * and 'street_address' is in Google's component types, so for now just use 'street_address'
+                             * as the prrefence, use 'route' if no 'street_address', and prepend 'street_number'
+                             */
+                            if (streetRoute !== '')
+                            {
+                                if (streetAddress === '')
+                                {
+                                    streetAddress = streetRoute;
+                                }
+                            }
+
+                            if (streetNumber !== '')
+                            {
+                                streetAddress = streetNumber + ' ' + streetAddress;
+                            }
+
+                            this.form.formElements.get(this.options.reverse_geocode_fields.route).update(streetAddress);
+                        }
                     }
                     else {
                         window.alert('No results found');

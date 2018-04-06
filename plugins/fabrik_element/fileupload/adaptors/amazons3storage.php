@@ -289,6 +289,23 @@ class Amazons3storage extends FabrikStorageAdaptor
 	}
 
 	/**
+	 * Stream a file
+	 *
+	 * NOT IMPLEMENTED - use amazons3sdk adapter if you need streaming
+	 *
+	 * @param   string  $filepath  file path
+	 * @param  int  $chunkSize
+	 */
+
+	public function stream($filepath, $chunkSize = 1024 * 1024)
+	{
+		echo $this->read($filepath);
+		ob_flush();
+		flush();
+		return true;
+	}
+
+	/**
 	 * Get the S3 Acl setting
 	 *
 	 * @return string

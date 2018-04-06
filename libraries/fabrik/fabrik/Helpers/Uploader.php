@@ -13,11 +13,11 @@ namespace Fabrik\Helpers;
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \JFile;
-use \JFolder;
-use \RuntimeException;
-use \JFactory;
-use \Joomla\Registry\Registry;
+use JFactory;
+use JFile;
+use JFolder;
+use Joomla\Registry\Registry;
+use RuntimeException;
 
 /**
  * Fabrik upload helper
@@ -258,13 +258,14 @@ class Uploader extends \JObject
 	 * @param   string  $origFileName  Initial file name
 	 * @param   string  $newFileName   This recursions file name
 	 * @param   int     $version       File version
+	 * @params  object  $storage       Storage adapter
 	 *
 	 * @return  string  New file name
 	 */
 
-	public static function incrementFileName($origFileName, $newFileName, $version)
+	public static function incrementFileName($origFileName, $newFileName, $version, $storage)
 	{
-		if (JFile::exists($newFileName))
+		if ($storage->exists($newFileName))
 		{
 			$bits = explode('.', $newFileName);
 			$ext = array_pop($bits);
@@ -272,7 +273,7 @@ class Uploader extends \JObject
 			$f = StringHelper::rtrim($f, $version - 1);
 			$newFileName = $f . $version . "." . $ext;
 			$version++;
-			$newFileName = self::incrementFileName($origFileName, $newFileName, $version);
+			$newFileName = self::incrementFileName($origFileName, $newFileName, $version, $storage);
 		}
 
 		return $newFileName;

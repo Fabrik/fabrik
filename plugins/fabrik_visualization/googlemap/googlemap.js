@@ -39,7 +39,8 @@ FbGoogleMapViz = new Class({
 		'traffic'           : false,
 		'key'               : false,
 		'showLocation'      : false,
-		'styles'            : []
+		'styles'            : [],
+		'heatmap'           : false
 	},
 
 	initialize: function (element, options) {
@@ -50,6 +51,7 @@ FbGoogleMapViz = new Class({
 			this.clusterMarkerCursor = 0;
 			this.clusterMarkers = [];
 			this.markers = [];
+			this.points = [];
 			this.distanceWidgets = [];
 			this.icons = [];
 			this.setOptions(options);
@@ -174,6 +176,14 @@ FbGoogleMapViz = new Class({
 
 			this.addIcons();
 			this.addOverlays();
+
+			if (this.options.heatmap)
+			{
+                var heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: this.points
+                });
+                heatmap.setMap(this.map);
+			}
 
 			google.maps.event.addListener(this.map, "click", function (e) {
 				this.setCookies(e);
@@ -301,58 +311,67 @@ FbGoogleMapViz = new Class({
 	},
 
 	addIcons: function () {
-		this.markers = [];
-		this.clusterMarkers = [];
-		this.options.icons.each(function (i) {
-			this.bounds.extend(new google.maps.LatLng(i[0], i[1]));
-			this.markers.push(this.addIcon(i[0], i[1], i[2], i[3], i[4], i[5], i.groupkey, i.title, i.radius, i.c));
-		}.bind(this));
-		this.renderGroupedSideBar();
-		if (this.options.clustering) {
-			// Using MarkerClusterer, http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/docs/reference.html
-			// @TODO - add a way of providing user defined styles
-			// The following just duplicates some code in markerclusterer.js which builds their default styles array.
-			// Building a replacement here so it uses local images rather than pulling from Google API site.
-			var styles = [];
-			var sizes = [53, 56, 66, 78, 90];
-			var i = 0;
-			for (i = 1; i <= 5; ++i) {
-				styles.push({
-					'url'   : Fabrik.liveSite + "components/com_fabrik/libs/googlemaps/markerclustererplus/images/m" + i + ".png",
-					'height': sizes[i - 1],
-					'width' : sizes[i - 1]
-				});
-			}
-			var zoom = null;
-			// for now, overloading icon_increment setting to be maxZoom
-			if (this.options.icon_increment !== '') {
-				zoom = parseInt(this.options.icon_increment, 10);
-				if (zoom > 14) {
-					zoom = 14;
-				}
-			}
-			var size = 60;
-			// for now, overloading original cluster_splits setting to be gridSize
-			if (this.options.cluster_splits !== '') {
-				if (this.options.cluster_splits.test('/,/')) {
-					// they probably left it as the default 10,60 (group size in number of markers) for ClusterMarker params,
-					// for MarkerClusterer we need a single number, gridSize in pixels, so just use default
-					size = 60;
-				} else {
-					size = parseInt(this.options.cluster_splits, 10);
-				}
-			}
-			this.cluster = new MarkerClusterer(this.map, this.clusterMarkers, {
-				'splits'        : this.options.cluster_splits,
-				'icon_increment': this.options.icon_increment,
-				maxZoom         : zoom,
-				gridSize        : size,
-				styles          : styles
-			});
+		if (this.options.heatmap) {
+            this.options.icons.each(function (i) {
+            	var point = new google.maps.LatLng(i[0], i[1]);
+                this.bounds.extend(point);
+                this.points.push(point);
+            }.bind(this));
 		}
-		if (this.options.fitbounds) {
-			this.map.fitBounds(this.bounds);
-		}
+		else {
+            this.markers = [];
+            this.clusterMarkers = [];
+            this.options.icons.each(function (i) {
+                this.bounds.extend(new google.maps.LatLng(i[0], i[1]));
+                this.markers.push(this.addIcon(i[0], i[1], i[2], i[3], i[4], i[5], i.groupkey, i.title, i.radius, i.c));
+            }.bind(this));
+            this.renderGroupedSideBar();
+            if (this.options.clustering) {
+                // Using MarkerClusterer, http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/docs/reference.html
+                // @TODO - add a way of providing user defined styles
+                // The following just duplicates some code in markerclusterer.js which builds their default styles array.
+                // Building a replacement here so it uses local images rather than pulling from Google API site.
+                var styles = [];
+                var sizes = [53, 56, 66, 78, 90];
+                var i = 0;
+                for (i = 1; i <= 5; ++i) {
+                    styles.push({
+                        'url': Fabrik.liveSite + "components/com_fabrik/libs/googlemaps/markerclustererplus/images/m" + i + ".png",
+                        'height': sizes[i - 1],
+                        'width': sizes[i - 1]
+                    });
+                }
+                var zoom = null;
+                // for now, overloading icon_increment setting to be maxZoom
+                if (this.options.icon_increment !== '') {
+                    zoom = parseInt(this.options.icon_increment, 10);
+                    if (zoom > 14) {
+                        zoom = 14;
+                    }
+                }
+                var size = 60;
+                // for now, overloading original cluster_splits setting to be gridSize
+                if (this.options.cluster_splits !== '') {
+                    if (this.options.cluster_splits.test('/,/')) {
+                        // they probably left it as the default 10,60 (group size in number of markers) for ClusterMarker params,
+                        // for MarkerClusterer we need a single number, gridSize in pixels, so just use default
+                        size = 60;
+                    } else {
+                        size = parseInt(this.options.cluster_splits, 10);
+                    }
+                }
+                this.cluster = new MarkerClusterer(this.map, this.clusterMarkers, {
+                    'splits': this.options.cluster_splits,
+                    'icon_increment': this.options.icon_increment,
+                    maxZoom: zoom,
+                    gridSize: size,
+                    styles: styles
+                });
+            }
+        }
+        if (this.options.fitbounds) {
+            this.map.fitBounds(this.bounds);
+        }
 	},
 
 	center: function () {

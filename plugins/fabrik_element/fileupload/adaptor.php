@@ -106,6 +106,16 @@ abstract class FabrikStorageAdaptor
 	public abstract function read($filepath);
 
 	/**
+	 * Stream a file
+	 *
+	 * @param   string  $filepath  File path
+	 * @param   int     $chunkSize  chunk size
+	 *
+	 * @return  bool  returns false if error
+	 */
+	public abstract function stream($filepath, $chunkSize = 1024 * 1024);
+
+	/**
 	 * Clean the file path
 	 *
 	 * @param   string  $path  Path to clean
@@ -214,11 +224,11 @@ abstract class FabrikStorageAdaptor
 		}
 	}
 
-	/**
+	/**	 *
+
 	 * Get the complete folder path, including the server root
 	 *
 	 * @param   string  $filepath  The file path
-	 *
 	 * @return  string
 	 */
 	public abstract function getFullPath($filepath);

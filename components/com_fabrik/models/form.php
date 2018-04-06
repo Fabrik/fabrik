@@ -11,9 +11,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Fabrik\Helpers\Uploader;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Fabrik\Helpers\Uploader;
 
 jimport('joomla.application.component.model');
 require_once 'fabrikmodelform.php';
@@ -353,6 +353,15 @@ class FabrikFEModelForm extends FabModelForm
 	 * @var string
 	 */
 	public $tmpl = null;
+
+	/**
+	 * did we find any data in getData()
+	 *
+	 * @since 3.8
+	 *
+	 * @var bool
+	 */
+	public $noData = false;
 
 	/**
 	 * Constructor
@@ -2873,7 +2882,31 @@ class FabrikFEModelForm extends FabModelForm
 	 */
 	public function isNewRecord()
 	{
-		return $this->getRowId() === '';
+		if ($this->getRowId() === '')
+		{
+			return true;
+		}
+		else
+		{
+			/*
+			 * special case when using 'useley', rowid will be set on submission, even on a new record,
+			 * so test for hidden 'nodata' field, which is set on form load if getData() finds no existing data.
+			 */
+			if ($this->app->input->get('task', '') === 'form.process')
+			{
+				$opts   = array(
+					'formid' => $this->getId()
+				);
+				$useKey = FabrikWorker::getMenuOrRequestVar('usekey', '', $this->isMambot, 'var', $opts);
+
+				if ($useKey && $this->app->input->get('nodata', '') === '1')
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -3319,6 +3352,12 @@ class FabrikFEModelForm extends FabModelForm
 								$request = array_merge($row, $request);
 								$data[] = FArrayHelper::toObject($request);
 							}
+
+							$this->noData = false;
+						}
+						else
+						{
+							$this->noData = true;
 						}
 
 						FabrikHelperHTML::debug($data, 'form:getData from querying rowid= ' . $this->rowId . ' (form not in Mambot and no errors)');
@@ -4361,44 +4400,46 @@ class FabrikFEModelForm extends FabModelForm
 		$linkedform_linktype = $facetedLinks->linkedform_linktype;
 		$linkedtable_linktype = $facetedLinks->linkedlist_linktype;
 		$f = 0;
+		$allPks = array();
 
 		foreach ($joinsToThisKey as $joinKey => $element)
 		{
 			$key = $element->list_id . '-' . $element->form_id . '-' . $element->element_id;
+			$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
+			$val = $input->get($qsKey);
 
-			if (isset($linkedLists->$key) && $linkedLists->$key != 0)
+			if ($val == '')
 			{
-				$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
-				$val = $input->get($qsKey);
+				// Default to row id if we are coming from a main link (and not a related data link)
+				$val = $input->get($qsKey . '_raw', '', 'string');
 
-				if ($val == '')
+				if (empty($val))
 				{
-					// Default to row id if we are coming from a main link (and not a related data link)
-					$val = $input->get($qsKey . '_raw', '', 'string');
+					$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
+					$val = FArrayHelper::getValue($this->data, $thisKey, $val);
 
 					if (empty($val))
 					{
-						$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
-						$val = FArrayHelper::getValue($this->data, $thisKey, $val);
-
-						if (empty($val))
-						{
-							$val = $input->get('rowid');
-						}
+						$val = $input->get('rowid');
 					}
 				}
+			}
 
-				/* $$$ tom 2012-09-14 - If we don't have a key value, get all.  If we have a key value,
-				 * use it to restrict the count to just this entry.
-				 */
+			/* $$$ tom 2012-09-14 - If we don't have a key value, get all.  If we have a key value,
+			 * use it to restrict the count to just this entry.
+			 */
 
-				$pks = array();
+			$pks = array();
 
-				if (!empty($val))
-				{
-					$pks[] = $val;
-				}
+			if (!empty($val))
+			{
+				$pks[] = $val;
+			}
 
+			$allPks[$key] = $pks;
+
+			if (isset($linkedLists->$key) && $linkedLists->$key != 0)
+			{
 				$recordCounts = $referringTable->getRecordCounts($element, $pks);
 
 				// Jaanus - 18.10.2013 - get correct element fullnames as link keys
@@ -4434,12 +4475,13 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					if (is_object($element))
 					{
-						$linkKeyData = $referringTable->getRecordCounts($element, $pks);
+						$linkKeyData = $referringTable->getRecordCounts($element, $allPks[$key]);
 						$linkKey = $linkKeyData['linkKey'];
 						$val = $input->get($linkKey, '', 'string');
 
 						if ($val == '')
 						{
+							$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
 							$val = $input->get($qsKey . '_raw', $input->get('rowid'));
 						}
 

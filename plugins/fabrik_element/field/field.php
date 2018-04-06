@@ -11,6 +11,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
@@ -233,23 +234,48 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			$w = new FabrikWorker;
 			$opts = $this->linkOpts();
 			$title = $params->get('link_title', '');
+			$attrs = $params->get('link_attributes', '');
 
-			if (FabrikWorker::isEmail($value) || JString::stristr($value, 'http'))
+			if (!empty($attrs))
 			{
+				$attrs = $w->parseMessageForPlaceHolder($attrs);
+				$attrs = explode(' ', $attrs);
+
+				foreach ($attrs as $attr)
+				{
+					list($k, $v) = explode('=', $attr);
+					$opts[$k] = trim($v, '"');
+				}
 			}
-			elseif (JString::stristr($value, 'www.'))
+			else
 			{
-				$value = 'http://' . $value;
+				$attrs = array();
 			}
 
-			if ($title !== '')
+			if ((new MediaHelper)->isImage($value))
 			{
-				$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
+				$alt = empty($title) ? '' : 'alt="' . strip_tags($w->parseMessageForPlaceHolder($title, $data)) . '"';
+				$value = '<img src="' . $value . '" ' . $alt . ' ' . implode(' ', $attrs) . ' />';
 			}
+			else
+			{
+				if (FabrikWorker::isEmail($value) || JString::stristr($value, 'http'))
+				{
+				}
+				elseif (JString::stristr($value, 'www.'))
+				{
+					$value = 'http://' . $value;
+				}
 
-			$label = FArrayHelper::getValue($opts, 'title', '') !== '' ? $opts['title'] : $value;
+				if ($title !== '')
+				{
+					$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
+				}
 
-			$value = FabrikHelperHTML::a($value, $label, $opts);
+				$label = FArrayHelper::getValue($opts, 'title', '') !== '' ? $opts['title'] : $value;
+
+				$value = FabrikHelperHTML::a($value, $label, $opts);
+			}
 		}
 	}
 

@@ -11,6 +11,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use ReCaptcha\ReCaptcha;
+
+require_once JPATH_ROOT . '/plugins/fabrik_element/captcha/vendor/autoload.php';
 /**
  * Plugin element to captcha
  *
@@ -333,16 +336,8 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 		{
 			if ($input->get('g-recaptcha-response'))
 			{
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/ReCaptcha.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/Post.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/Socket.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/SocketPost.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestParameters.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/Response.php';
-
 				$privateKey = $params->get('recaptcha_privatekey');
-				$noCaptcha  = new \ReCaptcha\ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\SocketPost());
+				$noCaptcha  = new ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\SocketPost());
 				$response   = $input->get('g-recaptcha-response');
 				$server     = $input->server->get('REMOTE_ADDR');
 				$resp       = $noCaptcha->verify($response, $server);

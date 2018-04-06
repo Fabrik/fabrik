@@ -710,4 +710,8 @@ form.fabrikForm label.radio {
 @media print {
 	a[href]:after { content: none !important; }
 	.fabrikPrintIcon { display: none !important; }
+	table {
+		page-break-inside: avoid;
+	}
+
 }

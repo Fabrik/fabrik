@@ -1,56 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset name="plg-form-mailchimp">
-			<field description="PLG_FORM_MAILCHIMP_API_KEY_DESC" label="PLG_FORM_MAILCHIMP_API_KEY_LABEL" name="mailchimp_apikey" repeat="true" size="40" type="text"/>
-			
-			<field description="PLG_FORM_MAILCHIMP_LIST_ID_DESC" label="PLG_FORM_MAILCHIMP_LIST_ID_LABEL" name="mailchimp_listid" repeat="true" size="30" type="text"/>
-			
-			<field default="1"
-				class="btn-group"
-				description="PLG_FORM_MAILCHIMP_USER_CONFIRM_DESC" label="PLG_FORM_MAILCHIMP_USER_CONFIRM_LABEL" name="mailchimp_userconfirm" repeat="true" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
-			</field>
-		
-			<field description="PLG_FORM_MAILCHIMP_EMAIL_DESC" label="PLG_FORM_MAILCHIMP_EMAIL_LABEL" name="mailchimp_email" repeat="true" type="listfields"/>
-				
-			<field description="PLG_FORM_MAILCHIMP_FIRST_NAME_DESC" label="PLG_FORM_MAILCHIMP_FIRST_NAME_LABEL" name="mailchimp_firstname" repeat="true" type="listfields"/>
-			
-			<field description="PLG_FORM_MAILCHIMP_LAST_NAME_DESC" label="PLG_FORM_MAILCHIMP_LAST_NAME_LABEL" name="mailchimp_lastname" repeat="true" type="listfields"/>
-				
-			<field default="Sign up to my mailing list" description="PLG_FORM_MAILCHIMP_SIGNUP_LABEL_DESC" label="PLG_FORM_MAILCHIMP_SIGNUP_LABEL_LABEL" name="mailchimp_signuplabel" repeat="true" size="30" type="text"/>
-		
-			<field default="1"
-				class="btn-group"
-				description="PLG_FORM_MAILCHIMP_UPDATE_EXISTING_DESC" label="PLG_FORM_MAILCHIMP_UPDATE_EXISTING_LABEL" name="mailchimp_update_existing" repeat="true" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-			
-			<field default="html"
-				class="btn-group"
-				description="PLG_FORM_MAILCHIMP_EMAIL_TYPE_DESC" label="PLG_FORM_MAILCHIMP_EMAIL_TYPE_LABEL" name="mailchimp_email_type" repeat="true" type="radio">
-					<option value="text">text</option>
-					<option value="html">html</option>
-			</field>
-			
-			
-			<field default="1"
-				class="btn-group"
-				description="PLG_FORM_MAILCHIMP_DOUBLE_OPTIN_DESC" label="PLG_FORM_MAILCHIMP_DOUBLE_OPTIN_LABEL" name="mailchimp_double_optin" repeat="true" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-			
-			<field cols="40" description="PLG_FORM_MAILCHIMP_GROUP_OPTS_DESC" label="PLG_FORM_MAILCHIMP_GROUP_OPTS_LABEL" name="mailchimp_groupopts" repeat="true" rows="6" type="textarea"/>
-			
-			<field default="1"
-				class="btn-group"
-				description="PLG_FORM_MAILCHIMP_FAIL_ON_ERROR_DESC" label="PLG_FORM_MAILCHIMP_FAIL_ON_ERROR_LABEL" name="mailchimp_fail_on_error" repeat="true" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
-			</field>
-		</fieldset>
-	</fields>
+    <fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+        <fieldset name="plg-form-mailchimp">
+            <field description="PLG_FORM_MAILCHIMP_API_KEY_DESC" label="PLG_FORM_MAILCHIMP_API_KEY_LABEL"
+                   name="mailchimp_apikey" repeat="true" size="40" type="text"/>
+
+            <field description="PLG_FORM_MAILCHIMP_LIST_ID_DESC" label="PLG_FORM_MAILCHIMP_LIST_ID_LABEL"
+                   name="mailchimp_listid" repeat="true" size="30" type="text"/>
+
+            <field default="1"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_USER_CONFIRM_DESC" label="PLG_FORM_MAILCHIMP_USER_CONFIRM_LABEL"
+                   name="mailchimp_userconfirm" repeat="true" type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field description="PLG_FORM_MAILCHIMP_EMAIL_DESC" label="PLG_FORM_MAILCHIMP_EMAIL_LABEL"
+                   name="mailchimp_email" repeat="true" type="listfields"/>
+
+            <field description="PLG_FORM_MAILCHIMP_FIRST_NAME_DESC" label="PLG_FORM_MAILCHIMP_FIRST_NAME_LABEL"
+                   name="mailchimp_firstname" repeat="true" type="listfields"/>
+
+            <field description="PLG_FORM_MAILCHIMP_LAST_NAME_DESC" label="PLG_FORM_MAILCHIMP_LAST_NAME_LABEL"
+                   name="mailchimp_lastname" repeat="true" type="listfields"/>
+
+            <field default="Sign up to my mailing list" description="PLG_FORM_MAILCHIMP_SIGNUP_LABEL_DESC"
+                   label="PLG_FORM_MAILCHIMP_SIGNUP_LABEL_LABEL" name="mailchimp_signuplabel" repeat="true" size="30"
+                   type="text"/>
+
+            <field default="1"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_UPDATE_EXISTING_DESC"
+                   label="PLG_FORM_MAILCHIMP_UPDATE_EXISTING_LABEL" name="mailchimp_update_existing" repeat="true"
+                   type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field default="html"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_EMAIL_TYPE_DESC" label="PLG_FORM_MAILCHIMP_EMAIL_TYPE_LABEL"
+                   name="mailchimp_email_type" repeat="true" type="radio">
+                <option value="text">text</option>
+                <option value="html">html</option>
+            </field>
+
+
+            <field default="1"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_DOUBLE_OPTIN_DESC" label="PLG_FORM_MAILCHIMP_DOUBLE_OPTIN_LABEL"
+                   name="mailchimp_double_optin" repeat="true" type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field cols="40" description="PLG_FORM_MAILCHIMP_GROUP_OPTS_DESC"
+                   label="PLG_FORM_MAILCHIMP_GROUP_OPTS_LABEL" name="mailchimp_groupopts" repeat="true" rows="6"
+                   type="textarea"/>
+
+            <field default="1"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_FAIL_ON_ERROR_DESC" label="PLG_FORM_MAILCHIMP_FAIL_ON_ERROR_LABEL"
+                   name="mailchimp_fail_on_error" repeat="true" type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field default="html"
+                   class="btn-group"
+                   description="PLG_FORM_MAILCHIMP_UNSUB_METHOD_DESC"
+                   label="PLG_FORM_MAILCHIMP_UNSUB_METHOD_LABEL"
+                   name="mailchimp_unsub_method"
+                   repeat="true"
+                   type="list">
+                <option value="delete">delete</option>
+                <option value="unsubscribed">unsub</option>
+                <option value="cleaned">clean</option>
+            </field>
+        </fieldset>
+    </fields>
 </form>

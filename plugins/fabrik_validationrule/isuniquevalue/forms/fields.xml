@@ -27,6 +27,17 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="isuniquevalue-within-group"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_VALIDATIONRULE_ISUNIQUE_WITHIN_GROUP_LABEL"
+				   description="PLG_VALIDATIONRULE_ISUNIQUE_WITHIN_GROUP_DESC"
+				   repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="tip_text"
 			       type="textarea"
 			       repeat="true"

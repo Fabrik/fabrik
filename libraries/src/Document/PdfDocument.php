@@ -13,11 +13,6 @@ defined('JPATH_PLATFORM') or die;
 //require_once JPATH_SITE . '/components/com_fabrik/helpers/pdf.php';
 
 use Fabrik\Helpers\Pdf;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
 
 jimport('joomla.utilities.utility');
 
@@ -111,6 +106,27 @@ class PdfDocument extends HtmlDocument
 	private $_html5 = null;
 
 	/**
+	 * Fabrik config
+	 *
+	 * @var null
+	 */
+	protected $config = null;
+
+	/**
+	 * Orientation
+	 *
+	 * @var  string
+	 */
+	private $orientation = 'P';
+
+	/**
+	 * Paper size
+	 *
+	 * @var  string
+	 */
+	private $size = 'A4';
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -121,8 +137,8 @@ class PdfDocument extends HtmlDocument
 	{
 		parent::__construct($options);
 
-		$config = \JComponentHelper::getParams('com_fabrik');
-		if ($config->get('pdf_debug', false))
+		$this->config = \JComponentHelper::getParams('com_fabrik');
+		if ($this->config->get('pdf_debug', false))
 		{
 			$this->setMimeEncoding('text/html');
 			$this->_type = 'pdf';
@@ -135,9 +151,21 @@ class PdfDocument extends HtmlDocument
 			// Set document type
 			$this->_type = 'pdf';
 		}
-		if (!$this->iniDomPdf())
+
+		$this->iniPdf();
+	}
+
+	/**
+	 * Init selected PDF
+	 */
+	protected function iniPdf()
+	{
+		if ($this->config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
 		{
-			throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
+			if (!$this->iniDomPdf())
+			{
+				throw new RuntimeException(FText::_('COM_FABRIK_NOTICE_DOMPDF_NOT_FOUND'));
+			}
 		}
 	}
 
@@ -168,8 +196,27 @@ class PdfDocument extends HtmlDocument
 	 */
 	public function setPaper($size = 'A4', $orientation = 'landscape')
 	{
-		$size = strtoupper($size);
-		$this->engine->set_paper($size, $orientation);
+		if ($this->config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
+		{
+			$size = strtoupper($size);
+			$this->engine->set_paper($size, $orientation);
+		}
+		else
+		{
+			$this->size = ucfirst($size);
+
+			switch ($orientation)
+			{
+				case 'landscape':
+					$this->orientation = 'L';
+					$this->size .= '-' . $this->orientation;
+					break;
+				case 'portrait':
+				default:
+					$this->orientation = 'P';
+					break;
+			}
+		}
 	}
 
 	/**
@@ -210,7 +257,6 @@ class PdfDocument extends HtmlDocument
 
 		// Testing using futural font.
 		// $this->addStyleDeclaration('body: { font-family: futural !important; }');
-		$pdf = $this->engine;
 
 		$data = parent::render();
 
@@ -219,21 +265,53 @@ class PdfDocument extends HtmlDocument
 		/**
 		 * I think we need this to handle some HTML entities when rendering otherlanguages (like Polish),
 		 * but haven't tested it much
-		 * but haven't tested it much
 		 */
 		$data = mb_convert_encoding($data,'HTML-ENTITIES','UTF-8');
-
-		$pdf->load_html($data);
 		$config = \JComponentHelper::getParams('com_fabrik');
 
-		if ($config->get('pdf_debug', false))
+		if ($this->config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
 		{
-			return $pdf->output_html();
+			$this->engine->load_html($data);
+
+			if ($config->get('pdf_debug', false))
+			{
+				return $this->engine->output_html();
+			}
+			else
+			{
+				$this->engine->render();
+				$this->engine->stream($this->getName() . '.pdf');
+			}
 		}
 		else
 		{
-			$pdf->render();
-			$pdf->stream($this->getName() . '.pdf');
+			if ($config->get('pdf_debug', false))
+			{
+				return $data;
+			}
+			else
+			{
+				try
+				{
+					$mpdf = new \Mpdf\Mpdf(
+						[
+							'tempDir'     => \JFactory::getConfig()->get('tmp_path', JPATH_ROOT . '/tmp'),
+							'mode'        => 'utf-8',
+							'format'      => $this->size,
+							'orientation' => $this->orientation
+						]
+					);
+					//$mpdf->shrink_tables_to_fit = 1;
+					$mpdf->use_kwt = true;
+					$mpdf->WriteHTML($data);
+					$mpdf->Output($this->getName() . '.pdf', \Mpdf\Output\Destination::INLINE);
+				}
+				catch (\Mpdf\MpdfException $e)
+				{
+					// mmmphh
+					echo 'Error creating PDF: ' . ($e->getMessage());
+				}
+			}
 		}
 
 		return '';

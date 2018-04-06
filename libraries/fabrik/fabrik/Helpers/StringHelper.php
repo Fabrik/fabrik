@@ -13,7 +13,7 @@ namespace Fabrik\Helpers;
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \stdClass;
+use stdClass;
 
 /**
  * String helpers
@@ -1090,5 +1090,31 @@ class StringHelper extends \Joomla\String\StringHelper
 			$parts[$i] = nl2br($parts[$i]);
 		}
 		return implode('', $parts);
+	}
+
+	/**
+	 * Bitlify a link
+	 *
+	 * @param  string  $link  the link to shorten
+	 * @param  string  $username  Bitly username
+	 * @param  string  $apikey  Bitly API key
+	 * @param  string  $encode  urlencode
+	 */
+	public static function bitlify ($link, $login, $apikey, $encode = true)
+	{
+		if (!strstr($link, 'bit.ly/') && $link !== '')
+		{
+			require_once JPATH_SITE . '/components/com_fabrik/libs/bitly/bitly.php';
+			$bitly = new \bitly($login, $apikey);
+
+			if ($encode)
+			{
+				$link = self::encodeurl($link);
+			}
+
+			$link = (string) $bitly->shorten($link);
+		}
+
+		return $link;
 	}
 }

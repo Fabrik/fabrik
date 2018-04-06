@@ -12,6 +12,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * @TODO - rewrite example JS with jQuery AJAX
+ *
  * This is an example file.  To use userAjax, copy this file to user_ajax.php,
  * and insert your function into the userAjax class, as per the example
  * userExists() function.  To call your AJAX method, use a URL of this format from

@@ -77,22 +77,7 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 		$config = JComponentHelper::getParams('com_fabrik');
 		$apiKey = $config->get('google_api_key', '');
 
-		$connection = (int) $params->get('connection');
-
-		/*
-		 * For now, we have to read the table ourselves.  We can't rely on the $data passed to us
-		 * because it can be arbitrarily filtered according to who happened to hit the page when cron
-		 * needed to run.
-		 */
-		/*
-		$mydata = array();
-		$db = FabrikWorker::getDbo(false, $connection);
-		$query = $db->getQuery(true);
-		$query->select('*')->from($table_name);
-		$db->setQuery($query);
-		$mydata[0] = $db->loadObjectList();
-		*/
-		// Grab all the params, like GMaps key, field names to use, etc.
+		//$connection = (int) $params->get('connection');
 
 		$geocode_batch_limit = (int) $params->get('geocode_batch_limit', '0');
 		$geocode_delay = (int) $params->get('geocode_delay', '0');
@@ -101,6 +86,12 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 		$geocode_map_element_long = $params->get('geocode_map_element');
 		$geocode_map_element_long_raw = $geocode_map_element_long . '_raw';
 		$geocode_map_element = FabrikString::shortColName($geocode_map_element_long);
+		$geocode_lat_element_long = $params->get('geocode_lat_element');
+		$geocode_lat_element_long_raw = $geocode_lat_element_long . '_raw';
+		$geocode_lat_element = FabrikString::shortColName($geocode_lat_element_long);
+		$geocode_lon_element_long = $params->get('geocode_lon_element');
+		$geocode_lon_element_long_raw = $geocode_lon_element_long . '_raw';
+		$geocode_lon_element = FabrikString::shortColName($geocode_lon_element_long);
 		$geocode_addr1_element_long = $params->get('geocode_addr1_element');
 		$geocode_addr1_element = $geocode_addr1_element_long ? FabrikString::shortColName($geocode_addr1_element_long) : '';
 		$geocode_addr2_element_long = $params->get('geocode_addr2_element');
@@ -114,8 +105,12 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 		$geocode_country_element_long = $params->get('geocode_country_element');
 		$geocode_country_element = $geocode_country_element_long ? FabrikString::shortColName($geocode_country_element_long) : '';
 		$geocode_when = $params->get('geocode_when', '1');
+		$geocode_from = $params->get('geocode_from', '1');
 
-		$gmap = new GeoCode;
+		$config = JComponentHelper::getParams('com_fabrik');
+		$verifyPeer = (bool) $config->get('verify_peer', '1');
+
+		$gmap = new GeoCode($verifyPeer);
 
 		// Run through our table data
 		$total_encoded = 0;
@@ -127,11 +122,9 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 			{
 				foreach ($group as $rkey => $row)
 				{
-					if ($geocode_batch_limit > 0 && $total_attempts >= $geocode_batch_limit)
-					{
-						FabrikWorker::log('plg.cron.geocode.information', 'reached batch limit');
-						break 2;
-					}
+					$lat = '';
+					$long = '';
+
 					/*
 					 * See if the map element is considered empty
 					 * Values of $geocode_when are:
@@ -150,111 +143,125 @@ class PlgFabrik_CronGeocode extends PlgFabrik_Cron
 						$do_geocode = empty($row->$geocode_map_element_long_raw);
 					}
 
-					if ($do_geocode)
+					if ($geocode_from === '1')
 					{
-						/*
-						 * It's empty, so lets try and geocode.
-						 * first, construct the address
-						 * we'll build an array of address components, which we'll explode into a string later
-						 */
-						$a_full_addr = array();
-						/*
-						 * For each address component element, see if one is specific in the params,
-						 * if so, see if it has a value in this row
-						 * if so, add it to the address array.
-						 */
-						if ($geocode_addr1_element_long)
+						if ($geocode_batch_limit > 0 && $total_attempts >= $geocode_batch_limit)
 						{
-							if ($row->$geocode_addr1_element_long)
-							{
-								$a_full_addr[] = $row->$geocode_addr1_element_long;
-							}
+							FabrikWorker::log('plg.cron.geocode.information', 'reached batch limit');
+							break 2;
 						}
 
-						if ($geocode_addr2_element_long)
+						if ($do_geocode)
 						{
-							if ($row->$geocode_addr2_element_long)
+							/*
+							 * It's empty, so lets try and geocode.
+							 * first, construct the address
+							 * we'll build an array of address components, which we'll explode into a string later
+							 */
+							$a_full_addr = array();
+							/*
+							 * For each address component element, see if one is specific in the params,
+							 * if so, see if it has a value in this row
+							 * if so, add it to the address array.
+							 */
+							if ($geocode_addr1_element_long)
 							{
-								$a_full_addr[] = $row->$geocode_addr2_element_long;
-							}
-						}
-
-						if ($geocode_city_element_long)
-						{
-							if ($row->$geocode_city_element_long)
-							{
-								$a_full_addr[] = $row->$geocode_city_element_long;
-							}
-						}
-
-						if ($geocode_state_element_long)
-						{
-							if ($row->$geocode_state_element_long)
-							{
-								$a_full_addr[] = $row->$geocode_state_element_long;
-							}
-						}
-
-						if ($geocode_zip_element_long)
-						{
-							if ($row->$geocode_zip_element_long)
-							{
-								$a_full_addr[] = $row->$geocode_zip_element_long;
-							}
-						}
-
-						if ($geocode_country_element_long)
-						{
-							if ($row->$geocode_country_element_long)
-							{
-								$a_full_addr[] = $row->$geocode_country_element_long;
-							}
-						}
-						// Now explode the address into a string
-						$full_addr = implode(',', $a_full_addr);
-
-						// Did we actually get an address?
-						if (!empty($full_addr))
-						{
-							// OK!  Lets try and geocode it ...
-							$total_attempts++;
-							$full_addr = urlencode($full_addr);
-							$res = $gmap->getLatLng($full_addr, 'array', $apiKey);
-
-							if ($res['status'] == 'OK')
-							{
-								$lat = $res['lat'];
-								$long = $res['lng'];
-
-								if (!empty($lat) && !empty($long))
+								if ($row->$geocode_addr1_element_long)
 								{
-									$map_value = "($lat,$long):$geocode_zoom_level";
-									/*
-									$query->clear();
-									$query->update($table_name)->set($geocode_map_element . ' = ' . $db->quote($map_value))
-									->where($primary_key . ' = ' . $db->quote($row->$primary_key_element_long));
-									$db->setQuery($query);
-									$db->execute();
-									*/
-									$listModel->storeCell($row->$primary_key_element_long, $geocode_map_element, $map_value);
-									$total_encoded++;
+									$a_full_addr[] = $row->$geocode_addr1_element_long;
+								}
+							}
+
+							if ($geocode_addr2_element_long)
+							{
+								if ($row->$geocode_addr2_element_long)
+								{
+									$a_full_addr[] = $row->$geocode_addr2_element_long;
+								}
+							}
+
+							if ($geocode_city_element_long)
+							{
+								if ($row->$geocode_city_element_long)
+								{
+									$a_full_addr[] = $row->$geocode_city_element_long;
+								}
+							}
+
+							if ($geocode_state_element_long)
+							{
+								if ($row->$geocode_state_element_long)
+								{
+									$a_full_addr[] = $row->$geocode_state_element_long;
+								}
+							}
+
+							if ($geocode_zip_element_long)
+							{
+								if ($row->$geocode_zip_element_long)
+								{
+									$a_full_addr[] = $row->$geocode_zip_element_long;
+								}
+							}
+
+							if ($geocode_country_element_long)
+							{
+								if ($row->$geocode_country_element_long)
+								{
+									$a_full_addr[] = $row->$geocode_country_element_long;
+								}
+							}
+							// Now explode the address into a string
+							$full_addr = implode(',', $a_full_addr);
+
+							// Did we actually get an address?
+							if (!empty($full_addr))
+							{
+								// OK!  Lets try and geocode it ...
+								$total_attempts++;
+								$full_addr = urlencode(html_entity_decode($full_addr, ENT_QUOTES));
+								$res       = $gmap->getLatLng($full_addr, 'array', $apiKey);
+
+								if ($res['status'] == 'OK')
+								{
+									$lat  = $res['lat'];
+									$long = $res['lng'];
+								}
+								else
+								{
+									$logMsg = sprintf('Error (%s), id %s , no geocode result for: %s', $res['status'], $row->$primary_key_element_long, $full_addr);
+									FabrikWorker::log('plg.cron.geocode.information', $logMsg);
+								}
+
+								if ($geocode_delay > 0)
+								{
+									usleep($geocode_delay);
 								}
 							}
 							else
 							{
-								$logMsg = sprintf('Error (%s), id %s , no geocode result for: %s', $res['status'], $row->$primary_key_element_long, $full_addr);
-								FabrikWorker::log('plg.cron.geocode.information', $logMsg);
+								FabrikWorker::log('plg.cron.geocode.information', 'empty address, id = ' . $row->$primary_key_element_long);
 							}
+						}
+					}
+					else if ($geocode_from === '2')
+					{
+						$lat = $row->$geocode_lat_element_long_raw;
+						$long = $row->$geocode_lon_element_long_raw;
+					}
+					else if ($geocode_from === '3')
+					{
+						$coords = FabrikString::mapStrToCoords($row->$geocode_map_element_long_raw);
+						$listModel->storeCell($row->$primary_key_element_long, $geocode_lat_element, $coords->lat);
+						$listModel->storeCell($row->$primary_key_element_long, $geocode_lon_element, $coords->long);
+						$total_encoded++;
+					}
 
-							if ($geocode_delay > 0)
-							{
-								usleep($geocode_delay);
-							}
-						}
-						else
-						{
-							FabrikWorker::log('plg.cron.geocode.information', 'empty address, id = '.$row->$primary_key_element_long);
-						}
+					if (($do_geocode === '1' || $do_geocode == '2') && (!empty($lat) && !empty($long)))
+					{
+						$map_value = "($lat,$long):$geocode_zoom_level";
+						$listModel->storeCell($row->$primary_key_element_long, $geocode_map_element, $map_value);
+						$total_encoded++;
 					}
 				}
 			}

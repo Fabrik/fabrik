@@ -11,6 +11,22 @@
 				description="PLG_CRON_GEOCODE_MAP_DESC"
 				label="PLG_CRON_GEOCODE_MAP_LABEL"
 				table="params_table" />
+
+			<field name="geocode_lat_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_LAT_DESC"
+				   label="PLG_CRON_GEOCODE_LAT_LABEL"
+				   table="params_table" />
+
+			<field name="geocode_lon_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_LON_DESC"
+				   label="PLG_CRON_GEOCODE_LON_LABEL"
+				   table="params_table" />
 				
 			<field name="geocode_addr1_element"
 				type="element"
@@ -72,6 +88,16 @@
 				<option value="1">PLG_CRON_GEOCODE_WHEN_EMPTY_OR_DEFAULT</option>
 				<option value="2">PLG_CRON_GEOCODE_WHEN_EMPTY</option>
 				<option value="3">PLG_CRON_GEOCODE_WHEN_ALWAYS</option>
+			</field>
+
+			<field name="geocode_from"
+				   type="list"
+				   default="1"
+				   description="PLG_CRON_GEOCODE_FROM_DESC"
+				   label="PLG_CRON_GEOCODE_FROM_LABEL">
+				<option value="1">PLG_CRON_GEOCODE_FROM_ADDRESS</option>
+				<option value="2">PLG_CRON_GEOCODE_FROM_LAT_LON</option>
+				<option value="3">PLG_CRON_GEOCODE_FROM_MAP_TO_LAT_LON</option>
 			</field>
 						
 			<field name="geocode_is_empty"

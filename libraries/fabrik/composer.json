@@ -4,7 +4,8 @@
         "stripe/stripe-php": ">=v4.3.0",
         "twilio/sdk": "^5.4.2",
         "aws/aws-sdk-php": "3.24.4",
-        "dompdf/dompdf": "^v0.8.0",
-        "arcturial/clickatell": "~2.0.0"
+        "dompdf/dompdf": "~v0.8.0",
+        "arcturial/clickatell": "~2.0.0",
+        "mpdf/mpdf": "7.0.2"
     }
 }

@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/list-plugin"],function(a,b){return new Class({Extends:b})});
+define(["jquery","fab/list-plugin"],function(n,e){return new Class({Extends:e})});

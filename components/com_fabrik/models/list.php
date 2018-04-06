@@ -5224,49 +5224,6 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		return $this->isView;
-
-		/* $$$ hugh - because querying INFORMATION_SCHEMA can be very slow (like minutes!) on
-		 * a shared host, I made a small change.  The edit table view now adds a hidden 'isview'
-		* param, defaulting to -1 on new tables.  So the following code should only ever execute
-		* one time, when a new table is saved.  Before this change, because 'isview' wasn't
-		* included on the edit view (because it's not a "real" user settable param), so didn't
-		* exist when we picked up the params from the submitted data, this code was running (twice!)
-		* every time a table was saved.
-		* http://fabrikar.com/forums/showthread.php?t=16622&page=6
-		*/
-
-		/*
-		if (isset($this->isView))
-		{
-			return $this->isView;
-		}
-
-		$db = FabrikWorker::getDbo();
-		$table = $this->getTable();
-		$cn = $this->getConnection();
-
-		$c = $cn->getConnection();
-		$dbName = $c->database;
-
-		if ($table->db_table_name == '')
-		{
-			return;
-		}
-
-		// @todo JQueryBuilder this?
-		$sql = " SELECT table_name, table_type, engine FROM INFORMATION_SCHEMA.tables " . "WHERE table_name = " . $db->q($table->db_table_name)
-		. " AND table_type = 'view' AND table_schema = " . $db->q($dbName);
-		$db->setQuery($sql);
-		$row = $db->loadObjectList();
-		$this->isView = empty($row) ? "0" : "1";
-
-		// Store and save param for following tests
-		$params->set('isview', $this->isView);
-		$table->params = (string) $params;
-		$table->store();
-
-		return $this->isView;
-		*/
 	}
 
 	/**

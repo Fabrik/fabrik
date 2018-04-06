@@ -286,6 +286,38 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	}
 
 	/**
+	 * Stream a file
+	 *
+	 * @param   string  $filepath  file path
+	 * @param   int     $chunkSize  chunk size
+	 *
+	 * @return  bool
+	 */
+
+	public function stream($filepath, $chunkSize = 1024 * 1024)
+	{
+		$buffer = '';
+		$handle = fopen($filepath, 'rb');
+
+		if ($handle === false)
+		{
+			return false;
+		}
+
+		while (!feof($handle))
+		{
+			$buffer = fread($handle, $chunkSize);
+			echo $buffer;
+			ob_flush();
+			flush();
+		}
+
+		fclose($handle);
+
+		return true;
+	}
+
+	/**
 	 * Get the file's URL
 	 *
 	 * @param   string  $file  file path

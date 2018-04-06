@@ -447,6 +447,16 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="fb_gm_heatmap"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_DESC"
+				   label="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field
 				name="fb_gm_center"
 				type="radio"

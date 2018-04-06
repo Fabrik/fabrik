@@ -553,7 +553,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
         hideGroupTab: function (groupId) {
             var tab = this.getGroupTab(groupId);
             if (tab !== false) {
-                tab.hide();
+                jQuery(tab).hide();
                 if (tab.hasClass('active')) {
                     if (tab.getPrevious()) {
                         jQuery(tab.getPrevious().getFirst()).tab('show');
@@ -587,7 +587,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
         showGroupTab: function (groupId) {
             var tab = this.getGroupTab(groupId);
             if (tab !== false) {
-                tab.show();
+                jQuery(tab).show();
             }
         },
 
@@ -1846,7 +1846,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 if (repeat_rows === 1) {
                     repeat_id_0 = this.form.getElement('#' + this.options.group_pk_ids[groupId] + '_0');
 
-                    if (typeOf(repeat_id_0) !== 'null' && repeat_id_0.value === '') {
+                    // check rowid - if new form and failed validation
+                    if (this.options.rowid !== '' && typeOf(repeat_id_0) !== 'null' && repeat_id_0.value === '') {
                         repeat_real = 0;
                     }
                 }
@@ -2014,10 +2015,16 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
         },
 
         hideLastGroup: function (groupId, subGroup) {
+            var msg = this.options.noDataMsg[groupId];
+
+            if (msg === '') {
+                msg = Joomla.JText._('COM_FABRIK_NO_REPEAT_GROUP_DATA');
+            }
+
             var sge = subGroup.getElement('.fabrikSubGroupElements');
             var notice = new Element(
                 'div', {'class': 'fabrikNotice alert'}
-            ).appendText(Joomla.JText._('COM_FABRIK_NO_REPEAT_GROUP_DATA'));
+            ).appendText(msg);
             if (typeOf(sge) === 'null') {
                 sge = subGroup;
                 var add = sge.getElement('.addGroup');

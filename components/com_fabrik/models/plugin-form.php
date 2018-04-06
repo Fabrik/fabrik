@@ -11,8 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\Utilities\ArrayHelper;
 use Fabrik\Helpers\LayoutFile;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
 
@@ -52,6 +52,13 @@ class PlgFabrik_Form extends FabrikPlugin
 	 * @var array
 	 */
 	protected $data = array();
+
+	/**
+	 * J! Log
+	 *
+	 * @var  object
+	 */
+	protected $log = null;
 
 	/**
 	 * Run from form model when deleting record
@@ -613,5 +620,24 @@ class PlgFabrik_Form extends FabrikPlugin
 		$w      = new FabrikWorker;
 
 		return $w->parseMessageForPlaceHolder($params->get($pName), $this->data);
+	}
+
+	/**
+	 * Log a message
+	 *
+	 * @param  string $msgType The dotted message type
+	 * @param  string $msg     The log message
+	 */
+	protected function doLog($msgType, $msg)
+	{
+		if ($this->log === null)
+		{
+			$this->log                = FabTable::getInstance('log', 'FabrikTable');
+			$this->log->referring_url = $this->app->input->server->getString('REQUEST_URI');
+		}
+		$this->log->message_type = $msgType;
+		$this->log->message      = $msg;
+		$this->log->id           = '';
+		$this->log->store();
 	}
 }

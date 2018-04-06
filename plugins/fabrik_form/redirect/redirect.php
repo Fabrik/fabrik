@@ -82,12 +82,12 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		if ($this->data['save_and_next'] === '1')
 		{
 			$navIds = $this->getNavIds();
-			$next_rowid = $navIds->next == $navIds->last ? '' : '&rowid=' . $navIds->next;
+			$next_rowid = '&rowid=' . $navIds->next;
 			$itemId = FabrikWorker::itemId();
 
 			if ($this->app->isAdmin())
 			{
-				$url = 'index.php?option=com_' . $this->package . '&task=form.view&formid=' . $form->id . $keyIdentifier;
+				$url = 'index.php?option=com_' . $this->package . '&task=form.view&formid=' . $form->id;
 			}
 			else
 			{
@@ -297,6 +297,12 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		if ($isMabmot)
 		{
 			$queryvars['isMambot'] = 'isMambot=1';
+		}
+
+		if ($this->app->isAdmin() && substr($jumpPage, 0, 10) === 'index.php?')
+		{
+			$jumpPage = preg_replace('/&view=(\w+)/', '&task=$1.view', $jumpPage);
+			$jumpPage = preg_replace('/&Itemid=(\d*)/', '', $jumpPage);
 		}
 
 		if (empty($queryvars))
@@ -527,7 +533,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		$o->first = $rows[0];
 		$o->lastKey = count($rows) - 1;
 		$o->last = $rows[$o->lastKey];
-		$o->next = $o->index + 1 > $o->lastKey ? $o->lastKey : $rows[$o->index + 1];
+		$o->next = $o->index + 1 > $o->lastKey ? '' : $rows[$o->index + 1];
 		$o->prev = $o->index - 1 < 0 ? 0 : $rows[$o->index - 1];
 		$this->navIds = $o;
 

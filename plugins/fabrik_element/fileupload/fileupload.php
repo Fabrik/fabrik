@@ -1072,7 +1072,6 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		 * @FIXME - need to check for Amazon S3 storage?
 		 */
 		$filePath = $this->_getFilePath($repeatCounter);
-		jimport('joomla.filesystem.file');
 
 		if ($this->getStorage()->exists($filePath))
 		{
@@ -1957,7 +1956,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 				case 0:
 					break;
 				case 1:
-					$filePath = Uploader::incrementFileName($filePath, $filePath, 1);
+					$filePath = Uploader::incrementFileName($filePath, $filePath, 1, $storage);
 					break;
 				case 2:
 					JLog::add('Ind upload Delete file: ' . $filePath . '; user = ' . $this->user->get('id'), JLog::WARNING, 'com_fabrik.element.fileupload');
@@ -2182,7 +2181,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$storage->checkPath($folder);
 		$storage->makeRecursiveFolders($folder);
 		$p                                = $folder . '/' . $myFileName;
-		$this->_filePaths[$repeatCounter] = JPath::clean($p);
+		$this->_filePaths[$repeatCounter] = $storage->clean($p);
 
 		return $this->_filePaths[$repeatCounter];
 	}
@@ -3299,9 +3298,9 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		$filePath    = $storage->getFullPath($filePath);
 
-		$fileContent = $storage->read($filePath);
+		//$fileContent = $storage->read($filePath);
 
-		if ($fileContent !== false)
+		if ($storage->exists($filePath))
 		{
 			$thisFileInfo = $storage->getFileInfo($filePath);
 
@@ -3325,7 +3324,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			header('Content-Disposition: attachment; filename="' . $thisFileInfo['filename'] . '"');
 
 			// Serve up the file
-			echo $fileContent;
+			$storage->stream($filePath);
 
 			// $this->downloadEmail($row, $filePath);
 			$this->downloadHit($rowId, $repeatCount);

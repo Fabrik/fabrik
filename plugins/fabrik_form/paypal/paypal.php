@@ -25,12 +25,6 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
  */
 class PlgFabrik_FormPaypal extends PlgFabrik_Form
 {
-	/*
-	 * J! Log
-	 *
-	 * @var  object
-	 */
-	private $log = null;
 
 	/**
 	 * Run right at the end of the form processing
@@ -1025,24 +1019,5 @@ class PlgFabrik_FormPaypal extends PlgFabrik_Form
 		{
 			return false;
 		}
-	}
-
-	/**
-	 * Log a message
-	 *
-	 * @param  string $msgType The dotted message type
-	 * @param  string $msg     The log message
-	 */
-	private function doLog($msgType, $msg)
-	{
-		if ($this->log === null)
-		{
-			$this->log                = FabTable::getInstance('log', 'FabrikTable');
-			$this->log->referring_url = $this->app->input->server->getString('REQUEST_URI');
-		}
-		$this->log->message_type = $msgType;
-		$this->log->message      = $msg;
-		$this->log->id           = '';
-		$this->log->store();
 	}
 }

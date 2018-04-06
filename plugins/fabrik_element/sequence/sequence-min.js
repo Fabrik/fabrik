@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/element"],function(a,b){return window.FbSequence=new Class({Extends:b,initialize:function(a,b){this.setPlugin("FbSequence"),this.parent(a,b)}}),window.FbSequence});
+define(["jquery","fab/element"],function(e,n){return window.FbSequence=new Class({Extends:n,initialize:function(e,n){this.setPlugin("FbSequence"),this.parent(e,n)}}),window.FbSequence});

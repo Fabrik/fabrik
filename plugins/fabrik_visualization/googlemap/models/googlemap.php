@@ -11,9 +11,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\Utilities\ArrayHelper;
-use Fabrik\Helpers\Lizt;
 use Fabrik\Helpers\Googlemap;
+use Fabrik\Helpers\Lizt;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
 
@@ -201,6 +201,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		$opts->zoomStyle            = (int) $params->get('fb_gm_zoom_control_style', 0);
 		$opts->zoom                 = $params->get('fb_gm_zoom', 1);
 		$opts->show_radius          = $params->get('fb_gm_use_radius', '1') == '1' ? true : false;
+		$opts->heatmap              = $params->get('fb_gm_heatmap', '0') == '1' ? true : false;
 		$opts->radius_defaults      = (array) $params->get('fb_gm_radius_default');
 		$opts->radius_fill_colors   = (array) $params->get('fb_gm_radius_fill_color');
 		$opts->styles               = Googlemap::styleJs($params);
@@ -660,6 +661,8 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 				$icons[$v[0] . $v[1]][5] = $height;
 			}
 
+			// $$$ hugh - not used?  And doesn't make sense
+			/*
 			if (!empty($icons))
 			{
 				$this->iconRowData[] = array(
@@ -667,6 +670,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 					'data' => $rowData
 				);
 			}
+			*/
 
 			$c++;
 		}

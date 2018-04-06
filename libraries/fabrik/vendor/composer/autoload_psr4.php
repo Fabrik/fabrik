@@ -8,8 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'Twilio\\' => array($vendorDir . '/twilio/sdk/Twilio'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Pop\\Shipping\\' => array($vendorDir . '/popphp/pop-shipping/src'),
+    'Mpdf\\' => array($vendorDir . '/mpdf/mpdf/src'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),

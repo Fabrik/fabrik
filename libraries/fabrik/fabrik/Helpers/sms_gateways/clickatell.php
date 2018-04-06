@@ -73,7 +73,7 @@ class Clickatell extends JObject
 		// check the response array
 		foreach ($response as $item)
 		{
-			if ($item->error === false)
+			if ($item->error !== false)
 			{
 				// @TODO add language for this
 				JFactory::getApplication()->enqueueMessage('SMS failed with error code: ' . $item->errorCode, 'error');

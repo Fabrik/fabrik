@@ -28,29 +28,32 @@ $d->bottomText = str_ireplace('{stripe_item}', '<span class="fabrikStripeItem">'
 
 if ($d->testMode) :
 	?>
-<div class="fabriStripeTestMode">
-	<?php echo FText::_('PLG_FORM_STRIPE_TEST_MODE_TEXT'); ?>
-</div>
-	<?php
+    <div class="fabriStripeTestMode">
+		<?php echo FText::_('PLG_FORM_STRIPE_TEST_MODE_TEXT'); ?>
+    </div>
+<?php
 endif;
 
+if ($d->showCoupon) :
+	?>
+    <div class="fabrikStripeCouponText">
+		<?php echo FText::_('PLG_FORM_STRIPE_COUPON_NO_COUPON_TEXT'); ?>
+    </div>
+<?php
+endif;
 ?>
 
-<div class="fabrikStripeCouponText">
-	<?php echo FText::_('PLG_FORM_STRIPE_COUPON_NO_COUPON_TEXT'); ?>
-</div>
-
-<div class="fabrikStripeBottomText">
-	<?php echo $d->bottomText; ?>
-</div
+    <div class="fabrikStripeBottomText">
+		<?php echo $d->bottomText; ?>
+    </div
 
 <?php
 if ($d->useUpdateButton) :
-?>
-<div class="fabrikStripeButtonContainer">
-	<button class="fabrikStripeChange">
-		<span><?php echo $d->updateButtonName; ?></span>
-	</button>
-</div>
+	?>
+    <div class="fabrikStripeButtonContainer">
+        <button class="fabrikStripeChange">
+            <span><?php echo $d->updateButtonName; ?></span>
+        </button>
+    </div>
 <?php
 endif;

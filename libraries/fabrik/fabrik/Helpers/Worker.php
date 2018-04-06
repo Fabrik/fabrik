@@ -1127,8 +1127,9 @@ class Worker
 			'{$jConfig_mailfrom}' => $config->get('mailfrom'),
 			'{where_i_came_from}' => $app->input->server->get('HTTP_REFERER', '', 'string'),
 			'{date}' => date('Ymd'),
+			'{year}' => date('Y'),
 			'{mysql_date}' => date('Y-m-d H:i:s'),
-			'{session.token}' => $token,
+			'{session.token}' => $token
 		);
 
 		foreach ($_SERVER as $key => $val)
@@ -2612,7 +2613,16 @@ class Worker
 	 */
 	public static function canPdf($puke = true)
 	{
-		$file = COM_FABRIK_LIBRARY . '/vendor/dompdf/dompdf/composer.json';
+		$config = \JComponentHelper::getParams('com_fabrik');
+
+		if ($config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
+		{
+			$file = COM_FABRIK_LIBRARY . '/vendor/dompdf/dompdf/composer.json';
+		}
+		else
+		{
+			$file = COM_FABRIK_LIBRARY . '/vendor/mpdf/mpdf/composer.json';
+		}
 
 		if (!JFile::exists($file))
 		{

@@ -282,6 +282,12 @@
 				description="PLG_ELEMENT_FIELD_LINK_TITLE_DESC"
 				label="PLG_ELEMENT_FIELD_LINK_TITLE_LABEL" />
 
+			<field name="link_attributes"
+				   type="text"
+				   default=""
+				   description="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_DESC"
+				   label="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_LABEL" />
+
 		</fieldset>
 	</fields>
 </form>

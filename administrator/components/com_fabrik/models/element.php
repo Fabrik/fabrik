@@ -369,7 +369,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$nameChanged  = $data['name'] !== $elementModel->getElement()->name;
 		$elementModel->getElement()->bind($data);
 		$listModel = $elementModel->getListModel();
-		$isView = !empty($listModel->isView());
+		$isView = (bool)$listModel->isView();
 
 		if ($data['id'] == '')
 		{

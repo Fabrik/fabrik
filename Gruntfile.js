@@ -12,16 +12,17 @@ var fs = require('fs-extra'),
 	done;
 fs = Promise.promisifyAll(fs);
 
-
 module.exports = function (grunt) {
 
-	// Project configuration.
+    grunt.util.linefeed = '\n';
+
+    // Project configuration.
 	grunt.initConfig({
 		pkg   : grunt.file.readJSON('package.json'),
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> */\n'
-			},
+            },
 
 			all: {
 				files: grunt.file.expandMapping(

@@ -62,6 +62,11 @@ echo $this->loadTemplate('tabs');
 endforeach;
 ?>
 	<table class="<?php echo $this->list->class;?>" id="list_<?php echo $this->table->renderid;?>" >
+        <colgroup>
+            <?php foreach ($this->headings as $key => $heading) : ?>
+				<col class="col-<?php echo $key; ?>">
+            <?php endforeach; ?>
+        </colgroup>
 		 <thead><?php echo $headingsHtml?></thead>
 		 <tfoot>
 			<tr class="fabrik___heading">

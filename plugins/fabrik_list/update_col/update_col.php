@@ -610,7 +610,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 			{
 				$elName = $elementModel->getFilterFullName();
 				$options[] = '<option value="' . $elName . '" data-id="' . $element->id . '" data-plugin="' . $element->plugin . '">'
-					. strip_tags($element->label) . '</option>';
+					. FText::_(strip_tags($element->label)) . '</option>';
 			}
 		}
 

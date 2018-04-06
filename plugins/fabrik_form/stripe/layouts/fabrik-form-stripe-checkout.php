@@ -25,20 +25,21 @@ $d->bottomText = str_ireplace('{stripe_item}', '<span class="fabrikStripeItem">'
 
 if ($d->testMode) :
 	?>
-	<div class="fabriStripeTestMode">
+    <div class="fabriStripeTestMode">
 		<?php echo FText::_('PLG_FORM_STRIPE_TEST_MODE_TEXT'); ?>
-	</div>
-	<?php
+    </div>
+<?php
 endif;
 
+if ($d->showCoupon) :
+	?>
+    <div class="fabrikStripeCouponText">
+		<?php echo FText::_('PLG_FORM_STRIPE_COUPON_NO_COUPON_TEXT'); ?>
+    </div>
+<?php
+endif;
 ?>
-<div class="fabrikStripeCouponText">
-	<?php echo FText::_('PLG_FORM_STRIPE_COUPON_NO_COUPON_TEXT'); ?>
-</div>
 
 <div class="fabrikStripeBottomText">
 	<?php echo $d->bottomText; ?>
 </div>
-
-
-

@@ -257,9 +257,9 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		$label = count($labels) == 0 ? "'calc' AS label" : 'CONCAT(' . implode(', " & " , ', $labels) . ')  AS label';
 		$table = $listModel->getTable();
 		$db = $listModel->getDb();
-		$joinSQL = $listModel->_buildQueryJoin();
-		$whereSQL = $listModel->_buildQueryWhere();
-		$name = $this->getFullName(false, false, false);
+		$joinSQL = $listModel->buildQueryJoin();
+		$whereSQL = $listModel->buildQueryWhere();
+		$name = $this->getFullName(false, false);
 
 		return 'SELECT SUM(substr(' . $name . ' FROM 1 FOR 2) * 60 * 60 + substr(' . $name . ' FROM 4 FOR 2) * 60
 			+ substr(' . $name . ' FROM 7 FOR 2))  AS value, ' . $label . ' FROM '
@@ -279,9 +279,9 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	{
 		$label = count($labels) == 0 ? "'calc' AS label" : 'CONCAT(' . implode(', " & " , ', $labels) . ')  AS label';
 		$item = $listModel->getTable();
-		$joinSQL = $listModel->_buildQueryJoin();
-		$whereSQL = $listModel->_buildQueryWhere();
-		$name = $this->getFullName(false, false, false);
+		$joinSQL = $listModel->buildQueryJoin();
+		$whereSQL = $listModel->buildQueryWhere();
+		$name = $this->getFullName(false, false);
 		$groupModel = $this->getGroup();
 		$roundTo = (int) $this->getParams()->get('avg_round');
 

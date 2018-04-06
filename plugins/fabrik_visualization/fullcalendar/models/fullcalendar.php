@@ -100,9 +100,20 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 			$query = $db->getQuery(true);
 			$query->select('id AS value, label AS text')->from('#__{package}_lists')->where('id IN (' . implode(',', $lists) . ')');
 			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$rows = $db->loadObjectList('value');
 
-			for ($i = 0; $i < count($rows); $i++)
+			/**
+			 * If the same list ID has been selected multiple times, the query will only have returned it once,
+			 * so we need to manually add any duplicates.
+			 */
+			$dupes = array();
+
+			foreach ($lists as $listId)
+			{
+				$dupes[] = clone($rows[$listId]);
+			}
+
+			for ($i = 0; $i < count($dupes); $i++)
 			{
 				if (!isset($colours[$i]))
 				{
@@ -114,14 +125,14 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 					$stati[$i] = '';
 				}
 
-				$rows[$i]->startdate_element = $dateFields[$i];
-				$rows[$i]->enddate_element   = FArrayHelper::getValue($dateFields2, $i);
-				$rows[$i]->label_element     = $labels[$i];
-				$rows[$i]->status            = FArrayHelper::getValue($stati, $i, '');
-				$rows[$i]->colour            = $colours[$i];
+				$dupes[$i]->startdate_element = $dateFields[$i];
+				$dupes[$i]->enddate_element   = FArrayHelper::getValue($dateFields2, $i);
+				$dupes[$i]->label_element     = $labels[$i];
+				$dupes[$i]->status            = FArrayHelper::getValue($stati, $i, '');
+				$dupes[$i]->colour            = $colours[$i];
 			}
 
-			$this->eventLists = $rows;
+			$this->eventLists = $dupes;
 		}
 
 		return $this->eventLists;
@@ -217,7 +228,7 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 						$startShowTime = $startDateEl->getParams()->get('date_showtime', true);
 					}
 
-					$endShowTime = true;
+					$endShowTime = false;
 
 					if ($endDate !== '')
 					{
@@ -249,7 +260,7 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 					$customUrl                   = FArrayHelper::getValue($customUrls, $i, '');
 					$status                      = FArrayHelper::getValue($stati, $i, '');
 					$allday                      = FArrayHelper::getValue($allDayEl, $i, '');
-					$this->events[$tables[$i]][] = array(
+					$this->events[$tables[$i]][$i] = array(
 						'startdate'     => $startDate,
 						'enddate'       => $endDate,
 						'startShowTime' => $startShowTime,
@@ -391,7 +402,7 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 	 * @return  string    javascript array containing json objects
 	 */
 
-	public function getEvents($listid = '')
+	public function getEvents($listid = '', $eventListKey = '')
 	{
 		$app      = JFactory::getApplication();
 		$package  = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -430,8 +441,13 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 			$els       = $listModel->getElements();
 			$formModel = $listModel->getFormModel();
 
-			foreach ($record as $data)
+			foreach ($record as $key => $data)
 			{
+				if ($eventListKey !== '' && (int)$key !== (int)$eventListKey)
+				{
+					continue;
+				}
+
 				$db        = $listModel->getDb();
 				$startdate = trim($data['startdate']) !== '' ? FabrikString::safeColName($data['startdate']) : '\'\'';
 
@@ -499,6 +515,11 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 					{
 						if ($row->startdate != '')
 						{
+							if (empty($row->enddate))
+							{
+								$row->enddate = $row->startdate;
+							}
+
 							$defaultURL    = 'index.php?option=com_' . $package . '&Itemid=' . $Itemid . '&view=form&formid='
 								. $table->form_id . '&rowid=' . $row->id . '&tmpl=component';
 							$thisCustomUrl = $w->parseMessageForPlaceHolder($customUrl, $row);
@@ -526,7 +547,6 @@ class FabrikModelFullcalendar extends FabrikFEModelVisualization
 							}
 
 							$date = JFactory::getDate($row->enddate);
-
 							// Full Calendar allDay end date is now exclusive, need to add a day
 							if ($row->allday)
 							{

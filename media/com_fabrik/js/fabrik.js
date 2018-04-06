@@ -31,17 +31,23 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
      * @returns {*}
      */
     Fabrik.bootstrapVersion = function (pluginName) {
-        pluginName = pluginName || 'modal';
-        var pluginFn = jQuery.fn[pluginName];
-        if (pluginFn) {
-            if (pluginFn.VERSION) {
-                return pluginFn.VERSION;
-            }
-            if (pluginName === 'modal') {
-                // Bootstrap 2 doesn't use namespace on modal data (at least for now...)
-                return pluginFn.toString().indexOf('bs.modal') === -1 ? '2.x' : '3.x';
+        // try the function provided first, punt to 'tooltip' if it doesn't exist (some plugins override 'modal')
+        var i, pluginNames = [pluginName || 'modal', 'tooltip'], len = pluginNames.length;
+        for (i=0; i<len; ++i) {
+            var pluginFn = jQuery.fn[pluginNames[i]];
+            if (pluginFn) {
+                if (pluginFn.VERSION) {
+                    return pluginFn.VERSION.match(/(\d+)\./)[0].toInt();
+                }
+                else if (pluginFn.Constructor && pluginFn.Constructor.VERSION)
+                {
+                    return pluginFn.Constructor.VERSION.match(/(\d+)\./)[0].toInt();
+                }
             }
         }
+
+        // if we got this far, it's not 3 or 4, so either 2, or not Bootstrap!
+        return 2;
     };
 
     Fabrik.Windows = {};
@@ -231,7 +237,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
     Fabrik.loadGoogleMap = function (k, cb) {
 
         var prefix = document.location.protocol === 'https:' ? 'https:' : 'http:';
-        var src = prefix + '//maps.googleapis.com/maps/api/js?libraries=places&callback=Fabrik.mapCb';
+        var src = prefix + '//maps.googleapis.com/maps/api/js?libraries=places,visualization&callback=Fabrik.mapCb';
         
         if (k !== false) {
             src += '&key=' + k;

@@ -12,6 +12,12 @@ Class GeoCode
     private $address = "";
     private $url = "";
 	private $apiKey = "";
+	private $verifyPeer = true;
+
+	public function __construct($verifyPeer = true)
+	{
+		$this->verifyPeer = $verifyPeer;
+	}
 
     public function getLatLng($addr, $returnType="array", $apiKey = "")
     {
@@ -50,31 +56,56 @@ Class GeoCode
 
     private function parseGeoData()
     {
-        $data = file_get_contents($this->url);
+	    $resultFromGl = array();
+
+    	if (!$this->verifyPeer)
+	    {
+		    $arrContextOptions = array(
+			    "ssl" => array(
+				    "verify_peer"      => false,
+				    "verify_peer_name" => false,
+			    ),
+		    );
+
+		    $data = file_get_contents($this->url, false, stream_context_create($arrContextOptions));
+	    }
+	    else
+	    {
+		    $data = file_get_contents($this->url);
+	    }
+
         $result = json_decode($data);
 
-        if($result->status == "OK")
-        {
-            if($result->results[0]->geometry->location)
-            {
-                $addressFromGoogle = $result->results[0]->formatted_address;
-                $lat = $result->results[0]->geometry->location->lat;
-                $lng = $result->results[0]->geometry->location->lng;
+    	if (empty($result))
+	    {
+		    $resultFromGl['status'] = "Cannot connect to Google, probably SSL issue.";
+	    }
+	    else
+	    {
+		    if ($result->status == "OK")
+		    {
+			    if ($result->results[0]->geometry->location)
+			    {
+				    $addressFromGoogle = $result->results[0]->formatted_address;
+				    $lat               = $result->results[0]->geometry->location->lat;
+				    $lng               = $result->results[0]->geometry->location->lng;
 
-                $resultFromGl['status'] = $result->status;
-                $resultFromGl['address'] = $addressFromGoogle;
-                $resultFromGl['lat'] = $lat;
-                $resultFromGl['lng'] = $lng;
-            }
-            else
-            {
-                $resultFromGl['status'] = "Address not found";
-            }
-        }
-        else
-        {
-            $resultFromGl['status'] = $result->status;
-        }
+				    $resultFromGl['status']  = $result->status;
+				    $resultFromGl['address'] = $addressFromGoogle;
+				    $resultFromGl['lat']     = $lat;
+				    $resultFromGl['lng']     = $lng;
+			    }
+			    else
+			    {
+				    $resultFromGl['status'] = "Address not found";
+			    }
+		    }
+		    else
+		    {
+			    $resultFromGl['status'] = $result->status;
+		    }
+	    }
+
         return $resultFromGl;
     }
 

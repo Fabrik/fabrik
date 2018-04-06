@@ -19,6 +19,7 @@
 		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
+		<folder>tmpl</folder>
 	</files>
 
 </extension>

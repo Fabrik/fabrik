@@ -3,7 +3,7 @@ defined('JPATH_BASE') or die;
 
 $d         = $displayData;
 $multiple  = $d->multiple ? 'multiple' : '';
-$multisize = $d->multisize === '' ? '' : 'size="' . $d->multisize . '""';
+$multisize = $d->multisize === '' ? '' : 'size="' . $d->multisize . '"';
 ?>
 
 <select name="<?php echo $d->name ?>" id="<?php echo $d->id ?>" <?php echo $multiple; ?>

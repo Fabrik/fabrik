@@ -37,6 +37,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$listid = $input->get('listid', '');
+		$eventListKey = $input->get('eventListKey', '');
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
 
@@ -47,6 +48,6 @@ class FabrikViewFullcalendar extends JViewLegacy
 			return false;
 		}
 
-		echo $model->getEvents($listid);
+		echo $model->getEvents($listid, $eventListKey);
 	}
 }

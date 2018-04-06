@@ -29,6 +29,90 @@ use Dompdf\Options;
 class Pdf
 {
 	/**
+	 * @param        $html
+	 * @param string $size
+	 * @param string $orientation
+	 */
+	public static function renderPdf($html, $size = 'A4', $orientation = 'portrait')
+	{
+		$config = \JComponentHelper::getParams('com_fabrik');
+
+		if ($config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
+		{
+			$pdf = self::renderDomPdf($html, $size, $orientation);
+		}
+		else
+		{
+			$pdf = self::renderMPdf($html, $size, $orientation);
+		}
+
+		return $pdf;
+	}
+
+	public static function renderMPdf($html, $size = 'A4', $orientation = 'portrait')
+	{
+		$size = ucfirst($size);
+
+		switch ($orientation)
+		{
+			case 'landscape':
+				$orientation = 'L';
+				$size .= '-' . $orientation;
+				break;
+			case 'portrait':
+			default:
+				$orientation = 'P';
+				break;
+		}
+
+		Pdf::fullPaths($html);
+		$html = mb_convert_encoding($html,'HTML-ENTITIES','UTF-8');
+		try
+		{
+			$mpdf = new \Mpdf\Mpdf(
+				[
+					'tempDir'     => \JFactory::getConfig()->get('tmp_path', JPATH_ROOT . '/tmp'),
+					'mode'        => 'utf-8',
+					'format'      => $size,
+					'orientation' => $orientation
+				]
+			);
+			$mpdf->WriteHTML($html);
+			return $mpdf->Output('', \Mpdf\Output\Destination::STRING_RETURN);
+		}
+		catch (\Mpdf\MpdfException $e)
+		{
+			// mmmphh
+			return '';
+		}
+
+	}
+
+	public static function renderDomPdf($html, $size = 'A4', $orientation = 'portrait')
+	{
+		Pdf::fullPaths($html);
+		$html = mb_convert_encoding($html,'HTML-ENTITIES','UTF-8');
+		$domPdf = self::iniDomPdf(true);
+		$domPdf->set_paper($size, $orientation);
+		$domPdf->load_html($html);
+		$domPdf->render();
+		return $domPdf->output();
+	}
+
+	/**
+	 * Init selected PDF
+	 */
+	public static function iniPdf()
+	{
+		$config = \JComponentHelper::getParams('com_fabrik');
+
+		if ($config->get('fabrik_pdf_lib', 'dompdf') === 'dompdf')
+		{
+			return self::iniDomPdf(false);
+		}
+	}
+
+	/**
 	 * Set up DomPDF engine
 	 *
 	 * @param  bool  $puke  throw exception if not installed (true) or just return false

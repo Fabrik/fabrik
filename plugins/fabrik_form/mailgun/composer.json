@@ -1,0 +1,7 @@
+{
+  "require": {
+    "mailgun/mailgun-php": "*",
+    "php-http/curl-client": "*",
+    "guzzlehttp/psr7": "*"
+  }
+}

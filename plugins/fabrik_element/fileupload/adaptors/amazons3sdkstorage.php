@@ -13,10 +13,6 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_ROOT . '/plugins/fabrik_element/fileupload/adaptor.php';
 
-use Aws\Exception\AwsException;
-use Aws\S3\Exception\S3Exception;
-use GuzzleHttp\Psr7;
-
 
 /**
  * Amazon s3 Storage adaptor for Fabrik file upload element
@@ -363,6 +359,46 @@ class Amazons3sdkstorage extends FabrikStorageAdaptor
 
 		return $s3Info['Body'];
 	}
+
+	/**
+	 * Read a file
+	 *
+	 * @param   string  $filepath  file path
+	 * @param   int     $chunkSize  chunk size
+	 *
+	 * @return  bool  returns false if error
+	 */
+
+	public function stream($filepath, $chunkSize = 1024 * 1024)
+	{
+		/**
+		 * Use the S3 stream wrapper, so we can treat the file "normally", through the s3:// protocol
+		 *
+		 * https://docs.aws.amazon.com/aws-sdk-php/v2/guide/feature-s3-stream-wrapper.html
+		 */
+
+		$this->s3->registerStreamWrapper();
+
+		$path = 's3://' . $this->getBucketName() . '/' . $this->urlToKey($filepath);
+
+		// now just fopen/fread as if it was a local file
+		if ($stream = fopen($path, 'r')) {
+			while (!feof($stream)) {
+				echo fread($stream, $chunkSize);
+				ob_flush();
+				flush();
+			}
+
+			fclose($stream);
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 	/**
 	 * Get the S3 Acl setting

@@ -75,10 +75,15 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$tmplPath     = JPATH_ROOT . '/plugins/fabrik_visualization/fullcalendar/views/fullcalendar/tmpl/' . $tpl;
 		$this->_setPath('template', $tmplPath);
 
-		// Store the file in the tmp folder so it can be attached
+		// @TODO create a viz model getLayout() that sets this path precedence
 		$layout             = FabrikHelperHTML::getLayout(
 			'fabrik-visualization-fullcalendar-event-modal-popup',
-			array(JPATH_ROOT . '/plugins/fabrik_visualization/fullcalendar/layouts')
+			array(
+				JPATH_ROOT . '/plugins/fabrik_visualization/fullcalendar/layouts',
+				$tmplPath . '/layouts',
+				JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/com_fabrik',
+				JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/com_fabrik/visualization'
+			)
 		);
 		$displayData       = new stdClass;
 		$displayData->id   = 'fabrikEvent_modal';

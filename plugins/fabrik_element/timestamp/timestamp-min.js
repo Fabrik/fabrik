@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/element"],function(a,b){return window.FbTimestamp=new Class({Extends:b,initialize:function(a,b){this.setPlugin("fabriktimestamp"),this.parent(a,b)}}),window.FbTimestamp});
+define(["jquery","fab/element"],function(i,e){return window.FbTimestamp=new Class({Extends:e,initialize:function(i,e){this.setPlugin("fabriktimestamp"),this.parent(i,e)}}),window.FbTimestamp});
