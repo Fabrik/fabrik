@@ -78,11 +78,8 @@ define(['jquery'], function (jQuery) {
 
         collapse: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).hide();
-            var selector = this.options.bootstrap ? 'i' : 'img';
-            var i = this.container.getElements('.fabrik_groupheading a ' + selector);
-            if (i.length === 0) {
-                i = this.container.getElements('.fabrik_groupheading ' + selector);
-            }
+            var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
+            var i = this.container.getElements('.fabrik_groupheading ' + selector);
             i.each(function (img) {
                 img.store('showgroup', false);
                 this.setIcon(img, true);
@@ -91,10 +88,8 @@ define(['jquery'], function (jQuery) {
 
         expand: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).show();
-            var i = this.container.getElements('.fabrik_groupheading a img');
-            if (i.length === 0) {
-                i = this.container.getElements('.fabrik_groupheading img');
-            }
+            var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
+            var i = this.container.getElements('.fabrik_groupheading ' + selector);
             i.each(function (img) {
                 img.store('showgroup', true);
                 this.setIcon(img, false);
@@ -103,7 +98,6 @@ define(['jquery'], function (jQuery) {
 
         toggle: function () {
             this.toggleState === 'shown' ? this.collapse() : this.expand();
-            this.toggleState = this.toggleState === 'shown' ? 'hidden' : 'shown';
         }
     });
 
