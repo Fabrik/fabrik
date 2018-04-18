@@ -653,8 +653,6 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 					{
 						$l = $tmpVal;
 					}
-
-					$l = $this->replaceWithIcons($l, 'list', $listModel->getTmpl());
 				}
 
 				if ($this->renderWithHTML)
