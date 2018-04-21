@@ -11,13 +11,14 @@
 			<field
 				name="googlemap_connection"
 				type="connections"
+				repeat="true"
 				description="CONNECTIONONLYFABRIKTABLES"
 				label="Connection" />
 
 			<field
 				name="googlemap_table"
 				type="fabriktables"
-				connection_in_repeat="false"
+				connection_in_repeat="true"
 				label="COM_FABRIK_LIST"
 				observe="params_googlemap_connection" />
 
@@ -46,12 +47,12 @@
 								<option value="OR">OR</option>
 						</field>
 
-						<!-- <field name="filter-fields" connection="googlemap_connection" 
-							table="googlemap_table" type="listfields" raw="true" valueformat="tableelement" 
+						<!-- <field name="filter-fields" connection="googlemap_connection"
+							table="googlemap_table" type="listfields" raw="true" valueformat="tableelement"
 							label="COM_FABRIK_LIST_ELEMENTS_HEADING" /> -->
 
-						<!-- <field type="element" name="filter-fields" connection="params_googlemap_connection" 
-							connection_in_repeat="true" label="COM_FABRIK_LIST_ELEMENTS_HEADING" table="params_googlemap_table" 
+						<!-- <field type="element" name="filter-fields" connection="params_googlemap_connection"
+							connection_in_repeat="true" label="COM_FABRIK_LIST_ELEMENTS_HEADING" table="params_googlemap_table"
 							/> -->
 
 						<field
@@ -186,9 +187,9 @@
 					<option value="jroot">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_JOOMLA_RELATIVE</option>
 					<option value="absolute">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_FULL_PATH</option>
 					<option value="url">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_URL</option>
-					<option value="img">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_IMG</option>			
+					<option value="img">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_IMG</option>
 			</field>
-			
+
 			<field
 				name="fb_gm_icon_letter"
 				type="text"
@@ -546,14 +547,14 @@
 					<option value="1">Small</option>
 					<option value="2">Large</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				description="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_LABEL" name="fb_gm_scrollwheelcontrol" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field
 				default="0"
 				class="btn-group"
@@ -769,8 +770,8 @@
 					<option value="1">JYES</option>
 			</field>
 
-			<!-- not yet working <field name="fb_gm_group_class" type="element" connection="params_googlemap_connection" 
-				connection_in_repeat="false" table="params_googlemap_table" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_LABEL" 
+			<!-- not yet working <field name="fb_gm_group_class" type="element" connection="params_googlemap_connection"
+				connection_in_repeat="false" table="params_googlemap_table" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_LABEL"
 				description="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_DESC" /> -->
 		</fieldset>
 
