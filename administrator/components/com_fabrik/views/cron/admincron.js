@@ -27,12 +27,12 @@ define(['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 				jQuery('#jform_plugin').bind('change', function (e) {
 					this.changePlugin(e);
 				}.bind(this));
+			} else {
+				document.id('jform_plugin').addEvent('change', function (e) {
+					e.stop();
+					this.changePlugin(e);
+				}.bind(this));
 			}
-
-			document.id('jform_plugin').addEvent('change', function (e) {
-				e.stop();
-				this.changePlugin(e);
-			}.bind(this));
 		},
 
 		changePlugin: function (e) {
@@ -47,6 +47,7 @@ define(['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 				'update'    : document.id('plugin-container'),
 				'onComplete': function () {
 					this.updateBootStrap();
+					FabrikAdmin.reTip();
 				}.bind(this)
 
 			}).send();

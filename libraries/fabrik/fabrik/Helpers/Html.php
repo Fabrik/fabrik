@@ -1319,8 +1319,8 @@ EOD;
 		if (empty(self::$allRequirePaths))
 		{
 			$r              = new stdClass;
-			$r->fab         = 'media/com_fabrik/js';
 			$r->lib         = 'media/com_fabrik/js/lib';
+			$r->fab         = 'media/com_fabrik/js';
 			$r->element     = 'plugins/fabrik_element';
 			$r->list        = 'plugins/fabrik_list';
 			$r->form        = 'plugins/fabrik_form';

@@ -12,6 +12,7 @@
 .repeatGroup {
 	border-top:1px dotted #666;
 	margin:10px 0;
+	padding:10px 0;
 }
 
 .removeButton {
@@ -66,4 +67,15 @@ table.mceLayout {
 
 .textarea {
 	height: auto;
+}
+
+/** Move standarised ace css from inline in fabrikeditor to css */
+.FbEditorAce {
+	position: absolute !important;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border: 1px solid #c0c0c0;
+	border-radius: 3px;
 }
