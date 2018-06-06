@@ -261,16 +261,19 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$layoutData->day_id = $id . '_0';
 			$layoutData->day_options = $this->_dayOptions();
 			$layoutData->day_value = ltrim($dayValue, "0");
+			$layoutData->day_label = FText::_($params->get('birthday_daylabel', 'PLG_ELEMENT_BIRTHDAY_DAY'));
 
 			$layoutData->month_name = preg_replace('#(\[\])$#', '[1]', $name);
 			$layoutData->month_id = $id . '_1';
 			$layoutData->month_options = $this->_monthOptions();
 			$layoutData->month_value = ltrim($monthValue, '0');
+			$layoutData->month_label = FText::_($params->get('birthday_monthlabel', 'PLG_ELEMENT_BIRTHDAY_MONTH'));
 
 			$layoutData->year_name = preg_replace('#(\[\])$#', '[2]', $name);
 			$layoutData->year_id = $id . '_2';
 			$layoutData->year_options = $this->_yearOptions();
 			$layoutData->year_value = $yearValue;
+			$layoutData->year_label = FText::_($params->get('birthday_yearlabel', 'PLG_ELEMENT_BIRTHDAY_year'));
 
 
 			return $layout->render($layoutData);
