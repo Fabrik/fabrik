@@ -917,25 +917,7 @@ class FabrikFEModelList extends JModelForm
 		$config = JComponentHelper::getParams('com_fabrik');
 		$opts['custom_layout'] = $config->get('fabrik_check_custom_list_layout', '0');
 
-		try
-		{
-			$this->finesseData($opts);
-		}
-		catch (Exception $e)
-		{
-			$item = $this->getTable();
-			$msg = 'Fabrik has generated an incorrect query for the list ' . $item->label . ': <br />';
-			if (FabrikHelperHTML::isDebug(true))
-			{
-				$msg .= '<br /><pre>' . $e->getMessage() . '</pre>';
-			}
-
-			if ($this->config->get('debug'))
-            {
-
-            }
-			throw new RuntimeException($msg, 500);
-		}
+		$this->finesseData($opts);
 
 		$nav = $this->getPagination($this->totalRecords, $this->limitStart, $this->limitLength);
 
@@ -963,7 +945,7 @@ class FabrikFEModelList extends JModelForm
 		$fabrikDb = $this->getDb();
 		$this->setBigSelects();
 		$query = $this->buildQuery();
-//echo $query;
+
 		// $$$ rob - if merging joined data then we don't want to limit
 		// the query as we have already done so in buildQuery()
 		if ($this->mergeJoinedData() || $this->limitLength === -1)
@@ -978,11 +960,22 @@ class FabrikFEModelList extends JModelForm
 		FabrikHelperHTML::debug((string) $fabrikDb->getQuery(), 'list GetData:' . $this->getTable()->label);
 		JDEBUG ? $profiler->mark('before query run') : null;
 
-		/* set 2nd param to false in attempt to stop joomfish db adaptor from translating the original query
-		 * fabrik3 - 2nd param in j16 is now used - guessing that joomfish now uses the third param for the false switch?
-		* $$$ rob 26/09/2011 note Joomfish not currently released for J1.7
-		*/
-		$this->data = $fabrikDb->loadObjectList('', 'stdClass', false);
+		// PR#1927 Additional error information if fabrik debug is on
+		try
+		{
+			/* set 2nd param to false in attempt to stop joomfish db adaptor from translating the original query
+			 * fabrik3 - 2nd param in j16 is now used - guessing that joomfish now uses the third param for the false switch?
+			* $$$ rob 26/09/2011 note Joomfish not currently released for J1.7
+			*/
+			$this->data = $fabrikDb->loadObjectList('', 'stdClass', false);
+		}
+		catch (RuntimeException $e)
+		{
+			$item = $this->getTable();
+			$msg = 'FABRIK ERROR: Incorrect query for the list "' . $item->label . '"';
+			$msg .= FabrikHelperHTML::isDebug(true) ? ': ' . $e->getMessage() . ': ' . (string) $query : '';
+			throw new RuntimeException($msg, $e->getCode());
+		}
 
 		// fire a plugin hook before we format the data
 		$args       = new stdClass;
@@ -4857,6 +4850,14 @@ class FabrikFEModelList extends JModelForm
 		if ($group->isJoin())
 		{
 			$tableName = $group->getJoinModel()->getJoin()->table_join;
+
+			// PR#1927 Additional error if Group is set as is_join but join does not exist
+			if (empty($tableName)) {
+				$msg = 'FABRIK ERROR: Metadata inconsistency: Group "' . $group->getName() . '" is recorded as is_join=1, but join details are missing.<br/>'
+					. "Try editing and re-saving the Group, but if this doesn't work you will need to fix this directly in the metadata tables.";
+				throw new ErrorException($msg, 500);
+			}
+
 			$keyData = $this->getPrimaryKeyAndExtra($tableName);
 			$primaryKey = $keyData[0]['colname'];
 		}
@@ -4906,7 +4907,10 @@ class FabrikFEModelList extends JModelForm
 					}
 					catch (Exception $e)
 					{
-						throw new ErrorException('alter structure: ' . $fabrikDb->getErrorMsg(), 500);
+						// PR#1927 Additional error information if fabrik debug is on
+						$msg = 'FABRIK ERROR: ' . $fabrikDb->getErrorMsg();
+						$msg .= FabrikHelperHTML::isDebug(true) ? ' in: ' . (string) $fabrikDb->getQuery() : '';
+						throw new ErrorException($msg, $e->getCode());
 					}
 				}
 			}
@@ -7788,7 +7792,19 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		$db->setQuery(sprintf($fmtSql, implode(",", $tmp), $where));
-		$db->execute();
+		try
+		{
+		    $db->execute();
+		}
+		catch (Exception $e)
+		{
+		    $msg = 'FABRIK ERROR: Incorrect update for the list "' . $table . '"';
+		    if (FabrikHelperHTML::isDebug(true))
+		    {
+			$msg .= ': ' . $e->getMessage() . ': ' . (string) $db->getQuery();
+		    }
+		    throw new Exception($msg, $e->getCode());
+		}
 
 		FabrikHelperHTML::debug((string) $db->getQuery(), 'list model updateObject:');
 
@@ -7840,7 +7856,19 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		$db->setQuery(sprintf($fmtSql, implode(",", $fields), implode(",", $values)));
-		$db->execute();
+		try
+		{
+		    $db->execute();
+		}
+		catch (Exception $e)
+		{
+		    $msg = 'FABRIK ERROR: Incorrect insert for the list "' . $table . '"';
+		    if (FabrikHelperHTML::isDebug(true))
+		    {
+			$msg .= ': ' . $e->getMessage() . ': ' . (string) $db->getQuery();
+		    }
+		    throw new Exception($msg, $e->getCode());
+		}
 
 		$id = $db->insertid();
 
