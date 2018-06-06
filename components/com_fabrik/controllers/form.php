@@ -31,6 +31,13 @@ class FabrikControllerForm extends JControllerLegacy
 	public $isMambot = false;
 
 	/**
+	 * Are multi-column groups forced to single column
+	 *
+	 * @var  bool
+	 */
+	public $groupSingleColumn = false;
+
+	/**
 	 * Id used from content plugin when caching turned on to ensure correct element rendered
 	 *
 	 * @var  int
@@ -120,6 +127,7 @@ class FabrikControllerForm extends JControllerLegacy
 		/** @var FabrikFEModelForm $model */
 		$model = !isset($this->_model) ? $this->getModel($modelName, 'FabrikFEModel') : $this->_model;
 		$model->isMambot = $this->isMambot;
+		$model->groupSingleColumn = $this->groupSingleColumn;
 		$model->packageId = $app->input->getInt('packageId');
 
 		$view->setModel($model, true);

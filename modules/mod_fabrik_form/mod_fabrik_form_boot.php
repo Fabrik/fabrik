@@ -81,6 +81,7 @@ $input->set('layout', $layout);
 
 // Display the view
 $controller->isMambot = true;
+$controller->groupSingleColumn = ((int) $params->get('single_column', '0') !== 0);
 $input->set('formid', $formId);
 
 $input->set('ajax', $moduleAjax);

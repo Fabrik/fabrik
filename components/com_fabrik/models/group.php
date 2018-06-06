@@ -25,6 +25,13 @@ jimport('joomla.application.component.model');
 class FabrikFEModelGroup extends FabModel
 {
 	/**
+	 * Are multi-column groups forced to single column
+	 *
+	 * @var  bool
+	 */
+	public $groupSingleColumn = false;
+
+	/**
 	 * Element plugins
 	 *
 	 * @var array
@@ -473,6 +480,28 @@ class FabrikFEModelGroup extends FabModel
 	}
 
 	/**
+	 * Get the number of columns for the group applying single columm override if necessary
+	 *
+	 * @param   boolean &groupSingleColumn Enforce single column (from Form Module)
+	 *
+	 * @since    Fabrik 3.8
+	 *
+	 * @return  int  the number of columns to display
+	 */
+	public function getGroupColumns($groupSingleColumn = false)
+	{
+		$params   = $this->getParams();
+		$colCount = $groupSingleColumn ? 1 : (int) $params->get('group_columns', 1);
+
+		if ($colCount === 0)
+		{
+			$colCount = 1;
+		}
+
+		return $colCount;
+	}
+
+	/**
 	 * Set the element column css allows for group column settings to be applied
 	 *
 	 * @param   object &$element Pre-render element properties
@@ -485,12 +514,7 @@ class FabrikFEModelGroup extends FabModel
 	public function setColumnCss(&$element, $rowIx)
 	{
 		$params   = $this->getParams();
-		$colCount = (int) $params->get('group_columns');
-
-		if ($colCount === 0)
-		{
-			$colCount = 1;
-		}
+		$colCount = $this->getGroupColumns($this->groupSingleColumn);
 
 		$element->offset = $params->get('group_offset', 0);
 
@@ -986,7 +1010,7 @@ class FabrikFEModelGroup extends FabModel
 			$group->intro            = $formModel->parseIntroOutroPlaceHolders($intro, $group->editable, $formModel->isNewRecord());
 			$outro                   = FText::_($params->get('outro'));
 			$group->outro            = $formModel->parseIntroOutroPlaceHolders($outro, $group->editable, $formModel->isNewRecord());
-			$group->columns          = $params->get('group_columns', 1);
+			$group->columns          = $this->getGroupColumns($this->groupSingleColumn);
 			$group->splitPage        = $this->isSplitPage();
 			$group->showLegend       = $this->showLegend($group);
 			$group->labels           = $params->get('labels_above', -1);
