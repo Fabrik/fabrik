@@ -610,7 +610,22 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$db->setQuery($sql);
 		FabrikHelperHTML::debug((string) $db->getQuery(), $this->getElement()->name . ' databasejoin element: get options query');
-		$this->optionVals[$sqlKey] = $db->loadObjectList();
+		try {
+			$this->optionVals[$sqlKey] = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$msg = 'FABRIK error: Incorrect query for the databasejoin "' . $this->getElement()->name . '"';
+			if (FabrikHelperHTML::isDebug(true))
+			{
+				if (!is_string($sql))
+				{
+					$sql = $sql->__toString();
+				}
+				$msg .= ': ' . $e->getMessage() . ': ' . $sql;
+			}
+			throw new RuntimeException($msg, $e->getCode());
+		}
 		FabrikHelperHTML::debug($this->optionVals, 'databasejoin elements');
 
 		if (!is_array($this->optionVals[$sqlKey]))
@@ -2600,7 +2615,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   string $originalValue original filter value without quotes or %'s applied
 	 * @param   string $type          filter type advanced/normal/prefilter/search/querystring/searchall
 	 * @param   string  $evalFilter     evaled
-	 *                                  
+	 *
 	 * @return  string    sql query part e,g, "key = value"
 	 */
 	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
@@ -3491,7 +3506,23 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$db->setQuery($query);
-		$r = $db->loadObject();
+		try
+		{
+			$r = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$msg = 'FABRIK error: Incorrect query for the databasejoin "' . $this->getElement()->name . '"';
+			if (FabrikHelperHTML::isDebug(true))
+			{
+				if (!is_string($query))
+				{
+					$query = $query->__toString();
+				}
+				$msg .= ': ' . $e->getMessage() . ': ' . $query;
+			}
+			throw new RuntimeException($msg, $e->getCode());
+		}
 
 		if (!$r)
 		{
