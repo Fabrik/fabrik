@@ -1287,8 +1287,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$id      = $this->getHTMLId($repeatCounter);
 		$html    = array();
 
-        $layout                        = $this->getLayout('form-final');
-        $displayData                   = new stdClass;
+		$layout        = $this->getLayout('form-final');
+		$displayData   = new stdClass;
 
 		if (!$formModel->isEditable() || !$this->isEditable())
 		{
@@ -1927,31 +1927,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// Lets see if we can get the field type of the field we are joining to
 		$join = FabTable::getInstance('Join', 'FabrikTable');
 
-		if ((int) $this->id !== 0)
-		{
-			$join->load(array('element_id' => $this->id));
-
-			if ($join->get('table_join', '') == '')
-			{
-				/* $$$ hugh - this almost certainly means we are changing element type to a join,
-				 * and the join row hasn't been created yet.  So let's grab the params, instead of
-				* defaulting to VARCHAR
-				* return "VARCHAR(255)";
-				*/
-				$dbName  = $params->get('join_db_name', $this->getDbName());
-				$joinKey = $params->get('join_key_column');
-			}
-			else
-			{
-				$dbName  = $join->get('table_join');
-				$joinKey = $join->get('table_join_key');
-			}
-		}
-		else
-		{
-			$dbName  = $params->get('join_db_name', $this->getDbName());
-			$joinKey = $params->get('join_key_column');
-		}
+		$dbName  = $params->get('join_db_name', $this->getDbName());
+		$joinKey = $params->get('join_key_column');
 
 		try
 		{
@@ -2080,10 +2057,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-        $profiler = JProfiler::getInstance('Application');
-        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+		$profiler = JProfiler::getInstance('Application');
+		JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
-        $groupModel = $this->getGroupModel();
+		$groupModel = $this->getGroupModel();
 		$labelData  = array();
 
 		if (!$groupModel->isJoin() && $groupModel->canRepeat())
@@ -2600,7 +2577,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   string $originalValue original filter value without quotes or %'s applied
 	 * @param   string $type          filter type advanced/normal/prefilter/search/querystring/searchall
 	 * @param   string  $evalFilter     evaled
-	 *                                  
+	 *
 	 * @return  string    sql query part e,g, "key = value"
 	 */
 	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
@@ -2935,18 +2912,17 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		if ($this->getParams()->get('database_join_display_type', 'dropdown') == 'auto-complete')
 		{
-            $usersConfig           = JComponentHelper::getParams('com_fabrik');
-            $autoOpts                            = array();
-			$autoOpts['max']                     = $this->getParams()->get(
-			    'dbjoin_autocomplete_rows',
-                $usersConfig->get('autocomplete_max_rows', '10')
-            );
+			$usersConfig     = JComponentHelper::getParams('com_fabrik');
+			$autoOpts        = array();
+			$autoOpts['max'] = $this->getParams()->get(
+				'dbjoin_autocomplete_rows',
+				$usersConfig->get('autocomplete_max_rows', '10')
+			);
 			$autoOpts['storeMatchedResultsOnly'] = true;
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->get('id'), $this->getFormModel()->getId(), 'databasejoin', $autoOpts);
 		}
 
 		$opts = $this->elementJavascriptOpts($repeatCounter);
-
 		return array('FbDatabasejoin', $id, $opts);
 	}
 
