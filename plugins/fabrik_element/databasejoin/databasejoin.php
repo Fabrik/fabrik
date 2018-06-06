@@ -923,7 +923,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$w    = new FabrikWorker;
 			$data = is_array($data) ? $data : array();
 			$desc = $w->parseMessageForPlaceHolder($desc, $data, false);
-			$desc = FabrikString::isConcat($desc) ? $desc : $db->qn($desc);
+			if (!FabrikString::isConcat($desc))
+			{
+				$desc = strtr($desc, "\r\n,", "   ");
+				$desc = array_filter(explode(' ',$desc));
+				$desc = $db->qn($desc);
+				$desc = count($desc) > 1 ? ("CONCAT_WS(', ', " . implode(', ', $desc) . ")") : implode('', $desc);
+			}
 			$desc = "REPLACE(" . $desc . ", '\n', '<br />')";
 			$query->select($desc . ' AS description');
 		}

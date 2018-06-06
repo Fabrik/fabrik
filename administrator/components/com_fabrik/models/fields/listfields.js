@@ -113,6 +113,8 @@ var ListFieldsElement = new Class({
 		if (v !== '' && v !== -1) {
 			this.periodical = this.updateMe.periodical(500, this);
 		}
+		var len = this.el.value.length;
+		this.setSelection(this.el, len, len);
 		this.watchAdd();
 	},
 
@@ -124,6 +126,8 @@ var ListFieldsElement = new Class({
 		this.addWatched = true;
 		var add = this.el.getParent().getElement('button');
 
+		// Sophist: Unclear why we do this on mousedown rather than click but unwilling
+		// to change to click until it is clear that there won't be consequences
 		if (typeOf(add) !== 'null') {
 			add.addEvent('mousedown', function (e) {
 				e.stop();
@@ -286,19 +290,16 @@ var ListFieldsElement = new Class({
 
 	insertTextAtCaret: function (el, text) {
 		var pos = this.getInputSelection(el).end;
+		var val = el.value;
+		if (pos !== 0 && val.substring(pos-1, 1) !== ' ') {
+			text = ' ' + text;
+		}
+		if (pos !== val.length && val.substring(pos, 1) !== ' ') {
+			text += ' ';
+		}
 		var newPos = pos + text.length;
 		var val = el.value;
 		el.value = val.slice(0, pos) + text + val.slice(pos);
 		this.setSelection(el, newPos, newPos);
 	}
 });
-
-
-
-/*
-function insertTextAtCaret(el, text) {
-
-}
-
-var textarea = document.getElementById("your_textarea");
-insertTextAtCaret(textarea, "[INSERTED]");*/
