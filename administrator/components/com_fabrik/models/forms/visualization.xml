@@ -7,32 +7,36 @@
 
 		<field name="id"
 		       type="text"
-		       class="readonly"
 		       default="0"
-		       label="COM_FABRIK_ID_LABEL"
-		       description="COM_FABRIK_FIELD_VIZUALIZATION_ID_DESC"
 		       readonly="true"
-		       size="10"/>
-
-		<field filter="unset"
-		       label=""
-		       name="asset_id"
-		       type="hidden"/>
+		       class="readonly input-mini"
+		       size="3"
+		       label="COM_FABRIK_ID_LABEL"
+		       description="JGLOBAL_FIELD_ID_DESC"
+		/>
 
 		<field name="label"
 		       type="text"
 		       description="COM_FABRIK_FIELD_VIZUALIZATION_LABEL_DESC"
 		       label="COM_FABRIK_FIELD_VIZUALIZATION_LABEL_LABEL"
+		       class="input-xxlarge"
 		       required="true"
-		       size="35"/>
+		       size="40"/>
 
 		<field name="intro_text"
 		       type="editor"
 		       buttons="true"
 		       hide="readmore,pagebreak"
+		       filter="FabrikAdminHelper::filterText"
 		       description="COM_FABRIK_FIELD_INTRODUCTION_DESC"
 		       label="COM_FABRIK_FIELD_INTRODUCTION_LABEL"
-		       rows="3"/>
+		       rows="3"
+		       cols="30"/>
+
+		<field name="asset_id"
+		       filter="unset"
+		       label=""
+		       type="hidden"/>
 
 		<field name="plugin"
 		       type="pluginlist"
@@ -42,6 +46,7 @@
 		       required="true"/>
 
 	</fieldset>
+
 	<fieldset name="publishing">
 
 		<field name="published"
@@ -56,17 +61,17 @@
 			<option value="-2">JTRASHED</option>
 		</field>
 
+		<field name="access"
+		       type="accesslevel"
+		       description="JFIELD_ACCESS_DESC"
+		       label="JFIELD_ACCESS_LABEL"/>
+
 		<field
 				name="created_by"
 				type="user"
 				label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 				description="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
-
-		<field name="access"
-		       type="accesslevel"
-		       description="JFIELD_ACCESS_DESC"
-		       label="JFIELD_ACCESS_LABEL"/>
 
 		<field name="created"
 		       type="calendar"

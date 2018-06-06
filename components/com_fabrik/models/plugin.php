@@ -179,7 +179,7 @@ class FabrikPlugin extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$this->_db     = ArrayHelper::getValue($config, 'db', JFactory::getDbo());
+		$this->_db     = ArrayHelper::getValue($config, 'db', FabrikWorker::getDbo(true));
 		$this->config  = ArrayHelper::getValue($config, 'config', JFactory::getConfig());
 		$this->user    = ArrayHelper::getValue($config, 'user', JFactory::getUser());
 		$this->app     = ArrayHelper::getValue($config, 'app', JFactory::getApplication());
@@ -245,6 +245,7 @@ class FabrikPlugin extends JPlugin
 			$tab->id    = 'tab-' . $fieldset->name;
 			$tab->class = $i === 0 ? 'active' : '';
 			$tab->label = $fieldset->label;
+			$tab->description = $fieldset->description;
 			$tabs[]     = $tab;
 			$i++;
 		}
@@ -459,8 +460,8 @@ class FabrikPlugin extends JPlugin
 			{
 				if ($j3)
 				{
-					$str[] = '<a class="btn" href="#" data-button="addButton">' . FabrikHelperHTML::icon('icon-plus', FText::_('COM_FABRIK_ADD')) . '</a>';
-					$str[] = '<a class="btn" href="#" data-button="deleteButton">' . FabrikHelperHTML::icon('icon-minus', FText::_('COM_FABRIK_REMOVE')) . '</a>';
+					$str[] = '<a class="btn btn-success" href="#" data-button="addButton">' . FabrikHelperHTML::icon('icon-plus', FText::_('COM_FABRIK_ADD')) . '</a>';
+					$str[] = '<a class="btn btn-danger" href="#" data-button="deleteButton">' . FabrikHelperHTML::icon('icon-minus', FText::_('COM_FABRIK_REMOVE')) . '</a>';
 				}
 				else
 				{

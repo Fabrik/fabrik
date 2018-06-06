@@ -19,9 +19,8 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="control-label">
 		<?php echo $this->field->label; ?>
 	</div>
-<?php endif;
-$style = $this->field->id == 'jform_intro_text' ? 'style="width:75%"': '' ?>
-	<div class="controls" <?php echo $style?>>
+<?php endif; ?>
+	<div class="controls">
 		<?php echo $this->field->input; ?>
 	</div>
 </div>

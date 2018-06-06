@@ -20,8 +20,7 @@ $i = 0;
 
 			<?php if (isset($tab->js) && $tab->js === false) : ?>
 
-				<a href="<?php echo $href; ?>"
-					id="<?php echo $tab->id; ?>">
+				<a href="<?php echo $href; ?>">
 					<?php echo FText::_($tab->label); ?>
 				</a>
 
@@ -30,7 +29,6 @@ $i = 0;
 			?>
 			<a href="#<?php echo $href; ?>"
 				aria-controls="<?php echo $tab->id; ?>"
-				id="<?php echo $tab->id; ?>"
 				role="tab"
 				data-toggle="tab"
 				class="mootools-noconflict">

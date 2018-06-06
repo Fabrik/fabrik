@@ -79,6 +79,8 @@ class FabrikAdminViewVisualization extends JViewLegacy
 		$source['Namespace']          = 'administrator/components/com_fabrik/views/namespace.js';
 		$source['PluginManager']      = 'administrator/components/com_fabrik/views/pluginmanager.js';
 		$source['AdminVisualization'] = 'administrator/components/com_fabrik/views/visualization/adminvisualization.js';
+		$source['CMS']                = 'media/jui/js/cms-uncompressed.js';
+		$source['SubForm']            = 'media/system/js/subform-repeatable-uncompressed.js';
 
 		$shim                                           = array();
 		$dep                                            = new stdClass;
@@ -86,6 +88,9 @@ class FabrikAdminViewVisualization extends JViewLegacy
 		$shim['admin/visualization/adminvisualization'] = $dep;
 
 		FabrikHelperHTML::iniRequireJS($shim);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 
 		$opts         = new stdClass;
 		$opts->plugin = $this->item->plugin;
