@@ -31,21 +31,17 @@
 	</fields>
 
 	<fields name="params">
-		<fieldset name="plg-calc-extra" label="COM_FABRIK_MORE">
+		<fieldset name="plg-calc-extra" label="PLG_ELEMENT_CALC_CALCULATION_LABEL">
 
 			<field type="helplink"
 				url="PLG_ELEMENT_CALC_HELP_SERVER" />
 
 			<field name="calc_calculation"
 				type="fabrikeditor"
+				required="true"
 				mode="php"
 				description="PLG_ELEMENT_CALC_CALCULATION_DESC"
 				label="PLG_ELEMENT_CALC_CALCULATION_LABEL" />
-
-			<field name="calc_format_string"
-				type="text"
-				description="PLG_ELEMENT_CALC_FORMAT_STRING_DESC"
-				label="PLG_ELEMENT_CALC_FORMAT_STRING_LABEL"/>
 
 			<field name="calc_on_save_only"
 				type="radio"
@@ -81,9 +77,100 @@
 				description="PLG_ELEMENT_CALC_ON_LOAD_DESC"
 				label="PLG_ELEMENT_CALC_ON_LOAD_LABEL">
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>	
+					<option value="1">JYES</option>
 			</field>
-			
+
+		</fieldset>
+
+		<fieldset name="plg-calc-formatting" label="PLG_ELEMENT_CALC_FORMATTING">
+			<field type="helplink"
+				url="PLG_ELEMENT_CALC_HELP_SERVER" />
+
+			<field name="text_format"
+				type="list"
+				default="text"
+				class="input-medium"
+				description="PLG_ELEMENT_CALC_FORMAT_DESC"
+				label="PLG_ELEMENT_CALC_FORMAT_LABEL">
+					<option value="text">PLG_ELEMENT_CALC_FORMAT_TEXT</option>
+					<option value="varchar">PLG_ELEMENT_CALC_FORMAT_VARCHAR</option>
+					<option value="integer">PLG_ELEMENT_CALC_FORMAT_INTEGER</option>
+					<option value="decimal">PLG_ELEMENT_CALC_FORMAT_DECIMAL</option>
+			</field>
+
+			<field name="maxlength"
+				type="maxlength"
+				class="input-mini"
+				default="255"
+				label="PLG_ELEMENT_CALC_STRING_MAX_LENGTH_LABEL"
+				description="PLG_ELEMENT_CALC_STRING_MAX_LENGTH_DESC"
+				size="3" />
+
+			<field name="integer_length"
+				type="text"
+				default="11"
+				class="input-mini"
+				description="PLG_ELEMENT_CALC_INTEGER_LENGTH_DESC"
+				label="PLG_ELEMENT_CALC_INTEGER_LENGTH_LABEL"/>
+
+			<field name="decimal_length"
+				type="text"
+				default="0"
+				class="input-mini"
+				description="PLG_ELEMENT_CALC_DECIMAL_LENGTH_DESC"
+				label="PLG_ELEMENT_CALC_DECIMAL_LENGTH_LABEL"/>
+
+			<field name="field_use_number_format"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_CALC_USE_NUMBER_FORMAT_DESC"
+				label="PLG_ELEMENT_CALC_USE_NUMBER_FORMAT_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="field_thousand_sep"
+				type="text"
+				class="input-mini"
+				default=","
+				description="PLG_ELEMENT_CALC_THOUSAND_SEP_DESC"
+				label="PLG_ELEMENT_CALC_THOUSAND_SEP_LABEL"
+				size="3" />
+
+			<field name="field_decimal_sep"
+				type="text"
+				class="input-mini"
+				default="."
+				description="PLG_ELEMENT_CALC_DECIMAL_SEP_DESC"
+				label="PLG_ELEMENT_CALC_DECIMAL_SEP_LABEL"
+				size="3" />
+
+			<field name="calc_format_string"
+				type="text"
+				description="PLG_ELEMENT_CALC_FORMAT_STRING_DESC"
+				label="PLG_ELEMENT_CALC_FORMAT_STRING_LABEL"/>
+
+			<field name="text_format_string_blank"
+				type="radio"
+				default="1"
+				class="btn-group"
+				description="PLG_ELEMENT_CALC_FORMAT_STRING_BLANK_DESC"
+				label="PLG_ELEMENT_CALC_FORMAT_STRING_BLANK_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="render_as_qrcode"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_CALC_RENDER_AS_QRCODE_DESC"
+				label="PLG_ELEMENT_CALC_RENDER_AS_QRCODE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 	</fields>
