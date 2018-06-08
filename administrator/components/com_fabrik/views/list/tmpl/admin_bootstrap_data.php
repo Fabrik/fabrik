@@ -49,6 +49,10 @@ $rtlDirInv = $doc->direction === 'rtl' ? 'right' : 'left';
 	<div class="tab-content">
 		<div class="tab-pane active" id="data-data">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('data-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 			<?php
 			$this->field = $this->form->getField('connection_id');
 			echo $this->loadTemplate('control_group');
@@ -87,22 +91,28 @@ $rtlDirInv = $doc->direction === 'rtl' ? 'right' : 'left';
 
 		<div class="tab-pane" id="data-groupby">
 			<fieldset class="form-horizontal">
+			<?php foreach ($this->form->getFieldset('groupby-help') as $this->field):
+				echo $this->loadTemplate('control_group');
+			endforeach; ?>
+
 			<?php
 			foreach ($this->form->getFieldset('grouping') as $this->field):
 				echo $this->loadTemplate('control_group');
-		 	endforeach;
-		 	foreach ($this->form->getFieldset('grouping2') as $this->field):
-		 	echo $this->loadTemplate('control_group');
-		 	endforeach;
-		 	?>
+			endforeach;
+			foreach ($this->form->getFieldset('grouping2') as $this->field):
+			echo $this->loadTemplate('control_group');
+			endforeach;
+			?>
 			</fieldset>
 		</div>
 
 		<div class="tab-pane" id="data-prefilter">
 			<fieldset class="form-horizontal">
-			<legend><?php echo FText::_('COM_FABRIK_PREFILTERS')?></legend>
+			<?php foreach ($this->form->getFieldset('prefilter-help') as $this->field):
+				echo $this->loadTemplate('control_group');
+			endforeach; ?>
 
-			 <a class="btn" href="#" onclick="oAdminFilters.addFilterOption(); return false;">
+			<a class="btn" href="#" onclick="oAdminFilters.addFilterOption(); return false;">
 				<i class="icon-plus"></i> <?php echo FText::_('COM_FABRIK_ADD'); ?>
 			</a>
 			<div id="prefilters" style="padding-top:20px">
@@ -113,16 +123,17 @@ $rtlDirInv = $doc->direction === 'rtl' ? 'right' : 'left';
 			</div>
 			<?php foreach ($this->form->getFieldset('prefilter') as $this->field):
 				echo $this->loadTemplate('control_group');
-			 endforeach;
-			 ?>
+			endforeach;
+			?>
 			</fieldset>
 		</div>
 
 		<div class="tab-pane" id="table-sliders-data-joins">
 			<fieldset>
-			<legend>
-				<?php echo FText::_('COM_FABRIK_JOINS');?>
-			</legend>
+				<?php foreach ($this->form->getFieldset('joins-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 			<?php if ($this->item->id != 0) { ?>
 			<a href="#" id="addAJoin" class="btn">
 				<i class="icon-plus"></i>  <?php echo FText::_('COM_FABRIK_ADD'); ?>
@@ -143,7 +154,9 @@ $rtlDirInv = $doc->direction === 'rtl' ? 'right' : 'left';
 
 		<div class="tab-pane" id="data-faceted">
 			<fieldset>
-				<legend><?php echo FText::_('COM_FABRIK_RELATED_DATA')?></legend>
+				<?php foreach ($this->form->getFieldset('relateddata-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
 
 				<?php foreach ($this->form->getFieldset('facetedlinks2') as $this->field):
 					echo $this->loadTemplate('control_group');

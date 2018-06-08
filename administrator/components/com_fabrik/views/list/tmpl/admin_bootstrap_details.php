@@ -58,6 +58,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="details-filters">
 		    <fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('filters-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php
 				foreach ($this->form->getFieldset('main_filter') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -71,6 +75,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane active" id="details-publishing">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('main-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('main') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
@@ -84,6 +92,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="details-nav">
 			 <fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('navigation-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php
 				foreach ($this->form->getFieldset('main_nav') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -96,13 +108,11 @@ defined('_JEXEC') or die('Restricted access');
 		</div>
 
 		<div class="tab-pane" id="details-layout">
-			 <fieldset class="form-horizontal">
-				<?php
-
-				?>
-			</fieldset>
-
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('layout-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<div class="row-fluid">
 					<div class="span6">
 						<legend><?php echo FText::_('COM_FABRIK_TEMPLATES')?></legend>
@@ -150,6 +160,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="details-link">
 			<div class="row-fluid">
+				<?php foreach ($this->form->getFieldset('links-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<div class="span8">
 					<fieldset class="form-horizontal">
 						<?php foreach ($this->form->getFieldset('links') as $this->field) :
@@ -172,6 +186,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="details-notes">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('notes-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('notes') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
@@ -181,6 +199,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="details-advanced">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('advanced-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('advanced') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;

@@ -52,6 +52,10 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="tab-content">
 		<div class="tab-pane active" id="publishing-details">
 		    <fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('publishing-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('publishing-details') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
@@ -61,6 +65,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-rss">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('rss-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('rss') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
@@ -70,6 +78,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-csv">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('csv-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php
 				foreach ($this->form->getFieldset('csv') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -83,6 +95,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-oai">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('openarchive-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<div class="alert"><?php echo FText::_('COM_FABRIK_OPEN_ARCHIVE_INITIATIVE'); ?></div>
 				<?php foreach ($this->form->getFieldset('open_archive_initiative') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -93,6 +109,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-search">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('search-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<div class="alert"><?php echo FText::_('COM_FABRIK_SPECIFY_ELEMENTS_IN_DETAILS_FILTERS'); ?></div>
 				<?php foreach ($this->form->getFieldset('search') as $this->field) :
 					echo $this->loadTemplate('control_group');
@@ -103,6 +123,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		<div class="tab-pane" id="publishing-dashboard">
 			<fieldset class="form-horizontal">
+				<?php foreach ($this->form->getFieldset('quickicon-help') as $this->field):
+					echo $this->loadTemplate('control_group');
+				endforeach; ?>
+
 				<?php foreach ($this->form->getFieldset('dashboard') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;

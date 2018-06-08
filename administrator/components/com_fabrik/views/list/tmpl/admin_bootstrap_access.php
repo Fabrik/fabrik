@@ -15,6 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <div class="tab-pane" id="access">
     <fieldset class="form-horizontal">
+			<?php foreach ($this->form->getFieldset('access-help') as $this->field):
+				echo $this->loadTemplate('control_group');
+			endforeach; ?>
+
     	<legend>
     		<?php echo FText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS'); ?>
     	</legend>
