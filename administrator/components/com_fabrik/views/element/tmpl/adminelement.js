@@ -56,7 +56,7 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 					this.addJavascript(opt);
 				}.bind(this));
 
-				this.jsPeriodical = this.iniJsAccordion.periodical(250, this);
+				this.jsPeriodical = this.iniJsAccordion.periodical(100, this);
 
 				document.id('jform_plugin').addEvent('change', function (e) {
 					this.changePlugin(e.target.get('value'));
@@ -74,6 +74,11 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 
 				document.id('javascriptActions')
 					.addEvent('change:relay(select[id^="jform_action-"],select[id^="jform_js_e_event-"],select[id^="jform_js_e_trigger-"],select[id^="jform_js_e_condition-"],input[id^="jform_js_e_value-"])', function (e, target) {
+					this.setAccordionHeader(target.getParent('.actionContainer'));
+				}.bind(this));
+
+				document.id('javascriptActions')
+					.addEvent('click:relay(input[id^="jform_js_published-"])', function (e, target) {
 					this.setAccordionHeader(target.getParent('.actionContainer'));
 				}.bind(this));
 
@@ -262,7 +267,16 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 				header.set('html', '<span style="color:red;">' + Joomla.JText._('COM_FABRIK_JS_SELECT_EVENT') + '</span>');
 				return;
 			}
-			var s = 'on ' + action.getSelected()[0].text + ' : ';
+			var s = 'on ' + action.getSelected()[0].text + ': ';
+
+			var publishedEls = c.getElements('input[id^="jform_js_published-"]');
+			var published = '';
+			publishedEls.forEach(function(el) {
+				if (el.getProperty('checked')) {
+					published = el.value;
+				}
+			});
+
 			var code = c.getElement('textarea[id^="jform_code-"]');
 			var event = c.getElement('select[id^="jform_js_e_event-"]');
 			var trigger = c.getElement('select[id^="jform_js_e_trigger-"]');
@@ -284,7 +298,7 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 					t += '</span>';
 				}
 			} else if (event.value && trigger.value && name.value) {
-				t  = Joomla.JText._('COM_FABRIK_JS_WHEN_ELEMENT') + ' "' + name.value + '" ';
+				t  = Joomla.JText._('COM_FABRIK_JS_WHEN_ELEMENT') + ' ';
 				if (condition.getSelected()[0].text.test(/hidden|shown/)) {
 					t += Joomla.JText._('COM_FABRIK_JS_IS') + ' ';
 					t += condition.getSelected()[0].text + ', ';
@@ -300,6 +314,7 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 			if (t !== '') {
 				s += '<span style="font-weight:normal">' + t + '</span>';
 			}
+			s = '<span style="color:' + (published == 0 ? "#bd362f" : "#46a546") + '">' + s + '</span>';
 			header.set('html', s);
 		},
 
