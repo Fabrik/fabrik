@@ -37,11 +37,6 @@ JHtml::_('behavior.keepalive');
 	    		<?php echo FText::_('COM_FABRIK_LAYOUT')?>
 	    	</a>
 	    </li>
-	    <li>
-	    	<a data-toggle="tab" href="#details-multipage">
-	    		<?php echo FText::_('COM_FABRIK_GROUP_MULTIPAGE')?>
-	    	</a>
-	    </li>
 	</ul>
 
 	<div class="tab-content">
@@ -85,17 +80,6 @@ JHtml::_('behavior.keepalive');
 			</fieldset>
 		</div>
 
-		<div class="tab-pane" id="details-multipage">
-			<fieldset class="form-horizontal">
-		    	<legend>
-		    		<?php echo FText::_('COM_FABRIK_GROUP_MULTIPAGE');?>
-		    	</legend>
-				<?php foreach ($this->form->getFieldset('pagination') as $this->field) :
-					echo $this->loadTemplate('control_group');
-				endforeach;
-				?>
-			</fieldset>
-		</div>
 	</div>
 
 	<input type="hidden" name="task" value="" />

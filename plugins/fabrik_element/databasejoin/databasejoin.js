@@ -696,6 +696,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         if (this.options.show_please_select) {
                             this.element.options[0].selected = true;
                         }
+                        val = '';
                     } else {
                         if (typeOf(val) === 'string') {
                             val = val === '' ? [] : JSON.parse(val);
@@ -719,6 +720,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             this.options.value = val;
             if (this.options.advanced) {
                 jQuery('#' + this.element.id).trigger('liszt:updated');
+                jQuery('#' + this.element.id).trigger('chosen:updated');
             }
         },
 
@@ -878,12 +880,28 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             return v;
         },
 
+        // Clear dbjoin options
+        // Sophist - if user has specified a JS event to clear the dbjoin,
+        // then we will interpret this as a request to clear all options.
+        clear: function () {
+            this.parent();
+            var options = this.element.options;
+            for (var i = options.length - 1; i >= this.options.show_please_select; i--) {
+                options[i].destroy();
+            }
+            if (this.options.advanced) {
+                jQuery(this.element).trigger('liszt:updated');
+                jQuery(this.element).trigger('chosen:updated');
+            }
+        },
+
         cloned: function (c) {
             //c is the repeat group count
             this.activePopUp = false;
             this.parent(c);
             this.init();
             this.watchSelect();
+            this.watchObserve();
             if (this.options.displayType === 'auto-complete') {
                 this.cloneAutoComplete();
             }

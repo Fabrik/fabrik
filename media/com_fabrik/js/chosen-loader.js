@@ -11,6 +11,10 @@
 require(['fab/fabrik', 'jquery'], function (Fabrik, $) {
 	if (!Fabrik.buildChosen) {
 		Fabrik.buildChosen = function (selector, options) {
+			// Save chosen default options for repeat group add reuse
+			if (!Fabrik.chosenOptions) {
+				Fabrik.chosenOptions = options;
+			}
 			if ($(selector).chosen !== undefined) {
 				$(selector).each(function (k, v) {
 					var allOptions;

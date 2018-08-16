@@ -88,8 +88,13 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 }
                 var opts = jQuery.extend({}, self.options, thisOpts);
                 if (opts.content === 'title') {
-                    opts.content = jQuery(this).prop('title');
-                    jQuery(this).removeAttr('title');
+                    if (jQuery(this).prop('title') !== '') {
+                        opts.content = jQuery(this).prop('title');
+                        jQuery(this).removeAttr('title');
+                        jQuery(this).attr('preserve-title', opts.content);
+                    } else {
+                        opts.content = jQuery(this).attr('preserve-title');
+                    }
                 } else if (jQuery.type(opts.content) === 'function') {
                     var c = opts.content(this);
                     opts.content = c === null ? '' : c.innerHTML;

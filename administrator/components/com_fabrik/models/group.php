@@ -84,6 +84,24 @@ class FabrikAdminModelGroup extends FabModelAdmin
 			$data = $this->getItem();
 		}
 
+		// Backwards compatibility for splitting Repeat num element into min and max elements
+		$defaultParams = array(
+			'repeat_num_element' => '',
+			'repeat_min_element' => '',
+			'repeat_max_element' => ''
+		);
+		$params = $data->get('params', array());
+		$params = array_merge($defaultParams, $params);
+
+		if ($params['repeat_num_element'] != ''
+		 && $params['repeat_min_element'] == ''
+		 && $params['repeat_max_element'] == '')
+		{
+			$params['repeat_min_element'] = $params['repeat_max_element'] = $params['repeat_num_element'];
+		}
+
+		$data->set('params', $params);
+
 		return $data;
 	}
 

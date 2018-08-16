@@ -53,22 +53,6 @@
 		</fieldset>
 	</fields>
 	<fields name="params">
-		<fieldset legend="test"
-		          name="pagination">
-
-			<field name="split_page"
-			       type="list"
-			       default="0"
-			       description="COM_FABRIK_SPLIT_PAGE_DESC"
-			       label="COM_FABRIK_SPLIT_PAGE_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">COM_FABRIK_BOTH</option>
-				<option value="2">COM_FABRIK_FORM</option>
-				<option value="3">COM_FABRIK_DETAILS</option>
-			</field>
-
-		</fieldset>
-
 		<fieldset name="details2">
 
 			<field name="list_view_and_query"
@@ -80,6 +64,22 @@
 			>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			</field>
+
+			<field name="repeat_group_show_first"
+			       default="1"
+			       description="COM_FABRIK_SHOW_GROUP_DESC"
+			       label="COM_FABRIK_SHOW_GROUP_LABEL"
+			       type="list">
+				<option value="1">JYES</option>
+				<option value="-1">COM_FABRIK_YES_BUT_HIDDEN</option>
+				<option value="-2">COM_FABRIK_YES_BUT_HIDDEN_FORM</option>
+				<option value="-3">COM_FABRIK_YES_BUT_HIDDEN_DETAILS</option>
+				<option value="2">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+				<option value="3">COM_FABRIK_FORM_VIEW_ONLY</option>
+				<option value="4">COM_FABRIK_SHOW_GROUP_USABLE_ELEMENTS_ONLY</option>
+				<option value="5">COM_FABRIK_SHOW_GROUP_ALWAYS_READ_ONLY</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field name="access"
@@ -131,13 +131,6 @@
 				<option value="repeatgroup_table">COM_FABRIK_REPEAT_GROUP_TMPL_TABLE</option>
 			</field>
 
-			<field name="repeat_max"
-			       type="text"
-			       class="input-mini"
-			       size="2"
-			       description="COM_FABRIK_REPEAT_GROUP_MAX_DESC"
-			       label="COM_FABRIK_REPEAT_GROUP_MAX_LABEL"/>
-
 			<field name="repeat_min"
 			       type="text"
 			       class="input-mini"
@@ -145,12 +138,35 @@
 			       description="COM_FABRIK_REPEAT_GROUP_MIN_DESC"
 			       size="2"/>
 
+			<field name="repeat_min_element"
+			       type="listfields"
+			       valueformat="tableelement"
+			       label="COM_FABRIK_REPEAT_GROUP_REPEAT_MIN_ELEMENT_LABEL"
+			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_MIN_ELEMENT_DESC"
+			/>
+
+			<field name="repeat_max"
+			       type="text"
+			       class="input-mini"
+			       size="2"
+			       description="COM_FABRIK_REPEAT_GROUP_MAX_DESC"
+			       label="COM_FABRIK_REPEAT_GROUP_MAX_LABEL"/>
+
+			<field name="repeat_max_element"
+			       type="listfields"
+			       valueformat="tableelement"
+			       label="COM_FABRIK_REPEAT_GROUP_REPEAT_MAX_ELEMENT_LABEL"
+			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_MAX_ELEMENT_DESC"
+			/>
+
+			<!-- Replaced by repeat_min/max_element fields
 			<field name="repeat_num_element"
 			       type="listfields"
 			       valueformat="tableelement"
 			       label="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_LABEL"
 			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_DESC"
 			/>
+			/-->
 
 			<field name="repeat_error_message"
 			       type="text"
@@ -194,7 +210,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			 -->
+			-->
 
 			<field default="0"
 			       class="radio btn-group"
@@ -224,22 +240,6 @@
 			       label="COM_FABRIK_FIELD_COLUMN_WIDTHS_LABEL"
 			       description="COM_FABRIK_FIELD_COLUMN_WIDTHS_DESC"/>
 
-			<field default="1"
-			       description="COM_FABRIK_SHOW_GROUP_DESC"
-			       label="COM_FABRIK_SHOW_GROUP_LABEL"
-			       name="repeat_group_show_first"
-			       type="list">
-				<option value="1">JYES</option>
-				<option value="-1">COM_FABRIK_YES_BUT_HIDDEN</option>
-				<option value="-2">COM_FABRIK_YES_BUT_HIDDEN_FORM</option>
-				<option value="-3">COM_FABRIK_YES_BUT_HIDDEN_DETAILS</option>
-				<option value="2">COM_FABRIK_DETAILS_VIEW_ONLY</option>
-				<option value="3">COM_FABRIK_FORM_VIEW_ONLY</option>
-				<option value="4">COM_FABRIK_SHOW_GROUP_USABLE_ELEMENTS_ONLY</option>
-				<option value="5">COM_FABRIK_SHOW_GROUP_ALWAYS_READ_ONLY</option>
-				<option value="0">JNO</option>
-			</field>
-
 			<field class="btn-group"
 			       default="0"
 			       description="COM_FABRIK_RANDOMISE_ELEMENTS_DESC"
@@ -249,6 +249,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
 			<field name="labels_above"
 			       type="radio"
 			       class="btn-group"
@@ -271,6 +272,17 @@
 				<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
 				<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
 				<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
+			</field>
+
+			<field name="split_page"
+			       type="list"
+			       default="0"
+			       description="COM_FABRIK_SPLIT_PAGE_DESC"
+			       label="COM_FABRIK_SPLIT_PAGE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">COM_FABRIK_BOTH</option>
+				<option value="2">COM_FABRIK_FORM</option>
+				<option value="3">COM_FABRIK_DETAILS</option>
 			</field>
 		</fieldset>
 	</fields>

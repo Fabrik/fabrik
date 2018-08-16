@@ -271,6 +271,22 @@ define(['jquery'], function (jQuery) {
             this.addNewEvent(action, js);
         },
 
+        /**
+         * Run unload events if repeat group row is being deleted
+         */
+        runUnloadEvents: function () {
+            var events = this.events['unload'];
+            if (events) {
+                for (var i = 0; i < events.length; i++) {
+                    try {
+                        eval(js[i]);
+                    } catch (error) {
+                        fconsole('Error in', this.element.id , 'unload event javascript:', error.name, '-', error.message, "\r\n", js[i]);
+                    }
+                }
+            }
+        },
+
         validate: function () {
         },
 
@@ -393,16 +409,28 @@ define(['jquery'], function (jQuery) {
 
         /**
          * Run when the element is cloned in a repeat group
+         *
+         * @params   int  c  Repeat group count
          */
         cloned: function (c) {
             this.renewEvents();
-            this.resetEvents();
             if (this.element.hasClass('chzn-done')) {
                 this.element.removeClass('chzn-done');
+                this.element.removeProperty('style');
+                this.element.removeAttribute('readonly');
+                this.element.removeProperty('disabled');
+                this.element.getChildren('option').each(function(el) {
+                    el.removeProperty('disabled');
+                    el.removeAttribute('selected');
+                });
                 this.element.addClass('chzn-select');
                 this.element.getParent().getElement('.chzn-container').destroy();
-                jQuery('#' + this.element.id).chosen();
-                jQuery(this.element).addClass('chzn-done');
+                if (Fabrik.buildChosen) {
+                    Fabrik.buildChosen('#' + this.element.get('id'), Fabrik.chosenOptions);
+                    jQuery(this.element).addClass('chzn-done');
+                    jQuery(this.element).trigger("liszt:updated");
+                    jQuery(this.element).trigger("chosen:updated");
+                }
                 var changeEvent = this.getChangeEvent();
                 jQuery('#' + this.options.element).on('change', {changeEvent: changeEvent}, function (event) {
                     document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(event.data.changeEvent,
@@ -611,7 +639,7 @@ define(['jquery'], function (jQuery) {
             var classes = ['fabrikValidating', 'fabrikError', 'fabrikSuccess'];
             var container = this.getContainer();
             if (container === false) {
-                console.log('Notice: couldn not set error msg for ' + msg + ' no container class found');
+                fconsole('Notice: Couldn\'t set error msg for ' + msg + ': No container class found');
                 return;
             }
             classes.each(function (c) {

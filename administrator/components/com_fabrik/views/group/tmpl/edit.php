@@ -67,18 +67,6 @@ JHtml::_('behavior.keepalive');
 			</ul>
 		</fieldset>
 
-		<fieldset class="adminform">
-			<legend><?php echo FText::_('COM_FABRIK_GROUP_MULTIPAGE');?></legend>
-			<ul class="adminformlist">
-				<?php foreach ($this->form->getFieldset('pagination') as $field) :?>
-				<li>
-					<?php echo $field->label; ?><?php echo $field->input; ?>
-				</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
-
-
 	</div>
 	<div class="clr"></div>
 

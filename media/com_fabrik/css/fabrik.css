@@ -564,6 +564,12 @@ td.repeat-reduce ul.fabrikRepeatData li {
 	padding: 5px !important;
 	border-bottom: 1px solid #CCCCCC;
 }
+
+td.repeat-merge ul.fabrikRepeatData li:last-child,
+td.repeat-reduce ul.fabrikRepeatData li:last-child {
+	border-bottom: inherit;
+}
+
 /*********************************************************/
 /************  Misc. Workarounds *************************/
 /*********************************************************/
@@ -571,6 +577,28 @@ td.repeat-reduce ul.fabrikRepeatData li {
 /** add a top margin for read only elements **/
 .fabrikElementReadOnly {
 	margin-top: 5px;
+}
+
+/** Make fabrik repeat group buttons central when zero repeat group rows **/
+.fabrikGroupRepeater.btn-group {
+	padding-top: 6px;
+	padding-right: 6px;
+}
+
+/** Show disabled cursor over diabled fabrik repeat group buttons **/
+.fabrikGroupRepeater .btn.disabled,
+.fabrikGroupRepeater .btn[disabled] {
+	cursor: not-allowed;
+}
+
+.fabrikGroupRepeater .btn.btn-success.disabled,
+.fabrikGroupRepeater .btn.btn-success[disabled] {
+	background-color: #46a546;
+}
+
+.fabrikGroupRepeater .btn.btn-danger.disabled,
+.fabrikGroupRepeater .btn.btn-danger[disabled] {
+	background-color: #bd362f;
 }
 
 /** Workaround for Gantry's date class stomping on our date element class **/
