@@ -4021,21 +4021,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$join  = $this->getJoin();
 		$keys = array();
-		$fulName = $this->getFullName(true, false) . '_raw';
 
 		foreach ($groups as $group)
 		{
 			foreach ($group as $row)
 			{
-				// Don't do anytyhing if nothing is selected
-				if($row->{$fulName}=="") return;
-				$pkval = $row->__pk_val;
+				$keys[] = $row->__pk_val; 
 			}
 		}
-
+		
 		$db = $this->getDb();
 		$query = $db->getQuery(true);
-		$query->delete($db->qn($join->table_join))->where('parent_id='.$pkval);
+		$query->delete($db->qn($join->table_join))->where('parent_id IN ('.implode(',',$keys).')');
 		return $db->setQuery($query)->execute();
 	}
 }
