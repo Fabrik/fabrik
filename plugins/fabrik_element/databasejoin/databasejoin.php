@@ -4027,19 +4027,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			foreach ($group as $row)
 			{
-				$keys = array_merge($keys, explode(GROUPSPLITTER, $row->$fulName));
+				// Don't do anytyhing if nothing is selected
+				if($row->{$fulName}=="") return;
+				$pkval = $row->__pk_val;
 			}
 		}
 
 		$db = $this->getDb();
-		array_walk($keys, function (&$key) {
-			$db = $this->getDb();
-			$key = $db->q($key);
-		});
-
 		$query = $db->getQuery(true);
-		$query->delete($db->qn($join->table_join))->where('id IN (' . implode(',', $keys) .')');
-
+		$query->delete($db->qn($join->table_join))->where('parent_id='.$pkval);
 		return $db->setQuery($query)->execute();
 	}
 }
