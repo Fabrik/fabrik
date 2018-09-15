@@ -2695,7 +2695,8 @@ class FabrikFEModelList extends JModelForm
 			}
 			else
 			{
-				$query->where('2 = -2');
+				/= Bauer  changed from 2 = -2 for more specific help with debugging */
+				$query->where('3 = -3');
 			}
 		}
 		else
