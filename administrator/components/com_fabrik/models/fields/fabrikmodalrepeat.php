@@ -38,24 +38,34 @@ class JFormFieldFabrikModalrepeat extends JFormField
 	 *
 	 * @return	string	The field input markup.
 	 */
-
 	protected function getInput()
 	{
 		// Initialize variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		JHTML::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
-		$subForm = new JForm($this->name, array('control' => 'jform'));
+		// To allow values to be saved properly in repeat groups e.g. gmaps viz we need to ensure all modals have unique ids.
+		// For sake of compatibility, we are using the J! subform naming convention.
+		$name = $this->name;
+		$nameParts = explode('[', $name);
+		$lastNamePart = rtrim(array_pop($nameParts), ']');
+		if ($lastNamePart !== $this->fieldname && is_numeric($lastNamePart))
+		{
+			$nameParts[] = $this->fieldname . $lastNamePart . ']';
+			$name = implode('[', $nameParts);
+		}
+		$subForm = new JForm($this->name, array('control' => $name));
 		$xml = $this->element->children()->asXML();
 		$subForm->load($xml);
+
 		$j3 = FabrikWorker::j3();
-		
+
 		if (!isset($this->form->repeatCounter))
 		{
 			$this->form->repeatCounter = 0;
 		}
 
-		// Needed for repeating modals in gmaps viz
+		// Needed for repeat groups in e.g. gmaps viz
 		$subForm->repeatCounter = (int) $this->form->repeatCounter;
 
 		/**
@@ -115,7 +125,14 @@ class JFormFieldFabrikModalrepeat extends JFormField
 		$children = $this->element->children();
 
 		// $$$ rob 19/07/2012 not sure y but this fires a strict standard warning deep in JForm, suppress error for now
+		// $$$ sophist 25/02/2018 no longer gives standard warning on J3.8, F3.8, PHP 7.1
 		@$subForm->setFields($children);
+
+		// Set repeat true for sub-fields.
+		foreach ($subForm->getFieldset() as $id => &$field)
+		{
+			$subForm->setFieldAttribute($field->getAttribute('name'), 'repeat', true, $field->group);
+		}
 
 		$str = array();
 		$version = new JVersion;
@@ -194,6 +211,9 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			$modalRepeat[$modalId] = array();
 		}
 
+		FabrikHelperHTML::framework();
+		FabrikHelperHTML::iniRequireJS();
+
 		if (!array_key_exists($this->form->repeatCounter, $modalRepeat[$modalId]))
 		{
 			// If loaded as js template then we don't want to repeat this again. (fabrik)
@@ -204,14 +224,10 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			$opts = new stdClass;
 			$opts->j3 = $j3;
 			$opts = json_encode($opts);
-			$script = str_replace('-', '', $modalId) . " = new FabrikModalRepeat('$modalId', $names, '$this->id', $opts);";
+			$script = "FabrikAdmin.model.fields.fabrikmodalrepeat['" . $modalId . "'] = new FabrikModalRepeat('$modalId', $names, '$this->id', $opts);";
 			$option = $input->get('option');
 
-			if ($option === 'com_fabrik')
-			{
-				FabrikHelperHTML::script('administrator/components/com_fabrik/models/fields/fabrikmodalrepeat.js', $script);
-			}
-			else
+			if ($option !== 'com_fabrik')
 			{
 				if ($j3)
 				{
@@ -266,10 +282,14 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			});";
 				}
 
-				// Wont work when rendering in admin module page
-				// @TODO test this now that the list and form pages are loading plugins via ajax (18/08/2012)
-				FabrikHelperHTML::script('administrator/components/com_fabrik/models/fields/fabrikmodalrepeat.js', $script);
 			}
+
+			$srcs = array(
+				'Fabrik' => 'media/com_fabrik/js/fabrik.js',
+				'Namespace' => 'administrator/components/com_fabrik/views/namespace.js',
+				'FabrikModalRepeat' => 'administrator/components/com_fabrik/models/fields/fabrikmodalrepeat.js',
+			);
+			FabrikHelperHTML::script($srcs, $script);
 		}
 
 		if (is_array($this->value))
@@ -295,9 +315,6 @@ class JFormFieldFabrikModalrepeat extends JFormField
 			$str[] = '	</div>';
 			$str[] = '</div>';
 		}
-
-		FabrikHelperHTML::framework();
-		FabrikHelperHTML::iniRequireJS();
 
 		return implode("\n", $str);
 	}

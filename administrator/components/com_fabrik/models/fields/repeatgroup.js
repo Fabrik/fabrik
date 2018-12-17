@@ -25,58 +25,69 @@ var FbRepeatGroup = new Class({
 		return this.element.getElements('.repeatGroup');
 	},
 
-	watchAdd : function () {
-		var newid;
+	watchAdd: function () {
 		this.element.getElement('a[data-button=addButton]').addEvent('click', function (e) {
 			e.stop();
 			var div = this.repeatContainers().getLast();
-			newc = this.counter + 1;
-			var id = div.id.replace('-' + this.counter, '-' + newc);
+			// repeatgroup div does not have an id - but leaving this in case one is added later
+			var id = div.id.replace('-' + (this.counter - 1), '-' + this.counter);
 			var c = new Element('div', {'class': 'repeatGroup', 'id': id}).set('html', div.innerHTML);
 			c.inject(div, 'after');
-			this.counter = newc;
 
 			// Update params ids
 			if (this.counter !== 0) {
-				c.getElements('input, select').each(function (i) {
-					var newPlugin = false;
-					var newid = '';
-					var oldid = i.id;
-					if (i.id !== '') {
-						var a = i.id.split('-');
-						a.pop();
-						newid = a.join('-') + '-' + this.counter;
-						i.id = newid;
+				var chgEvent = new Event('change');
+				c.getElements('input, select, textarea, label, button').each(function (i) {
+					// Reset all select dropdowns to default for cloned item.
+					if (i.get('tag') == 'select') {
+						var opt = i.getElement('option');
+						if (opt) {
+							i.set('value', opt.get('value'));
+							i.dispatchEvent(chgEvent);
+						}
 					}
 
-					this.increaseName(i);
+					// All fabrik elements have ids - if no id we cannot do much.
+					if (i.id === '') {
+						return;
+					}
+
+					var oldId = i.id;
+					newId = this._incrementId(i);
+
+					c.getElements('[for="' + oldId + '"]').each(function (j) {
+						j.set('for',newId);
+					});
+
+					if (i.name) {
+						i.name = this._incrementName(i.name);
+					}
+
 					$H(FabrikAdmin.model.fields).each(function (plugins, type) {
 						var newPlugin = false;
-						if (typeOf(FabrikAdmin.model.fields[type][oldid]) !== 'null') {
-							var plugin = FabrikAdmin.model.fields[type][oldid];
-							newPlugin = Object.clone(plugin);
-							try {
-								newPlugin.cloned(newid, this.counter);
-							} catch (err) {
-								fconsole('no clone method available for ' + i.id);
+						if (typeOf(FabrikAdmin.model.fields[type][oldId]) !== 'null') {
+							var newPlugin = Object.clone(FabrikAdmin.model.fields[type][oldId]);
+							if (newPlugin !== false) {
+								newPlugin.cloned(newId, this.counter);
+								FabrikAdmin.model.fields[type][newId] = newPlugin;
 							}
 						}
-						if (newPlugin !== false) {
-							FabrikAdmin.model.fields[type][i.id] = newPlugin;
-						}
 					}.bind(this));
-
-
 				}.bind(this));
 
 				c.getElements('img[src=components/com_fabrik/images/ajax-loader.gif]').each(function (i) {
-
-					var a = i.id.split('-');
-					a.pop();
-					var newid = a.join('-') + '-' + this.counter + '_loader';
-					i.id = newid;
+					if (i.id) {
+						i.id = this._incrementId(i);
+					}
 				}.bind(this));
+
+				// Replace data-showon counters
+				this._incrementShowon(c);
+				FabrikAdmin.reTip();
+				document.dispatchEvent(new CustomEvent('fabrikadmin.repeatgroup.add', {'detail':c}));
 			}
+
+			this.counter++;
 		}.bind(this));
 	},
 
@@ -89,40 +100,67 @@ var FbRepeatGroup = new Class({
 		this.element.getElements('a[data-button=deleteButton]').each(function (r, x) {
 			r.addEvent('click', function (e) {
 				e.stop();
-				var count = this.getCounter();
-				if (count > this.options.repeatmin) {
-					var u = this.repeatContainers().getLast();
-					u.destroy();
+				if (this.getCounter() <= this.options.repeatmin) {
+					return;
 				}
-				this.rename(x);
+				var u = this.repeatContainers().getLast();
+				document.dispatchEvent(new CustomEvent('fabrikadmin.repeatgroup.remove', {'detail':u}));
+				u.destroy();
+				this.counter--;
 			}.bind(this));
 		}.bind(this));
 	},
 
-	increaseName : function (i) {
-		var namebits = i.name.split('][');
-		var ref = namebits[2].replace(']', '').toInt() + 1;
-		namebits.splice(2, 1, ref);
-		i.name = namebits.join('][') + ']';
+	_incrementId: function (target) {
+		// Handle both standard repeat-group ids and fabrikmodalrepeat which have J! subform naming
+		var id = target.id;
+		var newC = this.counter;
+		var oldC = newC - 1;
+		if (id.indexOf(oldC + '__') >= 0) {
+			var id = target.id = id.replace(oldC + '__', newC + "__");
+		} else if (id.indexOf('-' + oldC) >= 0) {
+			var id = target.id = id.replace('-' + oldC, '-' + newC);
+		}
+		return id;
 	},
 
-	rename : function (x) {
-		this.element.getElements('input, select').each(function (i) {
-			i.name = this._decreaseName(i.name, x);
-		}.bind(this));
-	},
-
-	_decreaseName: function (n, delIndex) {
+	_incrementName: function (n) {
 		var namebits = n.split('][');
 		var i = namebits[2].replace(']', '').toInt();
-		if (i >= 1  && i > delIndex) {
-			i --;
-		}
+		i++;
 		if (namebits.length === 3) {
 			i = i + ']';
 		}
 		namebits.splice(2, 1, i);
-		var r = namebits.join('][');
-		return r;
-	}
+		return namebits.join('][');
+	},
+
+	_incrementShowon: function(rg) {
+		// Replace data-showon counters
+		rg.getElements('div[data-showon]').each(function (div) {
+			var showon = div.getProperty('data-showon');
+			// showon is a string of an array of json.
+			try {
+				showon = JSON.parse(showon);
+			}
+			catch(error) {
+				fconsole('Fabrik repeatgroup: Showon incorrect format:', showon);
+				return;
+			}
+			if (!Array.isArray(showon)) {
+				fconsole('Fabrik repeatgroup: Showon not array:', showon);
+				return;
+			}
+			for (var j = 0; j < showon.length; j++) {
+				if (showon[j].hasOwnProperty('field')) {
+					showon[j].field = this._incrementName(showon[j].field);
+				}
+			}
+			div.setAttribute('data-showon', JSON.stringify(showon));
+		}.bind(this));
+
+		if (typeof Joomla.setUpShowon === "function") {
+			Joomla.setUpShowon(rg);
+		}
+	},
 });

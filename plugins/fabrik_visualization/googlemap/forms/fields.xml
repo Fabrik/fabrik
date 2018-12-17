@@ -11,13 +11,14 @@
 			<field
 				name="googlemap_connection"
 				type="connections"
+				repeat="true"
 				description="CONNECTIONONLYFABRIKTABLES"
 				label="Connection" />
 
 			<field
 				name="googlemap_table"
 				type="fabriktables"
-				connection_in_repeat="false"
+				connection_in_repeat="true"
 				label="COM_FABRIK_LIST"
 				observe="params_googlemap_connection" />
 
@@ -30,95 +31,93 @@
 				label="COM_FABRIK_LIST_PREFILTERS_LABEL"
 				type="fabrikmodalrepeat">
 
-				<fields name="params">
-					<fieldset
-						modal="true"
-						name="prefilters_modal"
+				<fieldset
+					modal="true"
+					name="prefilters_modal"
+					repeat="true">
+
+					<field
+						name="filter-join"
+						type="list"
+						default="OR"
+						repeat="true"
+						label="">
+							<option value="AND">AND</option>
+							<option value="OR">OR</option>
+					</field>
+
+					<!-- <field name="filter-fields" connection="googlemap_connection"
+						table="googlemap_table" type="listfields" raw="true" valueformat="tableelement"
+						label="COM_FABRIK_LIST_ELEMENTS_HEADING" /> -->
+
+					<!-- <field type="element" name="filter-fields" connection="params_googlemap_connection"
+						connection_in_repeat="true" label="COM_FABRIK_LIST_ELEMENTS_HEADING" table="params_googlemap_table"
+						/> -->
+
+					<field
+						name="filter-fields"
+						type="listfields"
+						repeat="true"
+						showall="0"
+						valueformat="tableelement"
+						connection="params_googlemap_connection"
+						connection_in_repeat="true"
+						label="COM_FABRIK_LIST_ELEMENTS_HEADING"
+						table="params_googlemap_table" />
+
+					<field
+						name="filter-conditions"
+						type="list"
+						repeat="true"
+						label="COM_FABRIK_LIST_CONDITION_LABEL">
+							<option value="equals">EQUALS</option>
+							<option value="notequals">NOT EQUAL TO</option>
+							<option value="begins">BEGINS WITH</option>
+							<option value="contains">CONTAINS</option>
+							<option value="ends">ENDS WITH</option>
+							<option value="greaterthan">GREATER THAN</option>
+							<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
+							<option value="lessthan">LESS THAN</option>
+							<option value="IS NULL">IS NULL</option>
+							<option value="lessthanequals">LESS THAN OR EQUALS</option>
+							<option value="in">IN</option>
+							<option value="not_in">NOT IN</option>
+							<option value="thisyear">COM_FABRIK_LIST_THIS_YEAR</option>
+							<option value="earlierthisyear">COM_FABRIK_LIST_EARLIER_THIS_YEAR</option>
+							<option value="laterthisyear">COM_FABRIK_LIST_LATER_THIS_YEAR</option>
+							<option value="yesterday">COM_FABRIK_YESTERDAY</option>
+							<option value="today">COM_FABRIK_TODAY</option>
+							<option value="tomorrow">COM_FABRIK_TOMORROW</option>
+							<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
+							<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
+							<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+							<option value="nextweek1">COM_FABRIK_NEXT_MONTH</option>
+					</field>
+
+					<field
+						name="filter-value"
+						type="field"
+						repeat="true"
+						label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" />
+
+					<field
+						name="filter-eval"
+						type="list"
+						label="COM_FABRIK_TYPE"
 						repeat="true">
+							<option value="0">COM_FABRIK_TEXT</option>
+							<option value="1">COM_FABRIK_EVAL</option>
+							<option value="2">COM_FABRIK_QUERY</option>
+							<option value="3">COM_FABRIK_NO_QUOTES</option>
+					</field>
 
-						<field
-							name="filter-join"
-							type="list"
-							default="OR"
-							repeat="true"
-							label="">
-								<option value="AND">AND</option>
-								<option value="OR">OR</option>
-						</field>
+					<field
+						name="filter-access"
+						type="accesslevel"
+						repeat="true"
+						label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING" />
 
-						<!-- <field name="filter-fields" connection="googlemap_connection" 
-							table="googlemap_table" type="listfields" raw="true" valueformat="tableelement" 
-							label="COM_FABRIK_LIST_ELEMENTS_HEADING" /> -->
-
-						<!-- <field type="element" name="filter-fields" connection="params_googlemap_connection" 
-							connection_in_repeat="true" label="COM_FABRIK_LIST_ELEMENTS_HEADING" table="params_googlemap_table" 
-							/> -->
-
-						<field
-							name="filter-fields"
-							type="listfields"
-							repeat="true"
-							showall="0"
-							valueformat="tableelement"
-							connection="params_googlemap_connection"
-							connection_in_repeat="true"
-							label="COM_FABRIK_LIST_ELEMENTS_HEADING"
-							table="params_googlemap_table" />
-
-						<field
-							name="filter-conditions"
-							type="list"
-							repeat="true"
-							label="COM_FABRIK_LIST_CONDITION_LABEL">
-								<option value="equals">EQUALS</option>
-								<option value="notequals">NOT EQUAL TO</option>
-								<option value="begins">BEGINS WITH</option>
-								<option value="contains">CONTAINS</option>
-								<option value="ends">ENDS WITH</option>
-								<option value="greaterthan">GREATER THAN</option>
-								<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
-								<option value="lessthan">LESS THAN</option>
-								<option value="IS NULL">IS NULL</option>
-								<option value="lessthanequals">LESS THAN OR EQUALS</option>
-								<option value="in">IN</option>
-								<option value="not_in">NOT IN</option>
-								<option value="thisyear">COM_FABRIK_LIST_THIS_YEAR</option>
-								<option value="earlierthisyear">COM_FABRIK_LIST_EARLIER_THIS_YEAR</option>
-								<option value="laterthisyear">COM_FABRIK_LIST_LATER_THIS_YEAR</option>
-								<option value="yesterday">COM_FABRIK_YESTERDAY</option>
-								<option value="today">COM_FABRIK_TODAY</option>
-								<option value="tomorrow">COM_FABRIK_TOMORROW</option>
-								<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
-								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
-								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
-								<option value="nextweek1">COM_FABRIK_NEXT_MONTH</option>
-						</field>
-
-						<field
-							name="filter-value"
-							type="field"
-							repeat="true"
-							label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" />
-
-						<field
-							name="filter-eval"
-							type="list"
-							label="COM_FABRIK_TYPE"
-							repeat="true">
-								<option value="0">COM_FABRIK_TEXT</option>
-								<option value="1">COM_FABRIK_EVAL</option>
-								<option value="2">COM_FABRIK_QUERY</option>
-								<option value="3">COM_FABRIK_NO_QUOTES</option>
-						</field>
-
-						<field
-							name="filter-access"
-							type="accesslevel"
-							repeat="true"
-							label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING" />
-
-					</fieldset>
-				</fields>
+				</fieldset>
 			</field>
 
 			<field
@@ -186,9 +185,9 @@
 					<option value="jroot">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_JOOMLA_RELATIVE</option>
 					<option value="absolute">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_FULL_PATH</option>
 					<option value="url">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_URL</option>
-					<option value="img">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_IMG</option>			
+					<option value="img">PLG_VISUALIZATION_GOOGLEMAP_DATA_ICON_PATH_IMG</option>
 			</field>
-			
+
 			<field
 				name="fb_gm_icon_letter"
 				type="text"
@@ -332,89 +331,87 @@
 				description="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_DESC"
 				label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_LABEL">
 
-				<fields name="params">
-					<fieldset
-						modal="true"
-						name="gmap_styles_modal">
+				<fieldset
+					modal="true"
+					name="gmap_styles_modal">
 
-						<field
-							name="style_feature"
-							type="list"
-							repeat=""
-							label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_FEATURE_LABEL">
-								<option value="administrative">administrative</option>
-								<option value="administrative.country">administrative.country</option>
-								<option value="administrative.land_parcel">administrative.land_parcel</option>
-								<option value="administrative.locality">administrative.locality</option>
-								<option value="administrative.neighborhood">administrative.neighborhood</option>
-								<option value="administrative.province">administrative.province</option>
-								<option value="all">all</option>
-								<option value="landscape">landscape</option>
-								<option value="landscape.man_made">landscape.man_made</option>
-								<option value="landscape.natural">landscape.natural</option>
-								<option value="landscape.natural.landcover">landscape.natural.landcover</option>
-								<option value="landscape.natural.terrain">landscape.natural.terrain</option>
-								<option value="poi">poi</option>
-								<option value="poi.attraction">poi.attraction</option>
-								<option value="poi.business">poi.business</option>
-								<option value="poi.government">poi.government</option>
-								<option value="poi.medical">poi.medical</option>
-								<option value="poi.park">poi.park</option>
-								<option value="poi.place_of_worship">poi.place_of_worship</option>
-								<option value="poi.school">poi.school</option>
-								<option value="poi.sports_complex">poi.sports_complex</option>
-								<option value="road">road</option>
-								<option value="road.arterial">road.arterial</option>
-								<option value="road.highway">road.highway</option>
-								<option value="road.highway.controlled_access">road.highway.controlled_access</option>
-								<option value="road.local">road.local</option>
-								<option value="transit">transit</option>
-								<option value="transit.line">transit.line</option>
-								<option value="transit.station">transit.station</option>
-								<option value="transit.station.airport">transit.station.airport</option>
-								<option value="transit.station.bus">transit.station.bus</option>
-								<option value="transit.station.rail">transit.station.rail</option>
-								<option value="water">water</option>
-						</field>
+					<field
+						name="style_feature"
+						type="list"
+						repeat=""
+						label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_FEATURE_LABEL">
+							<option value="administrative">administrative</option>
+							<option value="administrative.country">administrative.country</option>
+							<option value="administrative.land_parcel">administrative.land_parcel</option>
+							<option value="administrative.locality">administrative.locality</option>
+							<option value="administrative.neighborhood">administrative.neighborhood</option>
+							<option value="administrative.province">administrative.province</option>
+							<option value="all">all</option>
+							<option value="landscape">landscape</option>
+							<option value="landscape.man_made">landscape.man_made</option>
+							<option value="landscape.natural">landscape.natural</option>
+							<option value="landscape.natural.landcover">landscape.natural.landcover</option>
+							<option value="landscape.natural.terrain">landscape.natural.terrain</option>
+							<option value="poi">poi</option>
+							<option value="poi.attraction">poi.attraction</option>
+							<option value="poi.business">poi.business</option>
+							<option value="poi.government">poi.government</option>
+							<option value="poi.medical">poi.medical</option>
+							<option value="poi.park">poi.park</option>
+							<option value="poi.place_of_worship">poi.place_of_worship</option>
+							<option value="poi.school">poi.school</option>
+							<option value="poi.sports_complex">poi.sports_complex</option>
+							<option value="road">road</option>
+							<option value="road.arterial">road.arterial</option>
+							<option value="road.highway">road.highway</option>
+							<option value="road.highway.controlled_access">road.highway.controlled_access</option>
+							<option value="road.local">road.local</option>
+							<option value="transit">transit</option>
+							<option value="transit.line">transit.line</option>
+							<option value="transit.station">transit.station</option>
+							<option value="transit.station.airport">transit.station.airport</option>
+							<option value="transit.station.bus">transit.station.bus</option>
+							<option value="transit.station.rail">transit.station.rail</option>
+							<option value="water">water</option>
+					</field>
 
-						<field
-							name="style_element"
-							type="list"
-							default="all"
-							label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_FEATURE_ELEMENT_LABEL">
-								<option value="all">all</option>
-								<option value="geometry">geometry</option>
-								<option value="geometry.fill">geometry.fill</option>
-								<option value="geometry.stroke">geometry.stroke</option>
-								<option value="labels">labels</option>
-								<option value="labels.icon">labels.icon</option>
-								<option value="labels.text">labels.text</option>
-								<option value="labels.text.fill">labels.text.fill</option>
-								<option value="labels.text.stroke">labels.text.stroke</option>
-						</field>
+					<field
+						name="style_element"
+						type="list"
+						default="all"
+						label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_FEATURE_ELEMENT_LABEL">
+							<option value="all">all</option>
+							<option value="geometry">geometry</option>
+							<option value="geometry.fill">geometry.fill</option>
+							<option value="geometry.stroke">geometry.stroke</option>
+							<option value="labels">labels</option>
+							<option value="labels.icon">labels.icon</option>
+							<option value="labels.text">labels.text</option>
+							<option value="labels.text.fill">labels.text.fill</option>
+							<option value="labels.text.stroke">labels.text.stroke</option>
+					</field>
 
-						<field
-							name="style_styler_key"
-							type="list"
-							label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_STYLER_KEY_LABEL">
-								<option value="hue">hue (RGB Hex)</option>
-								<option value="lightness">lightness (a floating point value between -100 and 100)</option>
-								<option value="saturation">saturation (a floating point value between -100 and 100)</option>
-								<option value="gamma">gamma (a floating point value between 0.01 and 10.0, where 1.0 applies no correction) </option>
-								<option value="inverse_lightness">inverse_lightness (if true) simply inverts the existing lightness</option>
-								<option value="visibility">visibility (on, off, or simplified)</option>
-								<option value="color">color (an RGB hex string)</option>
-								<option value="weight">weight (an integer value, greater than or equal to zero)</option>
+					<field
+						name="style_styler_key"
+						type="list"
+						label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_STYLER_KEY_LABEL">
+							<option value="hue">hue (RGB Hex)</option>
+							<option value="lightness">lightness (a floating point value between -100 and 100)</option>
+							<option value="saturation">saturation (a floating point value between -100 and 100)</option>
+							<option value="gamma">gamma (a floating point value between 0.01 and 10.0, where 1.0 applies no correction) </option>
+							<option value="inverse_lightness">inverse_lightness (if true) simply inverts the existing lightness</option>
+							<option value="visibility">visibility (on, off, or simplified)</option>
+							<option value="color">color (an RGB hex string)</option>
+							<option value="weight">weight (an integer value, greater than or equal to zero)</option>
 
-						</field>
+					</field>
 
-						<field
-							name="style_styler_value"
-							type="text"
-							label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_STYLER_VALUE_LABEL" />
+					<field
+						name="style_styler_value"
+						type="text"
+						label="PLG_VISUALIZATION_GOOGLE_MAP_STYLE_STYLER_VALUE_LABEL" />
 
-					</fieldset>
-				</fields>
+				</fieldset>
 			</field>
 
 			<field
@@ -546,14 +543,14 @@
 					<option value="1">Small</option>
 					<option value="2">Large</option>
 			</field>
-			
+
 			<field default="0"
 				class="btn-group"
 				description="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_DESC" label="PLG_VISUALIZATION_GOOGLEMAP_SCROLLWHEEL_CONTROL_LABEL" name="fb_gm_scrollwheelcontrol" type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
 			<field
 				default="0"
 				class="btn-group"
@@ -769,8 +766,8 @@
 					<option value="1">JYES</option>
 			</field>
 
-			<!-- not yet working <field name="fb_gm_group_class" type="element" connection="params_googlemap_connection" 
-				connection_in_repeat="false" table="params_googlemap_table" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_LABEL" 
+			<!-- not yet working <field name="fb_gm_group_class" type="element" connection="params_googlemap_connection"
+				connection_in_repeat="false" table="params_googlemap_table" label="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_LABEL"
 				description="PLG_VISUALIZATION_GOOGLEMAP_GROUP_CLASS_DESC" /> -->
 		</fieldset>
 
