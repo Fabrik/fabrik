@@ -1859,13 +1859,18 @@ class PlgFabrik_Element extends FabrikPlugin
 	 */
 	protected function tipOpts()
 	{
-		$params         = $this->getParams();
-		$opts           = new stdClass;
-		$pos            = $params->get('tiplocation', 'top');
-		$opts->formTip  = true;
-		$opts->position = $pos;
-		$opts->trigger  = 'hover';
-		$opts->notice   = true;
+		$params             = $this->getParams();
+        	$opts               = new stdClass;
+        	$opts->setwidth     = $params->get('tipmaxwidth', 276);
+        	$tiptitle           = $params->get('tiptitle','','raw');
+		// escape any double quotes used in tip title text or html attributes ~ Bauer 
+        	$opts->tiptitle     = htmlentities(str_replace('"','\\"',$tiptitle),ENT_QUOTES);
+        	$opts->tipuselabel  = $params->get('tipuselabel','0');
+        	$opts->heading      = '';        
+		$opts->formTip      = true;
+		$opts->position     = $params->get('tiplocation', 'top');
+		$opts->trigger      = 'hover';
+		$opts->notice       = true;
 
 		if ($this->editable)
 		{
@@ -1896,7 +1901,7 @@ class PlgFabrik_Element extends FabrikPlugin
 			return '';
 		}
 
-		if ($this->isTipped($mode))
+		if ($this->isTipped($mode) && !empty($this->getTipText($data)))
 		{
 			$lines[] = '<li>' . FabrikHelperHTML::image('question-sign', 'form', $tmpl) . ' ' . $this->getTipText($data) . '</li>';
 		}
@@ -2344,7 +2349,7 @@ class PlgFabrik_Element extends FabrikPlugin
 	{
 		$title = $this->tipTextAndValidations($mode, $data);
 		$opts  = $this->tipOpts();
-		$opts  = json_encode($opts);
+		$opts  = str_replace('\\\\', '\\', json_encode($opts));
 
 		return $title !== '' ? 'title="' . $title . '" opts=\'' . $opts . '\'' : '';
 	}

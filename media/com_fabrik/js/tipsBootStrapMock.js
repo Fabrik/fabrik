@@ -19,6 +19,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
             'position'  : 'top',
             'trigger'   : 'hover',
             'content'   : 'title',
+            'maxwidth'  : 276,
             'distance'  : 50,
             'tipfx'     : 'Fx.Transitions.linear',
             'heading'   : '',
@@ -45,9 +46,19 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 } else {
                     return pos;
                 }
-            }
+            },
+            setwidth   : function (tip, ele) {                
+                // Return 276 to use the default maxwidth
+                Fabrik.fireEvent('bootstrap.tips.width', [tip, ele]);
+                var tipwidth = Fabrik.eventResults.tipwidth === 0 ? false : Fabrik.eventResults[0];
+                if (tipwidth === false) {
+                    var opts = JSON.parse(ele.get('opts', '{}').opts);
+                    return opts && opts.maxwidth ? opts.maxwidth: 276;
+                } else {
+                    return tipwidth;
+                }
+            }    
         },
-
         initialize: function (elements, options) {
             if (Fabrik.bootstrapVersion('modal') >= 3 || typeof(Materialize) === 'object') {
                 // We should override any Fabrik3 custom tip settings with bootstrap3 data-foo attributes in JLayouts
@@ -74,10 +85,14 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 });
                 return;
             }
+            window.fabrikTipXpos = [];
             var thisOpts;
             this.elements = jQuery(elements);
             var self = this;
             this.elements.each(function () {
+                jQuery(this).on("mouseenter", function(e){
+                    window.fabrikTipXpos[jQuery(this)[0].htmlFor] = e.clientX;
+                });                   
                 try {
                     var o = JSON.parse(jQuery(this).attr('opts'));
                     thisOpts = jQuery.type(o) === 'object' ? o : {};
@@ -88,6 +103,20 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                     thisOpts.defaultPos = thisOpts.position;
                     delete(thisOpts.position);
                 }
+                if (thisOpts.setwidth) {
+                    thisOpts.maxwidth = thisOpts.setwidth;
+                    delete(thisOpts.setwidth);
+                } 
+                var headertxt = '';
+                if (thisOpts.tipuselabel == '1'){
+                    headertxt = this.innerText;                 
+                } else if (thisOpts.tiptitle === '') {
+                    headertxt = thisOpts.heading;                 
+                } else if (thisOpts.tiptitle != 'x') {
+                    headertxt = thisOpts.tiptitle;                 
+                }
+                thisOpts.heading = headertxt;
+                
                 var opts = jQuery.extend({}, self.options, thisOpts);
                 if (opts.content === 'title') {
                     opts.content = jQuery(this).prop('title');
@@ -175,9 +204,8 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
             },
 
             show: function () {
-                var $tip, inside, pos, actualWidth, actualHeight, placement, tp;
                 if (this.hasContent() && this.enabled) {
-                    $tip = this.tip();
+                    var $tip = this.tip();
                     this.setContent();
 
                     if (this.options.animation) {
@@ -192,39 +220,60 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         .css({top: 0, left: 0, display: 'block'})
                         .appendTo(inside ? this.$element : document.body);
 
-                    pos = this.getPosition(inside);
-
-                    actualWidth = $tip[0].offsetWidth;
-                    actualHeight = $tip[0].offsetHeight;
-
-                    switch (inside ? placement.split(' ')[1] : placement) {
+                    var pos = this.getPosition(inside);
+                    var actualWidth = $tip[0].offsetWidth;
+                    var actualHeight = $tip[0].offsetHeight;
+                    var maxwidth = this.options.maxwidth>0 ? parseInt(this.options.maxwidth) : actualWidth;
+                    if ( isNaN(window.fabrikTipXpos[this.$element["0"].htmlFor]) ) {
+                        var xpos = parseInt(this.$element["0"].offsetLeft) + 25 ;
+                    }else{    
+                        var xpos = parseInt(window.fabrikTipXpos[this.$element["0"].htmlFor]);
+                    } 
+                    var tippos = inside ? placement.split(' ')[1] : placement;
+                    switch (tippos) {
                         case 'bottom':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            var leftpos = pos.left + pos.width / 2 - maxwidth / 2 ;
+                            if (leftpos > xpos) {
+                                leftpos = xpos-15;
+                            }   
+                            if (leftpos < 0) {leftpos = 10;} 
+                            if (leftpos + maxwidth > parseInt(jQuery(window).width())) {
+                                leftpos = parseInt(jQuery(window).width()) - maxwidth -10 ;
+                            } 
+                            var tp = {'top': pos.top + pos.height, 'left': leftpos, 'max-width': maxwidth+'px'};
                             break;
                         case 'bottom-left':
-                            tp = {top: pos.top + pos.height, left: pos.left};
+                            var tp = {top: pos.top + pos.height, left: pos.left};
                             placement = 'bottom';
                             break;
                         case 'bottom-right':
-                            tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth};
+                            var tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth};
                             placement = 'bottom';
                             break;
                         case 'top':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+                            var leftpos = pos.left + pos.width / 2 - maxwidth / 2 ;
+                            if (leftpos > xpos) {
+                                leftpos = xpos-15;
+                            }   
+                            if (leftpos < 0) {leftpos = 10;} 
+                            if (leftpos + maxwidth > parseInt(jQuery(window).width())) {
+                                leftpos = parseInt(jQuery(window).width()) - maxwidth - 10;
+                            } 
+                            var tp = {'top': pos.top - actualHeight, 'left': leftpos, 'max-width': maxwidth+'px'};
                             break;
                         case 'top-left':
-                            tp = {top: pos.top - actualHeight, left: pos.left};
+                            var tp = {top: pos.top - actualHeight, left: pos.left};
                             placement = 'top';
                             break;
                         case 'top-right':
-                            tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth};
+                            var tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth};
                             placement = 'top';
                             break;
                         case 'left':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+                            var tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
                             break;
                         case 'right':
-                            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+                            var tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
                             break;
                     }
 
@@ -232,6 +281,15 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                         .css(tp)
                         .addClass(placement)
                         .addClass('in');
+                    
+                    actualWidth = this.$tip["0"].offsetWidth;
+                    if ( (tippos.includes("top") || tippos.includes("bottom")) 
+                        && xpos > 0 && xpos >= leftpos+15 && xpos <= leftpos+actualWidth-15 ) {
+                        $tip.find("div.arrow").css('left',xpos-leftpos);
+                    }                           
+                    if(tippos.includes("top") && $tip[0].offsetHeight !== actualHeight){                       
+                        $tip.css("top",pos.top - $tip[0].offsetHeight);
+                    }                     
                 }
             }
         });
@@ -249,6 +307,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 }
             });
         };
+       
     })(jQuery);
 
     return FloatingTips;

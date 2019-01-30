@@ -581,12 +581,27 @@
 
 			<fieldset name="tips">
 
+				<field name="tipuselabel"
+					type="radio"
+					class="btn-group"
+					default="0"
+			                description="COM_FABRIK_FIELD_ELEMENT_TIP_USE_LABEL_DESC"
+					label="COM_FABRIK_FIELD_ELEMENT_TIP_USE_LABEL_LABEL" >
+                        			<option value="0">JNO</option>   
+                        			<option value="1">JYES</option>
+                		</field>                
+                
+				<field name="tiptitle"
+                    			type="editor"
+                    			showon="tipuselabel:0"
+                    			description="COM_FABRIK_FIELD_ELEMENT_TIP_TITLE_DESC"
+					label="COM_FABRIK_FIELD_ELEMENT_TIP_TITLE_LABEL" >
+				</field>  				
+				
 				<field name="rollover"
-					type="textarea"
-					cols="6"
+					type="editor"
 					description="COM_FABRIK_FIELD_TIP_TEXT_DESC"
-					label="COM_FABRIK_FIELD_TIP_TEXT_LABEL"
-					rows="10"/>
+					label="COM_FABRIK_FIELD_TIP_TEXT_LABEL"/>
 
 				<field name="tipseval"
 					type="radio"
@@ -612,7 +627,16 @@
 						<option value="bottom-right">COM_FABRIK_TIP_LOCATION_BOTTOM_RIGHT</option>
 						<option value="left">COM_FABRIK_TIP_LOCATION_LEFT</option>
 				</field>
-
+				
+				<field name="tipmaxwidth"
+					type="text"
+                    			class="input-mini"
+                    			size="4"
+                    			default="276"
+					description="COM_FABRIK_FIELD_ELEMENT_TIP_MAXWIDTH_DESC"
+					label="COM_FABRIK_FIELD_ELEMENT_TIP_MAXWIDTH_LABEL" >
+				</field>               
+				
 				<field name="labelindetails"
 					type="radio"
 					class="btn-group"
