@@ -30,7 +30,7 @@ module.exports = function (grunt) {
 				files: grunt.file.expandMapping(
 					[
 						'./plugins/fabrik_*/*/*.js',
-						'!./plugins/fabrik_*/**/*-min.js',
+						'!./plugins/fabrik_*/*/*-min.js',
 						'./plugins/fabrik_element/fileupload/lib/plupload/js/*.js',
 						'!./plugins/fabrik_element/fileupload/lib/plupload/js/*-min.js',
 						'./media/com_fabrik/js/*.js',
@@ -41,9 +41,16 @@ module.exports = function (grunt) {
 						'./administrator/components/com_fabrik/models/fields/*.js',
 						'!./administrator/components/com_fabrik/models/fields/*-min.js',
 						'./administrator/components/com_fabrik/views/**/*.js',
-						'!./administrator/components/com_fabrik/views/**/*-min.js'
+						'!./administrator/components/com_fabrik/views/**/*-min.js',
+						'./administrator/modules/**/*.js',
+						'!./administrator/modules/**/*-min.js',
+						'./components/com_fabrik/libs/*.js',
+						'!./components/com_fabrik/libs/*-min.js',
+						'./components/com_fabrik/views/list/tmpl/div/*.js',
+						'!./components/com_fabrik/views/list/tmpl/div/*-min.js',
 					],
-					'./plugins/fabrik_*/*/*.js',
+					// Rename function does not use destBase
+					'./tmp',
 					{
 						rename: function (destBase, destPath) {
 
