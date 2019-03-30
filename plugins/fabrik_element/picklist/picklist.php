@@ -63,6 +63,7 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 		$i        = 0;
 		$to       = array();
 		$from     = array();
+		$params   = $this->getParams();
 
 		foreach ($values as $v)
 		{
@@ -106,6 +107,14 @@ class PlgFabrik_ElementPicklist extends PlgFabrik_ElementList
 		$layoutData->name         = $this->getHTMLName($repeatCounter);
 		$layoutData->value        = json_encode($selected);
 		$layoutData->addOptionsUi = $this->getAddOptionFields($repeatCounter);
+        $layoutData->scrollfrom   = new stdClass;
+        $layoutData->scrollfrom->enabled     = $params->get('scrollfrom', 0);
+        $layoutData->scrollfrom->maxitems    = $params->get('from-maxitems', 0);
+        $layoutData->scrollfrom->height      = $params->get('from-height', 0);
+        $layoutData->scrollto   = new stdClass;
+        $layoutData->scrollto->enabled     = $params->get('scrollto', 0);
+        $layoutData->scrollto->maxitems    = $params->get('to-maxitems', 0);
+        $layoutData->scrollto->height      = $params->get('to-height', 0);
 
 		return $layout->render($layoutData);
 	}
