@@ -1156,17 +1156,61 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$listModel  = $elementModel->getListModel();
 		$groupModel = $elementModel->getGroupModel();
 		$tableName  = $this->getRepeatElementTableName($elementModel, $row);
+		$params = $elementModel->getParams();
+		$parentID	= $params->get('repeat_parent_id', 'parent_id');
 
 		// Create db table!
 		$formModel = $elementModel->getForm();
 		$db        = $listModel->getDb();
 		$desc      = $elementModel->getFieldDescription();
-		$name      = $db->qn($row->name);
-		$db
-			->setQuery(
-				'CREATE TABLE IF NOT EXISTS ' . $db->qn($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, parent_id INT(11), '
-				. $name . ' ' . $desc . ', ' . $db->qn('params') . ' TEXT );');
-		$db->execute();
+		$name      = $params->get('repeat_element', $row->name);
+		$joinParams = $elementModel->joinParams() ?  ', ' . $db->qn('params') . ' TEXT' : '';
+		
+		$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+		$tableExists = $db->loadResult();
+		
+		if (!empty($tableExists))
+		{
+
+			// Add new fields if set
+			/*
+			$db->setQuery('SHOW COLUMNS FROM ' . $db->qn($tableName));
+			$columns = $db->loadObjectList();
+			$col = array();
+			
+			foreach ($columns as $c)
+			{
+				$col[] = $c->Field;
+			}
+			echo implode(',', $col);
+			$newFK  = in_array($parentID, $col);
+			$newField  = in_array($name, $col);
+			// Jaanus - commented lines above are just to understand what we get with 3 lines below :)
+			*/
+			
+			$fields = $listModel->getDBFields($tableName, 'Field');
+			$newFK  = FArrayHelper::getValue($fields, $parentID, false);
+			$newField  = FArrayHelper::getValue($fields, $name, false);
+
+			$andAdd = $newFK || $newField ? '' : ', ADD ';
+			$newFKdesc = $newFK ? '' : $parentID . ' INT(11)';
+			$newFieldDesc = $newField ? '' : $name . ' ' . $desc;
+
+			if (!$newField || !$newFK)
+			{
+				$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD ' . $newFKdesc . $andAdd . $newFieldDesc . ';');
+				$db->execute();
+			}
+	// End of alter table stuff
+		}
+		else
+		{
+			$db
+				->setQuery(
+					'CREATE TABLE IF NOT EXISTS ' . $db->qn($tableName) . ' ( id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, ' . $parentID . ' INT(11), '
+					. $name . ' ' . $desc . $joinParams . ' );');
+			$db->execute();
+		}
 
 		// Remove previous join records if found
 		if ((int) $row->id !== 0)
@@ -1188,7 +1232,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 
 		$data = array('list_id' => $listModel->getTable()->id, 'element_id' => $row->id, 'join_from_table' => $joinFromTable,
-			'table_join' => $tableName, 'table_key' => $row->name, 'table_join_key' => 'parent_id', 'join_type' => 'left');
+			'table_join' => $tableName, 'table_key' => $name, 'table_join_key' => $parentID, 'join_type' => 'left');
 		$join = $this->getTable('join');
 		$join->load(array('element_id' => $data['element_id']));
 		$opts           = new stdClass;
@@ -1198,11 +1242,11 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$join->bind($data);
 		$join->store();
 
-		$fieldName = $tableName . '___parent_id';
+		$fieldName = $tableName . '___' . $parentID;
 		$listModel->addIndex($fieldName, 'parent_fk', 'INDEX', '');
 
 		$fields = $listModel->getDBFields($tableName, 'Field');
-		$field  = FArrayHelper::getValue($fields, $row->name, false);
+		$field  = FArrayHelper::getValue($fields, $name, false);
 		switch ($field->BaseType)
 		{
 			case 'VARCHAR':
@@ -1214,7 +1258,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 				$size = '';
 				break;
 		}
-		$fieldName = $tableName . '___' . $row->name;
+		$fieldName = $tableName . '___' . $name;
 		$listModel->addIndex($fieldName, 'repeat_el', 'INDEX', $size);
 
 	}
@@ -1231,6 +1275,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 	{
 		$listModel  = $elementModel->getListModel();
 		$groupModel = $elementModel->getGroupModel();
+		$params = $elementModel->getParams();
 
 		if (is_null($row))
 		{
@@ -1245,8 +1290,10 @@ class FabrikAdminModelElement extends FabModelAdmin
 		{
 			$origTableName = $listModel->getTable()->db_table_name;
 		}
+		$defaultName = $origTableName . '_repeat_' . str_replace('`', '', $row->name);
+		$tableName = $params->get('repeat_db_name', $defaultName);
 
-		return $origTableName . '_repeat_' . str_replace('`', '', $row->name);
+		return $tableName;
 	}
 
 	/**

@@ -1273,14 +1273,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// For repeating groups we need to unset this where each time the element is rendered
 		unset($this->autocomplete_where);
 
-		if ($this->isJoin())
+		$params        = $this->getParams();
+		$formModel     = $this->getFormModel();
+		$displayType   = $this->getDisplayType();
+		// $single		= $this->isJoin() && in_array($displayType, array('dropdown', 'radio'));
+
+		if ($this->isJoin() && in_array($displayType, array('checkbox', 'multilist')))
 		{
 			$this->hasSubElements = true;
 		}
 
-		$params        = $this->getParams();
-		$formModel     = $this->getFormModel();
-		$displayType   = $this->getDisplayType();
 		$default       = (array) $this->getValue($data, $repeatCounter, array('raw' => true));
 		$defaultLabels = (array) $this->getValue($data, $repeatCounter, array('raw' => false));
 		$defaultLabels = array_values($defaultLabels);
@@ -1400,10 +1402,24 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				{
 					case 'dropdown':
 					default:
-						$this->renderDropdownList($data, $repeatCounter, $html, $tmp, $default);
+						if ($this->isJoin())
+						{
+							$this->renderMultiSelectList($data, $repeatCounter, $html, $tmp, $default);
+						}
+						else
+						{
+							$this->renderDropdownList($data, $repeatCounter, $html, $tmp, $default);
+						}
 						break;
 					case 'radio':
-						$this->renderRadioList($data, $repeatCounter, $html, $tmp, FArrayHelper::getValue($default, 0));
+						if ($this->isJoin())
+						{
+							$this->renderCheckBoxList($data, $repeatCounter, $html, $tmp, FArrayHelper::getValue($default, 0));
+						}
+						else
+						{
+							$this->renderRadioList($data, $repeatCounter, $html, $tmp, FArrayHelper::getValue($default, 0));
+						}
 						break;
 					case 'checkbox':
 						$this->renderCheckBoxList($data, $repeatCounter, $html, $tmp, $default);
@@ -1755,6 +1771,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$optsPerRow = intval($params->get('dbjoin_options_per_row', 0));
 		$targetIds  = $this->multiOptionTargetIds($data, $repeatCounter);
 		$class      = 'fabrikinput inputbox ' . $params->get('bootstrap_class', '');
+		$single		= $this->isJoin() && $this->getDisplayType() == 'dropdown';
 
 		if (!FArrayHelper::emptyIsh($targetIds, true))
 		{
@@ -1763,10 +1780,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		if ($this->isEditable())
 		{
-			$multiSize     = (int) $params->get('dbjoin_multilist_size', 6);
+			$multiSize     = $single ? '' : ' size="' . (int) $params->get('dbjoin_multilist_size', 6) .  '"';
+			$multiple 	= $single ? '' : ' multiple="true"';
 			$multiMax      = $params->get('dbjoin_multiselect_max', '0');
 			$advancedClass = $this->getAdvancedSelectClass();
-			$attributes    = 'class="' . $class . ' ' . $advancedClass . '" size="' . $multiSize . '" multiple="true"';
+			$attributes    = 'class="' . $class . ' ' . $advancedClass . '"' . $multiSize . $multiple;
 
 			if (!empty($advancedClass) && (int)$multiMax > 0)
 			{
@@ -1800,6 +1818,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$id     = $this->getHTMLId($repeatCounter);
 		$name   = $this->getHTMLName($repeatCounter);
 		$params = $this->getParams();
+		$single		= $this->isJoin() && $this->getDisplayType() == 'radio';
+		$type = $single ?  'radio' : 'checkbox';
 
 		$attributes = 'class="fabrikinput inputbox" id="' . $id . '"';
 
@@ -1817,17 +1837,17 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$this->renderReadOnlyTrimOptions($tmp, $default);
-		$layout                    = $this->getLayout('form-checkboxlist');
+		$layout                    = $this->getLayout('form-' . $type . 'list');
 		$displayData               = new stdClass;
 		$displayData->options      = $tmp;
 		$displayData->default      = (array) $default;
 		$displayData->optsPerRow   = (int) $params->get('dbjoin_options_per_row', 1);
 		$displayData->name         = $name;
 		$displayData->editable     = $this->isEditable();
-		$displayData->optionLayout = $this->getLayout('form-checkbox');
+		$displayData->optionLayout = $this->getLayout('form-' . $type);
 
 		$html[]       = '<div class="fabrikSubElementContainer" id="' . $id . '">';
-		$singleLayout = 'fabrik-element-' . $this->getPluginName() . '-form-checkbox';
+		$singleLayout = 'fabrik-element-' . $this->getPluginName() . '-form-' . $type;
 		FabrikHelperHTML::jLayoutJs($singleLayout . '_' . $id, $singleLayout, $displayData, array($this->layoutBasePath()));
 		$rowOptsLayout = 'fabrik-element-' . $this->getPluginName() . '-form-rowopts';
 		FabrikHelperHTML::jLayoutJs($rowOptsLayout, $rowOptsLayout, $displayData, array($this->layoutBasePath()));
@@ -1838,7 +1858,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 		else
 		{
-			$html[] = FabrikHelperHTML::aList('checkbox', $tmp, $name, $attributes, $default, 'value', 'text', $displayData->optsPerRow, $displayData->editable);
+			$html[] = FabrikHelperHTML::aList($type, $tmp, $name, $attributes, $default, 'value', 'text', $displayData->optsPerRow, $displayData->editable);
 		}
 
 		if (empty($tmp) && !FabrikWorker::j3())
@@ -1849,7 +1869,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$o->value = 'dummy';
 			$tmpIds[] = $o;
 			$tmp      = $tmpIds;
-			$dummy    = FabrikHelperHTML::aList('checkbox', $tmp, $name, $attributes, $default, 'value', 'text', 1, true);
+			$dummy    = FabrikHelperHTML::aList($type, $tmp, $name, $attributes, $default, 'value', 'text', 1, true);
 			$html[]   = '<div class="chxTmplNode">' . $dummy . '</div>';
 		}
 
@@ -2728,8 +2748,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					{
 						$where = $this->_db->qn($dbName . '.' . $this->getJoinValueFieldName());
 					}
+					$parentID	= $this->parentID();
 
-					$groupBy = $this->_db->qn($dbName . '.parent_id');
+					$groupBy = $this->_db->qn($dbName . '.' . $parentID);
 					$rows    = $this->checkboxRows($groupBy, $condition, $value, $where);
 					$joinIds = array_keys($rows);
 
@@ -2804,11 +2825,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$jKey  = !strstr($jKey, 'CONCAT') ? $label : $jKey;
 			$label = str_replace($join->table_join_alias, $to, $jKey);
 			$label = str_replace($join->table_join, $to, $label);
+			$parentID	= $this->parentID();
 			$tableAlias = $to;
 		}
 
-		$query->select($joinTable . '.parent_id, ' . $v . ' AS `value`, ' . $label . ' AS `text`')->from($joinTable)
-			->join('LEFT', $to . ' ON ' . $key . ' = ' . $joinTable . '.' . $shortName);
+		$query->select($joinTable . '.' . $parentID . ', ' . $v . ' AS `value`, ' . $label . ' AS `text`')->from($joinTable)			->join('LEFT', $to . ' ON ' . $key . ' = ' . $joinTable . '.' . $shortName);
 
 		$this->buildQueryWhere(array(), true, $tableAlias, array('mode' => 'filter'), $query);
 
@@ -3781,12 +3802,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$jKey = str_replace($joinAlias, 'lookup', $jKey);
 			$jKey = str_replace($joinTable, 'lookup', $jKey);
 		}
+		$parentID	= $this->parentID();
+		$elementName = $this->getParams()->get('repeat_element', $this->getElement()->name);
 
 		$parentKey  = $this->buildQueryParentKey();
 		$fullElName = $this->_db->qn($this->getFullName(true, false));
 		$sql        = "(SELECT GROUP_CONCAT(" . $jKey . " " . $where . " SEPARATOR '" . GROUPSPLITTER . "') FROM $joinTable
-		LEFT JOIN " . $dbName . " AS lookup ON lookup." . $this->getJoinValueFieldName() . " = $joinTable." . $this->getElement()->name . " WHERE "
-			. $joinTable . ".parent_id = " . $parentKey . ")";
+		LEFT JOIN " . $dbName . " AS lookup ON lookup." . $this->getJoinValueFieldName() . " = $joinTable." . $elementName . " WHERE "
+			. $joinTable . "." . $parentID . " = " . $parentKey . ")";
 
 		if ($addAs)
 		{
@@ -3833,12 +3856,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	protected function buildQueryElementConcatId()
 	{
-		//$str        = parent::buildQueryElementConcatId();
+		$parentID	= $this->getParams()->get('repeat_parent_id', 'parent_id');
+		$str        = parent::buildQueryElementConcatId();
 		$joinTable  = $this->getJoinModel()->getJoin()->table_join;
 		$parentKey  = $this->buildQueryParentKey();
 		$fullElName = $this->_db->qn($this->getFullName(true, false) . '_id');
-		$str = "(SELECT GROUP_CONCAT(" . $this->element->name . " SEPARATOR '" . GROUPSPLITTER . "') FROM $joinTable WHERE " . $joinTable
-			. ".parent_id = " . $parentKey . ") AS $fullElName";
+		$elementName = $this->getParams()->get('repeat_element', $this->element->name);
+		$str .= " (SELECT GROUP_CONCAT(" . $elementName . " SEPARATOR '" . GROUPSPLITTER . "') FROM $joinTable WHERE " . $joinTable
+			. "." . $parentID . " = " . $parentKey . ") AS $fullElName";
 
 		return $str;
 	}
@@ -3878,6 +3903,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function getJoinRepeatCount($data, $oJoin)
 	{
 		$displayType = $this->getDisplayType();
+		
+		// Jaanus: perhaps it should be if ($this->isJoin()) instead?
 
 		if ($displayType === 'multilist')
 		{
@@ -3988,14 +4015,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	protected function multiOptionTargetIds($data, $repeatCounter = 0)
 	{
-		$displayType = $this->getDisplayType();
 
-		if ($displayType == 'checkbox' || $displayType == 'multilist')
+		if ($this->isJoin())
 		{
 			$idName    = $this->getFullName(true, false) . '_id';
 			$formModel = $this->getFormModel();
 
-			if ($this->isJoin() && !$formModel->hasErrors())
+			if (!$formModel->hasErrors())
 			{
 				// Only add repeatCounter if group model repeating - otherwise we only ever select one checkbox.
 				if ($this->getGroupModel()->canRepeat())

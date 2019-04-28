@@ -52,6 +52,12 @@
 				<option value="multilist">PLG_ELEMENT_DBJOIN_MULTILIST</option>
 			</field>
 
+			<field name="repeat"
+			       label="PLG_ELEMENT_FORCE_ISJOIN_LABEL"
+			       description="PLG_ELEMENT_FORCE_ISJOIN_DESC"
+			       type="checkbox"
+				   value="1"/>
+
 		</fieldset>
 
 		<fieldset label="COM_FABRIK_DATA"
@@ -89,7 +95,34 @@
 			       label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			       rows="6"/>
 
-		</fieldset>
+			<field name="repeat_db_name"
+			       label="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_LABEL"
+			       description="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_DESC"
+			       observe="params_join_conn_id"
+			       key="name"
+			       type="tables"
+				   mode="combo"
+				   />
+
+			<field name="repeat_parent_id"
+			       type="listfields"
+			       highlightpk="true"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_PARENT_ID_DESC"
+			       label="PLG_ELEMENT_DBJOIN_PARENT_ID_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+
+			<field name="repeat_element"
+			       type="listfields"
+			       connection="params_join_conn_id"
+			       description="PLG_ELEMENT_DBJOIN_THIS_FIELD_DESC"
+			       label="PLG_ELEMENT_DBJOIN_THIS_FIELD_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+		   </fieldset>
 
 		<fieldset label="PLG_FABRIK_DBJOIN_DATA_WHERE"
 		          name="plg-databasejoin-where">
