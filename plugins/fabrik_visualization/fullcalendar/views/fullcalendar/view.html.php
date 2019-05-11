@@ -199,6 +199,8 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$options->j3             = FabrikWorker::j3();
 		$options->calOptions     = $params->get('calOptions', '{}');
 		$options->startOffset    = (int) $params->get('startdate_hour_offset', '0');
+		//Get defaultDate from URL (or use today)
+		$options->default_date   = $app->input->get('fuDefaultDate',date('Y-m-d')) ;
 
 		return $options;
 	}

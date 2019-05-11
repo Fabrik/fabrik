@@ -146,6 +146,7 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
                     center: 'title',
                     right : rightButtons
                 },
+                defaultDate              : this.options.default_date,
                 fixedWeekCount           : false,
                 timeFormat               : this.options.time_format,
                 defaultView              : dView,
