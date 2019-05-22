@@ -899,7 +899,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		$this->encryptFieldName($k);
 		
 		//Otherwise it doesn't work with non-english characters
-		if(strtoupper($condition) === 'REGEXP' && stripos($value, 'LOWER') !== false){
+		if(strtoupper($condition) === 'REGEXP' && stripos($value, 'LOWER') !== false && stripos($k, 'LOWER') === false){
 			$k = 'LOWER('.$k.')';
 		}
 		
