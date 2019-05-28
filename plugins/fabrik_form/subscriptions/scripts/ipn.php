@@ -69,7 +69,7 @@ class FabrikSubscriptionsIPN
 	 */
 	protected function activateSubscription($listModel, $request, &$set_list, &$err_msg, $recurring = true)
 	{
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$mail = JFactory::getMailer();
 		$app = JFactory::getApplication();
 
@@ -160,7 +160,7 @@ class FabrikSubscriptionsIPN
 	{
 		$subUser = JFactory::getUser($sub->userid);
 		$this->log('fabrik.ipn.txn_type_subscr_payment sub userid', $subUser->get('id'));
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('usergroup')->from('#__fabrik_subs_plans')->where('id = ' . $sub->plan);
 		$db->setQuery($query);
@@ -182,7 +182,7 @@ class FabrikSubscriptionsIPN
 	protected function expireOldSubs($userid)
 	{
 		JLog::add('fabrik.ipn.expireOldSubs.start', JLog::INFO, 'expired old subs for ' . $userid);
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 
 		// Don't load up active accounts with no eot_date!
@@ -333,7 +333,7 @@ class FabrikSubscriptionsIPN
 	public function recalibrateUser($userId)
 	{
 		$user = JFactory::getUser($userId);
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('usergroup')->from('#__fabrik_subs_subscriptions AS s')
 		->join('LEFT', '#__fabrik_subs_plans AS p ON s.plan = p.id')
@@ -556,7 +556,7 @@ class FabrikSubscriptionsIPN
 
 	private function getSubscriptionFromInvoice($inv)
 	{
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('subscr_id')->from('#__fabrik_subs_invoices')->where('id = ' . $db->quote($inv));
 		$db->setQuery($query);

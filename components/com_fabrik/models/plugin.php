@@ -179,7 +179,7 @@ class FabrikPlugin extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$this->_db     = ArrayHelper::getValue($config, 'db', JFactory::getDbo());
+		$this->_db     = ArrayHelper::getValue($config, 'db', FabrikWorker::getDbo(true));
 		$this->config  = ArrayHelper::getValue($config, 'config', JFactory::getConfig());
 		$this->user    = ArrayHelper::getValue($config, 'user', JFactory::getUser());
 		$this->app     = ArrayHelper::getValue($config, 'app', JFactory::getApplication());

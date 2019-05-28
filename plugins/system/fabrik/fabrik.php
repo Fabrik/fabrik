@@ -400,7 +400,7 @@ class PlgSystemFabrik extends JPlugin
 	{
 		if (class_exists('FabrikWorker'))
 		{
-			$db = JFactory::getDbo();
+			$db = FabrikWorker::getDbo(true);
 			FabrikWorker::bigSelects($db);
 		}
 	}

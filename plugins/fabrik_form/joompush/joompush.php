@@ -158,7 +158,7 @@ class PlgFabrik_FormJoompush extends PlgFabrik_Form
 	 */
 	protected function getAdminGroupId()
 	{
-		$db = JFactory::getDBO();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query
 			->select('id')
@@ -189,7 +189,7 @@ class PlgFabrik_FormJoompush extends PlgFabrik_Form
 	 */
 	protected function getSubscriberKeys($userId)
 	{
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('key'))
 			->from($db->quoteName('#__joompush_subscribers'))
@@ -201,7 +201,7 @@ class PlgFabrik_FormJoompush extends PlgFabrik_Form
 
 	protected function getJPTemplate($templateId)
 	{
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query
 			->select(

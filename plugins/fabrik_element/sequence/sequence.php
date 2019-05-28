@@ -134,7 +134,7 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 
 		if ($method !== 'pk')
 		{
-			$db    = JFactory::getDbo();
+			$db    = FabrikWorker::getDbo(true);
 			$query = $db->getQuery(true);
 			$query->select('sequence')
 				->from('#__fabrik_sequences')

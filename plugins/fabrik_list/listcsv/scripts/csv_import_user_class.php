@@ -111,7 +111,7 @@ class ImportCSVCreateUser
 		jimport('joomla.log.log');
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$logMessageType='plg.list.listcsv.csv_import_user.information';
 

@@ -2271,7 +2271,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	 * @param   string $originalValue Original filter value without quotes or %'s applied
 	 * @param   string $type          Filter type advanced/normal/prefilter/search/querystring/searchall
 	 * @param   string  $evalFilter     evaled
-	 *                                  
+	 *
 	 * @return  string    sql query part e,g, "key = value"
 	 */
 	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
@@ -2732,7 +2732,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	public function getFrontDefaultValue($data = array())
 	{
 		$params       = $this->getParams();
-		$db           = JFactory::getDbo();
+		$db           = FabrikWorker::getDbo(true);
 		$alwaysToday  = $params->get('date_alwaystoday', false);
 		$defaultToday = $params->get('date_defaulttotoday', false);
 

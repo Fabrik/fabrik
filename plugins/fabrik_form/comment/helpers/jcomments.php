@@ -60,7 +60,7 @@ class jc_com_fabrik_1 extends JCommentsPlugin
 {
 	function getObjectInfo(\$id, \$lang)
 	{
-		\$db = JFactory::getDbo();
+		\$db = FabrikWorker::getDbo(true);
 		\$query = \$db->getQuery(true);
 		\$query->select('*')->from('#__jcomments_objects')
 			->where('object_id = ' . (int) \$id)
@@ -85,7 +85,7 @@ class jc_com_fabrik_1 extends JCommentsPlugin
 	 */
 	protected static function jcObjectInfo($objectId, $objectGroup, $language)
 	{
-		$db    = JFactory::getDbo();
+		$db    = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('*')->from('#__jcomments_objects')
 			->where('object_id = ' . $db->q($objectId))
