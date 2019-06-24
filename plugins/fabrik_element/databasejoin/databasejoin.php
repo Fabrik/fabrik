@@ -4106,19 +4106,21 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			return;
 		}
-
 		$join  = $this->getJoin();
 		$keys = array();
 		$fulName = $this->getFullName(true, false) . '_raw';
-
 		foreach ($groups as $group)
 		{
 			foreach ($group as $row)
 			{
-				$keys = array_merge($keys, explode(GROUPSPLITTER, $row->$fulName));
-			}
+				if (isset($row->$fulName) && !empty($row->$fulName))
+				{
+					$keys = array_merge($keys, explode(GROUPSPLITTER, $row->$fulName));
+				} 			}
 		}
-
+        
+		if(count($keys)==0) return;
+		
 		$db = $this->getDb();
 		array_walk($keys, function (&$key) {
 			$db = $this->getDb();
@@ -4127,7 +4129,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$query = $db->getQuery(true);
 		$query->delete($db->qn($join->table_join))->where('id IN (' . implode(',', $keys) .')');
-
 		return $db->setQuery($query)->execute();
 	}
 }
