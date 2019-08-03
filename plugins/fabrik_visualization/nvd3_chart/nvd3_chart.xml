@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension group="fabrik_visualization" method="upgrade" type="plugin" version="3">
-	<name>plg_fabrik_visualization_nvd3_chart</name>
+	<name>PLG_FABRIK_VISUALIZATION_NVD3_CHART</name>
 	<author>Media A-Team, Inc.</author>
 	<creationDate>November 2018</creationDate>
 	<copyright>Copyright (C) 2005-2018 Media A-Team, Inc. - All rights reserved.</copyright>
