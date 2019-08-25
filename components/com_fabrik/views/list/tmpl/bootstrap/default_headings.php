@@ -17,7 +17,48 @@ $layoutData = (object) array(
 	'name' => 'filter',
 	'label' => FabrikHelperHTML::icon('icon-filter', FText::_('COM_FABRIK_GO'))
 );
-?>
+$groupHeaders = in_array("table-group-header", explode(" ", $this->table->class));
+
+if ($groupHeaders && count($this->groupheadings) > 1 && max($this->groupheadings) > 1) : ?>
+	<tr class="fabrik___heading">
+		<?php 
+		$currentGrp = NULL;
+		$currentStyle = NULL;
+		$grpCount = 0;
+		foreach ($this->headings as $key => $heading) :
+			$grp = "";
+			$style = $this->headingClass[$key]['style'];
+			foreach ($this->toggleCols as $cols) :
+				if (array_key_exists($key, $cols["elements"])) :
+					$grp = $cols["name"];
+					break;
+				endif;
+			endforeach;
+			if ($grp !== $currentGrp || $style !== $currentStyle) :
+				if ($grpCount == 1) : ?>
+					<th class="heading fabrik_groupcell" <?php if (!empty($currentStyle)) echo 'style="' . $currentStyle . '"' ?>></th>
+				<?php elseif ($grpCount > 1) : ?>
+					<th colspan="<?php echo $grpCount ?>" class="heading fabrik_groupcell" <?php if (!empty($currentStyle)) echo 'style="' . $currentStyle . '"' ?>>
+						<span><?php echo $currentGrp; ?></span>
+					</th>
+				<?php endif;
+				$grpCount = 1;
+				$currentGrp = $grp;
+				$currentStyle = $style;
+			else :
+				$grpCount++;
+			endif;
+		endforeach; 
+		if ($grpCount == 1) : ?>
+			<th class="heading fabrik_groupcell" <?php if (!empty($currentStyle)) echo 'style="' . $currentStyle . '"' ?>></th>
+		<?php elseif ($grpCount > 1) : ?>
+			<th colspan="<?php echo $grpCount ?>" class="heading fabrik_groupcell" <?php if (!empty($currentStyle)) echo 'style="' . $currentStyle . '"' ?>>
+				<span><?php echo $currentGrp; ?></span>
+			</th>
+		<?php endif; ?>
+	</tr>
+<?php endif; ?>
+
 	<tr class="fabrik___heading">
 		<?php foreach ($this->headings as $key => $heading) :
 			$h = $this->headingClass[$key];

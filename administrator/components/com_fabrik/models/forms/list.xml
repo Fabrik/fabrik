@@ -1075,6 +1075,17 @@
 
 		<fieldset name="layout-bootstrap">
 
+			<field name="bootstrap_groups_header"
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       label="COM_FABRIK_FIELD_BOOSTRAP_LIST_GROUPS_HEADER_LABEL"
+			       description="COM_FABRIK_FIELD_BOOSTRAP_LIST_GROUPS_HEADER_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="bootstrap_stripped_class"
 			       type="radio"
 			       class="btn-group"
