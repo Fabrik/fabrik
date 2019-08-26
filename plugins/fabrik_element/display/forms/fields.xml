@@ -6,7 +6,7 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_DISPLAY_HELP_SERVER" />
 
-			<field name="default"
+				<field name="default"
 				type="fabrikeditor"
 				mode="php"
 				label="PLG_ELEMENT_DISPLAY_DEFAULT_LABEL" />
@@ -29,6 +29,22 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_DISPLAY_HELP_SERVER" />
 
+			<field name="virtual_or_stored"
+				type="radio"
+				default=""
+				class="btn-group"
+				description="PLG_ELEMENT_DISPLAY_VIRTUAL_OR_STORED_DESC"
+				label="PLG_ELEMENT_DISPLAY_VIRTUAL_OR_STORED_LABEL">
+					<option value="">JNO</option>
+					<option value="VIRTUAL">VIRTUAL</option>
+					<option value="STORED">STORED</option>
+			</field>
+
+			<field name="generated_expression"
+				type="textarea"
+				description="PLG_ELEMENT_DISPLAY_GENERATED_EXPRESSION_DESC"
+				label="PLG_ELEMENT_DISPLAY_GENERATED_EXPRESSION_lABEL" />
+
 			<field name="display_showlabel"
 				type="radio"
 				default="1"
@@ -36,6 +52,42 @@
 				label="PLG_ELEMENT_DISPLAY_SHOW_LABEL_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="display_showdata"
+				type="radio"
+				default="1"
+				class="btn-group"
+				description="PLG_ELEMENT_DISPLAY_SHOW_DATA_DESC"
+				label="PLG_ELEMENT_DISPLAY_SHOW_DATA_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="2">LIST</option>
+					<option value="3">DETAILS</option>
+			</field>
+
+			<field name="display_showdefault"
+				type="radio"
+				default="1"
+				class="btn-group"
+				description="PLG_ELEMENT_DISPLAY_SHOW_DEFAULT_DESC"
+				label="PLG_ELEMENT_DISPLAY_SHOW_DEFAULT_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="2">LIST</option>
+					<option value="3">DETAILS</option>
+			</field>
+
+			<field name="display_separator"
+				type="radio"
+				default="hr"
+				class="btn-group"
+				description="PLG_ELEMENT_DISPLAY_SEPARATOR_DESC"
+				label="PLG_ELEMENT_DISPLAY_SEPARATOR_LABEL">
+					<option value="hr">PLG_ELEMENT_DISPLAY_SEPARATOR_HR</option>
+					<option value="br">PLG_ELEMENT_DISPLAY_SEPARATOR_BR</option>
+					<option value=": ">PLG_ELEMENT_DISPLAY_SEPARATOR_COLON</option>
+					<option value=" - ">PLG_ELEMENT_DISPLAY_SEPARATOR_DASH</option>
 			</field>
 
 		</fieldset>

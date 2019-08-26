@@ -49,7 +49,35 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	{
 		$this->recordInDatabase = false;
 	}
-
+	
+	/*
+	As of MySQL 5.7.6, CREATE TABLE supports the specification of generated columns. 
+	Values of a generated column are computed from an expression included in the column definition.
+	Generated columns are supported by the NDB storage engine beginning with MySQL NDB Cluster 7.5.3
+	Generated columns can be added.
+	The data type and expression of generated columns can be modified.
+	Generated columns can be renamed or dropped, if no other column refers to them.
+	Virtual generated columns cannot be altered to stored generated columns, or vice versa. To work around this, drop the column, then add it with the new definition.
+	Nongenerated columns can be altered to stored but not virtual generated columns.
+	Stored but not virtual generated columns can be altered to nongenerated columns. The stored generated values become the values of the nongenerated column.
+	
+	*/
+	public function getFieldDescription()
+	{
+		$params = $this->getParams();
+		$as = $params->get('generated_expression');
+		$virtualOrStored = $params->get('virtual_or_stored');
+		
+		$desc = $this->fieldDesc;
+		
+		if (!empty($as) && !empty($virtualOrStored))
+		{
+			$desc .= ' GENERATED ALWAYS AS (' . $as . ') ' . $virtualOrStored;
+		}
+		
+		return $desc;
+	}
+	
 	/**
 	 * Get the element's HTML label
 	 *
@@ -66,7 +94,7 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 
 		if (!$params->get('display_showlabel', true))
 		{
-			$element->label = $this->getValue(array());
+			$element->label = parent::getValue(array());
 			$element->label_raw = $element->label;
 		}
 
@@ -82,7 +110,7 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	{
 		if (!$this->getParams()->get('display_showlabel', true))
 		{
-			return $this->getValue(array());;
+			return parent::getValue(array());
 		}
 
 		return parent::getRawLabel();
@@ -103,9 +131,37 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
         JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
         unset($this->default);
-		$value = $this->getValue(ArrayHelper::fromObject($thisRow));
+		$value = null;
+		$defeval = null;
+		$parent = null;
+		$sep = null;
+		$w = new FabrikWorker;
+		
+		// Jaanus: shows data from the corresponding db field and/or default/eval data
+		
+		if (in_array($this->getParams()->get('display_showdata', 1), array(1,2)))
+        {
+			$value = $w->JSONtoData($data, true);
+			$value = $w->parseMessageForPlaceHolder($value, $thisRow);
+			$parent = parent::renderListData($value, $thisRow, $opts);
+			//$parent = $w->parseMessageForPlaceHolder($parent, $thisRow);
+		}
+		
+		if (in_array($this->getParams()->get('display_showdefault', 1), array(1,2)))
+        {
+			$defeval = $this->getDefaultOnACL(ArrayHelper::fromObject($thisRow), array()) . '';
+		}
+		
+		if (!empty($value) && !empty($defeval))
+		{
+			$sep = $this->getParams()->get('display_separator', 'hr');
+			if (in_array($sep, array('hr', 'br')))
+			{
+				$sep = '<' . $sep . ' />';
+			}
+		}
 
-		return parent::renderListData($value, $thisRow, $opts);
+		return $parent . $sep . $defeval;
 	}
 
 	/**
@@ -123,7 +179,8 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 		$layout = $this->getLayout('form');
 		$displayData = new stdClass;
 		$displayData->id = $this->getHTMLId($repeatCounter);
-		$displayData->value = $params->get('display_showlabel', true) ? $this->getValue($data, $repeatCounter) : '';
+		$displayData->value = $params->get('display_showlabel', true) ? $this->getValue($data, $repeatCounter) : $this->getDefaultOnACL($data, array());
+		$displayData->label = !$params->get('display_showlabel', true) ? parent::getValue($data, $repeatCounter) : '';
 
 		return $layout->render($displayData);
 	}
@@ -158,7 +215,34 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 
 	public function getValue($data, $repeatCounter = 0, $opts = array())
 	{
-		$value = $this->getDefaultOnACL($data, $opts);
+		$params = $this->getParams();
+		
+		$d = null;
+		$sep = null;
+		$v = null;
+		
+		// Jaanus: shows data from the corresponding db field and/or default/eval data
+
+		if (in_array($params->get('display_showdata', 1), array(1,3)))
+		{
+			$d =  parent::getValue($data, $repeatCounter, $opts);
+		}
+		
+		if (in_array($params->get('display_showdefault', 1), array(1,3)))
+		{
+			$v =  $this->getDefaultOnACL($data, array());
+		}
+		
+		if (!empty($d) && !empty($v))
+		{
+			$sep = $this->getParams()->get('display_separator', 'hr');
+			if (in_array($sep, array('hr', 'br')))
+			{
+				$sep = '<' . $sep . ' />';
+			}
+		}
+		
+		$value = $d . $sep . $v;
 
 		if ($value === '')
 		{
