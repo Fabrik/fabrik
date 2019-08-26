@@ -2329,6 +2329,14 @@ class PlgFabrik_Element extends FabrikPlugin
 				break;
 		}
 
+		foreach ($element as $k => $v)
+		{
+			if (is_array($v))
+			{
+				$element->$k = array_shift($v);
+			}
+		}
+		
 		return $element;
 	}
 
@@ -2462,8 +2470,20 @@ class PlgFabrik_Element extends FabrikPlugin
 			$v = $this->getROElement($data, $repeatCounter);
 			$v = html_entity_decode($v);
 			//$v = $v == '' ? '&nbsp;' : $v;
-
-			return '<div class="fabrikElementReadOnly" id="' . $htmlId . '">' . $v . '</div>';
+			if (is_array($htmlId) || is_array($v))
+			{
+				$h = is_array($htmlId) ? $htmlId[key($htmlId)] : $htmlId;
+				$vv = is_array($v) ? $v[key($v)] : $v;
+				$return[] = '<div class="fabrikElementReadOnly" id="' . $h . '">' . $vv . '</div>';
+				echo '<pre>';
+				var_dump($h, $vv);
+				echo '</pre>';
+			}
+			else
+			{
+				$return = '<div class="fabrikElementReadOnly" id="' . $htmlId . '">' . $v . '</div>';
+			}
+			return $return;
 		}
 	}
 
@@ -2586,7 +2606,37 @@ class PlgFabrik_Element extends FabrikPlugin
 	 */
 	public function render($data, $repeatCounter = 0)
 	{
-		return 'need to overwrite in element plugin class';
+		$element = $this->getElement();
+		$value = $this->getValue($data, $repeatCounter);
+		$layoutData = new stdClass;
+		if (is_array($value))
+		{
+			foreach ($value as $k => $v)
+			{
+				$value[$k] = stripslashes($value[$k]);
+				$layoutData->value = htmlspecialchars($value[$k], ENT_COMPAT, 'UTF-8');
+				$return = ($element->hidden == '1') ? "<!-- " . $value[$k] . " -->" : $value[$k];
+			}
+		}
+		else
+		{
+			$value = stripslashes($value);
+			$layoutData->value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+			$return = ($element->hidden == '1') ? "<!-- " . $value . " -->" : $value;
+		}
+		
+		if (!$this->isEditable())
+		{
+			return $return;
+		}
+
+		$layout = $this->getLayout('form');
+		$layoutData->name = $this->getHTMLName($repeatCounter);;
+		$layoutData->id = $this->getHTMLId($repeatCounter);;
+		$layoutData->class = 'fabrikinput inputbox hidden';
+
+		return $layout->render($layoutData);
+		// return 'need to overwrite in element plugin class';
 	}
 
 	/**
@@ -6266,7 +6316,7 @@ class PlgFabrik_Element extends FabrikPlugin
 					}
 				}
 
-				$r = '<ul class="fabrikRepeatData"><li>' . implode('</li><li>', $data) . '</li></ul>';
+				$r = !empty(trim(implode($data))) ? '<ul class="fabrikRepeatData"><li>' . implode('</li><li>', $data) . '</li></ul>' : '';
 			}
 			else
 			{
