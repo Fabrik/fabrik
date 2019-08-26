@@ -150,15 +150,26 @@ class PlgFabrik_List extends FabrikPlugin
 
 
 			$img = FabrikHelperHTML::image($imageName, 'list', $tmpl, $properties, false, $opts);
-			$text = $this->buttonAction == 'dropdown' ? $label : '<span class="hidden">' . $label . '</span>';
-
+			
+			if (strstr($label, '|'))
+			{
+				$label = explode('|', $label);
+				$text = $this->buttonAction == 'dropdown' ? $label[1] : $label[0] . '<span class="hidden">' . $label[1] . '</span>';
+				$title = $label[1];
+			}
+			else
+			{
+				$text = $this->buttonAction == 'dropdown' ? $label : '<span class="hidden">' . $label . '</span>';				
+				$title = $label;
+			}
+			
 			if ($j3 && $this->buttonAction != 'dropdown')
 			{
 				$layout = FabrikHelperHTML::getLayout('fabrik-button');
 				$layoutData = (object) array(
 					'tag' => 'a',
 					'attributes' => 'data-list="' . $this->context . '" title="' . $label . '"',
-					'class' => $name . ' listplugin btn-default',
+					'class' => 'listplugin btn-default ' . $name,
 					'label' => $img . ' ' . $text
 				);
 

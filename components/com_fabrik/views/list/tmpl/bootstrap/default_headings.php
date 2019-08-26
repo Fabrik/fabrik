@@ -17,13 +17,26 @@ $layoutData = (object) array(
 	'name' => 'filter',
 	'label' => FabrikHelperHTML::icon('icon-filter', FText::_('COM_FABRIK_GO'))
 );
-?>
+
+foreach ($this->headings as $key => $heading) :
+	$h = $this->headingClass[$key];
+	
+	if (strstr($heading, 'class="btn listplugin') && $this->pluginsAbove): ?>
+	<div style="text-align: right;">
+	<?php echo $heading;?>
+	</div>
+<?php endif; ?>
+<?php endforeach; ?>
+
 	<tr class="fabrik___heading">
 		<?php foreach ($this->headings as $key => $heading) :
 			$h = $this->headingClass[$key];
 			$style = empty($h['style']) ? '' : 'style="' . $h['style'] . '"'; ?>
 			<th class="heading <?php echo $h['class'] ?>" <?php echo $style ?>>
+			<?php 	
+			if ((!strstr($heading, 'class="btn listplugin') && $this->pluginsAbove) || !$this->pluginsAbove): ?>
 				<span><?php echo $heading; ?></span>
+			<?php endif; ?>
 			</th>
 		<?php endforeach; ?>
 	</tr>
