@@ -755,7 +755,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
 
         showDesc: function (e) {
-            var v = e.target.selectedIndex;
+            var v = e.target.value;
             var c = this.getContainer().getElement('.dbjoin-description');
             var show = c.getElement('.description-' + v);
             c.getElements('.notice').each(function (d) {
