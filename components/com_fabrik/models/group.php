@@ -133,13 +133,32 @@ class FabrikFEModelGroup extends FabModel
 		}
 
 		$params        = $this->getParams();
-		$this->canEdit = true;
+		$this->canEdit = false;
 
 		// If group show is type 5, then always read only.
 		if (in_array($params->get('repeat_group_show_first', '1'), array('2', '5')))
 		{
-			$this->canEdit = false;
+			return $this->canEdit;
+		}
 
+		// Get the group access level
+		$groups      = $this->user->getAuthorisedViewLevels();
+		$params        = $this->getParams();
+		$groupAccess = $params->get('access', '');
+
+		if ($groupAccess !== '')
+		{
+			$this->canEdit = in_array($groupAccess, $groups);
+
+			// If the user can't access the group return that and ignore repeat_group_show_first option
+			if (!$this->canEdit)
+			{
+				return $this->canEdit;
+			}
+		}
+
+		if (!$this->canEdit)
+		{
 			return $this->canEdit;
 		}
 
@@ -289,25 +308,9 @@ class FabrikFEModelGroup extends FabModel
 			return $this->canView;
 		}
 
-		$params        = $this->getParams();
-		$elementModels = $this->getPublishedElements();
-		$this->canView = false;
-
-		foreach ($elementModels as $elementModel)
-		{
-			// $$$ hugh - added canUse() check, corner case, see:
-			// http://fabrikar.com/forums/showthread.php?p=111746#post111746
-			if (!$elementModel->canView() && !$elementModel->canUse())
-			{
-				continue;
-			}
-
-			$this->canView = true;
-			break;
-		}
-
 		// Get the group access level
 		$groups      = $this->user->getAuthorisedViewLevels();
+		$params        = $this->getParams();
 		$groupAccess = $params->get('access', '');
 
 		if ($groupAccess !== '')
@@ -322,7 +325,16 @@ class FabrikFEModelGroup extends FabModel
 		}
 
 		/*
-		 * Sigh - seems that the repeat group 'repeat_group_show_first' property has been bastardized to be a setting
+		* Code to avoid querying the group if user has no access to every element has been removed
+		* because you need to include the group in the query even if e.g.:
+		* 1. All elements are viewable based on userid matching a field
+		*    because you don't know if they match until you have run the query
+		* 2. The group could contain elements which Fabrik needs internally but which
+		*    are not viewable by the user (like pk or field that holds the userid etc.)
+		*/
+
+		/*
+		* Sigh - seems that the repeat group 'repeat_group_show_first' property has been bastardized to be a setting
 		* that is applicable to a group even when not in a repeat group, and has basically become a standard group setting.
 		* My bad for labelling it poorly to start with.
 		* So, now if this is set to 'no' the group is not shown but canView was returning true - doh! Caused issues in
@@ -331,21 +343,20 @@ class FabrikFEModelGroup extends FabModel
 		$formModel = $this->getFormModel();
 		$showGroup = $params->get('repeat_group_show_first', '1');
 
-		if ($showGroup == 0)
+		switch ($showGroup) // Show in form/details:
 		{
-			$this->canView = false;
-		}
-
-		// If editable but only show group in details view:
-		if (!($formModel->isEditable() && $showGroup == 2))
-		{
-			$this->canView = true;
-		}
-
-		// If form not editable and show group in form view:
-		if (!$formModel->isEditable() && $showGroup == 3)
-		{
-			$this->canView = false;
+			case 0: // No
+				$this->canView = false;
+				break;
+			case 2: // Details only
+				$this->canView = !$formModel->isEditable();
+				break;
+			case 3: // Form only
+				$this->canView = $formModel->isEditable();
+				break;
+			default:
+				$this->canView = true;
+				break;
 		}
 
 		return $this->canView;
