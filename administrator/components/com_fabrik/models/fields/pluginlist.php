@@ -70,7 +70,7 @@ class JFormFieldPluginList extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHtml::_('select.option', '', FText::_('COM_FABRIK_PLEASE_SELECT')));
+		array_unshift($options, JHtml::_('select.option', '', FText::_('COM_FABRIK_SELECT_PLUGIN')));
 		self::$cache[$cacheKey] = $options;
 
 		return $options;

@@ -58,7 +58,7 @@ class Com_FabrikInstallerScript
 		$row->user        = $app->get('user');
 		$row->password    = $app->get('password');
 		$row->database    = $app->get('db');
-		$row->description = 'site database';
+		$row->description = 'Site database';
 		$row->params      = '';
 		$row->checked_out = 0;
 		$row->published   = 1;

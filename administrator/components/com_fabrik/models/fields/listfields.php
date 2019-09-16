@@ -186,8 +186,9 @@ class JFormFieldListfields extends JFormFieldList
 			$aEls = $res;
 		}
 
-		// Paul - Prepend rather than append "none" option.
-		array_unshift($aEls, JHTML::_('select.option', '', '-'));
+		if (count($aEls) !== 1) {
+			array_unshift($aEls, JHTML::_('select.option', '', FText::_('COM_FABRIK_SELECT_ELEMENT')));
+		}
 
 		return $aEls;
 	}
@@ -318,10 +319,8 @@ class JFormFieldListfields extends JFormFieldList
 		/** @var FabrikFEModelForm $formModel */
 		$formModel = $this->form->model;
 		$valField  = $valueFormat == 'tableelement' ? 'name' : 'id';
-		$res       = $formModel->getElementOptions($useStep, $valField, $onlyListFields, $showRaw, $pluginFilters, $labelMethod, $noJoins);
-
-		$jsRes = $formModel->getElementOptions($useStep, $valField, $onlyListFields, $showRaw, $pluginFilters, $labelMethod, $noJoins);
-		array_unshift($jsRes, JHTML::_('select.option', '', FText::_('COM_FABRIK_PLEASE_SELECT')));
+		$jsRes = $res = $formModel->getElementOptions($useStep, $valField, $onlyListFields, $showRaw, $pluginFilters, $labelMethod, $noJoins);
+		array_unshift($jsRes, JHTML::_('select.option', '', FText::_('COM_FABRIK_SELECT_ELEMENT')));
 		$this->js($jsRes);
 
 		return $res;

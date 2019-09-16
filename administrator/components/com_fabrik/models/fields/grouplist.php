@@ -71,7 +71,7 @@ class JFormFieldGroupList extends JFormFieldGroupedList
 		$sel = new stdClass;
 		$sel->value = '';
 		$sel->form = '';
-		$sel->text = FText::_('COM_FABRIK_PLEASE_SELECT');
+		$sel->text = FText::_('COM_FABRIK_SELECT_GROUP');
 		array_unshift($options, $sel);
 
 		foreach ($options as $option)

@@ -88,7 +88,7 @@ class FabrikFEModelPluginmanager extends FabModel
 		{
 			if ($defaultLabel == '')
 			{
-				$defaultLabel = FText::_('COM_FABRIK_PLEASE_SELECT');
+				$defaultLabel = FText::_('COM_FABRIK_SELECT_PLUGIN');
 			}
 
 			$a = array(JHTML::_('select.option', '', $defaultLabel));

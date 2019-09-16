@@ -357,7 +357,7 @@ class FabrikFEModelConnection extends FabModel
 	{
 		$connectionTables = array();
 		$connectionTables[-1] = array();
-		$connectionTables[-1][] = JHTML::_('select.option', '-1', FText::_('COM_FABRIK_PLEASE_SELECT'));
+		$connectionTables[-1][] = JHTML::_('select.option', '-1', FText::_('COM_FABRIK_SELECT_CONNECTION'));
 
 		foreach ($connections as $cn)
 		{
@@ -369,7 +369,7 @@ class FabrikFEModelConnection extends FabModel
 				$this->id = $cn->id;
 				$fabrikDb = $this->getDb();
 				$tables = $fabrikDb->getTableList();
-				$connectionTables[$cn->value][] = JHTML::_('select.option', '', '- Please select -');
+				$connectionTables[$cn->value][] = JHTML::_('select.option', '', FText::_('COM_FABRIK_SELECT_LIST'));
 
 				if (is_array($tables))
 				{

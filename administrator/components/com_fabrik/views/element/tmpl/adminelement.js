@@ -244,7 +244,7 @@ define (['jquery', 'admin/pluginmanager'], function (jQuery, PluginManager) {
 			/**
 			 * Sets accordion header as follows:
 			 *
-			 * 1. If action is '' use COM_FABRIK_PLEASE_SELECT, otherwise use "On"
+			 * 1. If action is '' use COM_FABRIK_JS_SELECT_EVENT, otherwise use "On"
 			 * followed by action text
 			 *
 			 * 2. If code is set, append either comment text from first line if it
