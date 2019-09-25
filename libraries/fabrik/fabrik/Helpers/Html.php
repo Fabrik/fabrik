@@ -21,6 +21,7 @@ use JHtml;
 use JHtmlBootstrap;
 use JModelLegacy;
 use JRoute;
+use JSession;
 use JText;
 use JUri;
 use JVersion;
@@ -1011,7 +1012,11 @@ EOD;
 			// Require js test - list with no cal loading ajax form with cal
 			if (version_compare(JVERSION, '3.7', '>='))
 			{
-				self::calendar();
+				/**
+				 * don't do this in the framework any more, as the new jdate element means we can't include the old
+                 * date JS if a jdate is being used, so the old date element now calls calendar() when it needs it
+                 */
+				//self::calendar();
 			}
 			else
 			{
@@ -1526,6 +1531,15 @@ EOD;
 			$app    = JFactory::getApplication();
 			$config = JComponentHelper::getParams('com_fabrik');
 
+			/*
+			if ($app->input->get('format', 'html') === 'raw')
+            {
+                $debug = false;
+
+                return false;
+            }
+			*/
+
 			if ($enabled && $config->get('use_fabrikdebug') == 0)
 			{
 			    $debug = false;
@@ -2029,7 +2043,7 @@ EOD;
 
 		$json = self::autoCompleteOptions($htmlId, $elementId, $formId, $plugin, $opts);
 		$str  = json_encode($json);
-		JText::script('COM_FABRIK_NO_RECORDS');
+		JText::script('COM_FABRIK_NO_AUTOCOMPLETE_RECORDS');
 		JText::script('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR');
 		$jsFile = 'autocomplete';
 		$className = 'AutoComplete';
@@ -2089,8 +2103,10 @@ EOD;
 
 		$app       = JFactory::getApplication();
 		$package   = $app->getUserState('com_fabrik.package', 'fabrik');
-		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
+		//$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
+		$json->url = 'index.php?option=com_' . $package . '&format=raw';
 		$json->url .= $app->isAdmin() ? '&task=plugin.pluginAjax' : '&view=plugin&task=pluginAjax';
+		$json->url .= '&' . JSession::getFormToken() . '=1';
 		$json->url .= '&g=element&element_id=' . $elementId
 			. '&formid=' . $formId . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
 		$c = ArrayHelper::getValue($opts, 'onSelection');

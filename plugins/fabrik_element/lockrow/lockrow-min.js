@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-var fbLockrow=FbElement.extend({initialize:function(i,t){this.parent(i,t),this.plugin="fbLockrow",this.setOptions(i,t)}});
+define(["jquery","fab/element"],function(n,i){return window.FbLockrow=new Class({Extends:i,initialize:function(n,i){this.parent(n,i),this.plugin="fbLockrow",this.setOptions(n,i)}}),window.FbLockrow});

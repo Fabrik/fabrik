@@ -100,9 +100,9 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 			//  $$$ hugh - standardizing on $data but need need $d here for backward compat
 			$d = $data;
-
+			FabrikWorker::clearEval();
 			$res = FabrikHelperHTML::isDebug() ? eval($default) : @eval($default);
-			FabrikWorker::logEval($res, 'Eval exception : ' . $this->getElement()->name . '::_getV() : ' . $default . ' : %s');
+			FabrikWorker::logEval($res, 'Eval exception : ' . $this->getElement()->name . ' (id ' . $this->getId() . ')::_getV() : ' . $default . ' : %s');
 
 			return $res;
 		}
@@ -307,6 +307,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$d = $data;
 			$w = new FabrikWorker;
 			$cal = $w->parseMessageForPlaceHolder($cal, $data, true, true);
+			FabrikWorker::clearEval();
 
 			if (FabrikHelperHTML::isDebug())
 			{
@@ -317,7 +318,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 				$res = @eval($cal);
 			}
 
-			FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . '::preFormatFormJoins() : ' . $cal . ' : %s');
+			FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . ' (id ' . $this->getId() . ')::preFormatFormJoins() : ' . $cal . ' : %s');
 
 			$res = $this->getFormattedValue($res);
 
@@ -472,7 +473,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 		// $$$ hugh - trying to standardize on $data so scripts know where data is
 		$data = $d;
-		$calc = $w->parseMessageForPlaceHolder($calc, $d);
+        $calc = $w->parseMessageForRepeats($calc, $data, $this, $repeatCounter);
+        $calc = $w->parseMessageForPlaceHolder($calc, $d);
 		$c    = FabrikHelperHTML::isDebug() ? eval($calc) : @eval($calc);
 		$c    = preg_replace('#(\/\*.*?\*\/)#', '', $c);
 		$c    = $this->getFormattedValue($c);

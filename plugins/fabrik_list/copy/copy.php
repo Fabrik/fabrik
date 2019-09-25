@@ -51,7 +51,7 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 */
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('copytable_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('copytable_button_label', parent::buttonLabel()));
 	}
 
 	/**

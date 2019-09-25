@@ -211,7 +211,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         if (!events || !events[type]) {
             return this;
         }
-        args = Array.from(args);
+        args = Array.mfrom(args);
         events[type].each(function (fn) {
             if (delay) {
                 this.eventResults.push(fn.delay(delay, this, args));
@@ -244,7 +244,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         }
 
         // Have we previously started to load the Googlemaps script?
-        var gmapScripts = Array.from(document.scripts).filter(function (f) {
+        var gmapScripts = Array.mfrom(document.scripts).filter(function (f) {
             return f.src === src;
         });
 
@@ -475,26 +475,31 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
     };
 
     /**
-     * Open a single details/form view
-     * @param {string} view - details or form
-     * @param {event} e relayed click event
-     * @param {Node} target <a> link
+     * Needed for the wickedpicker time picker, to figure out which element the picker is attached to when closing
+     *
+     * @param  element  the DOM element the time picker is attached to
+     * @param  picker  the picker DOM element
      */
-    Fabrik.calSelect = function () {
-        if (event.target.calendar) {
-            var form = jQuery(event.target.calendar.inputField).closest('form');
+    Fabrik.timePickerClose = function (element, picker) {
+        if (element) {
+            // find the form
+            var form = jQuery(element).closest('form');
 
             if (form.length > 0) {
+                // get our block
                 form = Fabrik.getBlock(form[0].id);
 
                 if (form) {
-                    var el = jQuery(event.target.calendar.inputField).closest('.fabrikSubElementContainer');
+                    // find element container
+                    var container = jQuery(element).closest('.fabrikSubElementContainer');
 
-                    if (el.length > 0) {
-                        el = form.formElements.get(el[0].id);
+                    if (container.length > 0) {
+                        // get the element object
+                        var el = form.formElements.get(container[0].id);
 
                         if (el) {
-                            el.calSelect(event.target.calendar);
+                            // fire the hideTime method
+                            el.hideTime(element, picker);
                         }
                     }
                 }

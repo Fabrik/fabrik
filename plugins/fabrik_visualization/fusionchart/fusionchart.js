@@ -8,6 +8,7 @@
 define(['jquery', 'fab/fabrik', 'fusionchart'], function (jQuery, Fabrik, fc) {
 
     var Fusionchart = new Class({
+        Binds: [],
         Implements: [Options],
         options: {
             chartJSON: '{}',

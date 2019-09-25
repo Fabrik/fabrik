@@ -36,8 +36,6 @@ class FabrikViewForm extends FabrikViewFormBase
 
 		if (parent::display($tpl) !== false)
 		{
-			FabrikhelperHTML::loadBootstrapCSS(true);
-
 			/** @var JDocumentpdf $document */
 			$document = $this->doc;
 
@@ -47,6 +45,12 @@ class FabrikViewForm extends FabrikViewFormBase
 			$size        = $this->app->input->get('pdf_size', $params->get('pdf_size', 'A4'));
 			$orientation = $this->app->input->get('pdf_orientation', $params->get('pdf_orientation', 'portrait'));
 			$document->setPaper($size, $orientation);
+
+			if ($this->app->input->get('pdf_include_bootstrap', $params->get('pdf_include_bootstrap', '0')) === '1')
+			{
+				FabrikhelperHTML::loadBootstrapCSS(true);
+			}
+
 			$this->output();
 		}
 	}

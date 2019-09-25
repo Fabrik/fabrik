@@ -77,6 +77,20 @@
 				   description="PLG_FABRIK_LIST_PHPEVENTS_ONGETPLUGINROWHEADINGS_DESC"
 				   repeat="true"/>
 
+			<field name="list_phpevents_onshowinlist"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_FABRIK_LIST_PHPEVENTS_ONSHOWINLIST_LABEL"
+				   description="PLG_FABRIK_LIST_PHPEVENTS_ONSHOWINLIST_DESC"
+				   repeat="true"/>
+
+			<field name="list_phpevents_onelementcanviewlist"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_FABRIK_LIST_PHPEVENTS_ONELEMENTCANVIEWLIST_LABEL"
+				   description="PLG_FABRIK_LIST_PHPEVENTS_ONELEMENTCANVIEWLIST_DESC"
+				   repeat="true"/>
+
 		</fieldset>
 	</fields>
 </form>

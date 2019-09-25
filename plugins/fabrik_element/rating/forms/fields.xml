@@ -1,37 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset name="plg-element-rating">
-		
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-rating">
+
 			<field type="helplink"
-				url="PLG_ELEMENT_RATING_HELP_SERVER" />
-				
-			<field default="user-rating" description="PLG_ELEMENT_RATING_MODE_DESC" label="PLG_ELEMENT_RATING_MODE_LABEL" name="rating-mode" type="list">
-					<option value="user-rating">User rating</option>
-					<option value="creator-rating">Creator rating</option>
+				   url="PLG_ELEMENT_FIELD_HELP_SERVER" />
+
+			<field name="hidden"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_RATING_HIDDEN_DESC"
+				   label="PLG_ELEMENT_RATING_HIDDEN_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+
+			<field name="default"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_ELEMENT_RATING_DEFAULT_LABEL"
+				   description="PLG_ELEMENT_RATING_DEFAULT_DESC"/>
+
+			<field name="eval"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_RATING_EVAL_LABEL"
+				   description="PLG_ELEMENT_RATING_EVAL_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+
+	<fields name="params">
+		<fieldset name="plg-element-rating-params" label="PLG_ELEMENT_RATING_RATING_OPTIONS">
+
+			<field type="helplink"
+				   url="PLG_ELEMENT_RATING_HELP_SERVER"/>
+
+			<field default="user-rating"
+				   description="PLG_ELEMENT_RATING_MODE_DESC"
+				   label="PLG_ELEMENT_RATING_MODE_LABEL"
+				   name="rating-mode"
+				   type="list">
+				<option value="user-rating">User rating</option>
+				<option value="creator-rating">Creator rating</option>
 			</field>
 
 			<field name="rating_access"
-				type="accesslevel"
-				default="1"
-				label="PLG_ELEMENT_RATING_ACCESS_LABEL"
-				description="PLG_ELEMENT_RATING_ACCESS_DESC" />
-			
+				   type="accesslevel"
+				   default="1"
+				   label="PLG_ELEMENT_RATING_ACCESS_LABEL"
+				   description="PLG_ELEMENT_RATING_ACCESS_DESC"/>
+
 			<field default="1"
-				class="btn-group"
-				description="PLG_ELEMENT_RATING_NO_RATING_OPTION_FIRST_DESC" label="PLG_ELEMENT_RATING_NO_RATING_OPTION_FIRST_LABEL" name="rating-nonefirst" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				   class="btn-group"
+				   description="PLG_ELEMENT_RATING_NO_RATING_OPTION_FIRST_DESC"
+				   label="PLG_ELEMENT_RATING_NO_RATING_OPTION_FIRST_LABEL"
+				   name="rating-nonefirst"
+				   type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
+
 			<field default="1"
-				class="btn-group"
-				description="PLG_ELEMENT_RATING_RATE_IN_FORM_DESC" label="PLG_ELEMENT_RATING_RATE_IN_FORM_LABEL" name="rating-rate-in-form" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				   class="btn-group"
+				   description="PLG_ELEMENT_RATING_RATE_IN_FORM_DESC"
+				   label="PLG_ELEMENT_RATING_RATE_IN_FORM_LABEL"
+				   name="rating-rate-in-form"
+				   type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
-			<field default="0" class="input-mini" description="PLG_ELEMENT_RATING_FLOAT_DESCRIPTION" label="PLG_ELEMENT_RATING_FLOAT_LABEL" name="rating_float" size="2" type="text"/>
+
+			<field default="0"
+				   class="input-mini"
+				   description="PLG_ELEMENT_RATING_FLOAT_DESCRIPTION"
+				   label="PLG_ELEMENT_RATING_FLOAT_LABEL"
+				   name="rating_float"
+				   size="2"
+				   type="text"/>
 
 		</fieldset>
 	</fields>

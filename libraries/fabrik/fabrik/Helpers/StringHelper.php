@@ -1055,6 +1055,12 @@ class StringHelper extends \Joomla\String\StringHelper
 
 	public static function getRowClass($value, $prefix)
 	{
+	    // when called in form context, could be a single value array
+	    if (is_array($value))
+        {
+            $value = empty($value) ? '' : reset($value);
+        }
+
 		$value = preg_replace('/[^A-Z|a-z|0-9]/', '-', $value);
 		$value = self::ltrim($value, '-');
 		$value = self::rtrim($value, '-');

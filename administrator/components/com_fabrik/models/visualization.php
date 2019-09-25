@@ -142,9 +142,19 @@ class FabrikAdminModelVisualization extends FabModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		parent::validate($form, $data);
+        $params = $data['params'];
+		$data = parent::validate($form, $data);
 
-		return $data;
+		// Standard jForm validation failed so we shouldn't test further as we can't be sure of the data
+		if (!$data)
+		{
+			return false;
+		}
+
+        // Hack - must be able to add the plugin xml fields file to $form to include in validation but cant see how at the moment
+        $data['params'] = $params;
+
+        return $data;
 	}
 
 	/**

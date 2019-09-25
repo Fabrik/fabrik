@@ -827,7 +827,7 @@ class Worker
 				$msg = preg_replace("/{}/", "", $msg);
 
 				// Replace {element name} with form data
-				$msg = preg_replace_callback("/{([^}\s]+(\|\|[\w|\s]+)*)}/i", array($this, 'replaceWithFormData'), $msg);
+				$msg = preg_replace_callback("/{([^}\s]+(\|\|[\w|\s]+|<\?php.*\?>)*)}/i", array($this, 'replaceWithFormData'), $msg);
 
 				if (!$keepPlaceholders)
 				{
@@ -1224,6 +1224,13 @@ class Worker
 
 			if (in_array($match, array('', '<ul></ul>', '<ul><li></li></ul>')))
 			{
+			    // experiment with eval'ed code in defaults
+                if (strstr($bits[1], '<?php'))
+                {
+                    $code = preg_replace('/^<\?php(.*)(\?>)$/s', '$1', $bits[1]);
+                    $bits[1] = @eval($code);
+                }
+
 				return $bits[1] !== '' ? $bits[1] : $orig;
 			}
 			else
@@ -1643,7 +1650,13 @@ class Worker
 		 * if there were any errors, but $error['message'] will be empty.  See comment in logEval()
 		 * below for details.
 		 */
-		@trigger_error("");
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			error_clear_last();
+		}
+		else
+		{
+			@trigger_error("");
+		}
 	}
 
 	/**
@@ -1656,10 +1669,12 @@ class Worker
 	 */
 	public static function logEval($val, $msg)
 	{
+		/*
 		if ($val !== false)
 		{
 			return;
 		}
+		*/
 
 		$error = error_get_last();
 		/**
@@ -1992,7 +2007,7 @@ class Worker
 	 */
 	public static function isNullDate($d)
 	{
-		$db         = self::getDbo();
+		$db         = self::getDbo(true);
 		$aNullDates = array('0000-00-000000-00-00', '0000-00-00 00:00:00', '0000-00-00', '', $db->getNullDate());
 
 		return in_array($d, $aNullDates);
@@ -2019,14 +2034,20 @@ class Worker
 			return false;
 		}
 
+		$cerl = error_reporting ();
+		error_reporting (0);
+
 		try
 		{
 			$dt = new DateTime($d);
 		} catch (\Exception $e)
 		{
+			error_reporting ($cerl);
+			self::clearEval();
 			return false;
 		}
 
+		error_reporting ($cerl);
 		return true;
 	}
 
@@ -2241,7 +2262,9 @@ class Worker
 		}
 		catch (\Exception $e)
 		{
-			return false;
+            self::log('fabrik.helper.sendmail.error', 'Exception in addRecipient: ' . $e->getMessage(), false);
+
+            return false;
 		}
 
 		try
@@ -2250,6 +2273,8 @@ class Worker
 		}
 		catch (\Exception $e)
 		{
+            self::log('fabrik.helper.sendmail.warning', 'Exception in addCc: ' . $e->getMessage());
+
 			// not sure if we should bail if Cc is bad, for now just soldier on
 		}
 
@@ -2259,7 +2284,9 @@ class Worker
 		}
 		catch (\Exception $e)
 		{
-			// not sure if we should bail if Bcc is bad, for now just soldier on
+            self::log('fabrik.helper.sendmail.warning', 'Exception in addBcc: ' . $e->getMessage(), false);
+
+            // not sure if we should bail if Bcc is bad, for now just soldier on
 		}
 
 		if (!empty($attachment))
@@ -2270,7 +2297,9 @@ class Worker
 			}
 			catch (\Exception $e)
 			{
-				// most likely file didn't exist, ignore
+                self::log('fabrik.helper.sendmail.warning', 'Exception in addAttachment: ' . $e->getMessage(), false);
+
+                // most likely file didn't exist, ignore
 			}
 		}
 
@@ -2289,7 +2318,9 @@ class Worker
 				}
 				catch (\Exception $e)
 				{
-					// carry on
+                    self::log('fabrik.helper.sendmail.warning', 'Exception in addReplyTo: ' . $e->getMessage(), false);
+
+                    // carry on
 				}
 			}
 		}
@@ -2301,7 +2332,9 @@ class Worker
 			}
 			catch (\Exception $e)
 			{
-				// carry on
+                self::log('fabrik.helper.sendmail.warning', 'Exception in addReplyTo: ' . $e->getMessage(), false);
+
+                // carry on
 			}
 		}
 		else
@@ -2315,7 +2348,9 @@ class Worker
 		}
 		catch (\Exception $e)
 		{
-			return false;
+            self::log('fabrik.helper.sendmail.error', 'Exception in setSender: ' . $e->getMessage(), false);
+
+            return false;
 		}
 
 		/**
@@ -2356,10 +2391,20 @@ class Worker
 		}
 		catch (\Exception $e)
 		{
-			return false;
+            self::log('fabrik.helper.sendmail.error', 'Exception in Send: ' . $e->getMessage(), false);
+
+            return false;
 		}
 
-		return $ret;
+        // if ACY mailing is installed, it returns an exception (!) rather than false
+        if (get_parent_class($ret) === 'Exception')
+        {
+            self::log('fabrik.helper.sendmail.error', 'Exception in Send: ' . $ret->getMessage(), false);
+
+            $ret = false;
+        }
+
+        return $ret;
 	}
 
 	/**
@@ -2807,6 +2852,21 @@ class Worker
 
 		return $app->input->get('task') == 'form.process' || ($app->isAdmin() && $app->input->get('task') == 'process');
 	}
+
+	/**
+	 * Are we in an AJAX validation process task
+	 *
+	 * @since 3.9.2
+	 *
+	 * @return bool
+	 */
+	public static function inAJAXValidation()
+	{
+		$app = JFactory::getApplication();
+
+		return $app->input->get('task', '') === 'form.ajax_validate';
+	}
+
 
 	/**
 	 * Remove messages from JApplicationCMS

@@ -134,54 +134,62 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 
 		if ($method !== 'pk')
 		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('sequence')
-				->from('#__fabrik_sequences')
-				->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
-				->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
-				->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
-			$db->setQuery($query);
-			$row = $db->loadObject();
+            $db    = JFactory::getDbo();
+            $sequenceQuery = $params->get('sequence_query', '');
 
-			if (empty($row))
-			{
-				$start   = (int) $params->get('sequence_start', '1');
-				$columns = array(
-					$db->quoteName('table_name'),
-					$db->quoteName('affix'),
-					$db->quoteName('element_id'),
-					$db->quoteName('sequence')
-				);
-				$values  = array(
-					$db->quote($tableName),
-					$db->quote($affix),
-					$db->quote($elementId),
-					$db->quote($start)
-				);
+            if (!empty($sequenceQuery))
+            {
+                $sequenceQuery = $w->parseMessageForPlaceHolder($sequenceQuery, $data);
+                $db->setQuery($sequenceQuery);
+                $sequence = $db->loadResult();
+            }
 
-				$query->clear()
-					->insert('#__fabrik_sequences')
-					->columns($columns)
-					->values(implode(',', $values));
-				$db->setQuery($query);
-				$db->execute();
+            if (empty($sequence)) {
+                $query = $db->getQuery(true);
+                $query->select('sequence')
+                    ->from('#__fabrik_sequences')
+                    ->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
+                    ->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
+                    ->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
+                $db->setQuery($query);
+                $row = $db->loadObject();
 
-				$sequence = $start;
-			}
-			else
-			{
-				$sequence = (int) $row->sequence;
-				$sequence++;
-				$query->clear()
-					->update('#__fabrik_sequences')
-					->set($db->quoteName('sequence') . ' = ' . $sequence)
-					->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
-					->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
-					->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
-				$db->setQuery($query);
-				$db->execute();
-			}
+                if (empty($row)) {
+                    $start = (int)$params->get('sequence_start', '1');
+                    $columns = array(
+                        $db->quoteName('table_name'),
+                        $db->quoteName('affix'),
+                        $db->quoteName('element_id'),
+                        $db->quoteName('sequence')
+                    );
+                    $values = array(
+                        $db->quote($tableName),
+                        $db->quote($affix),
+                        $db->quote($elementId),
+                        $db->quote($start)
+                    );
+
+                    $query->clear()
+                        ->insert('#__fabrik_sequences')
+                        ->columns($columns)
+                        ->values(implode(',', $values));
+                    $db->setQuery($query);
+                    $db->execute();
+
+                    $sequence = $start;
+                } else {
+                    $sequence = (int)$row->sequence;
+                    $sequence++;
+                    $query->clear()
+                        ->update('#__fabrik_sequences')
+                        ->set($db->quoteName('sequence') . ' = ' . $sequence)
+                        ->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
+                        ->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
+                        ->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
+                    $db->setQuery($query);
+                    $db->execute();
+                }
+            }
 		}
 		else
 		{

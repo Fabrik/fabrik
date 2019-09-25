@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields>
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-total" label="COM_FABRIK_OPTIONS">
+
+			<field type="helplink"
+					url="PLG_ELEMENT_TOTAL_HELP_SERVER" />
+
+			<field name="hidden"
+				type="radio"
+				default="0"
+				class="btn-group"
+				label="PLG_ELEMENT_TOTAL_HIDDEN_LABEL">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+
+	<fields name="params">
+		<fieldset name="plg-total-extra" label="PLG_ELEMENT_TOTAL_SETTINGS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_TOTAL_HELP_SERVER" />
+
+			<field name="total_method"
+				   type="list"
+				   default="sum_repeat"
+				   description="PLG_ELEMENT_TOTAL_METHOD_DESC"
+				   label="PLG_ELEMENT_TOTAL_METHOD_LABEL">
+				<option value="sum_repeat">PLG_ELEMENT_TOTAL_METHOD_SUM_REPEAT</option>
+				<option value="sum_multiple">PLG_ELEMENT_TOTAL_METHOD_SUM_MULTIPLE</option>
+			</field>
+
+			<!--
+			<field name="total_repeat_element"
+				   type="listfields"
+				   valueformat="tableelement"
+				   usestep="true"
+				   description="PLG_ELEMENT_TOTAL_REPEAT_ELEMENT_DESC"
+				   label="PLG_ELEMENT_TOTAL_REPEAT_ELEMENT_LABEL"/>
+			-->
+
+			<field name="total_multiple_elements"
+				   type="fabrikmodalrepeat"
+				   icon="list"
+				   label="PLG_ELEMENT_TOTAL_MULTIPLE_ELEMENTS_LABEL"
+				   description="PLG_ELEMENT_TOTAL_MULTIPLE_ELEMENTS_DESC"
+			>
+				<fields name="params">
+					<fieldset modal="true"
+							  name="total_multiple_elements_modal"
+							  repeat="true">
+						<field name="total_multiple_element"
+							   label="PLG_ELEMENT_TOTAL_MULTIPLE_ELEMENT_LABEL"
+							   description="PLG_ELEMENT_TOTAL_MULTIPLE_ELEMENT_DESC"
+							   type="listfields"
+							   valueformat="tableelement"
+							   usestep="true"
+						/>
+						<field name="total_multiple_operand"
+							   label="PLG_ELEMENT_TOTAL_MULTIPLE_OPERAND_LABEL"
+							   description="PLG_ELEMENT_TOTAL_MULTIPLE_OPERAND_DESC"
+							   type="list"
+							   default="add"
+						>
+							<option value="add">+</option>
+							<option value="subtract">-</option>
+							<option value="multiply">*</option>
+							<option value="divide">/</option>
+						</field>
+					</fieldset>
+				</fields>
+			</field>
+
+			<field name="total_fixed"
+				   type="text"
+				   class="input-mini"
+				   default="2"
+				   label="PLG_ELEMENT_TOTAL_FIXED_LABEL"
+				   description="PLG_ELEMENT_TOTAL_FIXED_DESC"
+				   size="3"/>
+
+			<field name="total_start_value"
+				   type="text"
+				   class="input-mini"
+				   default="0"
+				   label="PLG_ELEMENT_TOTAL_START_VALUE_LABEL"
+				   description="PLG_ELEMENT_TOTAL_START_VALUE_DESC"
+				   size="3"/>
+
+			<field name="total_on_load"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="PLG_ELEMENT_TOTAL_ON_LOAD_DESC"
+				   label="PLG_ELEMENT_TOTAL_ON_LOAD_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</form>

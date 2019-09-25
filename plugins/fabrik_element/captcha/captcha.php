@@ -314,6 +314,11 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function validate($data, $repeatCounter = 0)
 	{
+	    if ($this->app->input->get('task', '') === 'form.ajax_validate')
+        {
+            return true;
+        }
+
 		$params = $this->getParams();
 		$input  = $this->app->input;
 

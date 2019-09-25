@@ -14,6 +14,8 @@ define(['jquery'], function (jQuery) {
      */
     var RequestQueue = new Class({
 
+        Binds: [],
+
         queue: {}, // object of xhr objects
 
         initialize: function () {

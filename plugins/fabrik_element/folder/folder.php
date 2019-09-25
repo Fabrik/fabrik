@@ -71,7 +71,7 @@ class PlgFabrik_ElementFolder extends PlgFabrik_Element
 			{
 				$opts[] = JHTML::_('select.option', $file, $file);
 
-				if ($selected === $folder)
+				if ($selected === $file)
 				{
 					$aRoValues[] = $file;
 				}

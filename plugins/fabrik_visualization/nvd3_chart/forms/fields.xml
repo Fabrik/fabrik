@@ -86,6 +86,7 @@
 				<option value="">COM_FABRIK_NONE</option>
 				<option value="sum">COM_FABRIK_SUM</option>
 				<option value="avg">COM_FABRIK_AVERAGE</option>
+				<option value="count">COM_FABRIK_COUNT</option>
 			</field>
 
 

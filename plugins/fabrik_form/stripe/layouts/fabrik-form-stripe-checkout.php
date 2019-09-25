@@ -35,6 +35,14 @@ if ($d->testMode) :
 <?php
 endif;
 
+if ($d->failedValidation) :
+	?>
+    <div class="fabrikStripeFailedValidationText">
+		<?php echo $d->failedValidationMsg; ?>
+    </div>
+<?php
+endif;
+
 if ($d->showCoupon) :
 	?>
     <div class="fabrikStripeCouponText">

@@ -229,7 +229,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         _addOption: function (opt, l, v, rowOpt) {
             var sel = typeOf(this.options.value) === 'array' ?
-                    this.options.value : Array.from(this.options.value),
+                    this.options.value : Array.mfrom(this.options.value),
                 i = opt.getElement('input'),
                 subOpts = this.getSubOptions(),
                 subOptsRows = this.getSubOptsRow(),

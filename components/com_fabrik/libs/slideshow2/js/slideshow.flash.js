@@ -37,7 +37,7 @@ Dependencies:
 			options = options || {};
 			options.overlap = true;
 			if (options.color)
-				options.color = Array.from(options.color);
+				options.color = Array.mfrom(options.color);
 			this.parent(el, data, options);
 		},
 

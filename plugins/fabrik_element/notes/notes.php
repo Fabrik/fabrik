@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Fabrik\Helpers\Html;
+
 require_once JPATH_SITE . '/plugins/fabrik_element/databasejoin/databasejoin.php';
 
 /**
@@ -61,14 +63,14 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	{
 		$params = $this->getParams();
 		$tmp = $this->_getOptions($data, $repeatCounter, true);
-		$layoutName = FabrikWorker::j3() ? 'form' : 'form-25';
-		$layout = $this->getLayout($layoutName);
+		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
 		$layoutData->id = $this->getHTMLId($repeatCounter);
 		$layoutData->labels = array();
 		$layoutData->name = $this->getHTMLName($repeatCounter);
 		$layoutData->fieldType = $params->get('fieldType', 'textarea');
 		$layoutData->editable = $this->isEditable();
+		$layoutData->canUse = $this->canUse();
 		$layoutData->rowid = $this->getFormModel()->getRowId();
 		$layoutData->primaryKey = $this->getGroupModel()->isJoin() ? $this->getJoinedGroupPkVal($repeatCounter) : $layoutData->rowid;
 		$layoutData->rows = $tmp;
@@ -94,34 +96,27 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	public function getDisplayLabel($row)
 	{
 		$params = $this->getParams();
-		$txt = '';
-		$header = array();
+		$layout = $this->getLayout('form-note');
+		$layoutData = new stdClass;
+		$layoutData->headers = 0;
 
 		if ($params->get('showuser', true))
 		{
-			$header[] = $this->getUserNameLinked($row);
+			$layoutData->showUser = true;
+			$layoutData->user = $this->getUserNameLinked($row);
+			$layoutData->headers++;
 		}
 
 		if ($params->get('notes_date', '') !== '')
 		{
-			$header[] = $this->getFormattedDate($row);
+			$layoutData->showDate = true;
+			$layoutData->date = $this->getFormattedDate($row);
+			$layoutData->headers++;
 		}
 
-		if (!empty($header))
-		{
-			$spanX = 12 / count($header);
+		$layoutData->note = $row;
 
-			foreach ($header as $head)
-			{
-				$txt .= '<div class="span' . $spanX . '">' . $head . '</div>';
-			}
-
-			$txt = '<div class="row-fluid">' . $txt . '</div>';
-		}
-
-		$txt .= $row->text;
-
-		return $txt;
+		return $layout->render($layoutData);
 	}
 
 	/**

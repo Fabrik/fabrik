@@ -16,21 +16,24 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             if (options.editable) {
                 this.getMyElements();
                 this.imageFolderList = [];
-
                 this.selectedImage = '';
-                if (this.imageDir) {
-                    if (this.imageDir.options.length !== 0) {
-                        this.selectedImage = this.imageDir.get('value');
-                    }
-                    this.imageDir.addEvent('change', function (e) {
-                        this.showImage(e);
-                    }.bind(this));
-                }
+
                 if (this.options.canSelect === true) {
                     this.ajaxFolder();
                     this.element = this.hiddenField;
                     this.selectedFolder = this.getFolderPath();
                 }
+
+                if (this.imageDir) {
+                    if (this.imageDir.options.length !== 0) {
+                        this.selectedImage = this.imageDir.get('value');
+                        this.showImage();
+                    }
+                    this.imageDir.addEvent('change', function (e) {
+                        this.showImage(e);
+                    }.bind(this));
+                }
+
             }
         },
 
@@ -47,8 +50,26 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
         },
 
         cloned: function (c) {
+            var select = this.element.getElement('select');
+
+            if (select) {
+                select.id = this.origId + '_image' + c;
+                select.name = this.origId + '_image[' + c + ']';
+            }
+
             this.getMyElements();
             this.ajaxFolder();
+
+            if (this.imageDir) {
+                if (this.imageDir.options.length !== 0) {
+                    this.selectedImage = this.imageDir.get('value');
+                    this.showImage();
+                }
+                this.imageDir.addEvent('change', function (e) {
+                    this.showImage(e);
+                }.bind(this));
+            }
+
             this.parent(c);
         },
 
@@ -103,8 +124,15 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                     this.selectedImage = this.imageDir.get('value');
                     this.image.src = Fabrik.liveSite + this.selectedFolder + '/' + this.selectedImage;
                 }
-                //this.hiddenField.value =  this.get('value');//this.selectedImage;
-                this.hiddenField.value = this.getValue();
+
+                if (!this.hiddenField) {
+                    var el = this.element.getParent('.fabrikElement');
+                    this.hiddenField = el.getElement('.folderpath');
+                }
+
+                if (this.hiddenField) {
+                    this.hiddenField.value = this.getValue();
+                }
             }
         },
 

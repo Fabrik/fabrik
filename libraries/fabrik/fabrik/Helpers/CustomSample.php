@@ -22,7 +22,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * Add your functions as 'public static' methods.
  *
- * Call them from anywhere you can run PHP code in Fabrik as \Fabrik\Helpers\Custom::doMyThing()
+ * Call them from anywhere you can run PHP code in Fabrik as \Fabrik\Helpers\Custom::doMyThing(),
+ * or FabrikCustom::doMyThing().  The latter is a class alias, which may be deprecated in future versions.
  *
  *
  * @package     Joomla

@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-yesno">
+			<field type="helplink"
+				   url="PLG_ELEMENT_YESNO_HELP_SERVER" />
+
+			<field name="hidden"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_YESNO_HIDDEN_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+
 	<fields name="params">
-		
-		<fieldset name="plg-element-yesno">
+
+		<fieldset name="plg-element-yesno-params"
+				  label="COM_FABRIK_ADVANCED">
 		
 			<field type="helplink"
 				url="PLG_ELEMENT_YESNO_HELP_SERVER" />
@@ -14,7 +31,19 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
+			<field name="yesno_icon_yes"
+				   type="field"
+				   default=""
+				   description="PLG_ELEMENT_YESNO_YES_ICON_DESC"
+				   label="PLG_ELEMENT_YESNO_YES_ICON_LABEL" />
+
+			<field name="yesno_icon_no"
+				   type="field"
+				   default=""
+				   description="PLG_ELEMENT_YESNO_NO_ICON_DESC"
+				   label="PLG_ELEMENT_YESNO_NO_ICON_LABEL" />
+
 			<field name="options_per_row"
 				type="field"
 				default="4"

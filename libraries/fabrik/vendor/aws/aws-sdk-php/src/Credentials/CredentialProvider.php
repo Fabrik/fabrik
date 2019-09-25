@@ -219,7 +219,7 @@ class CredentialProvider
             $secret = getenv(self::ENV_SECRET);
             if ($key && $secret) {
                 return Promise\promise_for(
-                    new Credentials($key, $secret, getenv(self::ENV_SESSION))
+                    new Credentials($key, $secret, getenv(self::ENV_SESSION) ?: NULL)
                 );
             }
 
@@ -289,7 +289,7 @@ class CredentialProvider
             if (!is_readable($filename)) {
                 return self::reject("Cannot read credentials from $filename");
             }
-            $data = parse_ini_file($filename, true);
+            $data = parse_ini_file($filename, true, INI_SCANNER_RAW);
             if ($data === false) {
                 return self::reject("Invalid credentials file: $filename");
             }

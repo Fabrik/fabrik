@@ -14,6 +14,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
 
         Implements: [Options, Events],
 
+        Binds: [],
+
         options: {
             menuclass              : 'auto-complete-container dropdown',
             classes                : {
@@ -232,7 +234,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             }
             if (data.length === 0) {
                 li = new Element('li').adopt(new Element('div.alert.alert-info')
-                    .adopt(new Element('i').set('text', Joomla.JText._('COM_FABRIK_NO_RECORDS'))));
+                    .adopt(new Element('i').set('text', Joomla.JText._('COM_FABRIK_NO_AUTOCOMPLETE_RECORDS'))));
                 li.inject(ul);
             }
             for (var i = 0; i < max; i++) {

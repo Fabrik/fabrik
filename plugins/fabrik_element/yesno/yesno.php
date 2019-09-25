@@ -66,6 +66,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
+	    $params = $this->getParams();
         $profiler = JProfiler::getInstance('Application');
         JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
@@ -77,7 +78,9 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$rawData = FabrikWorker::JSONtoData($rawData, true);
 		$displayData        = new stdClass;
 		$displayData->tmpl  = isset($this->tmpl) ? $this->tmpl : '';
-		$displayData->format = $this->app->input->get('format', '');;
+		$displayData->format = $this->app->input->get('format', '');
+		$displayData->yesIcon = $params->get('yesno_icon_yes', '');
+        $displayData->noIcon = $params->get('yesno_icon_no', '');
 		$layout = $this->getLayout('list');
 		$labelData = array();
 
@@ -221,7 +224,11 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	protected function getReadOnlyOutput($value, $label)
 	{
+	    $params = $this->getParams();
 		$displayData = new stdClass;
+        $displayData->format = $this->app->input->get('format', '');
+        $displayData->yesIcon = $params->get('yesno_icon_yes', '');
+        $displayData->noIcon = $params->get('yesno_icon_no', '');
 		$displayData->value = $value;
 		$displayData->tmpl = @$this->tmpl;
 		$displayData->format = $this->app->input->get('format', '');;

@@ -1287,7 +1287,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             });
 
             ctx.drawImage(canvas[0], x, y, w, h, 0, 0, w, h);
-            f.val(target[0].toDataURL({quality: this.windowopts.quality}));
+            f.val(target[0].toDataURL('image/jpeg', this.windowopts.quality));
             target.remove();
         },
 

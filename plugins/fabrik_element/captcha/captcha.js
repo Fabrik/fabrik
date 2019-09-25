@@ -19,7 +19,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     });
                 };
 
-                requirejs(['https://www.google.com/recaptcha/api.js?hl=en&onload=fabrikCaptureLoaded&render=explicit']);
+                requirejs(['https://www.google.com/recaptcha/api.js?onload=fabrikCaptureLoaded&render=explicit']);
             }
             this.parent(element, options);
         },
@@ -38,6 +38,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
          * @return  void
          */
         onsubmit: function (cb) {
+            if (typeof cb === 'undefined')
+            {
+                return;
+            }
+
             if (this.options.method === 'invisible')
             {
                 if (!grecaptcha.getResponse()) {

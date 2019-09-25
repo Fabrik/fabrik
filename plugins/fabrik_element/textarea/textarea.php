@@ -116,49 +116,89 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 	{
         $profiler = JProfiler::getInstance('Application');
         JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
-
         $params = $this->getParams();
 
-		if ($params->get('textarea-tagify') == true)
-		{
-			$data = $this->tagify($data);
-		}
-		else
-		{
-			if (!$this->useWysiwyg(false))
-			{
-				if (is_array($data))
-				{
-					for ($i = 0; $i < count($data); $i++)
-					{
-						$data[$i] = FabrikString::safeNl2br($data[$i]);
-					}
-				}
-				else
-				{
-					if (is_object($data))
-					{
-						$this->convertDataToString($data);
-					}
+		/**
+		 * Some funkiness to handle textareas with JSON in them.  If in a repeat group, and joins are being merged,
+		 * we need to re-encode the value.
+		 */
+        $groupModel = $this->getGroupModel();
+        $listModel = $this->getListModel();
+        $listParams = $listModel->getParams();
+        $merge = $listParams->get('join-display');
 
-					$data = FabrikString::safeNl2br($data);
-				}
+		/**
+		 * If merging repeat data, do a full JSONtoData(), then catch any non-scalar value (meaning the actual data
+		 * in the textarea was JSON) when we loop through the array of what should be strings.
+		 */
+        if ($groupModel->canRepeat() && $merge !== 'default')
+        {
+	        $data = FabrikWorker::JSONtoData($data, true);
+        }
+        else
+        {
+        	/**
+        	 * if not merging repeat data, just array-ify the single string.  If it is JSON, the parent
+	         * renderListData() will catch it with the same is_scalar() test after a JSONtoData().
+             */
+        	$data = (array)$data;
+        }
+
+		foreach ($data as $i => &$d)
+		{
+			/**
+			 * Ah HAH!  Must have been JSON that got decoded, so re-encode it
+			 */
+			if (!is_scalar($d))
+			{
+				$d = json_encode($d);
 			}
 
-			$truncateWhere = (int) $params->get('textarea-truncate-where', 0);
-
-			if ($data !== '' && ($truncateWhere === 1 || $truncateWhere === 3))
+			if ($params->get('textarea-tagify') == true)
 			{
-				$truncateOpts = $this->truncateOpts();
-				$data = fabrikString::truncate($data, $truncateOpts);
-				$listModel = $this->getListModel();
-
-				if (ArrayHelper::getValue($opts, 'link', 1))
+				$d = $this->tagify($d);
+			}
+			else
+			{
+				if (!$this->useWysiwyg(false))
 				{
-					$data = $listModel->_addLink($data, $this, $thisRow);
+					if (is_array($d))
+					{
+						for ($i = 0; $i < count($d); $i++)
+						{
+							$d[$i] = FabrikString::safeNl2br($d[$i]);
+						}
+					}
+					else
+					{
+						if (is_object($d))
+						{
+							$this->convertDataToString($d);
+						}
+
+						$d = FabrikString::safeNl2br($d);
+					}
+				}
+
+				$truncateWhere = (int) $params->get('textarea-truncate-where', 0);
+
+				if ($d !== '' && ($truncateWhere === 1 || $truncateWhere === 3))
+				{
+					$truncateOpts = $this->truncateOpts();
+					$d         = fabrikString::truncate($d, $truncateOpts);
+
+					if (ArrayHelper::getValue($opts, 'link', 1))
+					{
+						$d = $listModel->_addLink($d, $this, $thisRow);
+					}
 				}
 			}
 		}
+
+		/**
+		 * Turn it back into a JSON string to hand to our parent
+		 */
+		$data = json_encode($data);
 
 		return parent::renderListData($data, $thisRow, $opts);
 	}
@@ -270,6 +310,17 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 		$cols = $params->get('width', $element->width);
 		$rows = $params->get('height', $element->height);
 		$value = $this->getValue($data, $repeatCounter);
+
+		/**
+		 * edge case where they are storing JSON in a repeat group, and setJoinData() in form model will have
+		 * run the value through JSONtoData().  So if the value is an object or array, JSON encode it.
+		 */
+
+		if (is_array($value) || is_object($value))
+		{
+			$value = json_encode($value);
+		}
+
 		$bits = array();
 		$bits['class'] = "fabrikinput inputbox " . $params->get('bootstrap_class');
 		$wysiwyg = $this->useWysiwyg();

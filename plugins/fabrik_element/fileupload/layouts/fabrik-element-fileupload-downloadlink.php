@@ -38,7 +38,8 @@ $class = $d->downloadImg !== '' ? '' : 'class="btn btn-primary button"';
 	<?php if ($d->downloadImg !== '') : ?>
 		<img src="<?php echo $d->downloadImg;?>" alt="<?php echo $d->title;?>" />
 	<?php else :?>
-		<?php echo FabrikHelperHTML::icon('icon-download icon-white') . ' ' . FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD');?>
+		<?php echo FabrikHelperHTML::icon('icon-download icon-white'); ?>
+        <span><?php echo FText::_('PLG_ELEMENT_FILEUPLOAD_DOWNLOAD'); ?></span>
 	<?php endif; ?>
 </a>
 <?php endif; ?>

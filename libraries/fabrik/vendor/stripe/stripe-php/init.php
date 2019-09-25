@@ -57,6 +57,7 @@ require(dirname(__FILE__) . '/lib/SingletonApiResource.php');
 
 // Stripe API Resources
 require(dirname(__FILE__) . '/lib/Account.php');
+require(dirname(__FILE__) . '/lib/AccountLink.php');
 require(dirname(__FILE__) . '/lib/AlipayAccount.php');
 require(dirname(__FILE__) . '/lib/ApplePayDomain.php');
 require(dirname(__FILE__) . '/lib/ApplicationFee.php');
@@ -99,11 +100,14 @@ require(dirname(__FILE__) . '/lib/Payout.php');
 require(dirname(__FILE__) . '/lib/Person.php');
 require(dirname(__FILE__) . '/lib/Plan.php');
 require(dirname(__FILE__) . '/lib/Product.php');
+require(dirname(__FILE__) . '/lib/Radar/ValueList.php');
+require(dirname(__FILE__) . '/lib/Radar/ValueListItem.php');
 require(dirname(__FILE__) . '/lib/Recipient.php');
 require(dirname(__FILE__) . '/lib/RecipientTransfer.php');
 require(dirname(__FILE__) . '/lib/Refund.php');
 require(dirname(__FILE__) . '/lib/Reporting/ReportRun.php');
 require(dirname(__FILE__) . '/lib/Reporting/ReportType.php');
+require(dirname(__FILE__) . '/lib/Review.php');
 require(dirname(__FILE__) . '/lib/SKU.php');
 require(dirname(__FILE__) . '/lib/Sigma/ScheduledQueryRun.php');
 require(dirname(__FILE__) . '/lib/Source.php');

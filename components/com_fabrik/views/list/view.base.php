@@ -49,28 +49,6 @@ class FabrikViewListBase extends FabrikView
 		$csvOpts->inccalcs     = (int) $params->get('csv_include_calculations');
 		$csvOpts->custom_qs    = $params->get('csv_custom_qs', '');
 
-		$filter = JFilterInput::getInstance();
-		$request = $filter->clean($_GET, 'array');
-		$model              = $this->getModel();
-		$formModel          = $model->getFormModel();
-
-		foreach ($request as $key => $val)
-		{
-			$elementModel = $formModel->getElement(FabrikString::rtrimword($key, '_raw'), false, false);
-
-			if (!is_a($elementModel, 'PlgFabrik_Element'))
-			{
-				continue;
-			}
-
-			if (!empty($csvOpts->custom_qs))
-			{
-				$csvOpts->custom_qs .= '&';
-			}
-
-			$csvOpts->custom_qs .= $key . '=' . $val;
-		}
-
 		$itemId = FabrikWorker::itemId();
 		$exportUrl = 'index.php?option=com_' . $this->package . '&view=list&listid=' . $this->getModel()->getId();
 
@@ -319,7 +297,17 @@ class FabrikViewListBase extends FabrikView
 		$this->_row        = new stdClass;
 		$this->_row->id    = '';
 		$this->_row->class = 'fabrik_row';
-		echo $this->loadTemplate('row');
+
+		// nasty hack for div templates
+		if (JFile::exists(JPATH_ROOT . '/components/com_fabrik/views/list/tmpl/' . $tmpl . '/default_empty_row.php'))
+		{
+			echo $this->loadTemplate('empty_row');
+		}
+		else
+		{
+			echo $this->loadTemplate('row');
+		}
+
 		$opts->itemTemplate = ob_get_contents();
 		ob_end_clean();
 

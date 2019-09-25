@@ -35,7 +35,6 @@ class FabrikViewList extends FabrikViewListBase
 
 		if (parent::display($tpl) !== false)
 		{
-			FabrikhelperHTML::loadBootstrapCSS(true);
 			$model = $this->getModel();
 			$params = $model->getParams();
 			$size        = $this->app->input->get('pdf_size', $params->get('pdf_size', 'A4'));
@@ -48,6 +47,12 @@ class FabrikViewList extends FabrikViewListBase
 			//$this->filters = array();
 			$this->showFilters = false;
 			$this->hasButtons = false;
+
+			if ($this->app->input->get('pdf_include_bootstrap', $params->get('pdf_include_bootstrap', '0')) === '1')
+			{
+				FabrikhelperHTML::loadBootstrapCSS(true);
+			}
+
 			$this->output();
 		}
 	}

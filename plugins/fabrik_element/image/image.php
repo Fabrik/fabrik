@@ -332,8 +332,15 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			}
 
 			// $$$rob not sure about his name since we are adding $repeatCounter to getHTMLName();
-			$layoutData->imageName = $this->getGroupModel()->canRepeat() ? FabrikString::rtrimWord($name, "][$repeatCounter]") . "_image][$repeatCounter]"
-				: $id . '_image';
+			if ($this->getGroupModel()->canRepeat())
+			{
+				$layoutData->imageName = FabrikString::rtrimWord($name, "[$repeatCounter]") . "_image[$repeatCounter]";
+			}
+			else
+			{
+				$layoutData->imageName = $id . '_image';
+			}
+
 			$bits = explode('/', $value);
 			$image = array_pop($bits);
 

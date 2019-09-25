@@ -122,3 +122,4 @@ components/com_fabrik/models/.DS_Store
 .transifexrc
 private.json
 /404.map
+libraries/fabrik/fabrik/Helpers/Custom.php

@@ -105,6 +105,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 			$layoutData->countDown       = $count[1];
 			$layoutData->showDown        = $params->get('show_down', 1);
 			$layoutData->tmpl            = isset ($this->tmpl) ? $this->tmpl : '';
+			$layoutData->elementModel    = $this;
 			$data[$i]                    = $layout->render($layoutData);
 		}
 
@@ -269,6 +270,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 		$layoutData->imagepath     = $imagePath;
 		$layoutData->imagefileup   = $imageFileUp;
 		$layoutData->imagefiledown = $imageFileDown;
+		$layoutData->elementModel  = $this;
 		$layoutData->tmpl          = isset ($this->tmpl) ? $this->tmpl : '';
 
 		return $layout->render($layoutData);

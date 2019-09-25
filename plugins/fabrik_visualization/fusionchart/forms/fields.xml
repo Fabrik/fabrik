@@ -2,14 +2,17 @@
 <form>
 	<fields name="params">
 
+
+		<field name="fusionchart_description"
+			   type="note"
+			   class="alert alert-info"
+			   close="true"
+			   description="PLG_VISUALIZATION_FUSIONCHART_DESCRIPTION" />
+
 		<fieldset name="options"
 		          repeat="1"
 		          repeatcontrols="1"
 		          label="COM_FABRIK_OPTIONS">
-
-			<field name="deprecated"
-			       type="spacer"
-			       label="COM_FABRIK_DEPRECATED_PLUGIN"/>
 
 			<field description="PLG_VISUALIZATION_FUSIONCHART_CONNECTION_LABEL_DESC"
 			       label="PLG_VISUALIZATION_FUSIONCHART_CONNECTION_LABEL"
@@ -82,13 +85,6 @@
 			       size="3"
 			       type="text"/>
 
-			<field class="input-mini"
-			       description="PLG_VISUALIZATION_FUSIONCHART_LABEL_STEP_RATIO_DESC"
-			       label="PLG_VISUALIZATION_FUSIONCHART_LABEL_STEP_RATIO_LABEL"
-			       name="fusion_label_step_ratio"
-			       size="3"
-			       type="text"/>
-
 			<field connection="params_fusionchart_connection"
 			       connection_in_repeat="false"
 			       description="PLG_VISUALIZATION_FUSIONCHART_AXIS_LABEL_DESC"
@@ -96,6 +92,14 @@
 			       name="fusion_x_axis_label"
 			       table="params_fusionchart_table"
 			       type="element"/>
+
+			<field connection="params_fusionchart_connection"
+				   connection_in_repeat="false"
+				   description="PLG_VISUALIZATION_FUSIONCHART_AXIS_SORT_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_AXIS_SORT_LABEL"
+				   name="fusion_x_axis_sort"
+				   table="params_fusionchart_table"
+				   type="element"/>
 
 			<field default="P"
 			       description="PLG_VISUALIZATION_FUSIONCHART_DUAL_Y_PARENT_DESC"
@@ -124,19 +128,42 @@
 			       size="10"
 			       type="text"/>
 
+			<field connection="params_fusionchart_connection"
+				   connection_in_repeat="false"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MS_GROUP_BY_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MS_GROUP_BY_LABEL"
+				   name="fusionchart_ms_group_by"
+				   table="params_fusionchart_table"
+				   type="element"/>
+
+			<field name="fusionchart_query"
+				   type="fabrikeditor"
+				   mode="mysql"
+				   description="PLG_VISUALIZATION_FUSIONCHART_QUERY_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_QUERY_LABEL"/>
+
+			<field name="fusionchart_php"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_VISUALIZATION_FUSIONCHART_PHP_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_PHP_LABEL"/>
+
 		</fieldset>
 
 		<fieldset label="PLG_VISUALIZATION_FUSIONCHART_SPACER_GRAPH_ATTRIBUTES"
 		          name="graph_attributes">
-			<field default="free_old"
-			       description="PLG_VISUALIZATION_FUSIONCHART_VERSION_DESC"
-			       label="PLG_VISUALIZATION_FUSIONCHART_VERSION_LABEL"
-			       name="fusionchart_version"
-			       type="list">
-				<option value="free_old">Default</option>
-				<option value="free_22">Free 2.2</option>
-				<option value="pro_30">Pro 3.0</option>
-			</field>
+
+			<field name="fusionchart_library"
+					type="folderlist"
+					label="PLG_VISUALIZATION_FUSIONCHART_CHART_LIB_LABEL"
+					description="PLG_VISUALIZATION_FUSIONCHART_CHART_LIB_LABEL"
+					directory="/plugins/fabrik_visualization/fusionchart/libs"
+					hide_none="true"
+					hide_default="false"
+					recursive="false"
+					default="fusionchart-suite-xt"
+			/>
+
 			<field label="PLG_VISUALIZATION_FUSIONCHART_CHART_TYPE_LABEL"
 			       name="fusionchart_type"
 			       type="list">
@@ -147,6 +174,8 @@
 				<option value="COLUMN3D">Column 3D</option>
 				<option value="DOUGHNUT2D">Doughnut 2D</option>
 				<option value="DOUGHNUT3D">Doughnut 3D</option>
+				<option value="FUNNEL2D">Funnel 2D</option>
+				<option value="FUNNEL3D">Funnel 3D</option>
 				<option value="LINE">Line</option>
 				<option value="PIE2D">Pie 2D</option>
 				<option value="PIE3D">Pie 3D</option>
@@ -159,6 +188,7 @@
 				<option value="MSCOLUMN3D">MS Column 3D</option>
 				<option value="MSCOLUMN3DLINEDY">MS Column 3D Line DY</option>
 				<option value="MSLINE">MS Line</option>
+				<option value="MSSPLINE">MS Spline</option>
 				<option value="MULTIAXISLINE">Multi Axis Line</option>
 				<option value="CANDLESTICK">Candlestick</option>
 				<option value="STACKEDAREA2D">Stacked Area 2D</option>
@@ -172,6 +202,7 @@
 				<option value="SCATTER">Scatter</option>
 				<option value="SPLINE">Spline</option>
 				<option value="SPLINEAREA">Spline Area</option>
+				<option value="MAPS">Maps - see Map section</option>
 			</field>
 
 			<field default="1"
@@ -192,6 +223,12 @@
 			       size="50"
 			       type="text"/>
 
+			<field description="PLG_VISUALIZATION_FUSIONCHART_THEME_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_THEME_LABEL"
+				   name="fusionchart_theme"
+				   default="carbon"
+				   type="fusionchartsthemes"/>
+
 			<field default="300"
 			       description="PLG_VISUALIZATION_FUSIONCHART_WIDTH_DESC"
 			       class="input-mini"
@@ -209,8 +246,8 @@
 			       type="text"/>
 
 			<field name="fusionchart_layout"
-			       type="fabriktemplate"
-			       directory="/plugins/fabrik_visualization/fusionchart/views/fusionchart/"
+			       type="fabrikfolderlist"
+			       directory="/plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl"
 			       label="PLG_VISUALIZATION_FUSIONCHART_TEMPLATE_LABEL"/>
 
 			<field default="Please Wait.The chart is loading..."
@@ -484,6 +521,11 @@
 			       label="PLG_VISUALIZATION_FUSIONCHART_SCROLL_NUMVISIBLE_LABEL"
 			       name="fusionchart_scroll_numvisible"
 			       type="text"/>
+
+			<field description="PLG_VISUALIZATION_FUSIONCHART_LABELSTEP_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_LABELSTEP_LABEL"
+				   name="fusionchart_labelstep"
+				   type="text"/>
 
 		</fieldset>
 
@@ -798,6 +840,7 @@
 
 		</fieldset>
 
+		<!--
 		<fieldset label="PLG_VISUALIZATION_FUSIONCHART_EXPORT"
 				  name="export">
 
@@ -825,6 +868,58 @@
 				   size="3"
 				   type="text"/>
 
+
+		</fieldset>
+		-->
+
+		<fieldset label="PLG_VISUALIZATION_FUSIONCHART_MAP"
+				  name="map">
+
+			<field description="PLG_VISUALIZATION_FUSIONCHART_MAP_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_LABEL"
+				   name="fusionchart_map"
+				   default="world"
+				   type="fusionchartsmaps"/>
+
+			<field class="input-small"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_MINVALUE_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_MINVALUE_LABEL"
+				   name="fusionchart_map_color_minvalue"
+				   size="5"
+				   type="text"
+				   default="0"/>
+
+			<field class="input-medium"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_STARTLABEL_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_STARTLABEL_LABEL"
+				   name="fusionchart_map_color_startlabel"
+				   size="10"
+				   default="Low"
+				   type="text"/>
+
+			<field class="input-medium"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_ENDLABEL_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_ENDLABEL_LABEL"
+				   name="fusionchart_map_color_endlabel"
+				   size="10"
+				   default="High"
+				   type="text"/>
+
+			<field class="input-medium"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_CODE_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_CODE_LABEL"
+				   name="fusionchart_map_color_code"
+				   size="10"
+				   default="#afeeee"
+				   type="text"/>
+
+			<field class="input-small"
+				   description="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_GRADIENT_DESC"
+				   label="PLG_VISUALIZATION_FUSIONCHART_MAP_COLOR_GRADIENT_LABEL"
+				   name="fusionchart_map_color_gradient"
+				   size="5"
+				   default="1"
+				   type="text"/>
 
 		</fieldset>
 

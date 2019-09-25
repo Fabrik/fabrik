@@ -442,6 +442,7 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
                         self.watchTabs();
                         self.center();
                         self.onContentLoaded.apply(self);
+                        Joomla.loadOptions();
                     });
                     break;
                 // Deprecated - causes all sorts of issues with window resizing.

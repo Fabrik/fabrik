@@ -15,10 +15,10 @@ use Fabrik\Helpers\Image;
 use Fabrik\Helpers\Uploader;
 use Joomla\Utilities\ArrayHelper;
 
-define("FU_DOWNLOAD_SCRIPT_NONE", '0');
-define("FU_DOWNLOAD_SCRIPT_TABLE", '1');
-define("FU_DOWNLOAD_SCRIPT_DETAIL", '2');
-define("FU_DOWNLOAD_SCRIPT_BOTH", '3');
+if (!defined('FU_DOWNLOAD_SCRIPT_NONE')) define("FU_DOWNLOAD_SCRIPT_NONE", '0');
+if (!defined('FU_DOWNLOAD_SCRIPT_TABLE')) define("FU_DOWNLOAD_SCRIPT_TABLE", '1');
+if (!defined('FU_DOWNLOAD_SCRIPT_DETAIL')) define("FU_DOWNLOAD_SCRIPT_DETAIL", '2');
+if (!defined('FU_DOWNLOAD_SCRIPT_BOTH')) define("FU_DOWNLOAD_SCRIPT_BOTH", '3');
 
 $logLvl = JLog::ERROR + JLog::EMERGENCY + JLog::WARNING;
 JLog::addLogger(array('text_file' => 'fabrik.element.fileupload.log.php'), $logLvl, array('com_fabrik.element.fileupload'));
@@ -855,65 +855,74 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		$storage             = $this->getStorage();
 		$use_download_script = $params->get('fu_use_download_script', '0');
+		$downloadHTML = '';
 
 		if ($use_download_script == FU_DOWNLOAD_SCRIPT_TABLE || $use_download_script == FU_DOWNLOAD_SCRIPT_BOTH)
 		{
 			if (empty($data) || !$storage->exists(COM_FABRIK_BASE . $data))
 			{
-				return '';
-			}
-
-			$canDownload = true;
-			$aclEl       = $this->getFormModel()->getElement($params->get('fu_download_acl', ''), true);
-
-			if (!empty($aclEl))
-			{
-				$aclEl       = $aclEl->getFullName();
-				$aclElRaw    = $aclEl . '_raw';
-				$groups      = $this->user->getAuthorisedViewLevels();
-				$canDownload = in_array($thisRow->$aclElRaw, $groups);
-			}
-
-			$formModel = $this->getFormModel();
-			$formId    = $formModel->getId();
-			$rowId     = $thisRow->__pk_val;
-			$elementId = $this->getId();
-			$title     = '';
-
-			if ($params->get('fu_title_element') == '')
-			{
-				$title_name = $this->getFullName(true, false) . '__title';
+				$downloadHTML = '';
 			}
 			else
 			{
-				$title_name = str_replace('.', '___', $params->get('fu_title_element'));
-			}
 
-			if (array_key_exists($title_name, $thisRow))
-			{
-				if (!empty($thisRow->$title_name))
+				$canDownload = true;
+				$aclEl       = $this->getFormModel()->getElement($params->get('fu_download_acl', ''), true);
+
+				if (!empty($aclEl))
 				{
-					$title = $thisRow->$title_name;
-					$title = FabrikWorker::JSONtoData($title, true);
-					$title = $title[$i];
+					$aclEl       = $aclEl->getFullName();
+					$aclElRaw    = $aclEl . '_raw';
+					$groups      = $this->user->getAuthorisedViewLevels();
+					$canDownload = in_array($thisRow->$aclElRaw, $groups);
 				}
+
+				$formModel = $this->getFormModel();
+				$formId    = $formModel->getId();
+				$rowId     = $thisRow->__pk_val;
+				$elementId = $this->getId();
+				$title     = '';
+
+				if ($params->get('fu_title_element') == '')
+				{
+					$title_name = $this->getFullName(true, false) . '__title';
+				}
+				else
+				{
+					$title_name = str_replace('.', '___', $params->get('fu_title_element'));
+				}
+
+				if (array_key_exists($title_name, $thisRow))
+				{
+					if (!empty($thisRow->$title_name))
+					{
+						$title = $thisRow->$title_name;
+						$title = FabrikWorker::JSONtoData($title, true);
+						$title = $title[$i];
+					}
+				}
+
+				$downloadImg = $params->get('fu_download_access_image');
+
+				$layout                     = $this->getLayout('downloadlink');
+				$displayData                = new stdClass;
+				$displayData->canDownload   = $canDownload;
+				$displayData->title         = $title;
+				$displayData->file          = $data;
+				$displayData->noAccessImage = COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $params->get('fu_download_noaccess_image');
+				$displayData->noAccessURL   = $params->get('fu_download_noaccess_url', '');
+				$displayData->downloadImg   = ($downloadImg && JFile::exists('media/com_fabrik/images/' . $downloadImg)) ? COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $downloadImg : '';
+				$displayData->href          = COM_FABRIK_LIVESITE
+					. 'index.php?option=com_' . $this->package . '&amp;task=plugin.pluginAjax&amp;plugin=fileupload&amp;method=ajax_download&amp;format=raw&amp;element_id='
+					. $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId . '&amp;repeatcount=0&ajaxIndex=' . $i;
+
+				$downloadHTML = $layout->render($displayData);
 			}
 
-			$downloadImg = $params->get('fu_download_access_image');
-
-			$layout                     = $this->getLayout('downloadlink');
-			$displayData                = new stdClass;
-			$displayData->canDownload   = $canDownload;
-			$displayData->title         = $title;
-			$displayData->file          = $data;
-			$displayData->noAccessImage = COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $params->get('fu_download_noaccess_image');
-			$displayData->noAccessURL   = $params->get('fu_download_noaccess_url', '');
-			$displayData->downloadImg   = ($downloadImg && JFile::exists('media/com_fabrik/images/' . $downloadImg)) ? COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $downloadImg : '';
-			$displayData->href          = COM_FABRIK_LIVESITE
-				. 'index.php?option=com_' . $this->package . '&amp;task=plugin.pluginAjax&amp;plugin=fileupload&amp;method=ajax_download&amp;format=raw&amp;element_id='
-				. $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId . '&amp;repeatcount=0&ajaxIndex=' . $i;
-
-			return $layout->render($displayData);
+			if ($params->get('fu_download_append', '0') === '0')
+			{
+				return $downloadHTML;
+			}
 		}
 
 		if ($params->get('fu_show_image_in_table') == '0')
@@ -952,7 +961,14 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			}
 		}
 
-		return $render->output;
+		if ($params->get('fu_download_append', '0') === '1')
+		{
+			return $render->output . '<div>' . $downloadHTML . '</div>';;
+		}
+		else
+		{
+			return $render->output;
+		}
 	}
 
 	/**
@@ -1438,11 +1454,11 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 				$imgData      = base64_decode($imgData);
 				$saveParams[] = $json;
 
-				// @todo allow uploading into front end designated folders?
-				$myFileDir = '';
-				$cropPath  = $storage->clean(JPATH_SITE . '/' . $params->get('fileupload_crop_dir') . '/' . $myFileDir . '/', false);
+                $destCropFile = $storage->_getCropped($filePath);
+                $destCropFile = $storage->getFullPath($destCropFile);
 				$w         = new FabrikWorker;
-				$cropPath  = $w->parseMessageForPlaceHolder($cropPath);
+                $destCropFile  = $w->parseMessageForPlaceHolder($destCropFile);
+                $cropPath = dirname($destCropFile);
 
 				if ($cropPath != '')
 				{
@@ -1456,6 +1472,8 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 					}
 				}
 
+
+				/*
 				$filePath     = $storage->clean(JPATH_SITE . '/' . $filePath);
 				$fileURL      = $storage->getFileUrl(str_replace(COM_FABRIK_BASE, '', $filePath));
 				$destCropFile = $storage->_getCropped($fileURL);
@@ -1468,6 +1486,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 					$fileCounter++;
 					continue;
 				}
+				*/
 
 				$fileCounter++;
 
@@ -1838,8 +1857,17 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			return;
 		}
 
+		$params = $this->getParams();
+		$default = $params->get('default_image', '');
 		$storage = $this->getStorage();
+		$default = $storage->clean($default);
 		$file    = $storage->clean($filename);
+
+		if ($default === $file)
+		{
+			return;
+		}
+
 		$thumb   = $storage->clean($storage->_getThumb($filename));
 		$cropped = $storage->clean($storage->_getCropped($filename));
 
@@ -3468,7 +3496,10 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			header('Accept-Ranges: bytes');
 			header('Content-Length: ' . $thisFileInfo['filesize']);
 			header('Content-Type: ' . $thisFileInfo['mime_type']);
-			header('Content-Disposition: attachment; filename="' . $thisFileInfo['filename'] . '"');
+			if ($params->get('fu_open_in_browser', '0') == '0' )
+                        {
+                            header('Content-Disposition: attachment; filename="' . $thisFileInfo['filename'] . '"');
+                        }
 
 			// Serve up the file
 			$storage->stream($filePath);

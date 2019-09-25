@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.26.0 - 2018-12-11
+* [#568](https://github.com/stripe/stripe-php/pull/568) Enable persistent connections
+
+## 6.25.0 - 2018-12-10
+* [#567](https://github.com/stripe/stripe-php/pull/567) Add support for account links
+
+## 6.24.0 - 2018-11-28
+* [#562](https://github.com/stripe/stripe-php/pull/562) Add support for the Review resource
+* [#564](https://github.com/stripe/stripe-php/pull/564) Add event name constants for subscription schedule aborted/expiring
+
+## 6.23.0 - 2018-11-27
+* [#542](https://github.com/stripe/stripe-php/pull/542) Add support for `ValueList` and `ValueListItem` for Radar 
+
 ## 6.22.1 - 2018-11-20
 * [#561](https://github.com/stripe/stripe-php/pull/561) Add cast and some docs to telemetry introduced in 6.22.0/#549
 

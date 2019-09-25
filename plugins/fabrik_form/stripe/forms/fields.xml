@@ -294,6 +294,14 @@
 			       type="listfields"
 			       valueformat="tableelement"/>
 
+			<field description="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_LABEL"
+				   name="stripe_charge_receipt_url_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
 			<field name="stripe_charge_bottom_text_new"
 			       type="fabrikeditor"
 			       mode="php"
@@ -307,6 +315,13 @@
 			       description="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_EXISTING_DESC"
 			       label="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_EXISTING_LABEL"
 			       repeat="true"/>
+
+			<field name="stripe_charge_failed_validation_text"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_LABEL"
+				   repeat="true"/>
 
 		</fieldset>
 

@@ -160,18 +160,22 @@ class FabrikFEModelVisualization extends FabModel
 		if (!isset($this->tables))
 		{
 			$this->tables = array();
-		}
+            $c = 0;
 
-		foreach ($this->listids as $id)
-		{
-			if (!array_key_exists($id, $this->tables))
-			{
-				$listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
-				$listModel->setId($id);
-				$listModel->getTable();
-				$this->tables[$id] = $listModel;
-			}
-		}
+            foreach ($this->listids as $id)
+            {
+                if (!array_key_exists($id, $this->tables))
+                {
+                    $listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
+                    $listModel->setId($id);
+                    $listModel->getTable();
+                    $this->tables[$id . '-' . $c] = $listModel;
+                }
+
+                $c++;
+            }
+        }
+
 
 		return $this->tables;
 	}
@@ -180,14 +184,15 @@ class FabrikFEModelVisualization extends FabModel
 	 * Get a list model
 	 *
 	 * @param   int  $id  list model id
+     * @param   int  $c   repeat count
 	 *
 	 * @return  FabrikFEModelList	fabrik list model
 	 */
-	protected function &getlistModel($id)
+	protected function &getlistModel($id, $c)
 	{
 		$lists = $this->getlistModels();
 
-		return $lists[$id];
+		return $lists[$id . '-' . $c];
 	}
 
 	/**
@@ -432,7 +437,7 @@ class FabrikFEModelVisualization extends FabModel
 		$preFilters = (array) $params->get('prefilters');
 		$c = 0;
 
-		foreach ($listModels as $listModel)
+		foreach ($listModels as &$listModel)
 		{
 			// Set pre-filter params
 			$listParams = $listModel->getParams();
@@ -449,13 +454,36 @@ class FabrikFEModelVisualization extends FabModel
 					$f = FabrikString::safeColName($f);
 				}
 
-				$listParams->set('filter-fields', $fields);
-				$listParams->set('filter-conditions', $preFilter['filter-conditions']);
-				$listParams->set('filter-value', $preFilter['filter-value']);
-				$listParams->set('filter-access', $preFilter['filter-access']);
-				$listParams->set('filter-eval', $preFilter['filter-eval']);
-				$listParams->set('filter-join', $preFilter['filter-join']);
-			}
+                if ($listParams->get('menu_module_prefilters_override', true))
+                {
+                    // override the list's filters with module's
+                    $listParams->set('filter-join', $preFilter['filter-join']);
+                    $listParams->set('filter-fields', $fields);
+                    $listParams->set('filter-conditions', $preFilter['filter-conditions']);
+                    $listParams->set('filter-value', $preFilter['filter-value']);
+                    $listParams->set('filter-access', $preFilter['filter-access']);
+                    $listParams->set('filter-eval', $preFilter['filter-eval']);
+                }
+                else
+                {
+                    // merge module filters into list's
+                    $listFields = (array) $listParams->get('filter-fields');
+                    $listConditions = (array) $listParams->get('filter-conditions');
+                    $listValue = (array) $listParams->get('filter-value');
+                    $listAccess = (array) $listParams->get('filter-access');
+                    $listEval = (array) $listParams->get('filter-eval');
+                    $listJoins = (array) $listParams->get('filter-join');
+                    $listJoins[0] = 'AND';
+
+                    $listParams->set('filter-join', array_merge($listJoins, $preFilter['filter-join']));
+                    $listParams->set('filter-fields', array_merge($listFields, $fields));
+                    $listParams->set('filter-conditions', array_merge($listConditions, $preFilter['filter-conditions']));
+                    $listParams->set('filter-value', array_merge($listValue, $preFilter['filter-value']));
+                    $listParams->set('filter-access', array_merge($listAccess, $preFilter['filter-access']));
+                    $listParams->set('filter-eval', array_merge($listEval, $preFilter['filter-eval']));
+                }
+
+            }
 
 			$c ++;
 		}

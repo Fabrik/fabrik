@@ -43,7 +43,7 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 		Extends : FbListPlugin,
 		initialize: function (options) {
 			this.parent(options);
-			if (this.options.userSelect) {
+			if (!this.options.prompt && this.options.userSelect) {
 				var k = 'filter_update_col' + this.options.ref + '_' + this.options.renderOrder;
 				Fabrik[k] = new UpdateColSelect();
 				this.makeUpdateColWindow();
@@ -51,7 +51,21 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 		},
 
 		buttonAction: function () {
-			if (this.options.userSelect) {
+			if (this.options.prompt) {
+				var value = window.prompt(this.options.promptMsg, '');
+
+				if (value !== null) {
+					var listForm = document.id('listform_' + this.options.ref);
+
+					// Grab all the update settings and put them in a hidden field for
+					// later extraction within the update_col php code.
+					var i = new Element('input', {'type': 'hidden', 'value': value,
+						'name': 'fabrik_update_col'});
+					i.inject(listForm, 'bottom');
+					this.list.submit('list.doPlugin');
+				}
+			}
+			else if (this.options.userSelect) {
 				this.win.open();
 			} else {
 				this.list.submit('list.doPlugin');

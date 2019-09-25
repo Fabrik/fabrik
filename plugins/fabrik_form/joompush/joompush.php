@@ -85,7 +85,9 @@ class PlgFabrik_FormJoompush extends PlgFabrik_Form
 					1,
 					'com_fabrik.form',
 					$clientId,
-					$pushMsg->code
+					$pushMsg->code,
+					true,
+					''
 				);
 			}
 		}
@@ -112,7 +114,9 @@ class PlgFabrik_FormJoompush extends PlgFabrik_Form
 						1,
 						'com_fabrik.form',
 						$clientId,
-						$pushMsg->code
+						$pushMsg->code,
+						true,
+						''
 					);
 				}
 			}

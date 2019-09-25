@@ -74,7 +74,7 @@
 					</fields>
 				</field>
 
-				<field name="prefilters" type="fabrikmodalrepeat" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL">
+				<field name="prefilters" type="fabrikmodalrepeat" filter="raw" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL">
 
 					<fields name="params">
 						<fieldset modal="true" name="prefilters_modal" repeat="true">
@@ -107,7 +107,7 @@
 								<option value="nextweek1">COM_FABRIK_NEXT_WEEK1</option>
 							</field>
 
-							<field name="filter-value" type="textarea" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
+							<field name="filter-value" type="textarea" filter="raw" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
 
 							<field name="filter-eval" type="list" label="MOD_FABRIK_LIST_TYPE">
 								<option value="0">MOD_FABRIK_LIST_TEXT</option>

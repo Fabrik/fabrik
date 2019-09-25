@@ -24,37 +24,32 @@ endif;
 	<div style="overflow:auto;height:150px;" class="well well-small row-striped">
 		<?php
 		foreach ($d->labels as $label) :
-			?>
-			<div class="row-fluid">
-				<div class="span12">
-					<?php echo $label;?>
-				</div>
-			</div>
-		<?php
+            echo $label;
 		endforeach;
 		?>
 	</div>
 	<div class="noteHandle" style="height:3px;"></div>
 
 <?php
-// Jaanus - Submitting notes before saving form data results with the notes belonging to nowhere but new, not submitted forms.
-if ($d->primaryKey > 0) :
-	if ($d->fieldType == 'field') :?>
-		<input class="fabrikinput inputbox text span12" name="<?php echo $d->name; ?>" />
-	<?php
-	else:
-		?>
-		<textarea class="fabrikinput inputbox text span12" name="<?php echo $d->name; ?>" cols="50" rows="3" /></textarea>
-	<?php
-	endif;
-	?>
+if ($d->canUse) :
+    // Jaanus - Submitting notes before saving form data results with the notes belonging to nowhere but new, not submitted forms.
+    if ($d->primaryKey > 0) :
+        if ($d->fieldType == 'field') :?>
+            <input class="fabrikinput inputbox text span12" name="<?php echo $d->name; ?>" />
+        <?php
+        else:
+            ?>
+            <textarea class="fabrikinput inputbox text span12" name="<?php echo $d->name; ?>" cols="50" rows="3" /></textarea>
+        <?php
+        endif;
+        ?>
 
-	<input type="button" class="button btn" value="<?php echo FText::_('PLG_ELEMENT_NOTES_ADD');?>" />
-<?php
-else :
-	echo FText::_('PLG_ELEMENT_NOTES_SAVEFIRST');
+        <input type="button" class="button btn" value="<?php echo FText::_('PLG_ELEMENT_NOTES_ADD');?>" />
+    <?php
+    else :
+        echo FText::_('PLG_ELEMENT_NOTES_SAVEFIRST');
+    endif;
 endif;
-
 ?>
 
 <?php

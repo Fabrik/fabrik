@@ -453,6 +453,7 @@ class PlgFabrik_FormPHP extends PlgFabrik_Form
 	private function _requirePHP()
 	{
 		$params = $this->getParams();
+		$php_result = null;
 
 		if ($params->get('form_php_file') != -1)
 		{

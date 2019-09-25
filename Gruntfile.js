@@ -8,6 +8,8 @@ var fs = require('fs-extra'),
 	rimraf = require('rimraf'),
 	replace = require('replace'),
 	buildConfig = require('./fabrik_build/build-config.js'),
+    gruntLegacyUtil = require('grunt-legacy-util'),
+	gruntLeineending = require('grunt-lineending'),
 	zipPromises = [],
 	done;
 fs = Promise.promisifyAll(fs);
@@ -58,6 +60,28 @@ module.exports = function (grunt) {
 				)
 			}
 		},
+
+        lineending: {
+            all: {
+                options: {
+                    overwrite: true,
+                    eol: 'crlf'
+                },
+                files: [{
+                	expand: true,
+                    src: [
+                        './plugins/fabrik_*/**/*-min.js',
+						'./plugins/fabrik_element/fileupload/lib/plupload/js/*-min.js',
+						'./media/com_fabrik/js/dist/*-min.js',
+						'./media/com_fabrik/js/dist/lib/datejs/**/*-min.js',
+						'./administrator/components/com_fabrik/models/fields/*-min.js',
+						'./administrator/components/com_fabrik/views/**/*-min.js'
+					],
+					dest: ''
+				}]
+
+            }
+        },
 
 		compress: {
 			main: {
@@ -129,10 +153,11 @@ module.exports = function (grunt) {
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-lineending');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-prompt');
 
-	grunt.registerTask('js', 'uglify');
+	grunt.registerTask('js', ['uglify','lineending']);
 
 	// Default task(s).
 	grunt.registerTask('default', ['prompt', 'fabrik']);

@@ -179,10 +179,11 @@ class FabrikAdminViewElements extends JViewLegacy
 				);
 			}
 
+			// don't translate plugin names, otherwise things like "jdate" become "Date"
 			JHtmlSidebar::addFilter(
 			FText::_('COM_FABRIK_SELECT_PLUGIN'),
 			'filter_plugin',
-			JHtml::_('select.options', $this->pluginOptions, 'value', 'text', $this->state->get('filter.plugin'), true)
+			JHtml::_('select.options', $this->pluginOptions, 'value', 'text', $this->state->get('filter.plugin'), false)
 			);
 
 			JHtmlSidebar::addFilter(

@@ -71,6 +71,7 @@ abstract class Util
 
             // business objects
             \Stripe\Account::OBJECT_NAME => 'Stripe\\Account',
+            \Stripe\AccountLink::OBJECT_NAME => 'Stripe\\AccountLink',
             \Stripe\AlipayAccount::OBJECT_NAME => 'Stripe\\AlipayAccount',
             \Stripe\ApplePayDomain::OBJECT_NAME => 'Stripe\\ApplePayDomain',
             \Stripe\ApplicationFee::OBJECT_NAME => 'Stripe\\ApplicationFee',
@@ -112,11 +113,14 @@ abstract class Util
             \Stripe\Person::OBJECT_NAME => 'Stripe\\Person',
             \Stripe\Plan::OBJECT_NAME => 'Stripe\\Plan',
             \Stripe\Product::OBJECT_NAME => 'Stripe\\Product',
+            \Stripe\Radar\ValueList::OBJECT_NAME => 'Stripe\\Radar\\ValueList',
+            \Stripe\Radar\ValueListItem::OBJECT_NAME => 'Stripe\\Radar\\ValueListItem',
             \Stripe\Recipient::OBJECT_NAME => 'Stripe\\Recipient',
             \Stripe\RecipientTransfer::OBJECT_NAME => 'Stripe\\RecipientTransfer',
             \Stripe\Refund::OBJECT_NAME => 'Stripe\\Refund',
             \Stripe\Reporting\ReportRun::OBJECT_NAME => 'Stripe\\Reporting\\ReportRun',
             \Stripe\Reporting\ReportType::OBJECT_NAME => 'Stripe\\Reporting\\ReportType',
+            \Stripe\Review::OBJECT_NAME => 'Stripe\\Review',
             \Stripe\SKU::OBJECT_NAME => 'Stripe\\SKU',
             \Stripe\Sigma\ScheduledQueryRun::OBJECT_NAME => 'Stripe\\Sigma\\ScheduledQueryRun',
             \Stripe\Source::OBJECT_NAME => 'Stripe\\Source',

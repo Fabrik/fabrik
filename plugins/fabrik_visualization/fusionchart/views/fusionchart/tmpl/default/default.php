@@ -15,15 +15,15 @@ $row = $this->row;
 ?>
 <div id="<?php echo $this->containerId;?>" class="fabrik_visualization">
 	<?php if ($this->params->get('show-title')) :?>
-	<h1>
-		<?php echo $row->label;?>
-	</h1>
+        <h1>
+			<?php echo $row->label;?>
+        </h1>
 	<?php endif;?>
-	<br />
-	<p>
+    <br />
+    <p>
 		<?php echo $row->intro_text;?>
-	</p>
-	<?php echo $this->loadTemplate('filter'); ?>
-	<br />
-	<?php echo $this->chart; ?>
+    </p>
+	<?php echo $this->loadTemplate( 'filter'); ?>
+    <br />
+    <div id="chart-container-<?php echo $this->getModel()->getJSRenderContext();?>"></div>
 </div>

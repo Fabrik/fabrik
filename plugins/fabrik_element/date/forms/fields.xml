@@ -6,6 +6,12 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_DATE_HELP_SERVER" />
 
+			<field name="date_note"
+				   type="note"
+				   class="alert alert-info"
+				   close="true"
+				   description="PLG_ELEMENT_DATE_NOTE" />
+
 			<field default="0"
 				class="btn-group"
 				label="PLG_ELEMENT_DATE_HIDDEN_LABEL" name="hidden" type="radio">
@@ -45,7 +51,7 @@
 
 			<field name="date_showtime"
 				type="radio"
-				default="0"
+				default="1"
 				class="btn-group"
 				description="PLG_ELEMENT_DATE_SHOW_TIME_DESC"
 				label="PLG_ELEMENT_DATE_SHOW_TIME_LABEL" >
@@ -53,6 +59,17 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="date_which_time_picker"
+				   type="radio"
+				   default="wicked"
+				   class="btn-group"
+				   description="PLG_ELEMENT_DATE_WHICH_TIME_PICKER_DESC"
+				   label="PLG_ELEMENT_DATE_WHICH_TIME_PICKER_LABEL" >
+				<option value="wicked">PLG_ELEMENT_DATE_WHICH_TIME_PICKER_WICKED</option>
+				<option value="clock">PLG_ELEMENT_DATE_WHICH_TIME_PICKER_CLOCK</option>
+			</field>
+
+			<!--
 			<field name="date_time_format"
 				type="text"
 				default="H:i"
@@ -60,6 +77,27 @@
 				description="PLG_ELEMENT_DATE_TIME_FORMAT_DESC"
 				label="PLG_ELEMENT_DATE_TIME_FORMAT_LABEL"
 				length="20"/>
+			-->
+
+			<field name="date_show_seconds"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_DATE_SHOW_SECONDS_DESC"
+				   label="PLG_ELEMENT_DATE_SHOW_SECONDS_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="date_24hour"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_DATE_24HOUR_DESC"
+				   label="PLG_ELEMENT_DATE_24HOUR_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field name="bootstrap_time_class"
 				type="bootstrapfieldclass"
@@ -91,7 +129,7 @@
 
 			<field name="date_table_format"
 				type="text"
-				default="Y-m-d"
+				default="Y-m-d H:i:s"
 				class="input-mini"
 				description="PLG_ELEMENT_DATE_TABLE_FORMAT_DESC"
 				label="PLG_ELEMENT_DATE_TABLE_DATE_FORMAT_LABEL"

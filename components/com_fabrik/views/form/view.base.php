@@ -614,6 +614,7 @@ class FabrikViewFormBase extends FabrikView
 		if (!FabrikHelperHTML::inAjaxLoadedPage())
 		{
 			JText::script('COM_FABRIK_VALIDATING');
+            JText::script('COM_FABRIK_MUST_VALIDATE');
 			JText::script('COM_FABRIK_SUCCESS');
 			JText::script('COM_FABRIK_NO_REPEAT_GROUP_DATA');
 			JText::script('COM_FABRIK_VALIDATION_ERROR');
@@ -733,12 +734,14 @@ class FabrikViewFormBase extends FabrikView
 		// 3.1 call form js plugin code within main require method
 		$srcs = array_merge($srcs, $model->formPluginShim);
 		$str .= "\n$bKey.addPlugins({";
+		$plugins = array();
 
 		foreach ($model->formPluginJS as $pluginName => $pluginStr)
 		{
-			$str .= "'$pluginName': $pluginStr,";
+			$plugins[] = "'$pluginName': $pluginStr";
 		}
-		$str .= "});\n";
+
+		$str .= implode(',', $plugins) . "});\n";
 
 		FabrikHelperHTML::script($srcs, $str);
 	}

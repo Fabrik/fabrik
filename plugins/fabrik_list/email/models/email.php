@@ -95,7 +95,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	 */
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('email_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('email_button_label', parent::buttonLabel()));
 	}
 
 	/**

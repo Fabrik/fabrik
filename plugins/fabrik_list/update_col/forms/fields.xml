@@ -62,7 +62,14 @@
 				</fields>
 				
 			</field>
-			
+
+			<field name="update_col_prompt"
+				   type="listfields"
+				   description="PLG_LIST_UPDATE_COL_PROMPT_DESC"
+				   label="PLG_LIST_UPDATE_COL_PROMPT_LABEL"
+				   repeat="true"
+				   valueformat="tableelement"/>
+
 			<field name="update_user_select"
 				type="radio"
 				class="btn-group"

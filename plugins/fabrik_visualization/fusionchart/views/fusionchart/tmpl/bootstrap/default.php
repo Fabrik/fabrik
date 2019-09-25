@@ -18,12 +18,16 @@ $row = $this->row;
 	<h1>
 		<?php echo $row->label;?>
 	</h1>
+    <br />
 	<?php endif;?>
-	<br />
+    <?php if (!empty($row->intro_text)) :?>
 	<p>
 		<?php echo $row->intro_text;?>
 	</p>
-	<?php echo $this->loadTemplate( 'filter'); ?>
-	<br />
-	<?php echo $this->chart; ?>
+    <?php endif; ?>
+    <?php if ($this->showFilters) : ?>
+	    <?php echo $this->loadTemplate( 'filter'); ?>
+	    <br />
+    <?php endif; ?>
+    <div id="chart-container-<?php echo $this->getModel()->getJSRenderContext();?>"></div>
 </div>

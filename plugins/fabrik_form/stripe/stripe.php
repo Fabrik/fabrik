@@ -220,9 +220,9 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 
 		$customerId = false;
 		$customerTableName = $this->getCustomerTableName();
-		$doCustomer = $customerTableName !== false && !empty($userId);
+		$doCustomer = $customerTableName !== false;
 
-		if ($doCustomer)
+		if ($doCustomer && !empty($userId))
 		{
 			$customerId = $this->getCustomerId($userId);
 		}
@@ -249,8 +249,6 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 						));
 
 						$customerId = $this->customer->id;
-
-						$this->updateCustomerId($userId, $customerId, $tokenOpts);
 					}
 					else
 					{
@@ -262,8 +260,6 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 								$this->customer         = \Stripe\Customer::retrieve($customerId); // stored in your application
 								$this->customer->source = $tokenId;
 								$this->customer->save();
-
-								$this->updateCustomerId($userId, $customerId, $tokenOpts);
 							}
 						}
 					}
@@ -384,6 +380,13 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 					$formModel->updateFormData($chargeIdField, $this->charge->id, true, true);
 				}
 
+				$chargeReceiptURLField = $this->getFieldName('stripe_charge_receipt_url_element', '');
+
+				if (!empty($chargeReceiptURLField))
+				{
+					$formModel->updateFormData($chargeReceiptURLField, $this->charge->receipt_url, true, true);
+				}
+
 				$chargeEmailField = $this->getFieldName('stripe_charge_email_element', '');
 
 				if (!empty($chargeEmailField))
@@ -450,10 +453,10 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 		$params = $this->getParams();
 		$formModel = $this->getModel();
 		$listModel = $formModel->getListModel();
+		$userId    = JFactory::getUser()->get('id');
 
 		if (isset($this->charge))
 		{
-			$userId    = JFactory::getUser()->get('id');
 			$opts            = new stdClass;
 			$opts->listid    = $this->getModel()->getListModel()->getId();
 			$opts->formid    = (string) $this->getModel()->getId();
@@ -494,6 +497,16 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 			$msg->opts       = $opts;
 			$msg             = json_encode($msg);
 			$this->doLog($msgType, $msg);
+		}
+
+		if (!empty($this->customer))
+		{
+			if ($this->getCustomerTableName() !== false && !empty($userId))
+			{
+				$tokenOpts = ArrayHelper::getValue($this->data, 'stripe_token_opts', '{}');
+				$tokenOpts = json_decode($tokenOpts);
+				$this->updateCustomerId($userId, $this->customer->id, $tokenOpts);
+			}
 		}
 
 		$w    = new Worker;
@@ -860,25 +873,44 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 		}
 		else
 		{
-			$opts->useCheckout = true;
-			$layout     = $this->getLayout('checkout');
-			$layoutData = new stdClass();
-			$layoutData->testMode = $this->isTestMode();
-			$layoutData->amount = $amount;
+			$opts->useCheckout        = true;
+			$layout                   = $this->getLayout('checkout');
+			$layoutData               = new stdClass();
+			$layoutData->testMode     = $this->isTestMode();
+			$layoutData->amount       = $amount;
 			$layoutData->currencyCode = $currencyCode;
-			$layoutData->langTag = JFactory::getLanguage()->getTag();
-			$layoutData->bottomText = FText::_($params->get('stripe_charge_bottom_text_new', 'PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_NEW'));
-			$layoutData->bottomText = $w->parseMessageForPlaceHolder($layoutData->bottomText, $this->data);
-			$layoutData->item = $item;
-			$layoutData->showCoupon = $this->useCoupon();
-			$layoutData->couponMsg = $this->couponMsg;
-			$this->html = $layout->render($layoutData);
-			$dep       = new stdClass;
-			$dep->deps = array(
+			$layoutData->langTag      = JFactory::getLanguage()->getTag();
+			$layoutData->bottomText   = FText::_($params->get('stripe_charge_bottom_text_new', 'PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_NEW'));
+			$layoutData->bottomText   = $w->parseMessageForPlaceHolder($layoutData->bottomText, $this->data);
+			$layoutData->item         = $item;
+			$layoutData->showCoupon   = $this->useCoupon();
+			$layoutData->couponMsg    = $this->couponMsg;
+
+			if ($formModel->failedValidation())
+			{
+				$opts->failedValidation = true;
+				$layoutData->failedValidation = true;
+				$layoutData->failedValidationMsg = FText::_($params->get('stripe_charge_failed_validation_text', 'PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT'));
+				$opts->stripeTokenId   = ArrayHelper::getValue($this->data, 'stripe_token_id', '');
+				$opts->stripeTokenEmail = ArrayHelper::getValue($this->data, 'stripe_token_email', '');
+				$opts->stripeTokenOpts = ArrayHelper::getValue($this->data, 'stripe_token_opts', '{}');
+			}
+			else
+            {
+                $opts->failedValidation = false;
+                $layoutData->failedValidation = false;
+            }
+
+			$this->html               = $layout->render($layoutData);
+			/*
+			$dep                      = new stdClass;
+			$dep->deps                = array(
 				'stripe'
 			);
-			$shim['fabrik/form'] = $dep;
-			//FabrikHelperHTML::script('https://checkout.stripe.com/checkout.js');
+			$shim['fabrik/form']      = $dep;
+
+			FabrikHelperHTML::script('https://checkout.stripe.com/checkout.js');
+			*/
 		}
 
 		//FabrikHelperHTML::iniRequireJS($shim, array('stripe' => 'https://checkout.stripe.com/checkout'));
@@ -1621,6 +1653,7 @@ class PlgFabrik_FormStripe extends PlgFabrik_Form
 		$costMultiplier = $params->get('stripe_currency_multiplier', '100');
 		$response = new StdClass;
 		$response->stripe_amount = $product->product_cost * $costMultiplier;
+		$response->product_name = $product->product_name;
 
 		if (!empty($qty))
 		{

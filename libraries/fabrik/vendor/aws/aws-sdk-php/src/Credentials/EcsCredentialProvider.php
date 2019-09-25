@@ -2,7 +2,6 @@
 namespace Aws\Credentials;
 
 use Aws\Exception\CredentialsException;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -45,7 +44,10 @@ class EcsCredentialProvider
         $request = new Request('GET', self::getEcsUri());
         return $client(
             $request,
-            ['timeout' => $this->timeout]
+            [
+                'timeout' => $this->timeout,
+                'proxy' => '',
+            ]
         )->then(function (ResponseInterface $response) {
             $result = $this->decodeResult((string) $response->getBody());
             return new Credentials(

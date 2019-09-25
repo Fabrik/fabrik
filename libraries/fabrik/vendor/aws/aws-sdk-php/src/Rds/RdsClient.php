@@ -122,26 +122,42 @@ use Aws\PresignUrlMiddleware;
  * @method \GuzzleHttp\Promise\Promise addRoleToDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result applyPendingMaintenanceAction(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise applyPendingMaintenanceActionAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result backtrackDBCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise backtrackDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result copyDBClusterParameterGroup(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise copyDBClusterParameterGroupAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result copyDBClusterSnapshot(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise copyDBClusterSnapshotAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result createDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise createDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result createDBClusterEndpoint(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise createDBClusterEndpointAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result createDBClusterParameterGroup(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise createDBClusterParameterGroupAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result createDBClusterSnapshot(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise createDBClusterSnapshotAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result createGlobalCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise createGlobalClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result deleteDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise deleteDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result deleteDBClusterEndpoint(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise deleteDBClusterEndpointAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result deleteDBClusterParameterGroup(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise deleteDBClusterParameterGroupAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result deleteDBClusterSnapshot(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise deleteDBClusterSnapshotAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result deleteDBInstanceAutomatedBackup(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise deleteDBInstanceAutomatedBackupAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result deleteGlobalCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise deleteGlobalClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeAccountAttributes(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeAccountAttributesAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeCertificates(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeCertificatesAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result describeDBClusterBacktracks(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise describeDBClusterBacktracksAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result describeDBClusterEndpoints(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise describeDBClusterEndpointsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeDBClusterParameterGroups(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeDBClusterParameterGroupsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeDBClusterParameters(array $args = []) (supported in versions 2014-10-31)
@@ -152,18 +168,28 @@ use Aws\PresignUrlMiddleware;
  * @method \GuzzleHttp\Promise\Promise describeDBClusterSnapshotsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeDBClusters(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeDBClustersAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result describeDBInstanceAutomatedBackups(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise describeDBInstanceAutomatedBackupsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeDBSnapshotAttributes(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeDBSnapshotAttributesAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeEngineDefaultClusterParameters(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeEngineDefaultClusterParametersAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result describeGlobalClusters(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise describeGlobalClustersAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describePendingMaintenanceActions(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describePendingMaintenanceActionsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result describeSourceRegions(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise describeSourceRegionsAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result describeValidDBInstanceModifications(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise describeValidDBInstanceModificationsAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result failoverDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise failoverDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result modifyCurrentDBClusterCapacity(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise modifyCurrentDBClusterCapacityAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result modifyDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise modifyDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result modifyDBClusterEndpoint(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise modifyDBClusterEndpointAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result modifyDBClusterParameterGroup(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise modifyDBClusterParameterGroupAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result modifyDBClusterSnapshotAttribute(array $args = []) (supported in versions 2014-10-31)
@@ -172,8 +198,12 @@ use Aws\PresignUrlMiddleware;
  * @method \GuzzleHttp\Promise\Promise modifyDBSnapshotAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result modifyDBSnapshotAttribute(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise modifyDBSnapshotAttributeAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result modifyGlobalCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise modifyGlobalClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result promoteReadReplicaDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise promoteReadReplicaDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result removeFromGlobalCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise removeFromGlobalClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result removeRoleFromDBCluster(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise removeRoleFromDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result resetDBClusterParameterGroup(array $args = []) (supported in versions 2014-10-31)
@@ -184,6 +214,16 @@ use Aws\PresignUrlMiddleware;
  * @method \GuzzleHttp\Promise\Promise restoreDBClusterFromSnapshotAsync(array $args = []) (supported in versions 2014-10-31)
  * @method \Aws\Result restoreDBClusterToPointInTime(array $args = []) (supported in versions 2014-10-31)
  * @method \GuzzleHttp\Promise\Promise restoreDBClusterToPointInTimeAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result restoreDBInstanceFromS3(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise restoreDBInstanceFromS3Async(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result startDBCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise startDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result startDBInstance(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise startDBInstanceAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result stopDBCluster(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise stopDBClusterAsync(array $args = []) (supported in versions 2014-10-31)
+ * @method \Aws\Result stopDBInstance(array $args = []) (supported in versions 2014-10-31)
+ * @method \GuzzleHttp\Promise\Promise stopDBInstanceAsync(array $args = []) (supported in versions 2014-10-31)
  */
 class RdsClient extends AwsClient
 {
@@ -203,6 +243,7 @@ class RdsClient extends AwsClient
                         ],
                         'service' => 'rds',
                         'presign_param' => 'PreSignedUrl',
+                        'require_different_region' => true,
                     ]
                 ),
                 'rds.presigner'
@@ -225,6 +266,15 @@ class RdsClient extends AwsClient
         $api['shapes']['CopyDBSnapshotMessage']['members']['SourceRegion'] = ['shape' => 'SourceRegion'];
         $api['shapes']['CreateDBInstanceReadReplicaMessage']['members']['SourceRegion'] = ['shape' => 'SourceRegion'];
 
+        // Add the DestinationRegion parameter
+        $docs['shapes']['DestinationRegion']['base']
+            = '<div class="alert alert-info">The SDK will populate this '
+            . 'parameter on your behalf using the configured region value of '
+            . 'the client.</div>';
+        $api['shapes']['DestinationRegion'] = ['type' => 'string'];
+        $api['shapes']['CopyDBSnapshotMessage']['members']['DestinationRegion'] = ['shape' => 'DestinationRegion'];
+        $api['shapes']['CreateDBInstanceReadReplicaMessage']['members']['DestinationRegion'] = ['shape' => 'DestinationRegion'];
+
         // Several parameters in presign APIs are optional.
         $docs['shapes']['String']['refs']['CopyDBSnapshotMessage$PreSignedUrl']
             = '<div class="alert alert-info">The SDK will compute this value '
@@ -246,6 +296,9 @@ class RdsClient extends AwsClient
         if ($api['metadata']['apiVersion'] != '2014-09-01') {
             $api['shapes']['CopyDBClusterSnapshotMessage']['members']['SourceRegion'] = ['shape' => 'SourceRegion'];
             $api['shapes']['CreateDBClusterMessage']['members']['SourceRegion'] = ['shape' => 'SourceRegion'];
+
+            $api['shapes']['CopyDBClusterSnapshotMessage']['members']['DestinationRegion'] = ['shape' => 'DestinationRegion'];
+            $api['shapes']['CreateDBClusterMessage']['members']['DestinationRegion'] = ['shape' => 'DestinationRegion'];
 
             // Several parameters in presign APIs are optional.
             $docs['shapes']['String']['refs']['CopyDBClusterSnapshotMessage$PreSignedUrl']

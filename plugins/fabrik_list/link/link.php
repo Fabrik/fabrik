@@ -77,7 +77,7 @@ class PlgFabrik_ListLink extends plgFabrik_List
 
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('table_link_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('table_link_button_label', parent::buttonLabel()));
 	}
 
 	/**

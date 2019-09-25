@@ -207,7 +207,7 @@ class PlgFabrik_FormMailchimp extends PlgFabrik_Form
 		{
 			$api       = $this->getApi();
 			$listId    = $this->getMailchimpListId();
-			$this->groups    = array();
+			$this->mergeFields    = array();
 
 			$mergeFields = $api->get("lists/$listId/merge-fields");
 

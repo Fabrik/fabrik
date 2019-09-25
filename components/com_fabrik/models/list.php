@@ -2428,7 +2428,9 @@ class FabrikFEModelList extends JModelForm
 				}
 				else
 				{
-					$v2 = json_decode($v, true);
+				    // use JSONtoData() so //..*..// separated data gets exploded into array
+					//$v2 = json_decode($v, true);
+					$v2 = \Fabrik\Helpers\Worker::JSONtoData($v);
 
 					if ($v2 !== null)
 					{
@@ -4496,12 +4498,67 @@ class FabrikFEModelList extends JModelForm
 	}
 
 	/**
+	 *
+	 */
+
+	protected function checkMenuAccess()
+	{
+		if (!array_key_exists('menu_access', $this->access))
+		{
+			$this->access->menu_access = true;
+
+			if (!$this->app->isClient('administrator'))
+			{
+				$params = $this->getParams();
+
+				if ($params->get('menu_access_only', '0') === '1')
+				{
+					$itemId = $this->app->input->getInt('Itemid', '');
+
+					if (empty($itemId))
+					{
+						$this->access->menu_access = false;
+					}
+					else
+					{
+
+						$component = JComponentHelper::getComponent('com_fabrik');
+						$package   = $this->app->getUserState('com_fabrik.package', 'fabrik');
+						$db        = FabrikWorker::getDbo(true);
+						$id        = (int) $this->getId();
+						$query     = $db->getQuery(true);
+						$query->select('id')
+							->from('#__menu')
+							->where('component_id = ' . (int) $component->id)
+							->where('type = "component"')
+							->where('link = "index.php?option=com_' . $package . '&view=list&listid=' . (int) $id . '"');
+						$db->setQuery($query);
+						$menuIds = $db->loadColumn();
+
+						if (!in_array($itemId, $menuIds))
+						{
+							$this->access->menu_access = false;
+						}
+					}
+				}
+			}
+		}
+
+		return $this->access->menu_access;
+	}
+
+	/**
 	 * Check user can view the list
 	 *
 	 * @return  bool  can view or not
 	 */
 	public function canView()
 	{
+		if (!$this->checkMenuAccess())
+		{
+			return false;
+		}
+
 		if (!array_key_exists('view', $this->access))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
@@ -5470,7 +5527,7 @@ class FabrikFEModelList extends JModelForm
 				 */
 				$fieldsByTable = array();
 				$matches = array();
-				preg_match('/MATCH\((.*)\)/', $key, $matches);
+				preg_match('/MATCH\((.*)\)/s', $key, $matches);
 
 				// if we parsed out the fields, process them
 				if (count($matches) > 1)
@@ -6357,6 +6414,13 @@ class FabrikFEModelList extends JModelForm
 		return '';
 	}
 
+	private function requireFilterMsg($default = '')
+	{
+		$params = $this->getParams();
+		$msg = $params->get('require-filter-msg', $default);
+
+		return FText::_($msg);
+	}
 	/**
 	 * Do we have all required filters, by both list level and element level settings.
 	 *
@@ -6366,14 +6430,14 @@ class FabrikFEModelList extends JModelForm
 	{
 		if ($this->listRequiresFiltering() && !$this->gotOptionalFilters())
 		{
-			$this->emptyMsg = FText::_('COM_FABRIK_SELECT_AT_LEAST_ONE_FILTER');
+			$this->emptyMsg = $this->requireFilterMsg('COM_FABRIK_SELECT_AT_LEAST_ONE_FILTER');
 
 			return false;
 		}
 
 		if ($this->hasRequiredElementFilters() && !$this->getRequiredFiltersFound())
 		{
-			$this->emptyMsg = FText::_('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
+			$this->emptyMsg = $this->requireFilterMsg('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
 
 			return false;
 		}
@@ -6490,7 +6554,7 @@ class FabrikFEModelList extends JModelForm
 		// If no filter keys, by definition we don't have required ones
 		if (!array_key_exists('key', $filters) || !is_array($filters['key']))
 		{
-			$this->emptyMsg = FText::_('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
+			$this->emptyMsg = $this->requireFilterMsg('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
 
 			return false;
 		}
@@ -6503,7 +6567,7 @@ class FabrikFEModelList extends JModelForm
 				reset($filters['key']);
 				$found = false;
 
-				while (list($key, $val) = each($filters['key']))
+                foreach ($filters['key'] as $key => $val)
 				{
 					if ($val == $name)
 					{
@@ -6514,7 +6578,7 @@ class FabrikFEModelList extends JModelForm
 
 				if (!$found || $filters['origvalue'][$key] == '')
 				{
-					$this->emptyMsg = FText::_('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
+					$this->emptyMsg = $this->requireFilterMsg('COM_FABRIK_PLEASE_SELECT_ALL_REQUIRED_FILTERS');
 
 					return false;
 				}

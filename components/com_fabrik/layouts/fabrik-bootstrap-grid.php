@@ -39,5 +39,11 @@ if (!empty($d->items))
 	// Close opened row, last row-fluid is always open if there's data
 	$grid[] = '</div><!-- grid close end row -->';
 }
+else
+{
+	// if no items, render an empty row-fluid
+	$grid[] = '<div class="row-fluid">';
+	$grid[] = '</div>';
+}
 
 echo implode("\n", $grid);

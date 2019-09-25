@@ -728,6 +728,7 @@ source_lang = en_GB
 trans.da-DK = plugins/fabrik_element/digsig/language/da-DK/da-DK.plg_fabrik_element_digsig.sys.ini
 trans.de-DE = plugins/fabrik_element/digsig/language/de-DE/de-DE.plg_fabrik_element_digsig.sys.ini
 trans.et-EE = plugins/fabrik_element/digsig/language/et-EE/et-EE.plg_fabrik_element_digsig.sys.ini
+trans.fr-FR = plugins/fabrik_element/digsig/language/fr-FR/fr-FR.plg_fabrik_element_digsig.sys.ini
 trans.pt-PT = plugins/fabrik_element/digsig/language/pt-PT/pt-PT.plg_fabrik_element_digsig.sys.ini
 
 [fabrik31.plg_element_display]
@@ -1184,6 +1185,20 @@ trans.it-IT = plugins/fabrik_element/link/language/it-IT/it-IT.plg_fabrik_elemen
 trans.nl-NL = plugins/fabrik_element/link/language/nl-NL/nl-NL.plg_fabrik_element_link.sys.ini
 trans.pt-BR = plugins/fabrik_element/link/language/pt-BR/pt-BR.plg_fabrik_element_link.sys.ini
 
+[fabrik31.plg_element_lockrow]
+file_filter = plugins/fabrik_element/lockrow/language/<lang>/<lang>.plg_fabrik_element_lockrow.ini
+source_file = plugins/fabrik_element/lockrow/language/en-GB/en-GB.plg_fabrik_element_lockrow.ini
+source_lang = en_GB
+trans.de-DE = plugins/fabrik_element/lockrow/language/de-DE/de-DE.plg_fabrik_element_lockrow.ini
+trans.fr-FR = plugins/fabrik_element/lockrow/language/fr-FR/fr-FR.plg_fabrik_element_lockrow.ini
+
+[fabrik31.plg_element_lockrow_sys]
+file_filter = plugins/fabrik_element/lockrow/language/<lang>/<lang>.plg_fabrik_element_lockrow.sys.ini
+source_file = plugins/fabrik_element/lockrow/language/en-GB/en-GB.plg_fabrik_element_lockrow.sys.ini
+source_lang = en_GB
+trans.de-DE = plugins/fabrik_element/lockrow/language/de-DE/de-DE.plg_fabrik_element_lockrow.sys.ini
+trans.fr-FR = plugins/fabrik_element/lockrow/language/fr-FR/fr-FR.plg_fabrik_element_lockrow.sys.ini
+
 [fabrik31.plg_element_notes]
 file_filter = plugins/fabrik_element/notes/language/<lang>/<lang>.plg_fabrik_element_notes.ini
 source_file = plugins/fabrik_element/notes/language/en-GB/en-GB.plg_fabrik_element_notes.ini
@@ -1223,6 +1238,7 @@ trans.da-DK = plugins/fabrik_element/notes/language/da-DK/da-DK.plg_fabrik_eleme
 trans.de-DE = plugins/fabrik_element/notes/language/de-DE/de-DE.plg_fabrik_element_notes.sys.ini
 trans.es-ES = plugins/fabrik_element/notes/language/es-ES/es-ES.plg_fabrik_element_notes.sys.ini
 trans.et-EE = plugins/fabrik_element/notes/language/et-EE/et-EE.plg_fabrik_element_notes.sys.ini
+trans.fr-FR = plugins/fabrik_element/notes/language/fr-FR/fr-FR.plg_fabrik_element_notes.sys.ini
 trans.it-IT = plugins/fabrik_element/notes/language/it-IT/it-IT.plg_fabrik_element_notes.sys.ini
 trans.nl-NL = plugins/fabrik_element/notes/language/nl-NL/nl-NL.plg_fabrik_element_notes.sys.ini
 trans.pt-PT = plugins/fabrik_element/notes/language/pt-PT/pt-PT.plg_fabrik_element_notes.sys.ini
@@ -1875,6 +1891,18 @@ trans.et-EE = plugins/fabrik_form/confirmation/language/et-EE/et-EE.plg_fabrik_f
 trans.fi-FI = plugins/fabrik_form/confirmation/language/fi-FI/fi-FI.plg_fabrik_form_confirmation.sys.ini
 trans.it-IT = plugins/fabrik_form/confirmation/language/it-IT/it-IT.plg_fabrik_form_confirmation.sys.ini
 
+[fabrik31.plg_form_consent]
+file_filter = plugins/fabrik_form/consent/language/<lang>/<lang>.plg_fabrik_form_consent.ini
+source_file = plugins/fabrik_form/consent/language/en-GB/en-GB.plg_fabrik_form_consent.ini
+source_lang = en_GB
+trans.fr-FR = plugins/fabrik_form/consent/language/fr-FR/fr-FR.plg_fabrik_form_consent.ini
+
+[fabrik31.plg_form_consent_sys]
+file_filter = plugins/fabrik_form/consent/language/<lang>/<lang>.plg_fabrik_form_consent.sys.ini
+source_file = plugins/fabrik_form/consent/language/en-GB/en-GB.plg_fabrik_form_consent.sys.ini
+source_lang = en_GB
+trans.fr-FR = plugins/fabrik_form/consent/language/fr-FR/fr-FR.plg_fabrik_form_consent.sys.ini
+
 [fabrik31.plg_form_email]
 file_filter = plugins/fabrik_form/email/language/<lang>/<lang>.plg_fabrik_form_email.ini
 source_file = plugins/fabrik_form/email/language/en-GB/en-GB.plg_fabrik_form_email.ini
@@ -2071,6 +2099,7 @@ source_lang = en_GB
 trans.de-DE = plugins/fabrik_form/logs/language/de-DE/de-DE.plg_fabrik_form_logs.sys.ini
 trans.es-ES = plugins/fabrik_form/logs/language/es-ES/es-ES.plg_fabrik_form_logs.sys.ini
 trans.et-EE = plugins/fabrik_form/logs/language/et-EE/et-EE.plg_fabrik_form_logs.sys.ini
+trans.fr-FR = plugins/fabrik_form/logs/language/fr-FR/fr-FR.plg_fabrik_form_logs.sys.ini
 trans.it-IT = plugins/fabrik_form/logs/language/it-IT/it-IT.plg_fabrik_form_logs.sys.ini
 
 [fabrik31.plg_form_mailchimp]
@@ -2757,6 +2786,12 @@ trans.es-ES = plugins/fabrik_list/listcsv/language/es-ES/es-ES.plg_fabrik_list_l
 trans.et-EE = plugins/fabrik_list/listcsv/language/et-EE/et-EE.plg_fabrik_list_listcsv.sys.ini
 trans.fr-FR = plugins/fabrik_list/listcsv/language/fr-FR/fr-FR.plg_fabrik_list_listcsv.sys.ini
 trans.it-IT = plugins/fabrik_list/listcsv/language/it-IT/it-IT.plg_fabrik_list_listcsv.sys.ini
+
+[fabrik31.plg_list_lockrow_sys]
+file_filter = plugins/fabrik_list/lockrow/language/<lang>/<lang>.plg_fabrik_list_lockrow.sys.ini
+source_file = plugins/fabrik_list/lockrow/language/en-GB/en-GB.plg_fabrik_list_lockrow.sys.ini
+source_lang = en_GB
+trans.fr-FR = plugins/fabrik_list/lockrow/language/fr-FR/fr-FR.plg_fabrik_list_lockrow.sys.ini
 
 [fabrik31.plg_list_order]
 file_filter = plugins/fabrik_list/order/language/<lang>/<lang>.plg_fabrik_list_order.ini

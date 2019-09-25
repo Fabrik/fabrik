@@ -15,6 +15,7 @@ jimport('joomla.application.component.controller');
 
 /**
  * Fabrik Calendar Plug-in Controller
+ * Fabrik Calendar Plug-in Controller
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.calendar
@@ -101,6 +102,7 @@ class FabrikControllerVisualizationfullcalendar extends FabrikControllerVisualiz
 		$startDateField = FabrikString::safeColNameToArrayKey($startDateField);
 		$endDateField   = FabrikString::safeColNameToArrayKey($endDateField);
 		$rowId          = $input->getString('rowid', '');
+		$Itemid         = $input->get('Itemid', '');
 
 		/** @var FabrikFEModelList $listModel */
 		$listModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
@@ -110,9 +112,22 @@ class FabrikControllerVisualizationfullcalendar extends FabrikControllerVisualiz
 		$input->set('formid', $table->form_id);
 		$input->set('tmpl', 'component');
 		$input->set('ajax', '1');
+
+		if (!empty($Itemid))
+		{
+			$input->set('Itemid', $Itemid);
+		}
+
 		$nextView = $input->get('nextview', 'form');
 
-		$link     = 'index.php?option=com_' . $package . '&view=' . $nextView . '&formid=' . $table->form_id . '&rowid=' . $rowId . '&tmpl=component&ajax=1';
+		$link = 'index.php?option=com_' . $package . '&view=' . $nextView . '&formid=' . $table->form_id;
+		$link .= '&rowid=' . $rowId . '&tmpl=component&ajax=1';
+
+		if (!empty($Itemid))
+		{
+			$link .= '&Itemid=' . $Itemid;
+		}
+
 		$link .= '&format=partial&fabrik_window_id=' . $input->get('fabrik_window_id');
 
 		$startDate = $input->getString('start_date', '');

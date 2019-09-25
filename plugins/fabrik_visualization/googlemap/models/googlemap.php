@@ -377,7 +377,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 
 		foreach ($listIds as $listId)
 		{
-			$listModel = $this->getlistModel($listId);
+			$listModel = $this->getlistModel($listId, $c);
 
 			$template = FArrayHelper::getValue($templates, $c, '');
 			/**

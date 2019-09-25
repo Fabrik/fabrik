@@ -542,6 +542,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 
 				$uri  = JURI::getInstance();
 				$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+				$useHtml = false;
 
 				// Handle account activation/confirmation emails.
 				if ($userActivation == 2 && !$bypassActivation && !$autoLogin)
@@ -617,6 +618,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 				elseif ($autoLogin)
 				{
 					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+					$useHtml = true;
 
 					if ($sendpassword)
 					{
@@ -680,7 +682,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 						$data['email'],
 						$emailSubject,
 						$emailBody,
-						true
+						$useHtml
 					);
 					/*
 					 * Added email to admin code, but haven't had a chance to test it yet.

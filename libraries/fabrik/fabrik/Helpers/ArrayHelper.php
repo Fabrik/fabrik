@@ -152,13 +152,17 @@ class ArrayHelper
 
 			foreach ($array as $k => $v)
 			{
-				if (is_array($v) && $recurse)
+				// avoid PHP error if property name is empty
+				if ($k !== '')
 				{
-					$obj->$k = self::toObject($v, $class);
-				}
-				else
-				{
-					$obj->$k = $v;
+					if (is_array($v) && $recurse)
+					{
+						$obj->$k = self::toObject($v, $class);
+					}
+					else
+					{
+						$obj->$k = $v;
+					}
 				}
 			}
 		}

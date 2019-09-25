@@ -47,7 +47,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 options.rowid = '';
             }
             this.id = id;
-            this.result = true; //set this to false in window.fireEvents to stop current action (e.g. stop form submission)
+            //set this to false in window.fireEvents to stop current action (e.g. stop form submission)
+            this.result = true;
             this.setOptions(options);
             this.options.pages = $H(this.options.pages);
             this.subGroups = $H({});
@@ -67,9 +68,12 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             this.fx.validations = {};
             this.setUpAll();
             this._setMozBoxWidths();
-            (function () {
-                this.duplicateGroupsToMin();
-            }.bind(this)).delay(1000);
+
+            if (this.options.editable) {
+                (function () {
+                    this.duplicateGroupsToMin();
+                }.bind(this)).delay(1000);
+            }
 
             // Delegated element events
             this.events = {};
@@ -110,7 +114,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
 	        if (this.options.ajaxValidation && this.options.toggleSubmit && this.options.toggleSubmitTip !== '') {
 		        var submit = this._getButton('Submit');
 		        if (typeOf(submit) !== 'null') {
-			        jQuery(submit).wrap('<div data-toggle="tooltip" title="you must validate" class="fabrikSubmitWrapper" style="display: inline-block"></div>div>');
+			        jQuery(submit).wrap('<div data-toggle="tooltip" title="' + Joomla.JText._('COM_FABRIK_MUST_VALIDATE') +
+                        '" class="fabrikSubmitWrapper" style="display: inline-block"></div>div>');
 		        }
 	        }
 
@@ -1046,6 +1051,12 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     return;
                 }
             }
+
+            if (!el.shouldAjaxValidate())
+            {
+                return;
+            }
+
             Fabrik.fireEvent('fabrik.form.element.validation.start', [this, el, e]);
             if (this.result === false) {
                 this.result = true;
@@ -1154,7 +1165,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
 
         _showGroupError: function (r, d) {
             var tmperr;
-            var gids = Array.from(this.options.pages.get(this.currentPage.toInt()));
+            var gids = Array.mfrom(this.options.pages.get(this.currentPage.toInt()));
             var err = false;
             $H(d).each(function (v, k) {
                 k = k.replace(/\[(.*)\]/, '').replace(/%5B(.*)%5D/, '');// for dropdown validations
@@ -2190,6 +2201,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     }
                 }.bind(this));
 
+                Fabrik.fireEvent('fabrik.form.group.duplicate.end', [this, e, i, c]);
+
                 return;
             }
 
@@ -2250,7 +2263,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
 
                             // Update the element id use el.element.id rather than input.id as
                             // that may contain _1 at end of id
-                            var bits = Array.from(el.element.id.split('_'));
+                            var bits = Array.mfrom(el.element.id.split('_'));
                             bits.splice(bits.length - 1, 1, c);
                             input.id = bits.join('_');
 
@@ -2274,7 +2287,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                         // events are cloned
 
                         // $$$ rob fix for date element
-                        var bits = Array.from(el.options.element.split('_'));
+                        var bits = Array.mfrom(el.options.element.split('_'));
                         bits.splice(bits.length - 1, 1, c);
                         subElementContainer.id = bits.join('_');
                     }

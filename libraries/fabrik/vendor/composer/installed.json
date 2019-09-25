@@ -46,23 +46,27 @@
     },
     {
         "name": "aws/aws-sdk-php",
-        "version": "3.24.4",
-        "version_normalized": "3.24.4.0",
+        "version": "3.81.7",
+        "version_normalized": "3.81.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/aws/aws-sdk-php.git",
-            "reference": "2823e0a0742505f655b0cb3bcdb10844f60e6078"
+            "reference": "73fdee34e6db72954a6110ff71ea5e9bf6e95e48"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2823e0a0742505f655b0cb3bcdb10844f60e6078",
-            "reference": "2823e0a0742505f655b0cb3bcdb10844f60e6078",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/73fdee34e6db72954a6110ff71ea5e9bf6e95e48",
+            "reference": "73fdee34e6db72954a6110ff71ea5e9bf6e95e48",
             "shasum": ""
         },
         "require": {
-            "guzzlehttp/guzzle": "^5.3.1|^6.2.1",
+            "ext-json": "*",
+            "ext-pcre": "*",
+            "ext-simplexml": "*",
+            "ext-spl": "*",
+            "guzzlehttp/guzzle": "^5.3.3|^6.2.1",
             "guzzlehttp/promises": "~1.0",
-            "guzzlehttp/psr7": "^1.3.1, !=1.4.0",
+            "guzzlehttp/psr7": "^1.4.1",
             "mtdowling/jmespath.php": "~2.2",
             "php": ">=5.5"
         },
@@ -72,22 +76,21 @@
             "behat/behat": "~3.0",
             "doctrine/cache": "~1.4",
             "ext-dom": "*",
-            "ext-json": "*",
             "ext-openssl": "*",
-            "ext-pcre": "*",
-            "ext-simplexml": "*",
-            "ext-spl": "*",
+            "ext-pcntl": "*",
+            "ext-sockets": "*",
             "nette/neon": "^2.3",
-            "phpunit/phpunit": "~4.0|~5.0",
+            "phpunit/phpunit": "^4.8.35|^5.4.3",
             "psr/cache": "^1.0"
         },
         "suggest": {
             "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
             "doctrine/cache": "To use the DoctrineCacheAdapter",
             "ext-curl": "To send requests using cURL",
-            "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages"
+            "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+            "ext-sockets": "To use client-side monitoring"
         },
-        "time": "2017-03-14T00:56:44+00:00",
+        "time": "2018-12-17T22:58:13+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -128,32 +131,36 @@
     },
     {
         "name": "dompdf/dompdf",
-        "version": "v0.8.2",
-        "version_normalized": "0.8.2.0",
+        "version": "v0.8.3",
+        "version_normalized": "0.8.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dompdf/dompdf.git",
-            "reference": "5113accd9ae5d466077cce5208dcf3fb871bf8f6"
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/5113accd9ae5d466077cce5208dcf3fb871bf8f6",
-            "reference": "5113accd9ae5d466077cce5208dcf3fb871bf8f6",
+            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
             "shasum": ""
         },
         "require": {
             "ext-dom": "*",
-            "ext-gd": "*",
             "ext-mbstring": "*",
             "phenx/php-font-lib": "0.5.*",
             "phenx/php-svg-lib": "0.3.*",
             "php": ">=5.4.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "4.8.*",
+            "phpunit/phpunit": "^4.8|^5.5|^6.5",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2017-11-26T14:49:08+00:00",
+        "suggest": {
+            "ext-gd": "Needed to process images",
+            "ext-gmagick": "Improves image processing performance",
+            "ext-imagick": "Improves image processing performance"
+        },
+        "time": "2018-12-14T02:40:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -312,34 +319,35 @@
     },
     {
         "name": "guzzlehttp/psr7",
-        "version": "1.4.2",
-        "version_normalized": "1.4.2.0",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/psr7.git",
-            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
+            "reference": "9f83dded91781a01c63574e387eaa769be769115"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
-            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
+            "reference": "9f83dded91781a01c63574e387eaa769be769115",
             "shasum": ""
         },
         "require": {
             "php": ">=5.4.0",
-            "psr/http-message": "~1.0"
+            "psr/http-message": "~1.0",
+            "ralouphie/getallheaders": "^2.0.5"
         },
         "provide": {
             "psr/http-message-implementation": "1.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.0"
+            "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
         },
-        "time": "2017-03-20T17:10:46+00:00",
+        "time": "2018-12-04T20:46:45+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.4-dev"
+                "dev-master": "1.5-dev"
             }
         },
         "installation-source": "dist",
@@ -370,6 +378,7 @@
         "keywords": [
             "http",
             "message",
+            "psr-7",
             "request",
             "response",
             "stream",
@@ -379,17 +388,17 @@
     },
     {
         "name": "mpdf/mpdf",
-        "version": "v7.1.6",
-        "version_normalized": "7.1.6.0",
+        "version": "v7.1.7",
+        "version_normalized": "7.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mpdf/mpdf.git",
-            "reference": "ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd"
+            "reference": "ac60286a7dc5250c293afebd2bd9414e58a02466"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd",
-            "reference": "ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd",
+            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ac60286a7dc5250c293afebd2bd9414e58a02466",
+            "reference": "ac60286a7dc5250c293afebd2bd9414e58a02466",
             "shasum": ""
         },
         "require": {
@@ -397,7 +406,7 @@
             "ext-mbstring": "*",
             "myclabs/deep-copy": "^1.7",
             "paragonie/random_compat": "^1.4|^2.0|9.99.99",
-            "php": "^5.6 || ~7.0.0 || ~7.1.0 || ~7.2.0",
+            "php": "^5.6 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0",
             "psr/log": "^1.0",
             "setasign/fpdi": "1.6.*"
         },
@@ -412,7 +421,7 @@
             "ext-xml": "Needed mainly for SVG manipulation",
             "ext-zlib": "Needed for compression of embedded resources, such as fonts"
         },
-        "time": "2018-10-18T11:37:12+00:00",
+        "time": "2018-11-29T18:21:32+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -439,7 +448,7 @@
                 "role": "Developer (retired)"
             }
         ],
-        "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+        "description": "PHP library generating PDF files from UTF-8 encoded HTML",
         "homepage": "https://mpdf.github.io",
         "keywords": [
             "pdf",
@@ -841,6 +850,48 @@
         ]
     },
     {
+        "name": "ralouphie/getallheaders",
+        "version": "2.0.5",
+        "version_normalized": "2.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ralouphie/getallheaders.git",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7.0",
+            "satooshi/php-coveralls": ">=1.0"
+        },
+        "time": "2016-02-11T07:05:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/getallheaders.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ralph Khattar",
+                "email": "ralph.khattar@gmail.com"
+            }
+        ],
+        "description": "A polyfill for getallheaders."
+    },
+    {
         "name": "sabberworm/php-css-parser",
         "version": "8.1.0",
         "version_normalized": "8.1.0.0",
@@ -939,17 +990,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v6.22.1",
-        "version_normalized": "6.22.1.0",
+        "version": "v6.26.0",
+        "version_normalized": "6.26.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "ea40f3aded584285b273c3f74b3883088dbdf336"
+            "reference": "ba85ad7c1618462083a7e9a542ded929232e8bff"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ea40f3aded584285b273c3f74b3883088dbdf336",
-            "reference": "ea40f3aded584285b273c3f74b3883088dbdf336",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ba85ad7c1618462083a7e9a542ded929232e8bff",
+            "reference": "ba85ad7c1618462083a7e9a542ded929232e8bff",
             "shasum": ""
         },
         "require": {
@@ -963,7 +1014,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2018-11-20T19:29:47+00:00",
+        "time": "2018-12-11T21:33:24+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -996,17 +1047,17 @@
     },
     {
         "name": "twilio/sdk",
-        "version": "5.25.0",
-        "version_normalized": "5.25.0.0",
+        "version": "5.27.0",
+        "version_normalized": "5.27.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/twilio/twilio-php.git",
-            "reference": "0144b6f9f643cbe20f58d78bb2e0e6b1ea5d6856"
+            "reference": "debe730c59914961e04a653567af22ed31d6588e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twilio/twilio-php/zipball/0144b6f9f643cbe20f58d78bb2e0e6b1ea5d6856",
-            "reference": "0144b6f9f643cbe20f58d78bb2e0e6b1ea5d6856",
+            "url": "https://api.github.com/repos/twilio/twilio-php/zipball/debe730c59914961e04a653567af22ed31d6588e",
+            "reference": "debe730c59914961e04a653567af22ed31d6588e",
             "shasum": ""
         },
         "require": {
@@ -1016,7 +1067,7 @@
             "apigen/apigen": "^4.1",
             "phpunit/phpunit": "4.5.*"
         },
-        "time": "2018-11-16T20:15:31+00:00",
+        "time": "2018-12-17T05:40:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

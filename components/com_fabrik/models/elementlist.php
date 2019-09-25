@@ -378,6 +378,23 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 			{
 				array_unshift($rows, JHTML::_('select.option', '', $this->filterSelectLabel()));
 			}
+
+			foreach ($rows as &$r)
+			{
+				// translate
+				$r->text = FText::_($r->text);
+
+				// decode first, to decode all hex entities (like &#39;)
+				$r->text = html_entity_decode($r->text, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+				// Encode if necessary
+				if (!in_array($element->get('filter_type'), array('checkbox')))
+				{
+					$r->text = strip_tags($r->text);
+					$r->text = htmlspecialchars($r->text, ENT_NOQUOTES, 'UTF-8', false);
+				}
+			}
+
 		}
 
 		$return = array();
@@ -540,11 +557,15 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		$rows = $elementModel->filterValueList(true, '', $label);
 		$v = $app->input->get('value', '', 'string');
 
-		// Search for every word separately in the result rather than the single string (of multiple words)
+		/**
+		 * Search for every word separately in the result rather than the single string (of multiple words)
+		 *
+		 * Added u switch, for UTF8
+		 */
 		$regex  = "/(?=.*" .
 			implode(")(?=.*",
 				array_filter(explode(" ", preg_quote($v, '/')))
-			) . ").*/i";
+			) . ").*/ui";
 		$start = count($rows) - 1;
 
 		for ($i = $start; $i >= 0; $i--)
@@ -724,7 +745,13 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	public function renderListData_csv($data, &$thisRow)
 	{
 		$this->renderWithHTML = false;
-		$d = $this->renderListData($data, $thisRow, array('sepChar' => "\n"));
+		$d = $this->renderListData(
+			$data,
+			$thisRow,
+			array(
+				'sepChar' => $this->getlistModel()->getParams()->get('csv_multi_join_split', ',')
+			)
+		);
 
 		if ($this->isJoin())
 		{

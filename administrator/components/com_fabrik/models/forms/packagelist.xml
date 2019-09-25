@@ -24,7 +24,7 @@
 			</fields>
 		</field>
 		
-		<field description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" name="prefilters" type="fabrikmodalrepeat">
+		<field description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" name="prefilters" type="fabrikmodalrepeat" filter="raw">
 		
 			<fields name="params">
 				<fieldset modal="true" name="prefilters_modal" repeat="true">
@@ -56,7 +56,7 @@
 							<option value="birthday">COM_FABRIK_BIRTHDAY_TODAY</option>
 					</field>
 					
-					<field label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING" name="filter-value" type="field"/>
+					<field label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING" name="filter-value" type="field" filter="raw"/>
 					
 					<field label="MOD_FABRIK_LIST_FILTER_ACCESS_HEADING" name="filter-access" type="accesslevel"/>
 						

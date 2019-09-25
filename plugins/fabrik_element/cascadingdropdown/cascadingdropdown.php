@@ -304,7 +304,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 				}
 			}
 
-			return $defaultLabel . $this->loadingImg;
+			return $defaultLabel;
 		}
 
 		$html[] = $this->renderDescription($tmp, $default);
@@ -409,6 +409,8 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 			$where = $obsName . ' IN (' . implode(',', $obsValue) . ')';
 			$opts = array('where' => $where);
+			$input->set('fabrik_storesessionfilters', false);
+			$input->set('incfilters', true);
 			$ids = $listModel->getColumnData($this->getFullName(false, false), true, $opts);
 			$key = $this->queryKey();
 

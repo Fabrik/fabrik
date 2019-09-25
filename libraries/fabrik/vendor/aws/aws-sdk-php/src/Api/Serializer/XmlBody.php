@@ -142,7 +142,7 @@ class XmlBody
             $elementName = $items['locationName'] ?: 'member';
         }
 
-        foreach ($value as &$v) {
+        foreach ($value as $v) {
             $this->format($items, $elementName, $v, $xml);
         }
 
@@ -187,7 +187,10 @@ class XmlBody
         XMLWriter $xml
     ) {
         $this->startElement($shape, $name, $xml);
-        $xml->writeRaw(TimestampShape::format($value, 'iso8601'));
+        $timestampFormat = !empty($shape['timestampFormat'])
+            ? $shape['timestampFormat']
+            : 'iso8601';
+        $xml->writeRaw(TimestampShape::format($value, $timestampFormat));
         $xml->endElement();
     }
 

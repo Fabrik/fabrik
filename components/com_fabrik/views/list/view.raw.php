@@ -122,12 +122,23 @@ class FabrikViewList extends FabrikViewListBase
 		$d['searchallvalue'] = $model->getFilterModel()->getSearchAllValue('html');
 
 		// $$$ hugh - see if we have a message to include, set by a list plugin
-		$context = 'com_' . $this->package . '.list' . $model->getRenderContext() . '.msg';
+		$context = 'com_' . $this->package . '.list' . $model->getRenderContext();
 
-		if ($this->session->has($context))
+		if ($this->session->has($context . '.msg'))
 		{
-			$d['msg'] = $this->session->get($context);
-			$this->session->clear($context);
+			$d['msg'] = $this->session->get($context . '.msg');
+
+			if ($this->session->has($context . '.showmsg'))
+			{
+                $d['showmsg'] = $this->session->get($context . '.showmsg');
+            }
+			else
+            {
+                $d['showmsg'] = true;
+            }
+
+			$this->session->clear($context . '.msg');
+            $this->session->clear($context . '.showmsg');
 		}
 
 		echo json_encode($d);

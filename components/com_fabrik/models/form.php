@@ -1555,14 +1555,14 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			$value = $data[$fullName];
 		}
-		/* Maybe we are being called from onAfterProcess hook, or somewhere else
-		 * running after store, when non-joined data names have been reduced to short
-		 * names in formData, so peek in fullFormData
-		 */
-		elseif (isset($this->fullFormData) && array_key_exists($fullName, $this->fullFormData))
-		{
-			$value = $this->fullFormData[$fullName];
-		}
+        /* Maybe we are being called from onAfterProcess hook, or somewhere else
+         * running after store, when non-joined data names have been reduced to short
+         * names in formData, so peek in formDataWithTableName
+         */
+        elseif (isset($this->formDataWithTableName) && array_key_exists($fullName, $this->formDataWithTableName))
+        {
+            $value = $this->formDataWithTableName[$fullName];
+        }
 
 		if (isset($value) && isset($repeatCount) && is_array($value))
 		{

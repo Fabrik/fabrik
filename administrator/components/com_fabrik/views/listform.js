@@ -465,7 +465,7 @@ define(['jquery'], function (jQuery) {
 
         updateJoinStatement: function (activeJoinCounter) {
             var fields = document.getElements('#join' + activeJoinCounter + ' .inputbox');
-            fields = Array.from(fields);
+            fields = Array.mfrom(fields);
             var type = fields[0].get('value');
             var fromTable = fields[1].get('value');
             var toTable = fields[2].get('value');

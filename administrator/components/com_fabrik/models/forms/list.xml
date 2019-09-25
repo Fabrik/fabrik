@@ -189,7 +189,8 @@
 		       class="input-medium"
 		       label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 		       description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-		       format="%Y-%m-%d %H:%M:%S"
+			   translateformat="true"
+			   showtime="true"
 		       size="22"
 		       filter="user_utc"
 		/>
@@ -199,7 +200,8 @@
 		       class="input-medium"
 		       label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 		       description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-		       format="%Y-%m-%d %H:%M:%S"
+			   translateformat="true"
+			   showtime="true"
 		       size="22"
 		       filter="user_utc"
 		/>
@@ -362,6 +364,17 @@
 			       description="COM_FABRIK_FIELD_DROP_RECORDS_DESC"
 			/>
 
+			<field name="menu_access_only"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   label="COM_FABRIK_FIELD_MENU_ACCESS_ONLY_LABEL"
+				   description="COM_FABRIK_FIELD_MENU_ACCESS_ONLY_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset name="filters">
@@ -482,6 +495,15 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="require-filter-msg"
+				   type="text"
+				   default=""
+				   class="input-xlarge"
+				   size="20"
+				   label="COM_FABRIK_FIELD_REQUIRE_FILTER_MSG_LABEL"
+				   description="COM_FABRIK_FIELD_REQUIRE_FILTER_MSG_DESC"
+			/>
 
 			<field name="filter-dropdown-method"
 			       type="list"
@@ -716,6 +738,15 @@
 				<option value="replaceli">COM_FABRIK_REPLACE_LI</option>
 				<option value="remove">COM_FABRIK_REMOVE_HTML</option>
 			</field>
+
+			<field name="csv_multi_join_split"
+				   type="text"
+				   class="input-small"
+				   size="5"
+				   default=","
+				   label="COM_FABRIK_FIELD_CSV_MULTI_JOIN_SPLIT_LABEL"
+				   description="COM_FABRIK_FIELD_CSV_MULTI_JOIN_SPLIT_DESC"
+			/>
 
 			<field name="csv_custom_qs"
 			       type="text"
@@ -1014,6 +1045,16 @@
 				<option value="tabloid">tabloid</option>
 				<option value="executive">executive</option>
 				<option value="folio">folio</option>
+			</field>
+
+			<field name="pdf_include_bootstrap"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_DESC"
+				   label="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 

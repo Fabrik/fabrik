@@ -10,6 +10,8 @@ define(['jquery'], function (jQuery) {
      */
     var Loader = new Class({
 
+        Binds: [],
+
         initialize: function () {
             this.spinners = {};
             this.spinnerCount = {};

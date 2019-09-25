@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_element" method="upgrade" type="plugin" version="3">
+	<name>plg_fabrik_element_total</name>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>November 2018</creationDate>
+	<copyright>Copyright (C) 2005-2018 Media A-Team, Inc. - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>hugh.messenger@gmail.com</authorEmail>
+	<authorUrl>www.fabrikar.com</authorUrl>
+	<version>3.9</version>
+	<help url="PLG_ELEMENT_TOTAL_HELP_SERVER"/>
+	<description>PLG_ELEMENT_TOTAL_DESCRIPTION</description>
+	<files>
+		<filename plugin="total">total.php</filename>
+		<filename>index.html</filename>
+		<filename>total.js</filename>
+		<filename>total-min.js</filename>
+		<folder>forms</folder>
+		<folder>language</folder>
+		<folder>layouts</folder>
+		<folder>sql</folder>
+	</files>
+
+</extension>

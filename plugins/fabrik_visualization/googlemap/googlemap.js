@@ -597,6 +597,8 @@ FbGoogleMapViz = new Class({
 					document.id('overlay_chbox_' + k).addEvent('click', this.options.overlay_events[k]);
 				}
 			}.bind(this));
+
+			Fabrik.fireEvent('fabrik.viz.googlemap.overlays.added', [this]);
 		}
 	},
 

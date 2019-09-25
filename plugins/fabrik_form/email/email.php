@@ -383,6 +383,28 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 				if ($res !== true)
 				{
 					$this->app->enqueueMessage(Text::sprintf('PLG_FORM_EMAIL_DID_NOT_SEND_EMAIL', $email), 'notice');
+
+                    // Log the info
+                    $opts = new stdClass;
+                    $opts->listid = $formModel->getListModel()->getId();
+                    $opts->formid = $formModel->getId();
+                    $opts->rowid = $this->data['rowid'];
+                    $opts->userid   = $userId;
+                    $opts->emailFrom = $emailFrom;
+                    $opts->emailFromName = $emailFromName;
+                    $opts->emailReturn = $returnPath;
+                    $opts->emailSubject = $thisSubject;
+                    $opts->emailAttachments = $thisAttachments;
+                    $opts->emailTo = $email;
+                    $opts->emailCc = $cc;
+                    $opts->emailBcc = $bcc;
+                    $opts->emailMsg = $thisMessage;
+                    $msgType   = 'fabrik.form.email.error';
+                    $msg       = new stdClass;
+                    $msg->opts  = $opts;
+                    $msg->data = $this->data;
+                    $msg       = json_encode($msg);
+                    $this->doLog($msgType, $msg);
 				}
 
 				if (\JFile::exists($attachFileName))

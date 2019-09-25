@@ -120,6 +120,15 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_DROPDOWN_HELP_SERVER" />
 
+			<field name="hidden"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_DROPDOWN_HIDDEN_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"

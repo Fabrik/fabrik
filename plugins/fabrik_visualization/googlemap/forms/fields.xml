@@ -96,7 +96,8 @@
 
 						<field
 							name="filter-value"
-							type="field"
+							type="text"
+							filter="raw"
 							repeat="true"
 							label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" />
 

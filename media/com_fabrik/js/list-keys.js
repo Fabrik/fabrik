@@ -7,6 +7,8 @@ define(['jquery'], function (jQuery) {
      */
 
     var FbListKeys = new Class({
+        Binds: [],
+
         initialize: function (list) {
             window.addEvent('keyup', function (e) {
                 if (e.alt) {

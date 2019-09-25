@@ -90,7 +90,7 @@ class PlgFabrik_ListWebservice extends PlgFabrik_List
 
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('webservice_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('webservice_button_label', parent::buttonLabel()));
 	}
 
 	/**
