@@ -546,5 +546,96 @@ class ArrayHelper
 
 	    return $chunked;
     }
+	/**
+	 *
+	 * Allows reordering subgrouped arrays; 
+	 * needed i.e when we have multiple repeated joins both related to one parent (usually list's main) table
+	 * and the data is displayed like 1: a,a,a,b,b,b,c,c,c  2: a,b,c,a,b,c,a,b,c  
+	 * but we need it to have a correct look 1: a,b,c 2: a,b,c as the data is related to main row, not to each other
+	 * Created during implementing an alternate way (rowspan method) for joined data merge
+	 * 
+	 * 28.04.2017 Jaanus Nurmoja: many thanks to mr Aivar Luist who worked it out!
+	 * array $input
+	 * @return  $output
+	 */
+	 
+    public static function sortSubgroupedArrays($input)
+    {
+        $output = [];
+        
+        if (!is_array($input))
+        {
+            throw new Exception("ArrayHelper::sortSubgroupedArrays Input must be an array!");
+        }
+        
+        if (count($input) <= 0)
+        {
+            return $output;
+        }
+        
+        //Loop through groups
+        foreach ($input as $group => $groupData)
+        {
+            //Skip groups that are not arrays
+            if (!is_array($groupData) || count($groupData) <= 0)
+            {
+                $output[$group] = $groupData;
+                continue;
+            }
+            
+            $output[$group] = [];
+            
+            //Loop through sub groups
+            foreach ($groupData as $subGroup => $subGroupData)
+            {
+                $output[$group][$subGroup] = [];
+                //Check if subgroup is array and if there is anyting inside
+                if (!is_array($subGroupData) || count($subGroupData) <= 0)
+                {
+                    $output[$group][$subGroup] = $subGroupData;
+                    continue;
+                }
+                
+                $valuesToSort = [];
+                //Check all sub arrays
+                foreach ($subGroupData as $sortArrayKey => $sortArrays)
+                {
+                    if (!is_array($sortArrays) || count($sortArrays) <= 0)
+                    {
+                        continue;
+                    }
+                    
+                    //Collect values from arrays
+                    foreach ($sortArrays as $sortVal)
+                    {
+                        $valuesToSort[] = $sortVal;
+                    }
+                }
+                
+                //Reorder values
+                sort($valuesToSort);
+                
+                //Loop through all sub arrays, assign sorted values and preserve keys
+                foreach ($subGroupData as $sortArrayKey => $sortArrays)
+                {
+                    if (!is_array($sortArrays) || count($sortArrays) <= 0)
+                    {
+                        $output[$group][$subGroup][$sortArrayKey] = $sortArrays;
+                        continue;
+                    }
+                    
+                    $output[$group][$subGroup][$sortArrayKey] = [];
+                    foreach ($sortArrays as $sortKey => $sortVal)
+                    {
+                        $output[$group][$subGroup][$sortArrayKey][$sortKey] = array_shift($valuesToSort);
+                    }
+                }
+                
+            }
+            
+            
+        }
 
+        return $output;
+    }
 }

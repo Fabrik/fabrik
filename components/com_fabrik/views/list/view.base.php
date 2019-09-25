@@ -433,6 +433,28 @@ class FabrikViewListBase extends FabrikView
 		$form = $model->getFormModel();
 		$nav  = $model->getPagination();
 
+		$groups = $form->getGroupsHiarachy();
+
+		$this->pkFields = new stdClass;
+		
+		foreach ($groups as $groupModel)
+		{
+			$elementModels = $groupModel->getPublishedElements();
+
+			foreach ($elementModels as $elementModel)
+			{
+				$elementModel->setContext($groupModel, $form, $model);
+				$elementModel->setRowClass($data);
+				$elementModel->groupConcactJoinKey();
+				$pkField = $elementModel->groupConcactJoinKey();
+				$pkField = FabrikString::safeColNameToArrayKey($pkField);
+				$elementModel->getFullName(true, false);
+				$element = $elementModel->getFullName(true, false);
+				$this->pkFields->$element = new stdClass;
+				$this->pkFields->$element->name = $pkField;
+			}
+		}
+		
 		foreach ($data as $groupk => $group)
 		{
 			$num_rows = 1;
@@ -453,18 +475,7 @@ class FabrikViewListBase extends FabrikView
 			}
 		}
 
-		$groups = $form->getGroupsHiarachy();
-
-		foreach ($groups as $groupModel)
-		{
-			$elementModels = $groupModel->getPublishedElements();
-
-			foreach ($elementModels as $elementModel)
-			{
-				$elementModel->setContext($groupModel, $form, $model);
-				$elementModel->setRowClass($data);
-			}
-		}
+		
 
 		$this->rows = $data;
 		reset($this->rows);
@@ -630,8 +641,83 @@ class FabrikViewListBase extends FabrikView
 
 		$this->buttons();
 		$this->pluginTopButtons = $model->getPluginTopButtons();
+		$this->rowSpanMerge = $model->mergeJoinedData() == 3 && !$this->ajax;
+		if ($this->rowSpanMerge)
+		{
+			$this->rowSpanData = $this->rowSpanData();
+			$this->rowSpans = $this->rowSpanData['elements'];				
+		}
 	}
 
+/*
+		Jaanus: The following function is aimed to 
+		enable merge data in lists with joins so that it reduces duplicates of 
+		main and no-repeated data but preserves table view and visual relationship between data. 
+		Partially done in default_row.php
+		Many thanks to mr Aivar Luist for FArrayHelper::sortSubgroupedArrays :)
+*/
+	public function rowSpanData()
+	{
+		$c = array();
+
+		foreach ($this->rows as $group)	
+		{
+			foreach ($c as $r => $rid)
+			{
+				$c['rowcount'][$r] = count($c[$r]);
+			}
+			
+			foreach ($this->headings as $heading => $label) 
+			{
+				if (!isset($this->pkFields->$heading))
+				{
+					$this->pkFields->$heading = new stdClass;
+					$this->pkFields->$heading->name = '__pk_val';
+				}
+				
+				$pkField = $this->pkFields->$heading->name . '_raw';
+				foreach ($group as $this->_row)
+				{
+					$pkValue = empty($this->_row->data->$pkField) ? '0' : (string) $this->_row->data->$pkField;
+					$r = $this->_row->id;
+					$d = $this->_row->data->$heading;
+					$c['origels'][$heading][$r][$pkValue][] = $this->_row->cursor;
+				}
+				
+			}
+
+			$c['elements'] = FArrayHelper::sortSubgroupedArrays($c['origels']);
+
+			foreach ($this->headings as $heading => $label) 
+			{
+				if (!isset($this->pkFields->$heading))
+				{
+					$this->pkFields->$heading = new stdClass;
+					$this->pkFields->$heading->name = '__pk_val';
+				}
+				
+				$pkField = $this->pkFields->$heading->name . '_raw';
+
+				foreach ($group as $this->_row)
+				{
+					$pkValue = empty($this->_row->data->$pkField) ? '0' : (string) $this->_row->data->$pkField;
+					$r = $this->_row->id;
+					$d = $this->_row->data->$heading;
+					$crs = $c['elements'][$heading][$r][$pkValue][0];
+					$c[$this->_row->cursor][$heading]['showCell'] = false;
+					
+					if ($crs == $this->_row->cursor)
+					{
+						$c[$this->_row->cursor][$heading]['showCell'] = true;
+					}
+				}
+			}
+		}
+
+		return $c;
+	}
+
+	
 	/**
 	 * Model check for publish/access
 	 *

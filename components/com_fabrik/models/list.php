@@ -7050,7 +7050,7 @@ class FabrikFEModelList extends JModelForm
 					$cellClass[$compositeKey]['class'] .= ' repeat';
 					$dis = $params->get('join-display');
 
-					if ($dis != 'default')
+					if ($dis != 'default' && $dis != 'rowspan')
 					{
 						$cellClass[$compositeKey]['class'] .= '-' . $dis;
 					}
@@ -10670,7 +10670,7 @@ class FabrikFEModelList extends JModelForm
 	/**
 	 * Get the join display mode - merge, normal or reduce
 	 *
-	 * @return  string	1 if merge, 2 if reduce, 0 if no merge or reduce
+	 * @return  string	1 if merge, 2 if reduce, 3 if rowspan, 0 if no merge or reduce
 	 */
 	public function mergeJoinedData()
 	{
@@ -10684,6 +10684,9 @@ class FabrikFEModelList extends JModelForm
 				break;
 			case 'reduce':
 				$merge = 2;
+				break;
+			case 'rowspan':
+				$merge = 3;
 				break;
 			default:
 				$merge = 0;
@@ -10773,7 +10776,7 @@ class FabrikFEModelList extends JModelForm
 	{
 		$merge = $this->mergeJoinedData();
 
-		if (empty($merge))
+		if (empty($merge) || $merge == 3)
 		{
 			return;
 		}

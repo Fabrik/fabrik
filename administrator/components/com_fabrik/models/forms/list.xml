@@ -1673,6 +1673,7 @@
 			       description="COM_FABRIK_FIELD_JOIN_DISPLAY_DESC"
 			>
 				<option value="default">COM_FABRIK_EACH_ROW_SEPARATELY</option>
+				<option value="rowspan">COM_FABRIK_MERGE_ROWSPAN</option>
 				<option value="merge">COM_FABRIK_MERGE_ROWS</option>
 				<option value="reduce">COM_FABRIK_REDUCE_ROWS</option>
 			</field>
