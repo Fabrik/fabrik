@@ -12,7 +12,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 $d = $displayData;
-
+if ($d->list_detail_link_icon === 'none') return;
 // special case for handling old default icon name
 if ($d->list_detail_link_icon === 'search.png')
 {

@@ -12,7 +12,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 $d = $displayData;
-
+if ($d->list_edit_link_icon === 'none') return;
 ?>
 <a data-loadmethod="<?php echo $d->loadMethod; ?>"
 	class="<?php echo $d->class;?> btn-default" <?php echo $d->editAttributes;?>
