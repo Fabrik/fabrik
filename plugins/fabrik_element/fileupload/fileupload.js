@@ -11,7 +11,8 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
         Extends   : FbFileElement,
         options : {
             folderSelect: false,
-            ajax_upload: false
+            ajax_upload: false,
+            ajax_show_widget: true
         },
         initialize: function (element, options) {
             var self = this;
@@ -334,7 +335,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             var c = el.closest('.fabrikSubElementContainer');
             this.container = c;
 
-            if (this.options.canvasSupport !== false) {
+            if (this.options.ajax_show_widget && this.options.canvasSupport !== false) {
                 this.widget = new ImageWidget(this.options.modalId, {
 
                     'imagedim': {

@@ -441,6 +441,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$opts->dir                   = JPATH_SITE . '/' . $params->get('ul_directory');
 		$opts->ajax_upload           = $this->isAjax();
 		$opts->ajax_runtime          = $params->get('ajax_runtime', 'html5');
+		$opts->ajax_show_widget      = $params->get('ajax_show_widget', '1') === "1";
 		$opts->ajax_silverlight_path = COM_FABRIK_LIVESITE . 'plugins/fabrik_element/fileupload/lib/plupload/js/plupload.flash.swf';
 		$opts->ajax_flash_path       = COM_FABRIK_LIVESITE . 'plugins/fabrik_element/fileupload/lib/plupload/js/plupload.flash.swf';
 		$opts->max_file_size         = (float) $params->get('ul_max_file_size');

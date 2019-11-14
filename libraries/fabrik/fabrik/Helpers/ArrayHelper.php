@@ -337,6 +337,11 @@ class ArrayHelper
 
 		$result = null;
 
+		if (!is_scalar($name))
+		{
+			return $default;
+		}
+
 		if (isset($array[$name]))
 		{
 			$result = $array[$name];

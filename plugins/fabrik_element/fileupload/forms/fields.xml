@@ -506,6 +506,16 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="ajax_show_widget"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="ajax_runtime"
 			       type="text"
 			       default="html5,html4"

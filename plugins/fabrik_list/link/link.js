@@ -11,6 +11,7 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 		options: {
 			'link': '',
 			'fabrikLink': false,
+			'newTab': false,
 			'windowTitle': ''
 		},
 
@@ -73,7 +74,12 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 					Fabrik.getWindow(winOpts);
 				}
 				else {
-					window.location = thisLink;
+					if (this.options.newTab) {
+						window.open(thisLink, '_blank');
+					}
+					else {
+						window.location = thisLink;
+					}
 				}
 			}
 		}

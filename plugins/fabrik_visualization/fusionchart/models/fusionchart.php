@@ -712,7 +712,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 
                         $tmpgdata[] = (trim($row->$column) == '') ? null : (float)$row->$column;
                         $tmpgmsgroupby[] = empty($msGroupBy) || (trim($row->$msGroupBy) == '') ? null : $row->$msGroupBy;
-                        $tmpglabels[] = !empty($label) ? html_entity_decode(strip_tags($row->$label)) : '';
+                        $tmpglabels[] = !empty($label) ? trim(html_entity_decode(strip_tags($row->$label))) : '';
 	                    $tmpgsorts[] = !empty($sort) ? html_entity_decode(strip_tags($row->$sort)) : '';
                         $tmpaxislabels[] = $this->getAxisLabel($this->c);
                     }
@@ -834,7 +834,8 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 				{
 					$strParam .= ';pieBorderThickness=' . $params->get('fusionchart_borderthick', '');
 					$strParam .= ';pieBorderAlpha=' . $params->get('fusionchart_cnvalpha', '');
-					$strParam .= ';pieFillAlpha=' . FArrayHelper::getValue($params->get('fusionchart_elalpha', array()), 0);
+					$alphas = $params->get('fusionchart_elalpha', array());
+					$strParam .= ';pieFillAlpha=' . FArrayHelper::getValue($alphas,0);
 				}
 
 				if ($chartType == 'FUNNEL2D')
@@ -1005,11 +1006,14 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 			case 'MSLINE':
 			case 'MSSPLINE':
 			case 'MSAREA2D':
+			case 'MSSTACKEDCOLUMN2D':
 			case 'MSCOMBIDY2D':
 			case 'MULTIAXISLINE':
 			case 'SCROLLAREA2D':
 			case 'SCROLLCOLUMN2D':
 			case 'SCROLLLINE2D':
+			case 'SCROLLCOMBI2D':
+			case 'SCROLLCOMBIDY2D':
 			case 'SCROLLSTACKEDCOLUMN2D':
 				if ($this->c > 0)
 				{
@@ -1019,7 +1023,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 					}
 
 					// $$$ hugh - Dual-Y types
-					if ($chartType == 'MSCOMBIDY2D' || $chartType == 'MULTIAXISLINE')
+					if ($chartType == 'MSCOMBIDY2D' || $chartType == 'MULTIAXISLINE' || $chartType == 'SCROLLCOMBIDY2D')
 					{
 						$p_parents = array();
 						$s_parents = array();
@@ -1069,7 +1073,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 						$cdata = FArrayHelper::getValue($chartCumulatives, $key, '0') == '0' ? $gdata[$key] : $this->gcumulatives[$key];
 						$datasetLabel = $this->axisLabels[$key];
 
-                        if ($chartType == 'MSCOMBIDY2D' || $chartType == 'MULTIAXISLINE') {
+                        if ($chartType == 'MSCOMBIDY2D' || $chartType == 'MULTIAXISLINE' || $chartType == 'SCROLLCOMBIDY2D') {
                             $extras = array(
                                 'parentYAxis' => $dual_y_parents[$key]
                             );
@@ -1127,6 +1131,64 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 						$this->addDataset($dataset, $datasetLabel, $extras);
 					}
 				}
+				break;
+			case 'ZOOMLINE':
+			case 'ZOOMLINEDY':
+				$strParam .= ";dataseparator=|";
+				$strParam .= ";compactdatamode=1";
+		        $strParam .= ";pixelsPerPoint=40";
+
+				$allLabels = array();
+
+				foreach ($glabels as $glabel)
+				{
+					$allLabels = array_unique(array_merge($allLabels, $glabel));
+				}
+
+				$catParams = array();
+				$this->addZoomCategory(implode('|', $allLabels), $catParams);
+
+				foreach ($gdata as $key => $chartdata)
+				{
+					$datasetLabel = $this->axisLabels[$key];
+
+					if ($chartType == 'ZOOMLINEDY') {
+						$extras = array(
+							'parentYAxis' => $dual_y_parents[$key]
+						);
+					}
+					else
+					{
+						$extras = array();
+					}
+
+					$color = FArrayHelper::getValue($gcolours, $key, '');
+
+					if (!empty($color))
+					{
+						$extras['color'] = $color;
+					}
+
+					$dataset = array();
+					$chartlabels = $glabels[$key];
+
+					foreach ($chartdata as $ckey => $value)
+					{
+						$allLabelsKey = array_search($chartlabels[$ckey], $allLabels);
+						$dataset[$allLabelsKey] = $value;
+					}
+
+					foreach ($allLabels as $allLabelsKey => $label)
+					{
+						if (!array_key_exists($allLabelsKey, $dataset))
+						{
+							$dataset[$allLabelsKey] = null;
+						}
+					}
+
+					$this->addDataset(implode('|', $dataset), $datasetLabel, $extras);
+				}
+				break;
 		}
 
 		$this->c > 1 ? $this->trendLine($gdata) : $this->trendLine();
@@ -1487,6 +1549,16 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 		);
 	}
 
+	private function addZoomCategory($labels, $params)
+	{
+		if (!isset($this->chartData['categories']))
+		{
+			$this->chartData['categories'] = array();
+		}
+
+		$this->chartData['categories'][0]['category'] = $labels;
+	}
+
 	private function addDataset($dataset, $label, $params = array())
 	{
 		if (!isset($this->chartData['dataset']))
@@ -1612,7 +1684,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
                 break;
         }
 
-        return $chartType;
+        return strtolower($chartType);
     }
 
     private function getQueryData()
@@ -1654,7 +1726,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 	    	return false;
 	    }
 
-	    @trigger_error('');
+	    FabrikWorker::clearEval();
 	    $data = FabrikHelperHTML::isDebug() ? eval($code) : @eval($code);
 	    FabrikWorker::logEval(false, 'Eval exception : fusionchart plugin : %s');
 

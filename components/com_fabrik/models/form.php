@@ -487,7 +487,7 @@ class FabrikFEModelForm extends FabModelForm
 		$data = $this->getData();
 		$ret = 0;
 
-		if ($listModel->canViewDetails(ArrayHelper::toObject($data)))
+		if ($listModel->canViewDetails(FArrayHelper::toObject($data)))
 		{
 			$ret = 1;
 		}

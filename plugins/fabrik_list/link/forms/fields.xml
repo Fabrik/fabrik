@@ -32,6 +32,17 @@
 				repeat="true"
 				size="60" />
 
+			<field name="table_link_new_tab"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   repeat="true"
+				   label="PLG_FABRIK_LIST_LINK_NEW_TAB_LABEL"
+				   description="PLG_FABRIK_LIST_LINK_NEW_TAB_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="table_link_isfabrik"
 			       type="radio"
 			       class="btn-group"

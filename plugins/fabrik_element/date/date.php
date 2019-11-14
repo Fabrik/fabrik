@@ -686,9 +686,9 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			if ($time !== '')
 			{
 				$bits = explode(':', $time);
-				$h    = FArrayHelper::getValue($bits, 0, 0);
-				$m    = FArrayHelper::getValue($bits, 1, 0);
-				$s    = FArrayHelper::getValue($bits, 2, 0);
+				$h    = (int)FArrayHelper::getValue($bits, 0, 0);
+				$m    = (int)FArrayHelper::getValue($bits, 1, 0);
+				$s    = (int)FArrayHelper::getValue($bits, 2, 0);
 				$d->setTime($h, $m, $s);
 			}
 

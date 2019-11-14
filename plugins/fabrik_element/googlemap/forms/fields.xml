@@ -315,6 +315,11 @@
 			       description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_FORMATTED_ADDRESS_DESC"
 			       label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_FORMATTED_ADDRESS_LABEL" />
 
+			<field name="fb_gm_geocode_street_number"
+				   type="listfields"
+				   description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_STREET_NUMBER_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_STREET_NUMBER_LABEL" />
+
 			<field name="fb_gm_geocode_addr1"
 				type="listfields"
 				description="PLG_ELEMENT_GOOGLE_MAP_GEOCODE_ADDR1_DESC"

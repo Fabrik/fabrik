@@ -5412,14 +5412,16 @@ class FabrikFEModelList extends JModelForm
 			}
 		}
 
+		$args = array (
+			'context' => $context,
+			'request' => $request
+		);
+
 		FabrikWorker::getPluginManager()->runPlugins(
 			'onStoreRequestData',
 			$this,
 			'list',
-			array (
-				'context' => $context,
-				'request' => $request
-			)
+			$args
 		);
 	}
 
@@ -5771,6 +5773,14 @@ class FabrikFEModelList extends JModelForm
 		{
 			$showInList = $listElements->show_in_list;
 		}
+
+		$args = array(
+			$this,
+			&$showInList
+		);
+
+		$pluginManager = FabrikWorker::getPluginManager();
+		$pluginManager->runPlugins('onShowInList', $this, 'list', $args);
 
 		$showInList = (array) $input->get('fabrik_show_in_list', $showInList, 'array');
 
@@ -11009,13 +11019,26 @@ class FabrikFEModelList extends JModelForm
 			{
 				if (is_array($v))
 				{
+					$notNull = false;
+
 					foreach ($v as &$v2)
 					{
-						$v2 = FabrikWorker::JSONtoData($v2);
+						if ($v2 !== null)
+						{
+							$notNull = true;
+							$v2 = FabrikWorker::JSONtoData($v2);
+						}
 					}
 
-					$v = json_encode($v);
-					$data[$gKey]->$k = $v;
+					if ($notNull)
+					{
+						$v               = json_encode($v);
+						$data[$gKey]->$k = $v;
+					}
+					else
+					{
+						$data[$gKey]->$k = "";
+					}
 				}
 			}
 		}

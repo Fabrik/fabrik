@@ -194,14 +194,19 @@
 				<option value="STACKEDAREA2D">Stacked Area 2D</option>
 				<option value="STACKEDBAR2D">Stacked Bar 2D</option>
 				<option value="STACKEDCOLUMN2D">Stacked Column 2D</option>
+				<option value="MSSTACKEDCOLUMN2D">MS Stacked Column 2D</option>
 				<option value="STACKEDCOLUMN3D">Stacked Column 3D</option>
 				<option value="SCROLLAREA2D">Scroll Area 2D</option>
 				<option value="SCROLLCOLUMN2D">Scroll Column 2D</option>
 				<option value="SCROLLLINE2D">Scroll Line 2D</option>
+				<option value="SCROLLCOMBI2D">Scroll Combi 2D</option>
+				<option value="SCROLLCOMBIDY2D">Scroll Combi DY 2D</option>
 				<option value="SCROLLSTACKEDCOLUMN2D">Scroll Stacked Column 2D</option>
 				<option value="SCATTER">Scatter</option>
 				<option value="SPLINE">Spline</option>
 				<option value="SPLINEAREA">Spline Area</option>
+				<option value="ZOOMLINE">Zoom Line</option>
+				<option value="ZOOMLINEDY">Zoom Line DY</option>
 				<option value="MAPS">Maps - see Map section</option>
 			</field>
 

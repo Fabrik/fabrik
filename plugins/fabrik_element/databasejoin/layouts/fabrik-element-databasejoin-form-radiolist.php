@@ -19,7 +19,7 @@ foreach ($d->options as $option) :
 	$d->checked = in_array($option->value, $d->default) ? 'checked="checked" ' : '';
 	if (($colSize * $colCounter) % 12 === 0  || $colCounter == 0) :
 		$rowStarted = true; ?>
-		<div class="row-fluid " data-role="fabrik-rowopts" data-optsperrow="<?php echo $d->optsPerRow; ?>">
+		<div class="row-fluid fabrik-option-value-<?php echo $option->value; ?>" data-role="fabrik-rowopts" data-optsperrow="<?php echo $d->optsPerRow; ?>">
 	<?php endif;
 	$d->option = $option;
 	$d->colCounter = $colCounter;

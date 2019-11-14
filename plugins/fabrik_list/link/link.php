@@ -133,6 +133,7 @@ class PlgFabrik_ListLink extends plgFabrik_List
 		$opts = $this->getElementJSOptions();
 		$params = $this->getParams();
 		$opts->link = $params->get('table_link_link', '');
+		$opts->newTab = $params->get('table_link_new_tab', '0') === '1';
 		$opts->fabrikLink = $params->get('table_link_isfabrik', '0') === '1';
 		$opts->windowTitle = FText::_($params->get('table_link_fabrik_window_title', ''));
 		$opts = json_encode($opts);
