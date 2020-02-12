@@ -563,6 +563,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	protected function _getOptionVals($data = array(), $repeatCounter = 0, $incWhere = true, $opts = array())
 	{
+		// Sophist - Avoid unneeded queries. We do not need to populate the options if:
+		// a. The element is read-only; or
+		// b. The element is not viewable due to Access Level restrictions
+		if (!$this->isEditable() || !$this->canView())
+		{
+			return array();
+		}
+
 		$params = $this->getParams();
 		$db     = $this->getDb();
 
@@ -2650,7 +2658,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @param   string $originalValue original filter value without quotes or %'s applied
 	 * @param   string $type          filter type advanced/normal/prefilter/search/querystring/searchall
 	 * @param   string  $evalFilter     evaled
-	 *                                  
+	 *
 	 * @return  string    sql query part e,g, "key = value"
 	 */
 	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
