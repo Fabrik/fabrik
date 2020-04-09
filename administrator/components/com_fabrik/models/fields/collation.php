@@ -44,7 +44,7 @@ class JFormFieldCollation extends JFormFieldList
 
 		if ($defaultToTableValue)
 		{
-			$defaultToTableValue = (bool) $this->element->attributes()->$defaultToTableValue[0];
+			$defaultToTableValue = (bool) $this->element->attributes()->{$defaultToTableValue[0]};
 		}
 		else
 		{
