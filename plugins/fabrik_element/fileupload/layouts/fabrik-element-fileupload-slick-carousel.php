@@ -27,10 +27,10 @@ $d      = $displayData;
 <?php else : ?>
     <div style="height: <?php echo $d->height; ?>px; width: <?php echo $d->width; ?>px" id="<?php echo $d->id;?>"
          class="slickCarousel"
-         data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "centerMode": true, "adaptiveHeight":true}'
+         data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "centerMode": false, "adaptiveHeight":false, "arrows":false}'
     >
 		<?php foreach ($d->thumbs as $img) : ?>
-            <div style="opacity: 0" class="slickCarouselImage"><h3><?php echo $img ?></h3></div>
+            <div style="opacity: 0" class="slickCarouselImage"><h5><?php echo $img ?></h5></div>
 		<?php endforeach; ?>
     </div>
 <?php endif; ?>

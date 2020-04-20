@@ -138,6 +138,12 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 						{
 							$fields[$this->getFieldName('juser_field_usertype', true)] = $o_user->group_id;
 						}
+						else
+						{
+							$fields[$this->getFieldName('juser_field_usertype', true)] = 
+							'["' . implode('","',JFactory::getUser($o_user->id)->groups) .'"]';
+						}
+
 
 						if ($syncPK)
 						{
