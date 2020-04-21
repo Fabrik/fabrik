@@ -3227,7 +3227,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			// $opts->elementName = $join->table_join;
 			$opts->elementName      = $join->table_join . '___' . $element->name;
 			$opts->elementShortName = $element->name;
-			$opts->joinId           = $join->id;
+			$opts->joinId           = $join->getId();
 			$opts->isJoin           = true;
 		}
 	}

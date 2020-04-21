@@ -162,6 +162,19 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="fb_gm_maptypecontroloptions"
+				   type="list"
+				   multiple="true"
+				   default=""
+				   description="PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_LABEL">
+				<option value="satellite">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_SATELLITE</option>
+				<option value="roadmap">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_ROADMAP</option>
+				<option value="terrain">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_TERRAIN</option>
+				<option value="hybrid">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_HYBRID</option>
+				<option value="styled_map">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_STYLED_MAP</option>
+			</field>
+
 			<field name="fb_gm_trafficlayer"
 				type="radio"
 				default="0"

@@ -59,6 +59,7 @@
 							type="listfields"
 							repeat="true"
 							showall="0"
+							raw="true"
 							valueformat="tableelement"
 							connection="params_googlemap_connection"
 							connection_in_repeat="true"
@@ -575,6 +576,19 @@
 				type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="fb_gm_maptypecontroloptions"
+				   type="list"
+				   multiple="true"
+				   default=""
+				   description="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_DESC"
+				   label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_LABEL">
+				<option value="satellite">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_SATELLITE</option>
+				<option value="roadmap">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_ROADMAP</option>
+				<option value="terrain">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_TERRAIN</option>
+				<option value="hybrid">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_HYBRID</option>
+				<option value="styled_map">PLG_EVISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_STYLED_MAP</option>
 			</field>
 
 			<field

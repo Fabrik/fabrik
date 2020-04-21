@@ -28,7 +28,7 @@
 		
 			<fields name="params">
 				<fieldset modal="true" name="prefilters_modal" repeat="true">
-					<field label="MOD_FABRIK_LIST_ELEMENTS_HEADING" name="filter-fields" type="listfields" valueformat="tableelement"/>
+					<field label="MOD_FABRIK_LIST_ELEMENTS_HEADING" name="filter-fields" type="listfields" valueformat="tableelement" raw="true"/>
 				
 					<field label="MOD_FABRIK_LIST_CONDITION_LABEL" name="filter-conditions" type="list">
 							<option value="equals">EQUALS</option>

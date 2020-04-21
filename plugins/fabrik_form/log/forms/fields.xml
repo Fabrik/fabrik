@@ -43,9 +43,10 @@
                    description="PLG_FORM_LOG_FORM_LOAD_DESC"
                    name="log_form_load"
                    repeat="true"
-                   type="radio">
+                   type="list">
                 <option value="0">JNO</option>
-                <option value="1">JYES</option>
+                <option value="1">PLG_FORM_LOG_FORM_LOAD_FORM</option>
+                <option value="2">PLG_FORM_LOG_FORM_LOAD_FORM_AND_DETAILS</option>
             </field>
 
             <field default="1"
@@ -65,9 +66,10 @@
                    description="PLG_FORM_LOG_FORM_DELETE_DESC"
                    name="log_delete"
                    repeat="true"
-                   type="radio">
+                   type="list">
                 <option value="0">JNO</option>
-                <option value="1">JYES</option>
+                <option value="1">PLG_FORM_LOG_DELETE_ROWS</option>
+                <option value="2">PLG_FORM_LOG_DELETE_ROWS_AND_FIELDS</option>
             </field>
 
             <field default="0"

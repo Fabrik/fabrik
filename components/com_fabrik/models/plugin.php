@@ -887,6 +887,7 @@ class FabrikPlugin extends JPlugin
 				$groups      = $model->getFormGroupElementData();
 				$published   = $input->get('published', false);
 				$showInTable = $input->get('showintable', false);
+				$showRaw     = $input->getBool('showRaw', false);
 
 				foreach ($groups as $g => $groupModel)
 				{
@@ -954,6 +955,17 @@ class FabrikPlugin extends JPlugin
 						else
 						{
 							$arr[] = $c;
+
+							if ($showRaw && is_a($eVal, 'PlgFabrik_ElementDatabasejoin'))
+							{
+								$useStep = $keyType === 2 ? true : false;
+								$rawVal = $eVal->getRawColumn($useStep);
+								$rawVal = str_replace('`', '', $rawVal);
+								$c        = new stdClass;
+								$c->value = $rawVal;
+								$c->label = $label . ' (raw)';
+								$arr[] = $c;
+							}
 						}
 
 						if ($incCalculations)

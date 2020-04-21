@@ -311,6 +311,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$opts->control = $params->get('fb_gm_mapcontrol');
 		$opts->scalecontrol = (bool) $params->get('fb_gm_scalecontrol');
 		$opts->maptypecontrol = (bool) $params->get('fb_gm_maptypecontrol');
+		$opts->maptypeids = $params->get('fb_gm_maptypecontroloptions');
 		$opts->overviewcontrol = (bool) $params->get('fb_gm_overviewcontrol');
 		$opts->traffic = (bool) $params->get('fb_gm_trafficlayer', '0');
 		$opts->drag = (bool) $formModel->isEditable() && (bool) $params->get('fb_gm_draggable', '1');

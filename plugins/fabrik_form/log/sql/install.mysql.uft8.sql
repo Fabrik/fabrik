@@ -3,14 +3,16 @@ CREATE TABLE IF NOT EXISTS `#__{package}_change_log_fields` (
 	`parent_id` INT( 11 ) NOT NULL,
 	`user_id` INT( 11 ) NOT NULL ,
 	`time_date` DATETIME NOT NULL ,
-	`form_id` INT( 6 ) NOT NULL,
-    `list_id` INT( 6 ) NOT NULL,
-    `element_id` INT( 6 ) NOT NULL,
-	`row_id` INT( 6 ) NOT NULL,
-    `pk_id` INT( 6 ) NOT NULL,
+	`form_id` INT( 11 ) NOT NULL,
+    `list_id` INT( 11 ) NOT NULL,
+    `element_id` INT( 11 ) NOT NULL,
+	`row_id` INT( 11 ) NOT NULL,
+	`join_id` INT( 11 ),
+	`parent_id` INT( 11 ),
+    `pk_id` INT( 11 ) NOT NULL,
 	`table_name` VARCHAR( 256 ) NOT NULL,
 	`field_name` VARCHAR( 256 ) NOT NULL,
-	`log_type_id` INT( 6 ) NOT NULL,
+	`log_type_id` INT( 11 ) NOT NULL,
 	`orig_value` TEXT,
 	`new_value` TEXT
 );
@@ -21,10 +23,11 @@ CREATE TABLE IF NOT EXISTS `#__{package}_change_log` (
      `ip_address` CHAR( 14 ) NOT NULL ,
      `referrer` TEXT,
      `time_date` DATETIME NOT NULL ,
-     `form_id` INT( 6 ) NOT NULL,
-     `list_id` INT( 6 ) NOT NULL,
-     `row_id` INT( 6 ) NOT NULL,
-     `log_type_id` INT( 6 ) NOT NULL
+     `form_id` INT( 11 ) NOT NULL,
+     `list_id` INT( 11 ) NOT NULL,
+     `row_id` INT( 11 ) NOT NULL,
+     `join_id` INT( 11 ),
+     `log_type_id` INT( 11 ) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `#__{package}_change_log_types` (
@@ -43,4 +46,5 @@ VALUES
        (7, 'Add Joined Row'),
        (8, 'Delete Joined Row'),
        (9, 'Field Value Change'),
-       (10, 'Edit Joined Row')
+       (10, 'Edit Joined Row'),
+       (11, 'Load Details')

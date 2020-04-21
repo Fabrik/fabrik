@@ -64,6 +64,27 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
                 window.addEvent('google.geolocate.loaded', this.loadFn);
                 Fabrik.loadGoogleMap(this.options.mapKey, 'geolocateLoad');
             }
+
+            if (this.options.scanQR) {
+                this.qrBtn = document.id(element + '_qr_upload');
+                this.qrBtn.addEvent('change', function (e) {
+                    var node = e.target;
+                    var reader = new FileReader();
+                    var self = this;
+                    reader.onload = function() {
+                        node.value = "";
+                        qrcode.callback = function(res) {
+                            if(res instanceof Error) {
+                                alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
+                            } else {
+                                self.update(res);
+                            }
+                        }.bind(this);
+                        qrcode.decode(reader.result);
+                    };
+                    reader.readAsDataURL(node.files[0]);
+                }.bind(this));
+            }
         },
 
         select: function () {

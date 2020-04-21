@@ -158,6 +158,21 @@ FbGoogleMapViz = new Class({
 			if (typeOf(this.element_map) === 'null') {
 				return;
 			}
+
+			this.mapTypeIds = [];
+
+			if (typeOf(this.options.maptypeids) !== 'array') {
+				for (var type in google.maps.MapTypeId) {
+					this.mapTypeIds.push(google.maps.MapTypeId[type]);
+				}
+			}
+			else
+			{
+				for (var type in this.options.maptypeids) {
+					this.mapTypeIds.push(this.options.maptypeids[type]);
+				}
+			}
+
 			var mapOpts = {
 				center            : new google.maps.LatLng(this.options.lat, this.options.lon),
 				zoom              : this.options.zoomlevel.toInt(),
@@ -168,8 +183,12 @@ FbGoogleMapViz = new Class({
 				scrollwheel       : this.options.scrollwheel,
 				zoomControl       : this.options.zoom,
 				streetViewControl : this.options.streetView,
-				zoomControlOptions: {style: this.options.zoomStyle}
+				zoomControlOptions: {style: this.options.zoomStyle},
+				mapTypeControlOptions: {
+					mapTypeIds: this.mapTypeIds
+				}
 			};
+
 			this.map = new google.maps.Map(document.id(this.element_map), mapOpts);
 			this.map.setOptions({'styles': this.options.styles});
 
@@ -250,6 +269,8 @@ FbGoogleMapViz = new Class({
 			{
 				this.update();
 			}
+
+			Fabrik.fireEvent('fabrik.viz.googlemap.init.end', this);
 		},
 
 	setPolyLines: function () {

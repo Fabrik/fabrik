@@ -15,6 +15,7 @@ var ListFieldsElement = new Class({
 		conn: null,
 		highlightpk: false,
 		showAll: 1,
+		showRaw: 0,
 		mode: 'dropdown',
 		defaultOpts: [],
 		addBrackets: false
@@ -159,6 +160,7 @@ var ListFieldsElement = new Class({
 			method: 'get',
 			data: {
 				'highlightpk': this.options.highlightpk,
+				'showRaw': this.options.showRaw,
 				'k': 2
 			},
 			onComplete: function (r) {

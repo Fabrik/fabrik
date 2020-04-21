@@ -51,6 +51,12 @@
                 <option value="2">PLG_ELEMENT_LOCKROW_ALLOW_USER_REEDIT_EXCLUSIVE</option>
             </field>
 
+            <field name="lockrow_lock_access"
+                   type="accesslevel"
+                   default="1"
+                   description="PLG_ELEMENT_LOCKROW_LOCK_ACCESS_DESC"
+                   label="PLG_ELEMENT_LOCKROW_LOCK_ACCESS_LABEL"/>
+
             <field name="lockrow_show_icon_read_only"
                    type="radio"
                    default="1"

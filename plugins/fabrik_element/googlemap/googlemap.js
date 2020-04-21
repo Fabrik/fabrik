@@ -56,6 +56,7 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
             'zoomlevel'           : '13',
             'control'             : '',
             'maptypecontrol'      : false,
+            'maptypeids'          : false,
             'overviewcontrol'     : false,
             'scalecontrol'        : false,
             'drag'                : false,
@@ -89,6 +90,7 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
 
         initialize: function (element, options) {
             this.mapMade = false;
+            this.redrawn = false;
             this.parent(element, options);
 
             if (!this.options.mapShown) {
@@ -98,9 +100,19 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
             this.loadFn = function () {
                 // experimental support for OSM rendering
                 this.mapTypeIds = [];
-                for (var type in google.maps.MapTypeId) {
-                    this.mapTypeIds.push(google.maps.MapTypeId[type]);
+
+                if (typeOf(this.options.maptypeids) !== 'array') {
+                    for (var type in google.maps.MapTypeId) {
+                        this.mapTypeIds.push(google.maps.MapTypeId[type]);
+                    }
                 }
+                else
+                {
+                    for (var type in this.options.maptypeids) {
+                        this.mapTypeIds.push(this.options.maptypeids[type]);
+                    }
+                }
+
                 this.mapTypeIds.push('OSM');
 
                 switch (this.options.maptype) {
@@ -209,13 +221,15 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                 var h = i.getStyle('height').toInt();
             }
 
+            this.center = new google.maps.LatLng(this.options.lat, this.options.lon);
+
             if (!this.options.staticmap) {
 
                 var zoomControlStyle = this.options.control === 'GSmallMapControl' ? google.maps.ZoomControlStyle.SMALL : google.maps.ZoomControlStyle.LARGE;
 				var vzoomControl = this.options.control !== 'none';
 
                 var mapOpts = {
-                    center               : new google.maps.LatLng(this.options.lat, this.options.lon),
+                    center               : this.center,
                     zoom                 : this.options.zoomlevel.toInt(),
                     mapTypeId            : this.options.maptype,
                     scaleControl         : this.options.scalecontrol,
@@ -231,6 +245,7 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                         mapTypeIds: this.mapTypeIds
                     }
                 };
+
                 this.map = new google.maps.Map(document.id(this.element).getElement('.map'), mapOpts);
                 this.map.setOptions({'styles': this.options.styles});
 
@@ -255,10 +270,9 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                     trafficLayer.setMap(this.map);
                 }
 
-                var point = new google.maps.LatLng(this.options.lat, this.options.lon);
                 var opts = {
                     map     : this.map,
-                    position: point
+                    position: this.center
                 };
                 opts.draggable = this.options.drag;
 
@@ -305,7 +319,8 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
 
                 google.maps.event.addListener(this.marker, 'dragend', function () {
                     if (this.options.auto_center) {
-                        this.map.setCenter(this.marker.getPosition());
+                        this.center = this.marker.getPosition();
+                        this.map.setCenter(this.center);
                     }
                     this.field.value = this.marker.getPosition() + ':' + this.map.getZoom();
                     if (this.options.latlng === true) {
@@ -333,8 +348,9 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                     this.field.value = this.marker.getPosition() + ':' + this.map.getZoom();
                 }.bind(this));
 
-                if (this.options.auto_center && this.options.editable) {
-                    google.maps.event.addListener(this.map, 'center_changed', function () {
+                google.maps.event.addListener(this.map, 'center_changed', function () {
+                    this.center = this.map.getCenter();
+                    if (this.options.auto_center && this.options.editable) {
                         this.marker.setPosition(this.map.getCenter());
                         this.field.value = this.marker.getPosition() + ':' + this.map.getZoom();
                         if (this.options.latlng === true) {
@@ -345,8 +361,8 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
                             this.element.getElement('.latdms').value = this.latDecToDMS();
                             this.element.getElement('.lngdms').value = this.lngDecToDMS();
                         }
-                    }.bind(this));
-                }
+                    }
+                }.bind(this));
             }
 
             this.watchTab();
@@ -763,9 +779,11 @@ define(['jquery', 'fab/element', 'lib/debounce/jquery.ba-throttle-debounce', 'fa
          */
         redraw: function () {
             google.maps.event.trigger(this.map, 'resize');
-            var center = new google.maps.LatLng(this.options.lat, this.options.lon);
-            this.map.setCenter(center);
-            this.map.setZoom(this.map.getZoom());
+            if (!this.redrawn) {
+                this.map.setCenter(this.center);
+                this.map.setZoom(this.map.getZoom());
+                this.redrawn = true;
+            }
         },
 
         fillReverseGeocode: function(result) {

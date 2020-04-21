@@ -452,6 +452,7 @@ class FabrikFEModelVisualization extends FabModel
 				foreach ($fields as &$f)
 				{
 					$f = FabrikString::safeColName($f);
+					$f = str_replace('`', '', $f);
 				}
 
                 if ($listParams->get('menu_module_prefilters_override', true))

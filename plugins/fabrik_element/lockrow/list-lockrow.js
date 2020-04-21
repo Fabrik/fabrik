@@ -132,8 +132,61 @@ define(['jquery'], function (jQuery) {
         }).send();
         },
 
-        doAjaxLock: function (e) {
+        doAjaxLock: function (unlocked) {
+            var row = unlocked.findClassUp('fabrik_row');
+            var rowid = row.id.replace('list_' + this.options.listRef + '_row_', '');
 
+            /*
+            var data = {
+                'row_id': rowid,
+                'element_id': this.options.elid,
+                'userid': this.options.userid
+            };
+            var url = this.options.livesite +
+                'index.php?option=com_fabrik&format=raw&controller=plugin&task=pluginAjax&g=element' +
+                '&plugin=fabriklockrow&method=ajax_unlock';
+*/
+            var data = {
+                'option'     : 'com_fabrik',
+                'format'     : 'raw',
+                'task'       : 'plugin.pluginAjax',
+                'plugin'     : 'lockrow',
+                'g'          : 'element',
+                'method'     : 'ajax_lock',
+                'formid'     : this.options.formid,
+                'element_id' : this.options.elid,
+                'row_id'     : rowid,
+                'elementname': this.options.elid,
+                'userid'     : this.options.userid
+            };
+
+            new Request({
+                'url': '',
+                'data': data,
+                onComplete: function (r) {
+                    r = JSON.parse(r);
+                    if (r.status === 'locked') {
+                        this.options.row_locks[rowid] = true;
+                        jQuery(unlocked).find('i').removeClass(this.options.keyIcon).addClass(this.options.lockIcon);
+                        jQuery(unlocked).find('i').off('mouseover');
+                        jQuery(unlocked).find('i').off('mouseout');
+                        jQuery(unlocked).find('i').off('click');
+                        //locked.src = this.options.imagepath + "unlocked.png";
+                        if (this.options.can_unlocks[rowid]) {
+                            jQuery(unlocked).find('i').on('mouseover', function (e) {
+                                //unlocked.src = this.options.imagepath + "key.png";
+                                e.target.removeClass(this.options.lockIcon).addClass(this.options.keyIcon);
+                            }.bind(this));
+                            jQuery(unlocked).find('i').on('mouseout', function (e) {
+                                e.target.removeClass(this.options.keyIcon).addClass(this.options.lockIcon);
+                            }.bind(this));
+                            jQuery(unlocked).find('i').on('click', function (e) {
+                                this.doAjaxUnlock(unlocked);
+                            }.bind(this));
+                        }
+                    }
+                }.bind(this)
+            }).send();
         }
 
 

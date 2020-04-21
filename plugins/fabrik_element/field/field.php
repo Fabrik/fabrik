@@ -191,6 +191,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
+		$layoutData->scanQR = $params->get('scan_qrcode', '0') === '1';
 		$layoutData->attributes = $bits;
 		$layoutData->sizeClass = $params->get('bootstrap_class', '');
 
@@ -357,6 +358,8 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->id, $this->getFormModel()->getId(), 'field', $autoOpts);
 		}
 
+		$opts->scanQR = $params->get('scan_qrcode', '0') === '1';
+
 		return array('FbField', $id, $opts);
 	}
 
@@ -376,6 +379,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		$params = $this->getParams();
 		$inputMask = trim($params->get('text_input_mask', ''));
 		$geoComplete = $params->get('autocomplete', '0') === '3';
+		$scanQR = $params->get('scan_qrcode', '0') === '1';
 
 		$s = new stdClass;
 
@@ -395,6 +399,12 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		{
 			$folder = 'components/com_fabrik/libs/googlemaps/geocomplete/';
 			$s->deps[] = $folder . 'jquery.geocomplete';
+		}
+
+		if ($scanQR)
+		{
+			$folder = 'components/com_fabrik/libs/jsqrcode/';
+			$s->deps[] = $folder . 'qr_packed';
 		}
 		
 		if (array_key_exists($key, $shim))

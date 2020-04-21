@@ -66,14 +66,15 @@ CREATE TABLE IF NOT EXISTS `#__{package}_change_log_fields` (
 	`parent_id` INT( 11 ) NOT NULL,
 	`user_id` INT( 11 ) NOT NULL ,
 	`time_date` DATETIME NOT NULL ,
-	`form_id` INT( 6 ) NOT NULL,
-    `list_id` INT( 6 ) NOT NULL,
-    `element_id` INT( 6 ) NOT NULL,
-	`row_id` INT( 6 ) NOT NULL,
-	`pk_id` INT( 6 ) NOT NULL,
+	`form_id` INT( 11 ) NOT NULL,
+    `list_id` INT( 11 ) NOT NULL,
+    `element_id` INT( 11 ) NOT NULL,
+	`row_id` INT( 11 ) NOT NULL,
+	`join_id` INT( 11 ),
+	`pk_id` INT( 11 ) NOT NULL,
 	`table_name` VARCHAR( 256 ) NOT NULL,
 	`field_name` VARCHAR( 256 ) NOT NULL,
-	`log_type_id` INT( 6 ) NOT NULL,
+	`log_type_id` INT( 11 ) NOT NULL,
 	`orig_value` TEXT,
 	`new_value` TEXT
 );
@@ -88,10 +89,12 @@ CREATE TABLE IF NOT EXISTS `#__{package}_change_log` (
      `ip_address` CHAR( 14 ) NOT NULL ,
      `referrer` TEXT,
      `time_date` DATETIME NOT NULL ,
-     `form_id` INT( 6 ) NOT NULL,
-     `list_id` INT( 6 ) NOT NULL,
-     `row_id` INT( 6 ) NOT NULL,
-     `log_type_id` INT( 6 ) NOT NULL
+     `form_id` INT( 11 ) NOT NULL,
+     `list_id` INT( 11 ) NOT NULL,
+     `row_id` INT( 11 ) NOT NULL,
+     `join_id` INT( 11 ),
+     `log_type_id` INT( 11 ) NOT NULL,
+     `parent_id` INT( 11 ) NOT NULL,
 );
 EOT;
 
@@ -120,7 +123,8 @@ VALUES
        (7, 'Add Joined Row'),
        (8, 'Delete Joined Row'),
        (9, 'Field Value Change'),
-       (10, 'Edit Joined Row')
+       (10, 'Edit Joined Row'),
+       (11, 'Load Details')
 EOT;
 
 			$db->setQuery($query);
@@ -137,69 +141,29 @@ EOT;
 	/**
 	 * Run when the form loads
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @since
 	 */
 	public function onLoad()
 	{
 		$params    = $this->getParams();
+		/** @var FabrikFEModelForm $formModel */
 		$formModel = $this->getModel();
-		$view      = $this->app->input->get('view', 'form');
+		$rowId = $formModel->getRowId();
 
-		if ((!$formModel->isEditable() || $view == 'details') && ($params->get('log_details') != '0'))
+		if ($formModel->isEditable())
 		{
-			//$this->log('form.load.details');
-		}
-		elseif ($formModel->isEditable() && ($params->get('log_form_load') != '0'))
-		{
-			//$this->log('form.load.form');
-		}
-
-		return true;
-	}
-
-	/**
-	 * Get message type
-	 *
-	 * @param   string $rowId row reference
-	 *
-	 * @return  string
-	 */
-	protected function getMessageType($rowId)
-	{
-		$input = $this->app->input;
-
-		if ($input->get('view') == 'details')
-		{
-			return 'form.details';
-		}
-
-		if ($rowId == '')
-		{
-			return 'form.add';
+			if ($params->get('log_form_load', '0') !== '0')
+			{
+				$this->logChange(5, $rowId);
+			}
 		}
 		else
 		{
-			return 'form.edit';
-		}
-	}
-
-	/**
-	 * @param array $groups
-	 *
-	 * @return bool|void
-	 */
-	public function onDeleteRowsForm(&$groups)
-	{
-		foreach ($groups as $group)
-		{
-			foreach ($group as $rows)
+			if ($params->get('log_form_load', '0') === '2')
 			{
-				foreach ($rows as $row)
-				{
-
-				}
+				$this->logChange(11, $rowId);
 			}
 		}
 
@@ -211,11 +175,23 @@ EOT;
 	 *
 	 * @return bool|void
 	 */
-	public function onAfterDeleteRowsForm(&$data)
+	public function onDeleteRowsFormTest(&$groups)
+	{
+		return true;
+	}
+
+	/**
+	 * @param array $groups
+	 *
+	 * @return bool|void
+	 */
+	//public function onAfterDeleteRowsForm(&$data)
+	public function onDeleteRowsForm(&$data)
 	{
 		$params = $this->getParams();
+		$logDelete = $params->get('log_delete', '1');
 
-		if ($params->get('log_delete', '0') !== '1')
+		if ($logDelete === '0')
 		{
 			return;
 		}
@@ -223,10 +199,16 @@ EOT;
 		/** @var FabrikFEModelForm $formModel */
 		$formModel = $this->getModel();
 		$listModel = $formModel->getListModel();
+		$listParams = $listModel->getParams();
+		$deleteJoinedRows = $listParams->get('delete-joined-rows', '0') === '1';
+		$mergeJoinedData = $listModel->mergeJoinedData();
 		$fields = $this->getFields();
 		$mode = $params->get('log_mode', '1');
 		$groupModels = $formModel->getGroupsHiarachy();
 		$date = new \JDate();
+		$pks = [];
+		$joinsSeen = [];
+		$changes = [];
 
 		foreach ($data as $group)
 		{
@@ -234,47 +216,148 @@ EOT;
 			{
 				foreach ($rows as $row)
 				{
-					$changes = array();
-					
+					if (!array_key_exists($row->__pk_val, $pks))
+					{
+						$pks[$row->__pk_val] = [
+							'row_changes' => [],
+							'joins' => []
+						];
+					}
+
 					foreach ($groupModels as $groupModel)
 					{
-						$elementModels = $groupModel->getPublishedElements();
-
-						foreach ($elementModels as $elementModel)
+						if (!$groupModel->isJoin())
 						{
-							$fullKey = $elementModel->getFullName(true, false);
-
-							if ($mode === 'exclude' && in_array($fullKey, $fields))
+							if ($logDelete === '2')
 							{
-								continue;
+								$elementModels = $groupModel->getPublishedElements();
+
+								foreach ($elementModels as $elementModel)
+								{
+									$fullKey = $elementModel->getFullName(true, false);
+
+									if ($mode === 'exclude' && in_array($fullKey, $fields))
+									{
+										continue;
+									}
+									else if ($mode === 'include' && !in_array($fullKey, $fields))
+									{
+										continue;
+									}
+
+									$fullKeyRaw = $fullKey . '_raw';
+
+									if (isset($row->$fullKeyRaw) && !$this->dataEmpty($row->$fullKeyRaw))
+									{
+										if (!array_key_exists($fullKeyRaw, $pks[$row->__pk_val]['row_changes']))
+										{
+											$pks[$row->__pk_val]['row_changes'][$fullKeyRaw] = array(
+												'time_date'   => $date->format('Y-m-d H:i:s'),
+												'form_id'     => $formModel->getId(),
+												'list_id'     => $formModel->getListModel()->getId(),
+												'element_id'  => $elementModel->getId(),
+												'row_id'      => $row->__pk_val,
+												'pk_id'       => $row->__pk_val,
+												'table_name'  => $listModel->getTable()->db_table_name,
+												'orig_value'  => $row->$fullKeyRaw,
+												'new_value'   => '',
+												'field_name'  => $elementModel->element->name,
+												'log_type_id' => 3
+											);
+										}
+									}
+								}
 							}
-							else if ($mode === 'include' && !in_array($fullKey, $fields))
+						}
+						else
+						{
+							if ($deleteJoinedRows)
 							{
-								continue;
-							}
+								/** @var FabrikFEModelJoin $join */
+								$join = $groupModel->getJoinModel();
+								$joinId = $join->getId();
 
-							$fullKeyRaw = $fullKey . '_raw';
+								$pk = $join->getForeignID();
+								$pkRaw = $pk . '_raw';
+								$thisPks = isset($row->$pkRaw) ? $row->$pkRaw : '';
+								$thisPks = Worker::JSONtoData($thisPks, true);
 
-							if (isset($row->$fullKeyRaw) && !$this->dataEmpty($row->$fullKeyRaw))
-							{
-								$changes[] = array(
-									'time_date'   => $date->format('Y-m-d H:i:s'),
-									'form_id'     => $formModel->getId(),
-									'list_id'     => $formModel->getListModel()->getId(),
-									'element_id'  => $elementModel->getId(),
-									'row_id'      => $row->__pk_val,
-									'pk_id'       => $row->__pk_val,
-									'table_name'  => $listModel->getTable()->db_table_name,
-									'orig_value'  => $row->$fullKeyRaw,
-									'new_value'   => '',
-									'field_name'  => $elementModel->element->name,
-									'log_type_id' => 3
-								);
+								if (!\Fabrik\Helpers\ArrayHelper::emptyIsh($thisPks))
+								{
+									if (!array_key_exists($joinId, $pks[$row->__pk_val]['joins']))
+									{
+										$pks[$row->__pk_val]['joins'][$joinId] = [
+											'join' => $join,
+											'row_changes' => []
+										];
+									}
+
+									$elementModels = $groupModel->getPublishedElements();
+
+									foreach ($thisPks as $k => $thisPk)
+									{
+										if (!array_key_exists($thisPk, $pks[$row->__pk_val]['joins'][$joinId]['row_changes']))
+										{
+											$pks[$row->__pk_val]['joins'][$joinId]['row_changes'][$thisPk] = [];
+										}
+
+										foreach ($elementModels as $elementModel)
+										{
+											$fullKey = $elementModel->getFullName(true, false);
+
+											if ($mode === 'exclude' && in_array($fullKey, $fields))
+											{
+												continue;
+											}
+											else if ($mode === 'include' && !in_array($fullKey, $fields))
+											{
+												continue;
+											}
+
+											$fullKeyRaw = $fullKey . '_raw';
+											$values     = isset($row->$fullKeyRaw) ? $row->$fullKeyRaw : '';
+											$values     = Worker::JSONtoData($values, true);
+											$value      = \Fabrik\Helpers\ArrayHelper::getValue($values, $k, '');
+
+											if (!$this->dataEmpty($value))
+											{
+												if (!array_key_exists($fullKeyRaw, $pks[$row->__pk_val]['joins'][$joinId]['row_changes'][$thisPk]))
+												{
+													$pks[$row->__pk_val]['joins'][$joinId]['row_changes'][$thisPk][$fullKeyRaw] = array(
+														'time_date'   => $date->format('Y-m-d H:i:s'),
+														'form_id'     => $formModel->getId(),
+														'list_id'     => $formModel->getListModel()->getId(),
+														'element_id'  => $elementModel->getId(),
+														'row_id'      => $row->__pk_val,
+														'join_id'     => $joinId,
+														'pk_id'       => $thisPk,
+														'table_name'  => $join->getJoin()->table_join,
+														'orig_value'  => $value,
+														'new_value'   => '',
+														'field_name'  => $elementModel->element->name,
+														'log_type_id' => 8
+													);
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
+				}
+			}
+		}
 
-					$this->logDeleteChanges($row->__pk_val, $changes);
+		foreach ($pks as $pkVal => $seen)
+		{
+			$logId = $this->logDeleteChanges($pkVal, $seen['row_changes'], null);
+
+			foreach ($seen['joins'] as $joinId => $joinSeen)
+			{
+				foreach ($joinSeen['row_changes'] as $rowId => $changes)
+				{
+					$this->logDeleteChanges($rowId, $changes, $joinId, $logId);
 				}
 			}
 		}
@@ -282,16 +365,19 @@ EOT;
 		return true;
 	}
 
-	private function logDeleteChanges($rowId, $changes)
+	private function logDeleteChanges($rowId, $changes, $joinId = null, $parentId = null)
 	{
 		$params = $this->getParams();
+		$logDelete = $params->get('log_delete', '1');
+		$logId = null;
 
-		if ($params->get('log_delete', '0') === '1')
+		if ($logDelete !== '0')
 		{
+			$logTypeId = isset($joinId) ? 8 : 3;
 			/** @var FabrikFEModelForm $formModel */
-			$logId     = $this->logChange(3, $rowId);
+			$logId     = $this->logChange($logTypeId, $rowId, $joinId, $parentId);
 
-			if (!empty($logId))
+			if ($logDelete === '2' && !empty($logId))
 			{
 				$db    = JFactory::getDbo();
 				$query = $db->getQuery($db);
@@ -320,6 +406,8 @@ EOT;
 				}
 			}
 		}
+
+		return $logId;
 	}
 
 	/**
@@ -437,6 +525,7 @@ EOT;
 							'list_id' => $formModel->getListModel()->getId(),
 							'element_id' => $elementModel->getId(),
 							'row_id' => $rowId,
+							'join_id' => $join->getId(),
 							'pk_id' => $pkVal,
 							'table_name' => $join->getJoin()->table_join,
 							'orig_value' => $origValue,
@@ -539,7 +628,7 @@ EOT;
 	 *
 	 * @return bool|mixed
 	 */
-	protected function logChange($logTypeId, $rowId)
+	protected function logChange($logTypeId, $rowId, $joinId = null, $parentId = null)
 	{
 		/** @var FabrikFEModelForm $formModel */
 		$formModel = $this->getModel();
@@ -556,6 +645,17 @@ EOT;
 			->set('list_id = ' . (int)$formModel->getListModel()->getId())
 			->set('row_id = ' . (int)$rowId)
 			->set('log_type_id = ' . (int)$logTypeId);
+
+		if (isset($joinId))
+		{
+			$query->set('join_id = ' . (int)$joinId);
+		}
+
+		if (isset($parentId))
+		{
+			$query->set('parent_id = ' . (int)$parentId);
+		}
+
 		$db->setQuery($query);
 
 		try {
