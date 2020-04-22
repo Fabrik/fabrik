@@ -498,7 +498,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         getTimeFromField: function () {
             var timeStr = '';
 
-            if (this.options.showtime === true && this.timeElement) {
+            if ((this.options.hidden === true || this.options.showtime === true) && this.timeElement) {
                 var d = new Date();
                 var format = '%H:%M:%S';
                 var time = this.timeElement.get('value').toUpperCase();
@@ -556,7 +556,8 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 return;
             }
 
-            if (this.options.showtime === true && this.timeElement) {
+            this.getTimeField();
+            if ((this.options.hidden === true || this.options.showtime === true) && this.timeElement) {
                 var time = this.timeElement.get('value').toUpperCase();
                 var meridian = time.contains('PM') || time.contains('AM');
                 var ampm = '';

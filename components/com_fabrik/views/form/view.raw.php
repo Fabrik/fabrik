@@ -9,6 +9,8 @@
  */
 
 // No direct access
+use Fabrik\Helpers\ArrayHelper;
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
@@ -108,7 +110,7 @@ class FabrikViewForm extends FabrikViewFormBase
 						reset($elementModels);
 						$tmpElement        = current($elementModels);
 						$smallerElHTMLName = $tmpElement->getFullName(true, false);
-						$repeatGroup       = count($model->data[$smallerElHTMLName]);
+						$repeatGroup       = count((array) ArrayHelper::getValue($model->data, $smallerElHTMLName, array()));
 					}
 				}
 			}
