@@ -29,7 +29,8 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
             input_mask_definitions : '',
             input_mask_autoclear   : false,
             geocomplete            : false,
-            mapKey                 : false
+            mapKey                 : false,
+            language               : ''
         },
 
         initialize: function (element, options) {
@@ -62,7 +63,7 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
                     }
                 }.bind(this);
                 window.addEvent('google.geolocate.loaded', this.loadFn);
-                Fabrik.loadGoogleMap(this.options.mapKey, 'geolocateLoad');
+                Fabrik.loadGoogleMap(this.options.mapKey, 'geolocateLoad', this.options.language);
             }
 
             if (this.options.scanQR) {

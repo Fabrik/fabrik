@@ -38,6 +38,7 @@ FbGoogleMapViz = new Class({
 		'streetView'        : false,
 		'traffic'           : false,
 		'key'               : false,
+		'language'           : '',
 		'showLocation'      : false,
 		'styles'            : [],
 		'heatmap'           : false
@@ -130,9 +131,13 @@ FbGoogleMapViz = new Class({
 
 			}
 
-			Fabrik.loadGoogleMap(this.options.key, function () {
-				this.iniGMap();
-			}.bind(this));
+			Fabrik.loadGoogleMap(
+				this.options.key,
+				function () {
+					this.iniGMap();
+				}.bind(this),
+				this.options.language
+			);
 
 		},
 
