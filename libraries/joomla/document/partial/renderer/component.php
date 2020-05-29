@@ -1,10 +1,11 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Partial Document class
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla
+ * @subpackage  Fabrik.Documents
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 defined('JPATH_PLATFORM') or die;

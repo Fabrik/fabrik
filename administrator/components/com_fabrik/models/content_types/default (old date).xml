@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <contenttype ignoreacl="true">
-    <name>Default</name>
+    <name>Default (old date)</name>
     <fabrikversion>3.9</fabrikversion>
     <group join_id="" is_join="0" id="118" name="{label}" label="{label}" css="" published="1"
            created="2016-01-10 08:53:39" private="0">
