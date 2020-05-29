@@ -90,7 +90,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                         this.update('');
                     }
                     else {
-                        this.calSelect();
+                        //this.calSelect();
                     }
                 }.bind(this);
 
@@ -193,7 +193,10 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             // yes we really can set the none existant 'readonly' property of the
             // subelement container
             // and get it when checking the validations - cool or what?
-            this.element.setProperty('readonly', 'readonly');
+            //this.element.setProperty('readonly', 'readonly');
+            this.getDateField().setProperty('readonly', 'readonly');
+
+            /*
             this.element.getElements('.fabrikinput').each(function (f) {
                 f.addEvent('focus', function (e) {
                     this._disabledShowCalTime(f, e);
@@ -202,6 +205,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     this._disabledShowCalTime(f, e);
                 }.bind(this));
             }.bind(this));
+             */
         },
 
         /**
