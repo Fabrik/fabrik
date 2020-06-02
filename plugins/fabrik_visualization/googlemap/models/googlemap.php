@@ -532,7 +532,16 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 							 */
 							$iconImgPath = FArrayHelper::getValue($markerImagesPath, $c, 'media');
 
-							$iconImg = FArrayHelper::getValue($rowData, $iconImg, '');
+							$iconImgRaw = $iconImg . '_raw';
+							$iconImg = FArrayHelper::getValue(
+								$rowData,
+								$iconImgRaw,
+								FArrayHelper::getValue(
+									$rowData,
+									$iconImg,
+									''
+								)
+							);
 
 							// Normalize the $iconimg so it is either a file path relative to J! root, or a non-local URL
 							switch ($iconImgPath) {

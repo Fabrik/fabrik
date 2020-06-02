@@ -332,7 +332,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		{
 			if (count($val) === 1)
 			{
-				$this->_appendQS($queryvars, $key, $val[0], $appendEmpty);
+				$this->_appendQS($queryvars, $key, array_pop($val), $appendEmpty);
 			}
 			else
 			{
