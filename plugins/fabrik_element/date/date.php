@@ -71,6 +71,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	{
         $profiler = JProfiler::getInstance('Application');
         JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+		Html::calendar();
 
         if ($data == '')
 		{

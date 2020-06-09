@@ -1583,7 +1583,7 @@ class Worker
 
 				// Collect the black or white list tags and attributes.
 				// Each list is cumulative.
-				if ($filterType == 'BL')
+				if ($filterType == 'BL' || $filterType == 'CBL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
