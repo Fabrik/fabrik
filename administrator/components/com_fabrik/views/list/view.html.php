@@ -126,6 +126,10 @@ class FabrikAdminViewList extends JViewLegacy
 		$shim['admin/list/tmpl/adminlist'] = $dep;
 		$shim['adminfields/tables']        = $dep;
 		FabrikHelperHTML::iniRequireJS($shim);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+
 		FabrikHelperHTML::script($srcs, $this->js);
 		parent::display($tpl);
 	}

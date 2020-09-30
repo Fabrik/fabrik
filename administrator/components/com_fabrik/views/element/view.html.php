@@ -108,6 +108,10 @@ class FabrikAdminViewElement extends JViewLegacy
 		$plugManagerDeps->deps = array('admin/namespace');
 		$shim['admin/pluginmanager'] = $plugManagerDeps;
 		FabrikHelperHTML::iniRequireJS($shim);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+
 		FabrikHelperHTML::script($srcs, $this->js);
 		parent::display($tpl);
 	}

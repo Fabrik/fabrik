@@ -93,6 +93,10 @@ class FabrikAdminViewCron extends JViewLegacy
 		$js[] = "\t\tFabrik.controller = new CronAdmin(" . json_encode($opts) . ");";
 		$js[] = "\t})";
 		FabrikHelperHTML::iniRequireJS($shim);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+
 		FabrikHelperHTML::script($srcs, implode("\n", $js));
 
 		parent::display($tpl);

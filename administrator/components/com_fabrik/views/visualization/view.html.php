@@ -87,6 +87,9 @@ class FabrikAdminViewVisualization extends JViewLegacy
 
 		FabrikHelperHTML::iniRequireJS($shim);
 
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+
 		$opts         = new stdClass;
 		$opts->plugin = $this->item->plugin;
 
