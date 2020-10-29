@@ -58,6 +58,61 @@
 				size="6" />
 
 		</fieldset>
+		<fieldset label="PLG_FABRIK_PICKLIST_SCROLLING_OPTIONS" name="plg-picklist-scrolling">
+        
+			<field name="scrollfrom"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_DESC"
+				label="PLG_ELEMENT_PICKLIST_SCROLL_FROM_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+            
+			<field name="from-maxitems" showon="scrollfrom:1"
+				type="text"
+				class="input-mini"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_MAXITEMS_DESC"
+                label="PLG_ELEMENT_PICKLIST_SCROLL_MAXITEMS_LABEL"
+				default="8" 
+				size="3" />
+            
+			<field name="from-height" showon="scrollfrom:1"
+				type="text"
+				class="input-mini"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_HEIGHT_DESC"
+                label="PLG_ELEMENT_PICKLIST_SCROLL_HEIGHT_LABEL"
+				default="175" 
+				size="3" />
+        
+			<field name="scrollto"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_DESC"
+				label="PLG_ELEMENT_PICKLIST_SCROLL_TO_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+            
+			<field name="to-maxitems" showon="scrollto:1"
+				type="text"
+				class="input-mini"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_MAXITEMS_DESC"
+                label="PLG_ELEMENT_PICKLIST_SCROLL_MAXITEMS_LABEL"
+				default="8" 
+				size="3" />
+            
+			<field name="to-height" showon="scrollto:1"
+				type="text"
+				class="input-mini"
+				description="PLG_ELEMENT_PICKLIST_SCROLL_HEIGHT_DESC"
+                label="PLG_ELEMENT_PICKLIST_SCROLL_HEIGHT_LABEL"
+				default="175" 
+				size="3" />
+
+		</fieldset>
 		<fieldset label="Advanced" name="plg-picklist-advanced">
 
 			<field type="helplink"

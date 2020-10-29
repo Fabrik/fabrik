@@ -9,6 +9,13 @@ $d = $displayData;
 		<div class="span6 <?php echo $d->errorCSS; ?>">
 
 			<?php echo FText::_('PLG_FABRIK_PICKLIST_FROM'); ?>:
+            <?php if ($d->scrollfrom->enabled == 1 && count($d->from >= $d->scrollfrom->maxitems)) { ?>
+                <style>div.scroll {height: <?php echo $d->scrollfrom->height; ?>px; overflow: auto; border: 1px solid #666; background-color: #fff; }
+                ul#<?php echo $d->id; ?>_fromlist {margin-left: 0px; margin-bottom: 0px;}</style>
+                <div class="scroll" >
+            <?php
+            }
+            ?>
 			<ul id="<?php echo $d->id; ?>_fromlist" class="picklist well well-small fromList">
 
 				<?php
@@ -25,9 +32,19 @@ $d = $displayData;
 					<?php echo FText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE'); ?>
 				</li>
 			</ul>
+            <?php if ($d->scrollfrom->enabled == 1 && count($d->from >= $d->scrollfrom->maxitems)) { ?>
+            </div>
+            <?php } ?>
 		</div>
 		<div class="span6">
 			<?php echo FText::_('PLG_FABRIK_PICKLIST_TO'); ?>:
+            <?php if ($d->scrollto->enabled == 1 && count($d->to) >= $d->scrollto->maxitems) { ?>
+                <style>div.scroll {height: <?php echo $d->scrollto->height; ?>px; overflow: auto; border: 1px solid #666; background-color: #fff; }
+                ul#<?php echo $d->id; ?>_tolist {margin-left: 0px; margin-bottom: 0px;}</style>
+                <div class="scroll" >
+            <?php
+            }
+            ?>
 			<ul id="<?php echo $d->id; ?>_tolist" class="picklist well well-small toList">
 
 				<?php
@@ -44,6 +61,9 @@ $d = $displayData;
 					<?php echo FText::_('PLG_ELEMENT_PICKLIST_DRAG_OPTIONS_HERE'); ?>
 				</li>
 			</ul>
+            <?php if ($d->scrollto->enabled == 1 && count($d->to) >= $d->scrollto->maxitems) { ?>
+            </div>
+            <?php } ?>
 		</div>
 	</div>
 	<input type="hidden" name="<?php echo $d->name; ?>" value="<?php echo htmlspecialchars($d->value, ENT_QUOTES); ?>" id="<?php echo $d->id; ?>" />
