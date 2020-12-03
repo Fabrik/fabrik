@@ -17,7 +17,7 @@ $d = $displayData;
 			$display = $opt->value == $d->default ? '' : 'style="display: none" ';
 			//$c = $d->showPleaseSelect ? $i + 1 : $i;
 		?>
-			<div <?php echo $display ;?> class="notice description-<?php echo  $i; ?>">
+			<div <?php echo $display ;?> class="notice description-<?php echo $opt->value; ?>">
 				<?php echo $opt->description; ?>
 			</div>
 		<?php
