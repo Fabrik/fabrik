@@ -133,6 +133,12 @@ class ImageRenderModel
 		$layout                     = $model->getLayout('image');
 		$displayData                = new stdClass;
 		$displayData->lightboxAttrs = FabrikHelperHTML::getLightboxAttributes($title, $n);
+
+		//$$$trob: Add some more params accessible in the layout file
+		$displayData->listRow       = isset($thisRow->__pk_val) ? $thisRow->__pk_val : '';
+		$displayData->elementname   = $model->getElement()->name;
+		$displayData->restrict_lightbox   = $params->get('restrict_lightbox', 1);
+
 		$displayData->fullSize      = $model->storage->preRenderPath($fullSize);
 		$displayData->file          = $file;
 		$displayData->makeLink      = $params->get('make_link', true)
