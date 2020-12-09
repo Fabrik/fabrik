@@ -79,6 +79,19 @@
 				<option value="1">JYES</option>
 		</field>
 
+		<fields name="params">
+			<fieldset name="publishing2">
+				<field name="use_as_details_label"
+					type="radio"
+					class="btn-group"
+					default="0"
+					description="COM_FABRIK_FIELD_USE_AS_DETAILS_LABEL_DESC"
+					label="COM_FABRIK_FIELD_USE_AS_DETAILS_LABEL_LABEL" >
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
 	</fieldset>
 
 	<fieldset name="access">
