@@ -20,6 +20,7 @@
 		<folder>language</folder>
 		<folder>libs</folder>
 		<folder>models</folder>
+		<folder>vendor</folder>
 		<folder>views</folder>
 	</files>
 </extension>

@@ -184,15 +184,18 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			if ($params->get('juser_sync_on_edit', 0) == 1)
 			{
 				$this->useridfield = $this->getFieldName('juser_field_userid');
-				$userId            = (int) FArrayHelper::getValue($formModel->data, $this->useridfield . '_raw');
+				// don't force it as an int, otherwise, is_array on line 193 won't work
+				$userId            = FArrayHelper::getValue($formModel->data, $this->useridfield . '_raw');
 				/**
 				 * $$$ hugh - after a validation failure, userid _raw is an array.
 				 * Trying to work out why, and fix that, but need a bandaid for now.
 				 */
 				if (is_array($userId))
 				{
-					$userId = (int) FArrayHelper::getValue($userId, 0, 0);
+					$userId = FArrayHelper::getValue($userId, 0, 0);
 				}
+				
+				$userId = (int) $userId;
 
 				if ($userId > 0)
 				{

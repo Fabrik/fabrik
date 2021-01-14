@@ -419,13 +419,15 @@ class FabrikFEModelCSVExport extends FabModel
    			require(JPATH_PLUGINS.'/fabrik_list/listcsv/scripts/list_'.$listid.'_csv_export.php');
 		}
 		$document = JFactory::getDocument();
-		$document->setMimeEncoding('application/zip');
+		//$document->setMimeEncoding('application/zip');
+		$document->setMimeEncoding('text/csv');
 		$str = $this->getCSVContent();
 		$this->app->clearHeaders();
 		$encoding = $this->getEncoding();
 
 		// Set the response to indicate a file download
-		$this->app->setHeader('Content-Type', 'application/zip');
+		//$this->app->setHeader('Content-Type', 'application/zip');
+		$this->app->setHeader('Content-Type', 'text/csv');
 		$this->app->setHeader('Content-Disposition', "attachment;filename=\"" . $filename . "\"");
 
 		// Xls formatting for accents

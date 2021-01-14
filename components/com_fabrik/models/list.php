@@ -7770,6 +7770,7 @@ class FabrikFEModelList extends JModelForm
 								}
 
 								// Test for backslashed quotes
+								/* Always false since php5.4, deprecated in php7.4
 								if (get_magic_quotes_gpc())
 								{
 									if (!$elementModel->isUpload())
@@ -7777,6 +7778,7 @@ class FabrikFEModelList extends JModelForm
 										$val = stripslashes($val);
 									}
 								}
+								*/
 
 								if ($elementModel->dataIsNull($data, $val))
 								{
