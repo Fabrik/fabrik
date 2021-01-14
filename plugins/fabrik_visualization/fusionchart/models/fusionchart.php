@@ -1710,6 +1710,9 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 		}
 		catch (Exception $e)
 		{
+			//$app = JFactory::getApplication();
+			$message = FabrikHelperHTML::isDebug() ? $e->getMessage() : '';
+			$this->app->enqueueMessage('Fusionchart plugin query error: '.$message,'error');
 			// meh
 		}
 

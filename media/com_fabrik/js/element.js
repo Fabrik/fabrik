@@ -673,6 +673,7 @@ define(['jquery'], function (jQuery) {
                 case 'fabrikError':
                     Fabrik.loader.stop(this.element);
                     // repeat groups in table format don't have anything to attach a tip msg to!
+					if (this.options.hasAjaxValidation) {
                     var t = this.tips();
                     if (Fabrik.bootstrapped && t.length !== 0) {
                         this.addTipMsg(msg);
@@ -688,14 +689,14 @@ define(['jquery'], function (jQuery) {
                         Fabrik.tips.attach(a);
                     }
                     errorElements[0].adopt(a);
-
+					}
                     container.removeClass('success').removeClass('info').addClass('error');
                     // bs3
                     container.addClass('has-error').removeClass('has-success');
 
                     // If tmpl has additional error message divs (e.g labels above) then set html msg there
-                    if (errorElements.length > 1) {
-                        for (i = 1; i < errorElements.length; i++) {
+                    if (!this.options.hasAjaxValidation || errorElements.length > 1) {
+                        for (i = 0; i < errorElements.length; i++) {
                             errorElements[i].set('html', msg);
                         }
                     }

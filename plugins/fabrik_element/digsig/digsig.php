@@ -95,7 +95,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 					. 'format=raw&amp;element_id=' . $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId
 					. '&amp;repeatcount=0&amp;pdf_secret=' . $pdfSecret;
 
-				$layout = new JLayoutFile('fabrik-element-digsig-details-pdf', $basePath, array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site'));
+				$layout = FabrikHelperHTML::getLayout('fabrik-element-digsig-details-pdf');
 			}
 			else
 			{
@@ -107,7 +107,7 @@ class PlgFabrik_ElementDigsig extends PlgFabrik_Element
 		{
 			$layout = new JLayoutFile('fabrik-element-digsig-form', $basePath, array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site'));
 		}
-
+dump($layout->getData());
 		return $layout->render($layoutData);
 	}
 
