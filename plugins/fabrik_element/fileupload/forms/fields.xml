@@ -142,6 +142,11 @@
 
 		<fieldset name="plg-fileupload-display"
 		          label="PLG_ELEMENT_FILEUPLOAD_DISPLAY">
+			
+			<field name="custom_label"
+			       type="text"
+			       description="PLG_ELEMENT_FILEUPLOAD_CUSTOM_LABEL_DESC"
+			       label="PLG_ELEMENT_FILEUPLOAD_CUSTOM_LABEL_LABEL"/>
 
 			<field type="helplink"
 			       url="PLG_ELEMENT_FILEUPLOAD_HELP_SERVER"/>
