@@ -35,7 +35,7 @@ if ($d->height <= 1){
 } else {
 	$htmlSnip = <<<HTMLSNIP
 	<textarea class="fabrikinput $bootWidth" disabled="disabled" name="$d->name"
-	id="$d->id" cols="$d->cols" rows="$d->rows"$d->value></textarea>
+	id="$d->id" cols="$d->cols" rows="$d->rows">$d->value</textarea>
 	HTMLSNIP;	
 }
 echo $htmlSnip;
