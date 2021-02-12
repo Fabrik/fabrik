@@ -4816,7 +4816,7 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					$repeatGroup = $groupModel->repeatCount();
 
-					if ($repeatGroup === 0)
+					if ($groupModel->canEdit() && $repeatGroup === 0)
 					{
 						$newGroup = true;
 						$repeatGroup = 1;

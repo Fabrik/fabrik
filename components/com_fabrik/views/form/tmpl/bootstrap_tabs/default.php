@@ -82,10 +82,11 @@ foreach ($this->groups as $group) :
 	if (!$model->isMultiPage() || $i === 0 || $group->splitPage) :
 		$is_err = false;
 		$tab = new stdClass;
+		$tab->id = 'group' . $group->id . '_tab';
 		$tab->class = $i === 0 ? 'active ' . $err_class : $err_class;
+		$tab->class .= ' ' . $tab->id . '_tab';
 		$tab->css = $group->css;
 		$tab->href = 'group-tab' . $tabId;
-		$tab->id = 'group' . $group->id . '_tab';
 		$tab->label = !empty($group->title) ? $group->title : $group->name;;
 		$tabs[] = $tab;
 		$i ++;
@@ -102,12 +103,14 @@ echo FabrikHelperHTML::getLayout('fabrik-tabs')->render((object) array('tabs' =>
 	foreach ($this->groups as $group) :
 		$this->group = $group;
 		$tabId = $this->form->id . '_' . (int)$this->rowid . '_' . $i;
+		$class = 'group' . $group->id . '_tab_content';
+
 		if ($i == 0 || !$model->isMultiPage() || $group->splitPage) :
 			if ($i != 0) :
 				echo '</div>';
 			endif;
 			?>
-			<div role="tabpanel" class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $tabId;?>">
+			<div role="tabpanel" class="<?php echo $class; ?> tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $tabId;?>">
 			<?php
 			$i++;
 		endif; ?>

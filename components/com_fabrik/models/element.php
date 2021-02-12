@@ -8150,6 +8150,11 @@ class PlgFabrik_Element extends FabrikPlugin
 				{
 					$origData = FArrayHelper::getValue($d, $elKey, array());
 
+					if (!array_key_exists($elKey . '_raw', $d))
+					{
+						$d[$elKey . '_raw'] = $origData;
+					}
+
 					foreach (array_keys($v) as $x)
 					{
 						$origVal = FArrayHelper::getValue($origData, $x);
@@ -8158,7 +8163,14 @@ class PlgFabrik_Element extends FabrikPlugin
 				}
 				else
 				{
-					$d[$elKey] = $elementModel->getLabelForValue($v, FArrayHelper::getValue($d, $elKey), true);
+					$origData = FArrayHelper::getValue($d, $elKey);
+
+					if (!array_key_exists($elKey . '_raw', $d))
+					{
+						$d[$elKey . '_raw'] = $origData;
+					}
+
+					$d[$elKey] = $elementModel->getLabelForValue($v, $origData, true);
 				}
 			}
 		}

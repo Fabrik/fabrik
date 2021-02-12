@@ -993,6 +993,7 @@ class FabrikFEModelGroup extends FabModel
 			$group->dlabels          = $params->get('labels_above_details', -1);
 			$group->classArray       = array();
 			$group->class            = '';
+			$group->canOrder         = $params->get('repeat_sortable', '') === '1';
 
 			if ($this->canRepeat())
 			{

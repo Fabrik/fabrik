@@ -135,6 +135,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                         this.hideLastGroup(k, subGroup);
                     }
                 }.bind(this));
+
+                this.setupSortable();
             }
 
             // get an int from which to start incrementing for each repeated group id
@@ -1861,6 +1863,194 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             return false;
         },
 
+        renumberRepeatGroup: function(el, groupId, newRepeatNum, doDelete) {
+            var input = jQuery(el).find('.fabrikinput');
+            if (input) {
+                var nameMap = {};
+                var newMap = {};
+                var elId = input[0].id;
+                var element = this.formElements.get(elId);
+                if (element) {
+                    var repeatNum = elId.split('_').getLast();
+                    console.log('renumbering: ' + repeatNum + ' => ' + newRepeatNum);
+                    element.update(newRepeatNum + 1);
+                    this.formElements.each(function (e, k) {
+                        if (e.groupid === groupId && k.split('_').getLast() === repeatNum) {
+                            nameMap[k] = e.setName(newRepeatNum);
+                        }
+                    }.bind(this));
+
+                    $H(nameMap).each(function (newKey, oldKey) {
+                        if (oldKey !== newKey) {
+                            newMap[newKey] = this.formElements[oldKey];
+
+                            if (doDelete === true) {
+                                delete this.formElements[oldKey];
+                            }
+                        }
+                    }.bind(this));
+
+                    $H(newMap).each(function (data, newKey) {
+                        this.formElements[newKey] = data;
+                    }.bind(this));
+                }
+            }
+        },
+
+        renumberSortable: function (groupId) {
+            if (typeOf(this.options.group_repeat_sortable[groupId]) === 'null' || !this.options.group_repeat_sortable[groupId]) {
+                return;
+            }
+
+            var orderElName = this.options.group_repeat_order_element[groupId];
+            var group = this.form.getElement('#group' + groupId);
+            var tbody = jQuery(group).find('tbody');
+            var tdEls = jQuery(tbody).find('.fabrikRepeatGroup___' + orderElName);
+            var i = 1;
+
+            tdEls.each(function (k, el) {
+                var input = jQuery(el).find('.fabrikinput');
+
+                if (input) {
+                    var elId = input[0].id;
+                    var element = this.formElements.get(elId);
+
+                    if (element) {
+                        element.update(i);
+                    }
+                }
+
+                i++;
+            }.bind(this));
+        },
+
+        reorderSortable: function (groupId) {
+            if (typeOf(this.options.group_repeat_sortable[groupId]) === 'null' || !this.options.group_repeat_sortable[groupId]) {
+                return;
+            }
+
+            var orderElName = this.options.group_repeat_order_element[groupId];
+
+            var nameMap = {};
+            var newMap = {};
+            var group = this.form.getElement('#group' + groupId);
+            var tbody = jQuery(group).find('tbody');
+            var tdEls = jQuery(tbody).find('.fabrikRepeatGroup___' + orderElName);
+
+            var to = 0;
+            var save = false;
+            var dir = false;
+            var started = false;
+            var ended = false;
+            var start = false;
+            var end = false;
+            var lastFrom = -1;
+
+            tdEls.each(function (k, el) {
+                if (!ended) {
+                    var input = jQuery(el).find('.fabrikinput');
+                    if (input) {
+                        var elId = input[0].id;
+                        var element = this.formElements.get(elId);
+                        if (element) {
+                            var from = elId.split('_').getLast().toInt();
+
+                            if (!started) {
+                                var gap = (from - lastFrom);
+
+                                if (gap === 2) {
+                                    started = true;
+                                    dir = 'down';
+                                    start = to;
+                                } else if (gap > 2) {
+                                    started = true;
+                                    dir = 'up';
+                                    start = to;
+                                    end = from;
+                                    save = from;
+                                    ended = true;
+                                }
+                            } else {
+                                if (dir === 'down') {
+                                    if (from === start) {
+                                        end = to;
+                                        save = to;
+                                        ended = true;
+                                    }
+                                }
+                            }
+
+                            lastFrom = from;
+                            to++;
+                        }
+                    }
+                }
+            }.bind(this))
+
+            if (dir === 'up') {
+                var el;
+
+                el = tdEls[end];
+                this.renumberRepeatGroup(el, groupId, 9999, false);
+
+                for (var i = end - 1; i >= start; i--) {
+                    el = tdEls[i];
+                    this.renumberRepeatGroup(el, groupId, i, false);
+                }
+
+                el = tdEls[end];
+                this.renumberRepeatGroup(el, groupId, end, true);
+            }
+            else {
+                var el;
+
+                el = tdEls[end];
+                this.renumberRepeatGroup(el, groupId, 9999, false);
+
+                for (var i = start; i < end; i++) {
+                    el = tdEls[i];
+                    this.renumberRepeatGroup(el, groupId, i, false);
+                }
+
+                el = tdEls[end];
+                this.renumberRepeatGroup(el, groupId, end, true);
+            }
+
+            $H(nameMap).each(function (newKey, oldKey) {
+                if (oldKey !== newKey) {
+                    newMap[newKey] = this.formElements[oldKey];
+                }
+            }.bind(this));
+
+            $H(newMap).each(function (newKey, data) {
+                this.formElements[newKey] = data;
+            }.bind(this));
+        },
+
+        setupSortable: function () {
+            if (!this.form) {
+                return;
+            }
+
+            Object.each(this.options.group_repeats, function (canRepeat, groupId) {
+                if (canRepeat.toInt() !== 1) {
+                    return;
+                }
+
+                if (typeOf(this.options.group_repeat_sortable[groupId]) === 'null' || !this.options.group_repeat_sortable[groupId]) {
+                    return;
+                }
+
+                jQuery('#group' + groupId + ' table tbody').sortable({
+                    stop: function(event, ui) {
+                        var group = ui.item[0].closest('.fabrikGroup');
+                        var groupId = group.id.replace('group', '');
+                        this.reorderSortable(groupId);
+                    }.bind(this)
+                });
+            }.bind(this));
+        },
+
         /**
          * When editing a new form and when min groups set we need to duplicate each group
          * by the min repeat value.
@@ -2071,6 +2261,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                 document.id('fabrik_repeat_group_' + i + '_counter').get('value').toInt() - 1;
             // $$$ hugh - no, mustn't decrement this!  See comment in setupAll
             this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) - 1);
+            this.renumberSortable(i);
             this.setRepeatGroupIntro(group, i);
         },
 
@@ -2373,6 +2564,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             clone.fade(1);
             Fabrik.fireEvent('fabrik.form.group.duplicate.end', [this, e, i, c]);
             this.setRepeatGroupIntro(group, i);
+            this.renumberSortable(i);
             this.repeatGroupMarkers.set(i, this.repeatGroupMarkers.get(i) + 1);
             this.addedGroups.push('group' + i);
         },

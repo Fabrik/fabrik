@@ -198,6 +198,15 @@ div.popover {
 	cursor: auto;
 }
 
+.draghandle {
+	background: #E4E4E4 url(../images/vert-drag.png) no-repeat center center !important;
+	margin:3px 2.5%;
+	cursor: move;
+	width: 5%;
+	border-radius: 7px !important;
+	border: 2px solid white;
+}
+
 .handle {
 	border-radius: 7px 7px 0px 0px;
 	-moz-border-radius: 7px 7px 0px 0px;

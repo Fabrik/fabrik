@@ -19,6 +19,11 @@ $group = $this->group;
 		<tr>
 	<?php
 	// Add in the table heading
+    if ($group->canOrder) :
+    ?>
+        <th data-role="fabrik-group-sort-handle"></th>
+    <?php
+    endif;
 	$firstGroup = $group->subgroups[0];
 	foreach ($firstGroup as $el) :
 		$style = $el->hidden ? 'style="display:none"' : '';

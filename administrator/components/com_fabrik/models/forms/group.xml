@@ -152,6 +152,24 @@
 			       description="COM_FABRIK_REPEAT_GROUP_REPEAT_NUM_ELEMENT_DESC"
 			/>
 
+			<field default="0"
+				   class="radio btn-group"
+				   description="COM_FABRIK_REPEAT_GROUP_SORTABLE_DESC"
+				   label="COM_FABRIK_REPEAT_GROUP_SORTABLE_LABEL"
+				   name="repeat_sortable"
+				   type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="repeat_order_element"
+				   type="listfields"
+				   valueformat="tableelement"
+				   usestep="true"
+				   label="COM_FABRIK_REPEAT_GROUP_REPEAT_ORDER_ELEMENT_LABEL"
+				   description="COM_FABRIK_REPEAT_GROUP_REPEAT_ORDER_ELEMENT_DESC"
+			/>
+
 			<field name="repeat_error_message"
 			       type="text"
 			       label="COM_FABRIK_REPEAT_GROUP_MINMAX_ERR_LABEL"

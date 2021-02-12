@@ -874,6 +874,8 @@ class FabrikViewFormBase extends FabrikView
 				$opts->group_repeats[$groupId]                          = $groupModel->canRepeat();
 				$opts->group_copy_element_values[$groupId]              = $groupModel->canCopyElementValues();
 				$opts->group_repeat_intro[$groupId]                     = $groupModel->getParams()->get('repeat_intro', '');
+				$opts->group_repeat_sortable[$groupId]                  = $groupModel->getParams()->get('repeat_sortable', '') === '1';
+				$opts->group_repeat_order_element[$groupId]             = $groupModel->getParams()->get('repeat_order_element', '');
 			}
 		}
 

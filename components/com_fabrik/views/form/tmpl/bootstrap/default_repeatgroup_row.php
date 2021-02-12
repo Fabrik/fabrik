@@ -15,7 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 $group = $this->group;
 ?>
 <tr class="fabrikSubGroupElements fabrikSubGroup">
-<?php foreach ($this->elements as $element) :
+<?php
+if ($group->canOrder) :
+?>
+    <td><?php echo FabrikHelperHTML::icon('icon-bars'); ?></td>
+<?php
+endif;
+foreach ($this->elements as $element) :
 	$style = $element->hidden ? 'style="display:none"' : '';
 	?>
 	<td class="<?php echo $element->containerClass; ?>" <?php echo $style?>>
