@@ -124,11 +124,15 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 							}
 
 							$thisSubject = $w->parseMessageForPlaceHolder($subject, $row);
+							$thisReplyTo = $w->parseMessageForPlaceHolder($replyTo, $row);
+							$thisReplyToName = $w->parseMessageForPlaceHolder($replyToName, $row);
 
 							if ($testMode)
 							{
 								$this->app->enqueueMessage($x . ': Would send subject: ' . $thisSubject);
 								$this->app->enqueueMessage($x . ': Would send to: ' . $thisTo);
+								$this->app->enqueueMessage($x . ': Would send Reply to: ' . $thisReplyTo);
+								$this->app->enqueueMessage($x . ': Would send Reply to name: ' . $thisReplyToName);
 							}
 							else
 							{
@@ -142,20 +146,20 @@ class PlgFabrik_Cronemail extends PlgFabrik_Cron
 									null,
 									null,
 									null,
-									$replyTo,
-									$replyToName
+									$thisReplyTo,
+									$thisReplyToName
 								);
 
 								if (!$res)
 								{
 									//$this->log .= "\n failed sending to $thisTo";
-									FabrikWorker::log('plg.cron.email.information', 'Failed sending to: ' . $thisTo);
+									FabrikWorker::log('plg.cron.email.information', $row['__pk_val'].' Failed sending to: ' . $thisTo);
 									$failedIds[] = $row['__pk_val'];
 								}
 								else
 								{
 									//$this->log .= "\n sent to $thisTo";
-									FabrikWorker::log('plg.cron.email.information', 'Sent to: ' . $thisTo);
+									FabrikWorker::log('plg.cron.email.information', $row['__pk_val'].' Sent to: ' . $thisTo.' Replyto: '.$thisReplyTo);
 									$sentIds[] = $row['__pk_val'];
 								}
 							}
