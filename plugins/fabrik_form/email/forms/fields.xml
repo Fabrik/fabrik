@@ -30,6 +30,32 @@
 				multiple="true"
 				repeat="true"
 				size="6"/>
+			
+			<field name="email_cc"
+				type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+				description="PLG_FABRIK_FORM_EMAIL_CC_DESC"
+				label="PLG_FABRIK_FORM_EMAIL_CC_LABEL" />
+                        
+                        <field name="email_bcc"
+				type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+				description="PLG_FABRIK_FORM_EMAIL_BCC_DESC"
+				label="PLG_FABRIK_FORM_EMAIL_BCC_LABEL" />
 
 		</fieldset>
 		<fieldset label="COM_FABRIK_OPTIONS" name="plg-form-email-options">

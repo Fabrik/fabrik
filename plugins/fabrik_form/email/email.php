@@ -173,8 +173,20 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 
 		$this->addAttachments();
 
-		$cc  = null;
-		$bcc = null;
+		if (!empty($params->get('email_cc'))) {
+                    $cc = $params->get('email_cc');
+                }
+                else 
+                {
+                    $cc = null;
+                }
+                if (!empty($params->get('email_bcc'))) {
+                    $bcc = $params->get('email_bcc');
+                }
+                else 
+                {
+                    $bcc = null;
+                }
 
 		// $$$ hugh - test stripslashes(), should be safe enough.
 		$message = stripslashes($message);
