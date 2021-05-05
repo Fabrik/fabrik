@@ -81,7 +81,7 @@ class FabrikViewList extends FabrikViewListBase
 					$data = $elementModel->allTagsJSON($elId);
 					foreach($data as $d)
 					{
-						if (stristr($d->text, $input->get('like')))
+						if (stristr($d->text, $input->get('like','','STRING')))
 						{
 							$tagdata[] = $d; 
 						}
