@@ -2596,7 +2596,13 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 				break;
 		}
 
-		$str[] = $allRenders . '<input class="fabrikinput" name="' . $name . '" type="file" ' . $accept . ' id="' . $id . '" ' . $capture . ' />' . "\n";
+		if ($params->get('custom_label') != '') {
+            		$str[] = $allRenders . '<div class="fu-button-wrap btn btn-default"><label for="file-upload" class="custom-file-upload">'. $params->get('custom_label') .'
+            		<input class="fabrikinput" style="position: absolute;left: 0;top: 0;opacity: 0;" name="' . $name . '" type="file" ' . $accept . ' id="' . $id . '" ' . $capture . ' /></label></div>' . "\n";
+		}
+        	else {
+		    $str[] = $allRenders . '<input class="fabrikinput" name="' . $name . '" type="file" ' . $accept . ' id="' . $id . '" ' . $capture . ' />' . "\n";
+       		 }
 
 		if ($params->get('fileupload_storage_type', 'filesystemstorage') == 'filesystemstorage' && $params->get('upload_allow_folderselect') == '1')
 		{
