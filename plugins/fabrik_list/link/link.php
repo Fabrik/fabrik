@@ -132,10 +132,24 @@ class PlgFabrik_ListLink extends plgFabrik_List
 		parent::onLoadJavascriptInstance($args);
 		$opts = $this->getElementJSOptions();
 		$params = $this->getParams();
-		$opts->link = JRoute::_($params->get('table_link_link', ''));
 		$opts->newTab = $params->get('table_link_new_tab', '0') === '1';
 		$opts->fabrikLink = $params->get('table_link_isfabrik', '0') === '1';
 		$opts->windowTitle = FText::_($params->get('table_link_fabrik_window_title', ''));
+		$opts->link_eval = $params->get('table_link_eval', '');
+
+    if (!empty($opts->link_eval)){
+      $w = new FabrikWorker;
+	    $data = ArrayHelper::fromObject($data);
+	    $opts->link_eval = $w->parseMessageForPlaceHolder($opts->link_eval, $data);
+	    FabrikWorker::clearEval();
+	    $opts->link_eval = @eval($opts->link_eval);
+			FabrikWorker::logEval($opts->link_eval, 'Caught exception on eval in can List Link Plugin row : %s');
+	    $opts->link = ''.JRoute::_($opts->link_eval, '').'';
+		}
+		else {
+      $opts->link = JRoute::_($params->get('table_link_link', ''));
+		}
+		unset($opts->link_eval);
 		$opts = json_encode($opts);
 		$this->jsInstance = "new FbListLink($opts)";
 
