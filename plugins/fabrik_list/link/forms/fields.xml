@@ -61,6 +61,12 @@
 			       repeat="true"
 			       size="30" />
 
-		</fieldset>
+						 <field name="table_link_eval"
+						 				type="fabrikeditor"
+						 				mode="php"
+						 				description="PLG_FABRIK_LIST_LINK_EVAL_DESC"
+						 				label="PLG_FABRIK_LIST_LINK_EVAL_LABEL"
+						 				repeat="true" />
+			</fieldset>
 	</fields>
 </form>
