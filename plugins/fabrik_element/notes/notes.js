@@ -27,7 +27,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         },
 
         setUp: function () {
-            if (this.options.primaryKey > 0) {
+            if (this.options.primaryKey > 0 && this.element.getElement('.button')) {
                 this.element.getElement('.button').addEvent('click', function (e) {
                     this.submit(e);
                 }.bind(this));
