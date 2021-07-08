@@ -26,7 +26,7 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$saveOrder	= $listOrder == 'e.ordering';
+$saveOrder	= $listOrder == 'e.ordering' || $listOrder == 'g.name' ;
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_fabrik&task=elements.saveOrderAjax&tmpl=component';
@@ -143,7 +143,7 @@ $states	= array(
 				. '<br/><br/><strong>' . $item->numJs . ' ' . FText::_('COM_FABRIK_JAVASCRIPT') . '</strong>';
 			?>
 
-			<tr class="row<?php echo $i % 2; ?>">
+			<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->group_id; ?>">
 				<td>
 					<?php echo $item->id; ?>
 				</td>

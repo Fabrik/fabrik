@@ -135,10 +135,20 @@ class FabrikAdminModelElements extends FabModelList
 
 		if ($orderCol == 'ordering' || $orderCol == 'category_title')
 		{
-			$orderCol = 'ordering';
+			$orderCol == 'e.ordering';
 		}
 
-		if (trim($orderCol) !== '')
+		if ($orderCol == 'e.ordering')
+		{
+			$query->order($db->quoteName('g.name') . ' ' .$orderDirn);
+			$query->order($db->quoteName('e.ordering') . ' ' .$orderDirn);
+		}
+		elseif ($orderCol == 'g.name')
+		{
+			$query->order($db->quoteName('g.name') . ' ' . $orderDirn);
+			$query->order($db->quoteName('e.ordering') . ' ASC');
+		}
+		elseif (trim($orderCol) !== '')
 		{
 			$query->order($db->escape($orderCol . ' ' . $orderDirn));
 		}
@@ -168,11 +178,9 @@ class FabrikAdminModelElements extends FabModelList
 			WHERE (jj.list_id != 0 AND jj.element_id = 0)
 			AND ee.id = e.id AND ee.group_id <> 0 AND ee.id IN (" . implode(',', $elementIds) . ") LIMIT 1)  AS full_element_name";
 
-			$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, l.db_table_name');
+			$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, g.id AS group_id, l.db_table_name');
 			$query->select("(SELECT GROUP_CONCAT(ec.id SEPARATOR ',') FROM #__{package}_elements AS ec WHERE ec.parent_id = e.id) AS child_ids");
 		}
-
-		//$sql = (string)$query;
 
 		return $query;
 	}
@@ -309,11 +317,20 @@ class FabrikAdminModelElements extends FabModelList
 		$this->setState('filter.search', $search);
 
 		// Load the form state
+		$currentForm = $app->getUserState($this->context . '.filter.form', '');
 		$form = $app->getUserStateFromRequest($this->context . '.filter.form', 'filter_form', '');
 		$this->setState('filter.form', $form);
 
 		// Load the group state
-		$group = $app->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
+		if ($form === $currentForm)
+		{
+			$group = $app->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
+		}
+		else
+		{
+			$group = '';
+			$app->setUserState($this->context . '.filter.group', '');
+		}
 		$this->setState('filter.group', $group);
 
 		// Load the show in list state
