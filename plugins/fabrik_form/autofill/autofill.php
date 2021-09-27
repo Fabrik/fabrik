@@ -213,14 +213,14 @@ class PlgFabrik_FormAutofill extends PlgFabrik_Form
 		$toRaw    = $to . '_raw';
 		$fromRaw  = $from . '_raw';
 
-		if (array_key_exists($from, $data))
+		if (property_exists($from, $data))
 		{
 			$matched = true;
 		}
 
 		$newData->$to = isset($data->$from) ? $data->$from : '';
 
-		if (array_key_exists($fromRaw, $data))
+		if (property_exists($fromRaw, $data))
 		{
 			$matched = true;
 		}
