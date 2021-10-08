@@ -471,7 +471,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$opts->useWIP           = (bool) $params->get('upload_use_wip', '0') == '1';
 		$opts->page_url         = COM_FABRIK_LIVESITE;
 		$opts->ajaxToken        = JSession::getFormToken();
-		$opts->isAdmin          = (bool) $this->app->isAdmin();
+		$opts->isClient('administrator')          = (bool) $this->app->isClient('administrator')();
 		$opts->iconDelete       = Html::icon("icon-delete",  '', '', true);
 		$opts->spanNames        = array();
 		$opts->isCarousel       = $params->get('fu_show_image') === '3' && !$this->isEditable();

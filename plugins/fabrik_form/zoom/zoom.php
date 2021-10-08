@@ -1496,7 +1496,7 @@ class PlgFabrik_FormZoom extends PlgFabrik_Form
      */
     public function onLoadListData($opts)
     {
-        if ($this->app->isAdmin()  || !$this->showJoinButtons())
+        if ($this->app->isClient('administrator')()  || !$this->showJoinButtons())
         {
             return;
         }

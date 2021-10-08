@@ -72,7 +72,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$linkStartPrev = $this->ids->index == 0 ? ' disabled' : '';
 		$linkNextEnd = $this->ids->index == $this->ids->lastKey ? ' disabled' : '';
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			$url = 'index.php?option=com_fabrik&task=' . $mode . '.view&formid=' . $formId . '&rowid=';
 		}

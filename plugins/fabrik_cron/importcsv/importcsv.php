@@ -173,7 +173,7 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 			$clsImportCSV->findExistingElements();
 			$msg = $clsImportCSV->makeTableFromCSV();
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator')())
 			{
 				$this->app->enqueueMessage($msg);
 			}
@@ -198,7 +198,7 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 				}
 				else
 				{
-					if ($this->app->isAdmin())
+					if ($this->app->isClient('administrator')())
 					{
 						$this->app->enqueueMessage("Move file requested, but can't find 'done' folder: $done_folder");
 					}

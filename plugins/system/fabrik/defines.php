@@ -79,7 +79,7 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 require_once COM_FABRIK_FRONTEND . '/models/elementlist.php';
 //require_once COM_FABRIK_FRONTEND . '/views/FabrikView.php';
 
-if ($app->isAdmin())
+if ($app->isClient('administrator'))
 {
 	// Load in front end model path
 	if ($input->get('option') !== 'com_acymailing')

@@ -193,7 +193,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 		JTable::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/tables');
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			JModelLegacy::addIncludePath(COM_FABRIK_BASE . 'administrator/components/com_content/models');
 			$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
@@ -852,7 +852,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 */
 	protected function _getContentTemplate($contentTemplate)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			$db    = $this->_db;
 			$query = $db->getQuery(true);
@@ -916,7 +916,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	 */
 	protected function raiseError(&$err, $field, $msg)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			$this->app->enqueueMessage($msg, 'notice');
 		}

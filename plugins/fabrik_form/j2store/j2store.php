@@ -285,7 +285,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function getEndContent()
 	{
-		if ($this->app->isAdmin()  || !$this->showCartButtons())
+		if ($this->app->isClient('administrator')()  || !$this->showCartButtons())
 		{
 			return;
 		}
@@ -357,7 +357,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function onLoadListData($opts)
 	{
-		if ($this->app->isAdmin()  || !$this->showCartButtons())
+		if ($this->app->isClient('administrator')()  || !$this->showCartButtons())
 		{
 			return;
 		}
@@ -435,7 +435,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function onGetPluginRowHeadings($args)
 	{
-		if ($this->app->isAdmin() || !$this->showCartButtons())
+		if ($this->app->isClient('administrator')() || !$this->showCartButtons())
 		{
 			return;
 		}

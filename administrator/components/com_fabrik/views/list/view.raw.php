@@ -116,7 +116,7 @@ class FabrikAdminViewList extends JViewLegacy
 		$item = $model->getTable();
 		$params = $model->getParams();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			$tmpl = $params->get('admin_template');
 

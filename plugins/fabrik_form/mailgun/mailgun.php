@@ -825,7 +825,7 @@ class PlgFabrik_FormMailgun extends PlgFabrik_Form
 	 */
 	protected function _getContentTemplate($contentTemplate)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			$query = $this->_db->getQuery(true);
 			$query->select('introtext, ' . $this->_db->qn('fulltext'))->from('#__content')->where('id = ' . (int) $contentTemplate);

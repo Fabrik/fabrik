@@ -440,7 +440,7 @@ EOD;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 		$table   = $formModel->getTable();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator')())
 		{
 			$url = 'index.php?option=com_' . $package . '&task=details.view&tmpl=component&formid=' . $form->id . '&listid=' . $table->id
 				. '&rowid=' . $formModel->getRowId(). '&iframe=1&print=1';
@@ -506,7 +506,7 @@ EOD;
 		$input   = $app->input;
 		$package = $app->getUserState('com_fabrik.package', 'fabrik');
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator')())
 		{
 			$url = 'index.php?option=com_fabrik&task=emailform.display&tmpl=component&formid=' . $formModel->get('id') . '&rowid='
 				. $formModel->getRowId();
@@ -2106,7 +2106,7 @@ EOD;
 		$package   = $app->getUserState('com_fabrik.package', 'fabrik');
 		//$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
 		$json->url = 'index.php?option=com_' . $package . '&format=raw';
-		$json->url .= $app->isAdmin() ? '&task=plugin.pluginAjax' : '&view=plugin&task=pluginAjax';
+		$json->url .= $app->isClient('administrator')() ? '&task=plugin.pluginAjax' : '&view=plugin&task=pluginAjax';
 		$json->url .= '&' . JSession::getFormToken() . '=1';
 		$json->url .= '&g=element&element_id=' . $elementId
 			. '&formid=' . $formId . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
@@ -2270,7 +2270,7 @@ EOT;
 			switch ($type)
 			{
 				case 'image':
-					if ($app->isAdmin())
+					if ($app->isClient('administrator')())
 					{
 						self::$helperpaths[$type][] = JPATH_SITE . DIRECTORY_SEPARATOR . 'administrator/templates/' . $template . '/images/';
 					}
@@ -2652,7 +2652,7 @@ EOT;
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator')())
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);

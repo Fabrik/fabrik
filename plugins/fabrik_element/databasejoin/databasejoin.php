@@ -1475,7 +1475,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$displayData->tmpl           = $this->tmpl;
 		$displayData->repeatCounter  = $repeatCounter;
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator')())
 		{
 			$displayData->chooseUrl = 'index.php?option=com_fabrik&amp;task=list.view&amp;listid=' . $popupListId . '&amp;tmpl=component&amp;ajax=1&amp;noredirect=1';
 		}
@@ -1486,7 +1486,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$popupForm           = (int) $params->get('databasejoin_popupform');
 		$displayData->addURL = 'index.php?option=com_fabrik';
-		$displayData->addURL .= $this->app->isAdmin() ? '&amp;task=form.view' : '&amp;view=form';
+		$displayData->addURL .= $this->app->isClient('administrator')() ? '&amp;task=form.view' : '&amp;view=form';
 		$displayData->addURL .= '&amp;tmpl=component&amp;ajax=1&amp;formid=' . $popupForm . '&amp;noredirect=1';
 		$displayData->editable = $this->isEditable();
 
@@ -1578,10 +1578,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$listId = $db->loadResult();
 
 		$itemId = FabrikWorker::itemId($listId);
-		$task   = $this->app->isAdmin() ? 'task=details.view' : 'view=details';
+		$task   = $this->app->isClient('administrator')() ? 'task=details.view' : 'view=details';
 		$url    = 'index.php?option=com_' . $this->package . '&' . $task . '&formid=' . $popupFormId . '&listid=' . $listId;
 
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator')())
 		{
 			$url .= '&Itemid=' . $itemId;
 		}

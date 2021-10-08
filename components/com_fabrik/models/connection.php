@@ -233,7 +233,7 @@ class FabrikFEModelConnection extends FabModel
 				}
 				else
 				{
-					if (!$this->app->isAdmin())
+					if (!$this->app->isClient('administrator')())
 					{
 						throw new RuntimeException('Could not connection to database', E_ERROR);
 					}
