@@ -1823,7 +1823,7 @@ class Worker
 				'prefix' => $dbPrefix);
 
 			$version              = new JVersion;
-			self::$database[$sig] = $version->RELEASE > 2.5 ? JDatabaseDriver::getInstance($options) : JDatabase::getInstance($options);
+			self::$database[$sig] = version_compare($version->getShortVersion(), '2.5', '>') ? JDatabaseDriver::getInstance($options) : JDatabase::getInstance($options);
 
 			Worker::bigSelects(self::$database[$sig]);
 
@@ -2838,7 +2838,7 @@ class Worker
 		// Only use template test for testing in 2.5 with my temp J bootstrap template.
 		$tpl = $app->getTemplate();
 
-		return ($tpl === 'bootstrap' || $tpl === 'fabrik4' || $version->RELEASE > 2.5);
+		return ($tpl === 'bootstrap' || $tpl === 'fabrik4' || version_compare($version->getShortVersion(), '2.5', '>');
 	}
 
 	/**

@@ -115,7 +115,7 @@ class Com_FabrikInstallerScript
 	protected function getVersion()
     {
         $version = new JVersion;
-        return $version->RELEASE;
+        return $version->getShortVersion();
     }
 
 	/**
