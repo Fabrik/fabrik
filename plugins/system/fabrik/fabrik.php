@@ -78,7 +78,7 @@ class PlgSystemFabrik extends JPlugin
 
             if (!$loaded)
             {
-	            if ($app->isClient('administrator')() && $app->input->get('option') === 'com_fabrik')
+	            if ($app->isClient('administrator') && $app->input->get('option') === 'com_fabrik')
 	            {
 		            $app->enqueueMessage('Fabrik cannot find files required for this version of Joomla.  <b>DO NOT</b> use the Fabrik backend admin until this is resolved.  Please visit <a href="http://fabrikar.com/forums">our web site</a> and check for announcements about this version', 'error');
 	            }
