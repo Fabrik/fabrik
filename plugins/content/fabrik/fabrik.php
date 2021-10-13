@@ -62,7 +62,7 @@ class PlgContentFabrik extends JPlugin
 		// Simple performance check to determine whether bot should process further
 		$botRegex = $fParams->get('botRegex') != '' ? $fParams->get('botRegex') : 'fabrik';
 
-		if (String::strpos($row->text, '{' . $botRegex) === false)
+		if (StringHelper::strpos($row->text, '{' . $botRegex) === false)
 		{
 			return true;
 		}
