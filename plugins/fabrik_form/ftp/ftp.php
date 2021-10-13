@@ -245,7 +245,7 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 	 */
 	protected function _getContentTemplate($contentTemplate)
 	{
-		if ($this->app->isClient('administrator')())
+		if ($this->app->isClient('administrator'))
 		{
 			$db = $this->_db;
 			$query = $db->getQuery(true);

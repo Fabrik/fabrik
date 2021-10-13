@@ -673,13 +673,13 @@ class FabrikPlugin extends JPlugin
 		switch ($location)
 		{
 			case 'front':
-				if (!$this->app->isClient('administrator')())
+				if (!$this->app->isClient('administrator'))
 				{
 					$ok = true;
 				}
 				break;
 			case 'back':
-				if ($this->app->isClient('administrator')())
+				if ($this->app->isClient('administrator'))
 				{
 					$ok = true;
 				}

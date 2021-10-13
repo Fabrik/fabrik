@@ -13,7 +13,7 @@ $d    = $displayData;
 $item = $d->item;
 $app  = JFactory::getApplication();
 
-if ($app->isClient('administrator')()) :
+if ($app->isClient('administrator')) :
 	?>
 	<span><?php echo $item->text; ?></span>
 	<?php

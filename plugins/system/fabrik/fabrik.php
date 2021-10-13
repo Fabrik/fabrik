@@ -58,7 +58,7 @@ class PlgSystemFabrik extends JPlugin
 		{
 			$msg = 'Fabrik: Please ensure the Fabrik System plug-in is ordered before the Kunena system plugin';
 
-			if ($app->isClient('administrator')())
+			if ($app->isClient('administrator'))
 			{
 				$app->enqueueMessage($msg, 'error');
 			}
@@ -595,7 +595,7 @@ class PlgSystemFabrik extends JPlugin
 				{
 					$pkval = $oData->__pk_val;
 
-					if ($app->isClient('administrator')() || $params->get('search_link_type') === 'form')
+					if ($app->isClient('administrator') || $params->get('search_link_type') === 'form')
 					{
 						$href = $oData->fabrik_edit_url;
 					}
