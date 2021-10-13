@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.helper');
 jimport('joomla.filesystem.file');
 
@@ -47,7 +49,7 @@ foreach ($docs as $d)
 
 		// Replace the document
 		$document = JFactory::getDocument();
-		$docClass = 'JDocument' . JString::strtoupper($d);
+		$docClass = 'JDocument' . StringHelper::strtoupper($d);
 		$document = new $docClass;
 	}
 }
@@ -68,7 +70,7 @@ $controllerName = $input->getCmd('view');
 $isPlugin = false;
 $cName = $input->getCmd('controller');
 
-if (JString::strpos($cName, '.') != false)
+if (StringHelper::strpos($cName, '.') != false)
 {
 	list($type, $name) = explode('.', $cName);
 
@@ -132,7 +134,7 @@ if (strpos($input->getCmd('task'), '.') !== false)
 {
 	$controllerTask = explode('.', $input->getCmd('task'));
 	$controller = array_shift($controllerTask);
-	$className = 'FabrikController' . JString::ucfirst($controller);
+	$className = 'FabrikController' . StringHelper::ucfirst($controller);
 	$path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 
 	if (JFile::exists($path))
@@ -151,7 +153,7 @@ if (strpos($input->getCmd('task'), '.') !== false)
 }
 else
 {
-	$className = 'FabrikController' . JString::ucfirst($controller);
+	$className = 'FabrikController' . StringHelper::ucfirst($controller);
 	$controller = new $className;
 	$task = $input->getCmd('task');
 }

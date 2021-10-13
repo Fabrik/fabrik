@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
@@ -292,7 +294,7 @@ class FabrikFEModelPluginmanager extends FabModel
 			$group = 'list';
 		}
 
-		$group = JString::strtolower($group);
+		$group = StringHelper::strtolower($group);
 
 		if (!JPluginHelper::isEnabled('fabrik_' . $group, $className))
         {
@@ -325,10 +327,10 @@ class FabrikFEModelPluginmanager extends FabModel
 			}
 		}
 
-		$class = 'plgFabrik_' . JString::ucfirst($group) . JString::ucfirst($className);
+		$class = 'plgFabrik_' . StringHelper::ucfirst($group) . StringHelper::ucfirst($className);
 		$conf = array();
-		$conf['name'] = JString::strtolower($className);
-		$conf['type'] = JString::strtolower('fabrik_' . $group);
+		$conf['name'] = StringHelper::strtolower($className);
+		$conf['type'] = StringHelper::strtolower('fabrik_' . $group);
 
 		if (class_exists($class))
 		{
@@ -337,7 +339,7 @@ class FabrikFEModelPluginmanager extends FabModel
 		else
 		{
 			// Allow for namespaced plugins
-			$class = 'Fabrik\\Plugins\\' . JString::ucfirst($group) . '\\' . JString::ucfirst($className);
+			$class = 'Fabrik\\Plugins\\' . StringHelper::ucfirst($group) . '\\' . StringHelper::ucfirst($className);
 			$plugIn = new $class($dispatcher, $conf);
 		}
 
@@ -470,7 +472,7 @@ class FabrikFEModelPluginmanager extends FabModel
 				else
 				{
 					// Allow for namespaced plugins
-					$class = 'Fabrik\\Plugins\\' . JString::ucfirst($group) . '\\' . JString::ucfirst($element->plugin);
+					$class = 'Fabrik\\Plugins\\' . StringHelper::ucfirst($group) . '\\' . StringHelper::ucfirst($element->plugin);
 					$pluginModel = new $class($dispatcher, array());
 				}
 

@@ -16,6 +16,7 @@ use Fabrik\Helpers\Uploader;
 use Fabrik\Helpers\Html;
 use Joomla\CMS\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
 
 if (!defined('FU_DOWNLOAD_SCRIPT_NONE')) define("FU_DOWNLOAD_SCRIPT_NONE", '0');
 if (!defined('FU_DOWNLOAD_SCRIPT_TABLE')) define("FU_DOWNLOAD_SCRIPT_TABLE", '1');
@@ -815,7 +816,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	{
 		// $render loaded in required file.
 		$render = null;
-		$ext    = JString::strtolower(JFile::getExt($file));
+		$ext    = StringHelper::strtolower(JFile::getExt($file));
 
 		if (JFile::exists(JPATH_ROOT . '/plugins/fabrik_element/fileupload/element/custom/' . $ext . '.php'))
 		{
@@ -1202,9 +1203,9 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 			return true;
 		}
 
-		$curr_f_ext = JString::strtolower(JFile::getExt($myFileName));
+		$curr_f_ext = StringHelper::strtolower(JFile::getExt($myFileName));
 		array_walk($aFileTypes, function(&$v) {
-			$v = JString::strtolower($v);
+			$v = StringHelper::strtolower($v);
 		});
 
 		return in_array($curr_f_ext, $aFileTypes);
@@ -2347,7 +2348,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 				$storageType = JFilterInput::getInstance()->clean($params->get('fileupload_storage_type', 'filesystemstorage'), 'CMD');
 			}
 			require_once JPATH_ROOT . '/plugins/fabrik_element/fileupload/adaptors/' . $storageType . '.php';
-			$storageClass  = JString::ucfirst($storageType);
+			$storageClass  = StringHelper::ucfirst($storageType);
 			$this->storage = new $storageClass($params);
 		}
 
@@ -2576,7 +2577,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 						$v != ''
 						&& (
 							$storage->exists($v, true)
-							|| JString::substr($v, 0, 4) == 'http')
+							|| StringHelper::substr($v, 0, 4) == 'http')
 					)
 				)
 				{
@@ -3352,7 +3353,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 	protected function _return_bytes($val)
 	{
 		$val  = trim($val);
-		$last = JString::strtolower(substr($val, -1));
+		$last = StringHelper::strtolower(substr($val, -1));
 
 		if ($last == 'g')
 		{

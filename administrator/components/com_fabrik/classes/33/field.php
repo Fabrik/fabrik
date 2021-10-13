@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+use Joomla\String\Normalise;
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
@@ -330,15 +333,15 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
 	}

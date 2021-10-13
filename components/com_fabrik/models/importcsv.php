@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.model');
 jimport('joomla.application.component.modelform');
 
@@ -416,7 +418,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 			if (0 === strncmp($heading, $bom, 3))
 			{
-				$heading = JString::substr($heading, 3);
+				$heading = StringHelper::substr($heading, 3);
 			}
 
 			if ($mode == '0')
@@ -627,7 +629,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 					    $paramsKey = $elementModel->getFullName(false, false);
 
-					    if (JString::strtolower(trim($heading)) == JString::strtolower(trim($name)))
+					    if (StringHelper::strtolower(trim($heading)) == StringHelper::strtolower(trim($name)))
 					    {
 					    	if (!array_key_exists($paramsKey, $this->matchedHeadings))
 						    {
@@ -645,7 +647,7 @@ class FabrikFEModelImportcsv extends JModelForm
 
 					    $paramsKey .= '_raw';
 
-					    if (JString::strtolower(trim($heading)) == JString::strtolower(trim($name)) . '_raw')
+					    if (StringHelper::strtolower(trim($heading)) == StringHelper::strtolower(trim($name)) . '_raw')
 					    {
 						    if (!array_key_exists($paramsKey, $this->matchedHeadings))
 						    {
@@ -814,9 +816,9 @@ class FabrikFEModelImportcsv extends JModelForm
 				}
 
 				// Test _raw key and use that
-				if (JString::substr($heading, JString::strlen($heading) - 4, JString::strlen($heading)) == '_raw')
+				if (StringHelper::substr($heading, StringHelper::strlen($heading) - 4, StringHelper::strlen($heading)) == '_raw')
 				{
-					$pkTestHeading = JString::substr($heading, 0, JString::strlen($heading) - 4);
+					$pkTestHeading = StringHelper::substr($heading, 0, StringHelper::strlen($heading) - 4);
 				}
 				else
 				{
@@ -886,9 +888,9 @@ class FabrikFEModelImportcsv extends JModelForm
 			// into the none raw key. Otherwise if just importing raw data no data stored
 			foreach ($aRow as $k => $val)
 			{
-				if (JString::substr($k, JString::strlen($k) - 4, JString::strlen($k)) == '_raw')
+				if (StringHelper::substr($k, StringHelper::strlen($k) - 4, StringHelper::strlen($k)) == '_raw')
 				{
-					$noneraw        = JString::substr($k, 0, strlen($k) - 4);
+					$noneraw        = StringHelper::substr($k, 0, strlen($k) - 4);
 					$aRow[$noneraw] = $val;
 				}
 			}
@@ -960,9 +962,9 @@ class FabrikFEModelImportcsv extends JModelForm
 	{
 		foreach ($aRow as $k => $val)
 		{
-			if (JString::substr($k, JString::strlen($k) - 4, JString::strlen($k)) == '_raw')
+			if (StringHelper::substr($k, StringHelper::strlen($k) - 4, StringHelper::strlen($k)) == '_raw')
 			{
-				$noneraw = JString::substr($k, 0, JString::strlen($k) - 4);
+				$noneraw = StringHelper::substr($k, 0, StringHelper::strlen($k) - 4);
 
 				if (array_key_exists($noneraw, $aRow))
 				{

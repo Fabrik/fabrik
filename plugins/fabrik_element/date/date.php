@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
 use Fabrik\Helpers\Html;
+use Joomla\String\StringHelper;
 
 /**
  * Plugin element to render date picker
@@ -356,7 +357,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 			$str[] = '<div class="input-append">';
 		}
 
-		$timeLength = JString::strlen($timeFormat);
+		$timeLength = StringHelper::strlen($timeFormat);
 		Html::addPath(COM_FABRIK_BASE . 'plugins/fabrik_element/date/images/', 'image', 'form', false);
 		$str[] = '<input type="text" class="' . $class . '" ' . $readOnly . ' size="' . $timeLength . '" value="' . $time . '" name="'
 			. $timeElName . '" />';
@@ -1286,7 +1287,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 				 *  for searches on simply the year - JDate will presume its a timestamp and mung the results
 				 *  so we have to use this specific format string to get now and next
 				 */
-				if (is_numeric($value) && JString::strlen($value) == 4)
+				if (is_numeric($value) && StringHelper::strlen($value) == 4)
 				{
 					// Will only work on php 5.3.6
 					$value = JFactory::getDate('first day of January ' . $value)->toSql();
@@ -1297,32 +1298,32 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 					$value = JFactory::getDate('first day of ' . $this->untranslateMonth($value))->toSql();
 					$next  = JFactory::getDate('last day of ' . $this->untranslateMonth($value))->setTime(23, 59, 59);
 				}
-				elseif (trim(JString::strtolower($value)) === 'last week')
+				elseif (trim(StringHelper::strtolower($value)) === 'last week')
 				{
 					$value = JFactory::getDate('last week')->toSql();
 					$next  = JFactory::getDate();
 				}
-				elseif (trim(JString::strtolower($value)) === 'last month')
+				elseif (trim(StringHelper::strtolower($value)) === 'last month')
 				{
 					$value = JFactory::getDate('last month')->toSql();
 					$next  = JFactory::getDate();
 				}
-				elseif (trim(JString::strtolower($value)) === 'last year')
+				elseif (trim(StringHelper::strtolower($value)) === 'last year')
 				{
 					$value = JFactory::getDate('last year')->toSql();
 					$next  = JFactory::getDate();
 				}
-				elseif (trim(JString::strtolower($value)) === 'next week')
+				elseif (trim(StringHelper::strtolower($value)) === 'next week')
 				{
 					$value = JFactory::getDate()->toSql();
 					$next  = JFactory::getDate('next week');
 				}
-				elseif (trim(JString::strtolower($value)) === 'next month')
+				elseif (trim(StringHelper::strtolower($value)) === 'next month')
 				{
 					$value = JFactory::getDate()->toSql();
 					$next  = JFactory::getDate('next month');
 				}
-				elseif (trim(JString::strtolower($value)) === 'next year')
+				elseif (trim(StringHelper::strtolower($value)) === 'next year')
 				{
 					$value = JFactory::getDate()->toSql();
 					$next  = JFactory::getDate('next year');
@@ -2360,7 +2361,7 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 					}
 				}
 
-				if ($type == 'querystring' && JString::strtolower($value) == 'now')
+				if ($type == 'querystring' && StringHelper::strtolower($value) == 'now')
 				{
 					$value = 'NOW()';
 				}
@@ -2459,124 +2460,124 @@ class PlgFabrik_ElementDate extends PlgFabrik_ElementList
 	{
 		if ($abbr)
 		{
-			if (JString::strcmp($month, FText::_('JANUARY_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JANUARY_SHORT')) === 0)
 			{
 				return 'Jan';
 			}
 
-			if (JString::strcmp($month, FText::_('FEBRUARY_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('FEBRUARY_SHORT')) === 0)
 			{
 				return 'Feb';
 			}
 
-			if (JString::strcmp($month, FText::_('MARCH_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('MARCH_SHORT')) === 0)
 			{
 				return 'Mar';
 			}
 
-			if (JString::strcmp($month, FText::_('APRIL_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('APRIL_SHORT')) === 0)
 			{
 				return 'Apr';
 			}
 
-			if (JString::strcmp($month, FText::_('MAY_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('MAY_SHORT')) === 0)
 			{
 				return 'May';
 			}
 
-			if (JString::strcmp($month, FText::_('JUNE_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JUNE_SHORT')) === 0)
 			{
 				return 'Jun';
 			}
 
-			if (JString::strcmp($month, FText::_('JULY_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JULY_SHORT')) === 0)
 			{
 				return 'Jul';
 			}
 
-			if (JString::strcmp($month, FText::_('AUGUST_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('AUGUST_SHORT')) === 0)
 			{
 				return 'Aug';
 			}
 
-			if (JString::strcmp($month, FText::_('SEPTEMBER_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('SEPTEMBER_SHORT')) === 0)
 			{
 				return 'Sep';
 			}
 
-			if (JString::strcmp($month, FText::_('OCTOBER_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('OCTOBER_SHORT')) === 0)
 			{
 				return 'Oct';
 			}
 
-			if (JString::strcmp($month, FText::_('NOVEMBER_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('NOVEMBER_SHORT')) === 0)
 			{
 				return 'Nov';
 			}
 
-			if (JString::strcmp($month, FText::_('DECEMBER_SHORT')) === 0)
+			if (StringHelper::strcmp($month, FText::_('DECEMBER_SHORT')) === 0)
 			{
 				return 'Dec';
 			}
 		}
 		else
 		{
-			if (JString::strcmp($month, FText::_('JANUARY')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JANUARY')) === 0)
 			{
 				return 'January';
 			}
 
-			if (JString::strcmp($month, FText::_('FEBRUARY')) === 0)
+			if (StringHelper::strcmp($month, FText::_('FEBRUARY')) === 0)
 			{
 				return 'February';
 			}
 
-			if (JString::strcmp($month, FText::_('MARCH')) === 0)
+			if (StringHelper::strcmp($month, FText::_('MARCH')) === 0)
 			{
 				return 'March';
 			}
 
-			if (JString::strcmp($month, FText::_('APRIL')) === 0)
+			if (StringHelper::strcmp($month, FText::_('APRIL')) === 0)
 			{
 				return 'April';
 			}
 
-			if (JString::strcmp($month, FText::_('MAY')) === 0)
+			if (StringHelper::strcmp($month, FText::_('MAY')) === 0)
 			{
 				return 'May';
 			}
 
-			if (JString::strcmp($month, FText::_('JUNE')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JUNE')) === 0)
 			{
 				return 'June';
 			}
 
-			if (JString::strcmp($month, FText::_('JULY')) === 0)
+			if (StringHelper::strcmp($month, FText::_('JULY')) === 0)
 			{
 				return 'July';
 			}
 
-			if (JString::strcmp($month, FText::_('AUGUST')) === 0)
+			if (StringHelper::strcmp($month, FText::_('AUGUST')) === 0)
 			{
 				return 'August';
 			}
 
-			if (JString::strcmp($month, FText::_('SEPTEMBER')) === 0)
+			if (StringHelper::strcmp($month, FText::_('SEPTEMBER')) === 0)
 			{
 				return 'September';
 			}
 
-			if (JString::strcmp($month, FText::_('OCTOBER')) === 0)
+			if (StringHelper::strcmp($month, FText::_('OCTOBER')) === 0)
 			{
 				return 'October';
 			}
 
-			if (JString::strcmp($month, FText::_('NOVEMBER')) === 0)
+			if (StringHelper::strcmp($month, FText::_('NOVEMBER')) === 0)
 			{
 				return 'November';
 			}
 
-			if (JString::strcmp($month, FText::_('DECEMBER')) === 0)
+			if (StringHelper::strcmp($month, FText::_('DECEMBER')) === 0)
 			{
 				return 'December';
 			}
@@ -2967,10 +2968,10 @@ class FabDate extends JDate
 			{
 				$month = $this->monthToString($i, $abbrs[$a]);
 
-				if (JString::stristr($str, $month))
+				if (StringHelper::stristr($str, $month))
 				{
-					$monthNum = JString::strlen($i) === 1 ? '0' . $i : $i;
-					$str      = JString::str_ireplace($month, $monthNum, $str);
+					$monthNum = StringHelper::strlen($i) === 1 ? '0' . $i : $i;
+					$str      = StringHelper::str_ireplace($month, $monthNum, $str);
 				}
 			}
 		}
@@ -3076,9 +3077,9 @@ class FabDate extends JDate
 			{
 				$day = $this->dayToString($i, $abbrs[$a]);
 
-				if (JString::stristr($str, $day))
+				if (StringHelper::stristr($str, $day))
 				{
-					$str = JString::str_ireplace($day, '', $str);
+					$str = StringHelper::str_ireplace($day, '', $str);
 				}
 			}
 		}

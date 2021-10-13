@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
 
 /**
  * Plugin element to render text area or wysiwyg editor
@@ -414,7 +415,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 			if ($params->get('textarea_limit_type', 'char') === 'char')
 			{
 				$label = FText::_('PLG_ELEMENT_TEXTAREA_CHARACTERS_LEFT');
-				$charsLeft = $params->get('textarea-maxlength') - JString::strlen($value);
+				$charsLeft = $params->get('textarea-maxlength') - StringHelper::strlen($value);
 			}
 			else
 			{
@@ -569,7 +570,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 			return true;
 		}
 
-		if (JString::strlen($data) > (int) $params->get('textarea-maxlength'))
+		if (StringHelper::strlen($data) > (int) $params->get('textarea-maxlength'))
 		{
 			return false;
 		}

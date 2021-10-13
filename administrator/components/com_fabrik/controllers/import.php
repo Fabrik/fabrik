@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 require_once 'fabcontrollerform.php';
 
 /**
@@ -66,7 +68,7 @@ class FabrikAdminControllerImport extends FabControllerForm
 			{
 				$element->id                   = 0;
 				$element->name                 = FabrikString::dbFieldName($elName);
-				$element->label                = JString::strtolower($elName);
+				$element->label                = StringHelper::strtolower($elName);
 				$element->plugin               = $plugins[$c];
 				$element->group_id             = $groupId;
 				$element->eval                 = 0;

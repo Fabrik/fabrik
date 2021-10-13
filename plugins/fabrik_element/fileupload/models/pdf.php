@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Fileupload adaptor to render uploaded PDFs
  *
@@ -65,7 +67,7 @@ class PdfRenderModel
 				$thumb_file     = $model->getStorage()->urlToPath($thumb_url);
 				$thumb_url_info = pathinfo($thumb_url);
 
-				if (JString::strtolower($thumb_url_info['extension'] == 'pdf'))
+				if (StringHelper::strtolower($thumb_url_info['extension'] == 'pdf'))
 				{
 					$thumb_url       = $thumb_url_info['dirname'] . '/' . $thumb_url_info['filename'] . '.' . $this->pdf_thumb_type;
 					$thumb_file_info = pathinfo($thumb_file);
@@ -137,7 +139,7 @@ class PdfRenderModel
 		{
 			// $$$rob only add in livesite if we don't already have a full url (e.g. from amazons3)
 			// $$$ hugh trim / or \ off the start of $file
-			$file = JString::ltrim($file, '/\\');
+			$file = StringHelper::ltrim($file, '/\\');
 			$file = COM_FABRIK_LIVESITE . $file;
 		}
 

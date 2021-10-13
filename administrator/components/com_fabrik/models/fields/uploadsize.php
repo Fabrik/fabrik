@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 
 /**
@@ -41,8 +43,8 @@ class JFormFieldUploadsize extends JFormField
 	protected function _return_bytes($val)
 	{
 		$val = trim($val);
-		$last = JString::strtolower(JString::substr($val, -1));
-		$val  = JString::substr($val, 0, -1);
+		$last = StringHelper::strtolower(StringHelper::substr($val, -1));
+		$val  = StringHelper::substr($val, 0, -1);
 
 		if ($last == 'g')
 		{

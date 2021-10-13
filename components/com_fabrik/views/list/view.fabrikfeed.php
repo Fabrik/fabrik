@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use \Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 require_once JPATH_SITE . '/components/com_fabrik/views/list/view.base.php';
 
@@ -257,7 +258,7 @@ class FabrikViewList extends FabrikViewListBase
 						if (strstr($rssContent, $rssTag))
 						{
 							$found = true;
-							$rssTag = JString::substr($rssTag, 1, JString::strlen($rssTag) - 2);
+							$rssTag = StringHelper::substr($rssTag, 1, StringHelper::strlen($rssTag) - 2);
 
 							if (!strstr($this->doc->_namespace, $namespace))
 							{

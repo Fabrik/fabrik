@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
 
 require_once JPATH_SITE . '/plugins/fabrik_element/databasejoin/databasejoin.php';
 
@@ -932,7 +933,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 			$query->where($where);
 		}
 
-		if (!JString::stristr($where, 'order by'))
+		if (!StringHelper::stristr($where, 'order by'))
 		{
 			$query->order($orderBy . ' ASC');
 		}

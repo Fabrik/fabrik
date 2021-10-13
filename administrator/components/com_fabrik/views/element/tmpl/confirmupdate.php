@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 FabrikHelperHTML::formvalidation();
 $db = FabrikWorker::getDbo(true);
 ?>
@@ -22,7 +24,7 @@ $db = FabrikWorker::getDbo(true);
 			<?php echo JText::sprintf('COM_FABRIK_UPDATE_ELEMENT_NAME', $this->oldName, $db->qn($this->item->name)); ?>
 		</li>
 	<?php endif; ?>
-	<?php if (JString::strtolower($this->origDesc) !== JString::strtolower($this->newDesc)) :?>
+	<?php if (StringHelper::strtolower($this->origDesc) !== StringHelper::strtolower($this->newDesc)) :?>
   		<li style="padding-left:30px">
   			<?php echo JText::sprintf('COM_FABRIK_UPDATE_ELEMENT_STRUCTURE', $this->oldName, $this->origDesc, $this->newDesc); ?>
   		</li>

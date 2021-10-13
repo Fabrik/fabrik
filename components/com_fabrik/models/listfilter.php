@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
 
 /**
  * List filter model
@@ -464,7 +465,7 @@ class FabrikFEModelListfilter extends FabModel
 
 		foreach ($search as $k => $s)
 		{
-			if (JString::strlen($s) < $min)
+			if (StringHelper::strlen($s) < $min)
 			{
 				unset($search[$k]);
 			}
@@ -724,7 +725,7 @@ class FabrikFEModelListfilter extends FabModel
 			{
 				$fieldDesc = $elementModel->getFieldDescription();
 
-				if (JString::stristr($fieldDesc, 'INT'))
+				if (StringHelper::stristr($fieldDesc, 'INT'))
 				{
 					if (is_numeric($search) && $condition == '=')
 					{
@@ -1090,7 +1091,7 @@ class FabrikFEModelListfilter extends FabModel
 			{
 				$fieldDesc = $elementModel->getFieldDescription();
 
-				if (JString::stristr($fieldDesc, 'INT'))
+				if (StringHelper::stristr($fieldDesc, 'INT'))
 				{
 					if (is_numeric($val) && $condition == '=')
 					{
@@ -1260,7 +1261,7 @@ class FabrikFEModelListfilter extends FabModel
 		if (!empty($request) && array_key_exists('key', $request))
 		{
 			$keyInts = array_keys($request['key']);
-			$ajaxPost = JString::strtolower($input->server->get('HTTP_X_REQUESTED_WITH'));
+			$ajaxPost = StringHelper::strtolower($input->server->get('HTTP_X_REQUESTED_WITH'));
 			$this->listModel->ajaxPost = $ajaxPost;
 			$this->listModel->postValues = $values;
 
@@ -1402,7 +1403,7 @@ class FabrikFEModelListfilter extends FabModel
 				{
 					$fieldDesc = $elementModel->getFieldDescription();
 
-					if (JString::stristr($fieldDesc, 'INT'))
+					if (StringHelper::stristr($fieldDesc, 'INT'))
 					{
 						if (is_numeric($value) && $request['condition'][$i] == '=')
 						{
@@ -1416,7 +1417,7 @@ class FabrikFEModelListfilter extends FabModel
 				 * post filter query overwrites search all query, but uses add so = where id REGEX 'USA' AND country LIKE '%USA'
 				 * this code swaps the first
 				 */
-				$joinMode = JString::strtolower($request['join'][$i]) != 'where' ? $request['join'][$i] : 'AND';
+				$joinMode = StringHelper::strtolower($request['join'][$i]) != 'where' ? $request['join'][$i] : 'AND';
 
 				if (!empty($filters))
 				{
@@ -1616,7 +1617,7 @@ class FabrikFEModelListfilter extends FabModel
 					{
 						$fieldDesc = $elementModel->getFieldDescription();
 
-						if (JString::stristr($fieldDesc, 'INT'))
+						if (StringHelper::stristr($fieldDesc, 'INT'))
 						{
 							if (is_numeric($search) && $condition == '=')
 							{
