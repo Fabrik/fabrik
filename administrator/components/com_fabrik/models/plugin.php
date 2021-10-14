@@ -143,7 +143,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 		$data                   = $this->getData();
 		$c                      = $this->getState('c') + 1;
 		$version                = new JVersion;
-		$j3                     = version_compare($version->getShortVersion(), '3.0' '>=') ? true : false;
+		$j3                     = version_compare($version->getShortVersion(), '3.0', '>=') ? true : false;
 		$class                  = $j3 ? 'form-horizontal ' : 'adminform ';
 		$str                    = array();
 		$str[]                  = '<div class="pane-slider content pane-down accordion-inner">';
