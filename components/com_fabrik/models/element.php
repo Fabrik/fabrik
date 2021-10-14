@@ -2152,7 +2152,7 @@ class PlgFabrik_Element extends FabrikPlugin
 		// $$$ rob - if its a joined group then it can have the same element names
 		if ((int) $groupModel->getGroup()->is_join === 0)
 		{
-			if ($groupListModel->fieldExists($rule->name, array(), $groupModel))
+			if ($groupListModel->fieldExists($rule->name, $groupModel, array() ))
 			{
 				$this->app->enqueueMessage(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'), 'error');
 

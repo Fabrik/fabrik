@@ -439,7 +439,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 			if ($joinTblId === 0)
 			{
-				if ($listModel->fieldExists($data['name'], $ignore, $groupModel))
+				if ($listModel->fieldExists($data['name'], $groupModel, $ignore))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}
@@ -459,7 +459,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 					}
 				}
 
-				if ($joinListModel->fieldExists($data['name'], $ignore, $groupModel))
+				if ($joinListModel->fieldExists($data['name'], $groupModel, $ignore))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}
