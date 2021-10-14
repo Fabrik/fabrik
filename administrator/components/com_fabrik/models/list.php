@@ -1572,7 +1572,7 @@ class FabrikAdminModelList extends FabModelAdmin
 
 			$version = new JVersion;
 			$form->set('form_template', version_compare($version->getShortVersion(), '3.0', '>=') ? 'bootstrap' : 'default');
-			$form->set('view_only_template', version_compare($version->getShortVersion(), '3.0', '>=') 0 ? 'bootstrap' : 'default');
+			$form->set('view_only_template', version_compare($version->getShortVersion(), '3.0', '>=') ? 'bootstrap' : 'default');
 
 			$form->store();
 			$this->setState('list.form_id', $form->get('id'));
