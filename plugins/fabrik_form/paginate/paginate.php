@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 
@@ -67,7 +69,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$j3 = FabrikWorker::j3();
 		$input = $this->app->input;
 		$formId = $formModel->getForm()->id;
-		$mode = JString::strtolower($input->get('view', 'form'));
+		$mode = StringHelper::strtolower($input->get('view', 'form'));
 		$this->ids = $this->getNavIds();
 		$linkStartPrev = $this->ids->index == 0 ? ' disabled' : '';
 		$linkNextEnd = $this->ids->index == $this->ids->lastKey ? ' disabled' : '';

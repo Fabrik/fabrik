@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.model');
 
 require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
@@ -130,7 +132,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 
 			if ($calcfound)
 			{
-				$column = JString::substr($column, 6);
+				$column = StringHelper::substr($column, 6);
 			}
 
 			$elements = $listModel->getElements('filtername');
@@ -516,7 +518,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 
 			if ($calcfound)
 			{
-				$column = JString::substr($column, 6);
+				$column = StringHelper::substr($column, 6);
 			}
 
 			if ($calcfound)

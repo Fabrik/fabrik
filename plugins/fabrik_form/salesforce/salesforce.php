@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 
@@ -116,14 +118,14 @@ class PlgFabrik_FormSalesforce extends PlgFabrik_Form
 
 				$key = array_pop(explode('___', $key));
 
-				if (JString::strtolower($key) == JString::strtolower($name) && JString::strtolower($name) != 'id')
+				if (StringHelper::strtolower($key) == StringHelper::strtolower($name) && StringHelper::strtolower($name) != 'id')
 				{
 					$submission[$name] = $val;
 				}
 				else
 				{
 					// Check custom fields
-					if (JString::strtolower($key . '__c') == JString::strtolower($name) && JString::strtolower($name) != 'id')
+					if (StringHelper::strtolower($key . '__c') == StringHelper::strtolower($name) && StringHelper::strtolower($name) != 'id')
 					{
 						$submission[$name] = $val;
 					}

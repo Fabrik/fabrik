@@ -10,6 +10,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
+use Joomla\String\Normalise;
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
@@ -583,7 +585,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 	{
 		$table         = JTable::getInstance('Content');
 		$alias	       = empty($data['alias']) ? $data['title'] : $data['alias'];
-		$alias         = JApplication::stringURLSafe(JStringNormalise::toDashSeparated( $alias ));
+		$alias         = JApplication::stringURLSafe(Normalise::toDashSeparated( $alias ));
 
 		$data['alias'] = $alias;
 		$title         = $data['title'];
@@ -595,9 +597,9 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 		// should increment the Joomla article title.
 		while ($table->load(array('alias' => $alias, 'catid' => $catId)))
 		{
-			$title                      = JString::increment($title);
+			$title                      = StringHelper::increment($title);
 			$titles[$table->get('id')]  = $title;
-			$alias                      = JString::increment($alias, 'dash');
+			$alias                      = StringHelper::increment($alias, 'dash');
 			$aliases[$table->get('id')] = $alias;
 		}
 

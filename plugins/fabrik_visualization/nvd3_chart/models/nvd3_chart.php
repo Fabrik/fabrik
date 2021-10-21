@@ -12,6 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\Normalise;
 
 jimport('joomla.application.component.model');
 
@@ -109,7 +110,7 @@ class FabrikModelNvd3_Chart extends FabrikFEModelVisualization
 			if (JFile::exists($chartFile))
 			{
 				require_once $chartFile;
-				$cls    = JStringNormalise::toCamelCase($chartType);
+				$cls    = Normalise::toCamelCase($chartType);
 				$render = new $cls($params);
 
 				return $render->render($params);

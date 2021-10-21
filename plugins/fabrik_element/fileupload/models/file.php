@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Plugin element to render fileuploads of file type
  *
@@ -82,7 +84,7 @@ class FileRenderModel
 				// $$$rob only add in livesite if we don't already have a full url (e.g. from amazons3)
 
 				// Trim / or \ off the start of $file
-				$file = JString::ltrim($file, '/\\');
+				$file = StringHelper::ltrim($file, '/\\');
 				$file = COM_FABRIK_LIVESITE . $file;
 			}
 

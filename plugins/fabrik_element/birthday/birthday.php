@@ -11,6 +11,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+use Joomla\String\StringHelper;
+
 /**
  * Plugin element to render day/month/year drop-downs
  *
@@ -117,7 +119,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 				// $$$ rob - all this below is nice but ... you still need to set a default
 				$detailValue = '';
-				$year = JString::ltrim($year, '0');
+				$year = StringHelper::ltrim($year, '0');
 
 				if (FabrikWorker::isDate($value))
 				{
@@ -573,7 +575,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 		$nextYear = date('Y') + 1;
 		$lastYear = date('Y') - 1;
 		$thisYear = date('Y');
-		$year = JString::ltrim($year, '0');
+		$year = StringHelper::ltrim($year, '0');
 		$dmy = $day . '.' . $month . '.' . $year;
 		$mdy = $month . '.' . $day . '.' . $year;
 		$dmy_slash = $day . '/' . $month . '/' . $year;

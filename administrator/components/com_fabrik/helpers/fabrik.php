@@ -12,6 +12,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Fabrik Component Helper
  *
@@ -43,7 +45,7 @@ class FabrikAdminHelper
 		}
 		else
 		{
-			if (JString::strlen(trim($strdate)) <= 10)
+			if (StringHelper::strlen(trim($strdate)) <= 10)
 			{
 				$strdate .= ' 00:00:00';
 			}
@@ -169,7 +171,7 @@ class FabrikAdminHelper
 
 			// Each group the user is in could have different filtering properties.
 			$filterData = $filters->$groupId;
-			$filterType = JString::strtoupper($filterData->filter_type);
+			$filterType = StringHelper::strtoupper($filterData->filter_type);
 
 			if ($filterType == 'NH')
 			{

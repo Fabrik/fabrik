@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Fileupload adaptor to render allvideos
  *
@@ -61,7 +63,7 @@ class AllVideosRenderModel
 	public function render(&$model, &$params, $file, $thisRow = null)
 	{
 		$src = $model->getStorage()->getFileUrl($file);
-		$ext = JString::strtolower(JFile::getExt($file));
+		$ext = StringHelper::strtolower(JFile::getExt($file));
 
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
 		{

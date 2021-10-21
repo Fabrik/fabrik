@@ -12,6 +12,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\Normalise;
+
 jimport('joomla.application.component.view');
 require_once JPATH_SITE . '/components/com_fabrik/views/form/view.base.php';
 
@@ -66,7 +68,7 @@ class FabrikViewForm extends FabrikViewFormBase
 				// Set the response to indicate a file download
 				$this->app->setHeader('Content-Type', 'application/vnd.ms-word');
 				$name = $this->getModel()->getTable()->label;
-				$name = JStringNormalise::toDashSeparated($name);
+				$name = Normalise::toDashSeparated($name);
 				$this->app->setHeader('Content-Disposition', "attachment;filename=\"" . $name . ".doc\"");
 				$this->doc->setMimeEncoding('text/html; charset=Windows-1252', false);
 			}

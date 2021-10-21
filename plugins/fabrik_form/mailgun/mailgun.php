@@ -12,6 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 use Fabrik\Helpers\Pdf;
 use Mailgun\Mailgun;
 use Mailgun\Messages;
+use Joomla\String\StringHelper;
+use Joomla\String\Normalise;
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
@@ -636,7 +638,7 @@ class PlgFabrik_FormMailgun extends PlgFabrik_Form
 			$displayData->doc	= $document;
 			$displayData->model	= $model;
 			$fileName = $layout->render($displayData);
-			$file = $this->config->get('tmp_path') . '/' . JStringNormalise::toDashSeparated($fileName) . '.pdf';
+			$file = $this->config->get('tmp_path') . '/' . Normalise::toDashSeparated($fileName) . '.pdf';
 
 			$pdf = $domPdf->output();
 
@@ -902,7 +904,7 @@ class PlgFabrik_FormMailgun extends PlgFabrik_Form
 					$label = trim(strip_tags($element->label));
 					$message .= $label;
 
-					if (strlen($label) != 0 && JString::strpos($label, ':', JString::strlen($label) - 1) === false)
+					if (strlen($label) != 0 && StringHelper::strpos($label, ':', StringHelper::strlen($label) - 1) === false)
 					{
 						$message .= ':';
 					}

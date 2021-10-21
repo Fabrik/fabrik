@@ -9,6 +9,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 
@@ -46,7 +48,7 @@ class PlgFabrik_FormExif extends PlgFabrik_Form
 	 */
 	protected function exifToNumber($value, $format)
 	{
-		$spos = JString::strpos($value, '/');
+		$spos = StringHelper::strpos($value, '/');
 
 		if ($spos === false)
 		{

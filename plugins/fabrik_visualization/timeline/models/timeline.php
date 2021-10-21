@@ -12,6 +12,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\String\StringHelper;
+use Joomla\String\Normalise;
 
 jimport('joomla.application.component.model');
 
@@ -399,23 +401,23 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 	protected function toVariable($input)
 	{
 		// Should simply be (except there's a bug in J)
-		// JStringNormalise::toVariable($event->className);
+		// Normalise::toVariable($event->className);
 
 		$input = trim($input);
 
 		// Remove dashes and underscores, then convert to camel case.
-		$input = JStringNormalise::toSpaceSeparated($input);
-		$input = JStringNormalise::toCamelCase($input);
+		$input = Normalise::toSpaceSeparated($input);
+		$input = Normalise::toCamelCase($input);
 
 		// Remove leading digits.
 		$input = preg_replace('#^[\d\.]*#', '', $input);
 
 		// Lowercase the first character.
-		$first = JString::substr($input, 0, 1);
-		$first = JString::strtolower($first);
+		$first = StringHelper::substr($input, 0, 1);
+		$first = StringHelper::strtolower($first);
 
 		// Replace the first character with the lowercase character.
-		$input = JString::substr_replace($input, $first, 0, 1);
+		$input = StringHelper::substr_replace($input, $first, 0, 1);
 
 		return $input;
 	}

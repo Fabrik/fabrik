@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Abstract Storage adaptor for Fabrik file upload element
  *
@@ -304,7 +306,7 @@ abstract class FabrikStorageAdaptor
 
 			while ($i < $length)
 			{
-				$char = JString::substr($possible, mt_rand(0, JString::strlen($possible) - 1), 1);
+				$char = StringHelper::substr($possible, mt_rand(0, StringHelper::strlen($possible) - 1), 1);
 				$key .= $char;
 				$i++;
 			}

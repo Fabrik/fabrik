@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Access element
  *
@@ -137,7 +139,7 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 			{
 				if ($o->value == $data)
 				{
-					$text = JString::ltrim(str_replace('-', '', $o->text));
+					$text = StringHelper::ltrim(str_replace('-', '', $o->text));
 				}
 			}
 		}

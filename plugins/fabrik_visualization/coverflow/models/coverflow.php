@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.model');
 
 require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
@@ -74,8 +76,8 @@ class FabrikModelCoverflow extends FabrikFEModelVisualization
 								{
 									case 'FabrikModelFabrikImage':
 										$rootFolder = $imageElement->getParams()->get('selectImage_root_folder');
-										$rootFolder = JString::ltrim($rootFolder, '/');
-										$rootFolder = JString::rtrim($rootFolder, '/');
+										$rootFolder = StringHelper::ltrim($rootFolder, '/');
+										$rootFolder = StringHelper::rtrim($rootFolder, '/');
 										$event->image = COM_FABRIK_LIVESITE . 'images/stories/' . $rootFolder . '/' . $row->{$image . '_raw'};
 										break;
 									default:

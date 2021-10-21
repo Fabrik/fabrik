@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Utility class for javascript behaviors
  *
@@ -906,7 +908,7 @@ abstract class JHtmlBehavior
 			elseif (!is_array($v) && !is_object($v))
 			{
 				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || JString::strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : JString::substr($v, 1) : "'" . $v . "'";
+				$object .= (is_numeric($v) || StringHelper::strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : StringHelper::substr($v, 1) : "'" . $v . "'";
 				$object .= ',';
 			}
 			else
@@ -917,7 +919,7 @@ abstract class JHtmlBehavior
 
 		if (substr($object, -1) == ',')
 		{
-			$object = JString::substr($object, 0, -1);
+			$object = StringHelper::substr($object, 0, -1);
 		}
 
 		$object .= '}';

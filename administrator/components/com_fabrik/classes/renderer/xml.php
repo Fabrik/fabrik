@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\String\StringHelper;
+
 /**
  * Not used i think!
  *
@@ -76,7 +78,7 @@ class JDocumentRendererXml extends JDocumentRenderer
 
 				foreach ($collection as $key => $val)
 				{
-					if (substr($key, 0, 1) !== '_' && JString::substr($key, 0, 6) !== 'fabrik' && $key !== 'slug')
+					if (substr($key, 0, 1) !== '_' && StringHelper::substr($key, 0, 6) !== 'fabrik' && $key !== 'slug')
 					{
 						$xml .= "\t\t<$key>" . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . "</$key>\n";
 					}
