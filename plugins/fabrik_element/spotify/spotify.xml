@@ -2,12 +2,12 @@
 <extension group="fabrik_element" method="upgrade" type="plugin" version="3">
 	<name>plg_fabrik_element_spotify</name>
 	<author>Rob Clabyurn</author>
-	<creationDate>November 2018</creationDate>
-	<copyright>Copyright (C) 2005-2018 Media A-Team, Inc. - All rights reserved.</copyright>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.9</version>
+	<version>3.10</version>
 	<help url="PLG_ELEMENT_SPOTIFY_HELP_SERVER"/>
 	<description>PLG_ELEMENT_SPOTIFY_DESCRIPTION</description>
 	<files>

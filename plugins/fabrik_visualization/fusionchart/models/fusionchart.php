@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -700,11 +700,11 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
                     foreach ($group as $row) {
                         $this->setAxisLabel($row, $this->c);
 
-                        if (!array_key_exists($column, $row)) {
+                        if (!property_exists($row, $column)) {
                             // Didn't find a _raw column - revert to orig
                             $column = $origColumn;
 
-                            if (!array_key_exists($column, $row)) {
+                            if (!property_exists($row, $column)) {
                                 JError::raiseWarning(E_NOTICE, $column . ': NOT FOUND - PLEASE CHECK IT IS PUBLISHED');
                                 continue;
                             }
@@ -1015,7 +1015,8 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 			case 'SCROLLCOMBI2D':
 			case 'SCROLLCOMBIDY2D':
 			case 'SCROLLSTACKEDCOLUMN2D':
-				if ($this->c > 0)
+			case 'RADAR':
+			if ($this->c > 0)
 				{
 					if ($chartType == 'SCROLLAREA2D' || $chartType == 'SCROLLCOLUMN2D' || $chartType == 'SCROLLLINE2D')
 					{
@@ -1128,7 +1129,7 @@ class FabrikModelFusionchart extends FabrikFEModelVisualization
 							}
 						}
 
-						$this->addDataset($dataset, $datasetLabel, $extras);
+						$this->addDataset(array_values($dataset), $datasetLabel, $extras);
 					}
 				}
 				break;

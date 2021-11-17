@@ -55,7 +55,7 @@ class FontMetrics
      *
      * @var array
      */
-    protected $fontLookup = array();
+    protected $fontLookup = [];
 
     /**
      * @var Options
@@ -139,7 +139,7 @@ class FontMetrics
 
         $cacheData = require $this->getCacheFile();
 
-        $this->fontLookup = array();
+        $this->fontLookup = [];
         if (is_array($this->fontLookup)) {
             foreach ($cacheData as $key => $value) {
                 $this->fontLookup[stripslashes($key)] = $value;
@@ -173,28 +173,62 @@ class FontMetrics
         $fontname = mb_strtolower($style["family"]);
         $families = $this->getFontFamilies();
 
-        $entry = array();
+        $entry = [];
         if (isset($families[$fontname])) {
             $entry = $families[$fontname];
         }
 
         $styleString = $this->getType("{$style['weight']} {$style['style']}");
-        if (isset($entry[$styleString])) {
-            return true;
-        }
 
         $fontDir = $this->getOptions()->getFontDir();
         $remoteHash = md5($remoteFile);
-        $localFile = $fontDir . DIRECTORY_SEPARATOR . $remoteHash;
+
+        $prefix = $fontname . "_" . $styleString;
+        $prefix = preg_replace("/[^\\pL\d]+/u", "-", $prefix);
+        $prefix = trim($prefix, "-");
+        if (function_exists('iconv')) {
+            $prefix = iconv('utf-8', 'us-ascii//TRANSLIT', $prefix);
+        }
+        $prefix = preg_replace("/[^-\w]+/", "", $prefix);
+        
+        $localFile = $fontDir . "/" . $prefix . "_" . $remoteHash;
+
+        if (isset($entry[$styleString]) && $localFile == $entry[$styleString]) {
+            return true;
+        }
 
         $cacheEntry = $localFile;
-        $localFile .= ".".strtolower(pathinfo(parse_url($remoteFile, PHP_URL_PATH),PATHINFO_EXTENSION));
+        $localFile .= ".".strtolower(pathinfo(parse_url($remoteFile, PHP_URL_PATH), PATHINFO_EXTENSION));
 
         $entry[$styleString] = $cacheEntry;
 
         // Download the remote file
+        [$protocol, $baseHost, $basePath] = Helpers::explode_url($remoteFile);
+        if (!$this->options->isRemoteEnabled() && ($protocol != "" && $protocol !== "file://")) {
+            Helpers::record_warnings(E_USER_WARNING, "Remote font resource $remoteFile referenced, but remote file download is disabled.", __FILE__, __LINE__);
+            return false;
+        }
+        if ($protocol == "" || $protocol === "file://") {
+            $realfile = realpath($remoteFile);
+
+            $rootDir = realpath($this->options->getRootDir());
+            if (strpos($realfile, $rootDir) !== 0) {
+                $chroot = realpath($this->options->getChroot());
+                if (!$chroot || strpos($realfile, $chroot) !== 0) {
+                    Helpers::record_warnings(E_USER_WARNING, "Permission denied on $remoteFile. The file could not be found under the directory specified by Options::chroot.", __FILE__, __LINE__);
+                    return false;
+                }
+            }
+
+            if (!$realfile) {
+                Helpers::record_warnings(E_USER_WARNING, "File '$realfile' not found.", __FILE__, __LINE__);
+                return false;
+            }
+
+            $remoteFile = $realfile;
+        }
         list($remoteFileContent, $http_response_header) = @Helpers::getFileContent($remoteFile, $context);
-        if (false === $remoteFileContent) {
+        if (empty($remoteFileContent)) {
             return false;
         }
 
@@ -262,7 +296,7 @@ class FontMetrics
     public function getTextWidth($text, $font, $size, $wordSpacing = 0.0, $charSpacing = 0.0)
     {
         // @todo Make sure this cache is efficient before enabling it
-        static $cache = array();
+        static $cache = [];
 
         if ($text === "") {
             return 0;
@@ -335,7 +369,7 @@ class FontMetrics
      */
     public function getFont($familyRaw, $subtypeRaw = "normal")
     {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$familyRaw][$subtypeRaw])) {
             return $cache[$familyRaw][$subtypeRaw];
@@ -352,7 +386,7 @@ class FontMetrics
         $subtype = strtolower($subtypeRaw);
 
         if ($familyRaw) {
-            $family = str_replace(array("'", '"'), "", strtolower($familyRaw));
+            $family = str_replace(["'", '"'], "", strtolower($familyRaw));
 
             if (isset($this->fontLookup[$family][$subtype])) {
                 return $cache[$familyRaw][$subtypeRaw] = $this->fontLookup[$family][$subtype];
@@ -412,7 +446,7 @@ class FontMetrics
      */
     public function getFamily($family)
     {
-        $family = str_replace(array("'", '"'), "", mb_strtolower($family));
+        $family = str_replace(["'", '"'], "", mb_strtolower($family));
 
         if (isset($this->fontLookup[$family])) {
             return $this->fontLookup[$family];
@@ -437,19 +471,25 @@ class FontMetrics
      */
     public function getType($type)
     {
-        if (preg_match("/bold/i", $type)) {
-            if (preg_match("/italic|oblique/i", $type)) {
-                $type = "bold_italic";
-            } else {
-                $type = "bold";
-            }
-        } elseif (preg_match("/italic|oblique/i", $type)) {
-            $type = "italic";
+        if (preg_match('/bold/i', $type)) {
+            $weight = 700;
+        } elseif (preg_match('/([1-9]00)/', $type, $match)) {
+            $weight = (int)$match[0];
         } else {
-            $type = "normal";
+            $weight = 400;
+        }
+        $weight = $weight === 400 ? 'normal' : $weight;
+        $weight = $weight === 700 ? 'bold' : $weight;
+
+        $style = preg_match('/italic|oblique/i', $type) ? 'italic' : null;
+
+        if ($weight === 'normal' && $style !== null) {
+            return $style;
         }
 
-        return $type;
+        return $style === null
+            ? $weight
+            : $weight.'_'.$style;
     }
 
     /**
@@ -495,7 +535,7 @@ class FontMetrics
      */
     public function getCacheFile()
     {
-        return $this->getOptions()->getFontDir() . DIRECTORY_SEPARATOR . self::CACHE_FILE;
+        return $this->getOptions()->getFontDir() . '/' . self::CACHE_FILE;
     }
 
     /**

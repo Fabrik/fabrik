@@ -51,6 +51,21 @@
                 <option value="2">PLG_ELEMENT_LOCKROW_ALLOW_USER_REEDIT_EXCLUSIVE</option>
             </field>
 
+            <field name="lockrow_allow_timeout_submit"
+                   type="radio"
+                   default="0"
+                   label="PLG_ELEMENT_LOCKROW_ALLOW_TIMEOUT_SUBMIT_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_ALLOW_TIMEOUT_SUBMIT_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field name="lockrow_lock_access"
+                   type="accesslevel"
+                   default="1"
+                   description="PLG_ELEMENT_LOCKROW_LOCK_ACCESS_DESC"
+                   label="PLG_ELEMENT_LOCKROW_LOCK_ACCESS_LABEL"/>
+
             <field name="lockrow_show_icon_read_only"
                    type="radio"
                    default="1"
@@ -73,7 +88,97 @@
                    default=""
                    label="PLG_ELEMENT_LOCKROW_UNLOCKED_ICON_LABEL"
                    description="PLG_ELEMENT_LOCKROW_UNLOCKED_ICON_DESC"/>
+        </fieldset>
+        <fieldset label="PLG_ELEMENT_LOCKROW_MESSAGES_HEADING" name="plg-element-lockrow-messages">
+            <field name="lockrow_messages_note"
+                   type="note"
+                   class="alert alert-info"
+                   close="true"
+                   description="PLG_ELEMENT_LOCKROW_MESSAGES_NOTE" />
 
+            <field name="lockrow_locked_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_LOCKED_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_LOCKED_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_locked_unlock_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_LOCKED_UNLOCK_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_LOCKED_UNLOCK_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_relocked_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_RELOCKED_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_RELOCKED_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_relocked_exclusive_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_RELOCKED_EXCLUSIVE_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_RELOCKED_EXCLUSIVE_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_own_locked_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_OWN_LOCKED_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_OWN_LOCKED_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_own_locked_no_expire_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_OWN_LOCKED_NO_EXPIRE_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_OWN_LOCKED_NO_EXPIRE_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_lock_expired_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_LOCK_EXPIRED_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_LOCK_EXPIRED_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_lock_locking_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_LOCK_LOCKING_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_LOCK_LOCKING_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_submit_timeout_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_SUBMIT_TIMEOUT_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_SUBMIT_TIMEOUT_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_not_owner_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_SUBMIT_NOT_OWNER_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_SUBMIT_NOT_OWNER_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_wrong_lock_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_SUBMIT_WRONG_LOCK_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_SUBMIT_WRONG_LOCK_MSG_DESC"
+                   rows="2" />
+
+            <field name="lockrow_wrong_lock_expired_msg"
+                   type="textarea"
+                   cols="45"
+                   label="PLG_ELEMENT_LOCKROW_SUBMIT_WRONG_LOCK_EXPIRED_MSG_LABEL"
+                   description="PLG_ELEMENT_LOCKROW_SUBMIT_WRONG_LOCK_EXPIRED_MSG_DESC"
+                   rows="2" />
         </fieldset>
 
     </fields>

@@ -4,11 +4,13 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
+use Fabrik\Helpers\ArrayHelper;
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
@@ -108,7 +110,7 @@ class FabrikViewForm extends FabrikViewFormBase
 						reset($elementModels);
 						$tmpElement        = current($elementModels);
 						$smallerElHTMLName = $tmpElement->getFullName(true, false);
-						$repeatGroup       = count($model->data[$smallerElHTMLName]);
+						$repeatGroup       = count((array) ArrayHelper::getValue($model->data, $smallerElHTMLName, array()));
 					}
 				}
 			}

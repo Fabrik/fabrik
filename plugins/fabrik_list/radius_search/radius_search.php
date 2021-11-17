@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.radiussearch
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -575,6 +575,8 @@ class PlgFabrik_ListRadius_search extends PlgFabrik_List
 		$config = JComponentHelper::getParams('com_fabrik');
 		$apiKey = trim($config->get('google_api_key', ''));
 		$opts->key = empty($apiKey) ? false : $apiKey;
+		$opts->language = trim(strtolower($config->get('google_api_language', '')));
+
 		$opts->usePopup = $params->get('radius_use_popup', '1') === '1';
 		$opts = json_encode($opts);
 		$this->jsInstance = "new FbListRadius_search($opts)";

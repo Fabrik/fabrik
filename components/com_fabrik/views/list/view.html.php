@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -85,6 +85,7 @@ class FabrikViewList extends FabrikViewListBase
 		$displayData->emptyDataMessage = $this->emptyDataMessage;
 		$displayData->tmpl = $this->tmpl;
 		$displayData->title = $this->grouptemplates[$groupedBy];
+		$displayData->extra = $this->grouptemplatesExtra[$groupedBy];
 		$displayData->count = count($group);
 		$displayData->group_by_show_count = $this->params->get('group_by_show_count','1');
 		$layout = $this->getModel()->getLayout('list.fabrik-group-by-heading');

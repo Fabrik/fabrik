@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -900,7 +900,9 @@ class FabrikFEModelImportcsv extends JModelForm
 				if (!in_array(false, FabrikWorker::getPluginManager()->runPlugins('onImportCSVRow', $model, 'list')))
 				{
 					$rowid = $formModel->processToDB();
-					FabrikWorker::getPluginManager()->runPlugins('onAfterImportCSVRow', $model, 'list');
+					$args = new \stdClass();
+					$args->rowid = $rowid;
+					FabrikWorker::getPluginManager()->runPlugins('onAfterImportCSVRow', $model, 'list', $args);
 				}
 			}
 			else

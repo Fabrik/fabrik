@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -113,7 +113,7 @@ class FabrikControllerDetails extends JControllerLegacy
 			$cacheId = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_' . $package, 'view');
 			Html::addToSessionCacheIds($cacheId);
-			echo $cache->get($view, 'display', $cacheId);
+			$cache->get($view, 'display', $cacheId);
 		}
 	}
 

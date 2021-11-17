@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -30,8 +30,8 @@ endif;
 			echo $this->loadTemplate('sidebar');
 		endif; ?>
 		<td>
-			<div id="table_map" style="<?php echo $width;?>height:<?php echo $params->get('fb_gm_mapheight');?>px"></div>
-		</td>
+            <div id="table_map_<?php echo $this->containerId;?>" style="<?php echo $width;?> height:<?php echo $params->get('fb_gm_mapheight');?>px"></div>
+        </td>
 		<?php if ($this->sidebarPosition == '2') :
 			echo $this->loadTemplate('sidebar');
 		endif; ?>

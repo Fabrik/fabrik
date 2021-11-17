@@ -109,6 +109,16 @@
 			       description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_DESC"
 			       label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_LABEL"/>
 
+			<field name="database_join_where_access_invert"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_INVERT_LABEL"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_INVERT_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="database_join_where_when"
 			       type="list"
 			       default="3"
@@ -129,6 +139,21 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="databasejoin_where_ajax_on_load"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_ON_LOAD_DESC"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_ON_LOAD_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="databasejoin_where_ajax_default_eval"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_DESC"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_LABEL"/>
 
 			<!--
 						<field name="database_join_join_sql"

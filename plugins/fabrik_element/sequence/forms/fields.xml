@@ -68,6 +68,12 @@
 				   mode="mysql"
 				   description="PLG_ELEMENT_SEQUENCE_QUERY_DESC"
 				   label="PLG_ELEMENT_SEQUENCE_QUERY_LABEL"/>
+
+			<field name="placeholder_query"
+				   type="fabrikeditor"
+				   mode="mysql"
+				   description="PLG_ELEMENT_SEQUENCE_PLACEHOLDER_QUERY_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_PLACEHOLDER_QUERY_LABEL"/>
 		</fieldset>
 	</fields>
 </form>

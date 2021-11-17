@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension client="site" method="upgrade" type="component" version="3">
 	<name>com_fabrik</name>
-	<creationDate>November 2018</creationDate>
+	<creationDate>August 2021</creationDate>
 	<author>Media A-Team, Inc.</author>
-	<copyright>Copyright (C) 2005-2018 Media A-Team, Inc. - All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.pollen-8.co.uk</authorUrl>
-	<version>3.9</version>
+	<version>3.10</version>
 	<description>COM_FABRIK_XML_DESCRIPTION</description>
 
 	<scriptfile>com_fabrik.manifest.class.php</scriptfile>
@@ -44,11 +44,8 @@
 		<folder>models</folder>
 		<folder>sef_ext</folder>
 		<folder>views</folder>
-		<folder>fabrikfeed</folder>
 		<folder>dbdriver</folder>
 		<folder>driver</folder>
-		<folder>pdf</folder>
-		<folder>partial</folder>
 		<folder>query</folder>
 		<folder>fabrik</folder>
 		<folder>Document</folder>

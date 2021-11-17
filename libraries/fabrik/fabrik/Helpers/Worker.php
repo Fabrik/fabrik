@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -1583,7 +1583,7 @@ class Worker
 
 				// Collect the black or white list tags and attributes.
 				// Each list is cumulative.
-				if ($filterType == 'BL')
+				if ($filterType == 'BL' || $filterType == 'CBL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
@@ -2613,13 +2613,15 @@ class Worker
 			{
 				$userCol = StringHelper::safeColNameToArrayKey($userCol);
 
-				if (!array_key_exists($userCol, $row))
+				if ((is_array($row) && !array_key_exists($userCol, $row)) || (is_object($row) && !isset($row->{$userCol})))
 				{
 					return false;
 				}
 				else
 				{
-					if (array_key_exists($userCol . '_raw', $row))
+					$userColRaw = $userCol . '_raw';
+
+					if ((is_array($row) && array_key_exists($userColRaw, $row)) || (is_object($row) && isset($row->{$userColRaw})))
 					{
 						$userCol .= '_raw';
 					}
@@ -2954,6 +2956,11 @@ class Worker
 		if ($symbolic)
 		{
 			return $memory;
+		}
+
+		if ($memory === '-1')
+		{
+			return PHP_INT_MAX;
 		}
 
 		$last = strtolower($memory[strlen($memory)-1]);

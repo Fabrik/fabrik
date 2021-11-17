@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.ip
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -120,10 +120,33 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 	{
 		$params = $this->getParams();
 		$w = new FabrikWorker();
+		$db    = JFactory::getDbo();
+
 		$position = $params->get('sequence_position', 'prefix');
 		$padding = $params->get('sequence_padding', '4');
+		$placeholderQuery = $params->get('placeholder_query', '');
+		$placeholders = array();
+
+		if (!empty($placeholderQuery))
+		{
+			$placeholderQuery = $w->parseMessageForPlaceHolder($placeholderQuery, $data);
+			$db->setQuery($placeholderQuery);
+
+			try
+			{
+				$placeholders = $db->loadAssoc();
+			}
+			catch (Exception $e)
+			{
+				// meh
+				$this->app->enqueueMessage("There was an error assigning the sequence number, please contact the site admins.");
+			}
+		}
+
+		$data = array_merge($data, $placeholders);
 		$affix = $params->get('sequence_affix', '');
 		$affix = $w->parseMessageForPlaceHolder($affix, $data);
+
 		$tableName = $this->getlistModel()->getTable()->db_table_name;
 		$elementId = $this->getElement()->id;
 
@@ -134,14 +157,23 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 
 		if ($method !== 'pk')
 		{
-            $db    = JFactory::getDbo();
             $sequenceQuery = $params->get('sequence_query', '');
 
             if (!empty($sequenceQuery))
             {
                 $sequenceQuery = $w->parseMessageForPlaceHolder($sequenceQuery, $data);
                 $db->setQuery($sequenceQuery);
-                $sequence = $db->loadResult();
+
+	            try
+	            {
+		            $sequence = $db->loadResult();
+	            }
+	            catch (Exception $e)
+	            {
+		            // meh
+		            $this->app->enqueueMessage("There was an error assigning the sequence number, please contact the site admins.");
+	            }
+
             }
 
             if (empty($sequence)) {

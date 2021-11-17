@@ -185,7 +185,7 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 
 				}.bind(this));
 
-				Fabrik.loadGoogleMap(this.options.key, 'geoCode');
+				Fabrik.loadGoogleMap(this.options.key, 'geoCode', this.options.language);
 
 				if (typeOf(this.options.value) === 'null') {
 					this.options.value = 0;

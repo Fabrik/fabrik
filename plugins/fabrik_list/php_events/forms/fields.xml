@@ -91,6 +91,20 @@
 				   description="PLG_FABRIK_LIST_PHPEVENTS_ONELEMENTCANVIEWLIST_DESC"
 				   repeat="true"/>
 
+			<field name="list_phpevents_onrelateddataurl"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_FABRIK_LIST_PHPEVENTS_ONRELATEDDATAURL_LABEL"
+				   description="PLG_FABRIK_LIST_PHPEVENTS_ONRELATEDDATAURL_DESC"
+				   repeat="true"/>
+
+			<field name="list_phpevents_onelementsetrowclass"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_FABRIK_LIST_PHPEVENTS_ONELEMENTSETCLASS_LABEL"
+				   description="PLG_FABRIK_LIST_PHPEVENTS_ONELEMENTSETCLASS_DESC"
+				   repeat="true"/>
+
 		</fieldset>
 	</fields>
 </form>

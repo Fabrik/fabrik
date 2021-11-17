@@ -44,14 +44,14 @@
 			</field>
 
 			<field name="table_link_isfabrik"
-			       type="radio"
-			       class="btn-group"
+			       type="list"
 			       default="0"
 				   repeat="true"
 			       label="PLG_FABRIK_LIST_LINK_ISFABRIK_LABEL"
 			       description="PLG_FABRIK_LIST_LINK_ISFABRIK_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="2">PLG_FABRIK_LIST_LINK_ISFABRIK_AJAX</option>
 			</field>
 
 			<field type="text"

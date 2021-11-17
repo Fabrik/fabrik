@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -1350,7 +1350,7 @@ class FabrikFEModelForm extends FabModelForm
 	 * model. Used in elements to modify posted data see file upload
 	 *
 	 * @param   string  $key          in key.dot.format to set a recursive array
-	 * @param   string  $val          value to set to
+	 * @param   string|array  $val          value to set to
 	 * @param   bool    $update_raw   automatically update _raw key as well
 	 * @param   bool    $override_ro  update data even if element is RO
 	 *
@@ -2314,7 +2314,8 @@ class FabrikFEModelForm extends FabModelForm
 
 					// $$$ rob $this->formData was $_POST, but failed to get anything for calculation elements in php 5.2.1
 					$formData = $elementModel->getValue($this->formData, $c, array('runplugins' => 0, 'use_default' => false, 'use_querystring' => false));
-
+					
+					/* remove get_magic_quotes_gpc (always false since php5.4, deprecated in php7.4)
 					if (get_magic_quotes_gpc())
 					{
 						if (is_array($formData))
@@ -2342,6 +2343,7 @@ class FabrikFEModelForm extends FabModelForm
 							}
 						}
 					}
+					*/
 
 					// Internal element plugin validations
 					if (!$elementModel->validate(@$formData, $c))
@@ -3568,7 +3570,7 @@ class FabrikFEModelForm extends FabModelForm
 						{
 							$name = $names[$i];
 
-							if (array_key_exists($name, $row))
+							if (property_exists($row, $name))
 							{
 								$v = $row->$name;
 								$v = FabrikWorker::JSONtoData($v, $elementModel->isJoin());
@@ -4814,7 +4816,7 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					$repeatGroup = $groupModel->repeatCount();
 
-					if ($repeatGroup === 0)
+					if ($groupModel->canEdit() && $repeatGroup === 0)
 					{
 						$newGroup = true;
 						$repeatGroup = 1;

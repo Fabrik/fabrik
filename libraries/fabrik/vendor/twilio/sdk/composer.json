@@ -15,12 +15,21 @@
         "php": ">=5.5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*",
-        "apigen/apigen": "^4.1"
+        "guzzlehttp/guzzle": "^6.3",
+        "apigen/apigen": "^4.1",
+        "phpunit/phpunit": ">=4.5"
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
     },
     "autoload": {
         "psr-4": {
-            "Twilio\\": "Twilio/"
+            "Twilio\\": "src/Twilio/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Twilio\\Tests\\": "tests/Twilio/"
         }
     }
 }

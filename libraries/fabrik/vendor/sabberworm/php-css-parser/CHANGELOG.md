@@ -20,6 +20,25 @@
 * *No backwards-incompatible changes*
 * *No deprecations*
 
+### 8.2.0 (2018-07-13)
+
+* Support parsing `calc()`, thanks to @raxbg.
+* Support parsing grid-lines, again thanks to @raxbg.
+* Support parsing legacy IE filters (`progid:`) in lenient mode, thanks to @FMCorz
+* Performance improvements parsing large files, again thanks to @FMCorz
+* *No backwards-incompatible changes*
+* *No deprecations*
+
+### 8.3.0 (2019-02-22)
+
+* Refactor parsing logic to mostly reside in the class files whose data structure is to be parsed (this should eventually allow us to unit-test specific parts of the parsing logic individually).
+* Fix error in parsing `calc` expessions when the first operand is a negative number, thanks to @raxbg.
+* Support parsing CSS4 colors in hex notation with alpha values, thanks to @raxbg.
+* Swallow more errors in lenient mode, thanks to @raxbg.
+* Allow specifying arbitrary strings to output before and after declaration blocks, thanks to @westonruter.
+* *No backwards-incompatible changes*
+* *No deprecations*
+
 ## 7.0
 
 ### 7.0.0 (2015-08-24)

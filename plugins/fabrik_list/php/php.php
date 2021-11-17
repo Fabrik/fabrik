@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.php
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -172,7 +172,7 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 		}
 		else
 		{
-			$msg = $params->get('table_php_msg', FText::_('PLG_LIST_PHP_CODE_RUN'));
+			$msg = FText::_($params->get('table_php_msg', FText::_('PLG_LIST_PHP_CODE_RUN')));
 
 			return $msg;
 		}

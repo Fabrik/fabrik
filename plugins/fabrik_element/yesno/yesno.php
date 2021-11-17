@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.yesno
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -48,8 +48,46 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	{
 		if (!isset($this->default))
 		{
-			$params = $this->getParams();
-			$this->default = $params->get('yesno_default', 0);
+			$element = $this->getElement();
+
+			if (trim($element->default) !== '')
+			{
+				$default = $element->default;
+
+				if (is_array($default))
+				{
+					$v = $default;
+				}
+				else
+				{
+					$w = new FabrikWorker;
+					$default = $w->parseMessageForPlaceHolder($default, $data);
+
+					if ($element->eval == "1")
+					{
+						$v = @eval((string) stripslashes($default));
+						FabrikWorker::logEval($default, 'Caught exception on eval in ' . $element->name . '::getDefaultValue() : %s');
+					}
+					else
+					{
+						$v = $default;
+					}
+				}
+
+				if (is_string($v))
+				{
+					$this->default = explode('|', $v);
+				}
+				else
+				{
+					$this->default = $v;
+				}
+			}
+			else
+			{
+				$params = $this->getParams();
+				$this->default = $params->get('yesno_default', 0);
+			}
 		}
 
 		return $this->default;

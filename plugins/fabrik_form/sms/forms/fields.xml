@@ -56,7 +56,13 @@
 				   repeat="true"
 			       label="PLG_FORM_SMS_MESSAGE_LABEL"
 					description="PLG_FORM_SMS_MESSAGE_DESC"/>
-
+			
+			<field name="sms_custom_eval_message"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_FORM_SMS_CUSTOM_EVAL_MESSAGE_DESC"
+			       label="PLG_FABRIK_FORM_SMS_CUSTOM_EVAL_MESSAGE_LABEL"
+			       repeat="true" />
 
 			<field name="sms_conditon"
 				   type="fabrikeditor"

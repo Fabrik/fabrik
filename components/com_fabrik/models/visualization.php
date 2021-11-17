@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -452,6 +452,7 @@ class FabrikFEModelVisualization extends FabModel
 				foreach ($fields as &$f)
 				{
 					$f = FabrikString::safeColName($f);
+					$f = str_replace('`', '', $f);
 				}
 
                 if ($listParams->get('menu_module_prefilters_override', true))

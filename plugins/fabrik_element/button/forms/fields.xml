@@ -17,14 +17,18 @@
 
 			<field name="bootstrap_class"
 				type="list"
-				label="PLG_ELEMENT_BUTTON_CLASS_LABEL">
+				label="PLG_ELEMENT_BUTTON_CLASS_LABEL"
+			       	description="PLG_ELEMENT_BUTTON_CLASS_DESC">
 				<option value="">PLG_ELEMENT_BUTTON_DEFAULT</option>
 				<option value="btn-primary">PLG_ELEMENT_BUTTON_PRIMARY</option>
+				<option value="btn-secondary">PLG_ELEMENT_BUTTON_SECONDARY</option>
 				<option value="btn-info">PLG_ELEMENT_BUTTON_INFO</option>
 				<option value="btn-success">PLG_ELEMENT_BUTTON_SUCCESS</option>
 				<option value="btn-warning">PLG_ELEMENT_BUTTON_WARNING</option>
 				<option value="btn-danger">PLG_ELEMENT_BUTTON_DANGER</option>
 				<option value="btn-inverse">PLG_ELEMENT_BUTTON_INVERSE</option>
+				<option value="btn-light">PLG_ELEMENT_BUTTON_LIGHT</option>
+				<option value="btn-dark">PLG_ELEMENT_BUTTON_DARK</option>
 				<option value="btn-link">PLG_ELEMENT_BUTTON_LINK</option>
 			</field>
 

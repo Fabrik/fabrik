@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -440,6 +440,7 @@ class FabrikViewFormBase extends FabrikView
 		if ($this->showPrint)
 		{
 			$text            = FabrikHelperHTML::image('print');
+			$text            .= JText::_('COM_FABRIK_PRINT_ICON_LABEL');
 			$this->printLink = '<a href="#" class="btn btn-default fabrikPrintIcon" onclick="window.print();return false;">' . $text . '</a>';
 		}
 
@@ -513,6 +514,7 @@ class FabrikViewFormBase extends FabrikView
 		/** @var FabrikFEModelForm $model */
 		$model = $this->getModel();
 		$model->elementJsJLayouts();
+		$params                = $model->getParams();
 		$aLoadedElementPlugins = array();
 		$jsActions             = array();
 		$bKey                  = $model->jsKey();
@@ -526,7 +528,21 @@ class FabrikViewFormBase extends FabrikView
 			FabrikHelperHTML::framework());
 		$shim                  = array();
 
+		$groups = $model->getGroupsHiarachy();
+
 		$liveSiteReq[] = $mediaFolder . '/tipsBootStrapMock.js';
+		$tablesorter = false;
+
+		foreach ($groups as $groupModel)
+		{
+			$groupParams = $groupModel->getParams();
+			if ($groupParams->get('repeat_sortable', '0') === '2')
+			{
+				$tablesorter = true;
+
+				break;
+			}
+		}
 
 		if (!defined('_JOS_FABRIK_FORMJS_INCLUDED'))
 		{
@@ -539,25 +555,44 @@ class FabrikViewFormBase extends FabrikView
 				'lib/form_placeholder/Form.Placeholder'
 			);
 
-			$shim['fabrik/form'] = $dep;
-
 			$deps                         = new stdClass;
 			$deps->deps                   = array('fab/fabrik', 'fab/element', 'fab/form-submit');
-			$framework['fab/elementlist'] = $deps;
+			$shim['fab/elementlist'] = $deps;
 
 			$srcs['Placeholder'] = 'media/com_fabrik/js/lib/form_placeholder/Form.Placeholder.js';
 			$srcs['FormSubmit'] = $mediaFolder . '/form-submit.js';
 			$srcs['Element'] = $mediaFolder . '/element.js';
+
+			if ($tablesorter)
+			{
+				$dep->deps[] = 'lib/form_placeholder/jquery.tablesorter.combined';
+				//$dep->deps[] = 'lib/form_placeholder/jquery.tablesorter.widgets.min';
+				$srcs['TableSorter']        = 'media/com_fabrik/js/lib/tablesorter/jquery.tablesorter.combined.js';
+				//$srcs['TableSorterWidgets'] = 'media/com_fabrik/js/lib/tablesorter/jquery.tablesorter.widgets.min.js';
+				//$srcs['TableSorterNetwork'] = 'media/com_fabrik/js/lib/tablesorter/parsers/parser-network.min.js';
+				FabrikHelperHTML::stylesheetFromPath('media/com_fabrik/js/lib/tablesorter/theme.blue.min.css');
+			}
+
+			$shim['fabrik/form'] = $dep;
 		}
 
 		$aWYSIWYGNames = array();
 
-		// $$$ hugh - yet another one where if we =, the $groups array pointer get buggered up and it
-		// skips a group
-		$groups = $model->getGroupsHiarachy();
-
 		foreach ($groups as $groupModel)
 		{
+			$groupParams = $groupModel->getParams();
+
+			if ($groupParams->get('repeat_sortable', '0') === '2')
+			{
+				if (!array_key_exists('TableSorter', $srcs))
+				{
+					$srcs['TableSorter'] = 'media/com_fabrik/js/lib/tablesorter/jquery.tablesorter.min.js';
+					$srcs['TableSorteWidgetsr'] = 'media/com_fabrik/js/lib/tablesorter/jquery.tablesorter.widgets.min.js';
+					//$srcs['TableSorterNetwork'] = 'media/com_fabrik/js/lib/tablesorter/parsers/parser-network.min.js';
+					FabrikHelperHTML::stylesheetFromPath('media/com_fabrik/js/lib/tablesorter/theme.blue.min.css');
+				}
+			}
+
 			$elementModels = $groupModel->getPublishedElements();
 
 			foreach ($elementModels as $elementModel)
@@ -874,6 +909,9 @@ class FabrikViewFormBase extends FabrikView
 				$opts->group_repeats[$groupId]                          = $groupModel->canRepeat();
 				$opts->group_copy_element_values[$groupId]              = $groupModel->canCopyElementValues();
 				$opts->group_repeat_intro[$groupId]                     = $groupModel->getParams()->get('repeat_intro', '');
+				$opts->group_repeat_sortable[$groupId]                  = $groupModel->getParams()->get('repeat_sortable', '') === '1';
+				$opts->group_repeat_tablesort[$groupId]                  = $groupModel->getParams()->get('repeat_sortable', '') === '2';
+				$opts->group_repeat_order_element[$groupId]             = $groupModel->getParams()->get('repeat_order_element', '');
 			}
 		}
 

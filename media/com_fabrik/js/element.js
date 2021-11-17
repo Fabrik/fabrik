@@ -866,6 +866,109 @@ define(['jquery'], function (jQuery) {
             return r;
         },
 
+        setContainerRepeatNum: function(oldRepeatCount, newRepeatCount)
+        {
+            var container = this.getContainer();
+            jQuery(container).removeClass('fb_el_' + this.origId + '_' + oldRepeatCount);
+            jQuery(container).addClass('fb_el_' + this.origId + '_' + newRepeatCount);
+        },
+
+        setName: function (repeatCount) {
+            var element = this.getElement();
+            if (typeOf(element) === 'null') {
+                return false;
+            }
+            if (this.hasSubElements()) {
+                this._getSubElements().each(function (e) {
+                    e.name = this._setName(e.name, repeatCount);
+                    e.id = this._setId(e.id, repeatCount);
+                }.bind(this));
+            } else {
+                if (typeOf(this.element.name) !== 'null') {
+                    this.element.name = this._setName(this.element.name, repeatCount);
+                }
+            }
+            if (typeOf(this.element.id) !== 'null') {
+                this.element.id = this._setId(this.element.id, repeatCount);
+            }
+            this.setContainerRepeatNum(this.options.repeatCounter, repeatCount);
+            this.options.repeatCounter = repeatCount;
+            return this.element.id;
+        },
+
+        /**
+         * @param    string    name to decrease
+         * @param    int        delete index
+         * @param    string    name suffix to keep (used for db join autocomplete element)
+         */
+
+        _setId: function (n, repeatCount, suffix) {
+            var suffixFound = false;
+            suffix = suffix ? suffix : false;
+            var match = '';
+            if (suffix !== false) {
+                var re = new RegExp(suffix);
+                if (n.test(re)) {
+                    match = n.match(re)[0];
+                    n = n.replace(re, '');
+                    suffixFound = true;
+                }
+            }
+            var bits = Array.mfrom(n.split('_'));
+            var i = bits.getLast();
+            if (typeOf(i.toInt()) === 'null') {
+                return n + match;
+            }
+            if (i.toInt() === repeatCount) {
+                return n + match;
+            }
+            i = repeatCount;
+            bits.splice(bits.length - 1, 1, i);
+            var r = bits.join('_');
+            if (suffixFound) {
+                r += match;
+            }
+            this.options.element = r;
+            return r;
+        },
+
+        /**
+         * @param    string    name to decrease
+         * @param    int        delete index
+         * @param    string    name suffix to keep (used for db join autocomplete element)
+         */
+
+        _setName: function (n, repeatCount, suffix) {
+
+            var suffixFound = false;
+            suffix = suffix ? suffix : false;
+            var match = '';
+            if (suffix !== false) {
+                var re = new RegExp(suffix);
+                if (n.test(re)) {
+                    match = n.match(re)[0];
+                    n = n.replace(re, '');
+                    suffixFound = true;
+                }
+            }
+            var namebits = n.split('[');
+            var i = namebits[1].replace(']', '').toInt();
+
+            if (i.toInt() === repeatCount) {
+                return n + match;
+            }
+
+            i = repeatCount;
+            i = i + ']';
+
+            namebits[1] = i;
+            var r = namebits.join('[');
+            if (suffixFound) {
+                r += match;
+            }
+            return r;
+        },
+
         /**
          * determine which duplicated instance of the repeat group the
          * element belongs to, returns false if not in a repeat group

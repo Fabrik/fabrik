@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.sms
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -76,6 +76,16 @@ class PlgFabrik_FormSMS extends PlgFabrik_Form
 			$to     = array_merge($to, $toEval);
 			$to     = implode(',', $to);
 		}
+		
+		$customMessageEval = $params->get('sms_custom_eval_message', '');
+		$customSMSmessage     = array();
+
+		if (!empty($customMessageEval))
+		{
+			$customMessageEval = $w->parseMessageForPlaceholder($customMessageEval, $this->data, false);
+			$customSMSmessage     = @eval($customMessageEval);
+			FabrikWorker::logEval($customMessageEval, 'Caught exception on eval Custom SMS Message : %s');
+		}
 
 		if (empty($to))
 		{
@@ -88,7 +98,12 @@ class PlgFabrik_FormSMS extends PlgFabrik_Form
 		$opts['sms-to'] = $w->parseMessageForPlaceHolder($to, $data);
 
 
-		$message = $this->getMessage();
+		if (!empty($customMessageEval)){
+		   $message = $customSMSmessage;
+		}
+		else {
+		    $message = $this->getMessage();
+		}
 		$gateway = $this->getInstance();
 
 		return $gateway->process($message, $opts);

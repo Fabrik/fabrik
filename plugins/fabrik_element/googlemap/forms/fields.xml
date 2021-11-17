@@ -162,6 +162,19 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="fb_gm_maptypecontroloptions"
+				   type="list"
+				   multiple="true"
+				   default=""
+				   description="PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_LABEL">
+				<option value="satellite">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_SATELLITE</option>
+				<option value="roadmap">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_ROADMAP</option>
+				<option value="terrain">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_TERRAIN</option>
+				<option value="hybrid">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_HYBRID</option>
+				<option value="styled_map">PLG_ELEMENT_GOOGLE_MAP_TYPE_CONTROL_OPTIONS_STYLED_MAP</option>
+			</field>
+
 			<field name="fb_gm_trafficlayer"
 				type="radio"
 				default="0"
@@ -253,6 +266,16 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="fb_gm_draggable"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_GOOGLE_MAP_DRAGGABLE_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_DRAGGABLE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="Default location" name="plg-element-googlemap-default">
@@ -289,6 +312,16 @@
 
 			<field type="helplink"
 				url="PLG_ELEMENT_GOOGLEMAP_HELP_SERVER" />
+
+			<field name="fb_gm_lat_element"
+				   type="listfields"
+				   description="PLG_ELEMENT_GOOGLE_MAP_LAT_ELEMENT_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_LAT_ELEMENT_LABEL" />
+
+			<field name="fb_gm_lon_element"
+				   type="listfields"
+				   description="PLG_ELEMENT_GOOGLE_MAP_LON_ELEMENT_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_LON_ELEMENT_LABEL" />
 
 			<field name="fb_gm_geocode"
 				type="list"
@@ -494,5 +527,102 @@
 			</field>
 
 		</fieldset>
+
+		<fieldset
+				label="PLG_ELEMENT_GOOGLE_MAP_OVERLAY_HEADING"
+				name="overlay_settings">
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_LABEL"
+					name="fb_gm_use_overlays"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					default="0"
+					description="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_SIDEBAR_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_SIDEBAR_LABEL"
+					name="fb_gm_use_overlays_sidebar"
+					type="list">
+				<option value="0">None</option>
+				<option value="1">Left</option>
+				<option value="2">Right</option>
+			</field>
+
+			<field
+					default="checkbox"
+					description="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_SELECT_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_SELECT_LABEL"
+					name="fb_gm_use_overlays_select"
+					type="list">
+				<option value="checkbox">Checkbox</option>
+				<option value="radio">Radio</option>
+			</field>
+
+			<field name="fb_gm_use_overlays_checked"
+				   type="text"
+				   class="input-mini"
+				   size="3"
+				   default=""
+				   label="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_CHECKED_LABEL"
+				   description="PLG_ELEMENT_GOOGLE_MAP_USE_OVERLAYS_CHECKED_LABEL"
+			/>
+
+			<field name="fb_gm_overlay_code"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_CODE_DESC"
+				   label="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_CODE_LABEL" />
+		</fieldset>
+
+		<fieldset
+				addpath="/administrator/components/com_fabrik/elements"
+				name="overlays"
+				label="PLG_ELEMENT_GOOGLE_MAP_OVERLAY_URLS"
+				repeat="1"
+				repeatcontrols="1">
+			<field
+					description="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_URL_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_URL_LABEL"
+					name="fb_gm_overlay_urls"
+					size="100"
+					class="input-xxlarge"
+					type="text" />
+
+			<field
+					description="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_LABEL_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_LABEL_LABEL"
+					name="fb_gm_overlay_labels"
+					size="100"
+					type="text" />
+
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_PRESERVEVIEWPORT_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_PRESERVEVIEWPORT_LABEL"
+					name="fb_gm_overlay_preserveviewport"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_SUPPRESSINFOWINDOWS_DESC"
+					label="PLG_ELEMENT_GOOGLE_MAP_OVERLAYS_SUPPRESSINFOWINDOWS_LABEL"
+					name="fb_gm_overlay_suppressinfowindows"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+
 	</fields>
 </form>

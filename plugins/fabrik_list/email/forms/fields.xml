@@ -53,6 +53,16 @@
 					<option value="1">JYES</option>	
 			</field>
 			
+			<field name="wysiwyg_extra_buttons"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="PLG_LIST_EMAIL_WYSIWYG_EXTRA_BUTTONS_LABEL"
+				description="PLG_LIST_EMAIL_WYSIWYG_EXTRA_BUTTONS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field name="checkall"
 				type="radio"
 				class="btn-group"

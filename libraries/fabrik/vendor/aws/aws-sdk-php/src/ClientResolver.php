@@ -4,9 +4,18 @@ namespace Aws;
 use Aws\Api\Validator;
 use Aws\Api\ApiProvider;
 use Aws\Api\Service;
+use Aws\ClientSideMonitoring\ApiCallAttemptMonitoringMiddleware;
+use Aws\ClientSideMonitoring\ApiCallMonitoringMiddleware;
+use Aws\ClientSideMonitoring\Configuration;
 use Aws\Credentials\Credentials;
 use Aws\Credentials\CredentialsInterface;
 use Aws\Endpoint\PartitionEndpointProvider;
+use Aws\EndpointDiscovery\ConfigurationInterface;
+use Aws\EndpointDiscovery\ConfigurationProvider;
+use Aws\EndpointDiscovery\EndpointDiscoveryMiddleware;
+use Aws\Exception\InvalidRegionException;
+use Aws\Retry\ConfigurationInterface as RetryConfigInterface;
+use Aws\Retry\ConfigurationProvider as RetryConfigProvider;
 use Aws\Signature\SignatureProvider;
 use Aws\Endpoint\EndpointProvider;
 use Aws\Credentials\CredentialProvider;
@@ -125,7 +134,7 @@ class ClientResolver
         'profile' => [
             'type'  => 'config',
             'valid' => ['string'],
-            'doc'   => 'Allows you to specify which profile to use when credentials are created from the AWS credentials file in your HOME directory. This setting overrides the AWS_PROFILE environment variable. Note: Specifying "profile" will cause the "credentials" key to be ignored.',
+            'doc'   => 'Allows you to specify which profile to use when credentials are created from the AWS credentials file in your HOME directory. This setting overrides the AWS_PROFILE environment variable. Note: Specifying "profile" will cause the "credentials" and "use_aws_shared_config_files" keys to be ignored.',
             'fn'    => [__CLASS__, '_apply_profile'],
         ],
         'credentials' => [
@@ -133,7 +142,14 @@ class ClientResolver
             'valid'   => [CredentialsInterface::class, CacheInterface::class, 'array', 'bool', 'callable'],
             'doc'     => 'Specifies the credentials used to sign requests. Provide an Aws\Credentials\CredentialsInterface object, an associative array of "key", "secret", and an optional "token" key, `false` to use null credentials, or a callable credentials provider used to create credentials or return null. See Aws\\Credentials\\CredentialProvider for a list of built-in credentials providers. If no credentials are provided, the SDK will attempt to load them from the environment.',
             'fn'      => [__CLASS__, '_apply_credentials'],
-            'default' => [CredentialProvider::class, 'defaultProvider'],
+            'default' => [__CLASS__, '_default_credential_provider'],
+        ],
+        'endpoint_discovery' => [
+            'type'     => 'value',
+            'valid'    => [ConfigurationInterface::class, CacheInterface::class, 'array', 'callable'],
+            'doc'      => 'Specifies settings for endpoint discovery. Provide an instance of Aws\EndpointDiscovery\ConfigurationInterface, an instance Aws\CacheInterface, a callable that provides a promise for a Configuration object, or an associative array with the following keys: enabled: (bool) Set to true to enable endpoint discovery, false to explicitly disable it. Defaults to false; cache_limit: (int) The maximum number of keys in the endpoints cache. Defaults to 1000.',
+            'fn'       => [__CLASS__, '_apply_endpoint_discovery'],
+            'default'  => [__CLASS__, '_default_endpoint_discovery_provider']
         ],
         'stats' => [
             'type'  => 'value',
@@ -144,10 +160,10 @@ class ClientResolver
         ],
         'retries' => [
             'type'    => 'value',
-            'valid'   => ['int'],
-            'doc'     => 'Configures the maximum number of allowed retries for a client (pass 0 to disable retries). ',
+            'valid'   => ['int', RetryConfigInterface::class, CacheInterface::class, 'callable', 'array'],
+            'doc'     => "Configures the retry mode and maximum number of allowed retries for a client (pass 0 to disable retries). Provide an integer for 'legacy' mode with the specified number of retries. Otherwise provide an instance of Aws\Retry\ConfigurationInterface, an instance of  Aws\CacheInterface, a callable function, or an array with the following keys: mode: (string) Set to 'legacy', 'standard' (uses retry quota management), or 'adapative' (an experimental mode that adds client-side rate limiting to standard mode); max_attempts: (int) The maximum number of attempts for a given request. ",
             'fn'      => [__CLASS__, '_apply_retries'],
-            'default' => 3,
+            'default' => [RetryConfigProvider::class, 'defaultProvider']
         ],
         'validate' => [
             'type'    => 'value',
@@ -161,6 +177,13 @@ class ClientResolver
             'valid' => ['bool', 'array'],
             'doc'   => 'Set to true to display debug information when sending requests. Alternatively, you can provide an associative array with the following keys: logfn: (callable) Function that is invoked with log messages; stream_size: (int) When the size of a stream is greater than this number, the stream data will not be logged (set to "0" to not log any stream data); scrub_auth: (bool) Set to false to disable the scrubbing of auth data from the logged messages; http: (bool) Set to false to disable the "debug" feature of lower level HTTP adapters (e.g., verbose curl output).',
             'fn'    => [__CLASS__, '_apply_debug'],
+        ],
+        'csm' => [
+            'type'     => 'value',
+            'valid'    => [\Aws\ClientSideMonitoring\ConfigurationInterface::class, 'callable', 'array', 'bool'],
+            'doc'      => 'CSM options for the client. Provides a callable wrapping a promise, a boolean "false", an instance of ConfigurationInterface, or an associative array of "enabled", "host", "port", and "client_id".',
+            'fn'       => [__CLASS__, '_apply_csm'],
+            'default'  => [\Aws\ClientSideMonitoring\ConfigurationProvider::class, 'defaultProvider']
         ],
         'http' => [
             'type'    => 'value',
@@ -194,6 +217,12 @@ class ClientResolver
             'doc'       => 'Set to false to disable SDK to populate parameters that enabled \'idempotencyToken\' trait with a random UUID v4 value on your behalf. Using default value \'true\' still allows parameter value to be overwritten when provided. Note: auto-fill only works when cryptographically secure random bytes generator functions(random_bytes, openssl_random_pseudo_bytes or mcrypt_create_iv) can be found. You may also provide a callable source of random bytes.',
             'default'   => true,
             'fn'        => [__CLASS__, '_apply_idempotency_auto_fill']
+        ],
+        'use_aws_shared_config_files' => [
+            'type'      => 'value',
+            'valid'     => ['bool'],
+            'doc'       => 'Set to false to disable checking for shared aws config files usually located in \'~/.aws/config\' and \'~/.aws/credentials\'.  This will be ignored if you set the \'profile\' setting.',
+            'default'   => true,
         ],
     ];
 
@@ -379,12 +408,28 @@ class ClientResolver
 
     public static function _apply_retries($value, array &$args, HandlerList $list)
     {
+        // A value of 0 for the config option disables retries
         if ($value) {
-            $decider = RetryMiddleware::createDefaultDecider($value);
-            $list->appendSign(
-                Middleware::retry($decider, null, $args['stats']['retries']),
-                'retry'
-            );
+            $config = RetryConfigProvider::unwrap($value);
+
+            if ($config->getMode() === 'legacy') {
+                // # of retries is 1 less than # of attempts
+                $decider = RetryMiddleware::createDefaultDecider(
+                    $config->getMaxAttempts() - 1
+                );
+                $list->appendSign(
+                    Middleware::retry($decider, null, $args['stats']['retries']),
+                    'retry'
+                );
+            } else {
+                $list->appendSign(
+                    RetryMiddlewareV2::wrap(
+                        $config,
+                        ['collect_stats' => $args['stats']['retries']]
+                    ),
+                    'retry'
+                );
+            }
         }
     }
 
@@ -423,6 +468,44 @@ class ClientResolver
         }
     }
 
+    public static function _default_credential_provider(array $args)
+    {
+        return CredentialProvider::defaultProvider($args);
+    }
+
+    public static function _apply_csm($value, array &$args, HandlerList $list)
+    {
+        if ($value === false) {
+            $value = new Configuration(
+                false,
+                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_HOST,
+                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_PORT,
+                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_CLIENT_ID
+            );
+            $args['csm'] = $value;
+        }
+
+        $list->appendBuild(
+            ApiCallMonitoringMiddleware::wrap(
+                $args['credentials'],
+                $value,
+                $args['region'],
+                $args['api']->getServiceId()
+            ),
+            'ApiCallMonitoringMiddleware'
+        );
+
+        $list->appendAttempt(
+            ApiCallAttemptMonitoringMiddleware::wrap(
+                $args['credentials'],
+                $value,
+                $args['region'],
+                $args['api']->getServiceId()
+            ),
+            'ApiCallAttemptMonitoringMiddleware'
+        );
+    }
+
     public static function _apply_api_provider(callable $value, array &$args)
     {
         $api = new Service(
@@ -444,7 +527,7 @@ class ClientResolver
 
         $args['api'] = $api;
         $args['parser'] = Service::createParser($api);
-        $args['error_parser'] = Service::createErrorParser($api->getProtocol());
+        $args['error_parser'] = Service::createErrorParser($api->getProtocol(), $api);
     }
 
     public static function _apply_endpoint_provider(callable $value, array &$args)
@@ -454,11 +537,19 @@ class ClientResolver
                 ? $args['api']['metadata']['endpointPrefix']
                 : $args['service'];
 
+            // Check region is a valid host label when it is being used to
+            // generate an endpoint
+            if (!self::isValidRegion($args['region'])) {
+                throw new InvalidRegionException('Region must be a valid RFC'
+                    . ' host label.');
+            }
+
             // Invoke the endpoint provider and throw if it does not resolve.
             $result = EndpointProvider::resolve($value, [
                 'service' => $endpointPrefix,
                 'region'  => $args['region'],
-                'scheme'  => $args['scheme']
+                'scheme'  => $args['scheme'],
+                'options' => self::getEndpointProviderOptions($args),
             ]);
 
             $args['endpoint'] = $result['endpoint'];
@@ -487,6 +578,15 @@ class ClientResolver
         }
     }
 
+    public static function _apply_endpoint_discovery($value, array &$args) {
+        $args['endpoint_discovery'] = $value;
+    }
+
+    public static function _default_endpoint_discovery_provider(array $args)
+    {
+        return ConfigurationProvider::defaultProvider($args);
+    }
+
     public static function _apply_serializer($value, array &$args, HandlerList $list)
     {
         $list->prependBuild(Middleware::requestBuilder($value), 'builder');
@@ -495,7 +595,11 @@ class ClientResolver
     public static function _apply_debug($value, array &$args, HandlerList $list)
     {
         if ($value !== false) {
-            $list->interpose(new TraceMiddleware($value === true ? [] : $value));
+            $list->interpose(
+                new TraceMiddleware(
+                    $value === true ? [] : $value,
+                    $args['api'])
+            );
         }
     }
 
@@ -575,6 +679,18 @@ class ClientResolver
         if (defined('HHVM_VERSION')) {
             array_unshift($value, 'HHVM/' . HHVM_VERSION);
         }
+
+        $disabledFunctions = explode(',', ini_get('disable_functions'));
+        if (!ini_get('safe_mode')
+            && function_exists('php_uname')
+            && !in_array('php_uname', $disabledFunctions, true)
+        ) {
+            $osName = "OS/" . php_uname('s') . '/' . php_uname('r');
+            if (!empty($osName)) {
+                array_unshift($value, $osName);
+            }
+        }
+
         array_unshift($value, 'aws-sdk-php/' . Sdk::VERSION);
         $args['ua_append'] = $value;
 
@@ -596,13 +712,6 @@ class ClientResolver
 
     public static function _apply_endpoint($value, array &$args, HandlerList $list)
     {
-        $parts = parse_url($value);
-        if (empty($parts['scheme']) || empty($parts['host'])) {
-            throw new IAE(
-                'Endpoints must be full URIs and include a scheme and host'
-            );
-        }
-
         $args['endpoint'] = $value;
     }
 
@@ -632,7 +741,8 @@ class ClientResolver
 
     public static function _default_endpoint_provider(array $args)
     {
-        return PartitionEndpointProvider::defaultProvider()
+        $options = self::getEndpointProviderOptions($args);
+        return PartitionEndpointProvider::defaultProvider($options)
             ->getPartition($args['region'], $args['service']);
     }
 
@@ -745,5 +855,34 @@ A "region" configuration value is required for the "{$service}" service
 (e.g., "us-west-2"). A list of available public regions and endpoints can be
 found at http://docs.aws.amazon.com/general/latest/gr/rande.html.
 EOT;
+    }
+
+    /**
+     * Extracts client options for the endpoint provider to its own array
+     *
+     * @param array $args
+     * @return array
+     */
+    private static function getEndpointProviderOptions(array $args)
+    {
+        $options = [];
+        $optionKeys = ['sts_regional_endpoints', 's3_us_east_1_regional_endpoint'];
+        foreach ($optionKeys as $key) {
+            if (isset($args[$key])) {
+                $options[$key] = $args[$key];
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Validates a region to be used for endpoint construction
+     *
+     * @param $region
+     * @return bool
+     */
+    private static function isValidRegion($region)
+    {
+        return is_valid_hostlabel($region);
     }
 }

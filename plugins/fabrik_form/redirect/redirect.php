@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.redirect
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -332,7 +332,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		{
 			if (count($val) === 1)
 			{
-				$this->_appendQS($queryvars, $key, $val[0], $appendEmpty);
+				$this->_appendQS($queryvars, $key, array_pop($val), $appendEmpty);
 			}
 			else
 			{

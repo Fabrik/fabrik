@@ -611,6 +611,8 @@ class Sabberworm\CSS\CSSList\Document#4 (2) {
 
 ## Contributors/Thanks to
 
+* [raxbg](https://github.com/raxbg) for contributions to parse `calc`, grid lines, and various bugfixes.
+* [westonruter](https://github.com/westonruter) for bugfixes and improvements.
 * [FMCorz](https://github.com/FMCorz) for many patches and suggestions, for being able to parse comments and IE hacks (in lenient mode).
 * [Lullabot](https://github.com/Lullabot) for a patch that allows to know the line number for each parsed token.
 * [ju1ius](https://github.com/ju1ius) for the specificity parsing code and the ability to expand/compact shorthand properties.
@@ -625,7 +627,7 @@ class Sabberworm\CSS\CSSList\Document#4 (2) {
 ## Misc
 
 * Legacy Support: The latest pre-PSR-0 version of this project can be checked with the `0.9.0` tag.
-* Running Tests: To run all unit tests for this project, have `phpunit` installed and run `phpunit .`.
+* Running Tests: To run all unit tests for this project, run `composer install` to install phpunit and use `./vendor/phpunit/phpunit/phpunit`.
 
 ## License
 

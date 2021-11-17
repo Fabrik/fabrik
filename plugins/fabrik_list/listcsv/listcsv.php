@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.listcsv
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -101,7 +101,7 @@ class PlgFabrik_ListListcsv extends PlgFabrik_List
 	 * @return boolean
 	 */
 
-	public function onAfterImportCSVRow()
+	public function onAfterImportCSVRow($args)
 	{
 		$params = $this->getParams();
 		$filter = JFilterInput::getInstance();

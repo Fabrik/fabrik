@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -1057,9 +1057,9 @@ class FabrikFEModelList extends JModelForm
 			foreach ($elementModels as $elementModel)
 			{
 				$elementModel->setContext($groupModel, $form, $this);
-				$col = $elementModel->getFullName(false, true, false);
+				$col = $elementModel->getFullName(true, true);
 
-				if (!empty($data) && array_key_exists($col, $data[0]))
+				if (!empty($data) && isset($data[0]->{$col}))
 				{
 					for ($i = 0; $i < $ec; $i++)
 					{
@@ -1238,7 +1238,7 @@ class FabrikFEModelList extends JModelForm
 
 				// Check if there is  a custom out put handler for the tables format
 				// Currently supports "renderListData_csv", "renderListData_rss", "renderListData_html", "renderListData_json"
-				if (!empty($data) && array_key_exists($col, $data[0]))
+				if (!empty($data) && property_exists($data[0], $col))
 				{
 					if (method_exists($elementModel, $method))
 					{
@@ -1277,7 +1277,7 @@ class FabrikFEModelList extends JModelForm
 							* the _raw entry in $thisRow.  I guess it could simply unset the _raw in $thisRow and
 							* then implement a renderRawListData.  Anyway, just sayin'.
 							*/
-							if (!array_key_exists($rawCol, $thisRow))
+							if (!isset($thisRow->{$rawCol}))
 							{
 								$data[$i]->$rawCol = $elementModel->renderRawListData($colData, $thisRow);
 								$data[$i]->$rawCol = htmlspecialchars_decode(htmlentities($data[$i]->$rawCol, ENT_NOQUOTES, 'UTF-8'), ENT_NOQUOTES);
@@ -1290,6 +1290,7 @@ class FabrikFEModelList extends JModelForm
 
 		JDEBUG ? $profiler->mark('elements rendered for table data') : null;
 		$this->groupTemplates = array();
+		$this->groupTemplatesExtra = array();
 
 		// Check if the data has a group by applied to it
 		$groupBy = $this->getGroupBy();
@@ -1316,6 +1317,8 @@ class FabrikFEModelList extends JModelForm
 			{
 				$groupTemplate = '{' . $requestGroupBy . '}';
 			}
+
+			$groupTemplateExtra = $tableParams->get('group_by_template_extra', '');
 
 			if ($tableParams->get('group_by_raw', '1') === '1')
 			{
@@ -1348,6 +1351,7 @@ class FabrikFEModelList extends JModelForm
 				{
 					$aGroupTitles[] = $sData;
 					$this->groupTemplates[$sData] = $w->parseMessageForPlaceHolder($groupTemplate, ArrayHelper::fromObject($data[$i]));
+					$this->groupTemplatesExtra[$sData] = $w->parseMessageForPlaceHolder($groupTemplateExtra, ArrayHelper::fromObject($data[$i]));
 					$groupedData[$sData] = array();
 				}
 
@@ -1458,7 +1462,7 @@ class FabrikFEModelList extends JModelForm
 				$canEdit = $this->canEdit($row);
 				$canView = $this->canView($row);
 				$canDelete = $this->canDelete($row);
-				$pKeyVal = array_key_exists($tmpKey, $row) ? $row->$tmpKey : '';
+				$pKeyVal = isset($row->{$tmpKey}) ? $row->$tmpKey : '';
 				$pkCheck = array();
 				$pkCheck[] = '<div style="display:none">';
 
@@ -2271,6 +2275,12 @@ class FabrikFEModelList extends JModelForm
 
 		// Test for related data, filter once, go back to main list re-filter -
 		$bits[] = 'fabrik_incsessionfilters=0';
+
+		$args = new stdClass;
+		$args->bits = $bits;
+		FabrikWorker::getPluginManager()->runPlugins('onRelatedDataURL', $this, 'list', $args);
+		$bits = $args->bits;
+
 		$url .= implode('&', $bits);
 		$url = JRoute::_($url);
 
@@ -2682,7 +2692,7 @@ class FabrikFEModelList extends JModelForm
 
 				if ($lookUpNames[$lookupC] !== $table->db_primary_key)
 				{
-					$query->where($lookUpNames[$lookupC] . ' IN (' . implode(array_unique($ids), ',') . ')');
+					$query->where($lookUpNames[$lookupC] . ' IN (' . implode(',', array_unique($ids)) . ')');
 				}
 
 				/*
@@ -2701,7 +2711,7 @@ class FabrikFEModelList extends JModelForm
 				if (!empty($mainKeys))
 				{
 					// Limit to the current page
-					$query->where($table->db_primary_key . ' IN (' . implode($mainKeys, ',') . ')');
+					$query->where($table->db_primary_key . ' IN (' . implode(',', $mainKeys) . ')');
 				}
 				else
 				{
@@ -3602,8 +3612,8 @@ class FabrikFEModelList extends JModelForm
 			array_unshift($prefilters, 'WHERE');
 		}
 
-		$sql = implode($sql, ' ');
-		$prefilters = implode($prefilters, ' ');
+		$sql = implode(' ', $sql);
+		$prefilters = implode(' ', $prefilters);
 
 		return array($prefilters, $sql);
 	}
@@ -4114,7 +4124,7 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function canEmpty()
 	{
-		if (!array_key_exists('allow_drop', $this->access))
+		if (!isset($this->access->allow_drop))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->allow_drop = in_array($this->getParams()->get('allow_drop'), $groups);
@@ -4231,7 +4241,7 @@ class FabrikFEModelList extends JModelForm
 			}
 
 			// no plugin preference, so use normal ACL
-			if (!array_key_exists('viewdetails', $this->access))
+			if (!isset($this->access->viewdetails))
 			{
 				$groups                    = $this->user->getAuthorisedViewLevels();
 				$this->access->viewdetails = in_array($this->getParams()->get('allow_view_details'), $groups);
@@ -4293,7 +4303,7 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		// no user preference, so use normal ACL
-		if (!array_key_exists('edit', $this->access))
+		if (!isset($this->access->edit))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->edit = in_array($this->getParams()->get('allow_edit_details'), $groups);
@@ -4388,7 +4398,7 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		// no preference from user check, so use main ACL
-		if (!array_key_exists('delete', $this->access))
+		if (!isset($this->access->delete))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->delete = in_array($this->getParams()->get('allow_delete'), $groups);
@@ -4433,7 +4443,7 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function canCSVImport()
 	{
-		if (!array_key_exists('csvimport', $this->access))
+		if (!isset($this->access->csvimport))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->csvimport = in_array($this->getParams()->get('csv_import_frontend'), $groups);
@@ -4449,7 +4459,7 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function canCSVExport()
 	{
-		if (!array_key_exists('csvexport', $this->access))
+		if (!isset($this->access->csvexport))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->csvexport = in_array($this->getParams()->get('csv_export_frontend'), $groups);
@@ -4465,7 +4475,7 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function canGroupBy()
 	{
-		if (!array_key_exists('groupby', $this->access))
+		if (!isset($this->access->groupby))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->groupby = in_array($this->getParams()->get('group_by_access'), $groups);
@@ -4481,8 +4491,26 @@ class FabrikFEModelList extends JModelForm
 	 */
 	public function canAdd()
 	{
-		if (!array_key_exists('add', $this->access))
+		if (!isset($this->access->add))
 		{
+			$pluginCanAdd = FabrikWorker::getPluginManager()->runPlugins('onCanAdd', $this, 'list');
+
+			// At least one plugin run, so plugin results take precedence over anything else.
+			if (!empty($pluginCanAdd))
+			{
+				// check 'false' first, so if any plugin denies, result is false
+				if (in_array(false, $pluginCanAdd, true))
+				{
+					return false;
+				}
+
+				if (in_array(true, $pluginCanAdd, true))
+				{
+					return true;
+				}
+
+			}
+
 			$input = $this->app->input;
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->add = in_array($this->getParams()->get('allow_add'), $groups);
@@ -4503,7 +4531,7 @@ class FabrikFEModelList extends JModelForm
 
 	protected function checkMenuAccess()
 	{
-		if (!array_key_exists('menu_access', $this->access))
+		if (!isset($this->access->menu_access))
 		{
 			$this->access->menu_access = true;
 
@@ -4559,7 +4587,7 @@ class FabrikFEModelList extends JModelForm
 			return false;
 		}
 
-		if (!array_key_exists('view', $this->access))
+		if (!isset($this->access->view))
 		{
 			$groups = $this->user->getAuthorisedViewLevels();
 			$this->access->view = in_array($this->getTable()->access, $groups);
@@ -5615,6 +5643,7 @@ class FabrikFEModelList extends JModelForm
 				// $$$ rob hehe if you set $i in the eval'd code all sorts of chaos ensues
 				$origi = $i;
 				$value = stripslashes(htmlspecialchars_decode($value, ENT_QUOTES));
+				FabrikWorker::clearEval();
 				$value = @eval($value);
 				FabrikWorker::logEval($value, 'Caught exception on eval of tableModel::getFilterArray() ' . $key . ': %s');
 				$i = $origi;
@@ -6630,7 +6659,7 @@ class FabrikFEModelList extends JModelForm
 					$f->label = $filter->label;
 					$f->id = isset($filter->id) ? $filter->id : '';
 					$f->element = $filter->filter;
-					$f->required = array_key_exists('required', $filter) ? $filter->required : '';
+					$f->required = isset($filter->required) ? $filter->required : '';
 					$f->displayValue = is_array($filter->displayValue) ? implode(', ', $filter->displayValue) :
 							$filter->displayValue;
 					$this->viewfilters[$filter->name] = $f;
@@ -7741,6 +7770,7 @@ class FabrikFEModelList extends JModelForm
 								}
 
 								// Test for backslashed quotes
+								/* Always false since php5.4, deprecated in php7.4
 								if (get_magic_quotes_gpc())
 								{
 									if (!$elementModel->isUpload())
@@ -7748,6 +7778,7 @@ class FabrikFEModelList extends JModelForm
 										$val = stripslashes($val);
 									}
 								}
+								*/
 
 								if ($elementModel->dataIsNull($data, $val))
 								{
@@ -7855,6 +7886,18 @@ class FabrikFEModelList extends JModelForm
 
 			// $$$ rob new as if you update a record the insertid() returns 0
 			$this->lastInsertId = ($rowId == '') ? $fabrikDb->insertid() : $rowId;
+
+			// $$$ hugh - if insertid() returned 0, probably means auto-inc is turned off, so see if PK was set in data
+			if (empty($this->lastInsertId))
+			{
+				if (empty($table->auto_inc))
+				{
+					if (isset($oRecord->$primaryKey))
+					{
+						$this->lastInsertId = $oRecord->$primaryKey;
+					}
+				}
+			}
 
 			return $this->lastInsertId;
 		}
@@ -10732,7 +10775,7 @@ class FabrikFEModelList extends JModelForm
 			{
 				$col = $elementModel->getFullName(true, false);
 
-				if (!empty($data) && array_key_exists($col, $data[0]))
+				if (!empty($data) && property_exists($data[0], $col))
 				{
 					for ($i = 0; $i < $ec; $i++)
 					{
@@ -11325,6 +11368,7 @@ class FabrikFEModelList extends JModelForm
 	public function resetQuery()
 	{
 		unset($this->_whereSQL);
+		unset($this->orderBy);
 		unset($this->data);
 	}
 

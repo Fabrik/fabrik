@@ -208,9 +208,31 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
          */
         eventDelegate: function () {
             var str = 'input[type=' + this.type + '][name^=' + this.options.fullName + ']';
-            //str += ', [class*=fb_el_' + this.options.fullName + '] .fabrikElement label';
+            str += ', [class*=fb_el_' + this.options.fullName + '] .fabrikElement label';
 
             return str;
+        },
+
+        setName: function (repeatCount) {
+            var element = this.getElement();
+            if (typeOf(element) === 'null') {
+                return false;
+            }
+
+            this._getSubElements().each(function (e) {
+                e.name = this._setName(e.name, repeatCount);
+                e.id = this._setId(e.id, repeatCount, '_input_\\d+');
+                var label = e.getParent('label');
+                if (label) {
+                    label.htmlFor = e.id;
+                }
+            }.bind(this));
+
+            if (typeOf(this.element.id) !== 'null') {
+                this.element.id = this._setId(this.element.id, repeatCount);
+            }
+            this.options.repeatCounter = repeatCount;
+            return this.element.id;
         }
 
     });

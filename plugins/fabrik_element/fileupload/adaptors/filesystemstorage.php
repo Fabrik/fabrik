@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -242,8 +242,22 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 		$params = $this->getParams();
 		$allowUnsafe = $params->get('allow_unsafe', '0') === '1';
+		$uploaded = false;
 
-		if (JFile::upload($tmpFile, $filepath, false, $allowUnsafe))
+		/**
+		 * If we're AJAX uploading and WiP is set, then we already "uploaded" it direct from the form through AJAX
+		 * to our own tmp location, now we're just moving it - we can't run JFile::upload(), as that will fail
+		 * (it's not an "uploaded file" at this point)
+		 */
+		if ($params->get('ajax_upload', '0') === '1' && $params->get('upload_use_wip', '0') === '1')
+		{
+			$uploaded = JFile::move($tmpFile, $filepath);
+		}
+		else {
+			$uploaded = JFile::upload($tmpFile, $filepath, false, $allowUnsafe);
+		}
+
+		if ($uploaded)
 		{
 			return $this->createIndexFile(dirname($filepath));
 		}
@@ -404,7 +418,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 		$file = $w->parseMessageForPlaceHolder($file);
 		$f = basename($file);
 		$dir = dirname($file);
-		$dir = str_replace($ulDir, $thumbdir, $dir);
+		$dir = str_replace($ulDir, ltrim($thumbdir, '/'), $dir);
 		$ext = JFile::getExt($f);
 
 		// Remove extension

@@ -123,3 +123,6 @@ components/com_fabrik/models/.DS_Store
 private.json
 /404.map
 libraries/fabrik/fabrik/Helpers/Custom.php
+/plugins/fabrik_form/register/
+/package-lock.json
+/.accesshash

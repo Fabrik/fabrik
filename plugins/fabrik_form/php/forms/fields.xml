@@ -30,6 +30,7 @@
 					<option value="onSavePage">PLG_FORM_PHP_PROCESS_ONSAVEPAGE</option>
 					<option value="onElementCanUse">PLG_FORM_PHP_PROCESS_ONELEMENTCANUSE</option>
 					<option value="onElementCanView">PLG_FORM_PHP_PROCESS_ONELEMENTCANVIEW</option>
+					<option value="onElementContainerClass">PLG_FORM_PHP_PROCESS_ONELEMENTCONTAINERCLASS</option>
 			</field>
 
 			<field description="PLG_FORM_PHP_FILE_DESC" directory="plugins/fabrik_form/php/scripts/" hide_default="1" label="PLG_FORM_PHP_FILE_LABEL" name="form_php_file" repeat="true" type="filelist"/>

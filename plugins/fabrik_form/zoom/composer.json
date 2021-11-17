@@ -1,0 +1,6 @@
+{
+  "require": {
+    "guzzlehttp/psr7": "*",
+    "firebase/php-jwt": "v5.0.0"
+  }
+}

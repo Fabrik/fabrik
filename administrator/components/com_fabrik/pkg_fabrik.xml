@@ -2,10 +2,10 @@
 <extension type="package" version="3" method="upgrade">
 	<name>Fabrik Package</name>
 	<packagename>fabrik</packagename>
-	<version>3.9</version>
+	<version>3.10</version>
 	<url>http://www.fabrikar.com</url>
-	<creationDate>November 2018</creationDate>
-	<copyright>Copyright (C) 2005-2018 Media A-Team, Inc. - All rights reserved.</copyright>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<author>Media A-Team, Inc.</author>
 	<packager>Rob Clayburn</packager>
 	<packagerurl>http://www.fabrikar.com</packagerurl>
@@ -39,6 +39,7 @@
 		<file group="fabrik_element" id="googlemap" type="plugin">plg_fabrik_element_googlemap_{version}.zip</file>
 		<file group="fabrik_element" id="image" type="plugin">plg_fabrik_element_image_{version}.zip</file>
 		<file group="fabrik_element" id="internalid" type="plugin">plg_fabrik_element_internalid_{version}.zip</file>
+		<file group="fabrik_element" id="jdate" type="plugin">plg_fabrik_element_jdate_{version}.zip</file>
 		<file group="fabrik_element" id="link" type="plugin">plg_fabrik_element_link_{version}.zip</file>
 		<file group="fabrik_element" id="radiobutton" type="plugin">plg_fabrik_element_radiobutton_{version}.zip</file>
 		<file group="fabrik_element" id="textarea" type="plugin">plg_fabrik_element_textarea_{version}.zip</file>

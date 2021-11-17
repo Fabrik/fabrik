@@ -51,6 +51,7 @@ define(['jquery'], function (jQuery) {
                     rows = h.getParent().getNext();
                 }
                 state ? jQuery(rows).hide() : jQuery(rows).show();
+                state ? jQuery(h).find('.groupExtra').hide() : jQuery(h).find('.groupExtra').show();
                 this.setIcon(img, state);
                 state = state ? false : true;
                 img.store('showgroup', state);
@@ -80,6 +81,7 @@ define(['jquery'], function (jQuery) {
 
         collapse: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).hide();
+            jQuery(this.container.getElements('.groupExtra')).hide();
             var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
             var i = this.container.getElements('.fabrik_groupheading a ' + selector);
             if (i.length === 0) {
@@ -93,6 +95,7 @@ define(['jquery'], function (jQuery) {
 
         expand: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).show();
+            jQuery(this.container.getElements('.groupExtra')).show();
             var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
             var i = this.container.getElements('.fabrik_groupheading a ' + selector);
             if (i.length === 0) {

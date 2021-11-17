@@ -100,6 +100,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                     'g'     : 'element',
                     'plugin': 'image',
                     'method': 'ajax_files',
+                    'element_id': this.options.id,
                     'folder': dir
                 },
 

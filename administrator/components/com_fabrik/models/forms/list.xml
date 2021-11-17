@@ -272,6 +272,14 @@
 			       description="COM_FABRIK_FIELD_GROUP_BY_TEMPLATE_DESC"
 			/>
 
+			<field name="group_by_template_extra"
+				   type="textarea"
+				   cols="30"
+				   rows="4"
+				   label="COM_FABRIK_FIELD_GROUP_BY_TEMPLATE_EXTRA_LABEL"
+				   description="COM_FABRIK_FIELD_GROUP_BY_TEMPLATE_EXTRA_DESC"
+			/>
+
 			<field name="group_by_order_dir"
 			       type="ascendingdescending"
 			       label="COM_FABRIK_FIELD_ORDER_DIRECTION_LABEL"

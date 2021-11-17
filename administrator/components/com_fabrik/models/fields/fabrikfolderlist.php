@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -40,27 +40,62 @@ class JFormFieldFabrikFolderlist extends JFormFieldFolderList
 	 */
 	protected function getOptions()
 	{
-		$dir = JPATH_ROOT . DIRECTORY_SEPARATOR . $this->element['directory'];
+		$path = JPATH_ROOT . DIRECTORY_SEPARATOR . $this->element['directory'];
 
-		$dir = str_replace('\\', '/', $dir);
-		$dir = str_replace('//', '/', $dir);
-
-
-		$this->element['directory'] = $this->directory = $dir;
+		$path = str_replace('\\', '/', $path);
+		$path = str_replace('//', '/', $path);
 
 
-		$opts = parent::getOptions();
+		$this->element['directory'] = $this->directory = $path;
 
-		foreach ($opts as &$opt)
+        $options = array();
+        $path = JPath::clean($path);
+
+        // Prepend some default options based on field attributes.
+        if (!$this->hideNone)
+        {
+            $options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
+        }
+
+        if (!$this->hideDefault)
+        {
+            $options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
+        }
+
+        // Get a list of folders in the search path with the given filter.
+        $folders = JFolder::folders($path, $this->filter, $this->recursive, true);
+
+        // Build the options list from the list of folders.
+        if (is_array($folders))
+        {
+            foreach ($folders as $folder)
+            {
+                // Check to see if the file is in the exclude mask.
+                if ($this->exclude)
+                {
+                    if (preg_match(chr(1) . $this->exclude . chr(1), $folder))
+                    {
+                        continue;
+                    }
+                }
+
+                // Remove the root part and the leading /
+                $folder = trim(str_replace($path, '', $folder), '/');
+
+                $options[] = JHtml::_('select.option', $folder, $folder);
+            }
+        }
+
+		foreach ($options as &$opt)
 		{
 			$opt->value = str_replace('\\', '/', $opt->value);
 			$opt->value = str_replace('//', '/', $opt->value);
-			$opt->value = str_replace($dir, '', $opt->value);
+			$opt->value = str_replace($path, '', $opt->value);
 			$opt->text = str_replace('\\', '/', $opt->text);
 			$opt->text = str_replace('//', '/', $opt->text);
-			$opt->text = str_replace($dir, '', $opt->text);
+			$opt->text = str_replace($path, '', $opt->text);
 		}
 
-		return $opts;
+		return $options;
 	}
 }

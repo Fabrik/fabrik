@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.image
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -400,19 +400,24 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 
 	public function onAjax_files()
 	{
-		$this->loadMeForAjax();
-		$folder = $this->app->input->get('folder', '', 'string');
-
-		if (!strstr($folder, JPATH_SITE))
-		{
-			$folder = JPATH_SITE . '/' . $folder;
-		}
-
-		$pathA = JPath::clean($folder);
-		$folder = array();
-		$files = array();
 		$images = array();
-		FabrikWorker::readImages($pathA, "/", $folders, $images, $this->ignoreFolders);
+		$this->loadMeForAjax();
+		$folder = $this->app->input->get('folder', '', 'path');
+		$folder = str_replace('\\', '/', $folder);
+		$rootFolder = $this->rootFolder();
+
+		if (!empty($folder) && !empty($rootFolder) && strpos($folder, $rootFolder) === 0)
+		{
+			if (!strstr($folder, JPATH_SITE))
+			{
+				$folder = JPATH_SITE . '/' . $folder;
+			}
+
+			$pathA  = JPath::clean($folder);
+			$folder = array();
+			$files  = array();
+			FabrikWorker::readImages($pathA, "/", $folders, $images, $this->ignoreFolders);
+		}
 
 		if (!array_key_exists('/', $images))
 		{
@@ -440,7 +445,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$opts->canSelect = (bool) $params->get('image_front_end_select', false);
 		$opts->id = $element->id;
 		$opts->ds = DS;
-		$opts->dir = JPATH_SITE . '/' . str_replace('/', DS, $opts->rootPath);
+		$opts->dir = str_replace('/', DS, $opts->rootPath);
 
 		return array('FbImage', $id, $opts);
 	}

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -44,7 +44,7 @@ class JFormFieldCollation extends JFormFieldList
 
 		if ($defaultToTableValue)
 		{
-			$defaultToTableValue = (bool) $this->element->attributes()->$defaultToTableValue[0];
+			$defaultToTableValue = (bool) $this->element->attributes()->{$defaultToTableValue[0]};
 		}
 		else
 		{

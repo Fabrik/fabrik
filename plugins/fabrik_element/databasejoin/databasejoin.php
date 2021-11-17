@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.databasejoin
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -829,6 +829,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// new, edit or both (1, 2 or 3)
 		$params    = $this->getParams();
 		$whereWhen = $params->get('database_join_where_when', '3');
+		$invertAccess = $params->get('database_join_where_access_invert', '0') === '1';
 		$isNew     = $this->getFormModel()->isNewRecord();
 
 		if ($isNew && $whereWhen == '2')
@@ -840,7 +841,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			return false;
 		}
 
-		return in_array($gid, $this->user->getAuthorisedViewLevels());
+		if (!$invertAccess)
+		{
+			return in_array($gid, $this->user->getAuthorisedViewLevels());
+		}
+		else
+		{
+			return !in_array($gid, $this->user->getAuthorisedViewLevels());
+		}
 	}
 
 	/**
@@ -1131,7 +1139,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$where = $w->parseMessageForRepeats($where, $data, $this, $repeatCounter);
-		$where = $w->parseMessageForPlaceHolder($where, $data, false);
+		$where = $w->parseMessageForPlaceHolder($where, $data, false, false, null, false);
 
 		if (!$query)
 		{
@@ -2551,6 +2559,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			if (!empty($this->orderBy))
 			{
+				$w 	       = new FabrikWorker;
+				$this->orderBy = $w->replaceWithLanguageTags($this->orderBy);
+				
 				if (!$query)
 				{
 					return $this->orderBy;
@@ -3177,6 +3188,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$opts->observe = array_values($obs);
+		$opts->ajaxOnLoad = (bool) $params->get('databasejoin_where_ajax_on_load', false);
+
 		$opts->changeEvent = $this->getChangeEvent();
 
 		return $opts;
@@ -3227,6 +3240,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			// $opts->elementName = $join->table_join;
 			$opts->elementName      = $join->table_join . '___' . $element->name;
 			$opts->elementShortName = $element->name;
+			// $$$trob - revert getId for now
+			//$opts->joinId           = $join->getId();
 			$opts->joinId           = $join->id;
 			$opts->isJoin           = true;
 		}
@@ -3243,6 +3258,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$this->id = $this->app->input->getInt('element_id');
 		$this->loadMeForAjax();
 		$this->getElement(true);
+		$params = $this->getParams();
 		$filter  = JFilterInput::getInstance();
 		$request = $filter->clean($_REQUEST, 'array');
 		$groupModel = $this->getGroupModel();
@@ -3263,7 +3279,26 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
-		echo json_encode($this->_getOptions($request));
+		$options = $this->_getOptions($request);
+		$eval = $params->get('databasejoin_where_ajax_default_eval');
+
+		if (!empty($eval))
+		{
+			$default = eval($eval);
+
+			if (!empty($default))
+			{
+				foreach ($options as $opt)
+				{
+					if ($opt->value === $default)
+					{
+						$opt->selected = true;
+					}
+				}
+			}
+		}
+
+		echo json_encode($options);
 	}
 
 	/**

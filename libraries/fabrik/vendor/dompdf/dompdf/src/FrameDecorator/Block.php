@@ -42,7 +42,7 @@ class Block extends AbstractFrameDecorator
     {
         parent::__construct($frame, $dompdf);
 
-        $this->_line_boxes = array(new LineBox($this));
+        $this->_line_boxes = [new LineBox($this)];
         $this->_cl = 0;
     }
 
@@ -53,7 +53,7 @@ class Block extends AbstractFrameDecorator
     {
         parent::reset();
 
-        $this->_line_boxes = array(new LineBox($this));
+        $this->_line_boxes = [new LineBox($this)];
         $this->_cl = 0;
     }
 
@@ -135,7 +135,7 @@ class Block extends AbstractFrameDecorator
         if ($frame instanceof Inline) {
             // Handle line breaks
             if ($frame->get_node()->nodeName === "br") {
-                $this->maximize_line_height($style->length_in_pt($style->line_height), $frame);
+                $this->maximize_line_height($style->line_height, $frame);
                 $this->add_line(true);
             }
 
@@ -156,7 +156,7 @@ class Block extends AbstractFrameDecorator
 
         // FIXME: Why? Doesn't quite seem to be the correct thing to do,
         // but does appear to be necessary. Hack to handle wrapped white space?
-        if ($w == 0 && $frame->get_node()->nodeName !== "hr") {
+        if ($w == 0 && $frame->get_node()->nodeName !== "hr" && !$frame->is_pre()) {
             return;
         }
 
@@ -188,7 +188,11 @@ class Block extends AbstractFrameDecorator
         $current_line->add_frame($frame);
 
         if ($frame->is_text_node()) {
-            $current_line->wc += count(preg_split("/\s+/", trim($frame->get_text())));
+            // split the text into words (used to determine spacing between words on justified lines)
+            // The regex splits on everything that's a separator (^\S double negative), excluding nbsp (\xa0)
+            // This currently excludes the "narrow nbsp" character
+            $words = preg_split('/[^\S\xA0]+/u', trim($frame->get_text()));
+            $current_line->wc += count($words);
         }
 
         $this->increase_line_width($w);
@@ -268,10 +272,6 @@ class Block extends AbstractFrameDecorator
      */
     function add_line($br = false)
     {
-
-//     if ( $this->_line_boxes[$this->_cl]["h"] == 0 ) //count($this->_line_boxes[$i]["frames"]) == 0 ||
-//       return;
-
         $this->_line_boxes[$this->_cl]->br = $br;
         $y = $this->_line_boxes[$this->_cl]->y + $this->_line_boxes[$this->_cl]->h;
 

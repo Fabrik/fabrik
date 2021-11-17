@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -366,7 +366,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 
 		if (!empty($currentGroups))
 		{
-			$query->where('group_id NOT IN (' . implode($currentGroups, ', ') . ')');
+			$query->where('group_id NOT IN (' . implode(', ' , $currentGroups) . ')');
 		}
 
 		$db->setQuery($query);

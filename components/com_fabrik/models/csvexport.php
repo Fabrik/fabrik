@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -419,13 +419,15 @@ class FabrikFEModelCSVExport extends FabModel
    			require(JPATH_PLUGINS.'/fabrik_list/listcsv/scripts/list_'.$listid.'_csv_export.php');
 		}
 		$document = JFactory::getDocument();
-		$document->setMimeEncoding('application/zip');
+		//$document->setMimeEncoding('application/zip');
+		$document->setMimeEncoding('text/csv');
 		$str = $this->getCSVContent();
 		$this->app->clearHeaders();
 		$encoding = $this->getEncoding();
 
 		// Set the response to indicate a file download
-		$this->app->setHeader('Content-Type', 'application/zip');
+		//$this->app->setHeader('Content-Type', 'application/zip');
+		$this->app->setHeader('Content-Type', 'text/csv');
 		$this->app->setHeader('Content-Disposition', "attachment;filename=\"" . $filename . "\"");
 
 		// Xls formatting for accents

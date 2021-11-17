@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -104,6 +104,7 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		$opts->scalecontrol    = (bool) $params->get('fb_gm_scalecontrol');
 		$opts->scrollwheel     = (bool) $params->get('fb_gm_scrollwheelcontrol');
 		$opts->maptypecontrol  = (bool) $params->get('fb_gm_maptypecontrol');
+		$opts->maptypeids      = $params->get('fb_gm_maptypecontroloptions');
 		$opts->traffic         = (bool) $params->get('fb_gm_trafficlayer', '0');
 		$opts->overviewcontrol = (bool) $params->get('fb_gm_overviewcontrol');
 		$opts->streetView      = (bool) $params->get('street_view');
@@ -214,11 +215,12 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 		$config                     = JComponentHelper::getParams('com_fabrik');
 		$apiKey                     = trim($config->get('google_api_key', ''));
 		$opts->key                  = empty($apiKey) ? false : $apiKey;
+		$opts->language             = trim(strtolower($config->get('google_api_language', '')));
 		$opts->showLocation         = $params->get('fb_gm_show_location', '0') === '1';
 		$opts                       = json_encode($opts);
 		$ref                        = $this->getJSRenderContext();
 		$js                         = array();
-		$js[]                       = "\t$ref = new FbGoogleMapViz('table_map', $opts)";
+		$js[]                       = "\t$ref = new FbGoogleMapViz('table_map_{$ref}', {$opts})";
 		$js[]                       = "\t" . "Fabrik.addBlock('$ref', $ref);";
 		$js[]                       = "\n";
 
@@ -530,7 +532,16 @@ class FabrikModelGooglemap extends FabrikFEModelVisualization
 							 */
 							$iconImgPath = FArrayHelper::getValue($markerImagesPath, $c, 'media');
 
-							$iconImg = FArrayHelper::getValue($rowData, $iconImg, '');
+							$iconImgRaw = $iconImg . '_raw';
+							$iconImg = FArrayHelper::getValue(
+								$rowData,
+								$iconImgRaw,
+								FArrayHelper::getValue(
+									$rowData,
+									$iconImg,
+									''
+								)
+							);
 
 							// Normalize the $iconimg so it is either a file path relative to J! root, or a non-local URL
 							switch ($iconImgPath) {

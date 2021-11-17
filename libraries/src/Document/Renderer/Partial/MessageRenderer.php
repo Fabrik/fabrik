@@ -1,9 +1,11 @@
 <?php
 /**
- * Joomla! Content Management System
+ * Partial Document class
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla
+ * @subpackage  Fabrik.Documents
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 namespace Joomla\CMS\Document\Renderer\Partial;

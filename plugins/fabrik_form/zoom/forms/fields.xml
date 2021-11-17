@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset name="plg-form-zoom" label="COM_FABRIK_OPTIONS">
+			
+			<field name="zoom_api_key"
+				type="field"
+				default=""
+				repeat="true"
+				description="PLG_FORM_ZOOM_API_KEY_DESC"
+				label="PLG_FORM_ZOOM_API_KEY_LABEL" />
+			
+			<field name="zoom_api_secret"
+				type="text"
+				repeat="true"
+				description="PLG_FORM_ZOOM_API_SECRET_DESC"
+				label="PLG_FORM_ZOOM_API_SECRET_LABEL" />
+			
+			<field name="zoom_which"
+				   type="list"
+				   repeat="true"
+				   default="user"
+				   description="PLG_FORM_ZOOM_WHICH_DESC"
+				   label="PLG_FORM_ZOOM_WHICH_LABEL">
+				<option value="users">PLG_FORM_ZOOM_USERS</option>
+				<option value="webinars">PLG_FORM_ZOOM_WEBINARS</option>
+				<option value="meetings">PLG_FORM_ZOOM_MEETINGS</option>
+			</field>
+
+
+			<field name="zoom_condition"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_CONDITION_DESC"
+				   label="PLG_FORM_ZOOM_CONDITION_LABEL"
+				   repeat="true" />
+
+		</fieldset>
+
+		<fieldset name="plg-form-zoom-users"
+				  label="PLG_FORM_ZOOM_USERS">
+
+			<field description="PLG_FORM_ZOOM_USERS_CHECK_EXISTING_DESC"
+				   label="PLG_FORM_ZOOM_USERS_CHECK_EXISTING_LABEL"
+				   name="zoom_users_check_existing"
+				   repeat="true"
+				   type="radio"
+				   class="btn-group"
+				   default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field description="PLG_FORM_ZOOM_USERS_USER_TYPE_DESC"
+				   label="PLG_FORM_ZOOM_USERS_USER_TYPE_LABEL"
+				   name="zoom_users_user_type"
+				   repeat="true"
+				   type="list"
+				   default="0">
+				<option value="1">PLG_FORM_ZOOM_USERS_USER_TYPE_BASIC</option>
+				<option value="2">PLG_FORM_ZOOM_USERS_USER_TYPE_PRO</option>
+			</field>
+
+			<field description="PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_DESC"
+				   label="PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_LABEL"
+				   name="zoom_users_user_create_method"
+				   repeat="true"
+				   type="list"
+				   default="create">
+				<option value="create">PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_CREATE</option>
+				<option value="autoCrate">PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_AUTO_CREATE</option>
+				<option value="custCreate">PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_CUST_CREATE</option>
+				<option value="ssoCreate">PLG_FORM_ZOOM_USERS_USER_CREATE_METHOD_SSO_CREATE</option>
+			</field>
+
+			<field description="PLG_FORM_ZOOM_USERS_ZOOM_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_ZOOM_ID_ELEMENT_LABEL"
+				   name="zoom_users_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_USERS_FIRST_NAME_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_FIRST_NAME_ELEMENT_LABEL"
+				   name="zoom_users_first_name_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_USERS_LAST_NAME_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_LAST_NAME_ELEMENT_LABEL"
+				   name="zoom_users_last_name_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_USERS_EMAIL_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_EMAIL_ELEMENT_LABEL"
+				   name="zoom_users_email_elemant"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_USERS_USERID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_USERID_ELEMENT_LABEL"
+				   name="zoom_users_userid_elemant"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_USERS_STATUS_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_USERS_STATUS_ELEMENT_LABEL"
+				   name="zoom_users_status_elemant"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="zoom_users_usergroup"
+				   type="usergroup"
+				   default="0"
+				   description="PLG_FORM_ZOOM_USERS_DEFAULT_GROUP_LABEL"
+				   label="PLG_FORM_ZOOM_USERS_DEFAULT_GROUP_LABEL"
+				   repeat="true" />
+		</fieldset>
+
+		<fieldset name="plg-form-zoom-webinars"
+				  label="PLG_FORM_ZOOM_WEBINARS">
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_CREATE_AS_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_CREATE_AS_LABEL"
+				   name="zoom_webinars_create_as"
+				   repeat="true"
+				   type="list"
+				   default="per">
+				<option value="single">PLG_FORM_ZOOM_WEBINARS_CREATE_AS_SINGLE_USER</option>
+				<option value="per">PLG_FORM_ZOOM_WEBINARS_CREATE_AS_PER_USER</option>
+			</field>
+
+			<field name="zoom_webinars_create_as_user"
+				   type="text"
+				   repeat="true"
+				   description="PLG_FORM_ZOOM_WEBINARS_CREATE_AS_USER_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_CREATE_AS_USER_LABEL" />
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_APPROVAL_TYPE_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_APPROVAL_TYPE_LABEL"
+				   name="zoom_webinars_approval_type"
+				   repeat="true"
+				   type="list"
+				   default="0">
+				<option value="0">PLG_FORM_ZOOM_WEBINARS_APPROVAL_TYPE_AUTOMATIC</option>
+				<option value="1">PLG_FORM_ZOOM_WEBINARS_APPROVAL_TYPE_MANUAL</option>
+				<option value="2">PLG_FORM_ZOOM_WEBINARS_APPROVAL_TYPE_NONE</option>
+			</field>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_ZOOM_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ZOOM_ID_ELEMENT_LABEL"
+				   name="zoom_webinars_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+            <field description="PLG_FORM_ZOOM_WEBINARS_ZOOM_ID_ELEMENT_DESC"
+                   label="PLG_FORM_ZOOM_WEBINARS_ZOOM_ID_ELEMENT_LABEL"
+                   name="zoom_webinars_id_element"
+                   onlytablefields="0"
+                   repeat="true"
+                   type="listfields"
+                   valueformat="tableelement"/>
+
+            <field description="PLG_FORM_ZOOM_WEBINARS_START_URL_ELEMENT_DESC"
+                   label="PLG_FORM_ZOOM_WEBINARS_START_URL_ELEMENT_LABEL"
+                   name="zoom_webinars_start_url_element"
+                   onlytablefields="0"
+                   repeat="true"
+                   type="listfields"
+                   valueformat="tableelement"/>
+
+            <field description="PLG_FORM_ZOOM_WEBINARS_JOIN_URL_ELEMENT_DESC"
+                   label="PLG_FORM_ZOOM_WEBINARS_JOIN_URL_ELEMENT_LABEL"
+                   name="zoom_webinars_join_url_element"
+                   onlytablefields="0"
+                   repeat="true"
+                   type="listfields"
+                   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_ZOOM_HOST_USER_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ZOOM_HOST_USER_ID_ELEMENT_LABEL"
+				   name="zoom_webinars_host_user_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_TOPIC_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_TOPIC_ELEMENT_LABEL"
+				   name="zoom_webinars_topic_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_AGENDA_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_AGENDA_ELEMENT_LABEL"
+				   name="zoom_webinars_agenda_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_START_TIME_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_START_TIME_ELEMENT_LABEL"
+				   name="zoom_webinars_start_time_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_DURATION_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_DURATION_ELEMENT_LABEL"
+				   name="zoom_webinars_duration_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_PASSWORD_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_PASSWORD_ELEMENT_LABEL"
+				   name="zoom_webinars_password_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_USER_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_USER_ID_ELEMENT_LABEL"
+				   name="zoom_webinars_user_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+		</fieldset>
+
+		<fieldset name="plg-form-zoom-webinars-attending"
+				  label="PLG_FORM_ZOOM_WEBINARS_ATTENDING">
+
+            <field name="zoom_webinars_attending_enable"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ENABLE_LABEL"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ENABLE_DESC"
+				   repeat="true"
+				   type="list"
+				   default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="2">PLG_FORM_ZOOM_WEBINARS_ATTENDING_ENABLE_DETAILS_ONLY</option>
+				<option value="3">PLG_FORM_ZOOM_WEBINARS_ATTENDING_ENABLE_LIST_ONLY</option>
+			</field>
+
+			<field name="zoom_webinars_attending_confirmation_email"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_CONFIRMATION_EMAIL_LABEL"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_CONFIRMATION_EMAIL_DESC"
+				   repeat="true"
+				   type="radio"
+				   class="btn-group"
+				   default="1">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="zoom_webinars_attending_access"
+				   type="accesslevel"
+				   default="1"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ACCESS_LABEL"
+				   desc="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ACCESS_DESC"
+				   repeat="true" />
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_CONNECTION_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_CONNECTION_LABEL"
+				   name="zoom_webinars_attending_connection"
+				   repeat="true"
+				   type="connections"/>
+
+			<field description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_TABLE_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_TABLE_LABEL"
+				   name="zoom_webinars_attending_table"
+				   observe="params_zoom_webinars_attending_connection"
+				   repeat="true"
+				   type="fabriktables"/>
+
+			<field connection="params_zoom_webinars_attending_connection"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_USER_ID_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_USER_ID_LABEL"
+				   name="zoom_webinars_attending_user_id"
+				   repeat="true"
+				   table="params_zoom_webinars_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_webinars_attending_connection"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ZOOM_ID_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_ZOOM_ID_LABEL"
+				   name="zoom_webinars_attending_zoom_id"
+				   repeat="true"
+				   table="params_zoom_webinars_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_webinars_attending_connection"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_WEBINAR_ID_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_WEBINAR_ID_LABEL"
+				   name="zoom_webinars_attending_thing_id"
+				   repeat="true"
+				   table="params_zoom_webinars_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_webinars_attending_connection"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_URL_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_URL_LABEL"
+				   name="zoom_webinars_attending_join_url"
+				   repeat="true"
+				   table="params_zoom_webinars_attending_table"
+				   type="element"/>
+
+			<field name="zoom_webinars_attending_join_condition"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_CONDITION_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_CONDITION_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_webinars_attending_join_button_label"
+				   type="text"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_BUTTON_LABEL_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_BUTTON_LABEL_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_webinars_attending_join_alt_text"
+				   type="textarea"
+				   cols="30"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_ALT_TEXT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_JOIN_ALT_TEXT_LABEL"
+				   repeat="true"
+				   rows="6" />
+
+			<field name="zoom_webinars_attending_leave_condition"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_CONDITION_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_CONDITION_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_webinars_attending_leave_button_label"
+				   type="text"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_BUTTON_LABEL_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_BUTTON_LABEL_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_webinars_attending_leave_alt_text"
+				   type="textarea"
+				   cols="30"
+				   description="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_ALT_TEXT_DESC"
+				   label="PLG_FORM_ZOOM_WEBINARS_ATTENDING_LEAVE_ALT_TEXT_LABEL"
+				   repeat="true"
+				   rows="6" />
+		</fieldset>
+
+
+		<fieldset name="plg-form-zoom-meetings"
+				  label="PLG_FORM_ZOOM_MEETINGS">
+
+            <field description="PLG_FORM_ZOOM_MEETINGS_APPROVAL_TYPE_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_APPROVAL_TYPE_LABEL"
+				   name="zoom_meetings_approval_type"
+				   repeat="true"
+				   type="list"
+				   default="0">
+				<option value="0">PLG_FORM_ZOOM_MEETINGS_APPROVAL_TYPE_AUTOMATIC</option>
+				<option value="1">PLG_FORM_ZOOM_MEETINGS_APPROVAL_TYPE_MANUAL</option>
+				<option value="2">PLG_FORM_ZOOM_MEETINGS_APPROVAL_TYPE_NONE</option>
+			</field>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_ZOOM_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ZOOM_ID_ELEMENT_LABEL"
+				   name="zoom_meetings_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+
+            <field description="PLG_FORM_ZOOM_MEETINGS_START_URL_ELEMENT_DESC"
+                   label="PLG_FORM_ZOOM_MEETINGS_START_URL_ELEMENT_LABEL"
+                   name="zoom_meetings_start_url_element"
+                   onlytablefields="0"
+                   repeat="true"
+                   type="listfields"
+                   valueformat="tableelement"/>
+
+            <field description="PLG_FORM_ZOOM_MEETINGS_JOIN_URL_ELEMENT_DESC"
+                   label="PLG_FORM_ZOOM_MEETINGS_JOIN_URL_ELEMENT_LABEL"
+                   name="zoom_meetings_join_url_element"
+                   onlytablefields="0"
+                   repeat="true"
+                   type="listfields"
+                   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_ZOOM_HOST_USER_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ZOOM_HOST_USER_ID_ELEMENT_LABEL"
+				   name="zoom_meetings_host_user_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_TOPIC_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_TOPIC_ELEMENT_LABEL"
+				   name="zoom_meetings_topic_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_AGENDA_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_AGENDA_ELEMENT_LABEL"
+				   name="zoom_meetings_agenda_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_START_TIME_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_START_TIME_ELEMENT_LABEL"
+				   name="zoom_meetings_start_time_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_DURATION_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_DURATION_ELEMENT_LABEL"
+				   name="zoom_meetings_duration_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_PASSWORD_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_PASSWORD_ELEMENT_LABEL"
+				   name="zoom_meetings_password_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_USER_ID_ELEMENT_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_USER_ID_ELEMENT_LABEL"
+				   name="zoom_meetings_user_id_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+		</fieldset>
+
+		<fieldset name="plg-form-zoom-meetings-attending"
+				  label="PLG_FORM_ZOOM_MEETINGS_ATTENDING">
+
+			<field name="zoom_meetings_attending_enable"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ENABLE_LABEL"
+				   description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ENABLE_DESC"
+				   repeat="true"
+				   type="list"
+				   default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="2">PLG_FORM_ZOOM_WEBINARS_MEETINGS_ENABLE_DETAILS_ONLY</option>
+				<option value="3">PLG_FORM_ZOOM_WEBINARS_MEETINGS_ENABLE_LIST_ONLY</option>
+			</field>
+
+			<field name="zoom_meetings_attending_access"
+				   type="accesslevel"
+				   default="1"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ACCESS_LABEL"
+				   desc="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ACCESS_DESC"
+				   repeat="true" />
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_CONNECTION_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_CONNECTION_LABEL"
+				   name="zoom_meetings_attending_connection"
+				   repeat="true"
+				   type="connections"/>
+
+			<field description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_TABLE_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_TABLE_LABEL"
+				   name="zoom_meetings_attending_table"
+				   observe="params_zoom_meetings_attending_connection"
+				   repeat="true"
+				   type="fabriktables"/>
+
+			<field connection="params_zoom_meetings_attending_connection"
+				   description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_USER_ID_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_USER_ID_LABEL"
+				   name="zoom_meetings_attending_user_id"
+				   repeat="true"
+				   table="params_zoom_meetings_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_meetings_attending_connection"
+				   description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ZOOM_ID_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_ZOOM_ID_LABEL"
+				   name="zoom_meetings_attending_zoom_id"
+				   repeat="true"
+				   table="params_zoom_meetings_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_meetings_attending_connection"
+				   description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_MEETING_ID_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_MEETING_ID_LABEL"
+				   name="zoom_meetings_attending_thing_id"
+				   repeat="true"
+				   table="params_zoom_meetings_attending_table"
+				   type="element"/>
+
+			<field connection="params_zoom_meetings_attending_connection"
+				   description="PLG_FORM_ZOOM_MEETINGS_ATTENDING_JOIN_URL_DESC"
+				   label="PLG_FORM_ZOOM_MEETINGS_ATTENDING_JOIN_URL_LABEL"
+				   name="zoom_meetings_attending_join_url"
+				   repeat="true"
+				   table="params_zoom_meetings_attending_table"
+				   type="element"/>
+		</fieldset>
+		<fieldset name="plg-form-zoom-php"
+				  label="PLG_FORM_ZOOM_PHP">
+
+			<field name="zoom_php_users_post"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_PHP_USERS_POST_DESC"
+				   label="PLG_FORM_ZOOM_PHP_USERS_POST_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_php_webinars_post"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_PHP_WEBINARS_POST_DESC"
+				   label="PLG_FORM_ZOOM_PHP_WEBINARS_POST_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_php_meetings_post"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_PHP_MEETINGS_POST_DESC"
+				   label="PLG_FORM_ZOOM_PHP_MEETINGS_POST_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_php_attending_add"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_PHP_ATTENDING_ADD_DESC"
+				   label="PLG_FORM_ZOOM_PHP_ATTENDING_ADD_LABEL"
+				   repeat="true" />
+
+			<field name="zoom_php_attending_remove"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_ZOOM_PHP_ATTENDING_REMOVE_DESC"
+				   label="PLG_FORM_ZOOM_PHP_ATTENDING_REMOVE_LABEL"
+				   repeat="true" />
+
+		</fieldset>
+	</fields>
+</form>

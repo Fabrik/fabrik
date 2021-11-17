@@ -5,7 +5,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.time
  * @author      Jaanus Nurmoja <email@notknown.com>
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -382,21 +382,18 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 
 				if ($ft == "H:i:s")
 				{
-					list($hour, $min, $sec) = explode(':', $d);
-					$timedisp = $hour . $sep . $min . $sep . $sec;
+					$timedisp = $hms;
 				}
 				else
 				{
 					if ($ft == "H:i")
 					{
-						list($hour, $min) = explode(':', $d);
-						$timedisp = $hour . $sep . $min;
+						$timedisp = $hm;
 					}
 
 					if ($ft == "i:s")
 					{
-						list($min, $sec) = explode(':', $d);
-						$timedisp = $min . $sep . $sec;
+						$timedisp = $ms;
 					}
 				}
 

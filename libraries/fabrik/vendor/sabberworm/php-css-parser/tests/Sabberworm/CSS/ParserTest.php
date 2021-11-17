@@ -126,6 +126,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	function testUnicodeRangeParsing() {
+		$oDoc = $this->parsedStructureForFile('unicode-range');
+		$sExpected = "@font-face {unicode-range: U+0100-024F,U+0259,U+1E??-2EFF,U+202F;}";
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
 	function testSpecificity() {
 		$oDoc = $this->parsedStructureForFile('specificity');
 		$oDeclarationBlock = $oDoc->getAllDeclarationBlocks();
@@ -153,6 +159,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		$this->assertEquals(array(new Selector('#test .help', true)), $oDoc->getSelectorsBySpecificity('> 100'));
+		$this->assertEquals(array(new Selector('#test .help', true), new Selector('#file', true)), $oDoc->getSelectorsBySpecificity('>= 100'));
+		$this->assertEquals(array(new Selector('#file', true)), $oDoc->getSelectorsBySpecificity('=== 100'));
+		$this->assertEquals(array(new Selector('#file', true)), $oDoc->getSelectorsBySpecificity('== 100'));
+		$this->assertEquals(array(new Selector('#file', true), new Selector('.help:hover', true), new Selector('li.green', true), new Selector('ol li::before', true)), $oDoc->getSelectorsBySpecificity('<= 100'));
+		$this->assertEquals(array(new Selector('.help:hover', true), new Selector('li.green', true), new Selector('ol li::before', true)), $oDoc->getSelectorsBySpecificity('< 100'));
+		$this->assertEquals(array(new Selector('li.green', true)), $oDoc->getSelectorsBySpecificity('11'));
+		$this->assertEquals(array(new Selector('ol li::before', true)), $oDoc->getSelectorsBySpecificity(3));
 	}
 
 	function testManipulation() {
@@ -387,6 +400,59 @@ body {background-url: url("http://somesite.com/images/someimage.gif");}';
 		$this->assertSame($sExpected, $oDoc->render());
 	}
 
+	function testHexAlphaInFile() {
+		$oDoc = $this->parsedStructureForFile('hex-alpha', Settings::create()->withMultibyteSupport(true));
+		$sExpected = 'div {background: rgba(17,34,51,.27);}
+div {background: rgba(17,34,51,.27);}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testCalcInFile() {
+		$oDoc = $this->parsedStructureForFile('calc', Settings::create()->withMultibyteSupport(true));
+		$sExpected = 'div {width: calc(100% / 4);}
+div {margin-top: calc(-120% - 4px);}
+div {height: -webkit-calc(9 / 16 * 100%) !important;width: -moz-calc(( 50px - 50% ) * 2);}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testCalcNestedInFile() {
+		$oDoc = $this->parsedStructureForFile('calc-nested', Settings::create()->withMultibyteSupport(true));
+		$sExpected = '.test {font-size: calc(( 3 * 4px ) + -2px);top: calc(200px - calc(20 * 3px));}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testGridLineNameInFile() {
+		$oDoc = $this->parsedStructureForFile('grid-linename', Settings::create()->withMultibyteSupport(true));
+		$sExpected = "div {grid-template-columns: [linename] 100px;}\nspan {grid-template-columns: [linename1 linename2] 100px;}";
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testEmptyGridLineNameLenientInFile() {
+		$oDoc = $this->parsedStructureForFile('empty-grid-linename');
+		$sExpected = '.test {grid-template-columns: [] 100px;}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testUnmatchedBracesInFile() {
+		$oDoc = $this->parsedStructureForFile('unmatched_braces', Settings::create()->withMultibyteSupport(true));
+		$sExpected = 'button, input, checkbox, textarea {outline: 0;margin: 0;}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testLineNameFailure() {
+		$this->parsedStructureForFile('-empty-grid-linename', Settings::create()->withLenientParsing(false));
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testCalcFailure() {
+		$this->parsedStructureForFile('-calc-no-space-around-minus', Settings::create()->withLenientParsing(false));
+	}
+
 	function testUrlInFileMbOff() {
 		$oDoc = $this->parsedStructureForFile('url', Settings::create()->withMultibyteSupport(false));
 		$sExpected = 'body {background: #fff url("http://somesite.com/images/someimage.gif") repeat top center;}
@@ -418,20 +484,70 @@ body {background-url: url("http://somesite.com/images/someimage.gif");}';
 		$this->assertSame($sExpected, $oDoc->render());
 	}
 
+	function testTrailingWhitespace() {
+		$oDoc = $this->parsedStructureForFile('trailing-whitespace', Settings::create()->withLenientParsing(false));
+		$sExpected = 'div {width: 200px;}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
 	/**
-	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
-	*/
+	 * @expectedException \Sabberworm\CSS\Parsing\UnexpectedTokenException
+	 */
 	function testCharsetFailure1() {
 		$this->parsedStructureForFile('-charset-after-rule', Settings::create()->withLenientParsing(false));
 	}
 
 	/**
-	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
-	*/
+	 * @expectedException \Sabberworm\CSS\Parsing\UnexpectedTokenException
+	 */
 	function testCharsetFailure2() {
 		$this->parsedStructureForFile('-charset-in-block', Settings::create()->withLenientParsing(false));
 	}
 
+	/**
+	 * @expectedException \Sabberworm\CSS\Parsing\SourceException
+	 */
+	function testUnopenedClosingBracketFailure() {
+		$this->parsedStructureForFile('unopened-close-brackets', Settings::create()->withLenientParsing(false));
+	}
+
+	/**
+	 * Ensure that a missing property value raises an exception.
+	 *
+	 * @expectedException \Sabberworm\CSS\Parsing\UnexpectedTokenException
+	 * @covers \Sabberworm\CSS\Value\Value::parseValue()
+	 */
+	function testMissingPropertyValueStrict() {
+		$this->parsedStructureForFile('missing-property-value', Settings::create()->withLenientParsing(false));
+	}
+
+	/**
+	 * Ensure that a missing property value is ignored when in lenient parsing mode.
+	 *
+	 * @covers \Sabberworm\CSS\Value\Value::parseValue()
+	 */
+	function testMissingPropertyValueLenient() {
+		$parsed = $this->parsedStructureForFile('missing-property-value', Settings::create()->withLenientParsing(true));
+		$rulesets = $parsed->getAllRuleSets();
+		$this->assertCount( 1, $rulesets );
+		$block = $rulesets[0];
+		$this->assertTrue( $block instanceof DeclarationBlock );
+		$this->assertEquals( array( 'div' ), $block->getSelectors() );
+		$rules = $block->getRules();
+		$this->assertCount( 1, $rules );
+		$rule = $rules[0];
+		$this->assertEquals( 'display', $rule->getRule() );
+		$this->assertEquals( 'inline-block', $rule->getValue() );
+	}
+
+	/**
+	 * Parse structure for file.
+	 *
+	 * @param string      $sFileName Filename.
+	 * @param null|obJeCt $oSettings Settings.
+	 *
+	 * @return CSSList\Document Parsed document.
+	 */
 	function parsedStructureForFile($sFileName, $oSettings = null) {
 		$sFile = dirname(__FILE__) . '/../../files' . DIRECTORY_SEPARATOR . "$sFileName.css";
 		$oParser = new Parser(file_get_contents($sFile), $oSettings);
@@ -581,5 +697,18 @@ body {background-url: url("http://somesite.com/images/someimage.gif");}';
 		$comments = $contents[0]->getComments();
 		$this->assertCount(1, $comments);
 		$this->assertEquals("Find Me!", $comments[0]->getComment());
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testMicrosoftFilterStrictParsing() {
+		$oDoc = $this->parsedStructureForFile('ms-filter', Settings::create()->beStrict());
+	}
+
+	function testMicrosoftFilterParsing() {
+		$oDoc = $this->parsedStructureForFile('ms-filter');
+		$sExpected = ".test {filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=\"#80000000\",endColorstr=\"#00000000\",GradientType=1);}";
+		$this->assertSame($sExpected, $oDoc->render());
 	}
 }

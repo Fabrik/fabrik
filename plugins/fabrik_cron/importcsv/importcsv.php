@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.cron.importcsv
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -147,7 +147,8 @@ class PlgFabrik_Cronimportcsv extends PlgFabrik_Cron
 
 			if ($useTableName)
 			{
-				$listId = $this->getListIdFromFileName(basename($fullCsvFile));
+				//Tablename is filename without extension
+				$listId = $this->getListIdFromFileName(pathinfo($fullCsvFile,PATHINFO_FILENAME));
 			}
 			else
 			{

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.link
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -48,10 +48,10 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-        $profiler = JProfiler::getInstance('Application');
-        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+		$profiler = JProfiler::getInstance('Application');
+		JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
-        $listModel = $this->getlistModel();
+		$listModel = $this->getlistModel();
 		$params = $this->getParams();
 		$target = $params->get('link_target', '');
 		$smart_link = $params->get('link_smart_link', false);
@@ -133,9 +133,9 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				&& substr(JString::strtolower($href), 0, 8) != 'https://'
 				&& substr(JString::strtolower($href), 0, 6) != 'ftp://'
 				&& substr(JString::strtolower($href), 0, 7) != 'mailto:'
-				)
+			)
 			{
-					$href = 'http://' . $href;
+				$href = 'http://' . $href;
 			}
 			// If used as a icon - the dom parser needs to use &amp; and not & in url querystrings
 			if (!strstr($href, '&amp;'))

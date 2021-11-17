@@ -4,7 +4,7 @@ defined('JPATH_BASE') or die;
 $d = $displayData;
 
 $class = $d->downloadImg !== '' ? '' : 'class="btn btn-primary button"';
-
+$target = $d->openInBrowser ? ' target="_blank"' : '';
 ?>
 
 <?php if (!$d->canDownload) :
@@ -34,7 +34,7 @@ $class = $d->downloadImg !== '' ? '' : 'class="btn btn-primary button"';
     <?php
     endif;
 	else :?>
-<a href="<?php echo $d->href;?>" <?php echo $class; ?>>
+<a href="<?php echo $d->href;?>" <?php echo $class; ?> <?php echo $target; ?>>
 	<?php if ($d->downloadImg !== '') : ?>
 		<img src="<?php echo $d->downloadImg;?>" alt="<?php echo $d->title;?>" />
 	<?php else :?>

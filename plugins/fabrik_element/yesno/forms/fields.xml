@@ -13,6 +13,21 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="default"
+				   type="fabrikeditor"
+				   mode="php"
+				   label="PLG_ELEMENT_YESNO_DEFAULT_LABEL" />
+
+			<field name="eval"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_YESNO_EVAL_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 	</fields>
 

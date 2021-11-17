@@ -32,6 +32,11 @@
 			label="COM_FABRIK_GOOGLE_API_KEY_LABEL"
 			description="COM_FABRIK_GOOGLE_API_KEY_DESC" />
 
+		<field name="google_api_language"
+			   type="text"
+			   label="COM_FABRIK_GOOGLE_API_LANGUAGE_LABEL"
+			   description="COM_FABRIK_GOOGLE_API_LANGUAGE_DESC" />
+
 		<field name="google_buisness_client_id"
 			type="text"
 			label="COM_FABRIK_GOOGLE_BUSINESS_CLIENT_ID_LABEL"
@@ -310,14 +315,14 @@
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="DATETIME"/>
 
 		<field name="date"
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="DATE"
 			description="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS_DATE_DESC"/>
 
@@ -325,7 +330,7 @@
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="TIMESTAMP"/>
 
 		<field name="time"
@@ -449,6 +454,7 @@
 				<option value="0">COM_FABRIK_LIGHTBOX_SLIMBOX</option>
 				<option value="1">COM_FABRIK_LIGHTBOX_MEDIABOX</option>
 				<option value="2">COM_FABRIK_LIGHTBOX_ROKBOX</option>
+				<option value="3">COM_FABRIK_LIGHTBOX_LIGHTCASE</option>
 		</field>
 
 		<field name="mediabox_style"

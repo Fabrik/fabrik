@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.acymailing
- * @copyright   Copyright (C) 2005-2018  Better Web - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Better Web - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
  

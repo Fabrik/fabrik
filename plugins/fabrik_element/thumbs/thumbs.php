@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.thumbs
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -114,6 +114,32 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 		return parent::renderListData($data, $thisRow, $opts);
 	}
 
+	private function setParentIDs(&$elementId, &$formId, &$listId)
+	{
+		$element = $this->getElement();
+		static $row = null;
+
+		if (!empty($element->parent_id))
+		{
+			if (!isset($row))
+			{
+				$db    = FabrikWorker::getDbo();
+				$query = $db->getQuery(true);
+				$query->select('e.id as element_id, fg.form_id, l.id as list_id')
+					->from('#__fabrik_elements as e')
+					->leftJoin('#__fabrik_formgroup as fg on fg.group_id = e.group_id')
+					->leftJoin('#__fabrik_lists as l on l.form_id = fg.form_id')
+					->where('e.id = ' . (int) $element->parent_id);
+				$db->setQuery($query);
+				$row       = $db->loadObject();
+			}
+
+			$listId    = $row->list_id;
+			$formId    = $row->form_id;
+			$elementId = $row->element_id;
+		}
+	}
+
 	/**
 	 * Shows the data formatted for the list view
 	 *
@@ -146,6 +172,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	{
 		$db = FabrikWorker::getDbo();
 		$elementId = $this->getElement()->id;
+		$this->setParentIDs($elementId, $formId, $listId);
 
 		$sql = isset($this->special) ? " AND special = " . $db->q($this->special) : '';
 
@@ -172,8 +199,10 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	 */
 	public function getListThumbsCount()
 	{
+		$elementId = $this->getElement()->id;
 		$listId = isset($this->listid) ? $this->listid : $this->getListModel()->getId();
 		$formId = isset($this->formid) ? $this->formid : $this->getFormModel()->getId();
+		$this->setParentIDs($elementId, $formId, $listId);
 		$db = FabrikWorker::getDbo();
 		$return = array();
 
@@ -313,6 +342,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	{
 		$db = FabrikWorker::getDbo();
 		$elementId = $this->getElement()->id;
+		$this->setParentIDs($elementId, $formId, $listId);
 		$userId = $this->user->get('id');
 		$query = $db->getQuery(true);
 
@@ -397,6 +427,8 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 	 */
 	private function deleteThumb($listId, $formId, $rowId, $thumb)
 	{
+		$elementId = $this->getElement()->id;
+		$this->setParentIDs($elementId, $formId, $listId);
 		$userId = $this->getUserId($listId, $rowId);
 		$db = FabrikWorker::getDbo();
 		$query = $db->getQuery(true);
@@ -454,6 +486,7 @@ class PlgFabrik_ElementThumbs extends PlgFabrik_Element
 		$date = $this->date->toSql();
 		$userId = $this->getUserId($listId, $rowId);
 		$elementId = $this->getElement()->id;
+		$this->setParentIDs($elementId, $formId, $listId);
 		$special = $this->app->input->get('special');
 		$db->setQuery(
 			"INSERT INTO #__{package}_thumbs

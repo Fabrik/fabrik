@@ -384,17 +384,30 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     json.each(function (o) {
                         jsonValues.push(o.value);
                         if (!existingValues.contains(o.value) && o.value !== null) {
+                            if (o.selected) {
+                                self.options.value = o.value;
+                                changed = true;
+                            }
                             sel = self.options.value === o.value;
+                            if (sel && self.activePopUp) {
+                                changed = true;
+                            }
                             self.addOption(o.value, o.text, sel);
-                            changed = true;
+                        }
+                        else {
+                            if (o.selected) {
+                                if (self.options.value !== o.value) {
+                                    changed = true;
+                                    self.update(o.value);
+                                }
+                            }
                         }
                     });
 
                     existingValues.each(function (ev) {
                         if (!jsonValues.contains(ev)) {
-                            sel = self.getValue() === ev;
+                            sel = changed = self.getValue() === ev;
                             self.removeOption(ev, sel);
-                            changed = true;
                         }
                     });
 
@@ -680,7 +693,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             var found = false;
             if (typeOf(this.element.options) !== 'null') { //needed with repeat group code
                 for (var i = 0; i < this.element.options.length; i++) {
-                    if (this.element.options[i].value === val) {
+                    if ((typeof val === 'string' || typeof val === 'number') && this.element.options[i].value === val.toString()) {
                         this.element.options[i].selected = true;
                         found = true;
                         break;
@@ -901,6 +914,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         watchObserve: function () {
+            if (this.options.ajaxOnLoad) {
+                this.updateFromServer();
+            }
             var v2, o2;
             this.options.observe.each(function (o) {
                 if (o === '') {

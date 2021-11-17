@@ -52,7 +52,7 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 					var re = new RegExp('\{' + key + '\}', 'g');
 					thisLink = thisLink.replace(re, value);
 				});
-				if (this.options.fabrikLink && this.list.options.ajax_links) {
+				if (this.options.fabrikLink) {
 					var loadMethod = 'xhr';
 					thisLink += thisLink.contains('?') ? '&' : '?';
 					thisLink += 'tmpl=component&ajax=1';

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.php
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -132,9 +132,10 @@ class PlgFabrik_ListLink extends plgFabrik_List
 		parent::onLoadJavascriptInstance($args);
 		$opts = $this->getElementJSOptions();
 		$params = $this->getParams();
-		$opts->link = $params->get('table_link_link', '');
+		$opts->link = JRoute::_($params->get('table_link_link', ''));
 		$opts->newTab = $params->get('table_link_new_tab', '0') === '1';
-		$opts->fabrikLink = $params->get('table_link_isfabrik', '0') === '1';
+		$opts->fabrikLink = ($params->get('table_link_isfabrik', '0') === '1' && $this->getModel()->getParams()->get('list_ajax_links') == '1')
+			|| $params->get('table_link_isfabrik', '0') === '2';
 		$opts->windowTitle = FText::_($params->get('table_link_fabrik_window_title', ''));
 		$opts = json_encode($opts);
 		$this->jsInstance = "new FbListLink($opts)";

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.phpevents
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -238,6 +238,21 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 
 		return $this->doEvaluate($params->get('list_phpevents_onelementcanviewlist'), $args);
 	}
+
+	public function onElementSetRowClass(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onelementsetrowclass'), $args);
+	}
+
+	public function onRelatedDataURL(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onrelateddataurl'), $args);
+	}
+
 
 
 	/**

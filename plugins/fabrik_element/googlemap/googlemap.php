@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.googlemap
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -311,9 +311,10 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$opts->control = $params->get('fb_gm_mapcontrol');
 		$opts->scalecontrol = (bool) $params->get('fb_gm_scalecontrol');
 		$opts->maptypecontrol = (bool) $params->get('fb_gm_maptypecontrol');
+		$opts->maptypeids = $params->get('fb_gm_maptypecontroloptions');
 		$opts->overviewcontrol = (bool) $params->get('fb_gm_overviewcontrol');
 		$opts->traffic = (bool) $params->get('fb_gm_trafficlayer', '0');
-		$opts->drag = (bool) $formModel->isEditable();
+		$opts->drag = (bool) $formModel->isEditable() && (bool) $params->get('fb_gm_draggable', '1');
 		$opts->staticmap = $this->_useStaticMap() ? true : false;
 		$opts->maptype = $params->get('fb_gm_maptype');
 		$opts->scrollwheel = (bool) $params->get('fb_gm_scroll_wheel');
@@ -333,8 +334,11 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 					|| ($geocode_on_load == 2 && !$formModel->isNewRecord())
 					|| $geocode_on_load == 3
 				);
-		$opts->auto_center = (bool) $params->get('fb_gm_auto_center', false);
+		$opts->auto_center = (bool) $params->get('fb_gm_auto_center', false) && (bool) $params->get('fb_gm_draggable', '1');
 		$opts->styles = Googlemap::styleJs($params);
+		$opts->lat_element = $this->_getFieldId('fb_gm_lat_element', $repeatCounter);
+		$opts->lon_element = $this->_getFieldId('fb_gm_lon_element', $repeatCounter);
+		$opts->latlng_elements = !empty($opts->lat_element) && !empty($opts->lon_element);
 
 		if ($opts->geocode == '2')
 		{
@@ -410,9 +414,32 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 			$opts->directionsFrom = false;
 		}
 
+		$opts->use_overlays = (int) $params->get('fb_gm_use_overlays', '0');
+
+		if ($opts->use_overlays)
+		{
+			$overlays = $this->getOverlayArray();
+			$opts->overlay_urls = $overlays['urls'];
+			$opts->overlay_labels = $overlays['labels'];
+			$opts->overlay_preserveviewports = $overlays['preserveViewports'];
+			$opts->overlay_suppressinfowindows = $overlays['suppressInfoWindows'];
+		}
+		else
+		{
+			$opts->overlay_urls                = array();
+			$opts->overlay_labels              = array();
+			$opts->overlay_preserveviewports   = array();
+			$opts->overlay_suppressinfowindows = array();
+		}
+
+		$opts->use_overlays_sidebar = $opts->use_overlays && (int) $params->get('fb_gm_use_overlays_sidebar', '0');
+		$opts->use_overlays_select = $params->get('fb_gm_use_overlays_select', 'checkbox');
+		$opts->use_overlays_checked = $params->get('fb_gm_use_overlays_checked', '');
+
 		$config = JComponentHelper::getParams('com_fabrik');
 		$apiKey = trim($config->get('google_api_key', ''));
 		$opts->key = empty($apiKey) ? false : $apiKey;
+		$opts->language             = trim(strtolower($config->get('google_api_language', '')));
 
 		return array('FbGoogleMap', $id, $opts);
 	}
@@ -852,6 +879,22 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 				$layoutData->showdms = $params->get('fb_gm_latlng_dms');
 				$layoutData->showlatlng = $params->get('fb_gm_latlng');
 				$layoutData->showosref = $params->get('fb_gm_latlng_osref');
+				$layoutData->sidebarPosition = $params->get('fb_gm_use_overlays_sidebar');
+				$layoutData->showOverLays    = (bool) $params->get('fb_gm_use_overlays');
+
+				if ($this->getShowSideBar())
+				{
+					$overlays = $this->getOverlayArray();
+					$layoutData->showSidebar   = 1;
+					$layoutData->overlaySelect = $params->get('fb_gm_use_overlays_select', 'checkbox');
+					$layoutData->overlayUrls   = $overlays['urls'];
+					$layoutData->overlayLabels = $overlays['labels'];
+					$layoutData->overlaysChecked = $params->get('fb_gm_use_overlays_checked', '');
+				}
+				else
+				{
+					$layoutData->showSidebar = 0;
+				}
 
 				return $layout->render($layoutData);
 			}
@@ -968,5 +1011,115 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	protected function getIndEmailValue($value, $data = array(), $repeatCounter = 0)
 	{
 		return $this->_staticMap($value, null, null, null, $repeatCounter, false, $data);
+	}
+
+	/**
+	 * Get whether the map side bar should be shown
+	 *
+	 * @return  bool
+	 */
+	private function getShowSideBar()
+	{
+		$params = $this->getParams();
+
+		// KML layers side bar?
+		if ((int) $params->get('fb_gm_use_overlays', 0) === 1 && (int) $params->get('fb_gm_use_overlays_sidebar', 0) > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	private function useOverlays()
+	{
+		$params = $this->getParams();
+
+		return (int) $params->get('fb_gm_use_overlays', 0) === 1;
+	}
+
+	private function getOverlayArray()
+	{
+		static $overlays = null;
+
+		if (!isset($overlays))
+		{
+			if ($this->useOverlays())
+			{
+				$params                      = $this->getParams();
+				$overlay_urls                = (array) $params->get('fb_gm_overlay_urls');
+				$overlay_labels              = (array) $params->get('fb_gm_overlay_labels');
+				$overlay_preserveviewports   = (array) $params->get('fb_gm_overlay_preserveviewport');
+				$overlay_suppressinfowindows = (array) $params->get('fb_gm_overlay_suppressinfowindows');
+
+				$overlayCode = trim($params->get('fb_gm_overlay_code', ''));
+
+				if (!empty($overlayCode))
+				{
+					// make available for eval'ed code
+					$formModel = $this->getFormModel();
+					$overlayArray = eval($overlayCode);
+
+					if (is_array($overlayArray))
+					{
+						if (array_key_exists('urls', $overlayArray) && is_array($overlayArray['urls']))
+						{
+							$overlay_urls = array_merge($overlay_urls, $overlayArray['urls']);
+						}
+
+						if (array_key_exists('labels', $overlayArray))
+						{
+							$overlay_labels = array_merge($overlay_labels, $overlayArray['labels']);
+						}
+
+						if (array_key_exists('preserveViewports', $overlayArray))
+						{
+							$overlay_preserveviewports = array_merge($overlay_preserveviewports, $overlayArray['preserveViewports']);
+						}
+
+						if (array_key_exists('suppressInfoWindows', $overlayArray))
+						{
+							$overlay_suppressinfowindows = array_merge($overlay_suppressinfowindows, $overlayArray['suppressInfoWindows']);
+						}
+					}
+				}
+
+				foreach ($overlay_urls as $k => $overlayUrl)
+				{
+					if (empty($overlayUrl))
+					{
+						unset($overlay_urls[$k]);
+						unset($overlay_labels[$k]);
+						unset($overlay_preserveviewports[$k]);
+						unset($overlay_suppressinfowindows[$k]);
+					}
+				}
+
+				$overlay_urls = array_values($overlay_urls);
+				$overlay_labels = array_values($overlay_labels);
+				$overlay_suppressinfowindows = array_values($overlay_suppressinfowindows);
+				$overlay_preserveviewports = array_values($overlay_preserveviewports);
+
+				$overlays = array(
+					'urls'                => $overlay_urls,
+					'labels'              => $overlay_labels,
+					'preserveViewports'   => $overlay_preserveviewports,
+					'suppressInfoWindows' => $overlay_suppressinfowindows
+				);
+			}
+			else
+			{
+				$overlays = array(
+					'urls'                => array(),
+					'labels'              => array(),
+					'preserveViewports'   => array(),
+					'suppressInfoWindows' => array()
+				);
+			}
+
+			$this->overlayData = $overlays;
+		}
+
+		return $overlays;
 	}
 }

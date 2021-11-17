@@ -45,21 +45,6 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			Fabrik.addEvent('fabrik.form.elements.added', function (form) {
 				self.setUp(form);
 			});
-
-			Fabrik.addEvent('fabrik.form.element.added', function (form, elId, oEl) {
-				if (!self.element) {
-					// if we are on the form load then this.element not set so return
-					return;
-				}
-				// A group has been duplicated
-				if (oEl.strElement === self.element.strElement) {
-					// The element is a clone of our observable element
-					// $$$ hugh - don't think we need to do this any more as events get cloned during group duplication
-					//self.element = false;
-					//self.setupDone = false;
-					//self.setUp(form);
-				}
-			});
 		},
 
 		/**
@@ -99,6 +84,10 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			return e;
 		},
 
+		doLookup: function(e) {
+			this.lookUp(e);
+		},
+
 		/**
 		 *
 		 * @param {object} form
@@ -118,11 +107,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 				return;
 			}
 
-			var evnt = function (e) {
-				// Fabrik Trigger element object so don't use as this.element or lookup value will be wrong
-				self.lookUp(e);
-			};
-
+			this.doLookupEvent = this.doLookup.bind(this);
 			var testE = false;
 			var e = this.form.formElements.get(this.options.observe);
 
@@ -161,16 +146,16 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 					var elEvnt = this.element.getBlurEvent();
 					this.newAttach.each(function (el) {
 						var e = self.form.formElements.get(el);
-						self.form.dispatchEvent('', el, elEvnt, evnt);
+						self.form.dispatchEvent('', el, elEvnt, self.doLookupEvent);
                         if (self.options.fillOnLoad) {
-                            self.form.dispatchEvent('', el, 'load', evnt);
+                            self.form.dispatchEvent('', el, 'load', self.doLookupEvent);
                         }
 					});
 				}
 			} else {
-				this.form.dispatchEvent('', this.options.trigger, 'click', evnt);
+				this.form.dispatchEvent('', this.options.trigger, 'click', this.doLookupEvent);
                 if (this.options.fillOnLoad) {
-                    this.form.dispatchEvent('', this.options.trigger, 'load', evnt);
+                    this.form.dispatchEvent('', this.options.trigger, 'load', this.doLookupEvent);
                 }
 			}
 

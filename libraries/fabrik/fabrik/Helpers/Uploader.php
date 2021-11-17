@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -173,7 +173,11 @@ class Uploader extends \JObject
 			return false;
 		}
 
-		if (!is_uploaded_file($file['tmp_name']))
+		/**
+		 * If we're AJAX uploading and WiP is set, don't check is_uploaded_file, because it won't be,
+		 * we uploaded it direct from the form through AJAX to our own tmp location, now we're just moving it
+		 */
+		if (!($params->get('ajax_upload', '0') === '1' && $params->get('upload_use_wip', '0') === '1') && !is_uploaded_file($file['tmp_name']))
 		{
 			// Handle potential malicious attack
 			$err = Text::_('File has not been uploaded');

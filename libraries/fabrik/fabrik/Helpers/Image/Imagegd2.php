@@ -2,7 +2,7 @@
 /**
  * @package     Joomla
  * @subpackage  Fabrik.image
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -20,7 +20,7 @@ use \Fabrik\Helpers\StringHelper;
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.0
  */
@@ -114,6 +114,13 @@ class Imagegd2 extends Imagegd
 
 				// Create a new temporary image
 				$tmp_img = imagecreatetruecolor($new_width, $new_height);
+				
+				// Handle image transparency for resized image
+				if (function_exists('imagealphablending'))
+				{
+					imagealphablending($tmp_img, false);
+					imagesavealpha($tmp_img, true);
+				}
 
 				// Copy and resize old image into new image
 				imagecopyresampled($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);

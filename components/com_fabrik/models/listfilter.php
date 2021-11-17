@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -1444,21 +1444,9 @@ class FabrikFEModelListfilter extends FabModel
 				$filters['join'][] = $joinMode;
 				$filters['no-filter-setup'][] = ($element->filter_type == '') ? 1 : 0;
 				$filters['hidden'][] = ($element->filter_type == '') ? 1 : 0;
-				/*
-				 * $$$ hugh - need to check for magic quotes, otherwise filter keys for
-				 * CONCAT's get munged into things like CONCAT(last_name,\', \',first_name)
-				 * which then blows up the WHERE query.
-				 */
-
 				$elKey = htmlspecialchars_decode($elementModel->getFilterFullName(), ENT_QUOTES);
-				if (get_magic_quotes_gpc())
-				{
-					$decodedKey = stripslashes(urldecode($key));
-				}
-				else
-				{
-					$decodedKey = urldecode($key);
-				}
+				$decodedKey = urldecode($key);
+
 
 				if ($decodedKey !== $elKey)
 				{

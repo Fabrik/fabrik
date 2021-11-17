@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -264,6 +264,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		if ($evalFilter && ($type === 'prefilter' || $type === 'menuprefilter'))
 		{
 			$originalValue = stripslashes(htmlspecialchars_decode($originalValue, ENT_QUOTES));
+			FabrikWorker::clearEval();
 			$originalValue = @eval($originalValue);
 			FabrikWorker::logEval($originalValue, 'Caught exception on eval of elementList::filterQueryMultiValues() ' . $key . ': %s');
 		}
@@ -627,7 +628,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		$listModel = $this->getListModel();
 		$multiple = $this->isMultiple();
 		$mergeGroupRepeat = ($this->getGroup()->canRepeat() && $this->getListModel()->mergeJoinedData());
-		$useIcon = $params->get('icon_folder', 0) && ArrayHelper::getValue($opts, 'icon', 1);
+		$useIcon = (int)$params->get('icon_folder', 0) > 0 && ArrayHelper::getValue($opts, 'icon', 1);
 
 		// Give priority to raw value icons (podion)
 		$raw = $this->isJoin() ? $this->getFullName(true, false) . '_raw' : $this->getFullName(true, false) . '_id';

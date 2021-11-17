@@ -498,17 +498,29 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         getTimeFromField: function () {
             var timeStr = '';
 
-            if (this.options.showtime === true && this.timeElement) {
+            if ((this.options.hidden === true || this.options.showtime === true) && this.timeElement) {
                 var d = new Date();
                 var format = '%H:%M:%S';
                 var time = this.timeElement.get('value').toUpperCase();
-                var afternoon = time.contains('PM') ? true : false;
+                var meridian = time.contains('PM') || time.contains('AM');
+                var ampm = '';
+
+                if (meridian) {
+                    ampm = time.contains('AM') ? 'am' : 'pm';
+                }
+
                 time = time.replace('PM', '').replace('AM', '').replace(' ', '');
 
                 var t = time.split(':');
                 var h = t[0] ? t[0].toInt() : 0;
-                if (afternoon) {
-                    h += 12;
+                if (meridian) {
+                    if (ampm === 'pm' && h < 12) {
+                        h += 12;
+                    }
+                    else if (ampm === 'am' && h === 12)
+                    {
+                        h = 0;
+                    }
                 }
 
                 var m = t[1] ? t[1].toInt() : 0;
@@ -544,16 +556,29 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 return;
             }
 
-            if (this.options.showtime === true && this.timeElement) {
+            this.getTimeField();
+            if ((this.options.hidden === true || this.options.showtime === true) && this.timeElement) {
                 var time = this.timeElement.get('value').toUpperCase();
-                var afternoon = time.contains('PM') ? true : false;
+                var meridian = time.contains('PM') || time.contains('AM');
+                var ampm = '';
+
+                if (meridian) {
+                    ampm = time.contains('AM') ? 'am' : 'pm';
+                }
                 time = time.replace('PM', '').replace('AM', '');
 
                 var t = time.split(':');
                 var h = t[0] ? t[0].toInt() : 0;
-                if (afternoon) {
-                    h += 12;
+                if (meridian) {
+                    if (ampm === 'pm' && h < 12) {
+                        h += 12;
+                    }
+                    else if (ampm === 'am' && h === 12)
+                    {
+                        h = 0;
+                    }
                 }
+
                 var m = t[1] ? t[1].toInt() : 0;
 
                 d.setHours(h);

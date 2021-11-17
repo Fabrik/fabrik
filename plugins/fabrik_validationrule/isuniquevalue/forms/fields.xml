@@ -27,6 +27,18 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="isuniquevalue-allow_empty"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_VALIDATIONRULE_ISUNIQUE_ALLOW_EMPTY_DESC"
+				   label="PLG_VALIDATIONRULE_ISUNIQUE_ALLOW_EMPTY_LABEL"
+				   repeat="true" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+
 			<field name="isuniquevalue-within-group"
 				   type="radio"
 				   default="0"

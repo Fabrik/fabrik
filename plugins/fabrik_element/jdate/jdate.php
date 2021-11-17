@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.date
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -841,6 +841,14 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 		$element      = $this->getElement();
 		$id           = $this->getHTMLId($repeatCounter);
 		$opts         = $this->getElementJSOptions($repeatCounter);
+
+		// if read only, convert back to local display time
+		if (!$this->isEditable())
+		{
+			$localDate = $this->displayDate($opts->value);
+			$opts->value = $localDate->toSql(true);
+		}
+
 		$opts->hidden = (bool) $this->getElement()->hidden;
 
 		// Used uniquely in reset();
@@ -1477,7 +1485,7 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 		foreach ($joins as $aJoin)
 		{
 			// Not sure why the group id key wasn't found - but put here to remove error
-			if (array_key_exists('group_id', $aJoin))
+			if (property_exists($aJoin, 'group_id'))
 			{
 				if ($aJoin->group_id == $element->group_id && $aJoin->element_id == 0)
 				{
@@ -1591,7 +1599,7 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 	 *
 	 * @return  string JLayout render
 	 */
-	protected function autoCompleteFilter($default, $v, $labelValue = null, $normal = true, $container)
+	protected function autoCompleteFilter($default, $v, $labelValue = null, $normal = true, $container = null)
 	{
 		if (get_magic_quotes_gpc())
 		{
@@ -2636,18 +2644,23 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 		$deps   = array_key_exists($key, $shim) ? $shim[$key]->deps : array();
 		$params = $this->getParams();
 
-		if (!in_array('lib/datejs/date', $deps))
+		if (empty($deps))
 		{
-			$deps[] = 'lib/datejs/globalization/' . JFactory::getLanguage()->getTag();
-			$deps[] = 'lib/datejs/core';
-			$deps[] = 'lib/datejs/parser';
-			$deps[] = 'lib/datejs/extras';
-		}
-
-		if (count($deps) > 0)
-		{
+			/**
+			 * Main datejs files (core, parser) require the globalization to be loaded first,
+			 * to add the Date.CultureInfo object, so we have to shim it thusly
+			 */
 			$s          = new stdClass;
-			$s->deps    = $deps;
+			$s->deps    = [];
+			$globalShim = new stdClass();
+			$globalShim->deps = ['lib/datejs/globalization/' . JFactory::getLanguage()->getTag()];
+			$s->deps[] = 'lib/datejs/globalization/' . JFactory::getLanguage()->getTag();
+			$s->deps[] = 'lib/datejs/core';
+			$shim['lib/datejs/core'] = $globalShim;
+			$s->deps[] = 'lib/datejs/parser';
+			$shim['lib/datejs/parser'] = $globalShim;
+			$s->deps[] = 'lib/datejs/extras';
+			$shim['lib/datejs/extras'] = $globalShim;
 			$shim[$key] = $s;
 		}
 

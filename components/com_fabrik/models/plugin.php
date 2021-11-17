@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -693,7 +693,7 @@ class FabrikPlugin extends JPlugin
 		{
 			// $$$ hugh @FIXME - added copyingRow() stuff to form model, need to do it
 			// for list model as well.
-			$k = array_key_exists('origRowId', $model) && isset($model->origRowId) ? 'origRowId' : 'rowId';
+			$k = property_exists($model,'origRowId') && isset($model->origRowId) ? 'origRowId' : 'rowId';
 
 			switch ($event)
 			{
@@ -887,6 +887,7 @@ class FabrikPlugin extends JPlugin
 				$groups      = $model->getFormGroupElementData();
 				$published   = $input->get('published', false);
 				$showInTable = $input->get('showintable', false);
+				$showRaw     = $input->getBool('showRaw', false);
 
 				foreach ($groups as $g => $groupModel)
 				{
@@ -954,6 +955,17 @@ class FabrikPlugin extends JPlugin
 						else
 						{
 							$arr[] = $c;
+
+							if ($showRaw && is_a($eVal, 'PlgFabrik_ElementDatabasejoin'))
+							{
+								$useStep = $keyType === 2 ? true : false;
+								$rawVal = $eVal->getRawColumn($useStep);
+								$rawVal = str_replace('`', '', $rawVal);
+								$c        = new stdClass;
+								$c->value = $rawVal;
+								$c->label = $label . ' (raw)';
+								$arr[] = $c;
+							}
 						}
 
 						if ($incCalculations)
