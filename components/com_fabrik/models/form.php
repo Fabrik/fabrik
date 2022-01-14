@@ -4810,7 +4810,7 @@ class FabrikFEModelForm extends FabModelForm
 			if ($groupModel->canRepeat())
 			{
 				$joinTable = $groupModel->getJoinModel()->getJoin();
-				$foreignKey = '';
+				$foreignKey = $joinTable->table_join_key;
 
 				if (is_object($joinTable))
 				{
