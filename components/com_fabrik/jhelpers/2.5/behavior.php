@@ -655,7 +655,7 @@ abstract class JHtmlBehavior
 		$isFabrik = $option == 'com_fabrik' || !is_null($app->input->get('fabrik_sticky_filters'));
 		$isFabrik = false;
 
-		if ($app->isAdmin() || !$isFabrik)
+		if ($app->isClient('administrator') || !$isFabrik)
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			JHtml::_('script', $tag . '/calendar.js', false, true);

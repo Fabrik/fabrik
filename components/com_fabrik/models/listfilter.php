@@ -643,7 +643,7 @@ class FabrikFEModelListfilter extends FabModel
 	 */
 	protected function canClear($searchType)
 	{
-		if (!$this->app->isAdmin() && $this->activeTable())
+		if (!$this->app->isClient('administrator') && $this->activeTable())
 		{
 			$menus = $this->app->getMenu();
 			$menu = $menus->getActive();

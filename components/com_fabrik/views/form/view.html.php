@@ -40,7 +40,7 @@ class FabrikViewForm extends FabrikViewFormBase
 			$this->setCanonicalLink();
 			$this->output();
 
-			if (!$this->app->isAdmin())
+			if (!$this->app->isClient('administrator'))
 			{
 				$this->state  = $this->get('State');
 				$model        = $this->getModel();
@@ -95,7 +95,7 @@ class FabrikViewForm extends FabrikViewFormBase
 	{
 		$url = '';
 
-		if (!$this->app->isAdmin() && !$this->isMambot)
+		if (!$this->app->isClient('administrator') && !$this->isMambot)
 		{
 			/** @var FabrikFEModelForm $model */
 			$model  = $this->getModel();
@@ -118,7 +118,7 @@ class FabrikViewForm extends FabrikViewFormBase
 	 */
 	public function setCanonicalLink()
 	{
-		if (!$this->app->isAdmin() && !$this->isMambot)
+		if (!$this->app->isClient('administrator') && !$this->isMambot)
 		{
 			$url = $this->getCanonicalLink();
 

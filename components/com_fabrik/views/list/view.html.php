@@ -45,7 +45,7 @@ class FabrikViewList extends FabrikViewListBase
 			$this->setCanonicalLink();
 			$this->tabs = $model->loadTabs();
 
-			if (!$this->app->isAdmin() && isset($this->params))
+			if (!$this->app->isClient('administrator') && isset($this->params))
 			{
 				/** @var JObject $state */
 				$state = $model->getState();
@@ -133,7 +133,7 @@ class FabrikViewList extends FabrikViewListBase
 	 */
 	public function setCanonicalLink()
 	{
-		if (!$this->app->isAdmin() && !$this->isMambot)
+		if (!$this->app->isClient('administrator') && !$this->isMambot)
 		{
 			$url = $this->getCanonicalLink();
 

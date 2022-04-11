@@ -58,7 +58,7 @@ class PlgSystemFabrik extends JPlugin
 		{
 			$msg = 'Fabrik: Please ensure the Fabrik System plug-in is ordered before the Kunena system plugin';
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$app->enqueueMessage($msg, 'error');
 			}
@@ -78,7 +78,7 @@ class PlgSystemFabrik extends JPlugin
 
             if (!$loaded)
             {
-	            if ($app->isAdmin() && $app->input->get('option') === 'com_fabrik')
+	            if ($app->isClient('administrator') && $app->input->get('option') === 'com_fabrik')
 	            {
 		            $app->enqueueMessage('Fabrik cannot find files required for this version of Joomla.  <b>DO NOT</b> use the Fabrik backend admin until this is resolved.  Please visit <a href="http://fabrikar.com/forums">our web site</a> and check for announcements about this version', 'error');
 	            }
@@ -333,7 +333,7 @@ class PlgSystemFabrik extends JPlugin
 
 		$version           = new JVersion;
 		$lessThanThreeFour = version_compare($version->RELEASE, '3.4', '<');
-		$content           = $lessThanThreeFour ? JResponse::getBody() : $app->getBody();
+		$content           = $lessThanThreeFour ? JFactory::getApplication()->getBody() : $app->getBody();
 
 		if (!stristr($content, '</body>'))
 		{
@@ -595,7 +595,7 @@ class PlgSystemFabrik extends JPlugin
 				{
 					$pkval = $oData->__pk_val;
 
-					if ($app->isAdmin() || $params->get('search_link_type') === 'form')
+					if ($app->isClient('administrator') || $params->get('search_link_type') === 'form')
 					{
 						$href = $oData->fabrik_edit_url;
 					}

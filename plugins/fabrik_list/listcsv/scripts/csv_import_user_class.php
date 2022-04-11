@@ -149,7 +149,7 @@ class ImportCSVCreateUser
 
 		if (!FabrikWorker::isEmail($userdata['email']))
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$app->enqueueMessage("No email for {$userdata['username']}");
 			}
@@ -179,7 +179,7 @@ class ImportCSVCreateUser
 			{
 				$msg = 'Email ' . $userdata['email'] . ' for ' . $userdata['username'] . ' already in use by ' . $existing_email->username;
 
-				if ($app->isAdmin())
+				if ($app->isClient('administrator'))
 				{
 					$app->enqueueMessage($msg);
 				}
@@ -217,7 +217,7 @@ class ImportCSVCreateUser
 
 		if (!$user->bind($userdata))
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$app->enqueueMessage(FText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 				$app->enqueueMessage($user->getError(), 'error');
@@ -230,7 +230,7 @@ class ImportCSVCreateUser
 
 		if (!$user->save())
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$app->enqueueMessage(FText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 				$app->enqueueMessage($user->getError(), 'error');

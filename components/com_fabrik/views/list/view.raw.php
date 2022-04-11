@@ -156,7 +156,7 @@ class FabrikViewList extends FabrikViewListBase
 		$table = $model->getTable();
 		$params = $model->getParams();
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$tmpl = $params->get('admin_template');
 

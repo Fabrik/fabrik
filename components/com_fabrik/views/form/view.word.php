@@ -38,7 +38,7 @@ class FabrikViewForm extends FabrikViewFormBase
 		{
 			$this->output();
 
-			if (!$this->app->isAdmin())
+			if (!$this->app->isClient('administrator'))
 			{
 				$this->state  = $this->get('State');
 				$model        = $this->getModel();

@@ -35,7 +35,7 @@ class FabrikViewList extends FabrikViewListBase
 	{
 		if (parent::display($tpl) !== false)
 		{
-			if (!$this->app->isAdmin())
+			if (!$this->app->isClient('administrator'))
 			{
 				$state = $this->get('State');
 				$this->params = $state->get('params');

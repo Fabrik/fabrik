@@ -776,7 +776,7 @@ class FabrikFEModelList extends JModelForm
 
 				// If a menu item specifically sets the # of rows to show this should be stored (and used) in its own session context.
 				// See: http://fabrikar.com/forums/index.php?threads/list-results-split-by-wrong-rows-per-page-number.42182/#post-213703
-				if (!$this->app->isAdmin() && !$mambot)
+				if (!$this->app->isClient('administrator') && !$mambot)
 				{
 					$menus = $this->app->getMenu();
 					$menu = $menus->getActive();
@@ -2068,7 +2068,7 @@ class FabrikFEModelList extends JModelForm
 		if ($facetTable->canAdd())
 		{
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$bits[] = 'task=form.view';
 				$bits[] = 'cid=' . $formId;
@@ -2233,7 +2233,7 @@ class FabrikFEModelList extends JModelForm
 		$package = $this->app->getUserState('com_fabrik.package', 'fabrik');
 		$url = 'index.php?option=com_' . $package . '&';
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$bits[] = 'task=list.view';
 			$bits[] = 'cid=' . $listId;
@@ -6507,7 +6507,7 @@ class FabrikFEModelList extends JModelForm
 				return true;
 				break;
 			case 2:
-				return $this->app->isAdmin() ? false : true;
+				return $this->app->isClient('administrator') ? false : true;
 				break;
 		}
 	}
@@ -9347,7 +9347,7 @@ class FabrikFEModelList extends JModelForm
 				$link .= "&format=fabrikfeed";
 			}
 
-			if (!$this->app->isAdmin())
+			if (!$this->app->isClient('administrator'))
 			{
 				$link = JRoute::_($link);
 			}
@@ -9500,7 +9500,7 @@ class FabrikFEModelList extends JModelForm
 				$link .= COM_FABRIK_LIVESITE;
 			}
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$link .= 'index.php?option=com_' . $package . '&task=' . $view . '.view&formid=' . $table->form_id . '&listid=' . $this->getId() . $keyIdentifier;
 			}
@@ -9610,7 +9610,7 @@ class FabrikFEModelList extends JModelForm
 
 		if ($customLink == '')
 		{
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$url = 'index.php?option=com_' . $package . '&task=form.view&formid=' . $table->form_id . $keyIdentifier;
 			}
@@ -10448,7 +10448,7 @@ class FabrikFEModelList extends JModelForm
 			$formModel = $this->getFormModel();
 			$qs['option'] = 'com_' . $package;
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$qs['task'] = 'form.view';
 			}
@@ -11155,7 +11155,7 @@ class FabrikFEModelList extends JModelForm
 	{
 		$input = $this->app->input;
 
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			// Load the menu item / component parameters.
 			$params = $this->app->getParams();
@@ -11421,7 +11421,7 @@ class FabrikFEModelList extends JModelForm
 			$params = $this->getParams();
 			$document = JFactory::getDocument();
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$this->tmpl = $input->get('layout', $params->get('admin_template'));
 			}
@@ -11626,7 +11626,7 @@ class FabrikFEModelList extends JModelForm
 		}
 
 		// $$$ rob if admin filter task = filter and not list.filter
-		if ($task == 'filter' || ($this->app->isAdmin() && $input->get('task') == 'filter'))
+		if ($task == 'filter' || ($this->app->isClient('administrator') && $input->get('task') == 'filter'))
 		{
 			$this->setRenderContextFromRequest();
 		}

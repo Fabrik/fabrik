@@ -48,7 +48,7 @@ class FabrikViewList extends FabrikViewListBase
 			$model = $this->getModel();
 			$this->tabs = $model->loadTabs();
 
-			if (!$this->app->isAdmin() && isset($this->params))
+			if (!$this->app->isClient('administrator') && isset($this->params))
 			{
 				/** @var JObject $state */
 				$state = $model->getState();

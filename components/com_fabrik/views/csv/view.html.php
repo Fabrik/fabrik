@@ -80,7 +80,7 @@ class FabrikViewCsv extends FabrikView
 		$listId         = $model->getId();
 		$script         = array();
 		$opts           = new stdClass;
-		$opts->admin    = $this->app->isAdmin();
+		$opts->admin    = $this->app->isClient('administrator');
 		$opts->form     = 'listform_' . $listId;
 		$opts->headings = $model->jsonHeadings();
 		list($this->headings, $groupHeadings, $this->headingClass, $this->cellClass) = $model->getHeadings();

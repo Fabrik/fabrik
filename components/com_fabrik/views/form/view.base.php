@@ -216,7 +216,7 @@ class FabrikViewFormBase extends FabrikView
 		}
 		if (!$model->canPublish())
 		{
-			if (!$this->app->isAdmin())
+			if (!$this->app->isClient('administrator'))
 			{
 				echo FText::_('COM_FABRIK_FORM_NOT_PUBLISHED');
 
@@ -288,7 +288,7 @@ class FabrikViewFormBase extends FabrikView
 		$folder          = $model->isEditable() ? 'form' : 'details';
 		$this->addTemplatePath($this->_basePath . '/' . $folder . '/' . $jTmplFolder . '/' . $tmpl);
 
-		$root = $this->app->isAdmin() ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$root = $this->app->isClient('administrator') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		$this->addTemplatePath($root . '/templates/' . $this->app->getTemplate() . '/html/com_fabrik/' . $folder . '/' . $tmpl);
 	}
 
@@ -368,7 +368,7 @@ class FabrikViewFormBase extends FabrikView
 		$input = $this->app->input;
 		$title = '';
 
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			$menus = $this->app->getMenu();
 			$menu  = $menus->getActive();
@@ -480,7 +480,7 @@ class FabrikViewFormBase extends FabrikView
 		{
 			if (FabrikWorker::canPdf(false))
 			{
-				if ($this->app->isAdmin())
+				if ($this->app->isClient('administrator'))
 				{
 					$this->pdfURL = 'index.php?option=com_' . $this->package . '&task=details.view&format=pdf&formid=' . $model->getId() . '&rowid=' . $model->getRowId();
 				}
@@ -800,7 +800,7 @@ class FabrikViewFormBase extends FabrikView
 		$listModel            = $model->getlistModel();
 		$table                = $listModel->getTable();
 		$opts                 = new stdClass;
-		$opts->admin          = $this->app->isAdmin();
+		$opts->admin          = $this->app->isClient('administrator');
 		$opts->ajax           = $model->isAjax();
 		$opts->ajaxValidation = (bool) $params->get('ajax_validations');
 		$opts->lang           = FabrikWorker::getMultiLangURLCode();

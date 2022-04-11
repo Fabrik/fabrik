@@ -371,7 +371,7 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 		$options->id = $this->getId();
 		$options->listRef = 'list' . $lists[0] . '_' . $this->app->scope . '_' . $lists[0];
 		$options->step = $this->step;
-		$options->admin = (bool) $this->app->isAdmin();
+		$options->admin = (bool) $this->app->isClient('administrator');
 		$options->dateFormat = $params->get('timeline_date_format', '%c');
 		$options->orientation = $params->get('timeline_orientation', 'horizontal');
 		$options->currentList = $lists[0];
@@ -446,7 +446,7 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 			$nextView = $listModel->canEdit() ? "form" : "details";
 			$table = $listModel->getTable();
 
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$url = 'index.php?option=com_fabrik&task=' . $nextView . '.view&formid=' . $table->form_id . '&rowid=' . $row->__pk_val;
 			}

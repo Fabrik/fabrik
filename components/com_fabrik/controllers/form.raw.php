@@ -221,7 +221,7 @@ class FabrikControllerForm extends JControllerLegacy
 			$msg = FText::_('COM_FABRIK_RECORD_ADDED_UPDATED');
 		}
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			// Admin option is always com_fabrik
 			if (array_key_exists('apply', $model->formData))

@@ -562,7 +562,7 @@ class FabrikFEModelForm extends FabModelForm
 			}
 			else
 			{
-				if ($this->app->isAdmin())
+				if ($this->app->isClient('administrator'))
 				{
 					$tmpl = $this->isEditable() ? $params->get('admin_form_template') : $params->get('admin_details_template');
 					$tmpl = $tmpl == '' ? $default : $tmpl;
@@ -671,7 +671,7 @@ class FabrikFEModelForm extends FabModelForm
 			}
 		}
 
-		if ($this->app->isAdmin() && $input->get('tmpl') === 'components')
+		if ($this->app->isClient('administrator') && $input->get('tmpl') === 'components')
 		{
 			FabrikHelperHTML::stylesheet('administrator/templates/system/css/system.css');
 		}
@@ -4568,7 +4568,7 @@ class FabrikFEModelForm extends FabModelForm
 		$option = $this->app->input->get('option');
 		$router = $this->app->getRouter();
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$action = filter_var(ArrayHelper::getValue($_SERVER, 'REQUEST_URI', 'index.php'), FILTER_SANITIZE_URL);
 			$action = $this->stripElementsFromUrl($action);
@@ -5050,7 +5050,7 @@ class FabrikFEModelForm extends FabModelForm
 	{
 		$input = $this->app->input;
 
-		if (!$this->app->isAdmin())
+		if (!$this->app->isClient('administrator'))
 		{
 			// Load the menu item / component parameters.
 			$params = $this->app->getParams();
@@ -5168,7 +5168,7 @@ class FabrikFEModelForm extends FabModelForm
 	{
 		$input = $this->app->input;
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			// Admin always uses option com_fabrik
 			if (array_key_exists('apply', $this->formData))

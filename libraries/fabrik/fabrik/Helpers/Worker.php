@@ -2448,7 +2448,7 @@ class Worker
 
 		$app = JFactory::getApplication();
 
-		if (!$app->isAdmin())
+		if (!$app->isClient('administrator'))
 		{
 			// Attempt to get Itemid from possible list menu item.
 			if (!is_null($listId))
@@ -2523,7 +2523,7 @@ class Worker
 
             $val = $input->get($name, $val, 'string');
 
-            if (!$app->isAdmin())
+            if (!$app->isClient('administrator'))
             {
                 if (!$mambot)
                 {
@@ -2555,7 +2555,7 @@ class Worker
         }
         else
         {
-            if (!$app->isAdmin())
+            if (!$app->isClient('administrator'))
             {
                 $menus = $app->getMenu();
                 $menu  = $menus->getActive();
@@ -2852,7 +2852,7 @@ class Worker
 	{
 		$app = JFactory::getApplication();
 
-		return $app->input->get('task') == 'form.process' || ($app->isAdmin() && $app->input->get('task') == 'process');
+		return $app->input->get('task') == 'form.process' || ($app->isClient('administrator') && $app->input->get('task') == 'process');
 	}
 
 	/**

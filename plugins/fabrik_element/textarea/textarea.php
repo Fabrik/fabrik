@@ -46,7 +46,7 @@ class PlgFabrik_ElementTextarea extends PlgFabrik_Element
 
 		if ($url == '')
 		{
-			if ($this->app->isAdmin())
+			if ($this->app->isClient('administrator'))
 			{
 				$url = 'index.php?option=com_fabrik&amp;task=list.view&amp;listid=' . $listId;
 			}
