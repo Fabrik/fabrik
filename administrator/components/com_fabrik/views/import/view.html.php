@@ -86,7 +86,7 @@ class FabrikAdminViewImport extends JViewLegacy
 		$input->set('hidemainmenu', true);
 		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_IMPORT'), 'list');
 		$version = new JVersion;
-		$icon    = version_compare($version->RELEASE, '3.0') >= 0 ? 'arrow-right-2' : 'forward.png';
+		$icon    = version_compare($version->getShortVersion(), '3.0', '>=') ? 'arrow-right-2' : 'forward.png';
 		JToolBarHelper::custom('import.makeTableFromCSV', $icon, $icon, 'COM_FABRIK_CONTINUE', false);
 		JToolBarHelper::cancel('import.cancel', 'JTOOLBAR_CANCEL');
 	}
@@ -105,7 +105,7 @@ class FabrikAdminViewImport extends JViewLegacy
 		$input->set('hidemainmenu', true);
 		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_LIST_IMPORT'), 'list');
 		$version = new JVersion;
-		$icon    = version_compare($version->RELEASE, '3.0') >= 0 ? 'arrow-right-2' : 'forward.png';
+		$icon    = version_compare($version->getShortVersion(), '3.0', '>=') ? 'arrow-right-2' : 'forward.png';
 		JToolBarHelper::custom('import.doimport', $icon, $icon, 'COM_FABRIK_CONTINUE', false);
 		JToolBarHelper::cancel('import.cancel', 'JTOOLBAR_CANCEL');
 	}

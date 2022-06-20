@@ -9339,7 +9339,7 @@ class FabrikFEModelList extends JModelForm
 			$link = $base . '?option=com_' . $package . '&view=list&listid=' . $this->getId();
 			$version = new JVersion;
 
-			if (version_compare($version->RELEASE, '3.8', '>=')) {
+			if (version_compare($version->getShortVersion(), '3.8', '>=')) {
 				$link .= "&format=feed";
 			}
 			else

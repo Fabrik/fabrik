@@ -43,7 +43,7 @@ $input = $app->input;
 
 // Override JHTML -needed for framework override
 $version = new JVersion;
-JHTML::addIncludePath(JPATH_SITE . '/components/com_fabrik/jhelpers/' . $version->RELEASE . '/');
+JHTML::addIncludePath(JPATH_SITE . '/components/com_fabrik/jhelpers/' . $version->getShortVersion() . '/');
 
 // Register the element class with the loader
 JLoader::register('JElement', JPATH_SITE . '/administrator/components/com_fabrik/element.php');

@@ -1121,8 +1121,8 @@ class FabrikAdminModelPackage extends FabModelAdmin
 		 * and whether or not to install additional plugins etc.
 		 * Don't want to install a j2.5 plugin in a j3.0 site for example)
 		 */
-		// $jversion = isset($row->params->jversion) ? $row->params->jversion : $version->RELEASE;
-		$jVersion = str_replace('.', '', $version->RELEASE);
+		// $jversion = isset($row->params->jversion) ? $row->params->jversion : $version->getShortVersion();
+		$jVersion = str_replace('.', '', $version->getShortVersion());
 
 		return $jVersion;
 	}

@@ -234,7 +234,7 @@ class FabrikAdminViewLists extends JViewLegacy
 		$this->addConfirmDeleteToolbar();
 		$v = new JVersion;
 
-		if ($v->RELEASE > 2.5)
+		if (version_compar($v->getShortVersion(), '2.5', '>'))
 		{
 			$this->setLayout('confirmdeletebootstrap');
 		}

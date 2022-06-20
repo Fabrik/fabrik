@@ -124,9 +124,9 @@ class JFormFieldFabrikModalrepeat extends JFormField
 
 		$str = array();
 		$version = new JVersion;
-		$j32 = version_compare($version->RELEASE, '3.2') >= 0 ? true : false;
+		$j32 = version_compare($version->getShortVersion(), '3.2', '>=') ? true : false;
 		$j322 = ($j32 && $version->DEV_LEVEL >=3);
-		$j33 = version_compare($version->RELEASE, '3.3') >= 0 ? true : false;
+		$j33 = version_compare($version->getShortVersion(), '3.3', '>=') ? true : false;
 
 		$modalId = $j32 || $j33 ? 'attrib-' . $this->id . '_modal' : $this->id . '_modal';
 

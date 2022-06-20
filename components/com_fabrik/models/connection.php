@@ -104,7 +104,7 @@ class FabrikFEModelConnection extends FabModel
 	{
 		$version = new JVersion;
 
-		return $version->RELEASE > 2.5 ? JDatabaseDriver::getInstance($options) : JDatabase::getInstance($options);
+		return version_compare($version->getShortVersion(), '2.5', '>') ? JDatabaseDriver::getInstance($options) : JDatabase::getInstance($options);
 	}
 
 	/**

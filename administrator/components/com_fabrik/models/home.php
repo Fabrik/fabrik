@@ -71,7 +71,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 		error_reporting(0);
 		$version = new JVersion;
 
-		if ($version->RELEASE == 2.5)
+		if (version_compare($version->getShortVersion(), '2.5', '==')
 		{
 			//  get RSS parsed object
 			$options               = array();

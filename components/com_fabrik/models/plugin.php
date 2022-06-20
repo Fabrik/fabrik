@@ -291,7 +291,7 @@ class FabrikPlugin extends JPlugin
 	{
 		$this->makeDbTable();
 		$version = new JVersion;
-		$j3      = version_compare($version->RELEASE, '3.0') >= 0 ? true : false;
+		$j3      = version_compare($version->getShortVersion(), '3.0', '>=') ? true : false;
 		$type    = str_replace('fabrik_', '', $this->_type);
 
 		$form         = $this->getPluginForm($repeatCounter);

@@ -994,7 +994,7 @@ EOD;
 			$fbConfig    = JComponentHelper::getParams('com_fabrik');
 
 			// Only use template test for testing in 2.5 with my temp J bootstrap template.
-			$bootstrapped = in_array($app->getTemplate(), array('bootstrap', 'fabrik4')) || $version->RELEASE > 2.5;
+			$bootstrapped = in_array($app->getTemplate(), array('bootstrap', 'fabrik4')) || version_compare($version->getShortVersion(), '2.5', '>');
 
 			//$ext = self::isDebug() ? '.js' : '-min.js';
 			$mediaFolder = self::getMediaFolder();
@@ -1002,7 +1002,7 @@ EOD;
 			JHtml::_('behavior.framework', true);
 
 			// Ensure bootstrap js is loaded - as J template may not load it.
-			if ($version->RELEASE > 2.5)
+			if (version_compare($version->getShortVersion(), '2.5', '>'))
 			{
 				JHtml::_('bootstrap.framework');
 				self::loadBootstrapCSS();
@@ -1010,7 +1010,7 @@ EOD;
 			}
 
 			// Require js test - list with no cal loading ajax form with cal
-			if (version_compare(JVERSION, '3.7', '>='))
+			if (version_compare($version->getShortVersion(), '3.7', '>='))
 			{
 				/**
 				 * don't do this in the framework any more, as the new jdate element means we can't include the old
@@ -1364,7 +1364,7 @@ EOD;
 
 			$version = new JVersion;
 
-			if ($version->RELEASE >= 3.2 && $version->DEV_LEVEL > 1)
+			if (version_compare($version->getShortVersion(), '3.2', '>=') && $version->DEV_LEVEL > 1)
 			{
 				$r->punycode = 'media/system/js/punycode';
 			}
@@ -3099,7 +3099,7 @@ EOT;
 		$debug   = JFactory::getConfig()->get('debug');
 		$version = new JVersion;
 
-		if ($version->RELEASE >= 3.2 && $version->DEV_LEVEL > 1)
+		if (version_compare($version->getShortVersion(), '3.2', '>=') && $version->DEV_LEVEL > 1)
 		{
 			$file = $debug ? 'punycode-uncompressed' : 'punycode';
 			$path = JURI::root() . 'media/system/js/' . $file;
