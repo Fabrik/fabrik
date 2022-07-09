@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 /**
  * Fabrik Component Controller
@@ -100,13 +103,14 @@ class FabrikController extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($viewType != 'feed' && !$this->isMambot && $user->get('id') == 0)
+		if (Worker::useCache() && !$this->isMambot)
 		{
 			$user = JFactory::getUser();
 			$uri = JURI::getInstance();
 			$uri = $uri->toString(array('path', 'query'));
 			$cacheid = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_' . $package, 'view');
+			Html::addToSessionCacheIds($cacheid);
 			echo $cache->get($view, 'display', $cacheid);
 		}
 		else

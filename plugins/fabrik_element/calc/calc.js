@@ -14,13 +14,16 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             this.observeGroupIds = [];
         },
 
-        attachedToForm: function () {
+        attachedToForm: function (cloning) {
             if (this.options.ajax) {
                 this.options.observe.each(function (o) {
                     this.addObserveEvent(o);
                 }.bind(this));
 
-                if (this.options.calcOnLoad) {
+                if (typeof cloning === 'undefined' && this.options.calcOnLoad) {
+                    this.calc();
+                }
+                else if (cloning === true && (this.options.calcOnRepeat || this.options.calcOnLoad)) {
                     this.calc();
                 }
 
@@ -110,6 +113,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 }
             }.bind(this));
 
+            /*
             $H(formData).each(function (v, k) {
                 var el = this.form.formElements.get(k);
                 if (el && el.options.inRepeatGroup && el.options.joinid === this.options.joinid &&
@@ -118,6 +122,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     formData[el.options.fullName + '_raw'] = formData[k + '_raw'];
                 }
             }.bind(this));
+            */
 
             // For placeholders lets set repeat joined groups to their full element name
 
@@ -156,7 +161,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         cloned: function (c) {
             this.parent(c);
-            this.attachedToForm();
+            this.attachedToForm(true);
         },
 
         update: function (val) {

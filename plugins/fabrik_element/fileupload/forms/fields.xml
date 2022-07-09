@@ -23,11 +23,13 @@
 			       description="PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_DESC">
 				<option value="0">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE</option>
 				<option value="1">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE</option>
+				<option value="7">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE_USER</option>
+				<option value="8">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE_ENVIRONMENT</option>
 				<option value="2">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_IMAGE</option>
 				<option value="3">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_AUDIO</option>
 				<option value="4">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_AUDIO</option>
-				<option value="4">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_VIDEO</option>
-				<option value="7">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_VIDEO</option>
+				<option value="5">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_VIDEO</option>
+				<option value="6">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_VIDEO</option>
 			</field>
 
 			<field name="ul_file_types"
@@ -116,6 +118,16 @@
 			       default="0"
 			       description="PLG_ELEMENT_FILEUPLOAD_ALLOW_UNSAFE_DESC"
 			       label="PLG_ELEMENT_FILEUPLOAD_ALLOW_UNSAFE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="fu_clean_filename"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="PLG_ELEMENT_FILEUPLOAD_CLEAN_FILENAME_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_CLEAN_FILENAME_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -494,6 +506,16 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="ajax_show_widget"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="ajax_runtime"
 			       type="text"
 			       default="html5,html4"
@@ -549,6 +571,16 @@
 				<option value="3">Both</option>
 			</field>
 			
+			<field default="0"
+                   		class="btn-group"
+                   		description="PLG_ELEMENT_FILEUPLOAD_OPEN_IN_BROWSER_DESC"
+                   		label="PLG_ELEMENT_FILEUPLOAD_OPEN_IN_BROWSER_LABEL"
+                   		name="fu_open_in_browser"
+                   		type="radio">
+                		<option value="0">JNO</option>
+                		<option value="1">JYES</option>
+            		</field>
+			
            		<field default="0"
                    		class="btn-group"
                    		description="PLG_ELEMENT_FILEUPLOAD_FORCE_DOWNLOAD_SCRIPT_ON_EDIT_DESC"
@@ -595,6 +627,16 @@
 			       label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_LOG_LABEL"
 			       name="fu_download_log"
 			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_APPEND_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_APPEND_LABEL"
+				   name="fu_download_append"
+				   type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

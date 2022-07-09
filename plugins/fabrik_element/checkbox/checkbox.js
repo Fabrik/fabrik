@@ -95,6 +95,13 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
                 this.watchAddToggle();
                 this.watchAdd();
             }
+            this._getSubElements().each(function (sub, i) {
+                sub.id = this.options.element + '__' + i + '_input_' + i;
+                var label = sub.getParent('label');
+                if (label) {
+                    label.htmlFor = sub.id;
+                }
+            }.bind(this));
             this.parent(c);
         }
 

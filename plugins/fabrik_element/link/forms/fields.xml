@@ -113,12 +113,6 @@
 					<option value="1">JYES</option>
 			</field>
 
-			<field name="bitly_login"
-				type="text"
-				description="PLG_ELEMENT_LINK_BITLY_LOGIN_DESC"
-				label="PLG_ELEMENT_LINK_BITLY_LOGIN_LABEL"
-				size="30" />
-
 			<field name="bitly_apikey"
 				type="text"
 				description="PLG_ELEMENT_LINK_BITLY_API_KEY_DESC"
@@ -126,5 +120,29 @@
 				size="40"/>
 
 		</fieldset>
+
+		<fieldset label="PLG_ELEMENT_LINK_REDIRECT" addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-link-redirect">
+
+			<field type="helplink"
+				   url="PLG_ELEMENT_LINK_HELP_SERVER" />
+
+			<field name="use_redirect"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   description="PLG_ELEMENT_LINK_USE_REDIRECT_DESC"
+				   label="PLG_ELEMENT_LINK_USE_REDIRECT_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field description="PLG_ELEMENT_LINK_HIT_COUNTER_DESC"
+				   label="PLG_ELEMENT_LINK_HIT_COUNTER_LABEL"
+				   name="link_hit_counter"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+		</fieldset>
+
 	</fields>
 </form>

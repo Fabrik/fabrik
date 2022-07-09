@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.article
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -179,6 +179,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 		$item = JTable::getInstance('Content');
 		$item->load($id);
+		$item->newTags = $data['tags'];
 		$item->bind($data);
 
 		// Trigger the onContentBeforeSave event.

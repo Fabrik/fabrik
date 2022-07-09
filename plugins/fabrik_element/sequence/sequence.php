@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.ip
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -120,69 +120,112 @@ class PlgFabrik_ElementSequence extends PlgFabrik_Element
 	{
 		$params = $this->getParams();
 		$w = new FabrikWorker();
+		$db    = JFactory::getDbo();
+
 		$position = $params->get('sequence_position', 'prefix');
 		$padding = $params->get('sequence_padding', '4');
+		$placeholderQuery = $params->get('placeholder_query', '');
+		$placeholders = array();
+
+		if (!empty($placeholderQuery))
+		{
+			$placeholderQuery = $w->parseMessageForPlaceHolder($placeholderQuery, $data);
+			$db->setQuery($placeholderQuery);
+
+			try
+			{
+				$placeholders = $db->loadAssoc();
+			}
+			catch (Exception $e)
+			{
+				// meh
+				$this->app->enqueueMessage("There was an error assigning the sequence number, please contact the site admins.");
+			}
+		}
+
+		$data = array_merge($data, $placeholders);
 		$affix = $params->get('sequence_affix', '');
 		$affix = $w->parseMessageForPlaceHolder($affix, $data);
+
 		$tableName = $this->getlistModel()->getTable()->db_table_name;
 		$elementId = $this->getElement()->id;
+
+		// create the table if it doesn't exist ... should get created on install, but ... eh ...
+		$this->createSequenceTable();
 
 		$method = $params->get('sequence_method', 'load');
 
 		if ($method !== 'pk')
 		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('sequence')
-				->from('#__fabrik_sequences')
-				->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
-				->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
-				->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
-			$db->setQuery($query);
-			$row = $db->loadObject();
+            $sequenceQuery = $params->get('sequence_query', '');
 
-			if (empty($row))
-			{
-				$start   = (int) $params->get('sequence_start', '1');
-				$columns = array(
-					$db->quoteName('table_name'),
-					$db->quoteName('affix'),
-					$db->quoteName('element_id'),
-					$db->quoteName('sequence')
-				);
-				$values  = array(
-					$db->quote($tableName),
-					$db->quote($affix),
-					$db->quote($elementId),
-					$db->quote($start)
-				);
+            if (!empty($sequenceQuery))
+            {
+                $sequenceQuery = $w->parseMessageForPlaceHolder($sequenceQuery, $data);
+                $db->setQuery($sequenceQuery);
 
-				$query->clear()
-					->insert('#__fabrik_sequences')
-					->columns($columns)
-					->values(implode(',', $values));
-				$db->setQuery($query);
-				$db->execute();
+	            try
+	            {
+		            $sequence = $db->loadResult();
+	            }
+	            catch (Exception $e)
+	            {
+		            // meh
+		            $this->app->enqueueMessage("There was an error assigning the sequence number, please contact the site admins.");
+	            }
 
-				$sequence = $start;
-			}
-			else
-			{
-				$sequence = (int) $row->sequence;
-				$sequence++;
-				$query->clear()
-					->update('#__fabrik_sequences')
-					->set($db->quoteName('sequence') . ' = ' . $sequence)
-					->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
-					->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
-					->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
-				$db->setQuery($query);
-				$db->execute();
-			}
+            }
+
+            if (empty($sequence)) {
+                $query = $db->getQuery(true);
+                $query->select('sequence')
+                    ->from('#__fabrik_sequences')
+                    ->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
+                    ->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
+                    ->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
+                $db->setQuery($query);
+                $row = $db->loadObject();
+
+                if (empty($row)) {
+                    $start = (int)$params->get('sequence_start', '1');
+                    $columns = array(
+                        $db->quoteName('table_name'),
+                        $db->quoteName('affix'),
+                        $db->quoteName('element_id'),
+                        $db->quoteName('sequence')
+                    );
+                    $values = array(
+                        $db->quote($tableName),
+                        $db->quote($affix),
+                        $db->quote($elementId),
+                        $db->quote($start)
+                    );
+
+                    $query->clear()
+                        ->insert('#__fabrik_sequences')
+                        ->columns($columns)
+                        ->values(implode(',', $values));
+                    $db->setQuery($query);
+                    $db->execute();
+
+                    $sequence = $start;
+                } else {
+                    $sequence = (int)$row->sequence;
+                    $sequence++;
+                    $query->clear()
+                        ->update('#__fabrik_sequences')
+                        ->set($db->quoteName('sequence') . ' = ' . $sequence)
+                        ->where($db->quoteName('table_name') . ' = ' . $db->quote($tableName))
+                        ->where($db->quoteName('affix') . ' = ' . $db->quote($affix))
+                        ->where($db->quoteName('element_id') . ' = ' . $db->quote($elementId));
+                    $db->setQuery($query);
+                    $db->execute();
+                }
+            }
 		}
 		else
 		{
-			$sequence = (int) ArrayHelper::getValue($data, '__pk_val', '');
+			$sequence = (int) ArrayHelper::getValue($data, 'rowid', '');
 		}
 
 		$sequence = sprintf('%0' . $padding . 'd', $sequence);

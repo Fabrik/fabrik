@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -87,9 +87,9 @@ class Googlemap
 			if ( $bits[0] !== 'all')
 			{
 				$o->featureType = $bits[0];
-				$o->elementType = $bits[1];
 			}
-
+			
+			$o->elementType = $bits[1];
 			$o->stylers = $styler;
 			$return[] = $o;
 		}

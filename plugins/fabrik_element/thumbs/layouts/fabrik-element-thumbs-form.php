@@ -7,7 +7,7 @@ $d = $displayData;
 <?php
 if ($d->j3) :
 	?>
-	<div class="btn-group">';
+	<div class="btn-group">
 		<button <?php echo $d->commentdata;?> data-fabrik-thumb-formid="<?php echo $d->formId;?>"
 			data-fabrik-thumb="up" class="btn btn-small thumb-up<?php echo $d->upActiveClass;?>">
 			<?php echo FabrikHelperHTML::image('thumbs-up', 'form', $d->tmpl); ?>

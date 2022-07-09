@@ -27,14 +27,14 @@ class Cache
      *
      * @var array
      */
-    protected static $_cache = array();
+    protected static $_cache = [];
 
     /**
      * The url to the "broken image" used when images can't be loaded
      *
      * @var string
      */
-    public static $broken_image = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAA3NCSVQICAjb4U/gAAAAHlBMVEWZmZn////g4OCkpKS1tbXv7++9vb2tra3m5ub5+fkFnN6oAAAACXBIWXMAAAsSAAALEgHS3X78AAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M0BrLToAAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNC8xMi8xMRPnI58AAAGZSURBVEiJhZbPasMwDMbTw2DHKhDQcbDQPsEge4BAjg0Mxh5gkBcY7Niwkpx32PvOjv9JspX60It/+fxJsqxW1b11gN11rA7N3v6vAd5nfR9fDYCTDiyzAeA6qgKd9QDNoAtsAKyKCxzAAfhdBuyHGwC3oovNvQOaxxJwnSNg3ZQFAlBy4ax7AG6ZBLrgA5Cn038SAPgREiaJHJASwXYEhEQQIACyikTTCWCBJJoANBfpPAKQdBLHFMBYkctcBKIE9lAGggt6gRjgA2GV44CL7m1WgS08fAAdsPHxyyMAIyHujgRwEldHArCKy5cBz90+gNOyf8TTyKOUQN2LPEmgnWWPcKD+sr+rnuqTK1avAcHfRSv3afTgVAbqmCPiggLtGM8aSkBNOidVjADrmIDYebT1PoGsWJEE8Oc0b96aZoe4iMBZPiADB6RAzEUA2vwRmyiAL3Lfv6MBSEmUEg7ALt/3LhxwLgj4QNw4UCbKEsaBNpPsyRbgVRASFig78BIGyJNIJQyQTwIi0RvgT98H+Mi6W67j3X8H/427u5bfpQGVAAAAAElFTkSuQmCC";
+    public static $broken_image = "data:image/svg+xml;charset=utf8,%3C?xml version='1.0'?%3E%3Csvg width='64' height='64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Crect stroke='%23666666' id='svg_1' height='60.499994' width='60.166667' y='1.666669' x='1.999998' stroke-width='1.5' fill='none'/%3E%3Cline stroke-linecap='null' stroke-linejoin='null' id='svg_3' y2='59.333253' x2='59.749916' y1='4.333415' x1='4.250079' stroke-width='1.5' stroke='%23999999' fill='none'/%3E%3Cline stroke-linecap='null' stroke-linejoin='null' id='svg_4' y2='59.999665' x2='4.062838' y1='3.750342' x1='60.062164' stroke-width='1.5' stroke='%23999999' fill='none'/%3E%3C/g%3E%3C/svg%3E";
 
     public static $error_message = "Image not found or type unknown";
     
@@ -76,46 +76,68 @@ class Cache
             // Remote not allowed and is not DataURI
             if (!$enable_remote && $remote && !$data_uri) {
                 throw new ImageException("Remote file access is disabled.", E_WARNING);
-            } // Remote allowed or DataURI
-            else {
-                if ($enable_remote && $remote || $data_uri) {
-                    // Download remote files to a temporary directory
-                    $full_url = Helpers::build_url($protocol, $host, $base_path, $url);
+            }
+            
+            // remote allowed or DataURI
+            if (($enable_remote && $remote) || $data_uri) {
+                // Download remote files to a temporary directory
+                $full_url = Helpers::build_url($protocol, $host, $base_path, $url);
 
-                    // From cache
-                    if (isset(self::$_cache[$full_url])) {
-                        $resolved_url = self::$_cache[$full_url];
-                    } // From remote
-                    else {
-                        $tmp_dir = $dompdf->getOptions()->getTempDir();
-                        $resolved_url = tempnam($tmp_dir, "ca_dompdf_img_");
-                        $image = "";
+                // From cache
+                if (isset(self::$_cache[$full_url])) {
+                    $resolved_url = self::$_cache[$full_url];
+                } // From remote
+                else {
+                    $tmp_dir = $dompdf->getOptions()->getTempDir();
+                    if (($resolved_url = @tempnam($tmp_dir, "ca_dompdf_img_")) === false) {
+                        throw new ImageException("Unable to create temporary image in " . $tmp_dir, E_WARNING);
+                    }
+                    $image = "";
 
-                        if ($data_uri) {
-                            if ($parsed_data_uri = Helpers::parse_data_uri($url)) {
-                                $image = $parsed_data_uri['data'];
-                            }
-                        } else {
-                            list($image, $http_response_header) = Helpers::getFileContent($full_url, $dompdf->getHttpContext());
+                    if ($data_uri) {
+                        if ($parsed_data_uri = Helpers::parse_data_uri($url)) {
+                            $image = $parsed_data_uri['data'];
                         }
+                    } else {
+                        list($image, $http_response_header) = Helpers::getFileContent($full_url, $dompdf->getHttpContext());
+                    }
 
-                        // Image not found or invalid
-                        if (strlen($image) == 0) {
-                            $msg = ($data_uri ? "Data-URI could not be parsed" : "Image not found");
-                            throw new ImageException($msg, E_WARNING);
-                        } // Image found, put in cache and process
-                        else {
-                            //e.g. fetch.php?media=url.jpg&cache=1
-                            //- Image file name might be one of the dynamic parts of the url, don't strip off!
-                            //- a remote url does not need to have a file extension at all
-                            //- local cached file does not have a matching file extension
-                            //Therefore get image type from the content
-                            file_put_contents($resolved_url, $image);
+                    // Image not found or invalid
+                    if (empty($image)) {
+                        $msg = ($data_uri ? "Data-URI could not be parsed" : "Image not found");
+                        throw new ImageException($msg, E_WARNING);
+                    } // Image found, put in cache and process
+                    else {
+                        //e.g. fetch.php?media=url.jpg&cache=1
+                        //- Image file name might be one of the dynamic parts of the url, don't strip off!
+                        //- a remote url does not need to have a file extension at all
+                        //- local cached file does not have a matching file extension
+                        //Therefore get image type from the content
+                        if (@file_put_contents($resolved_url, $image) === false) {
+                            throw new ImageException("Unable to create temporary image in " . $tmp_dir, E_WARNING);
                         }
                     }
-                } // Not remote, local image
-                else {
-                    $resolved_url = Helpers::build_url($protocol, $host, $base_path, $url);
+                }
+            } // Not remote, local image
+            else {
+                $resolved_url = Helpers::build_url($protocol, $host, $base_path, $url);
+
+                if ($protocol == "" || $protocol === "file://") {
+                    $realfile = realpath($resolved_url);
+        
+                    $rootDir = realpath($dompdf->getOptions()->getRootDir());
+                    if (strpos($realfile, $rootDir) !== 0) {
+                        $chroot = realpath($dompdf->getOptions()->getChroot());
+                        if (!$chroot || strpos($realfile, $chroot) !== 0) {
+                            throw new ImageException("Permission denied on $resolved_url. The file could not be found under the directory specified by Options::chroot.", E_WARNING);
+                        }
+                    }
+        
+                    if (!$realfile) {
+                        throw new ImageException("File '$realfile' not found.", E_WARNING);
+                    }
+        
+                    $resolved_url = $realfile;
                 }
             }
 
@@ -127,7 +149,7 @@ class Cache
                 list($width, $height, $type) = Helpers::dompdf_getimagesize($resolved_url, $dompdf->getHttpContext());
 
                 // Known image type
-                if ($width && $height && in_array($type, array("gif", "png", "jpeg", "bmp", "svg"))) {
+                if ($width && $height && in_array($type, ["gif", "png", "jpeg", "bmp", "svg"])) {
                     //Don't put replacement image into cache - otherwise it will be deleted on cache cleanup.
                     //Only execute on successful caching of remote image.
                     if ($enable_remote && $remote || $data_uri) {
@@ -145,7 +167,7 @@ class Cache
             Helpers::record_warnings($e->getCode(), $e->getMessage() . " \n $url", $e->getFile(), $e->getLine());
         }
 
-        return array($resolved_url, $type, $message);
+        return [$resolved_url, $type, $message];
     }
 
     /**
@@ -165,7 +187,7 @@ class Cache
             unlink($file);
         }
 
-        self::$_cache = array();
+        self::$_cache = [];
     }
 
     static function detect_type($file, $context = null)
@@ -181,6 +203,6 @@ class Cache
     }
 }
 
-if (file_exists(realpath(__DIR__ . "/../../lib/res/broken_image.png"))) {
-    Cache::$broken_image = realpath(__DIR__ . "/../../lib/res/broken_image.png");
+if (file_exists(realpath(__DIR__ . "/../../lib/res/broken_image.svg"))) {
+    Cache::$broken_image = realpath(__DIR__ . "/../../lib/res/broken_image.svg");
 }

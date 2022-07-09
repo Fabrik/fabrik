@@ -2,25 +2,23 @@
 /**
  * sh404SEF support for com_fabrik component.
  * Author : Jean-François Questiaux - based on peamak's work (tom@spierckel.net)
- * contact : info@betterliving.be
+ * contact : webmaster@betterweb.fr
  *
- * Joomla! 3.6.x
- * sh404SEF version : 4.8.0.3423 - August 2016
- * Fabrik 3.5.1
+ * Joomla! 3.8.x
+ * sh404SEF version : 4.13.3.3797 - April 2018
+ * Fabrik 3.8.1
  *
  * This is a sh404SEF native plugin file for Fabrik component (http://fabrikar.com)
- * Plugin version 3.0 - December 2016
+ * Plugin version 3.1 - April 2018
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
-// use \Joomla\Registry\Registry;
 
 if (!function_exists('shFetchFormName'))
 {
@@ -189,13 +187,25 @@ if ($dosef == false) return;
 //$shLangIso = shLoadPluginLanguage( 'com_XXXXX', $shLangIso, '_SEF_SAMPLE_TEXT_STRING');
 // ------------------  load language file - adjust as needed ----------------------------------------
 
-
-$Itemid = isset($Itemid) ? @$Itemid : null;
-$listid = isset($listid) ? @$listid : null;
-$id     = isset($id) ? @$id : null;
-$view   = isset($view) ? @$view : null;
-$formid = isset($formid) ? @$formid : null;
-$rowid  = isset($rowid) ? @$rowid : null;
+// remove common URL from GET vars list, so that they don't show up as query string in the URL
+shRemoveFromGETVarsList('option');
+shRemoveFromGETVarsList('calculations');
+shRemoveFromGETVarsList('formid');
+shRemoveFromGETVarsList('listid');
+shRemoveFromGETVarsList('cid');
+shRemoveFromGETVarsList('Itemid');
+shRemoveFromGETVarsList('lang');
+shRemoveFromGETVarsList('calculations');
+shRemoveFromGETVarsList('random');
+shRemoveFromGETVarsList('rowid');
+shRemoveFromGETVarsList('id');
+	
+$Itemid = isset($Itemid) ? $Itemid : null;
+$listid = isset($listid) ? $listid : null;
+$id     = isset($id) ? $id : null;
+$view   = isset($view) ? $view : null;
+$formid = isset($formid) ? $formid : null;
+$rowid  = isset($rowid) ? $rowid : null;
 
 // remove extra data from rowid to keep the actual ID
 $rowid = (int)$rowid;
@@ -206,33 +216,30 @@ $config = JComponentHelper::getParams('com_fabrik');
 switch ($view)
 {
 	case 'form':
-		// Insert table name if set so in Fabrik's options
-		if ($config->get('fabrik_sef_tablename_on_forms') == 1)
+		// If we edit the form, there is no need to create a SEF URL
+		if($rowid != '')
 		{
-			if (isset($formid))
-			{
-				$title[] = FText::_(shFetchListName($formid));
-			}
-			else
-			{
-				$title[] = '';
-			}
-		}
-		if (isset($formid) && $rowid != '')
-		{
-			$config->get('fabrik_sef_customtxt_edit') == '' ? $edit = 'edit' : $edit = $config->get('fabrik_sef_customtxt_edit');
-			$title[] = FText::_(shFetchFormName($formid)) . '-' . $rowid . '-' . FText::_($edit);
-		}
-		elseif (isset($formid) && $rowid == -1)
-		{
-			$config->get('fabrik_sef_customtxt_edit') == '' ? $own = 'rowid=-1' : $own = $config->get('fabrik_sef_customtxt_own');
-			$title[] = FText::_(shFetchFormName($formid)) . '-' . FText::_($own);
+			$dosef = false;
 		}
 		else
 		{
+			// Insert table name if set so in Fabrik's options
+			if ($config->get('fabrik_sef_tablename_on_forms') == 1)
+			{
+				if (isset($formid))
+				{
+					$title[] = FText::_(shFetchListName($formid));
+				}
+				else
+				{
+					$title[] = '';
+				}
+			}
+			
 			$config->get('fabrik_sef_customtxt_new') == '' ? $new = 'new' : $new = $config->get('fabrik_sef_customtxt_new');
 			$title[] = FText::_(shFetchFormName($formid)) . '-' . FText::_($new);			
 		}
+		
 		break;
 
 	case 'details':
@@ -247,7 +254,7 @@ switch ($view)
 			$title[] = $shSampleName;
 		}
 		
-		if (isset($rowid))
+		if ($rowid != '')
 		{
 			switch ($config->get('fabrik_sef_format_records'))
 			{
@@ -269,6 +276,10 @@ switch ($view)
 					break;
 			}
 			shMustCreatePageId('set', true);
+		}
+		else
+		{
+			$dosef = false;
 		}
 		break;
 
@@ -334,21 +345,8 @@ switch ($view)
 		default:
 			$dosef = false;
 }
-
-// remove common URL from GET vars list, so that they don't show up as query string in the URL
-shRemoveFromGETVarsList('option');
-shRemoveFromGETVarsList('calculations');
-shRemoveFromGETVarsList('formid');
-shRemoveFromGETVarsList('listid');
-shRemoveFromGETVarsList('cid');
+   
 shRemoveFromGETVarsList('view');
-shRemoveFromGETVarsList('Itemid');
-shRemoveFromGETVarsList('lang');
-shRemoveFromGETVarsList('calculations');
-shRemoveFromGETVarsList('random');
-shRemoveFromGETVarsList('rowid');
-shRemoveFromGETVarsList('id');
-     
 
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef){

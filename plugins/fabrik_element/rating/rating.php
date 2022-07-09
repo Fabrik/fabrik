@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.rating
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -313,12 +313,10 @@ class PlgFabrik_ElementRating extends PlgFabrik_Element
 
 		$rowId = $this->getFormModel()->getRowId();
 
-		/*
-		if (empty($rowId))
+		if ($params->get('rating-mode') == 'user-rating' && empty($rowId))
 		{
 			return FText::_('PLG_ELEMENT_RATING_NO_RATING_TILL_CREATED');
 		}
-		*/
 
 		$css   = $this->canRate($rowId) ? 'cursor:pointer;' : '';
 		$value = $this->getValue($data, $repeatCounter);

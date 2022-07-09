@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 /**
  * Fabrik List Controller
@@ -58,6 +61,20 @@ class FabrikControllerList extends JControllerLegacy
 		$view = $this->getView($viewName, $viewType);
 		$view->setLayout($layout);
 
+		$extraQS = FabrikWorker::getMenuOrRequestVar('list_extra_query_string', '', false, 'menu');
+		$extraQS = ltrim($extraQS, '&?');
+		$extraQS = FabrikString::encodeqs($extraQS);
+
+		if (!empty($extraQS))
+		{
+			foreach (explode('&', $extraQS) as $qsStr)
+			{
+				$parts = explode('=', $qsStr);
+				$input->set($parts[0], $parts[1]);
+				$_GET[$parts[0]] = $parts[1];
+			}
+		}
+
 		// Push a model into the view
 		if (is_null($model) || $model == false)
 		{
@@ -77,8 +94,7 @@ class FabrikControllerList extends JControllerLegacy
 		 * $$$ hugh @TODO - we really shouldn't cache for guests (user ID 0), unless we can come up with a way of creating a unique
 		 * cache ID for guests.  We can't use their IP, as it could be two different machines behind a NAT'ing firewall.
 		 */
-		if ($model->getParams()->get('list_disable_caching', '0') === '1'
-			|| in_array($input->get('format'), array('raw', 'csv', 'pdf', 'json', 'fabrikfeed')))
+		if (!Worker::useCache($model))
 		{
 			$view->display();
 		}
@@ -91,6 +107,7 @@ class FabrikControllerList extends JControllerLegacy
 			$cacheId = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_fabrik', 'view');
 			$cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
 		}
 	}
 

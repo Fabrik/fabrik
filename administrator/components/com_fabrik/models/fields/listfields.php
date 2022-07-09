@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -277,6 +277,7 @@ class JFormFieldListfields extends JFormFieldList
 			return;
 		}
 
+		/** @var FabrikFEModelList $listModel */
 		$listModel = $this->form->model;
 
 		if ($id !== 0)
@@ -379,6 +380,7 @@ class JFormFieldListfields extends JFormFieldList
 		$opts->value       = $this->value;
 		$opts->repeat      = $repeat;
 		$opts->showAll     = (int) $this->getAttribute('showall', '1');
+		$opts->showRaw     = FabrikWorker::toBoolean($this->getAttribute('raw', false), false);
 		$opts->highlightpk = (int) $highlightPk;
 		$opts->mode        = $mode;
 		$opts->defaultOpts = $res;

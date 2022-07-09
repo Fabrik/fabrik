@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <contenttype>
   <name>Contact us</name>
-  <fabrikversion>3.8</fabrikversion>
+  <fabrikversion>3.9</fabrikversion>
   <group join_id="" is_join="0" id="5" name="details" label="" css="" published="1" created="2015-12-15 22:49:20" private="0">
     <params split_page="0" list_view_and_query="1" access="1" intro="" outro="" repeat_group_button="0" repeat_template="repeatgroup" repeat_max="" repeat_min="" repeat_error_message="" repeat_intro="" repeat_add_access="1" repeat_delete_access="1" repeat_delete_access_user="" repeat_copy_element_values="0" group_columns="2" group_column_widths="" repeat_group_show_first="1" random="0" labels_above="0" labels_above_details="0"/>
     <element label="id" published="1" name="id" id="17" plugin="internalid" created="2015-12-15 22:49:20" width="3" height="0" default="" hidden="1" eval="0" ordering="1" show_in_list_summary="0" filter_type="" filter_exact_match="" link_to_detail="1" primary_key="1" auto_increment="1" access="1" use_in_page_title="0" parent_id="0">

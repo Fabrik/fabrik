@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.3.5
  */
@@ -616,7 +616,7 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
                 }
                 catch (RuntimeException $e)
                 {
-                    $this->missingElementTypes[] = $elementModel->element->plugin;
+                    $this->missingElementTypes[] = $elementData['plugin'];
                     continue;
                 }
 				$elementModel->element        = $elementModel->getDefaultProperties($elementData);
@@ -663,7 +663,7 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 		{
 			// Could be importing from a CSV in which case default fields are set.
 			// TODO refactor this $input get into class constructor
-			$fields     = $input->get('defaultfields', array('id' => 'internalid', 'date_time' => 'date'), 'array');
+			$fields     = $input->get('defaultfields', array('id' => 'internalid', 'date_time' => 'jdate'), 'array');
 			$primaryKey = array_keys($input->get('key', array(), 'array'));
 			$primaryKey = array_pop($primaryKey);
 			$elements   = array();

@@ -1,143 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="List">
-		<message>
-			<![CDATA[STANDARD Fabrik list layout]]>
-		</message>
-	</layout>
-	
-	<fields name="request">
-		<fieldset name="request" addfieldpath="/administrator/components/com_fabrik/models/fields">
-	
-			<field name="listid"
-				type="fabriktables"
-				package="{component_name}"
-				label="COM_FABRIK_MENU_LIST_LABEL" 
-				description="COM_FABRIK_MENU_LIST_DESC" />
-				
-			</fieldset>
-	</fields>
-	
-	<fields name="params" addfieldpath="/administrator/components/com_fabrik/models/fields">
-		<fieldset name="params"
-			label="COM_FABRIK_MENU_LIST_OPTIONS"
-		>
+    <layout title="List">
+        <message>
+            <![CDATA[STANDARD Fabrik list layout]]>
+        </message>
+    </layout>
 
-			<field name="calculations"
-				type="radio"
-				class="btn-group"
-				default="0"
-				label="COM_FABRIK_MENU_LIST_RELOAD_CALCS_LABEL"
-				description="COM_FABRIK_MENU_LIST_RELOAD_CALCS_DESC"
-			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-				
-			<field name="listlayout" type="fabrikfolderlist"
-				directory="/components/com_fabrik/views/list/tmpl/"
-				label="Template" 
-				descrption="The table template to use" />
-				
-			<field name="resetfilters" type="radio" default="0" 
-				label="COM_FABRIK_FIELD_RESET_FILTERS_LABEL" 
-				description="COM_FABRIK_FIELD_RESET_FILTERS_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-			</field>
-		
-			<field name="list_elements" 
-					type="fabrikmodalrepeat" 
-					label="COM_FABRIK_LIST_ELEMENTS_LABEL"
-					description="COM_FABRIK_LIST_ELEMENTS_DESC">
-				
-					<fields name="params">
-						<fieldset name="list_elements_modal" repeat="true" modal="true">
-							<field name="show_in_list" 
-								size="30"
-								type="listfields"
-								label="COM_FABRIK_LIST_ELEMENTS_HEADING"/>
-						
-						</fieldset>
-					</fields>
-				</field>
-				
-				<field name="prefilters" 
-					type="fabrikmodalrepeat" 
-					label="COM_FABRIK_LIST_PREFILTERS_LABEL"
-					description="COM_FABRIK_LIST_PREFILTERS_DESC">
-				
-					<fields name="params">
-						<fieldset name="prefilters_modal" repeat="true" modal="true">
-						
-							<field name="filter-join"
-								class="input-small"
-								type="list"
-								default="OR"
-								label="">
-									<option value="AND">AND</option>
-									<option value="OR">OR</option>
-							</field>
-							
-							<field name="filter-fields" 
-								type="listfields"
-								valueformat="tableelement"
-								label="COM_FABRIK_LIST_ELEMENTS_HEADING"/>
-						
-							<field name="filter-conditions"
-								label="COM_FABRIK_LIST_CONDITION_LABEL"
-								type="list">
-									<option value="equals">EQUALS</option>
-									<option value="notequals">NOT EQUAL TO</option>
-									<option value="begins">BEGINS WITH</option>
-									<option value="contains">CONTAINS</option>
-									<option value="ends">ENDS WITH</option>
-									<option value="greaterthan">GREATER THAN</option>
-									<option value="greaterthanequals">GREATER THAN OR EQUALS</option>
-									<option value="lessthan">LESS THAN</option>
-									<option value="IS NULL">IS NULL</option>
-									<option value="lessthanequals">LESS THAN OR EQUALS</option>
-									<option value="in">IN</option>
-									<option value="not_in">NOT IN</option>
-									<option value="thisyear">COM_FABRIK_THIS_YEAR</option>
-									<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
-									<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
-									<option value="yesterday">COM_FABRIK_YESTERDAY</option>
-									<option value="today">COM_FABRIK_TODAY</option>
-									<option value="tomorrow">COM_FABRIK_TOMORROW</option>
-									<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
-									<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
-									<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
-									<option value="birthday">COM_FABRIK_BIRTHDAY_TODAY</option>
-							</field>
-							
-							<field name="filter-value" 
-								type="field"
-								label="COM_FABRIK_LIST_FILTER_VALUE_HEADING"/>
-							
-							<field name="filter-eval"
-								type="list"
-								class="input-small"
-								label="COM_FABRIK_TYPE">
-									<option value="0">COM_FABRIK_TEXT</option>
-									<option value="1">COM_FABRIK_EVAL</option>
-									<option value="2">COM_FABRIK_QUERY</option>
-									<option value="3">COM_FABRIK_NO_QUOTES</option>
-							</field>
-							
-							<field name="filter-access"
-								class="input-small"
-								type="accesslevel"
-								label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING"/>
-								
-						</fieldset>
-					</fields>
-				</field>
-				
-				<field name="rows_per_page" 
-					type="text" size="4" default="10" 
-					label="COM_FABRIK_FIELD_ROWS_PER_PAGE_LABEL" 
-					description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC" />
-			</fieldset>
-	</fields>
+    <fields name="request">
+        <fieldset name="request" addfieldpath="/administrator/components/com_fabrik/models/fields">
+
+            <field name="listid"
+                   type="fabriktables"
+                   package="{component_name}"
+                   label="COM_FABRIK_MENU_LIST_LABEL"
+                   description="COM_FABRIK_MENU_LIST_DESC"/>
+
+        </fieldset>
+    </fields>
+
+    <fields name="params" addfieldpath="/administrator/components/com_fabrik/models/fields">
+        <fieldset name="params"
+                  label="COM_FABRIK_MENU_LIST_OPTIONS"
+        >
+
+            <field name="calculations"
+                   type="radio"
+                   class="btn-group"
+                   default="0"
+                   label="COM_FABRIK_MENU_LIST_RELOAD_CALCS_LABEL"
+                   description="COM_FABRIK_MENU_LIST_RELOAD_CALCS_DESC"
+            >
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field name="listlayout" type="fabrikfolderlist"
+                   directory="/components/com_fabrik/views/list/tmpl/"
+                   label="Template"
+                   descrption="The table template to use"/>
+
+            <field name="resetfilters" type="radio" default="0"
+                   label="COM_FABRIK_FIELD_RESET_FILTERS_LABEL"
+                   description="COM_FABRIK_FIELD_RESET_FILTERS_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field name="list_elements"
+                   type="fabrikmodalrepeat"
+                   label="COM_FABRIK_LIST_ELEMENTS_LABEL"
+                   description="COM_FABRIK_LIST_ELEMENTS_DESC">
+
+                <fields name="params">
+                    <fieldset name="list_elements_modal" repeat="true" modal="true">
+                        <field name="show_in_list"
+                               size="30"
+                               type="listfields"
+                               label="COM_FABRIK_LIST_ELEMENTS_HEADING"/>
+
+                    </fieldset>
+                </fields>
+            </field>
+
+            <field name="prefilters"
+                   type="fabrikmodalrepeat"
+                   filter="raw"
+                   label="COM_FABRIK_LIST_PREFILTERS_LABEL"
+                   description="COM_FABRIK_LIST_PREFILTERS_DESC">
+
+                <fields name="params">
+                    <fieldset name="prefilters_modal" repeat="true" modal="true">
+
+                        <field name="filter-join"
+                               class="input-small"
+                               type="list"
+                               default="OR"
+                               label="">
+                            <option value="AND">AND</option>
+                            <option value="OR">OR</option>
+                        </field>
+
+                        <field name="filter-fields"
+                               type="listfields"
+                               valueformat="tableelement"
+                               label="COM_FABRIK_LIST_ELEMENTS_HEADING"/>
+
+                        <field name="filter-conditions"
+                               label="COM_FABRIK_LIST_CONDITION_LABEL"
+                               type="list">
+                            <option value="equals">EQUALS</option>
+                            <option value="notequals">NOT EQUAL TO</option>
+                            <option value="begins">BEGINS WITH</option>
+                            <option value="contains">CONTAINS</option>
+                            <option value="ends">ENDS WITH</option>
+                            <option value="greaterthan">GREATER THAN</option>
+                            <option value="greaterthanequals">GREATER THAN OR EQUALS</option>
+                            <option value="lessthan">LESS THAN</option>
+                            <option value="IS NULL">IS NULL</option>
+                            <option value="lessthanequals">LESS THAN OR EQUALS</option>
+                            <option value="in">IN</option>
+                            <option value="not_in">NOT IN</option>
+                            <option value="thisyear">COM_FABRIK_THIS_YEAR</option>
+                            <option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
+                            <option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
+                            <option value="yesterday">COM_FABRIK_YESTERDAY</option>
+                            <option value="today">COM_FABRIK_TODAY</option>
+                            <option value="tomorrow">COM_FABRIK_TOMORROW</option>
+                            <option value="thismonth">COM_FABRIK_THIS_MONTH</option>
+                            <option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
+                            <option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+                            <option value="birthday">COM_FABRIK_BIRTHDAY_TODAY</option>
+                        </field>
+
+                        <field name="filter-value"
+                               type="text"
+                               filter="raw"
+                               label="COM_FABRIK_LIST_FILTER_VALUE_HEADING"/>
+
+                        <field name="filter-eval"
+                               type="list"
+                               class="input-small"
+                               label="COM_FABRIK_TYPE">
+                            <option value="0">COM_FABRIK_TEXT</option>
+                            <option value="1">COM_FABRIK_EVAL</option>
+                            <option value="2">COM_FABRIK_QUERY</option>
+                            <option value="3">COM_FABRIK_NO_QUOTES</option>
+                        </field>
+
+                        <field name="filter-access"
+                               class="input-small"
+                               type="accesslevel"
+                               label="COM_FABRIK_LIST_FILTER_ACCESS_HEADING"/>
+
+                    </fieldset>
+                </fields>
+            </field>
+
+            <field name="rows_per_page"
+                   type="text" size="4" default="10"
+                   label="COM_FABRIK_FIELD_ROWS_PER_PAGE_LABEL"
+                   description="COM_FABRIK_FIELD_ROWS_PER_PAGE_DESC"/>
+        </fieldset>
+    </fields>
 </metadata>

@@ -3,7 +3,13 @@
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
 	
 		<fieldset name="plg-cron-geocode-address" label="PLG_CRON_GEOCODE_ADDRESS">
-		
+
+			<field name="geocode_address_help"
+				   type="note"
+				   class="alert alert-info"
+				   close="true"
+				   description="PLG_CRON_GEOCODE_ADDRESS_HELP_LABEL" />
+
 			<field name="geocode_map_element"
 				type="element"
 				connection="params_connection"
@@ -11,6 +17,22 @@
 				description="PLG_CRON_GEOCODE_MAP_DESC"
 				label="PLG_CRON_GEOCODE_MAP_LABEL"
 				table="params_table" />
+
+			<field name="geocode_lat_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_LAT_DESC"
+				   label="PLG_CRON_GEOCODE_LAT_LABEL"
+				   table="params_table" />
+
+			<field name="geocode_lon_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_LON_DESC"
+				   label="PLG_CRON_GEOCODE_LON_LABEL"
+				   table="params_table" />
 				
 			<field name="geocode_addr1_element"
 				type="element"
@@ -35,7 +57,24 @@
 				description="PLG_CRON_GEOCODE_CITY_DESC"
 				label="PLG_CRON_GEOCODE_CITY_LABEL"
 				table="params_table"/>
-				
+
+
+			<field name="geocode_municipality_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_MUNICIPALITY_DESC"
+				   label="PLG_CRON_GEOCODE_MUNICIPALITY_LABEL"
+				   table="params_table"/>
+
+			<field name="geocode_county_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_COUNTY_DESC"
+				   label="PLG_CRON_GEOCODE_COUNTY_LABEL"
+				   table="params_table"/>
+
 			<field name="geocode_state_element"
 				type="element"
 				connection="params_connection"
@@ -59,11 +98,24 @@
 				description="PLG_CRON_GEOCODE_COUNTRY_DESC"
 				label="PLG_CRON_GEOCODE_COUNTRY_LABEL"
 				table="params_table"/>
+
+			<field name="geocode_normalize_street_element"
+				   type="element"
+				   connection="params_connection"
+				   connection_in_repeat="false"
+				   description="PLG_CRON_GEOCODE_NORMALIZE_STREET_DESC"
+				   label="PLG_CRON_GEOCODE_NORMALIZE_STREET_LABEL"
+				   table="params_table" />
 		
 		</fieldset>
 	
 		<fieldset name="plg-cron-geocode" label="COM_FABRIK_OPTIONS">
-									
+			<field name="geocode_options_help"
+				   type="note"
+				   class="alert alert-info"
+				   close="true"
+				   description="PLG_CRON_GEOCODE_OPTIONS_HELP_LABEL" />
+
 			<field name="geocode_when"
 				type="list"
 				default="1"
@@ -72,6 +124,18 @@
 				<option value="1">PLG_CRON_GEOCODE_WHEN_EMPTY_OR_DEFAULT</option>
 				<option value="2">PLG_CRON_GEOCODE_WHEN_EMPTY</option>
 				<option value="3">PLG_CRON_GEOCODE_WHEN_ALWAYS</option>
+			</field>
+
+			<field name="geocode_from"
+				   type="list"
+				   default="1"
+				   description="PLG_CRON_GEOCODE_FROM_DESC"
+				   label="PLG_CRON_GEOCODE_FROM_LABEL">
+				<option value="1">PLG_CRON_GEOCODE_FROM_ADDRESS</option>
+				<option value="2">PLG_CRON_GEOCODE_FROM_LAT_LON</option>
+				<option value="3">PLG_CRON_GEOCODE_FROM_MAP_TO_LAT_LON</option>
+				<option value="4">PLG_CRON_GEOCODE_FROM_LAT_LON_TO_ADDRESS</option>
+				<option value="5">PLG_CRON_GEOCODE_FROM_MAP_TO_ADDRESS</option>
 			</field>
 						
 			<field name="geocode_is_empty"
@@ -104,6 +168,15 @@
 				description="PLG_CRON_GEOCODE_DELAY_DESC"
 				label="PLG_CRON_GEOCODE_DELAY_LABEL"
 				size="4" />
+
+			<field name="geocode_normalize_format"
+				   type="list"
+				   default="long_name"
+				   description="PLG_CRON_GEOCODE_NORMALIZE_FORMAT_DESC"
+				   label="PLG_CRON_GEOCODE_NORMALIZE_FORMAT_LABEL">
+				<option value="long_name">PLG_CRON_GEOCODE_NORMALIZE_FORMAT_LONG</option>
+				<option value="short_name">PLG_CRON_GEOCODE_NORMALIZE_FORMAT_SHORT</option>
+			</field>
 		
 		</fieldset>
 	</fields>

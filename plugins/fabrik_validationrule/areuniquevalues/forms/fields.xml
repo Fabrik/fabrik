@@ -10,6 +10,13 @@
 				repeat="true"
 				size="30" />
 
+			<field name="areuniquevalues-validation_condition"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_CONDITION_DESC"
+				   label="PLG_VALIDATIONRULE_AREUNIQUEVALUES_CONDITION_LABEL"
+				   repeat="true" />
+
 			<field name="areuniquevalues-otherfield"
 				type="listfields"
 				description="PLG_VALIDATIONRULE_AREUNIQUEVALUES_OTHER_FIELD_DESC"

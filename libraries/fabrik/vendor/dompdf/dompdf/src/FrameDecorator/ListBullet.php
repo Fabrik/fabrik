@@ -25,7 +25,7 @@ class ListBullet extends AbstractFrameDecorator
     const BULLET_DESCENT = 0.3; //descent of font below baseline. Todo: Guessed for now.
     const BULLET_SIZE = 0.35; // bullet diameter. For now 0.5 of font_size without descent.
 
-    static $BULLET_TYPES = array("disc", "circle", "square");
+    static $BULLET_TYPES = ["disc", "circle", "square"];
 
     /**
      * ListBullet constructor.
@@ -48,7 +48,7 @@ class ListBullet extends AbstractFrameDecorator
             return 0;
         }
 
-        return $style->get_font_size() * self::BULLET_SIZE + 2 * self::BULLET_PADDING;
+        return $style->font_size * self::BULLET_SIZE + 2 * self::BULLET_PADDING;
     }
 
     /**
@@ -64,7 +64,7 @@ class ListBullet extends AbstractFrameDecorator
             return 0;
         }
 
-        return $style->get_font_size() * self::BULLET_SIZE + 2 * self::BULLET_PADDING;
+        return $style->font_size * self::BULLET_SIZE + 2 * self::BULLET_PADDING;
     }
 
     /**

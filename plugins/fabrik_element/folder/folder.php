@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.folder
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -71,7 +71,7 @@ class PlgFabrik_ElementFolder extends PlgFabrik_Element
 			{
 				$opts[] = JHTML::_('select.option', $file, $file);
 
-				if ($selected === $folder)
+				if ($selected === $file)
 				{
 					$aRoValues[] = $file;
 				}

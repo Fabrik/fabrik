@@ -1,10 +1,8 @@
 <?php
 namespace Aws;
 
-use Aws\AwsClientInterface;
 use Aws\Signature\SignatureV4;
 use Aws\Endpoint\EndpointProvider;
-use Aws\CommandInterface;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 
@@ -18,10 +16,14 @@ class PresignUrlMiddleware
     private $nextHandler;
     /** @var array names of operations that require presign url */
     private $commandPool;
+    /** @var array query params that are not on the operation's model to add before signing */
+    private $extraQueryParams;
     /** @var string */
     private $serviceName;
     /** @var string */
     private $presignParam;
+    /** @var bool */
+    private $requireDifferentRegion;
 
     public function __construct(
         array $options,
@@ -34,7 +36,13 @@ class PresignUrlMiddleware
         $this->nextHandler = $nextHandler;
         $this->commandPool = $options['operations'];
         $this->serviceName = $options['service'];
-        $this->presignParam = $options['presign_param'];
+        $this->presignParam = !empty($options['presign_param'])
+            ? $options['presign_param']
+            : 'PresignedUrl';
+        $this->extraQueryParams = !empty($options['extra_query_params'])
+            ? $options['extra_query_params']
+            : [];
+        $this->requireDifferentRegion = !empty($options['require_different_region']);
     }
 
     public static function wrap(
@@ -43,7 +51,7 @@ class PresignUrlMiddleware
         array $options = []
     ) {
         return function (callable $handler) use ($endpointProvider, $client, $options) {
-            $f = new PreSignUrlMiddleware($options, $endpointProvider, $client, $handler);
+            $f = new PresignUrlMiddleware($options, $endpointProvider, $client, $handler);
             return $f;
         };
     }
@@ -53,12 +61,20 @@ class PresignUrlMiddleware
         if (in_array($cmd->getName(), $this->commandPool)
             && (!isset($cmd->{'__skip' . $cmd->getName()}))
         ) {
-            $cmd[$this->presignParam] = $this->createPresignedUrl($this->client, $cmd);
             $cmd['DestinationRegion'] = $this->client->getRegion();
+            if (!empty($cmd['SourceRegion']) && !empty($cmd[$this->presignParam])) {
+                goto nexthandler;
+            }
+            if (!$this->requireDifferentRegion
+                || (!empty($cmd['SourceRegion'])
+                    && $cmd['SourceRegion'] !== $cmd['DestinationRegion'])
+            ) {
+                $cmd[$this->presignParam] = $this->createPresignedUrl($this->client, $cmd);
+            }
         }
-
-        $f = $this->nextHandler;
-        return $f($cmd, $request);
+        nexthandler:
+        $nextHandler = $this->nextHandler;
+        return $nextHandler($cmd, $request);
     }
 
     private function createPresignedUrl(
@@ -84,8 +100,18 @@ class PresignUrlMiddleware
         // Create a presigned URL for our generated request.
         $signer = new SignatureV4($this->serviceName, $cmd['SourceRegion']);
 
+        $currentQueryParams = (string) $request->getBody();
+        $paramsToAdd = false;
+        if (!empty($this->extraQueryParams[$cmdName])) {
+            foreach ($this->extraQueryParams[$cmdName] as $param) {
+                if (!strpos($currentQueryParams, $param)) {
+                    $paramsToAdd =  "&{$param}={$cmd[$param]}";
+                }
+            }
+        }
+
         return (string) $signer->presign(
-            SignatureV4::convertPostToGet($request),
+            SignatureV4::convertPostToGet($request, $paramsToAdd ?: ""),
             $client->getCredentials()->wait(),
             '+1 hour'
         )->getUri();

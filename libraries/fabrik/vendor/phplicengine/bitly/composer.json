@@ -1,0 +1,23 @@
+{
+    "name": "phplicengine/bitly",
+    "type": "library",
+    "description": "Bitly API v4",
+    "keywords": ["api","restapi", "bitly", "bit.ly"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "PHPLicengine",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-curl": "*",
+        "doctrine/cache": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPLicengine\\": "lib/PHPLicengine"
+        }
+    }
+}

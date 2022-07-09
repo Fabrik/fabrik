@@ -5,6 +5,12 @@
 		<fieldset name="plg-form-stripe-payment"
 		          label="PLG_FORM_STRIPE_PAYMENT">
 
+			<field name="stripe_stripe_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_STRIPE_DESCRIPTION" />
+
 			<field name="stripe_secret_key"
 			       type="text"
 			       description="PLG_FORM_STRIPE_SECRET_KEY_DESC"
@@ -17,7 +23,7 @@
 			       label="PLG_FORM_STRIPE_PUBLISHABLE_KEY_LABEL"
 			       repeat="true"/>
 
-			<field name="stripe_currencycode"
+			<field name="stripe_currency_code"
 			       type="text"
 			       default="USD"
 			       description="PLG_FORM_STRIPE_CURRENCY_CODE_DESC"
@@ -71,17 +77,30 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="stripe_conditon"
+			<field name="stripe_condition"
 			       type="fabrikeditor"
 			       mode="php"
 			       description="PLG_FORM_STRIPE_CONDITION_DESC"
 			       label="PLG_FORM_STRIPE_CONDITION_LABEL"
 			       repeat="true"/>
 
+			<field name="stripe_after_process"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_STRIPE_AFTER_PROCESS_DESC"
+				   label="PLG_FORM_STRIPE_AFTER_PROCESS_LABEL"
+				   repeat="true"/>
+
 		</fieldset>
 
 		<fieldset name="plg-form-stripe-price"
 		          label="PLG_FORM_STRIPE_PRICE">
+
+			<field name="stripe_cost_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_COST_DESCRIPTION" />
 
 			<field name="stripe_cost"
 			       type="fabrikeditor"
@@ -126,6 +145,12 @@
 		<fieldset name="plg-form-stripe-item"
 		          label="PLG_FORM_STRIPE_ITEM">
 
+			<field name="stripe_item_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_ITEM_DESCRIPTION" />
+
 			<field name="stripe_item"
 			       type="fabrikeditor"
 			       mode="php"
@@ -165,8 +190,93 @@
 
 		</fieldset>
 
+		<fieldset name="plg-form-stripe-products"
+				  label="PLG_FORM_STRIPE_PRODUCTS">
+
+			<field name="stripe_products_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_PRODUCTS_DESCRIPTION" />
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_PRODUCT_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_PRODUCT_ELEMENT_LABEL"
+				   name="stripe_products_product_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_QTY_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_QTY_ELEMENT_LABEL"
+				   name="stripe_products_qty_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_TOTAL_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_TOTAL_ELEMENT_LABEL"
+				   name="stripe_products_total_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_CONNECTION_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_CONNECTION_LABEL"
+				   name="stripe_products_connection"
+				   repeat="true"
+				   type="connections"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_TABLE_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_TABLE_LABEL"
+				   name="stripe_products_table"
+				   observe="params_stripe_products_connection"
+				   repeat="true"
+				   type="fabriktables"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_PK_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_PK_LABEL"
+				   name="stripe_products_pk"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_NAME_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_NAME_LABEL"
+				   name="stripe_products_name"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_DESC_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_DESC_LABEL"
+				   name="stripe_products_desc"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_COST_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_COST_LABEL"
+				   name="stripe_products_cost"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+		</fieldset>
+
 		<fieldset name="plg-form-stripe-charge"
 		          label="PLG_FORM_STRIPE_CHARGE">
+
+			<field name="stripe_charge_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_CHARGE_DESCRIPTION" />
 
 			<field description="PLG_FORM_STRIPE_CHARGE_ID_ELEMENT_DESC"
 			       label="PLG_FORM_STRIPE_CHARGE_ID_ELEMENT_LABEL"
@@ -184,6 +294,14 @@
 			       type="listfields"
 			       valueformat="tableelement"/>
 
+			<field description="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_LABEL"
+				   name="stripe_charge_receipt_url_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
 			<field name="stripe_charge_bottom_text_new"
 			       type="fabrikeditor"
 			       mode="php"
@@ -198,10 +316,23 @@
 			       label="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_EXISTING_LABEL"
 			       repeat="true"/>
 
+			<field name="stripe_charge_failed_validation_text"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_LABEL"
+				   repeat="true"/>
+
 		</fieldset>
 
 		<fieldset name="plg-form-stripe-customers"
 		          label="PLG_FORM_STRIPE_CUSTOMERS">
+
+			<field name="stripe_customers_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_CUSTOMERS_DESCRIPTION" />
 
 			<field name="stripe_webhook_link"
 				   type="stripewebhook"
@@ -272,6 +403,14 @@
 			       repeat="true"
 			       table="params_stripe_customers_table"
 			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+				   description="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_TEST_DESC"
+				   label="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_TEST_LABEL"
+				   name="stripe_customers_stripeid_test"
+				   repeat="true"
+				   table="params_stripe_customers_table"
+				   type="element"/>
 
 			<field connection="params_stripe_customers_connection"
 			       description="PLG_FORM_STRIPE_CUSTOMERS_CUSTOM_FIELD_DESC"
@@ -406,6 +545,12 @@
 		<fieldset name="plg-form-stripe-coupons"
 				  label="PLG_FORM_STRIPE_COUPONS">
 
+			<field name="stripe_coupons_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_COUPONS_DESCRIPTION" />
+
 			<field description="PLG_FORM_STRIPE_COUPONS_CONNECTION_DESC"
 				   label="PLG_FORM_STRIPE_COUPONS_CONNECTION_LABEL"
 				   name="stripe_coupons_connection"
@@ -506,6 +651,12 @@
 
 		<fieldset name="plg-form-stripe-other"
 		          label="PLG_FORM_STRIPE_TEST_MODE">
+
+			<field name="stripe_test_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_TEST_DESCRIPTION" />
 
 			<field name="stripe_test_mode"
 			       type="radio"

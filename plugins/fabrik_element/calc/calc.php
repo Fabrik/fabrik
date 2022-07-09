@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.calc
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -97,12 +97,13 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$this->setStoreDatabaseFormat($data, $repeatCounter);
 			$default = $w->parseMessageForRepeats($params->get('calc_calculation'), $data, $this, $repeatCounter);
 			$default = $w->parseMessageForPlaceHolder($default, $data, true, true);
+			$formModel = $this->getFormModel();
 
 			//  $$$ hugh - standardizing on $data but need need $d here for backward compat
 			$d = $data;
-
+			FabrikWorker::clearEval();
 			$res = FabrikHelperHTML::isDebug() ? eval($default) : @eval($default);
-			FabrikWorker::logEval($res, 'Eval exception : ' . $this->getElement()->name . '::_getV() : ' . $default . ' : %s');
+			FabrikWorker::logEval($res, 'Eval exception : ' . $this->getElement()->name . ' (id ' . $this->getId() . ')::_getV() : ' . $default . ' : %s');
 
 			return $res;
 		}
@@ -245,16 +246,25 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		}
 		else
 		{
-			if (!isset($data[$key]))
+			$group = $this->getGroup();
+
+			if ($group->canRepeat())
 			{
-				$data[$key] = array();
+				if (!isset($data[$key]))
+				{
+					$data[$key] = array();
+				}
+				else
+				{
+					$data[$key] = array($data[$key]);
+				}
+
+				$data[$key][$c] = $res;
 			}
 			else
 			{
-				$data[$key] = array($data[$key]);
+				$data[$key] = $res;
 			}
-
-			$data[$key][$c] = $res;
 		}
 
 		$form->updateFormData($key, $data[$key]);
@@ -298,6 +308,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 			$d = $data;
 			$w = new FabrikWorker;
 			$cal = $w->parseMessageForPlaceHolder($cal, $data, true, true);
+			FabrikWorker::clearEval();
 
 			if (FabrikHelperHTML::isDebug())
 			{
@@ -308,7 +319,7 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 				$res = @eval($cal);
 			}
 
-			FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . '::preFormatFormJoins() : ' . $cal . ' : %s');
+			FabrikWorker::logEval($res, 'Eval exception : ' . $element->name . ' (id ' . $this->getId() . ')::preFormatFormJoins() : ' . $cal . ' : %s');
 
 			$res = $this->getFormattedValue($res);
 
@@ -406,33 +417,60 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 		$opts = $this->getElementJSOptions($repeatCounter);
 		$params = $this->getParams();
 		$calc = $params->get('calc_calculation');
-		$obs = preg_replace('#\s#', '', $params->get('calc_ajax_observe'));
-		$obs = explode(',', $obs);
-
-		if (preg_match_all("/{[^}\s]+}/i", $calc, $matches) !== 0)
-		{
-			$matches = $matches[0];
-			$obs = array_merge($obs, $matches);
-		}
-
-		foreach ($obs as $key => &$m)
-		{
-
-			if (empty($m))
-			{
-				unset($obs[$key]);
-				continue;
-			}
-
-			$m = str_replace(array('{', '}'), '', $m);
-
-			// $$$ hugh - we need to knock any _raw off, so JS can match actual element ID
-			$m = preg_replace('#_raw$#', '', $m);
-		}
-
+		$obs = array();
 		$opts->ajax = $params->get('calc_ajax', 0) == 0 ? false : true;
+
+		if ($opts->ajax)
+		{
+			if ($params->get('calc_ajax_observe_all', '0') === '0')
+			{
+				$obs = preg_replace('#\s#', '', $params->get('calc_ajax_observe'));
+				$obs = explode(',', $obs);
+
+				if (preg_match_all("/{[^}\s]+}/i", $calc, $matches) !== 0)
+				{
+					$matches = $matches[0];
+					$obs     = array_merge($obs, $matches);
+				}
+
+				foreach ($obs as $key => &$m)
+				{
+
+					if (empty($m))
+					{
+						unset($obs[$key]);
+						continue;
+					}
+
+					$m = str_replace(array('{', '}'), '', $m);
+
+					// $$$ hugh - we need to knock any _raw off, so JS can match actual element ID
+					$m = preg_replace('#_raw$#', '', $m);
+				}
+			}
+			else
+			{
+				$formModel = $this->getFormModel();
+				$groups    = $formModel->getGroupsHiarachy();
+
+				foreach ($groups as $groupModel)
+				{
+					$elementModels = $groupModel->getPublishedElements();
+
+					foreach ($elementModels as $elementModel)
+					{
+						if ($elementModel->getElement()->plugin !== 'calc')
+						{
+							$obs[] = $elementModel->getFullName(true, false);
+						}
+					}
+				}
+			}
+		}
+
 		$opts->observe = array_values(array_unique($obs));
 		$opts->calcOnLoad = (bool) $params->get('calc_on_load', false);
+		$opts->calcOnRepeat = (bool) $params->get('calc_on_repeat', false);
 		$opts->id = $this->id;
 
 		return array('FbCalc', $id, $opts);
@@ -463,7 +501,8 @@ class PlgFabrik_ElementCalc extends PlgFabrik_Element
 
 		// $$$ hugh - trying to standardize on $data so scripts know where data is
 		$data = $d;
-		$calc = $w->parseMessageForPlaceHolder($calc, $d);
+        $calc = $w->parseMessageForRepeats($calc, $data, $this, $repeatCounter);
+        $calc = $w->parseMessageForPlaceHolder($calc, $d);
 		$c    = FabrikHelperHTML::isDebug() ? eval($calc) : @eval($calc);
 		$c    = preg_replace('#(\/\*.*?\*\/)#', '', $c);
 		$c    = $this->getFormattedValue($c);

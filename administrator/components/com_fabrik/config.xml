@@ -17,10 +17,25 @@
 				<option value="1">JYES</option>
 		</field>
 
+		<field name="disable_caching"
+			   class="radio btn-group"
+			   type="radio"
+			   default="0"
+			   label="COM_FABRIK_FIELD_DISABLE_CACHING_LABEL"
+			   description="COM_FABRIK_FIELD_DISABLE_CACHING_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 		<field name="google_api_key"
 			type="text"
 			label="COM_FABRIK_GOOGLE_API_KEY_LABEL"
 			description="COM_FABRIK_GOOGLE_API_KEY_DESC" />
+
+		<field name="google_api_language"
+			   type="text"
+			   label="COM_FABRIK_GOOGLE_API_LANGUAGE_LABEL"
+			   description="COM_FABRIK_GOOGLE_API_LANGUAGE_DESC" />
 
 		<field name="google_buisness_client_id"
 			type="text"
@@ -77,10 +92,29 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field name="fabrik_pdf_lib"
+			   type="list"
+			   default="dompdf"
+			   label="COM_FABRIK_FIELD_PDF_LIB_LABEL"
+			   description="COM_FABRIK_FIELD_PDF_LIB_DESC">
+			<option value="dompdf">DOMPDF</option>
+			<option value="mpdf">MPDF</option>
+		</field>
+
 		<field name="fabrik_truncate_length"
 			   type="text"
 			   label="COM_FABRIK_TRUNCATE_LENGTH_LABEL"
 			   description="COM_FABRIK_TRUNCATE_LENGTH_DESC" />
+
+		<field name="fabrik_private_key"
+			   type="text"
+			   label="COM_FABRIK_PRIVATE_KEY_LABEL"
+			   description="COM_FABRIK_PRIVATE_KEY_DESC" />
+
+		<field name="fabrik_public_key"
+			   type="text"
+			   label="COM_FABRIK_PUBLIC_KEY_LABEL"
+			   description="COM_FABRIK_PUBLIC_KEY_DESC" />
 
 	</fieldset>
 	<fieldset label="COM_FABRIK_LISTS" name="lists">
@@ -281,14 +315,14 @@
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="DATETIME"/>
 
 		<field name="date"
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="DATE"
 			description="COM_FABRIK_ELEMENTS_DEFAULT_PLUGINS_DATE_DESC"/>
 
@@ -296,7 +330,7 @@
 			type="pluginlist"
 			plugin="fabrik_element"
 			required="true"
-			default="date"
+			default="jdate"
 			label="TIMESTAMP"/>
 
 		<field name="time"
@@ -320,6 +354,8 @@
                 		<option value="2">COM_FABRIK_LABELS_UCWORDS</option>
                 		<option value="3">COM_FABRIK_LABELS_CAPFIRST</option>
                 		<option value="4">COM_FABRIK_LABELS_CAPS</option>
+						<option value="5">COM_FABRIK_LABELS_LANGUAGESTRING</option>
+						<option value="6">COM_FABRIK_LABELS_UNCHANGED</option>						
         	</field>
     	</fieldset>
 
@@ -389,14 +425,14 @@
 			label="COM_FABRIK_FIELD_ERROR_ICON_LABEL" />
 
 		<field name="advanced_behavior"
-			type="radio"
+			type="list"
 			default="0"
 			class="btn-group"
 			label="COM_FABRIK_DROPDOWN_JQUERY_CHOSEN_GLOBAL_LABEL"
 			description="COM_FABRIK_DROPDOWN_JQUERY_CHOSEN_GLOBAL_DESC" >
 				<option value="0">JNO</option>
 				<option value="1">COM_FABRIK_DROPDOWN_JQUERY_CHOSEN_PER_ELEMENT</option>
-				<!--<option value="2">JYES</option>-->
+				<option value="2">JYES</option>
 		</field>
 
 		<field name="advanced_behavior_options"
@@ -418,6 +454,7 @@
 				<option value="0">COM_FABRIK_LIGHTBOX_SLIMBOX</option>
 				<option value="1">COM_FABRIK_LIGHTBOX_MEDIABOX</option>
 				<option value="2">COM_FABRIK_LIGHTBOX_ROKBOX</option>
+				<option value="3">COM_FABRIK_LIGHTBOX_LIGHTCASE</option>
 		</field>
 
 		<field name="mediabox_style"

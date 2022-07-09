@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -487,9 +487,16 @@ class FabrikFEModelForm extends FabModelForm
 		$data = $this->getData();
 		$ret = 0;
 
-		if ($listModel->canViewDetails())
+		if ($listModel->canViewDetails(FArrayHelper::toObject($data)))
 		{
 			$ret = 1;
+		}
+		else
+		{
+			if ($this->app->input->get('view', 'form') == 'details')
+			{
+				return 0;
+			}
 		}
 
 		//$isUserRowId = $this->isUserRowId();
@@ -1343,7 +1350,7 @@ class FabrikFEModelForm extends FabModelForm
 	 * model. Used in elements to modify posted data see file upload
 	 *
 	 * @param   string  $key          in key.dot.format to set a recursive array
-	 * @param   string  $val          value to set to
+	 * @param   string|array  $val          value to set to
 	 * @param   bool    $update_raw   automatically update _raw key as well
 	 * @param   bool    $override_ro  update data even if element is RO
 	 *
@@ -1548,14 +1555,14 @@ class FabrikFEModelForm extends FabModelForm
 		{
 			$value = $data[$fullName];
 		}
-		/* Maybe we are being called from onAfterProcess hook, or somewhere else
-		 * running after store, when non-joined data names have been reduced to short
-		 * names in formData, so peek in fullFormData
-		 */
-		elseif (isset($this->fullFormData) && array_key_exists($fullName, $this->fullFormData))
-		{
-			$value = $this->fullFormData[$fullName];
-		}
+        /* Maybe we are being called from onAfterProcess hook, or somewhere else
+         * running after store, when non-joined data names have been reduced to short
+         * names in formData, so peek in formDataWithTableName
+         */
+        elseif (isset($this->formDataWithTableName) && array_key_exists($fullName, $this->formDataWithTableName))
+        {
+            $value = $this->formDataWithTableName[$fullName];
+        }
 
 		if (isset($value) && isset($repeatCount) && is_array($value))
 		{
@@ -2307,7 +2314,8 @@ class FabrikFEModelForm extends FabModelForm
 
 					// $$$ rob $this->formData was $_POST, but failed to get anything for calculation elements in php 5.2.1
 					$formData = $elementModel->getValue($this->formData, $c, array('runplugins' => 0, 'use_default' => false, 'use_querystring' => false));
-
+					
+					/* remove get_magic_quotes_gpc (always false since php5.4, deprecated in php7.4)
 					if (get_magic_quotes_gpc())
 					{
 						if (is_array($formData))
@@ -2335,6 +2343,7 @@ class FabrikFEModelForm extends FabModelForm
 							}
 						}
 					}
+					*/
 
 					// Internal element plugin validations
 					if (!$elementModel->validate(@$formData, $c))
@@ -3561,7 +3570,7 @@ class FabrikFEModelForm extends FabModelForm
 						{
 							$name = $names[$i];
 
-							if (array_key_exists($name, $row))
+							if (property_exists($row, $name))
 							{
 								$v = $row->$name;
 								$v = FabrikWorker::JSONtoData($v, $elementModel->isJoin());
@@ -4231,6 +4240,7 @@ class FabrikFEModelForm extends FabModelForm
 			$remove = "/{" . $remove . ":\s*.*?}/is";
 			$text = preg_replace_callback($match, array($this, '_getIntroOutro'), $text);
 			$text = preg_replace($remove, '', $text);
+			$text = preg_replace("/{details:({(?>[^{}]+|(?1))*})}/is", '', $text);
 			$text = preg_replace("/{details:\s*.*?}/is", '', $text);
 		}
 
@@ -4400,44 +4410,46 @@ class FabrikFEModelForm extends FabModelForm
 		$linkedform_linktype = $facetedLinks->linkedform_linktype;
 		$linkedtable_linktype = $facetedLinks->linkedlist_linktype;
 		$f = 0;
+		$allPks = array();
 
 		foreach ($joinsToThisKey as $joinKey => $element)
 		{
 			$key = $element->list_id . '-' . $element->form_id . '-' . $element->element_id;
+			$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
+			$val = $input->get($qsKey);
 
-			if (isset($linkedLists->$key) && $linkedLists->$key != 0)
+			if ($val == '')
 			{
-				$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
-				$val = $input->get($qsKey);
+				// Default to row id if we are coming from a main link (and not a related data link)
+				$val = $input->get($qsKey . '_raw', '', 'string');
 
-				if ($val == '')
+				if (empty($val))
 				{
-					// Default to row id if we are coming from a main link (and not a related data link)
-					$val = $input->get($qsKey . '_raw', '', 'string');
+					$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
+					$val = FArrayHelper::getValue($this->data, $thisKey, $val);
 
 					if (empty($val))
 					{
-						$thisKey = $this->getListModel()->getTable()->db_table_name . '___' . $element->join_key_column . '_raw';
-						$val = FArrayHelper::getValue($this->data, $thisKey, $val);
-
-						if (empty($val))
-						{
-							$val = $input->get('rowid');
-						}
+						$val = $input->get('rowid');
 					}
 				}
+			}
 
-				/* $$$ tom 2012-09-14 - If we don't have a key value, get all.  If we have a key value,
-				 * use it to restrict the count to just this entry.
-				 */
+			/* $$$ tom 2012-09-14 - If we don't have a key value, get all.  If we have a key value,
+			 * use it to restrict the count to just this entry.
+			 */
 
-				$pks = array();
+			$pks = array();
 
-				if (!empty($val))
-				{
-					$pks[] = $val;
-				}
+			if (!empty($val))
+			{
+				$pks[] = $val;
+			}
 
+			$allPks[$key] = $pks;
+
+			if (isset($linkedLists->$key) && $linkedLists->$key != 0)
+			{
 				$recordCounts = $referringTable->getRecordCounts($element, $pks);
 
 				// Jaanus - 18.10.2013 - get correct element fullnames as link keys
@@ -4473,12 +4485,13 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					if (is_object($element))
 					{
-						$linkKeyData = $referringTable->getRecordCounts($element, $pks);
+						$linkKeyData = $referringTable->getRecordCounts($element, $allPks[$key]);
 						$linkKey = $linkKeyData['linkKey'];
 						$val = $input->get($linkKey, '', 'string');
 
 						if ($val == '')
 						{
+							$qsKey = $referringTable->getTable()->db_table_name . '___' . $element->name;
 							$val = $input->get($qsKey . '_raw', $input->get('rowid'));
 						}
 
@@ -4803,7 +4816,7 @@ class FabrikFEModelForm extends FabModelForm
 				{
 					$repeatGroup = $groupModel->repeatCount();
 
-					if ($repeatGroup === 0)
+					if ($groupModel->canEdit() && $repeatGroup === 0)
 					{
 						$newGroup = true;
 						$repeatGroup = 1;

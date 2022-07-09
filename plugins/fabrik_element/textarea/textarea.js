@@ -223,6 +223,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 tinyMCE.execCommand('mceFocus', false, id);
                 this._removeTinyEditor(id);
             }
+            this.parent(groupid);
         },
 
         getTextContainer: function () {

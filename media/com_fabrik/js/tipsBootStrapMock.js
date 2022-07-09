@@ -12,6 +12,8 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
     var FloatingTips = new Class({
         Implements: [Events],
 
+        Binds: [],
+
         options: {
             fxProperties: {transition: Fx.Transitions.linear, duration: 500},
             'position'  : 'top',

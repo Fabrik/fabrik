@@ -67,6 +67,16 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="calc_ajax_observe_all"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   description="PLG_ELEMENT_CALC_AJAX_OBSERVE_ALL_DESC"
+				   label="PLG_ELEMENT_CALC_AJAX_OBSERVE_ALL_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="calc_ajax_observe"
 				type="textarea"
 				cols="60"
@@ -83,7 +93,17 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>	
 			</field>
-			
+
+			<field name="calc_on_repeat"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   description="PLG_ELEMENT_CALC_ON_REPEAT_DESC"
+				   label="PLG_ELEMENT_CALC_ON_REPEAT_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 	</fields>

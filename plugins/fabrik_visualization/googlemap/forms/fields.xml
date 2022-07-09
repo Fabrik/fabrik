@@ -59,6 +59,7 @@
 							type="listfields"
 							repeat="true"
 							showall="0"
+							raw="true"
 							valueformat="tableelement"
 							connection="params_googlemap_connection"
 							connection_in_repeat="true"
@@ -96,7 +97,8 @@
 
 						<field
 							name="filter-value"
-							type="field"
+							type="text"
+							filter="raw"
 							repeat="true"
 							label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" />
 
@@ -297,6 +299,16 @@
 				<option value="m">Miles</option>
 				<option value="k">Kilometers</option>
 			</field>
+
+			<field
+					name="fb_gm_heatmap_weighting_element"
+					type="element"
+					connection="params_googlemap_connection"
+					connection_in_repeat="false"
+					description="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_WEIGHTING_ELEMENT_DESC"
+					label="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_WEIGHTING_ELEMENT_LABEL"
+					table="params_googlemap_table" />
+
 
 		</fieldset>
 
@@ -564,6 +576,19 @@
 				type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="fb_gm_maptypecontroloptions"
+				   type="list"
+				   multiple="true"
+				   default=""
+				   description="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_DESC"
+				   label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_LABEL">
+				<option value="satellite">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_SATELLITE</option>
+				<option value="roadmap">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_ROADMAP</option>
+				<option value="terrain">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_TERRAIN</option>
+				<option value="hybrid">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_HYBRID</option>
+				<option value="styled_map">PLG_EVISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_STYLED_MAP</option>
 			</field>
 
 			<field

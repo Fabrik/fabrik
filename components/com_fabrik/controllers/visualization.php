@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Fabrik\Controllers\Controller;
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 jimport('joomla.application.component.controller');
 
@@ -63,6 +65,20 @@ class FabrikControllerVisualization extends Controller
 		// Set the default view name from the Request
 		$view = $this->getView($viewName, $viewType);
 
+		$extraQS = FabrikWorker::getMenuOrRequestVar('viz_extra_query_string', '', false, 'menu');
+		$extraQS = ltrim($extraQS, '&?');
+		$extraQS = FabrikString::encodeqs($extraQS);
+
+		if (!empty($extraQS))
+		{
+			foreach (explode('&', $extraQS) as $qsStr)
+			{
+				$parts = explode('=', $qsStr);
+				$input->set($parts[0], $parts[1]);
+				$_GET[$parts[0]] = $parts[1];
+			}
+		}
+
 		// Push a model into the view
 		if ($model = $this->getModel($viewName))
 		{
@@ -72,7 +88,7 @@ class FabrikControllerVisualization extends Controller
 		$view->error = $this->getError();
 
 		// F3 cache with raw view gives error
-		if (in_array($input->get('format'), array('raw', 'csv')))
+		if (!Worker::useCache())
 		{
 			$view->display();
 		}
@@ -85,6 +101,7 @@ class FabrikControllerVisualization extends Controller
 			$cacheId = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_fabrik', 'view');
 			$cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
 		}
 
 		return $this;

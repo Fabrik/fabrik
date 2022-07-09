@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -16,7 +16,7 @@ $db = FabrikWorker::getDbo(true);
 ?>
 
 <form action="<?php JRoute::_('index.php?option=com_fabrik'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
-	<ul style="list-style:none;font-weight:bold;color:#0055BB;background:#C3D2E5 url(templates/khepri/images/notice-info.png) no-repeat scroll 4px center;padding:10px;margin-bottom:10px;border-top:3px solid #84A7DB;border-bottom:3px solid #84A7DB">
+	<ul style="list-style:none;font-weight:bold;color:#0055BB;background:#C3D2E5;padding:10px;margin-bottom:10px;border-top:3px solid #84A7DB;border-bottom:3px solid #84A7DB">
 	<?php if ($db->qn($this->item->name) !== $this->oldName) : ?>
 		<li style="padding-left:30px">
 			<?php echo JText::sprintf('COM_FABRIK_UPDATE_ELEMENT_NAME', $this->oldName, $db->qn($this->item->name)); ?>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset name="plg-form-consent-terms" label="PLG_FORM_CONSENT_TERMS">
+
+			<field default="0"
+				class="btn-group"
+				description="PLG_FORM_CONSENT_TERMS_USE_DESC" label="PLG_FORM_CONSENT_TERMS_USE_LABEL" name="consent_terms" repeat="true" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+			
+			<field default="" description="PLG_FORM_CONSENT_INTRO_TERMS_TEXT_DESC" label="PLG_FORM_CONSENT_INTRO_TERMS_TEXT_LABEL" name="consent_intro_terms" repeat="true" type="textarea" cols="60" rows="2" />
+				
+			<field default="" description="PLG_FORM_CONSENT_DEFAULT_TEXT_DESC" label="PLG_FORM_CONSENT_DEFAULT_TEXT_LABEL" name="consent_terms_text" repeat="true" size="40" type="text" />
+			
+		</fieldset>
+		
+		<fieldset name="plg-form-consent-juser" label="PLG_FORM_CONSENT_JUSER">
+			<field default="0"
+				class="btn-group"
+				description="PLG_FORM_CONSENT_JUSER_USE_DESC" label="PLG_FORM_CONSENT_JUSER_USE_LABEL" name="consent_juser" repeat="true" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+			
+			<field name="consent_field_userid"
+				type="listfields"
+				description="PLG_FORM_CONSENT_USER_ID_FIELD_DESC"
+				label="PLG_FORM_CONSENT_USER_ID_FIELD_LABEL"
+				onlytablefields="0"
+				repeat="true" />
+			
+			<field name="consent_field_email"
+				type="listfields"
+				description="PLG_FORM_CONSENT_EMAIL_FIELD_DESC"
+				label="PLG_FORM_CONSENT_EMAIL_FIELD_LABEL"
+				onlytablefields="0"
+				repeat="true" />
+			
+			<field default="" description="PLG_FORM_CONSENT_EMAIL_SUBJECT_DESC" label="PLG_FORM_CONSENT_EMAIL_SUBJECT_LABEL" name="consent_email_subject" repeat="true" size="40" type="text" />
+			<field default="" description="PLG_FORM_CONSENT_MESSAGE_TEXT_DESC" label="PLG_FORM_CONSENT_MESSAGE_TEXT_LABEL" name="consent_message_body" repeat="true" type="textarea" cols="60" rows="2" />
+			
+		</fieldset>
+		
+		<fieldset name="plg-form-consent-layout" label="PLG_FORM_CONSENT_LAYOUT">
+			
+			<field default="1"
+				class="btn-group"
+				description="PLG_FORM_CONSENT_FIELDSET_DESC" label="PLG_FORM_CONSENT_FIELDSET_LABEL" name="consent_fieldset" repeat="true" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+			
+			<field default="" description="PLG_FORM_CONSENT_FIELDSET_CLASS_DESC" label="PLG_FORM_CONSENT_FIELDSET_CLASS_LABEL" name="consent_fieldset_class" repeat="true" size="40" type="text"/>
+			
+			<field default="" description="PLG_FORM_CONSENT_LEGEND_DESC" label="PLG_FORM_CONSENT_LEGEND_LABEL" name="consent_legend" repeat="true" size="40" type="text"/>
+			
+			<field default="" description="PLG_FORM_CONSENT_LEGEND_CLASS_DESC" label="PLG_FORM_CONSENT_LEGEND_CLASS_LABEL" name="consent_legend_class" repeat="true" size="40" type="text"/>
+			
+		</fieldset>
+		
+		<fieldset name="plg-form-consent-options" label="PLG_FORM_CONSENT_OPTIONS">
+			
+			<field default="0"
+				class="btn-group"
+				description="PLG_FORM_CONSENT_IP_RECORD_DESC" label="PLG_FORM_CONSENT_IP_RECORD_LABEL" name="consent_ip_record" repeat="true" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>	
+			</field>
+			
+		</fieldset>
+	</fields>
+</form>

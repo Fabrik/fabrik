@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.j2store
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -383,7 +383,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 				}
 				else
 				{
-					$row->j2store = FText::_('PLG_FORM_J2STORE_PRODUCT_NOT_FOUND', $source, $id);
+					$row->j2store = FText::sprintf('PLG_FORM_J2STORE_PRODUCT_NOT_FOUND', $source, $id);
 				}
 			}
 		}

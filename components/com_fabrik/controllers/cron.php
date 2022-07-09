@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 
 /**
@@ -77,7 +80,7 @@ class FabrikControllerCron extends JControllerLegacy
 		}
 
 		// F3 cache with raw view gives error
-		if (in_array($input->getCmd('format'), array('raw', 'csv')))
+		if (!Worker::useCache())
 		{
 			$view->$task();
 		}
@@ -93,6 +96,7 @@ class FabrikControllerCron extends JControllerLegacy
 			$cacheId = serialize(array($uri, $post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_fabrik', 'view');
 			$cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
 		}
 	}
 

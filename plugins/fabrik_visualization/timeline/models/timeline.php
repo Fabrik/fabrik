@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.timeline
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -346,6 +346,8 @@ class FabrikModelTimeline extends FabrikFEModelVisualization
 		// The simile jQuery autodetect and load code is broken as it tests for $ (for which mootools gives a false positive) so include
 		$parsedUrl = parse_url(JUri::root());
 		$document->addScript($parsedUrl['scheme'] . '://code.jquery.com/jquery-1.9.1.min.js');
+		//@@@trob: preload simile-ajax-api.js with the correct scheme (to avoid hardcoded http loading inside timeline-api.js)
+		$document->addScript($parsedUrl['scheme'] . '://api.simile-widgets.org/ajax/2.2.1/simile-ajax-api.js');
 		$document->addScript($parsedUrl['scheme'] . '://api.simile-widgets.org/timeline/2.3.1/timeline-api.js?bundle=true');
 		$c = 0;
 		$templates = (array) $params->get('timeline_detailtemplate', array());

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.media
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -31,7 +31,7 @@ if ($this->showFilters) :
 			endforeach;
 			?>
 	  </tbody>
-	  <thead><tr><th colspan='2'><?php echo $table ?></th></tr></thead>
+	  <thead><tr><th colspan='2'><?php echo FText::_($table) ?></th></tr></thead>
 	  <tfoot><tr><th colspan='2' style="text-align:right;">
 	  <input type="submit" class="button" value="<?php echo FText::_('GO') ?>" />
 	  </th></tr></tfoot></table>

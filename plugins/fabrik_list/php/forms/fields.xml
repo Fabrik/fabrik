@@ -54,6 +54,17 @@
 				size="30" />
 
 			<field type="radio"
+				   name="table_php_show_msg"
+				   class="btn-group"
+				   default="1"
+				   repeat="true"
+				   label="PLG_FABRIK_LIST_PHP_SHOW_SUCCESS_MSG_LABEL"
+				   description="PLG_FABRIK_LIST_PHP_SHOW_SUCCESS_MSG_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field type="radio"
 				name="button_in_row"
 				class="btn-group"
 				default="1"

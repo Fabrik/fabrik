@@ -145,6 +145,17 @@
 			       description="PLG_FABRIK_FORM_JUSER_GROUP_WHITELIST_DESC"
 			       label="PLG_FABRIK_FORM_JUSER_GROUP_WHITELIST_LABEL" />
 
+			<field name="juser_group_preserve"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_FABRIK_FORM_JUSER_GROUP_PRESERVE_DESC"
+				   label="PLG_FABRIK_FORM_JUSER_GROUP_PRESERVE_LABEL"
+				   repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="juser_conditon"
 				type="fabrikeditor"
 				mode="php"
@@ -154,6 +165,16 @@
 		</fieldset>
 
 		<fieldset name="plg-form-juser-sycn" label="PLG_FABRIK_FORM_JUSER_SYNC">
+			<field name="juser_sync_pk"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_FABRIK_FORM_JUSER_SYNC_PK_DESC"
+				   label="PLG_FABRIK_FORM_JUSER_SYNC_PK_LABEL"
+				   repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field name="juser_delete_user"
 				type="radio"
@@ -209,6 +230,13 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="juser_additional_bind_data"
+				   type="fabrikeditor"
+				   mode="json"
+				   description="PLG_FABRIK_FORM_JUSER_ADDITIONAL_BIND_DATA_DESC"
+				   label="PLG_FABRIK_FORM_JUSER_ADDITIONAL_BIND_DATA_LABEL"
+				   repeat="true" />
 
 		</fieldset>
 	</fields>

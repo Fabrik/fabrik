@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -179,10 +179,11 @@ class FabrikAdminViewElements extends JViewLegacy
 				);
 			}
 
+			// don't translate plugin names, otherwise things like "jdate" become "Date"
 			JHtmlSidebar::addFilter(
 			FText::_('COM_FABRIK_SELECT_PLUGIN'),
 			'filter_plugin',
-			JHtml::_('select.options', $this->pluginOptions, 'value', 'text', $this->state->get('filter.plugin'), true)
+			JHtml::_('select.options', $this->pluginOptions, 'value', 'text', $this->state->get('filter.plugin'), false)
 			);
 
 			JHtmlSidebar::addFilter(

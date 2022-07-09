@@ -203,6 +203,7 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
 
         /**
          * Get the dom selector that events should be attached to, need to include label for button groups
+         * (don't think we need this after changing the grid layout to include 'for')
          * @returns {string}
          */
         eventDelegate: function () {
@@ -210,6 +211,28 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
             str += ', [class*=fb_el_' + this.options.fullName + '] .fabrikElement label';
 
             return str;
+        },
+
+        setName: function (repeatCount) {
+            var element = this.getElement();
+            if (typeOf(element) === 'null') {
+                return false;
+            }
+
+            this._getSubElements().each(function (e) {
+                e.name = this._setName(e.name, repeatCount);
+                e.id = this._setId(e.id, repeatCount, '_input_\\d+');
+                var label = e.getParent('label');
+                if (label) {
+                    label.htmlFor = e.id;
+                }
+            }.bind(this));
+
+            if (typeOf(this.element.id) !== 'null') {
+                this.element.id = this._setId(this.element.id, repeatCount);
+            }
+            this.options.repeatCounter = repeatCount;
+            return this.element.id;
         }
 
     });

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -92,8 +92,9 @@ class FileRenderModel
 
 			$layout = $model->getLayout('file');
 			$displayData = new stdClass;
-			$displayData->thumb =  COM_FABRIK_LIVESITE . 'media/com_fabrik/images/' . $ext . '.png';
-			$displayData->useThumb = $params->get('make_thumbnail', false) && JFile::exists($displayData->thumb);
+			$ext_icon = 'media/com_fabrik/images/' . $ext . '.png';
+			$displayData->thumb =  COM_FABRIK_LIVESITE . $ext_icon;
+			$displayData->useThumb = $params->get('make_thumbnail', false) && JFile::exists(COM_FABRIK_BASE . $ext_icon);
 			$displayData->ext = $ext;
 			$displayData->filename = $filename;
 			$displayData->file = $file;
@@ -110,11 +111,11 @@ class FileRenderModel
 	 * @param   object  $model    Element model
 	 * @param   object  $params   Element params
 	 * @param   object  $thisRow  All rows data
+	 * @param   bool    $nav      Render a navbar on carousel
 	 *
 	 * @return  string  HTML
 	 */
-
-	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null)
+	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null, $nav = true)
 	{
 		$rendered = '';
 		/**

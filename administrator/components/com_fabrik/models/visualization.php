@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -142,9 +142,19 @@ class FabrikAdminModelVisualization extends FabModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		parent::validate($form, $data);
+        $params = $data['params'];
+		$data = parent::validate($form, $data);
 
-		return $data;
+		// Standard jForm validation failed so we shouldn't test further as we can't be sure of the data
+		if (!$data)
+		{
+			return false;
+		}
+
+        // Hack - must be able to add the plugin xml fields file to $form to include in validation but cant see how at the moment
+        $data['params'] = $params;
+
+        return $data;
 	}
 
 	/**

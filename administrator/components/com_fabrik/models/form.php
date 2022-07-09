@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -164,6 +164,29 @@ class FabrikAdminModelForm extends FabModelAdmin
 		parent::cleanCache('com_fabrik');
 
 		return $return;
+	}
+
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   JTable  $table  A JTable object.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function prepareTable($table)
+	{
+		// Set the publish date to now
+		if ($table->published == 1 && (int) $table->publish_up == 0)
+		{
+			$table->publish_up = JFactory::getDate()->toSql();
+		}
+
+		if ($table->published == 1 && intval($table->publish_down) == 0)
+		{
+			$table->publish_down = $this->getDbo()->getNullDate();
+		}
 	}
 
 	/**
@@ -343,7 +366,7 @@ class FabrikAdminModelForm extends FabModelAdmin
 
 		if (!empty($currentGroups))
 		{
-			$query->where('group_id NOT IN (' . implode($currentGroups, ', ') . ')');
+			$query->where('group_id NOT IN (' . implode(', ' , $currentGroups) . ')');
 		}
 
 		$db->setQuery($query);
@@ -486,10 +509,10 @@ class FabrikAdminModelForm extends FabModelAdmin
 	public function validate($form, $data, $group = null)
 	{
 		$params = $data['params'];
-		$ok     = parent::validate($form, $data);
+		$data     = parent::validate($form, $data);
 
 		// Standard jForm validation failed so we shouldn't test further as we can't be sure of the data
-		if (!$ok)
+		if (!$data)
 		{
 			return false;
 		}

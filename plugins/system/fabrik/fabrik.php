@@ -5,7 +5,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  System
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -13,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Fabrik\Helpers\Worker;
 
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.file');
@@ -107,6 +108,22 @@ class PlgSystemFabrik extends JPlugin
 		require_once JPATH_LIBRARIES . '/fabrik/include.php';
 
 		parent::__construct($subject, $config);
+
+		jimport('joomla.filesystem.file');
+
+		/**
+		 * Added allow_user_defines to global config, defaulting to No, so even if a user_defines.php is present
+		 * it won't get used unless this option is specifically set.  Did this because it looks like a user_defines.php
+		 * managed to creep in to a release ZIP at some point, so some people unknowingly have one, which started causing
+		 * issues after we added some more includes to defines.php.
+		 */
+		$fbConfig         = JComponentHelper::getParams('com_fabrik');
+		$allowUserDefines = $fbConfig->get('allow_user_defines', '0') === '1';
+		$p                = JPATH_SITE . '/plugins/system/fabrik/';
+		$defines          = $allowUserDefines && JFile::exists($p . 'user_defines.php') ? $p . 'user_defines.php' : $p . 'defines.php';
+		require_once $defines;
+
+		$this->setBigSelects();
 	}
 
 	/**
@@ -117,13 +134,62 @@ class PlgSystemFabrik extends JPlugin
 	public static function js()
 	{
 		/**
-		 *  $$$ hugh - as per Skype session with Rob, looks like we'll get rid of this JS caching, as it
-		 *  really doesn't buy us anything, and introduces problems with things like per-user options on plugin
-		 *  JS initialization (ran in to this when adding canRate ACL to the ratings plugin).
-		 *  For now leave the code in, just short circuit it.  Rip it out after making sure this doesn't have
-		 *  any unforeseen side effects.
+		 * We need to cache the requirejs stuff, as we insert it at the end of the document AFTER Joomla has written
+		 * out the system cache, so loading a cached page will not have requirejs on the end.
 		 */
-		return self::buildJs();
+
+		$config = JFactory::getConfig();
+		$app = JFactory::getApplication();
+		$script = '';
+		$session = JFactory::getSession();
+
+		/**
+		 * Whenever we cache a view, we add the cache ID to this session variable, by calling
+		 * FabrikHelperHTML::addToSessionCacheIds().  This gets cleared at the end of this function, so if there's
+		 * anything in there, it was added on this page load.
+		 *
+		 * The theory is that if the view isn't cached, buildJs() will find everything it needs in our own session
+		 * variables (fabrik.js.config, fabrik.js.scripts, etc).  If it is cached, the view won't have run, so we
+		 * don't have our own session data, but we'll get it back from the cache.
+		 */
+		if ($session->has('fabrik.js.cacheids'))
+		{
+			/**
+			 * NOTE that we use a different cache group name, 'fabrik_cacheids', NOT the default 'fabrik'.  This is
+			 * because the main 'fabrik' cache could get cleared out from under us at any time, like if someone else
+			 * submits a form, or anything else happens that causes Fabrik to do a $cache-clean().  This means that
+			 * the 'fabrik_cacheids' cache could grow quite large, and will need to be cleaned occasionally.
+			 */
+			$cache = Worker::getCache(null, 'fabrik_cacheids');
+			$cacheIds = $session->get('fabrik.js.cacheids', array());
+
+			/**
+			 * It's conceivable multiple views may have been rendered (modules, content plugins), so serialize them
+			 * to get a unique ID for each combo.  In certain corner cases there may be an empty ID, so check and ignore.
+			 */
+			$cacheId = serialize($cacheIds);
+
+			if (!empty($cacheId))
+			{
+				 // We got an ID, so ask the cache for it.
+				$script = $cache->call(array('PlgSystemFabrik', 'buildJs'), $cacheId);
+			}
+			else
+			{
+				// No viable ID, so just build
+				$script = self::buildJs();
+			}
+		}
+		else
+		{
+			// nothing in the session cacheids, so just build.
+			$script = self::buildJs();
+		}
+
+		// clear the session data
+		self::clearJs();
+
+		return $script;
 	}
 
 	/**
@@ -135,6 +201,7 @@ class PlgSystemFabrik extends JPlugin
 	{
 		$session = JFactory::getSession();
 		$session->clear('fabrik.js.scripts');
+		$session->clear('fabrik.js.cacheids');
 		$session->clear('fabrik.js.head.scripts');
 		$session->clear('fabrik.js.config');
 		$session->clear('fabrik.js.shim');
@@ -261,7 +328,7 @@ class PlgSystemFabrik extends JPlugin
 		*/
 
 		$script = self::js();
-		self::clearJs();
+		//self::clearJs();
 		self::storeHeadJs();
 
 		$version           = new JVersion;
@@ -289,7 +356,7 @@ class PlgSystemFabrik extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		jimport('joomla.filesystem.file');
+		//jimport('joomla.filesystem.file');
 
 		/**
 		 * Added allow_user_defines to global config, defaulting to No, so even if a user_defines.php is present
@@ -297,6 +364,7 @@ class PlgSystemFabrik extends JPlugin
 		 * managed to creep in to a release ZIP at some point, so some people unknowingly have one, which started causing
 		 * issues after we added some more includes to defines.php.
 		 */
+		/*
 		$fbConfig         = JComponentHelper::getParams('com_fabrik');
 		$allowUserDefines = $fbConfig->get('allow_user_defines', '0') === '1';
 		$p                = JPATH_SITE . '/plugins/system/fabrik/';
@@ -304,6 +372,7 @@ class PlgSystemFabrik extends JPlugin
 		require_once $defines;
 
 		$this->setBigSelects();
+		*/
 	}
 
     /**
@@ -450,14 +519,6 @@ class PlgSystemFabrik extends JPlugin
 				}
 			}
 
-			// Test for swap too boolean mode
-			$mode = $input->get('searchphrase', '') === 'all' ? 0 : 1;
-
-			if ($mode)
-			{
-				$input->set('override_join_val_column_concat', 1);
-			}
-
 			// $$$rob set this to current table
 			// Otherwise the fabrik_list_filter_all var is not used
 			$input->set('listid', $id);
@@ -487,8 +548,8 @@ class PlgSystemFabrik extends JPlugin
 				continue;
 			}
 
-			// $params->set('search-mode-advanced', true);
-			$params->set('search-mode-advanced', $mode);
+			// Treat J! search as boolean, we check for com_search mode in list filter model getAdvancedSearchMode()
+			$params->set('search-mode-advanced', '1');
 
 			// The table shouldn't be included in the search results or we have reached the max number of records to show.
 			if (!$params->get('search_use') || $limit <= 0)

@@ -31,7 +31,7 @@ abstract class AbstractFrameDecorator extends Frame
 {
     const DEFAULT_COUNTER = "-dompdf-default-counter";
 
-    public $_counters = array(); // array([id] => counter_value) (for generated content)
+    public $_counters = []; // array([id] => counter_value) (for generated content)
 
     /**
      * The root node of the DOM tree
@@ -83,7 +83,7 @@ abstract class AbstractFrameDecorator extends Frame
     private $_positionned_parent;
 
     /**
-     * Cache for the get_parent wehile loop results
+     * Cache for the get_parent while loop results
      *
      * @var Frame
      */
@@ -178,7 +178,7 @@ abstract class AbstractFrameDecorator extends Frame
     {
         $this->_frame->reset();
 
-        $this->_counters = array();
+        $this->_counters = [];
 
         $this->_cached_parent = null; //clear get_parent() cache
 
@@ -438,6 +438,7 @@ abstract class AbstractFrameDecorator extends Frame
     }
 
     /**
+     * @param bool $use_cache
      * @return AbstractFrameDecorator
      */
     function get_parent($use_cache = true)

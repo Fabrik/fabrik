@@ -19,27 +19,29 @@ define(['jquery'], function (jQuery) {
 
             // Set up toggle events for elements
             form.addEvent('mouseup:relay(a[data-toggle-col])', function (e, btn) {
-                var state = btn.get('data-toggle-state');
-                var col = btn.get('data-toggle-col');
+                var state = jQuery(btn).data('toggle-state');
+                var col = jQuery(btn).data('toggle-col');
                 this.toggleColumn(col, state, btn);
             }.bind(this));
 
             // Toggle events for groups (toggles all elements in group)
             var groups = form.getElements('a[data-toggle-group]');
             form.addEvent('mouseup:relay(a[data-toggle-group])', function (e, group) {
-                var state = group.get('data-toggle-state'), muted,
-                    groupName = group.get('data-toggle-group'),
+                var state = jQuery(group).data('toggle-state'), muted,
+                    groupName = jQuery(group).data('toggle-group'),
                     links = document.getElements('a[data-toggle-parent-group=' + groupName + ']');
 
                 links.each(function (btn) {
-                    var col = btn.get('data-toggle-col');
+                    var col = jQuery(btn).data('toggle-col');
                     this.toggleColumn(col, state, btn);
                 }.bind(this));
 
                 state = state === 'open' ? 'close' : 'open';
                 muted = state === 'open' ? '' : ' muted';
-                group.getElement('i').className = 'icon-eye-' + state + muted;
-                group.set('data-toggle-state', state);
+                jQuery(group).find('*[data-isicon]')
+                    .removeClass()
+                    .addClass('icon-eye-' + state + muted);
+                jQuery(group).data('toggle-state', state);
 
             }.bind(this));
         },
@@ -69,8 +71,10 @@ define(['jquery'], function (jQuery) {
                 muted = ' muted';
             }
 
-            btn.getElement('i').className = 'icon-eye-' + state + muted;
-            btn.set('data-toggle-state', state);
+            jQuery(btn).find('*[data-isicon]')
+                .removeClass()
+                .addClass('icon-eye-' + state + muted);
+            jQuery(btn).data('toggle-state', state);
         }
     });
 

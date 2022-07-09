@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -21,7 +21,7 @@ if ($this->showFilters) : ?>
 
 	   <thead>
 	  	<tr>
-	  		<th><?php echo $table ?></th>
+	  		<th><?php echo FText::_($table) ?></th>
 	  		<th style="text-align:right"><a href="#" class="clearFilters"><?php echo FText::_('PLG_VISUALIZATION_GOOGLEMAP_CLEAR'); ?></a></th>
 	  	</tr>
 	  </thead>

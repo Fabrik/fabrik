@@ -23,7 +23,7 @@ define(['jquery'], function (jQuery) {
 			this.setOptions(options);
 			//if (this.options.canUse) {
 			if (true) {
-				this.col = document.getElements('.' + id);
+				this.col = document.getElements('#list_' + this.options.renderContext + ' .' + id);
 				this.origThumbUp = {};
 				this.origThumbDown = {};
 				if (Fabrik.bootstrapped || this.options.j3) {

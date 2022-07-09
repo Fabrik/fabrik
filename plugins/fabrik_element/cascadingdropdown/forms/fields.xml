@@ -11,24 +11,30 @@
 				type="radio"
 				default="0"
 				class="btn-group"
-				label="PLG_ELEMENT_CDD_HIDDEN">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				label="PLG_ELEMENT_CDD_HIDDEN"
+				description="PLG_ELEMENT_CDD_HIDDEN_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="eval"
 				type="radio"
 				default="0"
 				class="btn-group"
-				label="PLG_ELEMENT_CDD_EVAL_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				label="PLG_ELEMENT_CDD_EVAL_LABEL"
+				description="PLG_ELEMENT_CDD_EVAL_DESC"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="default"
 				type="fabrikeditor"
 				mode="php"
-				label="PLG_ELEMENT_CDD_DEFAULT_LABEL" />
+				label="PLG_ELEMENT_CDD_DEFAULT_LABEL"
+				description="PLG_ELEMENT_CDD_DEFAULT_DESC"
+			/>
 
 		</fieldset>
 

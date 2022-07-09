@@ -19,7 +19,8 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
             if (opts.visible !== false) {
                 Fabrik.Windows[opts.id].open();
             }
-            Fabrik.Windows[opts.id].setOptions(opts);
+            //Fabrik.Windows[opts.id].setOptions(opts);
+            Fabrik.Windows[opts.id] = jQuery.extend(Fabrik.Windows[opts.id], opts);
             // Fabrik.Windows[opts.id].loadContent();
         } else {
             var type = opts.type ? opts.type : '';
@@ -253,6 +254,8 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
                         self.drawWindow();
                     }
                 });
+
+                Fabrik.fireEvent('fabrik.window.opened', self.window);
             }
 
             // Rob - removed this caused any form with a file upload in it to be unscrollable - as we load the window
@@ -442,6 +445,7 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
                         self.watchTabs();
                         self.center();
                         self.onContentLoaded.apply(self);
+                        Joomla.loadOptions();
                     });
                     break;
                 // Deprecated - causes all sorts of issues with window resizing.
@@ -589,7 +593,8 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
                 this.window.fadeOut({duration: 0});
             }
             Fabrik.tips.hideAll();
-            this.fireEvent('onClose', [this]);
+            //this.fireEvent('onClose', [this]);
+            this.options.onClose.apply(this);
             Fabrik.fireEvent('fabrik.window.close', [this]);
         },
 
@@ -603,9 +608,9 @@ define(['jquery', 'fab/fabrik', 'jQueryUI', 'fab/utils'], function (jQuery, Fabr
             }
             //this.window.fadeIn({duration: 0});
             this.window.show();
-            this.fireEvent('onOpen', [this]);
+            //this.fireEvent('onOpen', [this]);
+            this.options.onOpen.apply(this);
         }
-
     });
 
     Fabrik.Modal = new Class({

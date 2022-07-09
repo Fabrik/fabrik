@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.facebooklike
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -219,6 +219,7 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 		$data->url = $url;
 		$data->layout = $params->get('fblike_layout', 'standard');
 		$data->showfaces = $params->get('fblike_showfaces', 0) == 1 ? 'true' : 'false';
+		$data->includeShare = $params->get('fblike_include_share', 0) == 1 ? 'true' : 'false';
 		$data->width = $params->get('fblike_width', 300);
 		$data->action = $params->get('fblike_action', 'like');
 		$data->font = $params->get('fblike_font', 'arial');

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -79,19 +79,8 @@ class FabrikControllerForm extends JControllerLegacy
 		// Display the view
 		$view->error = $this->getError();
 
-		// Only allow cached pages for users not logged in.
+		// run the view (no caching)
 		return $view->display();
-
-		if ($viewType != 'feed' && !$this->isMambot && $user->get('id') == 0)
-		{
-			$cache = JFactory::getCache('com_' . $package, 'view');
-
-			return $cache->get($view, 'display');
-		}
-		else
-		{
-			return $view->display();
-		}
 	}
 
 	/**

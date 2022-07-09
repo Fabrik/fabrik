@@ -305,13 +305,13 @@
 		<fieldset name="icons">
 
 			<field name="icon_folder"
-				type="radio"
-				class="btn-group"
+				type="list"
 				default="0"
 				description="COM_FABRIK_FIELD_ICON_FOLDER_DESC"
 				label="COM_FABRIK_FIELD_ICON_FOLDER_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="2">COM_FABRIK_FIELD_ICON_FOLDER_CLASS</option>
 			</field>
 
 			<field name="icon_hovertext"

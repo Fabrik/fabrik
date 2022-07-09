@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.user
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -94,6 +94,11 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 				// On failed validation value is 1 - user ids are always more than that so don't load userid=1 otherwise an error is generated
 				$user = $userId <= 1 ? false : JFactory::getUser($userId);
 			}
+		}
+		else if ($this->inRepeatGroup && $this->newGroup)
+		{
+			// we're in a new, blank repeat group, so set to current user
+			$user = $this->user;
 		}
 		else
 		{
@@ -440,6 +445,22 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 							$newUserId = (int) $db->loadResult();
 						}
 						$data[$element->name] = $newUserId;
+					}
+				}
+				else if ($this->getGroupModel()->canRepeat())
+				{
+					// see if it's empty, so new repeat group, and hidden or read only
+					if ((!$this->canUse() || !empty($element->hidden)) && empty($data[$element->name]))
+					{
+						$data[$element->name]          = $this->user->get('id');
+						// Set the formDataWithTableName so any plugins (like email) pick it up with getProcessData()
+						$thisFullName = $this->getFullName(true, false);
+						$formModel    = $this->getFormModel();
+						$formModel->formDataWithTableName[$thisFullName][$repeatCounter]          = array($data[$element->name]);
+						$formModel->formDataWithTableName[$thisFullName . '_raw'][$repeatCounter] = array($data[$element->name]);
+						// $$$ hugh - need to add to updatedByPlugin() in order to override write access settings.
+						// This allows us to still 'update on edit' when element is write access controlled.
+						$this->getFormModel()->updatedByPlugin($thisFullName, $this->user->get('id'));
 					}
 				}
 			}

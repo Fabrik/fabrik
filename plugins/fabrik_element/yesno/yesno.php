@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.yesno
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -48,8 +48,46 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	{
 		if (!isset($this->default))
 		{
-			$params = $this->getParams();
-			$this->default = $params->get('yesno_default', 0);
+			$element = $this->getElement();
+
+			if (trim($element->default) !== '')
+			{
+				$default = $element->default;
+
+				if (is_array($default))
+				{
+					$v = $default;
+				}
+				else
+				{
+					$w = new FabrikWorker;
+					$default = $w->parseMessageForPlaceHolder($default, $data);
+
+					if ($element->eval == "1")
+					{
+						$v = @eval((string) stripslashes($default));
+						FabrikWorker::logEval($default, 'Caught exception on eval in ' . $element->name . '::getDefaultValue() : %s');
+					}
+					else
+					{
+						$v = $default;
+					}
+				}
+
+				if (is_string($v))
+				{
+					$this->default = explode('|', $v);
+				}
+				else
+				{
+					$this->default = $v;
+				}
+			}
+			else
+			{
+				$params = $this->getParams();
+				$this->default = $params->get('yesno_default', 0);
+			}
 		}
 
 		return $this->default;
@@ -66,6 +104,7 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
+	    $params = $this->getParams();
         $profiler = JProfiler::getInstance('Application');
         JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
@@ -77,7 +116,9 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$rawData = FabrikWorker::JSONtoData($rawData, true);
 		$displayData        = new stdClass;
 		$displayData->tmpl  = isset($this->tmpl) ? $this->tmpl : '';
-		$displayData->format = $this->app->input->get('format', '');;
+		$displayData->format = $this->app->input->get('format', '');
+		$displayData->yesIcon = $params->get('yesno_icon_yes', '');
+        $displayData->noIcon = $params->get('yesno_icon_no', '');
 		$layout = $this->getLayout('list');
 		$labelData = array();
 
@@ -221,7 +262,11 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 	 */
 	protected function getReadOnlyOutput($value, $label)
 	{
+	    $params = $this->getParams();
 		$displayData = new stdClass;
+        $displayData->format = $this->app->input->get('format', '');
+        $displayData->yesIcon = $params->get('yesno_icon_yes', '');
+        $displayData->noIcon = $params->get('yesno_icon_no', '');
 		$displayData->value = $value;
 		$displayData->tmpl = @$this->tmpl;
 		$displayData->format = $this->app->input->get('format', '');;
@@ -242,8 +287,17 @@ class PlgFabrik_ElementYesno extends PlgFabrik_ElementRadiobutton
 		$params = $this->getParams();
 		$params->set('options_per_row', 4);
 
-		return parent::render($data, $repeatCounter);
-	}
+		$rendered = parent::render($data, $repeatCounter);
+
+		$displayData = new stdClass;
+		$displayData->rendered = $rendered;
+		$displayData->elementModel = $this;
+		$displayData->value = $this->getValue($data, $repeatCounter);
+		$displayData->tmpl = @$this->tmpl;
+		$displayData->format = $this->app->input->get('format', '');;
+		$layout = $this->getLayout('form');
+
+		return $layout->render($displayData);	}
 
 	/**
 	 * Should the grid be rendered as a Bootstrap button-group

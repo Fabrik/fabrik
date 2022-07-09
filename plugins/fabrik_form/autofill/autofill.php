@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.autofill
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package     Joomla
  * @subpackage  Fabrik
  * @author      Rob Clayburn
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -90,7 +90,7 @@ class PlgFabrik_FormAutofill extends PlgFabrik_Form
 		}
 
 		$this->formJavascriptClass($params, $formModel);
-		$formModel->formPluginJS['Autofill' . $this->renderOrder] = 'var autofill = new Autofill(' . $opts . ');';
+		$formModel->formPluginJS['Autofill' . $this->renderOrder] = 'new Autofill(' . $opts . ')';
 	}
 
 	/**
@@ -205,30 +205,45 @@ class PlgFabrik_FormAutofill extends PlgFabrik_Form
 	 */
 	protected function fillField($data, &$newData, $from, $to)
 	{
-		$matched = false;
-		$toRaw   = $to . '_raw';
-		$fromRaw = $from . '_raw';
+		$w        = new FabrikWorker;
+		$origFrom = $from;
+		// allow for mapping fieldn ames like table___element_{shortlang}
+		$from     = $w->parseMessageForPlaceHolder($from, $data);
+		$matched  = false;
+		$toRaw    = $to . '_raw';
+		$fromRaw  = $from . '_raw';
+		$fromId  = $from . '_id';
 
-		if (array_key_exists($from, $data))
+		if (property_exists($data, $from))
 		{
 			$matched = true;
 		}
 
 		$newData->$to = isset($data->$from) ? $data->$from : '';
 
-		if (array_key_exists($fromRaw, $data))
+
+		if (property_exists($data, $fromId))
+		{
+			$matched = true;
+			$fromRaw = $fromId;
+		}
+		else if (property_exists($data, $fromRaw))
 		{
 			$matched = true;
 		}
 
 		if (!$matched)
 		{
-			$w               = new FabrikWorker;
-			$newData->$toRaw = $newData->$to = $w->parseMessageForPlaceHolder($from, $data);
+			$newData->$toRaw = $newData->$to = $w->parseMessageForPlaceHolder($origFrom, $data);
 		}
 		else
 		{
 			$newData->$toRaw = isset($data->$fromRaw) ? $data->$fromRaw : '';
+
+			if (strstr($newData->$toRaw, GROUPSPLITTER))
+			{
+				$newData->$toRaw = json_encode(explode(GROUPSPLITTER, $newData->$toRaw));
+			}
 		}
 	}
 }

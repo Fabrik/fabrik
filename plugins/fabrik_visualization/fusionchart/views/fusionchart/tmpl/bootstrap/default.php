@@ -4,7 +4,7 @@
  *
  * @package		Joomla.Plugin
  * @subpackage	Fabrik.visualization.fusionchart
- * @copyright	Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright	Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -18,12 +18,16 @@ $row = $this->row;
 	<h1>
 		<?php echo $row->label;?>
 	</h1>
+    <br />
 	<?php endif;?>
-	<br />
+    <?php if (!empty($row->intro_text)) :?>
 	<p>
 		<?php echo $row->intro_text;?>
 	</p>
-	<?php echo $this->loadTemplate( 'filter'); ?>
-	<br />
-	<?php echo $this->chart; ?>
+    <?php endif; ?>
+    <?php if ($this->showFilters) : ?>
+	    <?php echo $this->loadTemplate( 'filter'); ?>
+	    <br />
+    <?php endif; ?>
+    <div id="chart-container-<?php echo $this->getModel()->getJSRenderContext();?>"></div>
 </div>

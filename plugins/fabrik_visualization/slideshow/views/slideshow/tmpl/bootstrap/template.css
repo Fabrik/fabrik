@@ -1,0 +1,64 @@
+/**
+ * Default CSS for the Slick slideshow viz.  Can be extended / overridden by adding a custom.css in this folder
+ */
+
+figure.image {
+    text-align: center;
+    font-style: italic;
+    font-size: small;
+    text-indent: 0;
+    margin: 0em;
+    padding: 0em;
+}
+
+figcaption {
+    width: 100%;
+    display: inline-block;
+    margin:auto;
+}
+
+.slick-slide
+{
+    width:auto;
+    height:auto;
+}
+
+/* You may want to override this in custom.css as default colors don't work well with light theme */
+.slick-prev:before, .slick-next:before {
+    /*color:red !important;*/
+}
+
+/**
+ * NOTE that the width and height for the img is set in the default.php, as it needs to be dynamically calculated.  You
+ * can override width and height in a custom.css, by using !important.
+ */
+.slider img {
+    margin: 0 auto; /* it centers any block level element */
+}
+
+/**
+ * CSS to handle the loading div.  Width and height of .slider_loading is set in default.pgp as it is dynamic.  Most
+ * of the following is to do with positioning the loading gif in the middle.  Also .slider initially hidden (display
+ * none), till Slick runs and adds the slick_initialized class.  The slider_loading div is hidden by our plugin JS
+ * once Slick is initialized.
+ */
+.slider_loading {
+    position: relative;
+    text-align: center;
+}
+
+.slider_loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.slider {
+    display: none;
+}
+
+.slider.slick-initialized {
+    display: block;
+}

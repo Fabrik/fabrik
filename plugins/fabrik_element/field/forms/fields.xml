@@ -56,6 +56,7 @@
 					<option value="3">PLG_ELEMENT_INPUTTYPE_EMAIL</option>
 					<option value="4">PLG_ELEMENT_INPUTTYPE_SEARCH</option>
 					<option value="5">PLG_ELEMENT_INPUTTYPE_URL</option>
+					<option value="6">PLG_ELEMENT_INPUTTYPE_NUMBER</option>
 			</field>
 
 			<field name="maxlength"
@@ -226,6 +227,16 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="scan_qrcode"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FIELD_SCAN_QRCODE_DESC"
+				   label="PLG_ELEMENT_FIELD_SCAN_QRCODE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="PLG_ELEMENT_FIEILD_GUESS_LINK" name="plg-field-guesslink">
@@ -281,6 +292,12 @@
 				default=""
 				description="PLG_ELEMENT_FIELD_LINK_TITLE_DESC"
 				label="PLG_ELEMENT_FIELD_LINK_TITLE_LABEL" />
+
+			<field name="link_attributes"
+				   type="text"
+				   default=""
+				   description="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_DESC"
+				   label="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_LABEL" />
 
 		</fieldset>
 	</fields>

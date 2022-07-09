@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.listcsv
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -27,12 +27,16 @@ class ImportCSVCreateUser
 	 *
 	**/
 
+	public $default_group_id = 2;
+
 	/*
 	 * REQUIRED
 	 *
 	 * The full Fabrik element names for the username, email, name and J! userid.
 	 * The plugin will write the newly created J! userid to the userid element.
 	 * These four are REQUIRED and the code will fail if they are missing or wrong.
+	 *
+	 * NOTE - if $name_element is blank, use optional first and last name elements to create full name
 	 */
 	public $username_element = 'changethis___username';
 	public $email_element = 'changethis___email';
@@ -43,6 +47,10 @@ class ImportCSVCreateUser
 	 * OPTIONAL
 	 *
 	 * The following are optional:
+	 *
+	 * first_name_element and last_name_element - as noted in the REQUIRED settings, you can optionally
+	 * use these if you import file uses separate first and last name fields, and we will concatenate first and
+	 * last names with a space to create the full name for the user.
 	 *
 	 * password_element - if specified, plugin we will use this as the clear text password
 	 * for creating a new user.  This value will be cleared and not saved in the table.
@@ -56,8 +64,16 @@ class ImportCSVCreateUser
 	 * if a user is created.
 	 *
 	 * user_created_value - value to use when setting user_created_element above.
+	 *
+	 * group_id_element - if specified, plugin will use the value of this element as the group ID
+	 * to assign the new user to.  No real sanity checking is done, so BE CAREFUL not to assign people to
+	 * things like Super Admins!  if not specified, the plugin will use 2 (Registered, in a default
+	 * Joomla install).
 	 */
+	public $first_name_element = '';
+	public $last_name_element = '';
 	public $password_element = '';
+	public $group_id_element = '';
 	public $first_password_element = '';
 	public $user_created_element = '';
 	public $user_created_value = '1';
@@ -112,7 +128,24 @@ class ImportCSVCreateUser
 		// @TODO - sanity check these config vars (plus userid) to make sure they have been edited.
 		$userdata['username'] = $data[$this->username_element];
 		$userdata['email'] = $data[$this->email_element];
-		$userdata['name'] = $data[$this->name_element];
+
+		if (!empty($this->name_element))
+		{
+			$userdata['name'] = $data[$this->name_element];
+		}
+		else
+		{
+			$userdata['name'] = $data[$this->first_name_element] . ' ' . $data[$this->last_name_element];
+		}
+
+		if (!empty($this->group_id_element))
+		{
+			$userdata['gid'] = array($data[$this->group_id_element]);
+		}
+		else
+		{
+			$userdata['gid'] = array($this->default_group_id);
+		}
 
 		if (!FabrikWorker::isEmail($userdata['email']))
 		{
@@ -174,6 +207,7 @@ class ImportCSVCreateUser
 		// $userdata['gid'] = 18;
 		$userdata['block'] = 0;
 		$userdata['id'] = $user_id;
+		$user->groups = (array) $userdata['gid'];
 
 		if ($isNew)
 		{

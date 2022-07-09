@@ -4,11 +4,13 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.youtube
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
@@ -73,7 +75,8 @@ class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 		// Stop "'s from breaking the content out of the field.
 		$data['value'] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
-		if ($input->get('view') != 'details')
+		//if ($this->app->input->get('view') === 'form')
+		if ($this->app->input->get('view') === 'form' && !($params->get('youtube_embed_read_only', '0') === '1' && !$this->isEditable()))
 		{
 			$class = 'fabrikinput inputbox text';
 			$name = $this->getHTMLName($repeatCounter);
@@ -119,6 +122,25 @@ class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 		$params = $this->getParams();
 		$uri    = JUri::getInstance();
 		$scheme = $uri->getScheme();
+		$type = 'youtube';
+
+		if (stristr($value, 'twitch'))
+		{
+			$type = 'twitch';
+
+			if (strstr($value, 'clips'))
+			{
+				$type = 'twitchclip';
+			}
+			else if (strstr($value, '/videos/'))
+			{
+				$type = 'twitchvideo';
+			}
+		}
+		else if (stristr($value, 'streamable'))
+		{
+			$type = 'streamable';
+		}
 
 		// Player size
 		if (($params->get('display_in_table') == 0) && $mode == 'list')
@@ -157,27 +179,88 @@ class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 				}
 			}
 		}
-		// Include related videos
-		$rel = $params->get('include_related') == 0 ? '&rel=0' : '';
 
-		// Enable delayed cookies
-		$url = $params->get('enable_delayed_cookies') == 1 ? $scheme . '://www.youtube-nocookie.com/v/' : $scheme . '://www.youtube.com/v/';
+		if ($type === 'youtube')
+		{
+			// Include related videos
+			$rel = $params->get('include_related') == 0 ? '&rel=0' : '';
+
+			// Enable delayed cookies
+			$url = $params->get('enable_delayed_cookies') == 1 ? $scheme . '://www.youtube-nocookie.com/embed/' : $scheme . '://www.youtube.com/embed/';
+		}
+		else if ($type === 'twitchclip' || $type === 'twitch')
+		{
+			$url = $scheme . '://clips.twitch.tv/embed?clip=';
+		}
+		else if ($type === 'twitchvideo')
+		{
+			$url = $scheme . '://player.twitch.tv/?video=';
+		}
+		else if ($type === 'streamable')
+		{
+			$url = $scheme . '://streamable.com/o/';
+		}
+
 
 		// autoplay & fullscreen
 		$autoplay = $params->get('youtube_autoplay', '1');
 		$fullscreen = $params->get('youtube_fullscreen', '1');
 
-		$vid_array = explode("/", $value);
-		$vid = array_pop($vid_array);
-
-		// If one copies an URL from youtube, the URL has the "watch?v=" which barfs the player
-		if (strstr($vid, 'watch'))
+		if ($type === 'youtube')
 		{
-			$vid = explode('=', $vid);
+			$vid_array = explode("/", $value);
+			$vid       = array_pop($vid_array);
 
-			// That's the watch?v=
-			unset($vid[0]);
-			$vid = implode('', $vid);
+			// If one copies an URL from youtube, the URL has the "watch?v=" which barfs the player
+			if (strstr($vid, 'watch'))
+			{
+				$vid = explode('=', $vid);
+
+				// That's the watch?v=
+				unset($vid[0]);
+				$vid = implode('', $vid);
+			}
+
+			if (strstr($vid, '?t='))
+			{
+				$vid = str_replace('?t=', '?start=', $vid);
+			}
+		}
+		else if ($type === 'twitchclip')
+		{
+			$vid_array = explode("/", $value);
+			$vid       = array_pop($vid_array);
+
+			if (strstr($vid, 'embed'))
+			{
+				$vid = explode('=', $vid);
+
+				// That's the watch?v=
+				unset($vid[0]);
+				$vid = implode('', $vid);
+			}
+		}
+		else if ($type === 'twitchvideo')
+		{
+			$vid_array = explode("/", $value);
+			$vid       = array_pop($vid_array);
+
+			if (strstr($vid, 'embed'))
+			{
+				$vid = explode('=', $vid);
+
+				// That's the watch?v=
+				unset($vid[0]);
+				$vid = implode('', $vid);
+			}
+
+			$uri = Uri::getInstance();
+			$vid .= '&parent=' . $uri->getHost();
+		}
+		else if ($type === 'streamable')
+		{
+			$vid_array = explode("/", $value);
+			$vid       = array_pop($vid_array);
 		}
 
 		if ($vid == '')
@@ -223,9 +306,11 @@ class PlgFabrik_ElementYoutube extends PlgFabrik_Element
 			{
 				$layout = $this->getLayout('detail');
 				$layoutData = new stdClass;
+				$layoutData->type = $type;
 				$layoutData->width = $width;
 				$layoutData->height = $height;
-				$layoutData->value = $url . $vid . '&hl=en&fs=1' . $rel;
+				$layoutData->value = $value;
+				$layoutData->url = $url;
 				$layoutData->vid = $vid;
 				$layoutData->fs = $fullscreen;
 				$layoutData->autoplay = $autoplay;

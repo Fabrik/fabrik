@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.cascadingdropdown
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -71,7 +71,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$opts->lang           = FabrikWorker::getMultiLangURLCode();
 
 		// This bizarre chunk of code handles the case of setting a CDD value on the QS on a new form
-		$rowId = $input->get('rowid', '', 'string');
+		$rowId = $this->getFormModel()->getRowId();
 		$fullName = $this->getFullName();
 		$watchName = $this->getWatchFullName();
 
@@ -319,7 +319,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 				}
 			}
 
-			return $defaultLabel . $this->loadingImg;
+			return $defaultLabel;
 		}
 
 		$html[] = $this->renderDescription($tmp, $default);
@@ -424,12 +424,17 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 			$where = $obsName . ' IN (' . implode(',', $obsValue) . ')';
 			$opts = array('where' => $where);
+			$input->set('fabrik_storesessionfilters', false);
+			$input->set('incfilters', true);
 			$ids = $listModel->getColumnData($this->getFullName(false, false), true, $opts);
 			$key = $this->queryKey();
 
 			if (is_array($ids))
 			{
-				array_walk($ids, create_function('&$val', '$db = JFactory::getDbo();$val = $db->quote($val);'));
+				array_walk($ids, function(&$val) {
+					$db = JFactory::getDbo();
+					$val = $db->quote($val);
+				});
 				$this->autocomplete_where = empty($ids) ? '1 = -1' : $key . ' IN (' . implode(',', $ids) . ')';
 			}
 		}

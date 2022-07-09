@@ -211,7 +211,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         if (!events || !events[type]) {
             return this;
         }
-        args = Array.from(args);
+        args = Array.mfrom(args);
         events[type].each(function (fn) {
             if (delay) {
                 this.eventResults.push(fn.delay(delay, this, args));
@@ -233,8 +233,9 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
      *
      * @param {boolean|string} k API key
      * @param {function|string} cb Callback method function or function name (assigned to window)
+     * @param {string} language optional two letter language code
      */
-    Fabrik.loadGoogleMap = function (k, cb) {
+    Fabrik.loadGoogleMap = function (k, cb, language) {
 
         var prefix = document.location.protocol === 'https:' ? 'https:' : 'http:';
         var src = prefix + '//maps.googleapis.com/maps/api/js?libraries=places,visualization&callback=Fabrik.mapCb';
@@ -243,8 +244,12 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
             src += '&key=' + k;
         }
 
+        if (language !== '') {
+            src += '&language=' + language;
+        }
+
         // Have we previously started to load the Googlemaps script?
-        var gmapScripts = Array.from(document.scripts).filter(function (f) {
+        var gmapScripts = Array.mfrom(document.scripts).filter(function (f) {
             return f.src === src;
         });
 
@@ -474,6 +479,38 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         Fabrik.getWindow(winOpts);
     };
 
+    /**
+     * Needed for the wickedpicker time picker, to figure out which element the picker is attached to when closing
+     *
+     * @param  element  the DOM element the time picker is attached to
+     * @param  picker  the picker DOM element
+     */
+    Fabrik.timePickerClose = function (element, picker) {
+        if (element) {
+            // find the form
+            var form = jQuery(element).closest('form');
+
+            if (form.length > 0) {
+                // get our block
+                form = Fabrik.getBlock(form[0].id);
+
+                if (form) {
+                    // find element container
+                    var container = jQuery(element).closest('.fabrikSubElementContainer');
+
+                    if (container.length > 0) {
+                        // get the element object
+                        var el = form.formElements.get(container[0].id);
+
+                        if (el) {
+                            // fire the hideTime method
+                            el.hideTime(element, picker);
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     Fabrik.Array = {
         chunk: function (array, chunk) {

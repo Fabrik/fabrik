@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -152,13 +152,17 @@ class ArrayHelper
 
 			foreach ($array as $k => $v)
 			{
-				if (is_array($v) && $recurse)
+				// avoid PHP error if property name is empty
+				if ($k !== '')
 				{
-					$obj->$k = self::toObject($v, $class);
-				}
-				else
-				{
-					$obj->$k = $v;
+					if (is_array($v) && $recurse)
+					{
+						$obj->$k = self::toObject($v, $class);
+					}
+					else
+					{
+						$obj->$k = $v;
+					}
 				}
 			}
 		}
@@ -332,6 +336,11 @@ class ArrayHelper
 		}
 
 		$result = null;
+
+		if (!is_scalar($name))
+		{
+			return $default;
+		}
 
 		if (isset($array[$name]))
 		{

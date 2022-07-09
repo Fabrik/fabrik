@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/element"],function(a,b){return window.FbFolder=new Class({Extends:b,initialize:function(a,b){this.setPlugin("fabrikfolder"),this.parent(a,b)}}),window.FbFolder});
+define(["jquery","fab/element"],function(e,n){return window.FbFolder=new Class({Extends:n,initialize:function(e,n){this.setPlugin("fabrikfolder"),this.parent(e,n)}}),window.FbFolder});

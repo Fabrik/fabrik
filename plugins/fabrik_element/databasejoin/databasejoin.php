@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.databasejoin
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -109,6 +109,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 * @var string
 	 */
 	protected $orderBy = '';
+
+	/**
+	 * @var bool
+	 */
+	public $_rawFilter = false;
 
 	/**
 	 * Create the SQL select 'name AS alias' segment for list/form queries
@@ -563,7 +568,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		// $$$ hugh - attempting to make sure we never do an unconstrained query for auto-complete
 		$displayType = $this->getDisplayType();
-		$value       = (array) $this->getValue($data, $repeatCounter);
+		$value       = (array) $this->getValue($data, $repeatCounter, $opts);
 
 		/*
 		 *  $$$ rob 20/08/2012 - removed empty test - seems that this method is called more than one time, when in auto-complete filter
@@ -732,12 +737,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		foreach ($aDdObjs as &$o)
 		{
-			// For values like '1"'
-			// $$$ hugh - added second two params so we set double_encode false
+			// decode first, to decode all hex entities (like &#39;)
+			$o->text = html_entity_decode($o->text, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+			// Encode if necessary
 			if ($this->getDisplayType() != 'radio' && $this->getDisplayType() != 'checkbox')
 			{
 				$o->text = htmlspecialchars($o->text, ENT_NOQUOTES, 'UTF-8', false);
 			}
+
+			$o->text = FText::_($o->text);
 		}
 
 		if (is_array($aDdObjs))
@@ -820,6 +829,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// new, edit or both (1, 2 or 3)
 		$params    = $this->getParams();
 		$whereWhen = $params->get('database_join_where_when', '3');
+		$invertAccess = $params->get('database_join_where_access_invert', '0') === '1';
 		$isNew     = $this->getFormModel()->isNewRecord();
 
 		if ($isNew && $whereWhen == '2')
@@ -831,7 +841,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			return false;
 		}
 
-		return in_array($gid, $this->user->getAuthorisedViewLevels());
+		if (!$invertAccess)
+		{
+			return in_array($gid, $this->user->getAuthorisedViewLevels());
+		}
+		else
+		{
+			return !in_array($gid, $this->user->getAuthorisedViewLevels());
+		}
 	}
 
 	/**
@@ -1053,8 +1070,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	{
 		$params         = $this->getParams();
 		$element        = $this->getElement();
+		$filterWhere    = trim($params->get('database_join_filter_where_sql', ''));
 		$whereAccess    = $params->get('database_join_where_access', 26);
-		$where          = ($this->mustApplyWhere($whereAccess, $element->id) && $incWhere) ? $params->get('database_join_where_sql') : '';
+		$where          = '';
+
+		// $$$ hugh - 5/13/2019 - filter where now overrides form where, if present
+		if (FArrayHelper::getValue($opts, 'mode', '') !== 'filter' || empty($filterWhere))
+		{
+			$where = ($this->mustApplyWhere($whereAccess, $element->id) && $incWhere) ? $params->get('database_join_where_sql') : '';
+		}
+
 		$join           = $this->getJoin();
 		$thisTableAlias = is_null($thisTableAlias) ? $join->table_join_alias : $thisTableAlias;
 		$repeatCounter  = FArrayHelper::getValue($opts, 'repeatCounter', 0);
@@ -1087,7 +1112,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		 * but first cut it's safer to put it here (don't ask).
 		 */
 
-		$filterWhere = trim($params->get('database_join_filter_where_sql', ''));
 		if (FArrayHelper::getValue($opts, 'mode', '') === 'filter' && !empty($filterWhere))
 		{
 			if (preg_match('/(ORDER\s+BY)(.*)/is', $filterWhere, $matches))
@@ -1115,7 +1139,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$where = $w->parseMessageForRepeats($where, $data, $this, $repeatCounter);
-		$where = $w->parseMessageForPlaceHolder($where, $data, false);
+		$where = $w->parseMessageForPlaceHolder($where, $data, false, false, null, false);
 
 		if (!$query)
 		{
@@ -1378,6 +1402,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$i++;
 			}
 
+			foreach ($defaultLabels as $k => $label)
+			{
+				$defaultLabels[$k] = FText::_($label);
+			}
+
 			$this->addReadOnlyLinks($defaultLabels, $targetIds);
 
 			$displayData->control = count($defaultLabels) < 2 ? implode(' ', $defaultLabels) : '<ul><li>' . implode('<li>', $defaultLabels) . '</li></ul>';
@@ -1528,7 +1557,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			{
 				for ($i = 0; $i < count($defaultLabels); $i++)
 				{
-					$url               = $popUrl . FArrayHelper::getValue($defaultValues, $i, '');
+					$value = FArrayHelper::getValue($defaultValues, $i, '');
+
+					// joins in repeat groups
+					if (is_object($value))
+					{
+						$value = FArrayHelper::getValue($value, 0, '');
+					}
+
+					$url               = $popUrl . $value;
 					$defaultLabels[$i] = '<a href="' . JRoute::_($url) . '">' . FArrayHelper::getValue($defaultLabels, $i) . '</a>';
 				}
 			}
@@ -1550,7 +1587,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			return false;
 		}
 
-		$db    = $this->getDb();
+		$db = FabrikWorker::getDbo(true);
 		$query = $db->getQuery(true);
 		$query->select('id')->from('#__{package}_lists')->where('form_id =' . $popupFormId);
 		$db->setQuery($query);
@@ -2008,7 +2045,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	public function getEmailValue($value, $data = array(), $repeatCounter = 0)
 	{
-		$tmp = $this->_getOptions($data, $repeatCounter);
+		/**
+		 * The 'emailValue' option doesn't "do" anything, it's there for a specific case where form submission plugins
+		 * want to change formData[] for this join, and if we don't provide some unique option, the getValue() called
+		 * by _getOptions() will cache, and the key (which includes serialized options) will then match during
+		 * processing to the DB.  So we add 'emaiValue' as an option here, so the cache key will be different when the
+		 * data is actually being stored, so it'll use formData[] rather than the cached value.
+		 */
+		$tmp = $this->_getOptions($data, $repeatCounter, true, array('emailValue' => true));
+
 		// $$$ hugh - PLEASE LEAVE.  No, we don't use $name, but I'm in here xdebug'ing stuff frequently, I use it as a time saver.
 		$name = $this->getFullName(false, true);
 
@@ -2129,6 +2174,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$data = json_encode($labelData);
 		}
 
+		$data = FabrikWorker::JSONtoData($data, true);
+
+		foreach ($data as $k => $label)
+		{
+			$data[$k] = FText::_($label);
+		}
+
+		$data = json_encode($data);
+
 		// $$$ rob add links and icons done in parent::renderListData();
 		return parent::renderListData($data, $thisRow, $opts);
 	}
@@ -2240,7 +2294,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			foreach ($rows as &$r)
 			{
-				$r->text = strip_tags($r->text);
+				// translate
+				$r->text = FText::_($r->text);
+
+				// decode first, to decode all hex entities (like &#39;)
+				$r->text = html_entity_decode($r->text, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+				// Encode if necessary
+				if (!in_array($element->get('filter_type'), array('checkbox')))
+				{
+					$r->text = strip_tags($r->text);
+					$r->text = htmlspecialchars($r->text, ENT_NOQUOTES, 'UTF-8', false);
+				}
 			}
 
 			$this->getFilterDisplayValues($default, $rows);
@@ -2368,6 +2433,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			return $rows;
 		}
+
 		/*
 		 * list of all tables that have been joined to -
 		* if duplicated then we need to join using a table alias
@@ -2402,7 +2468,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 		else
 		{
-			if (!preg_match('/^WHERE\s+/i', $where))
+			if (!preg_match('/^\s*WHERE\s+/i', $where))
 			{
 				$where = 'WHERE ' . $where;
 			}
@@ -2513,6 +2579,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			if (!empty($this->orderBy))
 			{
+				$w 	       = new FabrikWorker;
+				$this->orderBy = $w->replaceWithLanguageTags($this->orderBy);
+				
 				if (!$query)
 				{
 					return $this->orderBy;
@@ -2679,11 +2748,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		else
 		{
 			$group = $this->getGroup();
+			$exactMatch = $this->getElement()->get('filter_exact_match');
 
 			if (!$group->isJoin() && $group->canRepeat())
 			{
 				// Deprecated I think - repeat groups are always joins.
-				$fval = $this->getElement()->get('filter_exact_match') ? $originalValue : $value;
+				$fval = $exactMatch ? $originalValue : $value;
 				$str  = " ($key = $fval OR $key LIKE \"$originalValue',%\"" . " OR $key LIKE \"%:'$originalValue',%\""
 					. " OR $key LIKE \"%:'$originalValue'\"" . " )";
 			}
@@ -2704,11 +2774,45 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					}
 					$parentID	= $this->parentID();
 
+/*
 					$groupBy = $this->_db->qn($dbName . '.' . $parentID);
 					$rows    = $this->checkboxRows($groupBy, $condition, $value, $where);
 					$joinIds = array_keys($rows);
+*/
+					if (($fType === 'multiselect' || $fType === 'checkbox') && $exactMatch)
+					{
+						$rows    = $this->checkboxRows('id', $condition, $value, $where);
+						$joinIds = array();
+						$matches = array();
 
-					if (!empty($rows))
+						foreach ($rows as $row)
+						{
+							if (!array_key_exists($row->$parentID, $matches))
+							{
+								$matches[$row->$parentID] = array();
+							}
+
+							$matches[$row->$parentID][] = $row->value;
+						}
+
+						foreach ($matches as $joinId => $match)
+						{
+							$diff = array_diff($originalValue, $match);
+
+							if (empty($diff))
+							{
+								$joinIds[] = $joinId;
+							}
+						}
+					}
+					else
+					{
+						$groupBy = $this->_db->qn($dbName . '.$parentID');
+						$rows    = $this->checkboxRows($groupBy, $condition, $value, $where);
+						$joinIds = array_keys($rows);
+					}
+
+					if (!empty($joinIds))
 					{
 						// Either look for the ids in the main fabrik list or the group's list.
 						$groupJoinModel = $group->getJoinModel();
@@ -2801,9 +2905,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$db->setQuery($query, $offset, $limit);
 		$sql     = (string) $query;
+		FabrikHelperHTML::debug($sql, 'join checkboxRows:');
 		$groupBy = FabrikString::shortColName($groupBy);
 		$rows    = $db->loadObjectList($groupBy);
-		//ksort($rows);
 
 		return $rows;
 	}
@@ -3028,7 +3132,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$modalId                  = 'dbjoin_popupform';
 		$opts                     = $this->_getOptionVals();
 		$data                     = $this->getFormModel()->data;
-		$arSelected               = $this->getValue($data, $repeatCounter);
+		$arSelected               = $this->getValue($data, $repeatCounter, array('raw' => true));
 		$table                    = $params->get('join_db_name');
 		$opts                     = $this->getElementJSOptions($repeatCounter);
 		$forms                    = $this->getLinkedForms();
@@ -3093,6 +3197,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 				$m = str_replace(array('{', '}'), '', $m);
 
+				// remove any ||default
+                $bits = explode('||', $m);
+
+                if (count($bits) > 1)
+                {
+                    $m = $bits[0];
+                }
+
 				// $$$ hugh - we need to knock any _raw off, so JS can match actual element ID
 				$m = preg_replace('#_raw$#', '', $m);
 			}
@@ -3102,6 +3214,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$opts->observe = array_values($obs);
+		$opts->ajaxOnLoad = (bool) $params->get('databasejoin_where_ajax_on_load', false);
+
 		$opts->changeEvent = $this->getChangeEvent();
 
 		return $opts;
@@ -3152,6 +3266,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			// $opts->elementName = $join->table_join;
 			$opts->elementName      = $join->table_join . '___' . $element->name;
 			$opts->elementShortName = $element->name;
+			// $$$trob - revert getId for now
+			//$opts->joinId           = $join->getId();
 			$opts->joinId           = $join->id;
 			$opts->isJoin           = true;
 		}
@@ -3168,6 +3284,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$this->id = $this->app->input->getInt('element_id');
 		$this->loadMeForAjax();
 		$this->getElement(true);
+		$params = $this->getParams();
 		$filter  = JFilterInput::getInstance();
 		$request = $filter->clean($_REQUEST, 'array');
 		$groupModel = $this->getGroupModel();
@@ -3188,7 +3305,26 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
-		echo json_encode($this->_getOptions($request));
+		$options = $this->_getOptions($request);
+		$eval = $params->get('databasejoin_where_ajax_default_eval');
+
+		if (!empty($eval))
+		{
+			$default = eval($eval);
+
+			if (!empty($default))
+			{
+				foreach ($options as $opt)
+				{
+					if ($opt->value === $default)
+					{
+						$opt->selected = true;
+					}
+				}
+			}
+		}
+
+		echo json_encode($options);
 	}
 
 	/**
@@ -3446,7 +3582,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			$rows = $this->checkboxRows('id');
 
-			if (count($v) === 0)
+			if (is_array($v) && count($v) === 0)
 			{
 				$v = '';
 			}
@@ -3600,7 +3736,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	private function _autocompleteWhere($how, $field, $search)
 	{
 		$db     = FabrikWorker::getDbo();
-		$search = strtolower($search);
+		$search = mb_strtolower($search);
 		$field  = 'LOWER(' . $field . ')';
 
 		switch ($how)
@@ -4055,9 +4191,21 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$key = $db->q($key);
 		});
 
-		$query = $db->getQuery(true);
-		$query->delete($db->qn($join->table_join))->where('id IN (' . implode(',', $keys) .')');
+		if (!empty($keys))
+		{
+			$query = $db->getQuery(true);
+			$query->delete($db->qn($join->table_join))->where('id IN (' . implode(',', $keys) . ')');
 
-		return $db->setQuery($query)->execute();
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (Exception $e)
+			{
+				// meh
+			}
+		}
+
+		return true;
 	}
 }

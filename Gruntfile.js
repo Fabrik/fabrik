@@ -8,20 +8,23 @@ var fs = require('fs-extra'),
 	rimraf = require('rimraf'),
 	replace = require('replace'),
 	buildConfig = require('./fabrik_build/build-config.js'),
+    gruntLegacyUtil = require('grunt-legacy-util'),
+	gruntLeineending = require('grunt-lineending'),
 	zipPromises = [],
 	done;
 fs = Promise.promisifyAll(fs);
 
-
 module.exports = function (grunt) {
 
-	// Project configuration.
+    grunt.util.linefeed = '\n';
+
+    // Project configuration.
 	grunt.initConfig({
 		pkg   : grunt.file.readJSON('package.json'),
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> */\n'
-			},
+            },
 
 			all: {
 				files: grunt.file.expandMapping(
@@ -57,6 +60,28 @@ module.exports = function (grunt) {
 				)
 			}
 		},
+
+        lineending: {
+            all: {
+                options: {
+                    overwrite: true,
+                    eol: 'crlf'
+                },
+                files: [{
+                	expand: true,
+                    src: [
+                        './plugins/fabrik_*/**/*-min.js',
+						'./plugins/fabrik_element/fileupload/lib/plupload/js/*-min.js',
+						'./media/com_fabrik/js/dist/*-min.js',
+						'./media/com_fabrik/js/dist/lib/datejs/**/*-min.js',
+						'./administrator/components/com_fabrik/models/fields/*-min.js',
+						'./administrator/components/com_fabrik/views/**/*-min.js'
+					],
+					dest: ''
+				}]
+
+            }
+        },
 
 		compress: {
 			main: {
@@ -128,10 +153,11 @@ module.exports = function (grunt) {
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-lineending');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-prompt');
 
-	grunt.registerTask('js', 'uglify');
+	grunt.registerTask('js', ['uglify','lineending']);
 
 	// Default task(s).
 	grunt.registerTask('default', ['prompt', 'fabrik']);
@@ -287,18 +313,11 @@ var refreshFiles = function () {
 	var tmpl;
 	rimraf.sync('./fabrik_build/output/');
 	fs.mkdirsSync('./fabrik_build/output/component/admin');
-	fs.mkdirsSync('./fabrik_build/output/component/site/fabrikfeed');
-	fs.mkdirsSync('./fabrik_build/output/component/site/pdf');
-	fs.mkdirsSync('./fabrik_build/output/component/site/partial');
     fs.mkdirsSync('./fabrik_build/output/component/site/Document');
 	fs.mkdirsSync('./fabrik_build/output/component/media');
 	fs.mkdirsSync('./fabrik_build/output/library');
 
-
-	fs.copySync('libraries/joomla/document/fabrikfeed', './fabrik_build/output/component/site/fabrikfeed');
-	fs.copySync('libraries/joomla/document/pdf', './fabrik_build/output/component/site/pdf');
-	fs.copySync('libraries/joomla/document/partial', './fabrik_build/output/component/site/partial');
-    fs.copySync('libraries/src/Document/PartialDocument.php', './fabrik_build/output/component/site/Document/PartialDocument.php');
+	fs.copySync('libraries/src/Document/PartialDocument.php', './fabrik_build/output/component/site/Document/PartialDocument.php');
     fs.copySync('libraries/src/Document/PdfDocument.php', './fabrik_build/output/component/site/Document/PdfDocument.php');
     fs.copySync('libraries/src/Document/Renderer/Partial', './fabrik_build/output/component/site/Document/Renderer/Partial');
     fs.copySync('libraries/src/Document/Renderer/Pdf', './fabrik_build/output/component/site/Document/Renderer/Pdf');
@@ -535,17 +554,17 @@ var ftp = function (grunt, version) {
 		console.log('connected');
 		if (grunt.config.get('upload.zips')) {
 			promises.push(ftpPromise(c, 'fabrik_build/output/pkg_fabrik_' + version + '.zip',
-				'/public_html/media/downloads/pkg_fabrik_' + version + '.zip'));
+				'/fabrikar.com/public_html/media/downloads/pkg_fabrik_' + version + '.zip'));
 			promises.push(ftpPromise(c, 'fabrik_build/output/pkg_fabrik_sink_' + version + '.zip',
-				'/public_html/media/downloads/pkg_fabrik_sink_' + version + '.zip'));
+				'/fabrikar.com/public_html/media/downloads/pkg_fabrik_sink_' + version + '.zip'));
 			promises.push(ftpPromise(c, 'fabrik_build/output/lib_fabrik_' + version + '.zip',
-				'/public_html/media/downloads/lib_fabrik_' + version + '.zip'));
+				'/fabrikar.com/public_html/media/downloads/lib_fabrik_' + version + '.zip'));
 
 			var plugins = fs.readdirSync('fabrik_build/output/pkg_fabrik_sink/packages');
 
 			for (i = 0; i < plugins.length; i++) {
 				promises.push(ftpPromise(c, 'fabrik_build/output/pkg_fabrik_sink/packages/' + plugins[i],
-					'/public_html/media/downloads/' + plugins[i]));
+					'/fabrikar.com/public_html/media/downloads/' + plugins[i]));
 			}
 		}
 		if (grunt.config.get('upload.xml')) {
@@ -553,7 +572,7 @@ var ftp = function (grunt, version) {
 
 			for (i = 0; i < xmlFiles.length; i++) {
 				promises.push(ftpPromise(c, 'fabrik_build/output/updateserver/' + xmlFiles[i],
-					'/public_html/update/fabrik31/' + xmlFiles[i]));
+					'/fabrikar.com/public_html/update/fabrik31/' + xmlFiles[i]));
 			}
 		}
 		Promise.settle(promises)

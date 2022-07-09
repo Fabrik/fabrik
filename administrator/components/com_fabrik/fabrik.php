@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -78,7 +78,7 @@ $query->select('COUNT(extension_id)')->from('#__extensions')
 		->where('enabled = 1 AND folder = ' . $db->q('fabrik_element'));
 $db->setQuery($query);
 
-if (count($db->loadResult()) === 0)
+if ((int)$db->loadResult() === 0)
 {
 	$app->enqueueMessage(JText::_('COM_FABRIK_PUBLISH_AT_LEAST_ONE_ELEMENT_PLUGIN'), 'notice');
 }

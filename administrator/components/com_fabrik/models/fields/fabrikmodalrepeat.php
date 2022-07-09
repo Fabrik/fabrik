@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -92,6 +92,11 @@ class JFormFieldFabrikModalrepeat extends JFormField
 		}
 
 		$subForm->model = $feModel;
+
+		if (isset($this->form->rawData))
+		{
+			$subForm->rawData = $this->form->rawData;
+		}
 
 		// Hack for order by elements which we now want to store as ids
 		$v = json_decode($this->value);

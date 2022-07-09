@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -286,6 +286,23 @@ class Amazons3storage extends FabrikStorageAdaptor
 		}
 
 		return $s3object->body;
+	}
+
+	/**
+	 * Stream a file
+	 *
+	 * NOT IMPLEMENTED - use amazons3sdk adapter if you need streaming
+	 *
+	 * @param   string  $filepath  file path
+	 * @param  int  $chunkSize
+	 */
+
+	public function stream($filepath, $chunkSize = 1048576)
+	{
+		echo $this->read($filepath);
+		ob_flush();
+		flush();
+		return true;
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -124,8 +124,9 @@ class FabrikAdminControllerCrons extends FabControllerAdmin
 
 				if ($plugin->requiresTableData())
 				{
-					$thisListModel->setLimits(0, 0);
-					$thisListModel->getPagination(0, 0, 0);
+					$cron_row_limit = (int)$pluginParams->get('cron_row_limit', 100);
+					$thisListModel->setLimits(0, $cron_row_limit);
+					$thisListModel->getPagination(0, 0, $cron_row_limit);
 					$data = $thisListModel->getData();
 				}
 			}

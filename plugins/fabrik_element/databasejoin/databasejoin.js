@@ -42,14 +42,16 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             var self = this, c, b;
             if (c = this.getContainer()) {
                 b = c.getElement('.toggle-addoption');
-
                 // If duplicated remove old events
-
                 b.removeEvent('click', this.watchAddEvent);
-
                 this.watchAddEvent = this.start.bind(this);
-
                 b.addEvent('click', this.watchAddEvent);
+
+                b = c.getElement('.toggle-editoption');
+                // If duplicated remove old events
+                b.removeEvent('click', this.watchEditEvent);
+                this.watchEditEvent = this.start.bind(this);
+                b.addEvent('click', this.watchEditEvent);
             }
         },
 
@@ -97,8 +99,16 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             if (this.element === null || c === null) {
                 return;
             }
+
             var a = c.getElement('.toggle-addoption'),
                 url = typeOf(a) === 'null' ? e.target.get('href') : a.get('href');
+
+            var title = Joomla.JText._('PLG_ELEMENT_DBJOIN_ADD');
+
+            if (e.target.closest('a').hasClass('toggle-editoption')) {
+                url += '&rowid=' + this.getValue();
+                title = Joomla.JText._('PLG_ELEMENT_DBJOIN_EDIT');
+            }
 
             url += '&format=partial';
 
@@ -106,7 +116,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             this.windowopts = {
                 'id'             : id,
                 'data'           : this.form.getFormElementData(),
-                'title'          : Joomla.JText._('PLG_ELEMENT_DBJOIN_ADD'),
+                'title'          : title,
                 'contentType'    : 'xhr',
                 'loadMethod'     : 'xhr',
                 'contentURL'     : url,
@@ -229,7 +239,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         _addOption: function (opt, l, v, rowOpt) {
             var sel = typeOf(this.options.value) === 'array' ?
-                    this.options.value : Array.from(this.options.value),
+                    this.options.value : Array.mfrom(this.options.value),
                 i = opt.getElement('input'),
                 subOpts = this.getSubOptions(),
                 subOptsRows = this.getSubOptsRow(),
@@ -384,17 +394,30 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     json.each(function (o) {
                         jsonValues.push(o.value);
                         if (!existingValues.contains(o.value) && o.value !== null) {
+                            if (o.selected) {
+                                self.options.value = o.value;
+                                changed = true;
+                            }
                             sel = self.options.value === o.value;
+                            if (sel && self.activePopUp) {
+                                changed = true;
+                            }
                             self.addOption(o.value, o.text, sel);
-                            changed = true;
+                        }
+                        else {
+                            if (o.selected) {
+                                if (self.options.value !== o.value) {
+                                    changed = true;
+                                    self.update(o.value);
+                                }
+                            }
                         }
                     });
 
                     existingValues.each(function (ev) {
                         if (!jsonValues.contains(ev)) {
-                            sel = self.getValue() === ev;
+                            sel = changed = self.getValue() === ev;
                             self.removeOption(ev, sel);
-                            changed = true;
                         }
                     });
 
@@ -677,10 +700,13 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         setValue: function (val) {
+            if (jQuery('#' + this.element.id).data('readonly')) {
+                jQuery('#' + this.element.id + ' option').attr('disabled', false);
+            }
             var found = false;
             if (typeOf(this.element.options) !== 'null') { //needed with repeat group code
                 for (var i = 0; i < this.element.options.length; i++) {
-                    if (this.element.options[i].value === val) {
+                    if ((typeof val === 'string' || typeof val === 'number') && this.element.options[i].value === val.toString()) {
                         this.element.options[i].selected = true;
                         found = true;
                         break;
@@ -696,7 +722,25 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         if (this.options.show_please_select) {
                             this.element.options[0].selected = true;
                         }
-                    } else {
+                    }
+                    if (this.options.displayType === 'multilist') {
+                        if (typeOf(val) === 'string') {
+                            val = val === '' ? [] : JSON.parse(val);
+                        }
+                        if (typeOf(val) !== 'array') {
+                            val = [val];
+                        }
+                        for (var i = 0; i < this.element.options.length; i++) {
+                            var sel = false;
+                            val.each(function (v) {
+                                if ((typeof v === 'string' || typeof v === 'number') && this.element.options[i].value === v.toString()) {
+                                    sel = true;
+                                }
+                            }.bind(this));
+                            this.element.options[i].selected = sel;
+                        }
+                    }
+                    else {
                         if (typeOf(val) === 'string') {
                             val = val === '' ? [] : JSON.parse(val);
                         }
@@ -715,6 +759,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         }.bind(this));
                     }
                 }
+            }
+            if (jQuery('#' + this.element.id).data('readonly')) {
+                jQuery('#' + this.element.id + ' option').attr('disabled', true);
             }
             this.options.value = val;
             if (this.options.advanced) {
@@ -901,6 +948,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         watchObserve: function () {
+            if (this.options.ajaxOnLoad) {
+                this.updateFromServer();
+            }
             var v2, o2;
             this.options.observe.each(function (o) {
                 if (o === '') {
@@ -994,6 +1044,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                             this.updateFromServer();
                         }
                     }
+                    Fabrik.fireEvent('fabrik.dbjoin.add.end', [this]);
                 }.bind(this));
             }
 
@@ -1083,7 +1134,30 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         updateUsingRaw: function () {
             return true;
-        }
+        },
+
+        /**
+         * Called from FbFormSubmit
+         *
+         * @params   function  cb  Callback function to run when the element is in an acceptable state for the form processing to continue
+         *
+         * @return  void
+         */
+        onsubmit: function (cb) {
+            /**
+             * if the selected option in a dropdown is disabled, unset the disabled property,
+             * otherwise the value won't get submitted with the form.
+             */
+            if (this.options.editable) {
+                switch (this.options.displayType) {
+                    case 'dropdown':
+                    case 'multilist':
+                        jQuery('#' + this.element.id + ' option:selected:disabled').prop('disabled',false);
+                }
+            }
+            this.parent(cb);
+        },
+
     });
 
     return window.FbDatabasejoin;

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  System
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -295,6 +295,12 @@ class PlgSystemFabrikcron extends JPlugin
 
 	public function onAfterRender()
 	{
+		// If system plugin hasn't run, just exit gracefully
+		if (!defined('COM_FABRIK_FRONTEND'))
+		{
+			return;
+		}
+
 		$this->doCron();
 	}
 

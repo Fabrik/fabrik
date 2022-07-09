@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.calendar
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -53,6 +53,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		$this->filters       = $this->get('Filters');
 		$this->showFilters   = $model->showFilters();
 		$this->showTitle     = $input->getInt('show-title', 1);
+		$this->row->label    = FText::_($this->row->label);
 		$this->filterFormURL = $this->get('FilterFormURL');
 
 		$this->canAdd               = (bool) $params->get('fullcalendar-read-only', 0) == 1 ? false : $model->getCanAdd();
@@ -136,7 +137,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 
 		// Get all list where statements - which are then included in the ajax call to ensure we get the correct data set loaded
 		$urlFilters        = new stdClass;
-		$urlFilters->where = $model->buildQueryWhere();
+		//$urlFilters->where = $model->buildQueryWhere();
 
 		// Don't JRoute as its wont load with sef?
 		$urls->del = 'index.php?option=com_' . $package
@@ -157,6 +158,7 @@ class FabrikViewFullcalendar extends JViewLegacy
 		}
 
 		$options                  = new stdClass;
+		$options->id              = $model->getVisualization()->get('id');
 		$options->url             = $urls;
 		$options->dateLimits      = $model->getDateLimits();
 		$options->deleteables     = $model->getDeleteAccess();
@@ -291,25 +293,36 @@ class FabrikViewFullcalendar extends JViewLegacy
 	 */
 	private function jLayouts()
 	{
+		$model       = $this->getModel();
+		$params = $model->getParams();
+		$tpl          = $params->get('fullcalendar_layout', 'default');
+		$tmplPath     = JPATH_ROOT . '/plugins/fabrik_visualization/fullcalendar/views/fullcalendar/tmpl/' . $tpl;
+		$paths = array(
+			JPATH_ROOT . '/plugins/fabrik_visualization/fullcalendar/layouts',
+			$tmplPath . '/layouts',
+			JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/com_fabrik',
+			JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/com_fabrik/visualization'
+		);
+
 		FabrikHelperHTML::jLayoutJs(
 			'fabrik-visualization-fullcalendar-viewbuttons',
 			'fabrik-visualization-fullcalendar-viewbuttons',
 			(object) array(),
-			array(JPATH_PLUGINS . '/fabrik_visualization/fullcalendar/layouts/')
+			$paths
 		);
 
 		FabrikHelperHTML::jLayoutJs(
 			'fabrik-visualization-fullcalendar-event-popup',
 			'fabrik-visualization-fullcalendar-event-popup',
 			(object) array(),
-			array(JPATH_PLUGINS . '/fabrik_visualization/fullcalendar/layouts/')
+			$paths
 		);
 
 		FabrikHelperHTML::jLayoutJs(
 			'fabrik-visualization-fullcalendar-viewevent',
 			'fabrik-visualization-fullcalendar-viewevent',
 			(object) array(),
-			array(JPATH_PLUGINS . '/fabrik_visualization/fullcalendar/layouts/')
+			$paths
 		);
 
 		$modalOpts = array(

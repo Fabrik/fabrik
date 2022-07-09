@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.calendar
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -38,7 +38,7 @@ if ($this->showFilters) :
 		?>
 		</tbody>
 		<thead>
-			<tr><th colspan="2"><?php echo $table ?></th></tr>
+			<tr><th colspan="2"><?php echo FText::_($table) ?></th></tr>
 		</thead>
 		<tfoot>
 			<tr>

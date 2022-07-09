@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -759,9 +759,23 @@ class FabrikAdminModelList extends FabModelAdmin
 			}
 		}
 
+		/*
 		$row->set('publish_down', FabrikAdminHelper::prepareSaveDate($row->get('publish_down')));
 		$row->set('created', FabrikAdminHelper::prepareSaveDate($row->get('created')));
 		$row->set('publish_up', FabrikAdminHelper::prepareSaveDate($row->get('publish_up')));
+		*/
+
+		// Set the publish date to now
+		if ($row->get('published') == 1 && (int) $row->get('publish_up') === 0)
+		{
+			$row->set('publish_up', JFactory::getDate()->toSql());
+		}
+
+		if ($row->get('published') == 1 && intval($row->get('publish_down')) === 0)
+		{
+			$row->set('publish_down', $this->getDbo()->getNullDate());
+		}
+
 		$pk = FArrayHelper::getValue($data, 'db_primary_key');
 
 		if ($pk == '')
@@ -1492,6 +1506,12 @@ class FabrikAdminModelList extends FabModelAdmin
 					break;
 				case '4':
 					$element->label = strtoupper($element->label);
+					break;
+				case '5':
+					$element->label = strtoupper(str_replace(" ", "_", $element->label));
+					break;
+				case '6':
+					$element->label = FArrayHelper::getValue($elementLabels, $ordering, $label);
 					break;
 				default:
 					break;
@@ -2358,12 +2378,11 @@ class FabrikAdminModelList extends FabModelAdmin
 			}
 		}
 
-		$func = create_function('$value', '$db = FabrikWorker::getDbo(true);;return $db->qn($value);');
 		$sql .= implode(', ', $lines);
 
 		if (!empty($keys))
 		{
-			$sql .= ', PRIMARY KEY (' . implode(',', array_map($func, $keys)) . '))';
+			$sql .= ', PRIMARY KEY (' . implode(',', array_map(function($value) use ($db) {return $db->qn($value);}, $keys)) . '))';
 		}
 		else
 		{

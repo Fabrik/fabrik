@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.paginate
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -91,7 +91,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 
 		if ($j3)
 		{
-			$layout = new JLayoutFile('plugins.fabrik_form.paginate.layouts.default_paginate', JPATH_SITE);
+			$layout = $this->getLayout('form');
 			$this->data = $layout->render($links);
 		}
 		else
@@ -226,7 +226,7 @@ class PlgFabrik_FormPaginate extends PlgFabrik_Form
 		$opts = json_encode($opts);
 		$container = $formModel->jsKey();
 		$this->formJavascriptClass();
-		$formModel->formPluginJS['Paginate'] = "var " . $container . "_paginate = new Paginate($container, $opts);";
+		$formModel->formPluginJS['Paginate'] = "new Paginate($container, $opts)";
 	}
 
 	/**

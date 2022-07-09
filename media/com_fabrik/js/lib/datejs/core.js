@@ -2,9 +2,9 @@
  * @version: 1.0
  * @author: @geoffreymcgill
  * @date: 2015-11-25
- * @copyright: Copyright (c) 2008-2015, Object.NET, Inc. (http://object.net). All rights reserved.
+ * @copyright: Copyright (c) 2008-2019, Object.NET, Inc. (https://object.net). All rights reserved.
  * @license: See LICENSE and https://github.com/datejs/Datejs/blob/master/LICENSE
- * @website: http://datejs.com/
+ * @website: https://datejs.com
  */
  
 (function () {
@@ -344,7 +344,7 @@
     
     /**
      * Get the week number. Week one (1) is the week which contains the first Thursday of the year. Monday is considered the first day of the week.
-     * This algorithm is a JavaScript port of the work presented by Claus Tøndering at http://www.tondering.dk/claus/cal/node8.html#SECTION00880000000000000000
+     * This algorithm is a JavaScript port of the work presented by Claus TÃ¸ndering at http://www.tondering.dk/claus/cal/node8.html#SECTION00880000000000000000
      * .getWeek() Algorithm Copyright (c) 2008 Claus Tondering.
      * The .getWeek() function does NOT convert the date to UTC. The local datetime is used. Please use .getISOWeek() to get the week of the UTC converted date.
      * @return {Number}  1 to 53
@@ -728,17 +728,18 @@
      
      S      The ordinal suffix ("st, "nd", "rd" or "th") of the current day.            "st, "nd", "rd" or "th"
 
-|| *Format* || *Description* || *Example* ||
-|| d      || The CultureInfo shortDate Format Pattern                                     || "M/d/yyyy" ||
-|| D      || The CultureInfo longDate Format Pattern                                      || "dddd, MMMM dd, yyyy" ||
-|| F      || The CultureInfo fullDateTime Format Pattern                                  || "dddd, MMMM dd, yyyy h:mm:ss tt" ||
-|| m      || The CultureInfo monthDay Format Pattern                                      || "MMMM dd" ||
-|| r      || The CultureInfo rfc1123 Format Pattern                                       || "ddd, dd MMM yyyy HH:mm:ss GMT" ||
-|| s      || The CultureInfo sortableDateTime Format Pattern                              || "yyyy-MM-ddTHH:mm:ss" ||
-|| t      || The CultureInfo shortTime Format Pattern                                     || "h:mm tt" ||
-|| T      || The CultureInfo longTime Format Pattern                                      || "h:mm:ss tt" ||
-|| u      || The CultureInfo universalSortableDateTime Format Pattern                     || "yyyy-MM-dd HH:mm:ssZ" ||
-|| y      || The CultureInfo yearMonth Format Pattern                                     || "MMMM, yyyy" ||
+    | Format | Description | Example |
+    | -- | -- | -- |
+    | d      | The CultureInfo shortDate Format Pattern                                     | "M/d/yyyy" |
+    | D      | The CultureInfo longDate Format Pattern                                      | "dddd, MMMM dd, yyyy" |
+    | F      | The CultureInfo fullDateTime Format Pattern                                  | "dddd, MMMM dd, yyyy h:mm:ss tt" |
+    | m      | The CultureInfo monthDay Format Pattern                                      | "MMMM dd" |
+    | r      | The CultureInfo rfc1123 Format Pattern                                       | "ddd, dd MMM yyyy HH:mm:ss GMT" |
+    | s      | The CultureInfo sortableDateTime Format Pattern                              | "yyyy-MM-ddTHH:mm:ss" |
+    | t      | The CultureInfo shortTime Format Pattern                                     | "h:mm tt" |
+    | T      | The CultureInfo longTime Format Pattern                                      | "h:mm:ss tt" |
+    | u      | The CultureInfo universalSortableDateTime Format Pattern                     | "yyyy-MM-dd HH:mm:ssZ" |
+    | y      | The CultureInfo yearMonth Format Pattern                                     | "MMMM, yyyy" |
      
 
     STANDARD DATE AND TIME FORMAT STRINGS

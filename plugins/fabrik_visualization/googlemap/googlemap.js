@@ -38,6 +38,7 @@ FbGoogleMapViz = new Class({
 		'streetView'        : false,
 		'traffic'           : false,
 		'key'               : false,
+		'language'           : '',
 		'showLocation'      : false,
 		'styles'            : [],
 		'heatmap'           : false
@@ -52,6 +53,8 @@ FbGoogleMapViz = new Class({
 			this.clusterMarkers = [];
 			this.markers = [];
 			this.points = [];
+			this.heatmap = false;
+			this.weightedLocations = [];
 			this.distanceWidgets = [];
 			this.icons = [];
 			this.setOptions(options);
@@ -73,6 +76,13 @@ FbGoogleMapViz = new Class({
 					this.clearPolyLines();
 					this.options.icons = json;
 					this.addIcons();
+                    if (this.options.heatmap)
+                    {
+                        this.heatmap = new google.maps.visualization.HeatmapLayer({
+                            data: this.weightedLocations
+                        });
+                        this.heatmap.setMap(this.map);
+                    }
 					this.setPolyLines();
 					if (this.options.ajax_refresh_center) {
 						this.center();
@@ -121,9 +131,13 @@ FbGoogleMapViz = new Class({
 
 			}
 
-			Fabrik.loadGoogleMap(this.options.key, function () {
-				this.iniGMap();
-			}.bind(this));
+			Fabrik.loadGoogleMap(
+				this.options.key,
+				function () {
+					this.iniGMap();
+				}.bind(this),
+				this.options.language
+			);
 
 		},
 
@@ -149,6 +163,21 @@ FbGoogleMapViz = new Class({
 			if (typeOf(this.element_map) === 'null') {
 				return;
 			}
+
+			this.mapTypeIds = [];
+
+			if (typeOf(this.options.maptypeids) !== 'array') {
+				for (var type in google.maps.MapTypeId) {
+					this.mapTypeIds.push(google.maps.MapTypeId[type]);
+				}
+			}
+			else
+			{
+				for (var type in this.options.maptypeids) {
+					this.mapTypeIds.push(this.options.maptypeids[type]);
+				}
+			}
+
 			var mapOpts = {
 				center            : new google.maps.LatLng(this.options.lat, this.options.lon),
 				zoom              : this.options.zoomlevel.toInt(),
@@ -159,8 +188,12 @@ FbGoogleMapViz = new Class({
 				scrollwheel       : this.options.scrollwheel,
 				zoomControl       : this.options.zoom,
 				streetViewControl : this.options.streetView,
-				zoomControlOptions: {style: this.options.zoomStyle}
+				zoomControlOptions: {style: this.options.zoomStyle},
+				mapTypeControlOptions: {
+					mapTypeIds: this.mapTypeIds
+				}
 			};
+
 			this.map = new google.maps.Map(document.id(this.element_map), mapOpts);
 			this.map.setOptions({'styles': this.options.styles});
 
@@ -179,10 +212,10 @@ FbGoogleMapViz = new Class({
 
 			if (this.options.heatmap)
 			{
-                var heatmap = new google.maps.visualization.HeatmapLayer({
-                    data: this.points
+                this.heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: this.weightedLocations
                 });
-                heatmap.setMap(this.map);
+                this.heatmap.setMap(this.map);
 			}
 
 			google.maps.event.addListener(this.map, "click", function (e) {
@@ -241,6 +274,8 @@ FbGoogleMapViz = new Class({
 			{
 				this.update();
 			}
+
+			Fabrik.fireEvent('fabrik.viz.googlemap.init.end', this);
 		},
 
 	setPolyLines: function () {
@@ -303,6 +338,13 @@ FbGoogleMapViz = new Class({
 		if (this.options.clustering) {
 			this.cluster.clearMarkers();
 		}
+        if (this.options.heatmap)
+        {
+            this.weightedLocations = [];
+        	if (this.heatmap !== false) {
+                this.heatmap.setMap(null);
+            }
+        }
 		this.bounds = new google.maps.LatLngBounds(null);
 	},
 
@@ -310,12 +352,55 @@ FbGoogleMapViz = new Class({
 		return this.options.icons.length === 0;
 	},
 
+    showRadiusFilterLocation: function() {
+        if (typeOf(this.container) !== 'null') {
+            var form = this.container.getElement('form[name=filter]');
+            var self = this;
+            jQuery(form).find('.radius_search').each(function (k, v) {
+                var active = jQuery(v).find('input[name="radius_search_active' + k + '[]"]');
+                if (active.length > 0 && active[0].value === '1')
+                {
+                    var lat = jQuery(v).find('input[name="radius_search_geocomplete_lat' + k + '"]');
+                    var lon = jQuery(v).find('input[name="radius_search_geocomplete_lon' + k + '"]');
+                    if (lat.length > 0 && lon.length > 0) {
+                        if (lat[0].value !== '' && lon[0].value !== '') {
+                            var point = new google.maps.LatLng(lat[0].value, lon[0].value);
+                            var addr = jQuery(v).find('input[name="radius_search_geocomplete_field' + k + '"]');
+
+                            var markerOptions = {
+                                position: point,
+                                map: self.map
+                            };
+
+                            if (addr.length > 0) {
+                                markerOptions.title = addr[0].value;
+                            }
+
+                            var marker = new google.maps.Marker(markerOptions);
+                            self.bounds.extend(new google.maps.LatLng(lat[0].value, lon[0].value));
+                        }
+                    }
+                }
+            });
+        }
+    },
+
 	addIcons: function () {
 		if (this.options.heatmap) {
             this.options.icons.each(function (i) {
             	var point = new google.maps.LatLng(i[0], i[1]);
                 this.bounds.extend(point);
                 this.points.push(point);
+
+                if (i.heatmapWeighting !== 1) {
+                	this.weightedLocations.push({
+                		location: point,
+						weight: i.heatmapWeighting
+					});
+				}
+				else {
+                    this.weightedLocations.push(point);
+				}
             }.bind(this));
 		}
 		else {
@@ -325,6 +410,7 @@ FbGoogleMapViz = new Class({
                 this.bounds.extend(new google.maps.LatLng(i[0], i[1]));
                 this.markers.push(this.addIcon(i[0], i[1], i[2], i[3], i[4], i[5], i.groupkey, i.title, i.radius, i.c));
             }.bind(this));
+            this.showRadiusFilterLocation();
             this.renderGroupedSideBar();
             if (this.options.clustering) {
                 // Using MarkerClusterer, http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/docs/reference.html
@@ -537,6 +623,8 @@ FbGoogleMapViz = new Class({
 					document.id('overlay_chbox_' + k).addEvent('click', this.options.overlay_events[k]);
 				}
 			}.bind(this));
+
+			Fabrik.fireEvent('fabrik.viz.googlemap.overlays.added', [this]);
 		}
 	},
 

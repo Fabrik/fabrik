@@ -6,7 +6,7 @@
  */
 
 window.addEvent('fabrik.loaded', function() {
-	Array.from($$('.fabrikList tr')).each(function(r){
+	Array.mfrom($$('.fabrikList tr')).each(function(r){
 		document.id(r).addEvent('mouseover', function(e){
 			if (r.hasClass('oddRow0') || r.hasClass('oddRow1')){
 				r.addClass('fabrikHover');

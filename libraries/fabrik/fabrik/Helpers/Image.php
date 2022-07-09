@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -20,7 +20,7 @@ use \JHtml;
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.0
  */
@@ -138,18 +138,21 @@ class Image
 	 */
 	protected static function testImagemagick()
 	{
+		$im = array();
+
 		if (function_exists('NewMagickWand'))
 		{
 			$im['IM'] = 'Magick wand';
 		}
 		else
 		{
+			/*
 			$status = '';
 			$output = array();
 			@exec('convert -version', $output, $status);
 			$im = array();
 
-			if (!$status && class_exists('Imagick'))
+			if ($status && class_exists('Imagick'))
 			{
 				if (preg_match("/imagemagick[ \t]+([0-9\.]+)/i", $output[0], $matches))
 				{
@@ -158,6 +161,12 @@ class Image
 			}
 
 			unset($output, $status);
+			*/
+
+			if (class_exists('Imagick'))
+			{
+				$im['IM'] = 'Imagick';
+			}
 		}
 
 		return $im;

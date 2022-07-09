@@ -74,6 +74,12 @@
 				label="PLG_VISUALIZATION_FULLCALENDAR_CUSTOM_URL_LABEL"
 				description="PLG_VISUALIZATION_FULLCALENDAR_CUSTOM_URL_DESC" />
 
+            <field name="fullcalendar_where"
+                   type="field"
+                   size="40"
+                   label="PLG_VISUALIZATION_FULLCALENDAR_WHERE_LABEL"
+                   description="PLG_VISUALIZATION_FULLCALENDAR_WHERE_DESC" />
+
 			<field
 				name="popup_template"
 				type="textarea"

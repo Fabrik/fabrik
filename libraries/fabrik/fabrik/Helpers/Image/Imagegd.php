@@ -2,7 +2,7 @@
 /**
  * @package     Joomla
  * @subpackage  Fabrik.image
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -11,14 +11,17 @@ namespace Fabrik\Helpers\Image;
 defined('_JEXEC') or die('Restricted access');
 
 use \JHtml;
+use \JFactory;
+use \JFile;
 use \Error;
+use \Fabrik\Helpers\StringHelper;
 
 /**
  * GD image manipulation class
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.0
  */
@@ -29,7 +32,7 @@ class Imagegd extends Image
 	 *
 	 * @param   string $file file to create image from
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 *
 	 * @return  array  (image, header string)
 	 */
@@ -77,7 +80,7 @@ class Imagegd extends Image
 			}
 			else
 			{
-				throw new Exception("imagecreate from gif not available");
+				throw new \Exception("imagecreate from gif not available");
 			}
 		}
 
@@ -147,7 +150,7 @@ class Imagegd extends Image
 		$image_p = ob_get_contents();
 		ob_end_clean();
 
-		return JFile::write($destCropFile, $image_p);
+		return $this->storage->write($destCropFile, $image_p);
 	}
 
 	/**

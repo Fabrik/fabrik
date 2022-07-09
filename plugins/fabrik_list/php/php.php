@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.php
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -84,7 +84,7 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('table_php_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('table_php_button_label', parent::buttonLabel()));
 	}
 
 	/**
@@ -155,14 +155,24 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 
 	public function process_result($c)
 	{
+        $params = $this->getParams();
+
+        if ($params->get('table_php_show_msg', '1') === '0') {
+            $package = $this->app->getUserState('com_fabrik.package', 'fabrik');
+            $model = $this->getModel();
+            $model->setRenderContext($model->getId());
+            $context = 'com_' . $package . '.list' . $model->getRenderContext() . '.showmsg';
+            $session = JFactory::getSession();
+            $session->set($context, false);
+        }
+
 		if (isset($this->msg))
 		{
 			return $this->msg;
 		}
 		else
 		{
-			$params = $this->getParams();
-			$msg = $params->get('table_php_msg', FText::_('PLG_LIST_PHP_CODE_RUN'));
+			$msg = FText::_($params->get('table_php_msg', FText::_('PLG_LIST_PHP_CODE_RUN')));
 
 			return $msg;
 		}

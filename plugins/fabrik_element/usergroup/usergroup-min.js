@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/element"],function(a,b){return window.FbUsergroup=new Class({Extends:b,initialize:function(a,b){this.setPlugin("fabrikusergroup"),this.parent(a,b)}}),window.FbUsergroup});
+define(["jquery","fab/element"],function(e,n){return window.FbUsergroup=new Class({Extends:n,initialize:function(e,n){this.setPlugin("fabrikusergroup"),this.parent(e,n)}}),window.FbUsergroup});

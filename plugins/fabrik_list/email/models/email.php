@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.email
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -95,7 +95,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	 */
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('email_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('email_button_label', parent::buttonLabel()));
 	}
 
 	/**
@@ -1144,8 +1144,9 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		if ($params->get('wysiwyg', true))
 		{
 			$editor = \JEditor::getInstance($this->config->get('editor'));
+			$buttons = (bool) $params->get('wysiwyg_extra_buttons', true);
 
-			return $editor->display('message', $msg, '100%', '200px', 75, 10, true, 'message');
+			return $editor->display('message', $msg, '100%', '200px', 75, 10, $buttons, 'message');
 		}
 		else
 		{

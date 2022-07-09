@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.caneditrow
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -64,7 +64,7 @@ class PlgFabrik_ListCaneditrow extends PlgFabrik_List
 		}
 
 		// if this is a form submission, check to see if they want us running or not
-		if ($this->app->input->get('task', '') === 'form.process')
+		if (FabrikWorker::inFormProcess())
 		{
 			if ($params->get('caneditrow_on_submit', '1') === '0')
 			{

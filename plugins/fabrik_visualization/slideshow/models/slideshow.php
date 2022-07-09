@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.slideshow
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -25,141 +25,6 @@ require_once JPATH_SITE . '/components/com_fabrik/models/visualization.php';
 
 class FabrikModelSlideshow extends FabrikFEModelVisualization
 {
-	/**
-	 * Get slideshow HTML container markup
-	 *
-	 * @return string
-	 */
-
-	public function getSlideshow()
-	{
-		$id = 'foo_for_now_fix_this';
-		$return = "
-			<div id=\"$id\" class=\"slideshow\">
-				<div class=\"slideshow-images\">
-					<a><img /></a>
-					<div class=\"slideshow-loader\"></div>
-				</div>
-				<div class=\"slideshow-captions\"></div>
-				<div class=\"slideshow-controller\"></div>
-				<div class=\"slideshow-thumbnails\"></div>
-			</div>
-		";
-
-		return $return;
-	}
-
-	/**
-	 * Get playlist
-	 *
-	 * @return string
-	 */
-
-	public function getPlaylist()
-	{
-		$params = $this->getParams();
-		$mediaElement = $params->get('media_media_elementList');
-		$mediaElement .= '_raw';
-		$titleElement = $params->get('media_title_elementList', '');
-		$imageElement = $params->get('media_image_elementList', '');
-
-		if (!empty($imageElement))
-		{
-			$imageElement .= '_raw';
-		}
-
-		$infoElement = $params->get('media_info_elementList', '');
-		$noteElement = $params->get('media_note_elementList', '');
-
-		$listid = $params->get('media_table');
-
-		$listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
-		$listModel->setId($listid);
-		$list = $listModel->getTable();
-		$form = $listModel->getFormModel();
-		/* remove filters?
-		 * $$$ hugh - remove pagination BEFORE calling render().  Otherwise render() applies
-		 * session state/defaults when it calls getPagination, which is then returned as a cached
-		 * object if we call getPagination after render().  So call it first, then render() will
-		 * get our cached pagination, rather than vice versa.
-		 */
-		$nav = $listModel->getPagination(0, 0, 0);
-		$listModel->render();
-		$alldata = $listModel->getData();
-		$document = JFactory::getDocument();
-		$str = "<?xml version=\"1.0\" encoding=\"" . $document->_charset . "\"?>\n";
-		$str .= "<playlist version=\"1\" xmlns = \"http://xspf.org/ns/0/\">\n";
-		$str .= "	<title>" . $list->label . "</title>\n";
-		$str .= "	<trackList>\n";
-
-		foreach ($alldata as $data)
-		{
-			foreach ($data as $row)
-			{
-				if (!isset($row->$mediaElement))
-				{
-					continue;
-				}
-
-				$location = $row->$mediaElement;
-
-				if (empty($location))
-				{
-					continue;
-				}
-
-				$location = str_replace('\\', '/', $location);
-				$location = JString::ltrim($location, '/');
-				$location = COM_FABRIK_LIVESITE . $location;
-				$str .= "		<track>\n";
-				$str .= "			<location>" . $location . "</location>\n";
-
-				if (!empty($titleElement))
-				{
-					$title = $row->$titleElement;
-					$str .= "			<title>" . $title . "</title>\n";
-				}
-
-				if (!empty($imageElement))
-				{
-					$image = $row->$imageElement;
-
-					if (!empty($image))
-					{
-						$image = str_replace('\\', '/', $image);
-						$image = JString::ltrim($image, '/');
-						$image = COM_FABRIK_LIVESITE . $image;
-						$str .= "			<image>" . $image . "</image>\n";
-					}
-				}
-
-				if (!empty($noteElement))
-				{
-					$note = $row->$noteElement;
-					$str .= "			<annotation>" . $note . "</annotation>\n";
-				}
-
-				if (!empty($infoElement))
-				{
-					$link = $row->$titleElement;
-					$str .= "			<info>" . $link . "</info>\n";
-				}
-				else
-				{
-					$link = JRoute::_('index.php?option=com_' . $this->package . '&view=form&formid=' . $form->getId() . '&rowid=' . $row->__pk_val);
-					$str .= "			<info>" . $link . "</info>\n";
-				}
-
-				$str .= "		</track>\n";
-			}
-		}
-
-		$str .= "	</trackList>\n";
-		$str .= "</playlist>\n";
-
-		return $str;
-	}
-
 	/**
 	 * Get image js data
 	 *
@@ -186,6 +51,7 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 		 */
 		//$slideshow_viz_file .= $slideElement->isJoin() ? '' : '_raw';
 		$slideshow_viz_file_raw = $slideshow_viz_file . '_raw';
+		$slideshow_viz_file_id = $slideshow_viz_file . '_id';
 
 		$slideshow_viz_caption = $params->get('slideshow_viz_caption', '');
 
@@ -209,16 +75,28 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 				}
 				else
 				{
-					$picData = $pic->$slideshow_viz_file;
+					$picData = $pic->$slideshow_viz_file_id;
 				}
 
-				$picData = str_replace("\\", "/", $picData);
+				if (FabrikWorker::isJSON($picData))
+				{
+					$picData = json_decode($picData);
 
-                // just in case ...
-                if (!JFile::exists(JPATH_SITE . $picData))
-                {
-                    continue;
-                }
+					if (is_array($picData))
+					{
+						$picData = array_pop($picData);
+					}
+
+					if (is_object($picData) && isset($picData->file))
+					{
+						$picData = $picData->file;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				$picData = str_replace("\\", "/", $picData);
 
 				$pic_opts = array();
 
@@ -226,6 +104,10 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 				{
 					// Force it to a string for json_encode
 					$pic_opts['caption'] = $pic->$slideshow_viz_caption . ' ';
+				}
+				else
+				{
+					$pic_opts['caption'] = '';
 				}
 
 
@@ -237,8 +119,17 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 				{
 					$tmp = json_decode($path);
 					$k = $tmp == false ? $path : $tmp[0];
+
+					// just in case ...
+					if (!$slideElement->getStorage()->exists($k))
+					{
+						continue;
+					}
+
 					$pic_opts['href'] = $slideElement->getStorage()->getFileUrl($k, 0);
 					$this->addThumbOpts($pic_opts);
+					$pic_opts['fabrik_view_url'] = $pic->fabrik_view_url;
+					$pic_opts['fabrik_edit_url'] = $pic->fabrik_edit_url;
 
 					if (!empty($k))
 					{
@@ -248,7 +139,7 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 			}
 		}
 
-		$this->totalPics = count($js_opts);
+		$this->totalPics = count((array)$js_opts);
 
 		return $js_opts;
 	}
@@ -330,16 +221,14 @@ class FabrikModelSlideshow extends FabrikFEModelVisualization
 		$use_thumbs = $params->get('slideshow_viz_thumbnails', 0);
 		$use_captions = $params->get('slideshow_viz_caption', '') == '' ? false : true;
 		$opts = new stdClass;
-		$opts->slideshow_data = $slideshow_data = $this->getImageJSData();
+		//$opts->slideshow_data = $slideshow_data = $this->getImageJSData();
 		$opts->id = $viz->id;
 		$opts->html_id = $html_id = 'slideshow_viz_' . $viz->id;
-		$opts->slideshow_type = (int) $params->get('slideshow_viz_type', 1);
 		$opts->slideshow_width = (int) $params->get('slideshow_viz_width', 400);
 		$opts->slideshow_height = (int) $params->get('slideshow_viz_height', 300);
 		$opts->slideshow_delay = (int) $params->get('slideshow_viz_delay', 5000);
 		$opts->slideshow_duration = (int) $params->get('slideshow_viz_duration', 2000);
-		$opts->slideshow_zoom = (int) $params->get('slideshow_viz_zoom', 50);
-		$opts->slideshow_pan = (int) $params->get('slideshow_viz_pan', 20);
+		$opts->slideshow_options = $params->get('slideshow_viz_options', '{}');
 		$opts->slideshow_thumbnails = $use_thumbs ? true : false;
 		$opts->slideshow_captions = $use_captions ? true : false;
 		$opts->container = "slideshow_viz_" . $this->getVisualization()->id;

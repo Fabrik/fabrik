@@ -234,7 +234,7 @@ define(['jquery'], function (jQuery) {
 
             /*set default values*/
             if (selJoin !== '') {
-                sels = Array.from(td.getElementsByTagName('SELECT'));
+                sels = Array.mfrom(td.getElementsByTagName('SELECT'));
                 if (sels.length >= 1) {
                     for (i = 0; i < sels[0].length; i++) {
                         if (sels[0][i].value === selJoin) {
@@ -244,7 +244,7 @@ define(['jquery'], function (jQuery) {
                 }
             }
             if (selFilter !== '') {
-                sels = Array.from(td1.getElementsByTagName('SELECT'));
+                sels = Array.mfrom(td1.getElementsByTagName('SELECT'));
                 if (sels.length >= 1) {
                     for (i = 0; i < sels[0].length; i++) {
                         if (sels[0][i].value === selFilter) {
@@ -255,7 +255,7 @@ define(['jquery'], function (jQuery) {
             }
 
             if (selCondition !== '') {
-                sels = Array.from(td2.getElementsByTagName('SELECT'));
+                sels = Array.mfrom(td2.getElementsByTagName('SELECT'));
                 if (sels.length >= 1) {
                     for (i = 0; i < sels[0].length; i++) {
                         if (sels[0][i].value === selCondition) {
@@ -266,7 +266,7 @@ define(['jquery'], function (jQuery) {
             }
 
             if (selAccess !== '') {
-                sels = Array.from(td4.getElementsByTagName('SELECT'));
+                sels = Array.mfrom(td4.getElementsByTagName('SELECT'));
                 if (sels.length >= 1) {
                     for (i = 0; i < sels[0].length; i++) {
                         if (sels[0][i].value === selAccess) {

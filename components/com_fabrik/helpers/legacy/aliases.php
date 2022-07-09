@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -22,3 +22,8 @@ class_alias('Fabrik\Helpers\Html', 'FabrikHelperHTML');
 class_alias('Fabrik\Helpers\Image', 'FabimageHelper');
 //class_alias('Fabrik\Helpers\Pagination', 'FPagination');
 class_alias('Fabrik\Helpers\Googlemap', 'FabGoogleMapHelper');
+
+if (file_exists(JPATH_LIBRARIES . '/fabrik/fabrik/Helpers/Custom.php'))
+{
+	class_alias('Fabrik\Helpers\Custom', 'FabrikCustom');
+}

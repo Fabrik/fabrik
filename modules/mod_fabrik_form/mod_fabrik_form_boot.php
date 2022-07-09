@@ -2,7 +2,7 @@
 /**
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -27,6 +27,9 @@ $origLayout = $input->get('layout');
 $origView = $input->get('view');
 $origAjax = $input->get('ajax');
 $origFormid = $input->getInt('formid');
+$input->set('orig_formid', $origFormid);
+$origRowid = $input->getInt('rowid');
+$input->set('orig_rowid', $origRowid);
 
 FabrikHelperHTML::framework();
 
@@ -81,6 +84,7 @@ $input->set('layout', $layout);
 
 // Display the view
 $controller->isMambot = true;
+$controller->cacheId = $formId . '-' . $rowid;
 $input->set('formid', $formId);
 
 $input->set('ajax', $moduleAjax);
@@ -88,6 +92,7 @@ echo $controller->display();
 
 // Reset the layout and view etc for when the component needs them
 $input->set('formid', $origFormid);
+$input->set('rowid', $origRowid);
 $input->set('ajax', $origAjax);
 $input->set('layout', $origLayout);
 $input->set('view', $origView);

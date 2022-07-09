@@ -9,6 +9,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
         'fab/list-actions', 'fab/mootools-ext'],
     function (jQuery, Fabrik, FbListToggle, FbGroupedToggler, FbListKeys, FbListActions) {
         var FbList = new Class({
+            Binds: [],
 
             Implements: [Options, Events],
 
@@ -67,6 +68,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                 this.result = true; //used with plugins to determine if list actions should be performed
                 this.plugins = [];
                 this.list = document.id('list_' + this.options.listRef);
+                this.rowTemplate = false;
 
                 if (this.options.toggleCols) {
                     this.toggleCols = new FbListToggle(this.form);
@@ -79,7 +81,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                         this.tbody = this.list.getElement('tbody');
                     }
                     if (typeOf(this.tbody) === 'null') {
-                        this.tbody = this.list;
+                        this.tbody = this.list.getElement('.fabrik_groupdata');
                     }
                     // $$$ rob mootools 1.2 has bug where we cant set('html') on table
                     // means that there is an issue if table contains no data
@@ -125,6 +127,19 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                         this.options.itemTemplate = r;
                     }
                 }
+            },
+
+            setRowTemplate: function (parent) {
+                if (!this.rowTemplate) {
+                    this.rowTemplate = parent.clone().empty();
+
+                    // Hail Mary, probably an empty div template
+                    if (this.rowTemplate.length === 0) {
+                        this.rowTemplate = jQuery(this.tbody).children().not('.groupDataMsg').first();
+                    }
+                }
+
+                return this.rowTemplate;
             },
 
             /**
@@ -484,12 +499,13 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                 opts.download = 0;
                 opts.setListRefFromRequest = 1;
 
-                this.options.csvOpts.custom_qs.split('&').each(function (qs) {
-                    var key = qs.split('=');
-                    opts[key[0]] = key[1];
-                });
-
                 var url = '?' + 'Itemid=' + this.options.Itemid;
+
+                this.options.csvOpts.custom_qs.split('&').each(function (qs) {
+                    //var key = qs.split('=');
+                    //opts[key[0]] = key[1];
+                    url += '&' + qs;
+                });
 
                 // Append the custom_qs to the URL to enable querystring filtering of the list data
                 var myAjax = new Request.JSON({
@@ -512,7 +528,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                             } else {
                                 var finalurl;
                                 if (self.options.admin) {
-                                    finalurl = Fabrik.liveSite + '/administrator/index.php' +
+                                    finalurl = Fabrik.liveSite + 'administrator/index.php' +
                                         '?option=com_fabrik' +
                                         '&task=list.view' +
                                         '&format=csv' +
@@ -533,6 +549,9 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                                     finalurl += finalurl.contains('?') ? '&' : '?';
                                     finalurl += 'start=' + res.count;
                                 }
+
+                                finalurl += '&' + self.options.csvOpts.custom_qs;
+
                                 var msg = '<div class="alert alert-success" style="padding:10px;margin-bottom:3px"><h3>' + Joomla.JText._('COM_FABRIK_CSV_COMPLETE');
                                 msg += '</h3><p><a class="btn btn-success" href="' + finalurl + '">' +
                                     '<i class="icon-download"></i> ' +
@@ -1001,8 +1020,9 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                                 Fabrik.loader.stop('listform_' + self.options.listRef);
                                 Fabrik['filter_listform_' + self.options.listRef].onUpdateData();
                                 Fabrik['filter_listform_' + self.options.listRef].updateFilterCSS(json);
+                                jQuery('#searchall_' + self.options.listRef).val(json.searchallvalue);
                                 Fabrik.fireEvent('fabrik.list.submit.ajax.complete', [self, json]);
-                                if (json.msg) {
+                                if (json.msg && json.showmsg) {
                                     window.alert(json.msg);
                                 }
                             }
@@ -1270,7 +1290,7 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                 }
 
                 columnCount = columnCount === undefined ? 1 : columnCount;
-                rowTemplate = parent.clone().empty();
+                rowTemplate = this.setRowTemplate(parent);
                 itemTemplate = cell.clone();
 
                 this.clearRows();

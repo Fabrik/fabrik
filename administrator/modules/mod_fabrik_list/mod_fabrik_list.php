@@ -2,12 +2,15 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 jimport('joomla.filesystem.file');
 
@@ -89,13 +92,14 @@ $cacheid = serialize(array($uri, $_POST, $user->get('id'), get_class($view), 'di
 $cache = JFactory::getCache('com_fabrik', 'view');
 
 // F3 cache with raw view gives error
-if (in_array($input->get('format'), array('raw', 'csv')))
+if (!Worker::useCache($model))
 {
 	$view->display();
 }
 else
 {
 	$cache->get($view, 'display', $cacheid);
+	Html::addToSessionCacheIds($cacheId);
 }
 
 JText::script('COM_FABRIK_FORM_SAVED');

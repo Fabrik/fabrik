@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -21,6 +21,7 @@ use JHtml;
 use JHtmlBootstrap;
 use JModelLegacy;
 use JRoute;
+use JSession;
 use JText;
 use JUri;
 use JVersion;
@@ -1011,7 +1012,11 @@ EOD;
 			// Require js test - list with no cal loading ajax form with cal
 			if (version_compare(JVERSION, '3.7', '>='))
 			{
-				self::calendar();
+				/**
+				 * don't do this in the framework any more, as the new jdate element means we can't include the old
+                 * date JS if a jdate is being used, so the old date element now calls calendar() when it needs it
+                 */
+				//self::calendar();
 			}
 			else
 			{
@@ -1030,10 +1035,27 @@ EOD;
 				$liveSiteReq['FloatingTips'] = $mediaFolder . '/tips';
 			}
 
-			if ($fbConfig->get('advanced_behavior', '0') == '1')
+			if ($fbConfig->get('advanced_behavior', '0') !== '0')
 			{
 				$chosenOptions = $fbConfig->get('advanced_behavior_options', '{}');
-				$chosenOptions = empty($chosenOptions) ? new stdClass : ArrayHelper::fromObject(json_decode($chosenOptions));
+				$chosenOptions = json_decode($chosenOptions);
+
+				if (is_object($chosenOptions) && !isset($chosenOptions->placeholder_text_multiple))
+                {
+                    $chosenOptions->placeholder_text_multiple = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
+                }
+
+				if (is_object($chosenOptions) && !isset($chosenOptions->placeholder_text_single))
+				{
+					$chosenOptions->placeholder_text_single = JText::_('JGLOBAL_SELECT_AN_OPTION');
+				}
+
+				if (is_object($chosenOptions) && !isset($chosenOptions->no_results_text))
+				{
+					$chosenOptions->no_results_text = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+				}
+
+				$chosenOptions = empty($chosenOptions) ? new stdClass : ArrayHelper::fromObject($chosenOptions);
 				JHtml::_('stylesheet', 'jui/chosen.css', false, true);
 				JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, self::isDebug());
 				JHtml::_('script', 'jui/ajax-chosen.min', false, true, false, false, self::isDebug());
@@ -1045,7 +1067,7 @@ EOD;
 				JHtml::_('script', 'media/com_fabrik/js/lib/art.js');
 			}
 
-			if ($fbConfig->get('advanced_behavior', '0') == '1')
+			if ($fbConfig->get('advanced_behavior', '0') !== '0')
 			{
 				$liveSiteSrc[] = "var chosenInterval = window.setInterval(function () {
 						if (Fabrik.buildChosen) {
@@ -1276,7 +1298,7 @@ EOD;
 	 * are not loaded from cache
 	 *
 	 * @return boolean
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	protected static function getBurstJs()
 	{
@@ -1502,23 +1524,41 @@ EOD;
 	 */
 	public static function isDebug($enabled = false)
 	{
-		$app    = JFactory::getApplication();
-		$config = JComponentHelper::getParams('com_fabrik');
+	    static $debug = null;
 
-		if ($enabled && $config->get('use_fabrikdebug') == 0)
+	    if (!isset($debug))
 		{
-			return false;
+			$app    = JFactory::getApplication();
+			$config = JComponentHelper::getParams('com_fabrik');
+
+			/*
+			if ($app->input->get('format', 'html') === 'raw')
+            {
+                $debug = false;
+
+                return false;
+            }
+			*/
+
+			if ($enabled && $config->get('use_fabrikdebug') == 0)
+			{
+			    $debug = false;
+
+				return false;
+			}
+
+			if ($config->get('use_fabrikdebug') == 2)
+			{
+			    $debug = true;
+
+				return true;
+			}
+
+			$config = JFactory::getConfig();
+			$debug  = (int) $config->get('debug') || $app->input->get('fabrikdebug', 0) == 1;
 		}
 
-		if ($config->get('use_fabrikdebug') == 2)
-		{
-			return true;
-		}
-
-		$config = JFactory::getConfig();
-		$debug  = (int) $config->get('debug');
-
-		return $debug === 1 || $app->input->get('fabrikdebug', 0) == 1;
+		return $debug;
 	}
 
 	/**
@@ -1728,6 +1768,29 @@ EOD;
 	}
 
 	/**
+	 * Add jLayouts to session - will then be added via Fabrik System plugin
+	 *
+	 * @return  void
+	 */
+	public static function addToSessionCacheIds($id)
+	{
+		$key     = 'fabrik.js.cacheids';
+		$session = JFactory::getSession();
+
+		if ($session->has($key))
+		{
+			$cacheIds = $session->get($key);
+		}
+		else
+		{
+			$cacheIds = array();
+		}
+
+		$cacheIds[] = $id;
+		$session->set($key, array_values(array_unique($cacheIds)));
+	}
+
+	/**
 	 * Load the slimbox / media box css and js files
 	 *
 	 * @return  void
@@ -1782,14 +1845,15 @@ EOD;
 	 */
 	public static function slideshow()
 	{
-		/*
-		 * switched from cycle2, to bootstrap, so for now don't need anything
-		 */
-		/*
-		$folder = 'components/com_fabrik/libs/cycle2/';
+		$folder = 'media/com_fabrik/js/lib/slick/';
 		$ext = self::isDebug() ? '.js' : '.min.js';
-		self::script($folder . 'jquery.cycle2' . $ext);
-		*/
+		self::script($folder . 'slick' . $ext);
+		Html::stylesheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/js/lib/slick/slick.css');
+		Html::stylesheet(COM_FABRIK_LIVESITE . 'media/com_fabrik/js/lib/slick/slick-theme.css');
+
+		$folder = 'media/com_fabrik/js/lib/elevatezoom-plus/';
+		$ext = self::isDebug() ? '.js' : '.js';
+		self::script($folder . 'jquery.ez-plus' . $ext);
 	}
 
 	/**
@@ -1980,7 +2044,7 @@ EOD;
 
 		$json = self::autoCompleteOptions($htmlId, $elementId, $formId, $plugin, $opts);
 		$str  = json_encode($json);
-		JText::script('COM_FABRIK_NO_RECORDS');
+		JText::script('COM_FABRIK_NO_AUTOCOMPLETE_RECORDS');
 		JText::script('COM_FABRIK_AUTOCOMPLETE_AJAX_ERROR');
 		$jsFile = 'autocomplete';
 		$className = 'AutoComplete';
@@ -2040,8 +2104,10 @@ EOD;
 
 		$app       = JFactory::getApplication();
 		$package   = $app->getUserState('com_fabrik.package', 'fabrik');
-		$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
+		//$json->url = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $package . '&format=raw';
+		$json->url = 'index.php?option=com_' . $package . '&format=raw';
 		$json->url .= $app->isAdmin() ? '&task=plugin.pluginAjax' : '&view=plugin&task=pluginAjax';
+		$json->url .= '&' . JSession::getFormToken() . '=1';
 		$json->url .= '&g=element&element_id=' . $elementId
 			. '&formid=' . $formId . '&plugin=' . $plugin . '&method=autocomplete_options&package=' . $package;
 		$c = ArrayHelper::getValue($opts, 'onSelection');
@@ -2168,14 +2234,14 @@ EOD;
 
         $retStr = <<<EOT
   <!-- Load Facebook SDK for JavaScript -->
-  <div id="fb-root"></div>
-  <script id="fb-like-script">(function(d, s, id) {
-    var js, fjs = d.getElementById('fb-like-script');
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/$locale/sdk.js#xfbml=1&version=v2.11";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/$locale/sdk.js#xfbml=1&version=v3.0&appId=$appId&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 EOT;
 
 		return $retStr;
@@ -2212,6 +2278,7 @@ EOT;
 					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'templates/' . $template . '/html/com_fabrik/' . $view . '/%s/images/';
 					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'templates/' . $template . '/html/com_fabrik/' . $view . '/images/';
 					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'templates/' . $template . '/html/com_fabrik/images/';
+					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'templates/' . $template . '/custom/images/';
 					self::$helperpaths[$type][] = COM_FABRIK_FRONTEND . '/views/' . $view . '/tmpl/%s/images/';
 					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'media/com_fabrik/images/';
 					self::$helperpaths[$type][] = COM_FABRIK_BASE . 'images/';
@@ -2818,6 +2885,23 @@ EOT;
 					$attributes[] = 'data-rokbox-album="' . addslashes($group) . '"';
 				}
 				break;
+            case 3:
+                $rel = 'data-rel="lightcase';
+
+                if (!empty($group))
+	            {
+		            $rel .= ':' . addslashes($group);
+	            }
+
+	            $rel .= '"';
+                $attributes[] = $rel;
+
+	            if (!empty($title))
+	            {
+		            $attributes[] = 'title="' . addslashes($title) . '"';
+	            }
+
+                break;
 		}
 
 		return implode(' ', $attributes);
@@ -3144,5 +3228,40 @@ EOT;
         }
 
         return $spans[$viewport][$size];
+	}
+
+	/**
+     * Load markup into DOMDocument, checking for entities.
+     *
+     * The loadXML() chokes if data has & in it.  But we can't htmlspecialchar() it, as that removes
+	 * the HTML markup we're looking for.  So we need to ONLY change &'s which aren't already part of
+	 * any HTML entities which may be in the data.  So use a negative lookahead regex, which finds & followed
+	 * by anything except non-space the ;.
+	 *
+	 * It also chokes if the data already contains any HTML entities which XML doesn't like, like &eacute;,
+	 * so first we need to do an html_entity_decode() to get rid of those!
+     *
+     * @param  string  $html  HTML to load
+     *
+     * @return  \DOMDocument
+     */
+	public static function loadDOMDocument($html)
+    {
+        // libxml_use_internal_errors won't supress the empty string warning, so ...
+        if (empty($html))
+        {
+            $html = '<span></span>';
+        }
+
+        // suppress output of warnings about DOM structure
+		$previous = libxml_use_internal_errors(true);
+        $doc = new \DOMDocument;
+        $html = html_entity_decode($html);
+        $html = preg_replace('/&(?!\S+;)/', '&amp;', $html);
+        $doc->loadXML($html);
+		libxml_clear_errors();
+		libxml_use_internal_errors($previous);
+
+		return $doc;
 	}
 }

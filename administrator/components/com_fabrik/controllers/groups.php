@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -45,7 +45,7 @@ class FabrikAdminControllerGroups extends FabControllerAdmin
 	 *
 	 * @return  J model
 	 */
-	public function &getModel($name = 'Group', $prefix = 'FabrikAdminModel')
+	public function &getModel($name = 'Group', $prefix = 'FabrikAdminModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 

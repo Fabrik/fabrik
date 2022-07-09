@@ -11,7 +11,9 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
         Extends   : FbFileElement,
         options : {
             folderSelect: false,
-            ajax_upload: false
+            ajax_upload: false,
+            ajax_show_widget: true,
+            isCarousel: false
         },
         initialize: function (element, options) {
             var self = this;
@@ -53,6 +55,32 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             this.doDeleteEvent = null;
             this.watchDeleteButton();
             this.watchTab();
+
+            if (this.options.isCarousel)
+            {
+                jQuery('.slickCarousel').slick();
+                jQuery('.slickCarouselImage').css('opacity', '1');
+            }
+
+            if (this.options.isZoom) {
+                jQuery('.slick-active').find('img').ezPlus({
+                    zoomType: 'lens',
+                    lensShape: 'round',
+                    lensSize: 200
+                });
+
+                jQuery('.slickCarousel').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+                    jQuery('.zoomWindowContainer,.zoomContainer').remove();
+                });
+
+                jQuery('.slickCarousel').on('afterChange', function(event, slick, currentSlide){
+                    jQuery('.slick-active').find('img').ezPlus({
+                        zoomType: 'lens',
+                        lensShape: 'round',
+                        lensSize: 200
+                    });
+                });
+            }
         },
 
         /**
@@ -61,7 +89,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
          */
         redraw: function () {
             var el = jQuery(this.element);
-            if (this.options.ajax_upload) {
+            if (this.options.editable && this.options.ajax_upload) {
                 var browseButton = jQuery('#' + el.prop('id') + '_browseButton'),
                     c = jQuery('#' + this.options.element + '_container'),
                     diff = browseButton.position().left - c.position().left;
@@ -75,6 +103,11 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                     });
                     fileContainer.css('top', diff);
                 }
+            }
+
+            if (this.options.isCarousel)
+            {
+                jQuery('.slickCarousel').slick('resize');
             }
         },
 
@@ -205,7 +238,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
          */
         getFormElementsKey: function (elId) {
             this.baseElementId = elId;
-            if (this.options.ajax_upload && this.options.ajax_max > 1) {
+            if (!this.options.inRepeatGroup && this.options.ajax_upload && this.options.ajax_max > 1) {
                 return this.options.listName + '___' + this.options.elementShortName;
             } else {
                 return this.parent(elId);
@@ -221,23 +254,34 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
         },
 
         cloned: function (c) {
-            var el = jQuery(this.element);
-            // replaced cloned image with default image
-            if (el.closest('.fabrikElement').length === 0) {
-                return;
+            if (this.options.ajax_upload) {
+                jQuery(this.getContainer()).find('.plupload_container').prop('id', this.element.id + '_container');
+                jQuery(this.getContainer()).find('.plupload').prop('id', this.element.id + '_dropList_container');
+                jQuery(this.getContainer()).find('.plupload_filelist').prop('id', this.element.id + '_dropList');
+                jQuery(this.getContainer()).find('.plupload_browsebutton').prop('id', this.element.id + '_browseButton');
+                jQuery(this.getContainer()).find('input').remove();
+                this.watchAjax();
             }
-            var i = el.closest('.fabrikElement').find('img');
-            i.attr('src', this.options.defaultImage !== '' ? Fabrik.liveSite + this.options.defaultImage : '');
-            jQuery(this.getContainer()).find('[data-file]').remove();
-            this.watchBrowseButton();
+            else {
+                var el = jQuery(this.element);
+                // replaced cloned image with default image
+                if (el.closest('.fabrikElement').length === 0) {
+                    return;
+                }
+                var i = el.closest('.fabrikElement').find('img');
+                i.attr('src', this.options.defaultImage !== '' ? Fabrik.liveSite + this.options.defaultImage : '');
+                jQuery(this.getContainer()).find('[data-file]').remove();
+                this.watchBrowseButton();
+            }
             this.parent(c);
         },
 
         decloned: function (groupid) {
-            var i = jQuery('#form_' + this.form.id).find('input[name=fabrik_deletedimages[' + groupid + ']]');
+            var i = jQuery('#form_' + this.form.id).find('input[name="fabrik_deletedimages[' + groupid + ']"]');
             if (i.length > 0) {
                 this.makeDeletedImageField(groupid, this.options.value).inject(this.form.form);
             }
+            this.parent(groupid);
         },
 
         decreaseName: function (delIndex) {
@@ -333,7 +377,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             var c = el.closest('.fabrikSubElementContainer');
             this.container = c;
 
-            if (this.options.canvasSupport !== false) {
+            if (this.options.ajax_show_widget && this.options.canvasSupport !== false) {
                 this.widget = new ImageWidget(this.options.modalId, {
 
                     'imagedim': {
@@ -431,7 +475,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                                 a = jQuery(document.createElement('span'));
                                 title = jQuery(document.createElement('a')).attr({
                                     'href': file.url,
-			      'target': '_blank'
+                                    'target': '_blank'
                                 }).text(file.name);
                             }
 
@@ -695,10 +739,9 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             this.uploader.files = newFiles;
 
             // Send a request to delete the file from the server.
-            jQuery.ajax({
-                url : '',
-                data: {
-                    'option'       : 'com_fabrik',
+            var self = this;
+            var data = {
+                'option'       : 'com_fabrik',
                     'format'       : 'raw',
                     'task'         : 'plugin.pluginAjax',
                     'plugin'       : 'fileupload',
@@ -707,18 +750,29 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                     'file'         : f,
                     'recordid'     : id,
                     'repeatCounter': this.options.repeatCounter
+            }
+
+            data[this.options.ajaxToken] = 1;
+
+            jQuery.ajax({
+                url : '',
+                data: data
+            }).done(function (r) {
+                r = JSON.parse(r);
+                if (r.error === '') {
+                    Fabrik.trigger('fabrik.fileupload.delete.complete', self);
+                    var li = jQuery(e.target).closest('.plupload_delete');
+                    li.remove();
+
+                    // Remove hidden fields as well
+                    jQuery('#id_alreadyuploaded_' + self.options.id + '_' + id).remove();
+                    jQuery('#coords_alreadyuploaded_' + self.options.id + '_' + id).remove();
+
+                    if (jQuery(self.getContainer()).find('table tbody tr.plupload_delete').length === 0) {
+                        self.addDropArea();
+                    }
                 }
             });
-            var li = jQuery(e.target).closest('.plupload_delete');
-            li.remove();
-
-            // Remove hidden fields as well
-            jQuery('#id_alreadyuploaded_' + this.options.id + '_' + id).remove();
-            jQuery('#coords_alreadyuploaded_' + this.options.id + '_' + id).remove();
-
-            if (jQuery(this.getContainer()).find('table tbody tr.plupload_delete').length === 0) {
-                this.addDropArea();
-            }
         },
 
         /**
@@ -902,8 +956,8 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
                             if (ctx === undefined) {
                                 ctx = this.CANVAS.ctx;
                             }
-                            this.withinCrop = true;
-                            if (this.withinCrop) {
+                            //this.withinCrop = true;
+                            if (this.overlay.withinCrop) {
                                 var top = {
                                     x: 0,
                                     y: 0
@@ -1276,7 +1330,7 @@ define(['jquery', 'fab/fileelement'], function (jQuery, FbFileElement) {
             });
 
             ctx.drawImage(canvas[0], x, y, w, h, 0, 0, w, h);
-            f.val(target[0].toDataURL({quality: this.windowopts.quality}));
+            f.val(target[0].toDataURL('image/jpeg', this.windowopts.quality));
             target.remove();
         },
 

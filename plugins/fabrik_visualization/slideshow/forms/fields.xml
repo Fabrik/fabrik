@@ -2,49 +2,124 @@
 <form>
 	<fields name="params">
 		<fieldset name="thisoptions">
-		
+
+			<field name="slideshow_viz_description"
+				   type="note"
+				   class="alert alert-info"
+				   close="true"
+				   description="PLG_VISUALIZATION_SLIDESHOW_VIZ_DESCRIPTION" />
+
 			<field name="slideshow_viz_layout"
-				type="fabrikfolderlist"
-				directory="/plugins/fabrik_visualization/slideshow/views/slideshow/tmpl"
-				label="PLG_VISUALIZATION_SLIDESHOW_TEMPLATE_LABEL"
+				   type="fabrikfolderlist"
+				   directory="/plugins/fabrik_visualization/slideshow/views/slideshow/tmpl"
+				   label="PLG_VISUALIZATION_SLIDESHOW_TEMPLATE_LABEL"
 			/>
-			
-			<field default="1" description="PLG_VISUALIZATION_SLIDESHOW_TYPE_DESC" label="PLG_VISUALIZATION_SLIDESHOW_TYPE_LABEL" name="slideshow_viz_type" type="list">
-					<option value="1">PLG_VISUALIZATION_SLIDESHOW_NORMAL</option>
-					<option value="2">PLG_VISUALIZATION_SLIDESHOW_KEN_BURNS</option>
-					<option value="3">PLG_VISUALIZATION_SLIDESHOW_PUSH</option>
-					<option value="4">PLG_VISUALIZATION_SLIDESHOW_FOLD</option>
-			</field>
-			
+
 			<field default="0"
-				class="btn-group"
-				description="PLG_VISUALIZATION_SLIDESHOW_THUMBNAILS_DESC" label="PLG_VISUALIZATION_SLIDESHOW_THUMBNAILS_LABEL" name="slideshow_viz_thumbnails" type="radio">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+				   class="btn-group"
+				   description="PLG_VISUALIZATION_SLIDESHOW_THUMBNAILS_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_THUMBNAILS_LABEL" name="slideshow_viz_thumbnails" type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
-			<field label="PLG_VISUALIZATION_SLIDESHOW_CONNECTION_LABEL" name="slideshow_viz_connection" type="connections"/>
-				
-			<field connection_in_repeat="false" description="PLG_VISUALIZATION_SLIDESHOW_TABLE_DESC" label="PLG_VISUALIZATION_SLIDESHOW_TABLE_LABEL" name="slideshow_viz_table" observe="params_slideshow_viz_connection" repeat="0" type="fabriktables"/>
-				
-			<field connection="params_slideshow_viz_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_SLIDESHOW_FILE_DESC" label="PLG_VISUALIZATION_SLIDESHOW_FILE_LABEL" name="slideshow_viz_file" table="params_slideshow_viz_table" type="element"/>
-				
-			<field description="PLG_VISUALIZATION_SLIDESHOW_FILE_FORMAT_DESC" label="PLG_VISUALIZATION_SLIDESHOW_FILE_FORMAT_LABEL" name="slideshow_viz_file_format" size="30" type="text"/>
-				
-			<field connection="params_slideshow_viz_connection" connection_in_repeat="false" description="PLG_VISUALIZATION_SLIDESHOW_CAPTION_DESC" label="PLG_VISUALIZATION_SLIDESHOW_CAPTION_LABEL" name="slideshow_viz_caption" table="params_slideshow_viz_table" type="element"/>
-				
-			<field default="400" description="PLG_VISUALIZATION_SLIDESHOW_WIDTH_DESC" label="PLG_VISUALIZATION_SLIDESHOW_WIDTH_LABEL" class="input-mini" name="slideshow_viz_width" size="4" type="text"/>
-				
-			<field default="300" description="PLG_VISUALIZATION_SLIDESHOW_HEIGHT_DESC" label="PLG_VISUALIZATION_SLIDESHOW_HEIGHT_LABEL" class="input-mini" name="slideshow_viz_height" size="4" type="text"/>
-				
-			<field default="5000" description="PLG_VISUALIZATION_SLIDESHOW_DELAY_DESC" label="PLG_VISUALIZATION_SLIDESHOW_DELAY_LABEL" class="input-mini" name="slideshow_viz_delay" size="6" type="text"/>
-				
-			<field default="2000" description="PLG_VISUALIZATION_SLIDESHOW_DURATION_DESC" label="PLG_VISUALIZATION_SLIDESHOW_DURATION_LABEL" class="input-mini" name="slideshow_viz_duration" size="6" type="text"/>
-				
-			<field default="50" description="PLG_VISUALIZATION_SLIDESHOW_ZOOM_DESC" label="PLG_VISUALIZATION_SLIDESHOW_ZOOM_LABEL" class="input-mini" name="slideshow_viz_zoom" size="6" type="text"/>
-				
-			<field default="20" description="PLG_VISUALIZATION_SLIDESHOW_PAN_DESC" label="PLG_VISUALIZATION_SLIDESHOW_PAN_LABEL" class="input-mini" name="slideshow_viz_pan" size="6" type="text"/>
-				
+
+			<field label="PLG_VISUALIZATION_SLIDESHOW_CONNECTION_LABEL" name="slideshow_viz_connection"
+				   type="connections"/>
+
+			<field connection_in_repeat="false"
+				   description="PLG_VISUALIZATION_SLIDESHOW_TABLE_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_TABLE_LABEL"
+				   name="slideshow_viz_table"
+				   observe="params_slideshow_viz_connection"
+				   repeat="0"
+				   type="fabriktables"/>
+
+			<field connection="params_slideshow_viz_connection"
+				   connection_in_repeat="false"
+				   description="PLG_VISUALIZATION_SLIDESHOW_FILE_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_FILE_LABEL"
+				   name="slideshow_viz_file"
+				   table="params_slideshow_viz_table"
+				   type="element"/>
+
+			<field description="PLG_VISUALIZATION_SLIDESHOW_FILE_FORMAT_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_FILE_FORMAT_LABEL"
+				   name="slideshow_viz_file_format"
+				   size="30"
+				   type="text"/>
+
+			<field connection="params_slideshow_viz_connection"
+				   connection_in_repeat="false"
+				   description="PLG_VISUALIZATION_SLIDESHOW_CAPTION_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_CAPTION_LABEL"
+				   name="slideshow_viz_caption"
+				   table="params_slideshow_viz_table"
+				   type="element"/>
+
+			<field default="400"
+				   description="PLG_VISUALIZATION_SLIDESHOW_WIDTH_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_WIDTH_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_width"
+				   size="4"
+				   type="text"/>
+
+			<field default="300"
+				   description="PLG_VISUALIZATION_SLIDESHOW_HEIGHT_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_HEIGHT_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_height"
+				   size="4"
+				   type="text"/>
+
+			<field default="400"
+				   description="PLG_VISUALIZATION_SLIDESHOW_LOADER_WIDTH_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_LOADER_WIDTH_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_loader_width"
+				   size="4"
+				   type="text"/>
+
+			<field default="300"
+				   description="PLG_VISUALIZATION_SLIDESHOW_LOADER_HEIGHT_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_LOADER_HEIGHT_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_loader_height"
+				   size="4"
+				   type="text"/>
+
+			<field default="5000"
+				   description="PLG_VISUALIZATION_SLIDESHOW_DELAY_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_DELAY_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_delay"
+				   size="6"
+				   type="text"/>
+
+			<field default="2000"
+				   description="PLG_VISUALIZATION_SLIDESHOW_DURATION_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_DURATION_LABEL"
+				   class="input-mini"
+				   name="slideshow_viz_duration"
+				   size="6"
+				   type="text"/>
+
+			<field type="list"
+				   default="0"
+				   description="PLG_VISUALIZATION_SLIDESHOW_LINKS_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_LINKS_LABEL"
+				   name="slideshow_viz_links">
+				<option value="0">JNO</option>
+				<option value="1">PLG_VISUALIZATION_SLIDESHOW_LINKS_FORM</option>
+				<option value="2">PLG_VISUALIZATION_SLIDESHOW_LINKS_DETAILS</option>
+			</field>
+
+			<field name="slideshow_viz_options"
+				   type="fabrikeditor"
+				   mode="json"
+				   description="PLG_VISUALIZATION_SLIDESHOW_OPTIONS_DESC"
+				   label="PLG_VISUALIZATION_SLIDESHOW_OPTIONS_LABEL" />
+
 		</fieldset>
 	</fields>
 </form>

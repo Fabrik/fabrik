@@ -89,12 +89,17 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
                     url += '&ids[]=' + id.get('value');
                 }
             });
-            if (this.listform.getElement('input[name=checkAll]').checked) {
-                url += '&checkAll=1';
+
+            var chxall = this.list.form.getElement('input[name=checkAll]');
+            if (typeOf(chxall) !== 'null') {
+                if (this.listform.getElement('input[name=checkAll]').checked) {
+                    url += '&checkAll=1';
+                }
+                else {
+                    url += '&checkAll=0';
+                }
             }
-            else {
-                url += '&checkAll=0';
-            }
+
             url += '&task=popupwin';
             var id = 'email-list-plugin';
             this.windowopts = {

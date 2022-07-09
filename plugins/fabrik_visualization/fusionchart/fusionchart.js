@@ -5,42 +5,68 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-var fabrikFusiongraph = new Class({
-	Implements: [Options],
-	options: {
-		legend:       false,
-		label: '',
-		aChartKeys: {},
-		axis_label: '',
-		json: {},
-		chartType: 'Column3D',
-		xticks: []
-	},
+define(['jquery', 'fab/fabrik', 'fusionchart'], function (jQuery, Fabrik, fc) {
 
-	initialize: function (el, d, options) {
-		//todo doesnt seem to work with 1 record of data
-		this.el = el;
-		this.setOptions(options);
-		this.json = d;
-		this.render();
-	},
+    var Fusionchart = new Class({
+        Binds: [],
+        Implements: [Options],
+        options: {
+            chartJSON: '{}',
+            chartType: 'pie2d',
+            chartWidth: '100%',
+            chartHeight: '100%',
+            chartID: 'FusionChart',
+            chartContainer: 'chart-container'
+        },
+        chart: null,
 
-	render: function () {
-		switch (this.options.chartType) {
-		case 'Column3D':
-			this.graph = new Plotr.BarChart(this.el, this.options);
-			break;
-		case 'PieChart':
-			this.graph = new Plotr.PieChart(this.el, this.options);
-			break;
-		case 'LineChart':
-			this.graph = new Plotr.LineChart(this.el, this.options);
-			break;
-		}
-		this.graph.addDataset(this.json);
-		this.graph.render();
-		if (this.options.legend === '1') {
-			this.graph.addLegend(this.el);
-		}
-	}
+        initialize: function (ref, options) {
+            this.setOptions(options);
+            this.render();
+        },
+
+        render: function () {
+            this.chart = new FusionCharts({
+                'type': this.options.chartType,
+                'id': this.options.chartID,
+                'width': this.options.chartWidth,
+                'height': this.options.chartHeight,
+                'renderAt': this.options.chartContainer,
+                'dataFormat': 'json',
+                'dataSource': this.options.chartJSON
+            });
+
+            FusionCharts(this.options.chartID).render();
+        },
+
+        update: function () {
+            var self = this;
+
+            Fabrik.loader.start(self.options.chartContainer);
+
+            jQuery.ajax({
+                url     : '',
+                method  : 'post',
+                dataType: 'json',
+                data  : {
+                    'option'         : 'com_fabrik',
+                    'format'         : 'raw',
+                    'task'           : 'ajax_getFusionchart',
+                    'view'           : 'visualization',
+                    'controller'     : 'visualization.fusionchart',
+                    'visualizationid': self.options.id
+                }
+
+            }).always(function () {
+                Fabrik.loader.stop(self.options.chartContainer);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                window.alert(textStatus);
+            }).done(function (json) {
+                Fabrik.fireEvent('fabrik.viz.fusionchart.ajax.refresh', [self]);
+                self.chart.setJSONData(json);
+            });
+        }
+    });
+
+    return Fusionchart;
 });

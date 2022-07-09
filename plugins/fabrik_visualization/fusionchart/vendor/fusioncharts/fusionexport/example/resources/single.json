@@ -1,0 +1,28 @@
+[{
+  "type": "column2d",
+  "renderAt": "chart-container",
+  "width": "550",
+  "height": "350",
+  "id": "myChartId",
+  "dataFormat": "json",
+  "dataSource": {
+    "chart": {
+      "caption": "Number of visitors last week",
+      "theme": "ocean",
+      "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+    },
+    "data": [{
+      "label": "Mon",
+      "value": "15123"
+    },
+      {
+        "label": "Tue",
+        "value": "14233"
+      },
+      {
+        "label": "Wed",
+        "value": "25507"
+      }
+    ]
+  }
+}]

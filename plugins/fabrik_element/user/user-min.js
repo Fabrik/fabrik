@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","element/databasejoin/databasejoin"],function(a,b){return window.FbUser=new Class({Extends:b}),window.FbUser});
+define(["jquery","element/databasejoin/databasejoin"],function(e,n){return window.FbUser=new Class({Extends:n}),window.FbUser});

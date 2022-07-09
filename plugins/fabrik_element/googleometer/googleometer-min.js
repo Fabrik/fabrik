@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","fab/element"],function(a,b){return window.FbGoogleometer=new Class({Extends:b,initialize:function(a,b){this.parent(a,b)}}),window.FbGoogleometer});
+define(["jquery","fab/element"],function(e,n){return window.FbGoogleometer=new Class({Extends:n,initialize:function(e,n){this.parent(e,n)}}),window.FbGoogleometer});

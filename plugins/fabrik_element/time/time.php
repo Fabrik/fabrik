@@ -5,7 +5,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.time
  * @author      Jaanus Nurmoja <email@notknown.com>
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -208,7 +208,7 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 
 	private function _indStoreDBFormat($val)
 	{
-		if (is_array($val) && implode($val) != '')
+		if (is_array($val))
 		{
 			$h = FArrayHelper::getValue($val, 0, '00');
 			$m = FArrayHelper::getValue($val, 1, '00');
@@ -257,9 +257,9 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 		$label = count($labels) == 0 ? "'calc' AS label" : 'CONCAT(' . implode(', " & " , ', $labels) . ')  AS label';
 		$table = $listModel->getTable();
 		$db = $listModel->getDb();
-		$joinSQL = $listModel->_buildQueryJoin();
-		$whereSQL = $listModel->_buildQueryWhere();
-		$name = $this->getFullName(false, false, false);
+		$joinSQL = $listModel->buildQueryJoin();
+		$whereSQL = $listModel->buildQueryWhere();
+		$name = $this->getFullName(false, false);
 
 		return 'SELECT SUM(substr(' . $name . ' FROM 1 FOR 2) * 60 * 60 + substr(' . $name . ' FROM 4 FOR 2) * 60
 			+ substr(' . $name . ' FROM 7 FOR 2))  AS value, ' . $label . ' FROM '
@@ -279,9 +279,9 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 	{
 		$label = count($labels) == 0 ? "'calc' AS label" : 'CONCAT(' . implode(', " & " , ', $labels) . ')  AS label';
 		$item = $listModel->getTable();
-		$joinSQL = $listModel->_buildQueryJoin();
-		$whereSQL = $listModel->_buildQueryWhere();
-		$name = $this->getFullName(false, false, false);
+		$joinSQL = $listModel->buildQueryJoin();
+		$whereSQL = $listModel->buildQueryWhere();
+		$name = $this->getFullName(false, false);
 		$groupModel = $this->getGroup();
 		$roundTo = (int) $this->getParams()->get('avg_round');
 
@@ -382,21 +382,18 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 
 				if ($ft == "H:i:s")
 				{
-					list($hour, $min, $sec) = explode(':', $d);
-					$timedisp = $hour . $sep . $min . $sep . $sec;
+					$timedisp = $hms;
 				}
 				else
 				{
 					if ($ft == "H:i")
 					{
-						list($hour, $min) = explode(':', $d);
-						$timedisp = $hour . $sep . $min;
+						$timedisp = $hm;
 					}
 
 					if ($ft == "i:s")
 					{
-						list($min, $sec) = explode(':', $d);
-						$timedisp = $min . $sep . $sec;
+						$timedisp = $ms;
 					}
 				}
 
@@ -425,10 +422,27 @@ class PlgFabrik_ElementTime extends PlgFabrik_Element
 
 	protected function getIndEmailValue($value, $data = array(), $repeatCounter = 0)
 	{
-		$params = $this->getParams();
-		$sep = $params->get('time_separatorlabel', ':');
-		$value = implode($sep, $value);
+		if (is_array($value))
+		{
+			$params = $this->getParams();
+			$sep    = $params->get('time_separatorlabel', ':');
+			$value  = implode($sep, $value);
+		}
 
 		return $value;
+	}
+
+	/**
+	 * Used to format the data when shown in the form's email
+	 *
+	 * @param   mixed $value         element's data
+	 * @param   array $data          form records data
+	 * @param   int   $repeatCounter repeat group counter
+	 *
+	 * @return  string    formatted value
+	 */
+	public function getEmailValue($value, $data = array(), $repeatCounter = 0)
+	{
+		return $this->getIndEmailValue($value, $data, $repeatCounter);
 	}
 }

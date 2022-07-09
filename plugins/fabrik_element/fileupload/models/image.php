@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -84,7 +84,7 @@ class ImageRenderModel
 
 		if ($this->inTableView)
 		{
-			if (array_key_exists($title_name, $thisRow))
+			if (isset($thisRow->{$title_name}))
 			{
 				$title = $thisRow->$title_name;
 			}
@@ -192,6 +192,11 @@ class ImageRenderModel
 	{
 		if ($this->inTableView)
 		{
+			if ($params->get('fu_show_image_in_table') === '2')
+			{
+				return true;
+			}
+
 			return ($params->get('make_thumbnail') || $params->get('fileupload_crop')) ? false : true;
 		}
 
@@ -208,19 +213,23 @@ class ImageRenderModel
 	 *
 	 * @param   string $id      Widget HTML id
 	 * @param   array  $data    Images to add to the carousel
-	 * @param   object $model   Element model
+	 * @param   \PlgFabrik_ElementFileupload $model   Element model
 	 * @param   object $params  Element params
 	 * @param   object $thisRow All rows data
 	 *
 	 * @return  string  HTML
 	 */
-	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null)
+	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null, $nav = true)
 	{
+		$this->inTableView = true;
+		$storage = $model->getStorage();
 		$id .= '_carousel';
-		$layout         = $model->getLayout('carousel');
+		$layout         = $model->getLayout('slick-carousel');
 		$layoutData     = new stdClass;
 		$layoutData->id = $id;
 		list($layoutData->width, $layoutData->height) = $this->imageDimensions($params);
+		$imgs = array();
+		$thumbs = array();
 
 		if (!empty($data))
 		{
@@ -229,18 +238,21 @@ class ImageRenderModel
 
 			foreach ($data as $img)
 			{
+				$img = str_replace('\\', '/', $img);
 				$model->_repeatGroupCounter = $i++;
 				$this->renderListData($model, $params, $img, $thisRow);
 				$imgs[] = $this->output;
-			}
-
-			if (count($imgs) == 1)
-			{
-				return $imgs[0];
+				$showImage = $params->get('fu_show_image_in_table');
+				$params->set('fu_show_image_in_table', '2');
+				$this->renderListData($model, $params, $storage->_getThumb($img), $thisRow);
+				$params->set('fu_show_image_in_table', $showImage);
+				$thumbs[] = $this->output;
 			}
 		}
 
 		$layoutData->imgs = $imgs;
+		$layoutData->thumbs = $thumbs;
+		$layoutData->nav = $nav;
 
 		return $layout->render($layoutData);
 	}

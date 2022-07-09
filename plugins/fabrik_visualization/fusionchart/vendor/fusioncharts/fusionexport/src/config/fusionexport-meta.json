@@ -1,0 +1,17 @@
+{
+    "inputSVG": {
+        "isBase64Required": true
+    },
+    "callbackFilePath": {
+        "isBase64Required": true
+    },
+    "dashboardLogo": {
+        "isBase64Required": true
+    },
+    "outputFileDefinition": {
+        "isBase64Required": true
+    },
+    "resourceFilePath": {
+        "isBase64Required": true
+    }
+}

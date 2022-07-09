@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.slideshow
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -60,31 +60,14 @@ class FabrikViewSlideshow extends JViewLegacy
 		$this->filterFormURL = $this->get('FilterFormURL');
 		$this->params = $model->getParams();
 		$this->containerId = $this->get('ContainerId');
+		$this->slideData = $model->getImageJSData();
 		$srcs['FbListFilter'] = 'media/com_fabrik/js/listfilter.js';
 
 		if ($this->get('RequiredFiltersFound'))
 		{
-			$srcs['Slideshow2'] = 'components/com_fabrik/libs/slideshow2/js/slideshow.js';
-			$mode = $params->get('slideshow_viz_type', 1);
-
-			switch ($mode)
-			{
-				case 1:
-					break;
-				case 2:
-					$srcs['Kenburns'] = 'components/com_fabrik/libs/slideshow2/js/slideshow.kenburns.js';
-					break;
-				case 3:
-					$srcs['Push'] = 'components/com_fabrik/libs/slideshow2/js/slideshow.push.js';
-					break;
-				case 4:
-					$srcs['Fold'] = 'components/com_fabrik/libs/slideshow2/js/slideshow.fold.js';
-					break;
-				default:
-					break;
-			}
-
-			JHTML::stylesheet('components/com_fabrik/libs/slideshow2/css/slideshow.css');
+			$srcs['Slick'] = 'components/com_fabrik/libs/slick/slick.js';
+			JHTML::stylesheet('components/com_fabrik/libs/slick/slick.css');
+			JHTML::stylesheet('components/com_fabrik/libs/slick/slick-theme.css');
 			$srcs['SlideShow'] = 'plugins/fabrik_visualization/slideshow/slideshow.js';
 		}
 

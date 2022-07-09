@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -13,6 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 require_once 'fabcontrollerform.php';
 
@@ -144,13 +146,14 @@ class FabrikAdminControllerList extends FabControllerForm
 		$cacheId = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 		$cache   = JFactory::getCache('com_fabrik', 'view');
 
-		if (in_array($input->get('format'), array('raw', 'csv', 'pdf', 'json', 'fabrikfeed')))
+		if (!Worker::useCache($model))
 		{
 			$view->display();
 		}
 		else
 		{
 			$cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
 		}
 
 		FabrikAdminHelper::addSubmenu($input->getWord('view', 'lists'));

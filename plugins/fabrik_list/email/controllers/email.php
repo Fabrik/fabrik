@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.email
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -60,7 +60,8 @@ class FabrikControllerListemail extends JControllerLegacy
 		$view = $this->getView($viewName, $viewType);
 
 		$listModel = $this->getModel('List', 'FabrikFEModel');
-		$listModel->setId($input->getInt('id'));
+		// if SEF'ed, router will have changed 'id' to 'listid'
+		$listModel->setId($input->getInt('id', $input->getInt('listid')));
 		$formModel = $listModel->getFormModel();
 
 		// Push a model into the view

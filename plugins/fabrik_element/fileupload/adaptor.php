@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -104,6 +104,16 @@ abstract class FabrikStorageAdaptor
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 */
 	public abstract function read($filepath);
+
+	/**
+	 * Stream a file
+	 *
+	 * @param   string  $filepath  File path
+	 * @param   int     $chunkSize  chunk size
+	 *
+	 * @return  bool  returns false if error
+	 */
+	public abstract function stream($filepath, $chunkSize = 1048576);
 
 	/**
 	 * Clean the file path
@@ -214,11 +224,11 @@ abstract class FabrikStorageAdaptor
 		}
 	}
 
-	/**
+	/**	 *
+
 	 * Get the complete folder path, including the server root
 	 *
 	 * @param   string  $filepath  The file path
-	 *
 	 * @return  string
 	 */
 	public abstract function getFullPath($filepath);

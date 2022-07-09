@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+		<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+		ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+		</head>
+	<body>
+		<div id='myChart'></div>
+		<script>
+		var myConfig = {
+		  "type":"pie3d",
+		  "title":{
+			"text":"3D Pie Chart"
+		  },
+		  "series":[
+			{"values":[59]},
+			{"values":[55]},
+			{"values":[30]},
+			{"values":[28]},
+			{"values":[15]}
+		  ]
+		};
+
+		zingchart.render({ 
+			id : 'myChart', 
+			data : myConfig, 
+			height: 400, 
+			width: "100%" 
+		});
+		</script>
+	</body>
+</html>

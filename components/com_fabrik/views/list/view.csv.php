@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -32,6 +32,7 @@ class FabrikViewList extends FabrikViewListBase
 	public function display($tpl = null)
 	{
 		$input = $this->app->input;
+		$input->set('fabrik_storesessionfilters', false);
 
 		/** @var FabrikFEModelCSVExport $exporter */
 		$exporter = JModelLegacy::getInstance('Csvexport', 'FabrikFEModel');

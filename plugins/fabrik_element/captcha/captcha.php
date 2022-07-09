@@ -4,13 +4,16 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.captcha
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use ReCaptcha\ReCaptcha;
+
+require_once JPATH_ROOT . '/plugins/fabrik_element/captcha/vendor/autoload.php';
 /**
  * Plugin element to captcha
  *
@@ -63,6 +66,11 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			{
 				return '';
 			}
+		}
+
+		if ($params->get('captcha-method') == 'invisible')
+		{
+			return '';
 		}
 
 		return parent::getLabel($repeatCounter, $tmpl);
@@ -239,6 +247,17 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			return $layout->render($displayData);
 		}
+		elseif ($params->get('captcha-method') == 'invisible')
+		{
+			$layout                = $this->getLayout('nocaptcha-invisible');
+			$displayData           = new stdClass;
+			$displayData->id       = $id;
+			$displayData->name     = $name;
+			$displayData->site_key = $params->get('recaptcha_publickey');
+			$displayData->lang     = FabrikWorker::replaceWithLanguageTags(JString::strtolower($params->get('recaptcha_lang', 'en')));
+
+			return $layout->render($displayData);
+		}
 		else
 		{
 			if (!function_exists('imagettfbbox'))
@@ -295,6 +314,11 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function validate($data, $repeatCounter = 0)
 	{
+	    if ($this->app->input->get('task', '') === 'form.ajax_validate')
+        {
+            return true;
+        }
+
 		$params = $this->getParams();
 		$input  = $this->app->input;
 
@@ -309,7 +333,9 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			return true;
 		}
 
-		if ($params->get('captcha-method') == 'recaptcha')
+		$method = $params->get('captcha-method', '');
+
+		if ($method === 'recaptcha')
 		{
 			if (!function_exists('_recaptcha_qsencode'))
 			{
@@ -329,20 +355,25 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			return false;
 		}
-		elseif ($params->get('captcha-method') == 'nocaptcha')
+		elseif ($method === 'nocaptcha' || $method === 'invisible')
 		{
 			if ($input->get('g-recaptcha-response'))
 			{
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/ReCaptcha.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/Post.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/Socket.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/SocketPost.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestParameters.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/Response.php';
-
 				$privateKey = $params->get('recaptcha_privatekey');
-				$noCaptcha  = new \ReCaptcha\ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\SocketPost());
+
+				/*
+				 * Some Windows boxes with CA cert bundle issues may fail using CurlPost, because the ReCaptcha lib
+				 * asserts verify_peer, so check to see if our global setting is turned off, if so try using socket instead
+				 */
+				if ($this->config->get('verify_peer', '1') === '0')
+				{
+					$noCaptcha = new ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\SocketPost());
+				}
+				else
+				{
+					$noCaptcha = new ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\CurlPost());
+				}
+
 				$response   = $input->get('g-recaptcha-response');
 				$server     = $input->server->get('REMOTE_ADDR');
 				$resp       = $noCaptcha->verify($response, $server);
@@ -422,10 +453,15 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function elementJavascript($repeatCounter)
 	{
-		if ($this->user->get('id') == 0)
+		$params = $this->getParams();
+
+		if ($params->get('captcha-showloggedin', 0) == 1 || $this->user->get('id') == 0)
 		{
-			$id   = $this->getHTMLId($repeatCounter);
-			$opts = $this->getElementJSOptions($repeatCounter);
+			$params       = $this->getParams();
+			$id           = $this->getHTMLId($repeatCounter);
+			$opts         = $this->getElementJSOptions($repeatCounter);
+			$opts->method = $params->get('captcha-method');
+			$opts->siteKey = $params->get('recaptcha_publickey');
 
 			return array('FbCaptcha', $id, $opts);
 		}

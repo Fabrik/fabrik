@@ -4,7 +4,7 @@
  *
  * @package      Joomla.Plugin
  * @subpackage   Fabrik.visualization.googlemap
- * @copyright    Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright    Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license      GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -24,7 +24,7 @@ if ($this->showFilters) :
 						<?php
 						if (count($this->filters) > 1) :
 						?>
-                        <th><?php echo $table ?></th>
+                        <th><?php echo FText::_($table) ?></th>
                         <th style="text-align:right">
                             <?php
 							else :

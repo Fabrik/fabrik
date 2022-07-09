@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik.helpers
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -29,7 +29,7 @@ class Lizt
 	 * @param   object  $listModel  list model to search
 	 * @param   array   $filter     array of element properties to match on
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 *
 	 * @return  array
 	 */
@@ -66,7 +66,7 @@ class Lizt
 		if (empty($found))
 		{
 			$filterNames = implode(', ', $filter);
-			throw new Exception(Text::sprintf('COM_FABRIK_ERR_NO_ELEMENTS_MATCHED_FILTER', $filterNames));
+			throw new \Exception(Text::sprintf('COM_FABRIK_ERR_NO_ELEMENTS_MATCHED_FILTER', $filterNames));
 		}
 
 		return $found;

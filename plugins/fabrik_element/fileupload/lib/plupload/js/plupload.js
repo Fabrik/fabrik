@@ -51,7 +51,8 @@
 		"application/vnd.ms-powerpoint,ppt pps pot," +
 		"application/zip,zip," +
 		"application/x-shockwave-flash,swf swfl," +
-		"application/vnd.openxmlformats,pptx xlsx," +
+		"application/vnd.openxmlformats,pptx," +
+		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,xlsx," +
 		"application/vnd.openxmlformats-officedocument.wordprocessingml.document,docx," +
 		"audio/mpeg,mpga mpega mp2 mp3," +
 		"audio/x-wav,wav," +

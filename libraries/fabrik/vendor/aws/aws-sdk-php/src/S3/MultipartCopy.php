@@ -1,6 +1,8 @@
 <?php
+
 namespace Aws\S3;
 
+use Aws\Arn\ArnParser;
 use Aws\Multipart\AbstractUploadManager;
 use Aws\ResultInterface;
 use GuzzleHttp\Psr7;
@@ -35,6 +37,11 @@ class MultipartCopy extends AbstractUploadManager
      * - concurrency: (int, default=int(5)) Maximum number of concurrent
      *   `UploadPart` operations allowed during the multipart upload.
      * - key: (string, required) Key to use for the object being uploaded.
+     * - params: (array) An array of key/value parameters that will be applied
+     *   to each of the sub-commands run by the uploader as a base.
+     *   Auto-calculated options will override these parameters. If you need
+     *   more granularity over parameters to each sub-command, use the before_*
+     *   options detailed above to update the commands directly.
      * - part_size: (int, default=int(5242880)) Part size, in bytes, to use when
      *   doing a multipart upload. This must between 5 MB and 5 GB, inclusive.
      * - state: (Aws\Multipart\UploadState) An object that represents the state
@@ -45,19 +52,25 @@ class MultipartCopy extends AbstractUploadManager
      *   result of executing a HeadObject command on the copy source.
      *
      * @param S3ClientInterface $client Client used for the upload.
-     * @param string            $source Location of the data to be copied
+     * @param string $source Location of the data to be copied
      *                                  (in the form /<bucket>/<key>).
-     * @param array             $config Configuration used to perform the upload.
+     * @param array $config Configuration used to perform the upload.
      */
     public function __construct(
         S3ClientInterface $client,
         $source,
         array $config = []
     ) {
-        $this->source = '/' . ltrim($source, '/');
-        parent::__construct($client, array_change_key_case($config) + [
-            'source_metadata' => null
-        ]);
+        if (ArnParser::isArn($source)) {
+            $this->source = '';
+        } else {
+            $this->source = "/";
+        }
+        $this->source .= ltrim($source, '/');
+        parent::__construct(
+            $client,
+            array_change_key_case($config) + ['source_metadata' => null]
+        );
     }
 
     /**
@@ -75,12 +88,12 @@ class MultipartCopy extends AbstractUploadManager
         return [
             'command' => [
                 'initiate' => 'CreateMultipartUpload',
-                'upload'   => 'UploadPartCopy',
+                'upload' => 'UploadPartCopy',
                 'complete' => 'CompleteMultipartUpload',
             ],
             'id' => [
-                'bucket'    => 'Bucket',
-                'key'       => 'Key',
+                'bucket' => 'Bucket',
+                'key' => 'Key',
                 'upload_id' => 'UploadId',
             ],
             'part_num' => 'PartNumber',
@@ -96,8 +109,7 @@ class MultipartCopy extends AbstractUploadManager
             if (!$this->state->hasPartBeenUploaded($partNumber)) {
                 $command = $this->client->getCommand(
                     $this->info['command']['upload'],
-                    $this->createPart($partNumber, $parts)
-                        + $this->getState()->getId()
+                    $this->createPart($partNumber, $parts) + $this->getState()->getId()
                 );
                 $command->getHandlerList()->appendSign($resultHandler, 'mup');
                 yield $command;
@@ -107,19 +119,34 @@ class MultipartCopy extends AbstractUploadManager
 
     private function createPart($partNumber, $partsCount)
     {
+        $data = [];
+
+        // Apply custom params to UploadPartCopy data
+        $config = $this->getConfig();
+        $params = isset($config['params']) ? $config['params'] : [];
+        foreach ($params as $k => $v) {
+            $data[$k] = $v;
+        }
+
+        list($bucket, $key) = explode('/', ltrim($this->source, '/'), 2);
+        $data['CopySource'] = '/' . $bucket . '/' . implode(
+            '/',
+            array_map(
+                'urlencode',
+                explode('/', rawurldecode($key))
+            )
+        );
+        $data['PartNumber'] = $partNumber;
+
         $defaultPartSize = $this->determinePartSize();
         $startByte = $defaultPartSize * ($partNumber - 1);
-        $partSize = $partNumber < $partsCount
+        $data['ContentLength'] = $partNumber < $partsCount
             ? $defaultPartSize
             : $this->getSourceSize() - ($defaultPartSize * ($partsCount - 1));
-        $endByte = $startByte + $partSize - 1;
+        $endByte = $startByte + $data['ContentLength'] - 1;
+        $data['CopySourceRange'] = "bytes=$startByte-$endByte";
 
-        return [
-            'ContentLength' => $partSize,
-            'CopySource' => $this->source,
-            'CopySourceRange' => "bytes=$startByte-$endByte",
-            'PartNumber' => $partNumber,
-        ];
+        return $data;
     }
 
     protected function extractETag(ResultInterface $result)
@@ -160,7 +187,7 @@ class MultipartCopy extends AbstractUploadManager
         if (strpos($key, '?')) {
             list($key, $query) = explode('?', $key, 2);
             $headParams['Key'] = $key;
-            $query = Psr7\parse_query($query, false);
+            $query = Psr7\Query::parse($query, false);
             if (isset($query['versionId'])) {
                 $headParams['VersionId'] = $query['versionId'];
             }

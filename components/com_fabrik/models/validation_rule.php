@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -101,7 +101,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 
 		$params = $this->getParams();
-		$condition = trim($params->get($this->pluginName . '-validation_condition'));
+		$condition = trim($params->get($this->pluginName . '-validation_condition', ''));
 
 		if ($condition == '')
 		{

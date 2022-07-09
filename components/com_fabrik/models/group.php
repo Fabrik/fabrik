@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -945,14 +945,8 @@ class FabrikFEModelGroup extends FabModel
 			$showGroup        = $params->def('repeat_group_show_first', '1');
 			$pages            = $formModel->getPages();
 			$startPage        = isset($formModel->sessionModel->last_page) ? $formModel->sessionModel->last_page : 0;
-			/**
-			 * $$$ hugh - added array_key_exists for (I think!) corner case where group properties have been
-			 * changed to remove (or change) paging, but user still has session state set.  So it was throwing
-			 * a PHP 'undefined index' notice.
-			 */
 
-			if (array_key_exists($startPage, $pages) && is_array($pages[$startPage])
-				&& !in_array($groupTable->id, $pages[$startPage]) || $showGroup == -1 || $showGroup == 0 || ($view == 'form' && $showGroup == -2) || ($view == 'details' && $showGroup == -3))
+			if ($showGroup == -1 || $showGroup == 0 || ($view == 'form' && $showGroup == -2) || ($view == 'details' && $showGroup == -3))
 			{
 				$groupTable->css .= ";display:none;";
 			}
@@ -976,6 +970,7 @@ class FabrikFEModelGroup extends FabModel
 			$group->maxRepeat        = (int) $params->get('repeat_max');
 			$group->minRepeat        = $params->get('repeat_min', '') === '' ? 1 : (int) $params->get('repeat_min', '');
 			$group->numRepeatElement = $params->get('repeat_num_element', '');
+			$group->noDataMsg        = $params->get('repeat_no_data_message', '');
 			$group->showMaxRepeats   = $params->get('show_repeat_max', '0') == '1';
 			$group->minMaxErrMsg     = $params->get('repeat_error_message', '');
 			$group->minMaxErrMsg     = FText::_($group->minMaxErrMsg);
@@ -992,6 +987,7 @@ class FabrikFEModelGroup extends FabModel
 			$group->dlabels          = $params->get('labels_above_details', -1);
 			$group->classArray       = array();
 			$group->class            = '';
+			$group->canOrder         = $params->get('repeat_sortable', '') === '1';
 
 			if ($this->canRepeat())
 			{
@@ -1565,7 +1561,7 @@ class FabrikFEModelGroup extends FabModel
 		$groupId          = $this->getId();
 		$formModel        = $this->getFormModel();
 		$origGroupRowsIds = FArrayHelper::getValue($formModel->formData, 'fabrik_group_rowids', array());
-		$origGroupRowsIds = FArrayHelper::getValue($origGroupRowsIds, $groupId, array());
+		$origGroupRowsIds = FArrayHelper::getValue($origGroupRowsIds, $groupId, '[]');
 		$origGroupRowsIds = json_decode($origGroupRowsIds);
 
 		return $origGroupRowsIds;
@@ -1626,7 +1622,7 @@ class FabrikFEModelGroup extends FabModel
 				$d = ArrayHelper::fromObject($d);
 			}
 
-			$repeatGroup = count($d);
+			$repeatGroup = is_scalar($d) ? 1 : count($d);
 		}
 		else
 		{

@@ -16,7 +16,7 @@ namespace Stripe;
  * @property mixed $evidence_details
  * @property bool $is_charge_refundable
  * @property bool $livemode
- * @property StripeObject $metadata
+ * @property mixed $metadata
  * @property string $reason
  * @property string $status
  *
@@ -24,9 +24,49 @@ namespace Stripe;
  */
 class Dispute extends ApiResource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    /**
+     * @param string $id The ID of the dispute to retrieve.
+     * @param array|string|null $options
+     *
+     * @return Dispute
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::_retrieve($id, $options);
+    }
+
+    /**
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return array An array of Disputes.
+     */
+    public static function all($params = null, $options = null)
+    {
+        return self::_all($params, $options);
+    }
+
+    /**
+     * @param string $id The ID of the dispute to update.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Dispute The updated dispute.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
+    }
+
+    /**
+     * @param array|string|null $options
+     *
+     * @return Dispute The saved charge.
+     */
+    public function save($options = null)
+    {
+        return $this->_save($options);
+    }
 
     /**
      * @param array|string|null $options

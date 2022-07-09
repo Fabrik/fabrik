@@ -1,3 +1,3 @@
 /*! Fabrik */
 
-define(["jquery","admin/pluginmanager"],function(a,b){return new Class({Extends:b,type:"list",initialize:function(a,b){this.parent(a,b)}})});
+define(["jquery","admin/pluginmanager"],function(n,i){return new Class({Extends:i,type:"list",initialize:function(n,i){this.parent(n,i)}})});

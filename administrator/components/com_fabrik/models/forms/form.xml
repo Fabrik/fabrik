@@ -70,7 +70,8 @@
 		       class="input-medium"
 		       label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 		       description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-		       format="%Y-%m-%d %H:%M:%S"
+			   translateformat="true"
+			   showtime="true"
 		       size="22"
 		       filter="user_utc"
 		/>
@@ -80,7 +81,8 @@
 		       class="input-medium"
 		       label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 		       description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-		       format="%Y-%m-%d %H:%M:%S"
+			   translateformat="true"
+			   showtime="true"
 		       size="22"
 		       filter="user_utc"
 		/>
@@ -455,6 +457,16 @@
 				<option value="tabloid">tabloid</option>
 				<option value="executive">executive</option>
 				<option value="folio">folio</option>
+			</field>
+
+			<field name="pdf_include_bootstrap"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_DESC"
+				   label="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 

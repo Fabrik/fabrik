@@ -62,7 +62,14 @@
 				</fields>
 				
 			</field>
-			
+
+			<field name="update_col_prompt"
+				   type="listfields"
+				   description="PLG_LIST_UPDATE_COL_PROMPT_DESC"
+				   label="PLG_LIST_UPDATE_COL_PROMPT_LABEL"
+				   repeat="true"
+				   valueformat="tableelement"/>
+
 			<field name="update_user_select"
 				type="radio"
 				class="btn-group"
@@ -122,6 +129,17 @@
 				label="PLG_LIST_UPDATE_COL_UPDATE_USER_LABEL"
 				repeat="true"
 				valueformat="tableelement"/>
+
+			<field name="update_check_canedit"
+				   type="radio"
+				   class="btn-group"
+				   repeat="true"
+				   default="0"
+				   label="PLG_LIST_UPDATE_COL_CHECK_CANEDIT_LABEL"
+				   description="PLG_LIST_UPDATE_COL_CHECK_CANEDIT_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field name="update_pre_eval"
 				   type="fabrikeditor"
