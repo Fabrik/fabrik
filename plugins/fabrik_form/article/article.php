@@ -179,6 +179,7 @@ class PlgFabrik_FormArticle extends PlgFabrik_Form
 
 		$item = JTable::getInstance('Content');
 		$item->load($id);
+		$item->newTags = $data['tags'];
 		$item->bind($data);
 
 		// Trigger the onContentBeforeSave event.

@@ -552,6 +552,8 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			 * (moved to after setting up the model and controller, so things like tmpl have been reset)
 			 */
 			$model->getFormCss();
+			$pdfbootstrap = $params->get('pdf_include_bootstrap',1);
+			if ($pdfbootstrap) FabrikhelperHTML::loadBootstrapCSS(true);
 
 			foreach ($pdfDoc->_styleSheets as $url => $ss)
 			{

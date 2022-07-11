@@ -523,6 +523,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     if (!groupfx) {
                         // can't "readonly" a select, so disable all but selected option instead
                         if (jQuery('#' + id).prop('tagName') === 'SELECT') {
+                            jQuery('#' + id).data('readonly', 1);
                             jQuery('#' + id + ' option:not(:selected)').attr('disabled', true);
                         }
                         else {
@@ -534,6 +535,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     if (!groupfx) {
                         if (jQuery('#' + id).prop('tagName') === 'SELECT') {
                             jQuery('#' + id + ' option').attr('disabled', false);
+                            jQuery('#' + id).data('readonly', 0);
                         }
                         else {
                             jQuery('#' + id).prop('readonly', false);

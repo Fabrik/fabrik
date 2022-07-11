@@ -30,6 +30,12 @@ if ($d->frontEndAdd && $d->editable) :
 		<?php echo FabrikHelperHTML::image('plus', 'form', @$d->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))); ?>
 	</a>
 <?php
+	JText::script('PLG_ELEMENT_DBJOIN_EDIT');
+	?>
+    <a href="<?php echo $d->addURL; ?>" title="<?php echo FText::_('COM_FABRIK_EDIT');?>" class="toggle-editoption btn">
+		<?php echo FabrikHelperHTML::image('edit', 'form', @$d->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))); ?>
+    </a>
+<?php
 endif;
 // If add and select put them in a button group.
 if ($d->frontEndSelect && $d->frontEndAdd && $d->editable) :

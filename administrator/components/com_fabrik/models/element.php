@@ -663,7 +663,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		 * $$$ hugh - shouldn't updateChildIds() happen AFTER we save the main row?
 		 * Same place we do updateJavascript()?
 		 */
-		$this->updateChildIds($row);
+		//$this->updateChildIds($row);
 		$elementModel->getElement()->bind($data);
 		$origName = $input->get('name_orig', '');
 		list($update, $q, $oldName, $newdesc, $origDesc) = $listModel->shouldUpdateElement($elementModel, $origName);
@@ -737,6 +737,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 				return false;
 			}
+
+			$this->updateChildIds($row);
 		}
 
 		parent::cleanCache('com_fabrik');
@@ -1169,6 +1171,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$db->execute();
 
 		// Remove previous join records if found
+		/*
 		if ((int) $row->id !== 0)
 		{
 			$jdb   = FabrikWorker::getDbo(true);
@@ -1177,6 +1180,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$jdb->setQuery($query);
 			$jdb->execute();
 		}
+		*/
 		// Create or update fabrik join
 		if ($groupModel->isJoin())
 		{
@@ -1187,8 +1191,16 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$joinFromTable = $listModel->getTable()->db_table_name;
 		}
 
-		$data = array('list_id' => $listModel->getTable()->id, 'element_id' => $row->id, 'join_from_table' => $joinFromTable,
-			'table_join' => $tableName, 'table_key' => $row->name, 'table_join_key' => 'parent_id', 'join_type' => 'left');
+		$data = array(
+			'list_id'    => $listModel->getTable()->id,
+			'element_id' => $row->id,
+			'join_from_table' => $joinFromTable,
+			'table_join' => $tableName,
+			'table_key' => $row->name,
+			'table_join_key' => 'parent_id',
+			'join_type' => 'left'
+		);
+
 		$join = $this->getTable('join');
 		$join->load(array('element_id' => $data['element_id']));
 		$opts           = new stdClass;
@@ -1197,6 +1209,19 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$data['params'] = json_encode($opts);
 		$join->bind($data);
 		$join->store();
+
+		// update the join for any children
+		$ids    = $this->getElementDescendents($row->id);
+
+		foreach ($ids as $id)
+		{
+			$childElementModel = $this->pluginManager->getElementPlugin($id);
+			$data['list_id'] = $childElementModel->getListModel()->getTable()->id;
+			$data['element_id'] = $id;
+			$join->load(array('element_id' => $data['element_id']));
+			$join->bind($data);
+			$join->store();
+		}
 
 		$fieldName = $tableName . '___parent_id';
 		$listModel->addIndex($fieldName, 'parent_fk', 'INDEX', '');
@@ -1216,7 +1241,6 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 		$fieldName = $tableName . '___' . $row->name;
 		$listModel->addIndex($fieldName, 'repeat_el', 'INDEX', $size);
-
 	}
 
 	/**

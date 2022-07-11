@@ -149,7 +149,7 @@ class FabrikFEModelConnection extends FabModel
 
 		if (!is_object($this->connection))
 		{
-			if ($this->id == -1 || $this->id == '')
+			if ($this->id == -1 || $this->id == '' || $this->id == 0)
 			{
 				$this->connection = $this->loadDefaultConnection();
 			}

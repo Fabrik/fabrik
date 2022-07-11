@@ -145,7 +145,7 @@ class FabrikFEModelCSVExport extends FabModel
 				return;
 			}
 
-			$str .= implode($headings, $this->delimiter) . $end_of_line;
+			$str .= implode($this->delimiter, $headings) . $end_of_line;
 		}
 
 		$incRaw       = $input->get('incraw', true);

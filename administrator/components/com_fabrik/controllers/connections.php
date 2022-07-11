@@ -62,7 +62,7 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 	 *
 	 * @return  J model
 	 */
-	public function &getModel($name = 'Connection', $prefix = 'FabrikAdminModel')
+	public function &getModel($name = 'Connection', $prefix = 'FabrikAdminModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 

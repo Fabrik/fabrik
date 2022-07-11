@@ -194,7 +194,7 @@ class Pdf
 			{
 				$href = $a->getAttribute('href');
 
-				if (!strstr($href, $schemeString) && !strstr($href, 'mailto:'))
+				if (!strstr($href, $schemeString) && !strstr($href, 'mailto:') && !strstr($href, 'tel:'))
 				{
 					$base = empty($subdir) || strstr($href, $subdir) ? $base_root : $base_root . $subdir;
 					$href = $base . ltrim($href,'/');

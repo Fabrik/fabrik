@@ -1075,6 +1075,11 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 		// in some corner cases, date will be db name quoted, like in CSV export after an advanced search!
 		$value = trim($value, "'");
 
+		if (strstr($value, '%'))
+		{
+			$value = urldecode($value);
+		}
+
 		//if ($input->get('task') == 'form.process' || ($app->isAdmin() && $input->get('task') == 'process'))
 		if (FabrikWorker::inFormProcess())
 		{
@@ -2617,7 +2622,12 @@ class PlgFabrik_ElementJdate extends PlgFabrik_ElementList
 	{
 		$params  = $this->getParams();
 		$class   = $this->filterClass();
-		$calOpts = array('class' => $class, 'maxlength' => '19', 'size' => 16);
+		$calOpts = array(
+			'class' => $class,
+			'maxlength' => '19',
+			'size' => 16,
+			'weekNumbers' => $params->get('jdate_show_week_numbers', '0') === '1'
+		);
 
 		if ($params->get('jdate_allow_typing_in_field', true) == false)
 		{
