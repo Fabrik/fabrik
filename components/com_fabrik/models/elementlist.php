@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -193,10 +193,11 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 * @param   string  $value          Search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  Original filter value without quotes or %'s applied
 	 * @param   string  $type           Filter type advanced/normal/prefilter/search/querystring/searchall
-	 *
+	 * @param   string  $evalFilter     evaled (only used for multiselect types)
+	 *                                  
 	 * @return  string	sql query part e,g, "key = value"
 	 */
-	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal')
+	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
 	{
 		$element = $this->getElement();
 		$condition = JString::strtoupper($condition);
@@ -205,7 +206,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 
 		if ($element->filter_type == 'checkbox' || $element->filter_type == 'multiselect')
 		{
-			$str = $this->filterQueryMultiValues($key, $condition, $originalValue);
+			$str = $this->filterQueryMultiValues($key, $condition, $originalValue, $evalFilter, $type);
 		}
 		else
 		{
@@ -246,12 +247,27 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 * @param $key
 	 * @param $condition
 	 * @param $originalValue
+	 * @param $evalFilter
+	 * @param $type
 	 *
 	 * @return string
 	 */
-	protected function filterQueryMultiValues ($key, $condition, $originalValue)
+	protected function filterQueryMultiValues ($key, $condition, $originalValue, $evalFilter, $type)
 	{
 		$str = array();
+
+		/**
+		 * Grrrr.  For some reason, $evalFilter is getting set in element filter session when it shouldn't.
+		 * This code was only meant for eval'ing of prefilters, so until i can work out why eval is getting set,
+		 * just restrict this to prefilter types
+		 */
+		if ($evalFilter && ($type === 'prefilter' || $type === 'menuprefilter'))
+		{
+			$originalValue = stripslashes(htmlspecialchars_decode($originalValue, ENT_QUOTES));
+			FabrikWorker::clearEval();
+			$originalValue = @eval($originalValue);
+			FabrikWorker::logEval($originalValue, 'Caught exception on eval of elementList::filterQueryMultiValues() ' . $key . ': %s');
+		}
 
 		if ($condition === 'NOT IN')
 		{
@@ -338,7 +354,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 *
 	 * @return  string	Filter HTML
 	 */
-	public function getFilter($counter = 0, $normal = true)
+	public function getFilter($counter = 0, $normal = true, $container = '')
 	{
 		$element = $this->getElement();
 		$values = $this->getSubOptionValues();
@@ -354,7 +370,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 
 			if ($params->get('filter_groupby') != -1)
 			{
-				ArrayHelper::sortObjects($rows, $params->get('filter_groupby', 'text'));
+				$rows = ArrayHelper::sortObjects($rows, $params->get('filter_groupby', 'text'));
 			}
 
 			$this->getFilterDisplayValues($default, $rows);
@@ -363,6 +379,23 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 			{
 				array_unshift($rows, JHTML::_('select.option', '', $this->filterSelectLabel()));
 			}
+
+			foreach ($rows as &$r)
+			{
+				// translate
+				$r->text = FText::_($r->text);
+
+				// decode first, to decode all hex entities (like &#39;)
+				$r->text = html_entity_decode($r->text, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+				// Encode if necessary
+				if (!in_array($element->get('filter_type'), array('checkbox')))
+				{
+					$r->text = strip_tags($r->text);
+					$r->text = htmlspecialchars($r->text, ENT_NOQUOTES, 'UTF-8', false);
+				}
+			}
+
 		}
 
 		$return = array();
@@ -397,7 +430,7 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 
 			case 'auto-complete':
 				$defaultLabel = $this->getLabelForValue($default);
-				$autoComplete = $this->autoCompleteFilter($default, $v, $defaultLabel, $normal);
+				$autoComplete = $this->autoCompleteFilter($default, $v, $defaultLabel, $normal, $container);
 				$return = array_merge($return, $autoComplete);
 				break;
 		}
@@ -525,11 +558,15 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		$rows = $elementModel->filterValueList(true, '', $label);
 		$v = $app->input->get('value', '', 'string');
 
-		// Search for every word separately in the result rather than the single string (of multiple words)
+		/**
+		 * Search for every word separately in the result rather than the single string (of multiple words)
+		 *
+		 * Added u switch, for UTF8
+		 */
 		$regex  = "/(?=.*" .
 			implode(")(?=.*",
 				array_filter(explode(" ", preg_quote($v, '/')))
-			) . ").*/i";
+			) . ").*/ui";
 		$start = count($rows) - 1;
 
 		for ($i = $start; $i >= 0; $i--)
@@ -584,11 +621,14 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: parent: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$listModel = $this->getListModel();
 		$multiple = $this->isMultiple();
 		$mergeGroupRepeat = ($this->getGroup()->canRepeat() && $this->getListModel()->mergeJoinedData());
-		$useIcon = $params->get('icon_folder', 0) && ArrayHelper::getValue($opts, 'icon', 1);
+		$useIcon = (int)$params->get('icon_folder', 0) > 0 && ArrayHelper::getValue($opts, 'icon', 1);
 
 		// Give priority to raw value icons (podion)
 		$raw = $this->isJoin() ? $this->getFullName(true, false) . '_raw' : $this->getFullName(true, false) . '_id';
@@ -686,8 +726,11 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		$displayData = array(
 			'uls' => $uls,
 			'condense' => $condense,
-			'addHtml' => $addHtml
+			'addHtml' => $addHtml,
+			'sepChar' => ArrayHelper::getValue($opts, 'sepChar', ' ')
 		);
+
+        JDEBUG ? $profiler->mark("renderListData: parent: end: {$this->element->name}") : null;
 
 		return $layout->render((object) $displayData);
 	}
@@ -703,7 +746,13 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 	public function renderListData_csv($data, &$thisRow)
 	{
 		$this->renderWithHTML = false;
-		$d = $this->renderListData($data, $thisRow);
+		$d = $this->renderListData(
+			$data,
+			$thisRow,
+			array(
+				'sepChar' => $this->getlistModel()->getParams()->get('csv_multi_join_split', ',')
+			)
+		);
 
 		if ($this->isJoin())
 		{
@@ -1066,5 +1115,18 @@ class PlgFabrik_ElementList extends PlgFabrik_Element
 		return ($key === false) ? $v : FArrayHelper::getValue($labels, $key, $defaultLabel);
 		*/
 		return $return;
+	}
+
+	/**
+	 * Internal element validation
+	 *
+	 * @param   array $data          Form data
+	 * @param   int   $repeatCounter Repeat group counter
+	 *
+	 * @return bool
+	 */
+	public function validate($data, $repeatCounter = 0)
+	{
+		return true;
 	}
 }

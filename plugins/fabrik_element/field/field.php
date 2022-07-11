@@ -4,13 +4,14 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.field
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
@@ -36,7 +37,10 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$data = FabrikWorker::JSONtoData($data, true);
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $data = FabrikWorker::JSONtoData($data, true);
 		$params = $this->getParams();
 
 		foreach ($data as &$d)
@@ -133,7 +137,10 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		if (!$this->getFormModel()->failedValidation())
 		{
-			$value = $this->numberFormat($value);
+			if ($this->isEditable())
+			{
+				$value = $this->numberFormat($value);
+			}
 		}
 
 		if (!$this->isEditable())
@@ -149,7 +156,9 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			else
 			{
 				$this->_guessLinkType($value, $data);
-				$value = $this->format($value, false);
+				//@@@trob: apply numberFormat also in details view (like in list view), for backward compat only in case of no guess link
+				$doNumberFormat = $params->get('guess_linktype','0') == '0' ? true :false;
+				$value = $this->format($value, $doNumberFormat);
 				$value = $this->getReadOnlyOutput($value, $value);
 			}
 
@@ -160,6 +169,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			if ($params->get('autocomplete', '0') === '3')
 			{
 				$bits['class'] .= ' fabrikGeocomplete';
+				$bits['autocomplete'] = 'off';
 			}
 		}
 
@@ -186,7 +196,9 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
+		$layoutData->scanQR = $params->get('scan_qrcode', '0') === '1';
 		$layoutData->attributes = $bits;
+		$layoutData->sizeClass = $params->get('bootstrap_class', '');
 
 		return $layout->render($layoutData);
 	}
@@ -229,23 +241,48 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			$w = new FabrikWorker;
 			$opts = $this->linkOpts();
 			$title = $params->get('link_title', '');
+			$attrs = $params->get('link_attributes', '');
 
-			if (FabrikWorker::isEmail($value) || JString::stristr($value, 'http'))
+			if (!empty($attrs))
 			{
+				$attrs = $w->parseMessageForPlaceHolder($attrs);
+				$attrs = explode(' ', $attrs);
+
+				foreach ($attrs as $attr)
+				{
+					list($k, $v) = explode('=', $attr);
+					$opts[$k] = trim($v, '"');
+				}
 			}
-			elseif (JString::stristr($value, 'www.'))
+			else
 			{
-				$value = 'http://' . $value;
+				$attrs = array();
 			}
 
-			if ($title !== '')
+			if ((new MediaHelper)->isImage($value))
 			{
-				$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
+				$alt = empty($title) ? '' : 'alt="' . strip_tags($w->parseMessageForPlaceHolder($title, $data)) . '"';
+				$value = '<img src="' . $value . '" ' . $alt . ' ' . implode(' ', $attrs) . ' />';
 			}
+			else
+			{
+				if (FabrikWorker::isEmail($value) || JString::stristr($value, 'http'))
+				{
+				}
+				elseif (JString::stristr($value, 'www.'))
+				{
+					$value = 'http://' . $value;
+				}
 
-			$label = FArrayHelper::getValue($opts, 'title', '') !== '' ? $opts['title'] : $value;
+				if ($title !== '')
+				{
+					$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
+				}
 
-			$value = FabrikHelperHTML::a($value, $label, $opts);
+				$label = FArrayHelper::getValue($opts, 'title', '') !== '' ? $opts['title'] : $value;
+
+				$value = FabrikHelperHTML::a($value, $label, $opts);
+			}
 		}
 	}
 
@@ -304,6 +341,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			$opts->use_input_mask = true;
 			$opts->input_mask = $inputMask;
 			$opts->input_mask_definitions = $params->get('text_input_mask_definitions', '{}');
+			$opts->input_mask_autoclear = $params->get('text_input_mask_autoclear', '0') === '1';
 		}
 		else
 		{
@@ -313,6 +351,12 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 
 		$opts->geocomplete = $params->get('autocomplete', '0') === '3';
 
+		$config = JComponentHelper::getParams('com_fabrik');
+		$apiKey = trim($config->get('google_api_key', ''));
+		$opts->mapKey = empty($apiKey) ? false : $apiKey;
+		$opts->language = trim(strtolower($config->get('google_api_language', '')));
+
+
 		if ($this->getParams()->get('autocomplete', '0') == '2')
 		{
 			$autoOpts = array();
@@ -320,6 +364,8 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			$autoOpts['storeMatchedResultsOnly'] = false;
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->id, $this->getFormModel()->getId(), 'field', $autoOpts);
 		}
+
+		$opts->scanQR = $params->get('scan_qrcode', '0') === '1';
 
 		return array('FbField', $id, $opts);
 	}
@@ -340,6 +386,7 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		$params = $this->getParams();
 		$inputMask = trim($params->get('text_input_mask', ''));
 		$geoComplete = $params->get('autocomplete', '0') === '3';
+		$scanQR = $params->get('scan_qrcode', '0') === '1';
 
 		$s = new stdClass;
 
@@ -361,16 +408,19 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 			$s->deps[] = $folder . 'jquery.geocomplete';
 		}
 
-		if (count($s->deps) > 1)
+		if ($scanQR)
 		{
-			if (array_key_exists($key, $shim))
-			{
-				$shim[$key]->deps = array_merge($shim[$key]->deps, $s->deps);
-			}
-			else
-			{
-				$shim[$key] = $s;
-			}
+			$folder = 'components/com_fabrik/libs/jsqrcode/';
+			$s->deps[] = $folder . 'qr_packed';
+		}
+		
+		if (array_key_exists($key, $shim))
+		{
+			$shim[$key]->deps = array_merge($shim[$key]->deps, $s->deps);
+		}
+		else
+		{
+			$shim[$key] = $s;
 		}
 
 		parent::formJavascriptClass($srcs, $script, $shim);
@@ -527,9 +577,9 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		$url = 'index.php';
 		$this->lang->load('com_fabrik.plg.element.field', JPATH_ADMINISTRATOR);
 
-		if (!$this->canView())
+		if (!$this->getListModel()->canViewDetails() || !$this->canView())
 		{
-			$this->app->enqueueMessage(FText::_('PLG_ELEMENT_FIELD_NO_PERMISSION'));
+			$this->app->enqueueMessage(FText::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect($url);
 			exit;
 		}
@@ -650,13 +700,19 @@ class PlgFabrik_ElementField extends PlgFabrik_Element
 		 */
 
 		$elementId = $this->getId();
-		$src = COM_FABRIK_LIVESITE
-		. 'index.php?option=com_' . $this->package . '&amp;task=plugin.pluginAjax&amp;plugin=field&amp;method=ajax_renderQRCode&amp;'
-				. 'format=raw&amp;element_id=' . $elementId . '&amp;formid=' . $formId . '&amp;rowid=' . $rowId . '&amp;repeatcount=0';
+
+		// set format to 'pdf' if rendering pdf, so onAjax_renderQRCode() will automagically use "allow_pdf_local"
+		$format = $this->app->input->get('format', 'html') === 'pdf' ? 'pdf' : 'raw';
+		$src = COM_FABRIK_LIVESITE .
+			'index.php?option=com_' . $this->package .
+			'&amp;task=plugin.pluginAjax&amp;plugin=field&amp;method=ajax_renderQRCode' .
+			'&amp;format=' . $format . '&amp;element_id=' . $elementId . '&amp;formid=' . $formId .
+			'&amp;rowid=' . $rowId . '&amp;repeatcount=0';
 
 		$layout = $this->getLayout('qr');
 		$displayData = new stdClass;
 		$displayData->src = $src;
+		$displayData->data = $thisRow;
 
 		return $layout->render($displayData);
 	}

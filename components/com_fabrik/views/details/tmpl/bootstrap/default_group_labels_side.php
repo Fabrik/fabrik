@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -15,10 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 $element = $this->element;
 ?>
 <div class="<?php echo $element->containerClass .' '. $element->span;?>">
-	<div class="span4 fabrikLabel">
-		<?php echo $element->label_raw;?>
+	<div class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?> fabrikLabel">
+		<?php echo $element->label;?>
 	</div>
-	<div class="span8">
+	<div class="<?php echo FabrikHelperHTML::getGridSpan('8'); ?>">
 		<?php if ($this->tipLocation == 'above') : ?>
 			<p class=""><?php echo $element->tipAbove ?></p>
 		<?php endif ?>

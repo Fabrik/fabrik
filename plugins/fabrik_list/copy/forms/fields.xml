@@ -11,7 +11,21 @@
 				default="1"
 				label="PLG_FABRIK_LIST_COPY_ACCESS_LABEL"
 				repeat="true" />
-				
+
+			<field name="copytable_button_label"
+			       type="text"
+			       label="PLG_FABRIK_LIST_COPY_BUTTON_LABEL_LABEL"
+			       repeat="true"
+			       size="30"/>
+
+			<field name="list_copy_image_name"
+			       type="text"
+			       default="copy"
+			       description="PLG_FABRIK_LIST_COPY_IMAGE_DESC"
+			       label="PLG_FABRIK_LIST_COPY_IMAGE_LABEL"
+			       repeat="true"
+			       size="20"/>
+
 		</fieldset>
 	</fields>
 </form>

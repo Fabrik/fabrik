@@ -122,6 +122,16 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="cron_reschedule_manual"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   description="COM_FABRIK_CRON_FIELD_RESCHEDULE_MANUAL_DESC"
+				   label="COM_FABRIK_CRON_FIELD_RESCHEDULE_MANUAL_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="connection" name="connection">
@@ -141,7 +151,7 @@
 			       type="field"
 			       default="100"
 			       label="COM_FABRIK_CRON_FIELD_ROW_LIMIT_LABEL"
-			       DESCRIPTION="COM_FABRIK_CRON_FIELD_ROW_LIMIT_DESC" />
+			       description="COM_FABRIK_CRON_FIELD_ROW_LIMIT_DESC" />
 
 		</fieldset>
 	</fields>

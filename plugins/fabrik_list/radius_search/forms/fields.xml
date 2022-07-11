@@ -6,6 +6,18 @@
 			<field type="helplink"
 				url="PLG_LIST_RADIUS_SEARCH_HELP_SERVER" />
 
+
+			<field name="radius_use_popup"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   repeat="true"
+				   description="PLG_LIST_RADIUS_SEARCH_USE_POPUP_DESC"
+				   label="PLG_LIST_RADIUS_SEARCH_USE_POPUP_LABEL" >
+				<option value="0">PLG_LIST_RADIUS_SEARCH_USE_POPUP_NO</option>
+				<option value="1">PLG_LIST_RADIUS_SEARCH_USE_POPUP_YES</option>
+			</field>
+
 			<field name="radius_mapelement"
 				type="listfields"
 				description="PLG_LIST_RADIUS_SEARCH_MAP_ELEMENT_DESC"
@@ -81,7 +93,6 @@
 		</fieldset>
 		
 		<fieldset name="plg-list-radius_search-opts" label="PLG_LIST_RADIUS_SEARCH_OPTS">
-		
 			<field name="default_search"
 				type="list"
 				default="mylocation"
@@ -150,6 +161,16 @@
 					<option value="1">JYES</option>	
 			</field>
 						
+		</fieldset>
+
+		<fieldset name="plg-list-radius_search-simple-opts" label="PLG_LIST_RADIUS_SEARCH_SIMPLE_OPTS">
+			<field name="radius_simple_distances"
+				   type="field"
+				   default="1,10,100"
+				   size="20"
+				   repeat="true"
+				   description="PLG_LIST_RADIUS_SEARCH_SIMPLE_DISTANCES_DESC"
+				   label="PLG_LIST_RADIUS_SEARCH_SIMPLE_DISTANCES_LABEL" />
 		</fieldset>
 		
 	</fields>

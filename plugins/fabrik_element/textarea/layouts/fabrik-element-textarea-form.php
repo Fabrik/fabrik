@@ -8,7 +8,7 @@ $d = $displayData;
 ?>
 <textarea
 	<?php foreach ($d->attributes as $key => $value) :
-	echo $key . '="' . $value . '"';
+	echo $key . '="' . $value . '" ';
 endforeach;
 	?>><?php echo $d->value;?></textarea>
 

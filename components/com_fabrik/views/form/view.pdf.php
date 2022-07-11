@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -32,10 +32,7 @@ class FabrikViewForm extends FabrikViewFormBase
 	 */
 	public function display($tpl = null)
 	{
-		if (!JFolder::exists(COM_FABRIK_BASE . '/libraries/dompdf'))
-		{
-			throw new RuntimeException('Please install the dompdf library', 404);
-		}
+		FabrikWorker::canPdf(true);
 
 		if (parent::display($tpl) !== false)
 		{
@@ -45,9 +42,15 @@ class FabrikViewForm extends FabrikViewFormBase
 			/** @var FabrikFEModelList $model */
 			$model       = $this->getModel();
 			$params      = $model->getParams();
-			$size        = $params->get('pdf_size', 'A4');
-			$orientation = $params->get('pdf_orientation', 'portrait');
+			$size        = $this->app->input->get('pdf_size', $params->get('pdf_size', 'A4'));
+			$orientation = $this->app->input->get('pdf_orientation', $params->get('pdf_orientation', 'portrait'));
 			$document->setPaper($size, $orientation);
+
+			if ($this->app->input->get('pdf_include_bootstrap', $params->get('pdf_include_bootstrap', '0')) === '1')
+			{
+				FabrikhelperHTML::loadBootstrapCSS(true);
+			}
+
 			$this->output();
 		}
 	}
@@ -68,7 +71,7 @@ class FabrikViewForm extends FabrikViewFormBase
 
 		// Set the download file name based on the document title
 
-		$layout                 = FabrikHelperHTML::getLayout('form.fabrik-pdf-title');
+		$layout                 = $model->getLayout('form.fabrik-pdf-title');
 		$displayData         = new stdClass;
 		$displayData->doc	= $this->doc;
 		$displayData->model	= $this->getModel();

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.limit
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -104,6 +104,8 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		$params = $this->getParams();
 		$field = $params->get('limit_userfield');
 		$fk = $params->get('limit_fk');
+		$where = trim($params->get('limit_where', ''));
+
 		$fkVal = '';
 
 		/*
@@ -141,6 +143,11 @@ class PlgFabrik_FormLimit extends PlgFabrik_Form
 		if (!empty($fkVal))
 		{
 			$query->where($db->qn($fk) . ' = ' . $db->q($fkVal), 'AND');
+		}
+
+		if (!empty($where))
+		{
+			$query->where($where);
 		}
 
 		$db->setQuery($query);

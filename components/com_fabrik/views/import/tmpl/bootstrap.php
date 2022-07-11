@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -17,10 +17,18 @@ FabrikHelperHTML::formvalidation();
 $action = JRoute::_('index.php?option=com_fabrik');
 $app = JFactory::getApplication();
 $listId = $app->input->getInt('listid');
+$itemId   = FabrikWorker::itemId();
+
 ?>
 <form enctype="multipart/form-data" action="<?php echo $action ?>" method="post" name="adminForm" id="fabrik-form" class="form-validate">
 	<input type="hidden" name="listid" value="<?php echo $listId; ?>" />
-
+    <?php
+    if (!empty($itemId)) :
+    ?>
+        <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>" />
+    <?php
+    endif;
+    ?>
 	<h2><?php echo JText::sprintf('COM_FABRIK_CSV_IMPORT_HEADING', $this->listName); ?></h2>
 	<?php foreach ($this->fieldsets as $fieldset) :
 	?>

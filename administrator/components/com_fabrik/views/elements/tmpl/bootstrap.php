@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -15,6 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHTML::_('script', 'system/multiselect.js', false, true);
+$config = JComponentHelper::getParams('com_fabrik');
+$truncateOpts = array(
+    'chars' => true,
+    'html' => false,
+    'wordcount' => (int)$config->get('fabrik_truncate_length', 0),
+    'tip' =>false
+);
 $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
@@ -193,7 +200,7 @@ $states	= array(
 				?>
 				</td>
 				<td>
-					<?php echo str_replace(' ', '&nbsp;', FText::_($item->label)); ?>
+					<?php echo str_replace(' ', '&nbsp;', FText::_(FabrikString::truncate($item->label, $truncateOpts))); ?>
 				</td>
 				<td>
 					<span class="hasTooltip" title="<?php echo '<strong>' . $item->name . "</strong><br />" . $item->tip; ?>">

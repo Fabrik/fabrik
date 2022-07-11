@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -22,8 +22,8 @@ foreach ($this->elements as $element) :
 
 		<div class="<?php echo $element->span;?>">
 			<div class="row-fluid">
-				<div class="span4"><em><?php echo $element->label_raw ?></em></div>
-				<div class="span8"><?php echo $element->element;?></div>
+				<div class="<?php echo FabrikHelperHTML::getGridSpan(4); ?>"><em><?php echo $element->label_raw ?></em></div>
+				<div class="<?php echo FabrikHelperHTML::getGridSpan(8); ?>"><?php echo $element->element;?></div>
 			</div>
 		</div>
 

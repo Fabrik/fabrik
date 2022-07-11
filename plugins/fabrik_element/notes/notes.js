@@ -14,8 +14,9 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
     window.FbNotes = new Class({
 
         options: {
-            'rowid': 0,
-            'id'   : 0
+			'rowid': 0,
+			'primaryKey' : 0,
+			'id'   : 0
         },
 
         Extends   : FbElement,
@@ -26,7 +27,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         },
 
         setUp: function () {
-            if (this.options.rowid !== 0) {
+            if (this.options.primaryKey > 0) {
                 this.element.getElement('.button').addEvent('click', function (e) {
                     this.submit(e);
                 }.bind(this));
@@ -53,8 +54,10 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     'method'    : 'ajax_addNote',
                     'element_id': this.options.id,
                     'v'         : label,
-                    'rowid'     : this.options.rowid,
-                    'formid'    : this.form.id
+                    'rowid'  : this.options.rowid,
+                    'joinPkVal'  : this.options.joinPkVal,
+                    'primaryKey' : this.options.primaryKey,
+					'formid'    : this.form.id
                 };
                 this.myAjax = new Request.JSON({
                     'url'      : '',

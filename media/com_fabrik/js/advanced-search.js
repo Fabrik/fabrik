@@ -132,7 +132,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
          * @param {string} v   Selected value
          */
         updateValueInput: function (row, v) {
-            var url = 'index.php?option=com_fabrik&task=list.elementFilter&format=raw',
+            var url = Fabrik.liveSite + 'index.php?option=com_fabrik&task=list.elementFilter&format=raw',
                 elData;
             Fabrik.loader.start(row[0]);
             var update = jQuery(row.find('td')[3]);

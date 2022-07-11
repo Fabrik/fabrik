@@ -17,7 +17,7 @@ $colCounter = 0;
 $rowChunks  = array();
 
 foreach ($d->options as $option) :
-	$checked = in_array($option->value, $d->default) ? 'checked="checked"' : '';
+	$checked = in_array($option->value, $d->default) ? 'checked="checked" ' : '';
 	$d->option = $option;
 	$d->option->checked = $checked;
 	$d->colCounter = $colCounter++;

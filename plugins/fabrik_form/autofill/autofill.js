@@ -1,7 +1,7 @@
 /**
  * Form Autofill
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
@@ -19,7 +19,9 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			editOrig             : false,
 			fillOnLoad           : false,
 			confirm              : true,
-			autofill_lookup_field: 0
+			autofill_lookup_field: 0,
+			showNotFound         : false,
+			notFoundMsg          : ''
 		},
 
 		/**
@@ -30,6 +32,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			var self = this;
 			this.options = jQuery.extend(this.options, options);
 			this.attached = [];
+			this.newAttach = [];
 			this.setupDone = false;
 
 			/*
@@ -41,20 +44,6 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			this.setUp(Fabrik.getBlock('form_' + this.options.formid));
 			Fabrik.addEvent('fabrik.form.elements.added', function (form) {
 				self.setUp(form);
-			});
-
-			Fabrik.addEvent('fabrik.form.element.added', function (form, elId, oEl) {
-				if (!self.element) {
-					// if we are on the form load then this.element not set so return
-					return;
-				}
-				// A group has been duplicated
-				if (oEl.strElement === self.element.strElement) {
-					// The element is a clone of our observable element
-					self.element = false;
-					self.setupDone = false;
-					self.setUp(form);
-				}
 			});
 		},
 
@@ -95,6 +84,10 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			return e;
 		},
 
+		doLookup: function(e) {
+			this.lookUp(e);
+		},
+
 		/**
 		 *
 		 * @param {object} form
@@ -114,11 +107,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 				return;
 			}
 
-			var evnt = function (e) {
-				// Fabrik Trigger element object so don't use as this.element or lookup value will be wrong
-				self.lookUp(e);
-			};
-
+			this.doLookupEvent = this.doLookup.bind(this);
 			var testE = false;
 			var e = this.form.formElements.get(this.options.observe);
 
@@ -133,6 +122,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 							// We havent previously observed this element, add it to this.attached
 							// so that in the future we don't re-add it.
 							self.attached.push(testE.options.element);
+                            self.newAttach.push(testE.options.element);
 							//e = testE;
 						}
 						var repeatNum = parseInt(testE.getRepeatNum(), 10);
@@ -145,6 +135,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			}
 			else {
 				this.attached.push(e.options.element);
+                self.newAttach.push(e.options.element);
 			}
 
 			this.element = e;
@@ -153,22 +144,24 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 					fconsole('autofill - couldnt find element to observe');
 				} else {
 					var elEvnt = this.element.getBlurEvent();
-					this.attached.each(function (el) {
+					this.newAttach.each(function (el) {
 						var e = self.form.formElements.get(el);
-						self.form.dispatchEvent('', el, elEvnt, function (e) {
-							self.lookUp(e);
-						});
+						self.form.dispatchEvent('', el, elEvnt, self.doLookupEvent);
+                        if (self.options.fillOnLoad) {
+                            self.form.dispatchEvent('', el, 'load', self.doLookupEvent);
+                        }
 					});
 				}
 			} else {
-				this.form.dispatchEvent('', this.options.trigger, 'click', evnt);
-			}
-			if (this.options.fillOnLoad) {
-				var t = this.options.trigger === '' ? this.element.strElement : this.options.trigger;
-				this.form.dispatchEvent('', t, 'load', evnt);
+				this.form.dispatchEvent('', this.options.trigger, 'click', this.doLookupEvent);
+                if (this.options.fillOnLoad) {
+                    this.form.dispatchEvent('', this.options.trigger, 'load', this.doLookupEvent);
+                }
 			}
 
+
 			this.setupDone = true;
+			this.newAttach = [];
 		},
 
 		/**
@@ -234,8 +227,12 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 			var repeatNum = this.element.getRepeatNum(),
 				key, val, k2, origKey;
 
-			if (this.json.length === 0) {
-				window.alert(Joomla.JText._('PLG_FORM_AUTOFILL_NORECORDS_FOUND'));
+			if (jQuery.isEmptyObject(this.json)) {
+				if (this.options.showNotFound) {
+					var msg = this.options.notFoundMsg === '' ? Joomla.JText._('PLG_FORM_AUTOFILL_NORECORDS_FOUND') : this.options.notFoundMsg;
+					window.alert(msg);
+				}
+				return;
 			}
 
 			for (key in this.json) {
@@ -315,9 +312,11 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 					el.update(val);
 
 					if (el.baseElementId !== this.element.baseElementId) {
-						// Trigger change events to automatically fire any other chained auto-fill form plugins
+						// Trigger change events to automatically fire anything watching this element
 						el.element.fireEvent(el.getBlurEvent(), new Event.Mock(el.element, el.getBlurEvent()));
-					}
+						if (el.getBlurEvent() !== el.getChangeEvent()) {
+							el.element.fireEvent(el.getChangeEvent(), new Event.Mock(el.element, el.getChangeEvent()));
+						}					}
 					return true;
 				}
 			} else {
@@ -330,8 +329,11 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 						el.update(val);
 
 						if (el.baseElementId !== self.element.baseElementId) {
-							// Trigger change events to automatically fire any other chained auto-fill form plugins
+							// Trigger change events to automatically fire anything watching this element
 							el.element.fireEvent(el.getBlurEvent(), new Event.Mock(el.element, el.getBlurEvent()));
+							if (el.getBlurEvent() !== el.getChangeEvent()) {
+								el.element.fireEvent(el.getChangeEvent(), new Event.Mock(el.element, el.getChangeEvent()));
+							}
 						}
 					});
 					return true;

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
-require_once JPATH_SITE . '/components/com_fabrik/helpers/parent.php';
+//require_once JPATH_SITE . '/components/com_fabrik/helpers/parent.php';
 
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');

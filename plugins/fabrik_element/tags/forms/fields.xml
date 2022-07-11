@@ -5,7 +5,7 @@
 
 			<field type="helplink"
 				url="PLG_ELEMENT_TAGS_HELP_SERVER" />
-				
+
 			<field name="tags_dbname"
 				description="PLG_ELEMENT_TAGS_DBNAME_DESC"
 				label="PLG_ELEMENT_TAGS_DBNAME_LABEL"
@@ -23,7 +23,17 @@
 				default="span12"
 				label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
 				description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
-				
+
+			<field name="advanced_behavior"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   label="PLG_ELEMENT_FIELD_JQUERY_CHOSEN_LABEL"
+				   description="PLG_ELEMENT_FIELD_JQUERY_CHOSEN_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 	</fields>
 

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -61,7 +61,7 @@ class tagCloud{
 	 * @return tagCloud
 	 */
 
-	function tagCloud($rows, $url,  $min = 1, $maxRecords = 20, $seperator = ' :: ', $splitter = ',' )
+	function __construct($rows, $url,  $min = 1, $maxRecords = 20, $seperator = ' :: ', $splitter = ',' )
 	{
 		$this->rows = $rows;
 		$this->url = $url;

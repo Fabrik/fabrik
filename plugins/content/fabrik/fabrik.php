@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,9 +43,11 @@ class PlgContentFabrik extends JPlugin
 		$lang = JFactory::getLanguage();
 		$lang->load('com_fabrik', JPATH_BASE . '/components/com_fabrik');
 
+		// Don't throw an exception, just don't do nuthin' if system plugin hasn't run
 		if (!defined('COM_FABRIK_FRONTEND'))
 		{
-			throw new RuntimeException(JText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
+			//throw new RuntimeException(JText::_('COM_FABRIK_SYSTEM_PLUGIN_NOT_ACTIVE'), 400);
+			return true;
 		}
 
 		// Get plugin info
@@ -233,6 +235,7 @@ class PlgContentFabrik extends JPlugin
 					break;
 				case 'limit':
 					$limit = $m[1];
+					break;
 				case 'usekey':
 					$useKey = $m[1];
 					break;
@@ -320,6 +323,10 @@ class PlgContentFabrik extends JPlugin
 
 		$this->generalIncludes($viewName);
 
+		$origRowId = $input->get('rowid');
+		// Allow plugin to reference the origin rowid in the URL
+		$input->set('origRowId', $origRowId);
+
 		if ($element !== false)
 		{
 			// Special case for rendering element data
@@ -362,6 +369,12 @@ class PlgContentFabrik extends JPlugin
 				$rows  = $model->getData();
 				$group = array_shift($rows);
 				$row   = array_shift($group);
+
+				if (empty($row))
+				{
+					return;
+				}
+
 				$res   = $row->$element;
 			}
 			else
@@ -384,9 +397,8 @@ class PlgContentFabrik extends JPlugin
 				$activeEl->editable             = false;
 
 				// Set row id for things like user element
-				$origRowId = $input->get('rowid');
 				$input->set('rowid', $rowId);
-
+				
 				// Set detail view for things like youtube element
 				$origView = $input->get('view');
 				$input->set('view', 'details');
@@ -414,6 +426,7 @@ class PlgContentFabrik extends JPlugin
 
 				$input->set('rowid', $origRowId);
 				$input->set('view', $origView);
+				$input->set('origRowId', '');
 				$this->resetRequest();
 			}
 

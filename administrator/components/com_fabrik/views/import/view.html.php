@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -31,6 +31,9 @@ class FabrikAdminViewImport extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+        $srcs = FabrikHelperHTML::framework();
+        FabrikHelperHTML::script($srcs);
+        FabrikHelperHTML::iniRequireJs();
 		$this->form = $this->get('Form');
 		$this->addToolBar();
 		FabrikAdminHelper::setViewLayout($this);

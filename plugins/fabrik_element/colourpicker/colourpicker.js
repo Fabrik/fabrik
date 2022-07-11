@@ -1,7 +1,7 @@
 /**
  * Colour Picker Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -73,7 +73,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 			}
 			this.swatch = new ColourPickerSwatch(this.options.element, this.options, this);
 			this.widget.getElement('#' + this.options.element + '-swatch').empty().adopt(this.swatch);
-			this.widget.hide();
+			jQuery(this.widget).hide();
 
 			if (this.options.showPicker) {
 				this.grad = new ColourPickerGradient(this.options.element, this.options, this);
@@ -85,7 +85,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 			if (close) {
 				close.addEvent('click', function (e) {
 					e.stop();
-					this.widget.hide();
+					jQuery(this.widget).hide();
 				}.bind(this));
 			}
 		},

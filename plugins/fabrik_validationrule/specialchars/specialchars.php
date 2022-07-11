@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.validationrule.specialchars
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -56,7 +56,7 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 
 			foreach ($v as $c)
 			{
-				if (strstr($data, $c))
+				if (!empty($c) && strstr($data, $c))
 				{
 					return false;
 				}
@@ -94,7 +94,10 @@ class PlgFabrik_ValidationruleSpecialChars extends PlgFabrik_Validationrule
 
 			foreach ($v as $c)
 			{
-				$data = str_replace($c, $replace, $data);
+				if (!empty($c))
+				{
+					$data = str_replace($c, $replace, $data);
+				}
 			}
 		}
 

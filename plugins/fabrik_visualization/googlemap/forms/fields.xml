@@ -59,6 +59,7 @@
 							type="listfields"
 							repeat="true"
 							showall="0"
+							raw="true"
 							valueformat="tableelement"
 							connection="params_googlemap_connection"
 							connection_in_repeat="true"
@@ -82,19 +83,22 @@
 								<option value="lessthanequals">LESS THAN OR EQUALS</option>
 								<option value="in">IN</option>
 								<option value="not_in">NOT IN</option>
+								<option value="thisyear">COM_FABRIK_LIST_THIS_YEAR</option>
 								<option value="earlierthisyear">COM_FABRIK_LIST_EARLIER_THIS_YEAR</option>
 								<option value="laterthisyear">COM_FABRIK_LIST_LATER_THIS_YEAR</option>
 								<option value="yesterday">COM_FABRIK_YESTERDAY</option>
 								<option value="today">COM_FABRIK_TODAY</option>
 								<option value="tomorrow">COM_FABRIK_TOMORROW</option>
-								<opton value="thismonth">COM_FABRIK_THIS_MONTH</opton>
+								<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
 								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+								<option value="nextweek1">COM_FABRIK_NEXT_MONTH</option>
 						</field>
 
 						<field
 							name="filter-value"
-							type="field"
+							type="text"
+							filter="raw"
 							repeat="true"
 							label="COM_FABRIK_LIST_FILTER_VALUE_HEADING" />
 
@@ -296,6 +300,16 @@
 				<option value="k">Kilometers</option>
 			</field>
 
+			<field
+					name="fb_gm_heatmap_weighting_element"
+					type="element"
+					connection="params_googlemap_connection"
+					connection_in_repeat="false"
+					description="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_WEIGHTING_ELEMENT_DESC"
+					label="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_WEIGHTING_ELEMENT_LABEL"
+					table="params_googlemap_table" />
+
+
 		</fieldset>
 
 		<fieldset
@@ -413,6 +427,27 @@
 				description="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_DESC"
 				label="PLG_VISUALIZATION_GOOGLEMAP_ZOOMLEVEL_LABEL" />
 
+
+			<field name="fb_gm_show_location"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_VISUALIZATION_GOOGLEMAP_SHOW_LOCATION_DESC"
+			       label="PLG_VISUALIZATION_GOOGLEMAP_SHOW_LOCATION_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="fb_gm_fitbounds"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_VISUALIZATION_GOOGLEMAP_FITBOUNDS_DESC"
+			       label="PLG_VISUALIZATION_GOOGLEMAP_FITBOUNDS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="fb_gm_trafficlayer"
 				type="radio"
 				default="0"
@@ -422,7 +457,17 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
-			
+
+			<field name="fb_gm_heatmap"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_DESC"
+				   label="PLG_VISUALIZATION_GOOGLEMAP_HEATMAP_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field
 				name="fb_gm_center"
 				type="radio"
@@ -474,7 +519,7 @@
 				directory="/plugins/fabrik_visualization/googlemap/views/googlemap/tmpl/"
 				label="template"
 				name="fb_gm_layout"
-				type="folderlist" />
+				type="fabrikfolderlist" />
 
 		</fieldset>
 
@@ -531,6 +576,19 @@
 				type="radio">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="fb_gm_maptypecontroloptions"
+				   type="list"
+				   multiple="true"
+				   default=""
+				   description="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_DESC"
+				   label="PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_LABEL">
+				<option value="satellite">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_SATELLITE</option>
+				<option value="roadmap">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_ROADMAP</option>
+				<option value="terrain">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_TERRAIN</option>
+				<option value="hybrid">PLG_VISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_HYBRID</option>
+				<option value="styled_map">PLG_EVISUALIZATION_GOOGLEMAP_TYPE_CONTROL_OPTIONS_STYLED_MAP</option>
 			</field>
 
 			<field
@@ -590,6 +648,18 @@
 				name="fb_gm_ajax_refresh_rate"
 				size="6"
 				type="text" />
+
+
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_VISUALIZATION_GOOGLEMAP_AJAX_DEFER_DESC"
+					label="PLG_VISUALIZATION_GOOGLEMAP_AJAX_DEFER_LABEL"
+					name="fb_gm_ajax_defer"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 		</fieldset>
 
@@ -697,6 +767,12 @@
 					<option value="2">Right</option>
 			</field>
 
+			<field name="fb_gm_overlay_code"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_CODE_DESC"
+			       label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_CODE_LABEL" />
+
 			<field
 				default="0"
 				class="btn-group"
@@ -733,6 +809,28 @@
 				name="fb_gm_overlay_labels"
 				size="100"
 				type="text" />
+
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_PRESERVEVIEWPORT_DESC"
+					label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_PRESERVEVIEWPORT_LABEL"
+					name="fb_gm_overlay_preserveviewport"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					default="0"
+					class="btn-group"
+					description="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_SUPPRESSINFOWINDOWS_DESC"
+					label="PLG_VISUALIZATION_GOOGLEMAP_OVERLAYS_SUPPRESSINFOWINDOWS_LABEL"
+					name="fb_gm_overlay_suppressinfowindows"
+					type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 		</fieldset>
 	</fields>

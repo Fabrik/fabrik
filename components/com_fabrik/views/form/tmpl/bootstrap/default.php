@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -16,6 +16,12 @@ $form = $this->form;
 $model = $this->getModel();
 $groupTmpl = $model->editable ? 'group' : 'group_details';
 $active = ($form->error != '') ? '' : ' fabrikHide';
+
+$pageClass = $this->params->get('pageclass_sfx', '');
+
+if ($pageClass !== '') :
+	echo '<div class="' . $pageClass . '">';
+endif;
 
 if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
@@ -44,12 +50,12 @@ echo $this->plugintop;
 </div>
 
 <div class="row-fluid nav">
-	<div class="span6 pull-right">
+	<div class="<?php echo FabrikHelperHTML::getGridSpan(6); ?> pull-right">
 		<?php
 		echo $this->loadTemplate('buttons');
 		?>
 	</div>
-	<div class="span6">
+	<div class="<?php echo FabrikHelperHTML::getGridSpan(6); ?>">
 		<?php
 		echo $this->loadTemplate('relateddata');
 		?>
@@ -104,3 +110,7 @@ echo $this->loadTemplate('actions');
 echo $form->outro;
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();
+
+if ($pageClass !== '') :
+	echo '</div>';
+endif;

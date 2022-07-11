@@ -189,6 +189,14 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     }
                 }.bind(this));
             }
+        },
+
+        /**
+         * Get focus event
+         * @returns {string}
+         */
+        getFocusEvent: function () {
+            return 'click';
         }
 
     });

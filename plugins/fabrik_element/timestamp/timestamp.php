@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.timestamp
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -50,6 +50,19 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	}
 
 	/**
+	 * States if the element contains data which is recorded in the database
+	 * some elements (e.g. buttons) don't
+	 *
+	 * @param   array $data posted data
+	 *
+	 * @return  bool
+	 */
+	public function recordInDatabase($data = null)
+	{
+		return false;
+	}
+
+	/**
 	 * Draws the html form element
 	 *
 	 * @param   array  $data           To pre-populate element with
@@ -86,7 +99,10 @@ class PlgFabrik_ElementTimestamp extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$tz_offset = $params->get('gmt_or_local', '0') == '0';
 		$data = JHTML::_('date', $data, FText::_($params->get('timestamp_format', 'DATE_FORMAT_LC2')), $tz_offset);
 

@@ -1,7 +1,7 @@
 /**
  * Admin Listfields Dropdown Editor
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -15,6 +15,7 @@ var ListFieldsElement = new Class({
 		conn: null,
 		highlightpk: false,
 		showAll: 1,
+		showRaw: 0,
 		mode: 'dropdown',
 		defaultOpts: [],
 		addBrackets: false
@@ -142,6 +143,11 @@ var ListFieldsElement = new Class({
 		if (document.id(this.el.id + '_loader')) {
 			document.id(this.el.id + '_loader').show();
 		}
+		var conn = document.id(this.options.conn);
+		if (!conn) {
+			clearInterval(this.periodical);
+			return;
+		}
 		var cid = document.id(this.options.conn).get('value');
 		var tid = document.id(this.options.table).get('value');
 		if (!tid) {
@@ -154,6 +160,7 @@ var ListFieldsElement = new Class({
 			method: 'get',
 			data: {
 				'highlightpk': this.options.highlightpk,
+				'showRaw': this.options.showRaw,
 				'k': 2
 			},
 			onComplete: function (r) {

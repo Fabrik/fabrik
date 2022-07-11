@@ -102,6 +102,16 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+
+			<field name="time_24h"
+			       type="radio"
+			       default="1"
+			       class="btn-group"
+			       label="PLG_ELEMENT_TIME_24H_LABEL"
+			       description="PLG_ELEMENT_TIME_24H_DESC" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			
 		</fieldset>
 	</fields>

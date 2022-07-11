@@ -1,7 +1,7 @@
 /**
  * Cascading Dropdown Element Filter
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -17,7 +17,15 @@ var CascadeFilter = new Class({
 			}
 		}
 		if (this.observer) {
-			new Element('img', {'id': this.options.filterid + '_loading', 'src': Fabrik.liveSite + 'media/com_fabrik/images/ajax-loader.gif', 'alt': 'loading...', 'styles': {'opacity': '0'}}).inject(this.observer, 'before');
+			new Element(
+				'img',
+				{
+					'id': this.options.filterid + '_loading',
+					'src': Fabrik.liveSite + 'media/com_fabrik/images/ajax-loader.gif',
+					'alt': 'loading...',
+					'styles': {'opacity': '0'}
+				}
+				).inject(this.observer, 'after');
 			var v = this.observer.get('value');
 			this.myAjax = new Request({url: '', method: 'post',
 				'data': {
@@ -62,6 +70,7 @@ var CascadeFilter = new Class({
 
 	update: function () {
 		if (this.observer) {
+			document.id(this.options.filterid + '_loading').setStyle('opacity', '1');
 			this.myAjax.options.data.v = this.observer.get('value');
 			// $$$ hugh - added this so we fake out submitted form data for use as placeholders in query filter
 			$filterData = eval(this.options.filterobj).getFilterData();
@@ -71,7 +80,7 @@ var CascadeFilter = new Class({
 	},
 
 	ajaxComplete: function (json) {
-		json = JSON.decode(json);
+		json = JSON.parse(json);
 		/*
 		this.periodcount ++;
 		if (this.periodcount > 5) {

@@ -1,7 +1,7 @@
 /**
  * Tooltips
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -49,7 +49,7 @@ var FloatingTips = new Class({
 			var tmpOpts = {};
 			// Tip text in gmap viz bubble not decodable so test if json is valid first
 			if (trigger.get('opts', '{}').opts && JSON.validate(trigger.get('opts', '{}').opts)) {
-				tmpOpts = JSON.decode(trigger.get('opts', '{}').opts);
+				tmpOpts = JSON.parse(trigger.get('opts', '{}').opts);
 			}
 
 			var opts = Object.merge(Object.clone(this.options), tmpOpts);

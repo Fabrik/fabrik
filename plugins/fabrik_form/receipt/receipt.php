@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.receipt
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -79,7 +79,6 @@ class PlgFabrik_FormReceipt extends PlgFabrik_Form
 		}
 
 		$rowId = $input->get('rowid');
-		$config = JFactory::getConfig();
 		$w = new FabrikWorker;
 		$data = $this->getProcessData();
 		$message = $params->get('receipt_message');
@@ -112,24 +111,20 @@ class PlgFabrik_FormReceipt extends PlgFabrik_Form
 
 		$subject = html_entity_decode($params->get('receipt_subject', ''));
 		$subject = JText::_($w->parseMessageForPlaceHolder($subject, $data, false));
-		$from = $config->get('mailfrom', '');
-		$fromName = $config->get('fromname', '');
 
-		// Darn silly hack for poor joomfish settings where lang parameters are set to override joomla global config but not mail translations entered
-		$rawConfig = new JConfig;
+		@list($emailFrom, $emailFromName) = explode(":", $w->parseMessageForPlaceholder($params->get('from_email'), $this->data, false), 2);
 
-		if ($from === '')
+		if (empty($emailFrom))
 		{
-			$from = $rawConfig->mailfrom;
+			$emailFrom = $this->config->get('mailfrom');
 		}
 
-		if ($fromName === '')
+		if (empty($emailFromName))
 		{
-			$fromName = $rawConfig->fromname;
+			$emailFromName = $this->config->get('fromname', $emailFrom);
 		}
 
-		$from = $params->get('from_email', $from);
-		$res = FabrikWorker::sendMail($from, $fromName, $to, $subject, $message, true);
+		$res = FabrikWorker::sendMail($emailFrom, $emailFromName, $to, $subject, $message, true);
 
 		if (!$res)
 		{

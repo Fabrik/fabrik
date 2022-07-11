@@ -1,9 +1,0 @@
-HTTP/1.1 200 OK
-Server: DPS_PX_SERVER
-Cache-Control: private
-Content-Length: 866
-Content-Type: application/xhtml+xml; charset=utf-8
-Expires: Sat, 23 Feb 2013 15:11:45 GMT
-Date: Sat, 23 Feb 2013 15:12:45 GMT
-
-<Response valid="1"><AmountSettlement>1.00</AmountSettlement><AuthCode>115141</AuthCode><CardName>Visa</CardName><CardNumber>411111........11</CardNumber><DateExpiry>1234</DateExpiry><DpsTxnRef>000000030a1806f0</DpsTxnRef><Success>1</Success><ResponseText>APPROVED</ResponseText><DpsBillingId>0000030007487668</DpsBillingId><CardHolderName>ABCD</CardHolderName><CurrencySettlement>NZD</CurrencySettlement><TxnData1></TxnData1><TxnData2></TxnData2><TxnData3></TxnData3><TxnType>Auth</TxnType><CurrencyInput>NZD</CurrencyInput><MerchantReference></MerchantReference><ClientInfo>122.62.25.44</ClientInfo><TxnId></TxnId><EmailAddress></EmailAddress><BillingId></BillingId><TxnMac>2BC20210</TxnMac><CardNumber2></CardNumber2><DateSettlement>20150401</DateSettlement><IssuerCountryId>0</IssuerCountryId><Cvc2ResultCode>NotUsed</Cvc2ResultCode><ReCo>00</ReCo><ProductSku></ProductSku><ShippingName></ShippingName><ShippingAddress></ShippingAddress><ShippingPostalCode></ShippingPostalCode><ShippingPhoneNumber></ShippingPhoneNumber><ShippingMethod></ShippingMethod><BillingName></BillingName><BillingPostalCode></BillingPostalCode><BillingAddress></BillingAddress><BillingPhoneNumber></BillingPhoneNumber><PhoneNumber></PhoneNumber><AccountInfo></AccountInfo></Response>

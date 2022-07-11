@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.j2store
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -80,9 +80,25 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 		$productTable->load(array('product_source' => $source, 'product_source_id' => $this->getModel()->getInsertId()));
 		$productId = $productTable->get('j2store_product_id');
 
-		$props = array('enabled', 'product_type', 'visibility', 'sku', 'upc', 'price', 'manufacturer_id',
-			'addtocart_text', 'shipping', 'length', 'width', 'height', 'weight', 'length_class_id', 'weight_class_id',
-			'taxprofile_id');
+		$props = array(
+			'enabled',
+			'product_type',
+			'visibility',
+			'sku',
+			'upc',
+			'price',
+			'manufacturer_id',
+			'vendor_id',
+			'addtocart_text',
+			'shipping',
+			'length',
+			'width',
+			'height',
+			'weight',
+			'length_class_id',
+			'weight_class_id',
+			'taxprofile_id'
+		);
 
 		foreach ($props as $prop)
 		{
@@ -94,13 +110,40 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 		$this->appendProperty($productParams, 'download_expiry', $formData);
 		$data['params'] = json_encode($productParams);
 
-		$data['product_type']       = $data['product_type'] === 'downloadable' || 'simple' ? $data['product_type'] : 'simple';
+		$productTypes = array(
+			'downloadable',
+			'simple'
+		);
+
+		if (!in_array($data['product_type'], $productTypes))
+		{
+			$data['product_type'] = 'simple';
+		}
+
+		if (!isset($data['enabled']))
+		{
+			$data['enabled'] = '1';
+		}
+
+		if (!isset($data['visibility']))
+		{
+			$data['visibility'] = '1';
+		}
+
 		$data['product_source']     = $source;
 		$data['product_source_id']  = $this->getModel()->getInsertId();
 		$data['pricing_calculator'] = 'standard';
 		$data['j2store_product_id'] = $productId;
 
+		// j2store save tosses a warning if this isn't there ...
+		$data['productfilter_ids'] = array();
+
 		$productModel->save($data);
+
+		if (empty($productId))
+		{
+			$productId = $productModel->getId();
+		}
 
 		$this->storeImages($data, $productTable->get('j2store_productimage_id'));
 		$this->storeVariant($data, $productId);
@@ -119,6 +162,9 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	{
 		$table = F0FTable::getAnInstance('Variant', 'J2StoreTable');
 		$table->load(array('product_id' => $productId));
+
+		$data['product_id'] = $productId;
+		$data['is_master'] = 1;
 
 		return $table->save($data);
 	}
@@ -239,7 +285,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function getEndContent()
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isAdmin()  || !$this->showCartButtons())
 		{
 			return;
 		}
@@ -311,7 +357,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function onLoadListData($opts)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isAdmin()  || !$this->showCartButtons())
 		{
 			return;
 		}
@@ -326,13 +372,18 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 			{
 				$product = F0FTable::getAnInstance('Product', 'J2StoreTable')->getClone();
 				$id      = $row->__pk_val;
+				$source  = $this->j2StoreSource();
 				$helper  = new J2Product();
 
-				if ($product->get_product_by_source($this->j2StoreSource(), $id))
+				if ($product->get_product_by_source($source, $id))
 				{
 					$helper->getCheckoutLink($product);
 					$layout       = $this->getLayout('addtocart-list');
 					$row->j2store = $layout->render((object) array('product' => $product));
+				}
+				else
+				{
+					$row->j2store = FText::sprintf('PLG_FORM_J2STORE_PRODUCT_NOT_FOUND', $source, $id);
 				}
 			}
 		}
@@ -353,6 +404,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 			self::$listJs = true;
 
 			// Includes the ajax add to cart js.
+			require_once (JPATH_ADMINISTRATOR.'/components/com_j2store/helpers/strapper.php');
 			J2StoreStrapper::addJs();
 
 			// Watch quantity input and update add to cart button data.
@@ -362,6 +414,12 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 				var productId = $(this).data(\'product_id\'),
 				q = $(this).val();
 				$(\'a[data-product_id=\' + productId + \']\').data(\'product_qty\', q);
+			});
+			$(\'body\').on(\'adding_to_cart\', function(e, btn, data) {
+				Fabrik.loader.start(btn.closest(\'.fabrikForm\'), Joomla.JText._(\'COM_FABRIK_LOADING\'));
+			});
+			$(\'body\').on(\'after_adding_to_cart\', function(e, btn, response, type) {
+				Fabrik.loader.stop(btn.closest(\'.fabrikForm\'));
 			});
 		});
 		');
@@ -377,7 +435,7 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 	 */
 	public function onGetPluginRowHeadings($args)
 	{
-		if ($this->app->isAdmin())
+		if ($this->app->isAdmin() || !$this->showCartButtons())
 		{
 			return;
 		}
@@ -386,4 +444,22 @@ class PlgFabrik_FormJ2Store extends PlgFabrik_Form
 		$args[0]['headingClass']['j2store']  = array('class' => '', 'style' => '');
 		$args[0]['cellClass']['j2store']     = array('class' => '', 'style' => '');
 	}
+
+	/**
+	 * Determine if we use the plugin or not
+	 * both location and event criteria have to be match when form plug-in
+	 *
+	 * @param   string $location Location to trigger plugin on
+	 * @param   string $event    Event to trigger plugin on
+	 *
+	 * @return  bool  true if we should run the plugin otherwise false
+	 */
+	public function showCartButtons($location = null, $event = null)
+	{
+		$params = $this->getParams();
+		$groups = $this->user->getAuthorisedViewLevels();
+
+		return in_array($params->get('j2store_access', '1'), $groups);
+	}
+
 }

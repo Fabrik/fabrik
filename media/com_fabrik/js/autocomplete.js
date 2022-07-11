@@ -1,7 +1,7 @@
 /**
  * Auto-Complete
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -150,7 +150,7 @@ var FbAutocomplete = new Class({
 
 	completeAjax: function (r, v) {
 		Fabrik.loader.stop(this.getInputElement());
-		r = JSON.decode(r);
+		r = JSON.parse(r);
 		this.cache[v] = r;
 		this.populateMenu(r);
 		this.openMenu();

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset name="plg-validationrule-isiban">
+
+			<field name="isiban-message"
+				type="text"
+				description="PLG_VALIDATIONRULE_ISIBAN_ERROR_DESC"
+				label="PLG_VALIDATIONRULE_ISIBAN_ERROR_LABEL"
+				repeat="true"
+				size="30"/>
+
+			<field name="isiban-validation_condition"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_VALIDATIONRULE_ISIBAN_CONDITION_DESC"
+				label="PLG_VALIDATIONRULE_ISIBAN_CONDITION_LABEL"
+				repeat="true" />
+
+			<field name="isiban-allow_empty"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_VALIDATIONRULE_ISIBAN_ALLOW_EMPTY_DESC"
+				label="PLG_VALIDATIONRULE_ISIBAN_ALLOW_EMPTY_LABEL"
+				repeat="true" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="tip_text"
+			       type="textarea"
+			       repeat="true"
+			       cols="30" rows="3"
+			       description="COM_FABRIK_VALIDATION_TIP_TEXT_DESC"
+			       label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"/>
+
+			<field name="icon"
+			       type="field"
+			       repeat="true"
+			       description="PLG_FABRIK_VALIDATION_ICON_DESC"
+			       label="PLG_FABRIK_VALIDATION_ICON_LABEL" />
+
+		</fieldset>
+	</fields>
+</form>

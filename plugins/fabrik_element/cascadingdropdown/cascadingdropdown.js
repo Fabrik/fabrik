@@ -10,7 +10,7 @@
  this elements values
  */
 
-define(['jquery', 'element/databasejoin/databasejoin'], function (jQuery, FbDatabasejoin) {
+define(['jquery', 'element/databasejoin/databasejoin', 'fab/autocomplete-bootstrap-cdd'], function (jQuery, FbDatabasejoin, FabCddAutocomplete) {
     window.FbCascadingdropdown = new Class({
 
         options : {
@@ -47,6 +47,7 @@ define(['jquery', 'element/databasejoin/databasejoin'], function (jQuery, FbData
             // $$$ hugh - ignoreAjax is set when duplicating a group, when we do need to change()
             // regardless of whether this is a new row or editing.
             if (this.ignoreAjax || (this.options.editable && !this.options.editing)) {
+                this.ignoreAjax = false;
                 var v = this.form.formElements.get(this.options.watch).getValue();
                 this.change(v, document.id(this.options.watch).id);
             }
@@ -127,7 +128,7 @@ define(['jquery', 'element/databasejoin/databasejoin'], function (jQuery, FbData
                         c;
                     this.spinner.hide();
 
-                    json = JSON.decode(json);
+                    json = JSON.parse(json);
                     if (this.options.editable) {
                         this.destroyElement();
                     } else {
@@ -277,7 +278,7 @@ define(['jquery', 'element/databasejoin/databasejoin'], function (jQuery, FbData
                 this.element.empty();
                 // Set ingoreAjax so that the ajax event that is fired when the element is added to the form manager
                 // does not update the newly cloned drop-down
-                //this.ignoreAjax = true;
+                this.ignoreAjax = true;
             }
             if (this.options.showDesc === true) {
                 this.element.addEvent('change', function () {

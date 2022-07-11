@@ -37,6 +37,7 @@
 			class="readonly"
 			default="0"
 			label="COM_FABRIK_ID_LABEL"
+			description="COM_FABRIK_FIELD_ELEMENT_ID_DESC"
 			readonly="true"
 			size="10"
 			type="text"/>
@@ -51,6 +52,23 @@
 			type="specificordering"
 			description="COM_FABRIK_FIELD_ORDER_DESC"
 			label="COM_FABRIK_FIELD_ORDER_LABEL" />
+
+	</fieldset>
+
+	<fieldset name="hidden">
+
+			<field name="hidden"
+				type="radio"
+				default="0"
+				class="btn-group"
+				observe="params_plugin"
+				description="COM_FABRIK_ELEMENT_HIDDEN_DESC"
+				label="COM_FABRIK_ELEMENT_HIDDEN_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
+					<option value="2">COM_FABRIK_FORM_VIEW_ONLY</option>
+					<option value="3">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+		</field>
 
 	</fieldset>
 
@@ -304,13 +322,13 @@
 		<fieldset name="icons">
 
 			<field name="icon_folder"
-				type="radio"
-				class="btn-group"
+				type="list"
 				default="0"
 				description="COM_FABRIK_FIELD_ICON_FOLDER_DESC"
 				label="COM_FABRIK_FIELD_ICON_FOLDER_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="2">COM_FABRIK_FIELD_ICON_FOLDER_CLASS</option>
 			</field>
 
 			<field name="icon_hovertext"
@@ -685,6 +703,16 @@
 					       default="1"
 					       description="COM_FABRIK_STORE_IN_DB_DESC"
 					       label="COM_FABRIK_STORE_IN_DB_LABEL">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+					</field>
+
+					<field name="default_on_copy"
+						   type="radio"
+						   class="btn-group"
+						   default="0"
+						   description="COM_FABRIK_FIELD_DEFAULT_ON_COPY_DESC"
+						   label="COM_FABRIK_FIELD_DEFAULT_ON_COPY_LABEL" >
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 					</field>

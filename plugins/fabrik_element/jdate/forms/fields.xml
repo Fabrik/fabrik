@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields>
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-jdate" label="COM_FABRIK_OPTIONS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_JDATE_HELP_SERVER" />
+
+
+			<field name="jdate_note"
+				   type="note"
+				   class="alert alert-info"
+				   close="true"
+				   description="PLG_ELEMENT_JDATE_NOTE" />
+
+			<field default="0"
+				class="btn-group"
+				label="PLG_ELEMENT_JDATE_HIDDEN_LABEL" name="hidden" type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+			<field name="default"
+				type="fabrikeditor"
+				mode="php"
+				label="PLG_ELEMENT_JDATE_DEFAULT_LABEL" />
+
+			<field name="eval"
+				type="radio"
+				default="0"
+				class="btn-group"
+				label="PLG_ELEMENT_JDATE_EVAL_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+
+	<fields name="params">
+
+		<fieldset name="plg-element-jdate-options" label="PLG_ELEMENT_JDATE_FORMATTING_HEADING">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_JDATE_HELP_SERVER" />
+
+			<field name="bootstrap_class"
+				   type="bootstrapfieldclass"
+				   default="input-medium"
+				   label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
+				   description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
+
+			<field name="jdate_showtime"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_JDATE_SHOW_TIME_DESC"
+				label="PLG_ELEMENT_JDATE_SHOW_TIME_LABEL" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="jdate_time_format"
+				type="text"
+				default=""
+				class="input-mini"
+				description="PLG_ELEMENT_JDATE_TIME_FORMAT_DESC"
+				label="PLG_ELEMENT_JDATE_TIME_FORMAT_LABEL"
+				length="20"/>
+
+
+			<field name="jdate_time_24"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_JDATE_TIME_24_DESC"
+				   label="PLG_ELEMENT_JDATE_TIME_24_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+
+		<fieldset label="PLG_ELEMENT_JDATE_DATE_FORMATS_HEADING" name="plg-element-jdate-extra">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_JDATE_HELP_SERVER" />
+
+			<field name="jdate_store_as_local"
+				type="list"
+				default="0"
+				class="input-small"
+				description="PLG_ELEMENT_JDATE_STORE_AS_DESC"
+				label="PLG_ELEMENT_JDATE_STORE_AS_LABEL">
+					<option value="0">PLG_ELEMENT_JDATE_UTC</option>
+					<option value="1">PLG_ELEMENT_JDATE_LOCAL_TIME</option>
+			</field>
+
+			<field name="jdate_table_format"
+				type="text"
+				default="Y-m-d"
+				class="input-mini"
+				description="PLG_ELEMENT_JDATE_TABLE_FORMAT_DESC"
+				label="PLG_ELEMENT_JDATE_TABLE_DATE_FORMAT_LABEL"
+				length="20" />
+
+			<field name="jdate_form_format"
+				type="text"
+				default="Y-m-d"
+				class="input-mini"
+				description="PLG_ELEMENT_JDATE_FORM_DATE_FORMAT_DESC"
+				label="PLG_ELEMENT_JDATE_FORM_DATE_FORMAT_LABEL"
+				length="20" />
+
+			<field name="jdate_defaulttotoday"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_JDATE_DEFAULT_TODAY_DESC"
+				label="PLG_ELEMENT_JDATE_DEFAULT_TODAY_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="jdate_alwaystoday"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_JDATE_ALWAYS_TODAY_DESC"
+				label="PLG_ELEMENT_JDATE_ALWAYS_TODAY_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+            <!--
+			<field name="jdate_firstday"
+				type="list"
+				default="0"
+				description="PLG_ELEMENT_JDATE_FIRST_WEEK_DAY_DESC"
+				label="PLG_ELEMENT_JDATE_FIRST_WEEK_DAY_LABEL">
+					<option value="6">SATURDAY</option>
+					<option value="0">SUNDAY</option>
+					<option value="1">MONDAY</option>
+			</field>
+            -->
+
+			<field name="jdate_allow_typing_in_field"
+				type="radio"
+				default="1"
+				class="btn-group"
+				description="PLG_ELEMENT_JDATE_ALLOW_TYPING_IN_FIELD_DESC"
+				label="PLG_ELEMENT_JDATE_ALLOW_TYPING_IN_FIELD_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+            <field name="jdate_show_week_numbers"
+                   type="radio"
+                   default="0"
+                   class="btn-group"
+                   description="PLG_ELEMENT_JDATE_SHOW_WEEK_NUMBERS_DESC"
+                   label="PLG_ELEMENT_JDATE_SHOW_WEEK_NUMBERS_LABEL">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+			<field name="jdate_csv_offset_tz"
+				type="list"
+				default="0"
+				description="PLG_ELEMENT_JDATE_CSV_OFFSET_TZ_DESC"
+				label="PLG_ELEMENT_JDATE_CSV_OFFSET_TZ_LABEL">
+					<option value="0">PLG_ELEMENT_JDATE_CSV_FORMAT_NORMAL</option>
+					<option value="3">PLG_ELEMENT_JDATE_CSV_FORMAT_NORMAL_LIST</option>
+					<option value="1">PLG_ELEMENT_JDATE_CSV_FORMAT_MYSQL_GMT</option>
+					<option value="2">PLG_ELEMENT_JDATE_CSV_FORMAT_MYSQL_LOCAL</option>
+			</field>
+		</fieldset>
+
+		<!--
+		<fieldset label="PLG_ELEMENT_JDATE_ADVANCED_HEADING" name="plg-element-jdate-advanced">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_JDATE_HELP_SERVER" />
+
+			<field name="jdate_advanced"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_JDATE_ADVANCED_DESC"
+				label="PLG_ELEMENT_JDATE_ADVANCED_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="jdate_allow_func"
+				type="fabrikeditor"
+				mode="javascript"
+				description="PLG_ELEMENT_JDATE_ALLOW_FUNC_DESC"
+				label="PLG_ELEMENT_JDATE_ALLOW_FUNC_LABEL" />
+
+			<field name="jdate_allow_php_func"
+				type="fabrikeditor"
+				mode="javascript"
+				description="PLG_ELEMENT_JDATE_ALLOW_PHP_FUNC_DESC"
+				label="PLG_ELEMENT_JDATE_ALLOW_PHP_FUNC_LABEL" />
+
+			<field name="jdate_observe"
+				type="listfields"
+				description="PLG_ELEMENT_JDATE_WATCH_DESC"
+				label="PLG_ELEMENT_JDATE_WATCH_LABEL" />
+		</fieldset>
+		-->
+	</fields>
+</form>

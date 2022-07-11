@@ -84,7 +84,7 @@
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-visualization-calendar" label="COM_FABRIK_OPTIONS">
 			
 			<field name="calendar_layout"
-				type="folderlist"
+				type="fabrikfolderlist"
 				directory="plugins/fabrik_visualization/calendar/views/calendar/tmpl/"
 				default="bootstrap"
 				label="PLG_VISUALIZATION_CALENDAR_TEMPLATE_LABEL" />

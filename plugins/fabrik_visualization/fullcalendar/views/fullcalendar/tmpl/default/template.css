@@ -103,3 +103,18 @@ list-style:none;
 .today{
 	background-color:#dddddd !important;
 }
+
+.fabrikEventModal {
+	width: 300px !important;
+}
+
+.fabrikEventModal .row {
+	margin-left: 10px;
+}
+
+.calEventButtons {
+	margin-left: 10px;
+	text-align: center;
+	display: inline;
+	margin: 10px auto;
+}

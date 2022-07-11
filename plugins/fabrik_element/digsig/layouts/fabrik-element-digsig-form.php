@@ -10,7 +10,8 @@ $d = $displayData;
 				<a href="#clear"><?php echo JText::_('PLG_ELEMENT_DIGSIG_CLEAR'); ?></a>
 			</li>
 		</ul>
-		<div class="sig sigWrapper">
+		<div class="sig sigWrapper" style="width:<?php echo $d->digsig_width; ?>px;
+             height:<?php echo $d->digsig_height; ?>px;">
 			<canvas class="pad" id="<?php echo $d->id; ?>_oc_pad" width="<?php echo $d->digsig_width; ?>"
 				height="<?php echo $d->digsig_height; ?>"></canvas>
 		</div>

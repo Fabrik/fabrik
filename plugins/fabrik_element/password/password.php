@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.password
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -87,6 +87,54 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 			return '***********';
 		}
 
+		$extraClass = 'strength ' . $params->get('bootstrap_class', '');
+		$extraStyle = 'margin-top: 20px;';
+
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-progress-bar-strong',
+			'fabrik-progress-bar',
+			(object) array(
+				'context' => 'success',
+				'value' => 100,
+				'stripped' => true,
+				'extraClass' => $extraClass,
+				'extraStyle' => $extraStyle
+			)
+		);
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-progress-bar-medium',
+			'fabrik-progress-bar',
+			(object) array(
+				'context' => 'info',
+				'value' => 70,
+				'stripped' => true,
+				'extraClass' => $extraClass,
+				'extraStyle' => $extraStyle
+			)
+		);
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-progress-bar-weak',
+			'fabrik-progress-bar',
+			(object) array(
+				'context' => 'info',
+				'value' => 30,
+				'stripped' => true,
+				'extraClass' => $extraClass,
+				'extraStyle' => $extraStyle
+			)
+		);
+		FabrikHelperHTML::jLayoutJs(
+			'fabrik-progress-bar-more',
+			'fabrik-progress-bar',
+			(object) array(
+				'context' => 'warning',
+				'value' => 10,
+				'stripped' => true,
+				'extraClass' => $extraClass,
+				'extraStyle' => $extraStyle
+			)
+		);
+
 		$bits                = $this->inputProperties($repeatCounter, 'password');
 		$bits['value']       = $value;
 		$bits['placeholder'] = FText::_('PLG_ELEMENT_PASSWORD_TYPE_PASSWORD');
@@ -104,6 +152,8 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		$layoutData->pw2Attributes     = $bits;
 		$element->name                 = $origName;
 		$layoutData->j3                = FabrikWorker::j3();
+		$layoutData->bootstrapClass    = $params->get('bootstrap_class', '');
+		$layoutData->extraStyle        = $extraStyle;
 		$layoutData->showStrengthMeter = $params->get('strength_meter', 1) == 1;
 
 		return $layout->render($layoutData);
@@ -136,7 +186,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		 */
 		$value     = urldecode($this->getValue($_REQUEST, $repeatCounter));
 		$name      = $this->getFullName(true, false);
-		$checkName = str_replace($element->name, $element->name . '_check', $name);
+		$checkName = $name . '_check';
 
 		/**
 		 * $$$ hugh - there must be a better way of doing this, but ...
@@ -165,7 +215,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 			}
 		}
 
-		if ($checkValue != $value)
+		if ($input->get('fabrik_confirmation', '') !== '2' && $checkValue != $value)
 		{
 			$this->validationError = FText::_('PLG_ELEMENT_PASSWORD_PASSWORD_CONFIRMATION_DOES_NOT_MATCH');
 
@@ -182,7 +232,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 			}
 
 			// $$$ rob add rowid test as well as if using row=-1 and usekey=field $k may have a value
-			if (($rowId === '' || empty($rowId)) && $keyVal === 0 && $value === '')
+			if (($rowId === '' || empty($rowId)) && ($keyVal === 0 || $keyVal === '') && $value === '')
 			{
 				/**
 				 * Why are we using .= here, but nowhere else?
@@ -191,6 +241,9 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 
 				return false;
 			}
+
+			// need to set the fullname back in case confirmation plugin is being used
+			$this->setFullName($name, true, false);
 
 			return true;
 		}
@@ -252,7 +305,7 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 	 *
 	 * @return  string
 	 */
-	public function internalValidataionText()
+	public function internalValidationText()
 	{
 		return FText::_('PLG_ELEMENT_PASSWORD_VALIDATION_TIP');
 	}

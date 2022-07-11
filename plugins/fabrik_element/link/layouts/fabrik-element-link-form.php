@@ -8,7 +8,7 @@ $labelAttributes = array();
 
 foreach ($d->linkAttributes as $key => $val)
 {
-	$linkAttributes[] = $key . '="' . $val . '"';
+	$linkAttributes[] = $key . '="' . $val . '" ';
 }
 
 $linkAttributes = implode("\n", $linkAttributes);
@@ -16,7 +16,7 @@ $linkAttributes = implode("\n", $linkAttributes);
 
 foreach ($d->labelAttributes as $key => $val)
 {
-	$labelAttributes[] = $key . '="' . $val . '"';
+	$labelAttributes[] = $key . '="' . $val . '" ';
 }
 
 $labelAttributes = implode("\n", $labelAttributes);

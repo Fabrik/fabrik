@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+
+use Fabrik\Helpers\Html;
+use Fabrik\Helpers\Worker;
 
 /**
  * Fabrik From Controller
@@ -88,9 +91,27 @@ class FabrikControllerForm extends JControllerLegacy
 		$viewName = $input->get('view', 'form');
 		$modelName = $viewName;
 
+		if ($input->get('clearsession', '') === '1')
+		{
+			$this->clearSession();
+		}
+
 		if ($viewName == 'emailform')
 		{
 			$modelName = 'form';
+		}
+
+		$extraQS = FabrikWorker::getMenuOrRequestVar('extra_query_string', '', $this->isMambot, 'menu');
+		$extraQS = ltrim($extraQS, '&?');
+		$extraQS = FabrikString::encodeqs($extraQS);
+
+		if (!empty($extraQS))
+		{
+			foreach (explode('&', $extraQS) as $qsStr)
+			{
+				$parts = explode('=', $qsStr);
+				$input->set($parts[0], $parts[1]);
+			}
 		}
 
 		$viewType = $document->getType();
@@ -107,11 +128,13 @@ class FabrikControllerForm extends JControllerLegacy
 		$view->setModel($model, true);
 		$view->isMambot = $this->isMambot;
 
+		FabrikWorker::getPluginManager()->runPlugins('onBeforeGetData', $model);
+
 		// Get data as it will be needed for ACL when testing if current row is editable.
 		$model->getData();
 
 		// If we can't edit the record redirect to details view
-		if ($model->checkAccessFromListSettings() <= 1)
+		if (!$this->isMambot && $model->checkAccessFromListSettings() <= 1)
 		{
 			$app = JFactory::getApplication();
 			$input = $app->input;
@@ -123,6 +146,11 @@ class FabrikControllerForm extends JControllerLegacy
 			else
 			{
 				$url = 'index.php?option=com_' . $package . '&view=details&formid=' . $input->getInt('formid') . '&rowid=' . $input->get('rowid', '', 'string');
+
+				if (!empty($extraQS))
+				{
+					$url .= '&' . $extraQS;
+				}
 			}
 
 			// So we can determine in form PHP plugin's that the original request was for a form.
@@ -145,9 +173,9 @@ class FabrikControllerForm extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') == 0
-			|| $listParams->get('list_disable_caching', '0') === '1'
-			|| in_array($input->get('format'), array('raw', 'csv', 'pdf')))
+		if (!Worker::useCache($listModel)
+			|| $input->get('fabrik_social_profile_hash', '') !== ''
+		)
 		{
 			$view->display();
 		}
@@ -159,6 +187,7 @@ class FabrikControllerForm extends JControllerLegacy
 			$cache = JFactory::getCache('com_' . $package, 'view');
 			ob_start();
 			$cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
 			$contents = ob_get_contents();
 			ob_end_clean();
 
@@ -183,7 +212,7 @@ class FabrikControllerForm extends JControllerLegacy
 		$profiler = JProfiler::getInstance('Application');
 		JDEBUG ? $profiler->mark('controller process: start') : null;
 
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$input = $app->input;
 
 		if ($input->get('format', '') == 'raw')
@@ -202,8 +231,53 @@ class FabrikControllerForm extends JControllerLegacy
 
 		$model->setId($input->getInt('formid', 0));
 		$model->packageId = $input->getInt('packageId');
-		$this->isMambot = $input->get('isMambot', 0);
-		$model->rowId = $input->get('rowid', '', 'string');
+		$this->isMambot   = $input->get('isMambot', 0);
+		$model->rowId     = $input->get('rowid', '', 'string');
+		$listModel        = $model->getListModel();
+
+		/**
+		 * Do some ACL sanity checks.  Without this check, if spoof checking is disabled, a form can be submitted
+		 * with no ACL checks being performed.  With spoof checking, we do the ACL checks on form load, so can't get the
+		 * token without having access.
+		 *
+		 * Don't bother checking if not recording to database, as no list or list ACLs.
+		 */
+		if ($model->recordInDatabase())
+		{
+			$aclOK    = false;
+
+			if ($model->isNewRecord() && $listModel->canAdd())
+			{
+				$aclOK = true;
+			}
+			else
+			{
+				/*
+				 * Need to set up form data here so we can pass it to canEdit(), remembering to
+				 * add encrypted vars, so things like user elements which have ACLs on them get
+				 * included in data for canUserDo() checks.  Nay also need to do copyToFromRaw(),
+				 * but leave that until we find a need for it.
+				 *
+				 * Note that canEdit() expects form data as an object, and $formData is an array,
+				 * but the actual canUserDo() helper func it calls with the data will accept either.
+				 */
+				$formData = $model->setFormData();
+				$model->addEncrytedVarsToArray($formData);
+
+				if (!$model->isNewRecord() && $listModel->canEdit($formData))
+				{
+					$aclOK = true;
+				}
+			}
+
+			if (!$aclOK)
+			{
+				$msg = $model->aclMessage(true);
+				$app->enqueueMessage($msg);
+
+				return;
+			}
+		}
 
 		/**
 		 * $$$ hugh - need this in plugin manager to be able to treat a "Copy" form submission
@@ -270,7 +344,7 @@ class FabrikControllerForm extends JControllerLegacy
 		 * If debug submit is requested (&fabrikdebug=2, and J! debug on, and Fabrik debug allowed),
 		 * bypass any and all redirects, so we can see the profile for the submit
 		 */
-		if (FabrikHelperHTML::isDebugSubmit())
+		if (Html::isDebugSubmit())
 		{
 			echo '<p>' . $msg . '</p>';
 			echo '<p>Form submission profiling has stopped the automatic redirect. </p>';
@@ -421,10 +495,9 @@ class FabrikControllerForm extends JControllerLegacy
 
 		if (!$validated)
 		{
-			$this->savepage();
-
 			if ($this->isMambot)
 			{
+				$this->savepage();
 				$this->setRedirect($this->getRedirectURL($model, false));
 			}
 			else
@@ -525,17 +598,36 @@ class FabrikControllerForm extends JControllerLegacy
 	 * Clear down any temp db records or cookies
 	 * containing partially filled in form data
 	 *
+	 * This is the controller task, which then does display as well
+	 *
 	 * @return  null
 	 */
 	public function removeSession()
 	{
+		$this->clearSession();
+		$this->display();
+	}
+
+	/**
+	 * Clear down any temp db records or cookies
+	 * containing partially filled in form data
+	 *
+	 * @return  null
+	 */
+	public function clearSession()
+	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
+
+		// clean the cache, just for good measure
+		$cache = JFactory::getCache($input->get('option'));
+		$cache->clean();
+
+		// remove the formsession row
 		$sessionModel = $this->getModel('formsession', 'FabrikFEModel');
 		$sessionModel->setFormId($input->getInt('formid', 0));
 		$sessionModel->setRowId($input->get('rowid', '', 'string'));
 		$sessionModel->remove();
-		$this->display();
 	}
 
 	/**

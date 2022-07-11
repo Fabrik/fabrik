@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,10 +12,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
-
-// Needed for when you make a menu item link to a form.
-require_once JPATH_SITE . '/components/com_fabrik/helpers/parent.php';
-require_once JPATH_SITE . '/components/com_fabrik/helpers/string.php';
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -112,6 +108,25 @@ class JFormFieldFormList extends JFormFieldList
 			$this->form->setValue('form', null, $this->value);
 		}
 
-		return parent::getInput();
+		if ((int) $this->form->getValue('id') == 0 || !$this->element['readonlyonedit'])
+		{
+			return parent::getInput();
+		}
+		else
+		{
+			$options = (array) $this->getOptions();
+			$v       = '';
+
+			foreach ($options as $opt)
+			{
+				if ($opt->value == $this->value)
+				{
+					$v = $opt->text;
+				}
+			}
+		}
+
+		return '<input type="hidden" value="' . $this->value . '" name="' . $this->name . '" />' . '<input type="text" value="' . $v
+		. '" name="form_justalabel" class="readonly" readonly="true" />';
 	}
 }

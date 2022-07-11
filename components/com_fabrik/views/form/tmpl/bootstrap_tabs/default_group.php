@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -52,7 +52,7 @@ foreach ($this->elements as $element) :
 	{
 		$displayData['row'] = $this->loadTemplate('group_labels_none');
 	}
-	elseif ($element->span == 'span12' || $element->span == '' || $labelsAbove == 0)
+	elseif ($element->span == FabrikHelperHTML::getGridSpan(12) || $element->span == '' || $labelsAbove == 0)
 	{
 		$displayData['row'] = $this->loadTemplate('group_labels_side');
 	}

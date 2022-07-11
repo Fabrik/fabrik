@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -28,6 +28,12 @@ defined('_JEXEC') or die('Restricted access');
 		foreach ($this->form->getFieldset('details2') as $this->field) :
 			echo $this->loadTemplate('control_group');
 		endforeach;
+ 
+    if (!in_array($this->item->plugin, array('internalid','timestamp')) && $this->item->id > 0) :
+      foreach ($this->form->getFieldset('hidden') as $this->field) :
+        echo $this->loadTemplate('control_group');
+      endforeach;
+    endif;
 		?>
 		</div>
 

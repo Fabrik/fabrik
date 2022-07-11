@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.image
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -113,7 +113,10 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$w = new FabrikWorker;
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $w = new FabrikWorker;
 		$data = FabrikWorker::JSONtoData($data, true);
 		$params = $this->getParams();
 		$pathset = false;
@@ -329,8 +332,15 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			}
 
 			// $$$rob not sure about his name since we are adding $repeatCounter to getHTMLName();
-			$layoutData->imageName = $this->getGroupModel()->canRepeat() ? FabrikString::rtrimWord($name, "][$repeatCounter]") . "_image][$repeatCounter]"
-				: $id . '_image';
+			if ($this->getGroupModel()->canRepeat())
+			{
+				$layoutData->imageName = FabrikString::rtrimWord($name, "[$repeatCounter]") . "_image[$repeatCounter]";
+			}
+			else
+			{
+				$layoutData->imageName = $id . '_image';
+			}
+
 			$bits = explode('/', $value);
 			$image = array_pop($bits);
 
@@ -340,8 +350,8 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 			$layoutData->images = $images;
 			$layoutData->image = $image;
 		}
-
-		$layoutData->linkURL = $params->get('link_url', '');
+		
+		$layoutData->linkURL = $w->parseMessageForPlaceHolder($params->get('link_url', ''), $data);
 
 
 		return $layout->render($layoutData);
@@ -390,19 +400,24 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 
 	public function onAjax_files()
 	{
-		$this->loadMeForAjax();
-		$folder = $this->app->input->get('folder', '', 'string');
-
-		if (!strstr($folder, JPATH_SITE))
-		{
-			$folder = JPATH_SITE . '/' . $folder;
-		}
-
-		$pathA = JPath::clean($folder);
-		$folder = array();
-		$files = array();
 		$images = array();
-		FabrikWorker::readImages($pathA, "/", $folders, $images, $this->ignoreFolders);
+		$this->loadMeForAjax();
+		$folder = $this->app->input->get('folder', '', 'path');
+		$folder = str_replace('\\', '/', $folder);
+		$rootFolder = $this->rootFolder();
+
+		if (!empty($folder) && !empty($rootFolder) && strpos($folder, $rootFolder) === 0)
+		{
+			if (!strstr($folder, JPATH_SITE))
+			{
+				$folder = JPATH_SITE . '/' . $folder;
+			}
+
+			$pathA  = JPath::clean($folder);
+			$folder = array();
+			$files  = array();
+			FabrikWorker::readImages($pathA, "/", $folders, $images, $this->ignoreFolders);
+		}
 
 		if (!array_key_exists('/', $images))
 		{
@@ -430,7 +445,7 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$opts->canSelect = (bool) $params->get('image_front_end_select', false);
 		$opts->id = $element->id;
 		$opts->ds = DS;
-		$opts->dir = JPATH_SITE . '/' . str_replace('/', DS, $opts->rootPath);
+		$opts->dir = str_replace('/', DS, $opts->rootPath);
 
 		return array('FbImage', $id, $opts);
 	}
@@ -449,6 +464,11 @@ class PlgFabrik_ElementImage extends PlgFabrik_Element
 		$params = $this->getParams();
 		$canSelect = ($params->get('image_front_end_select', '0') && JString::substr($value, 0, 4) !== 'http');
 		$defaultImg = $params->get('imagepath');
+
+		if (JFile::exists($defaultImg) || JFile::exists(COM_FABRIK_BASE . $defaultImg))
+		{
+			$defaultImg = dirname($defaultImg);
+		}
 
 		// Changed first || from a && - http://fabrikar.com/forums/index.php?threads/3-1rc1-image-list-options-bug.36585/#post-184266
 		if ($canSelect || (JFolder::exists($defaultImg) || JFolder::exists(COM_FABRIK_BASE . $defaultImg)))

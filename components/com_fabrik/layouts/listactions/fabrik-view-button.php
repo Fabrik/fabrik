@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.3.3
  */
@@ -13,12 +13,19 @@
 defined('_JEXEC') or die('Restricted access');
 $d = $displayData;
 
+// special case for handling old default icon name
+if ($d->list_detail_link_icon === 'search.png')
+{
+	$d->list_detail_link_icon = 'search';
+}
+
 ?>
 <a data-loadmethod="<?php echo $d->loadMethod;?>"
 	class="<?php echo $d->class;?> btn-default" <?php echo $d->detailsAttributes; ?>
 	data-list="<?php echo $d->dataList; ?>"
 	data-isajax="<?php echo $d->isAjax; ?>"
 	data-rowid="<?php echo $d->rowId; ?>"
+	data-iscustom="<?php if ($d->isCustom) echo '1'; else echo '0'; ?>"
 	href="<?php echo $d->link; ?>" 
 	title="<?php echo $d->viewLabel;?>" 
 	target="<?php echo $d->viewLinkTarget; ?>">

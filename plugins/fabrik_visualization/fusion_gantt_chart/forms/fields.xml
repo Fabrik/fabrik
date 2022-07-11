@@ -114,7 +114,7 @@
 				size="5" />
 
 			<field name="fusion_gantt_chart_layout"
-				type="folderlist"
+				type="fabrikfolderlist"
 				directory="plugins/fabrik_visualization/fusion_gantt_chart/views/fusion_gantt_chart/tmpl/"
 				label="PLG_VISUALIZATION_GANNT_TEMPLATE_LABEL" />
 

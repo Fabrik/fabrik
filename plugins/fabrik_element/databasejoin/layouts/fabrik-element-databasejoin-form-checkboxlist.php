@@ -17,7 +17,7 @@ $colCounter = 0;
 $rowStarted = false;
 
 foreach ($d->options as $option) :
-	$checked = in_array($option->value, $d->default) ? 'checked="checked"' : '';
+	$checked = in_array($option->value, $d->default) ? 'checked="checked" ' : '';
 	$name = $d->name . '[' . $colCounter . ']';
 	if (($colSize * $colCounter) % 12 === 0 || $colCounter == 0) :
 		$rowStarted = true; ?>

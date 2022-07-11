@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -53,18 +53,16 @@ class VideoRenderModel extends FabModel
 	 */
 	public function render(&$model, &$params, $file)
 	{
-		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
-		ini_set('display_errors', true);
-		require_once COM_FABRIK_FRONTEND . '/libs/getid3/getid3/getid3.php';
-		require_once COM_FABRIK_FRONTEND . '/libs/getid3/getid3/getid3.lib.php';
+		$getID3 = FabrikWorker::getID3Instance();
 
-		getid3_lib::IncludeDependency(COM_FABRIK_FRONTEND . '/libs/getid3/getid3/extension.cache.mysql.php', __FILE__, true);
-		$config = $this->config;
-		$host = $config->get('host');
-		$database = $config->get('db');
-		$username = $config->get('user');
-		$password = $config->get('password');
-		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
+		if ($getID3 === false)
+		{
+			$this->output = FText::_('COM_FABRIK_LIBRARY_NOT_INSTALLED');
+
+			return;
+		}
+
+		$src = $model->getStorage()->getFileUrl($file);
 
 		// Analyse file and store returned data in $ThisFileInfo
 		$relPath = JPATH_SITE . $file;
@@ -121,11 +119,11 @@ class VideoRenderModel extends FabModel
 	 * @param   object  $model    Element model
 	 * @param   object  $params   Element params
 	 * @param   object  $thisRow  All rows data
+	 * @param   bool    $nav      Render a navbar on carousel
 	 *
 	 * @return  string  HTML
 	 */
-
-	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null)
+	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null, $nav = true)
 	{
 		$rendered = '';
 		$id .= '_video_carousel';

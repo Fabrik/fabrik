@@ -4,12 +4,14 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.download
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Fabrik\Helpers\Image;
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-list.php';
@@ -70,7 +72,7 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 	 */
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('download_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('download_button_label', parent::buttonLabel()));
 	}
 
 	/**
@@ -142,6 +144,11 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 			{
 				$row = $model->getRow($id);
 
+				if (!$model->canView($row))
+				{
+					continue;
+				}
+
 				foreach ($downloadFiles as $dl)
 				{
 					$dl = trim($dl);
@@ -189,10 +196,9 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 			if ($downloadResize)
 			{
 				ini_set('max_execution_time', 300);
-				require_once COM_FABRIK_FRONTEND . '/helpers/image.php';
 				$storage              = $this->getStorage();
 				$downloadImageLibrary = $params->get('download_image_library');
-				$oImage               = FabimageHelper::loadLib($downloadImageLibrary);
+				$oImage               = Image::loadLib($downloadImageLibrary);
 				$oImage->setStorage($storage);
 			}
 
@@ -366,6 +372,13 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 
 		foreach ($ids as $rowId)
 		{
+			$row = $model->getRow($rowId);
+
+			if (!$model->canView($row))
+			{
+				continue;
+			}
+
 			$p = tempnam($this->config->get('tmp_path'), 'download_');
 
 			if (empty($p))
@@ -377,6 +390,12 @@ class PlgFabrik_ListDownload extends PlgFabrik_List
 			$p .= '.pdf';
 
 			$url        = COM_FABRIK_LIVESITE . 'index.php?option=com_fabrik&view=details&formid=' . $formId . '&rowid=' . $rowId . '&format=pdf';
+
+			if (FabrikHelperHTML::isDebug())
+			{
+				$url .= '&XDEBUG_SESSION_START=PHPSTORM';
+			}
+
 			$pdfContent = file_get_contents($url);
 
 			JFile::write($p, $pdfContent);

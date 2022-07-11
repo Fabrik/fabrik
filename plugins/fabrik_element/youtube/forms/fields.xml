@@ -121,6 +121,16 @@
 				<option value="1">New window</option>
 				<option value="2">Lightbox</option>
 			</field>
+
+			<field name="youtube_embed_read_only"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_YOUTUBE_EMBED_READ_ONLY_DESC"
+				   label="PLG_ELEMENT_YOUTUBE_EMBED_READ_ONLY_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>

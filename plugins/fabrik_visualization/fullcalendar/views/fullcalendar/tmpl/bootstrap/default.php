@@ -4,7 +4,7 @@
  *
  * @package        Joomla.Plugin
  * @subpackage     Fabrik.visualization.calendar
- * @copyright      Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright      Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license        GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -15,6 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 // Replaced with classes contained within a distinct id
 
 $row = $this->row;
+
+echo $this->modalLayout;
 ?>
 <div id="<?php echo $this->containerId; ?>" class="fabrik_visualization" style="border:1px sold;margin:5px;">
 	<?php if ($this->params->get('show-title', 0))

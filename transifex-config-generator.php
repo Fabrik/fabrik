@@ -51,19 +51,26 @@ if ($handle = opendir('components/com_fabrik/language/'))
 	$x[] = 'source_file = components/com_fabrik/language/en-GB/en-GB.com_fabrik.ini';
 	$x[] = 'source_lang = en_GB';
 
+	/*
+	$ini[] = '[' . $txProject . '.com_fabrik_sys]';
+	$ini[] = 'file_filter = components/com_fabrik/language/<lang>/<lang>.com_fabrik.sys.ini';
+	$ini[] = 'source_file = components/com_fabrik/language/en-GB/en-GB.com_fabrik.sys.ini';
+	$ini[] = 'source_lang = en_GB';
+	*/
+
 	while (false !== ($langentry = readdir($handle)))
 	{
 
 		if ($langentry !== '.' && $langentry !== '..' && $langentry !== 'en-GB' && $langentry !== 'index.html')
 		{
 			$x[] = 'trans.' .$langentry. ' = components/com_fabrik/language/' . $langentry. '/' . $langentry . '.com_fabrik.ini';
-			$ini[] = 'trans.' .$langentry. ' = components/com_fabrik/language/' . $langentry. '/' . $langentry . '.com_fabrik.sys.ini';
+			//$ini[] = 'trans.' .$langentry. ' = components/com_fabrik/language/' . $langentry. '/' . $langentry . '.com_fabrik.sys.ini';
 		}
 	}
 
 	closedir($handle);
 	$str[] = implode("\n", $x);
-	$str[] = implode("\n", $ini);
+	//$str[] = implode("\n", $ini);
 }
 
 // Content plugin
@@ -71,6 +78,13 @@ if ($handle = opendir('plugins/content/fabrik/language/'))
 {
 	$x = array();
 	$ini = array();
+
+	/*
+	$x[] = '[' . $txProject . '.plg_content]';
+	$x[] = 'file_filter = plugins/content/fabrik/language/<lang>/<lang>.plg_content_fabrik.ini';
+	$x[] = 'source_file = plugins/content/fabrik/language/en-GB/en-GB.plg_content_fabrik.ini';
+	$x[] = 'source_lang = en_GB';
+	*/
 
 	$ini[] = '[' . $txProject . '.plg_content_sys]';
 	$ini[] = 'file_filter = plugins/content/fabrik/language/<lang>/<lang>.plg_content_fabrik.sys.ini';
@@ -82,7 +96,7 @@ if ($handle = opendir('plugins/content/fabrik/language/'))
 
 		if ($langentry !== '.' && $langentry !== '..' && $langentry !== 'en-GB' && $langentry !== 'index.html')
 		{
-			$x[] = 'trans.' .$langentry. ' = plugins/content/fabrik/language/' . $langentry. '/' . $langentry . '.plg_content_fabrik.ini';
+			//$x[] = 'trans.' .$langentry. ' = plugins/content/fabrik/language/' . $langentry. '/' . $langentry . '.plg_content_fabrik.ini';
 			$ini[] = 'trans.' .$langentry. ' = plugins/content/fabrik/language/' . $langentry. '/' . $langentry . '.plg_content_fabrik.sys.ini';
 		}
 	}
@@ -114,32 +128,50 @@ foreach ($folders as $type => $folder)
 
 					$x = array();
 					$ini = array();
-
-					$x[] = '[' . $txProject . '.plg_' . $type . '_' . $entry . ']';
-					$x[] = 'file_filter = plugins/fabrik_' . $type . '/' . $entry . '/language/<lang>/<lang>.plg_fabrik_' . $type . '_' . $entry . '.ini';
-					$x[] = 'source_file = plugins/fabrik_' . $type . '/' . $entry . '/language/en-GB/en-GB.plg_fabrik_' . $type . '_' . $entry . '.ini';
-					$x[] = 'source_lang = en_GB';
-
-					$ini[] = '[' . $txProject . '.plg_' . $type . '_' . $entry . '_sys]';
-					$ini[] = 'file_filter = plugins/fabrik_' . $type . '/' . $entry . '/language/<lang>/<lang>.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
-					$ini[] = 'source_file = plugins/fabrik_' . $type . '/' . $entry . '/language/en-GB/en-GB.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
-					$ini[] = 'source_lang = en_GB';
+					$x_files = array();
+					$ini_files = array();
 
 					while (false !== ($langentry = readdir($langhandle)))
 					{
 						if ($langentry !== '.' && $langentry !== '..' && $langentry !== 'en-GB' && $langentry !== 'index.html')
 						{
-							$x[] = 'trans.' .$langentry. ' = plugins/fabrik_' . $type . '/' . $entry . '/language/' . $langentry. '/' . $langentry . '.plg_fabrik_' . $type . '_' . $entry . '.ini';
-							$ini[] = 'trans.' .$langentry. ' = plugins/fabrik_' . $type . '/' . $entry . '/language/' . $langentry. '/' . $langentry . '.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
+							$x_file = 'plugins/fabrik_' . $type . '/' . $entry . '/language/' . $langentry. '/' . $langentry . '.plg_fabrik_' . $type . '_' . $entry . '.ini';
+							if (file_exists($x_file))
+							{
+								$x_files[] = 'trans.' . $langentry. ' = ' . $x_file;
+							}
+
+							$ini_file = 'plugins/fabrik_' . $type . '/' . $entry . '/language/' . $langentry. '/' . $langentry . '.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
+							if (file_exists($ini_file))
+							{
+								$ini_files[] = 'trans.' . $langentry. ' = ' . $ini_file;
+							}
 						}
 					}
 
 					closedir($langhandle);
-					$x[] = '';
-					$ini[] = '';
 
-					$str[] = implode("\n", $x);
-					$str[] = implode("\n", $ini);
+					if (!empty($x_files))
+					{
+						$x[] = '[' . $txProject . '.plg_' . $type . '_' . $entry . ']';
+						$x[] = 'file_filter = plugins/fabrik_' . $type . '/' . $entry . '/language/<lang>/<lang>.plg_fabrik_' . $type . '_' . $entry . '.ini';
+						$x[] = 'source_file = plugins/fabrik_' . $type . '/' . $entry . '/language/en-GB/en-GB.plg_fabrik_' . $type . '_' . $entry . '.ini';
+						$x[] = 'source_lang = en_GB';
+						$x = array_merge($x, $x_files);
+						$str[] = implode("\n", $x);
+						$str[] = '';
+					}
+
+					if (!empty($ini_files))
+					{
+						$ini[] = '[' . $txProject . '.plg_' . $type . '_' . $entry . '_sys]';
+						$ini[] = 'file_filter = plugins/fabrik_' . $type . '/' . $entry . '/language/<lang>/<lang>.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
+						$ini[] = 'source_file = plugins/fabrik_' . $type . '/' . $entry . '/language/en-GB/en-GB.plg_fabrik_' . $type . '_' . $entry . '.sys.ini';
+						$ini[] = 'source_lang = en_GB';
+						$ini = array_merge($ini, $ini_files);
+						$str[] = implode("\n", $ini);
+						$str[] = '';
+					}
 				}
 			}
 		}

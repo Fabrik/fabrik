@@ -30,7 +30,7 @@ define(['jquery', 'fab/fabrik', 'fab/chosen-loader', 'fab/element'],
 				allow_single_deselect   : true
 			});
 
-			Fabrik.buildAjaxChosen('#' + this.options.element, {
+			this.sel = Fabrik.buildAjaxChosen('#' + this.options.element, {
 
 				type          : 'GET',
 				url           : Fabrik.liveSite + 'index.php?option=com_fabrik&view=list&listid=' + this.options.listid + '&format=tags&elID=' + this.options.id,

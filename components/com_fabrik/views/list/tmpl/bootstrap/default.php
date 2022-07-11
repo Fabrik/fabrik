@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -62,6 +62,11 @@ echo $this->loadTemplate('tabs');
 endforeach;
 ?>
 	<table class="<?php echo $this->list->class;?>" id="list_<?php echo $this->table->renderid;?>" >
+        <colgroup>
+            <?php foreach ($this->headings as $key => $heading) : ?>
+				<col class="col-<?php echo $key; ?>">
+            <?php endforeach; ?>
+        </colgroup>
 		 <thead><?php echo $headingsHtml?></thead>
 		 <tfoot>
 			<tr class="fabrik___heading">
@@ -74,8 +79,8 @@ endforeach;
 		if ($this->isGrouped && empty($this->rows)) :
 			?>
 			<tbody style="<?php echo $this->emptyStyle?>">
-				<tr>
-					<td class="groupdataMsg emptyDataMessage" style="<?php echo $this->emptyStyle?>" colspan="<?php echo count($this->headings)?>">
+				<tr class="groupDataMsg">
+					<td class="emptyDataMessage" style="<?php echo $this->emptyStyle?>" colspan="<?php echo count($this->headings)?>">
 						<div class="emptyDataMessage" style="<?php echo $this->emptyStyle?>">
 							<?php echo $this->emptyDataMessage; ?>
 						</div>
@@ -96,8 +101,8 @@ endforeach;
 			</tbody>
 			<?php endif ?>
 			<tbody class="fabrik_groupdata">
-				<tr style="<?php echo $this->emptyStyle?>">
-					<td class="groupdataMsg emptyDataMessage" style="<?php echo $this->emptyStyle?>" colspan="<?php echo count($this->headings)?>">
+				<tr class="groupDataMsg" style="<?php echo $this->emptyStyle?>">
+					<td class="emptyDataMessage" style="<?php echo $this->emptyStyle?>" colspan="<?php echo count($this->headings)?>">
 						<div class="emptyDataMessage" style="<?php echo $this->emptyStyle?>">
 							<?php echo $this->emptyDataMessage; ?>
 						</div>

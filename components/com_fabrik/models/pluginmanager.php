@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -293,11 +293,12 @@ class FabrikFEModelPluginmanager extends FabModel
 		}
 
 		$group = JString::strtolower($group);
-		/* $$$ rob ONLY import the actual plugin you need otherwise ALL $group plugins are loaded regardless of whether they
-		* are used or not memory changes:
-		* Application 0.322 seconds (+0.081); 22.92 MB (+3.054) - pluginmanager: form email imported
-		* Application 0.242 seconds (+0.005); 20.13 MB (+0.268) - pluginmanager: form email imported
-		*/
+
+		if (!JPluginHelper::isEnabled('fabrik_' . $group, $className))
+        {
+            throw new RuntimeException('plugin manager: plugin is disabled or ACL protected: ' . $className);
+        }
+
 		JPluginHelper::importPlugin('fabrik_' . $group, $className);
 		$dispatcher = JEventDispatcher::getInstance();
 
@@ -347,11 +348,14 @@ class FabrikFEModelPluginmanager extends FabModel
 		$langFile = 'plg_' . $folder . '_' . $className;
 		$langPath = $client->path . '/plugins/' . $folder . '/' . $className;
 
-		$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+		// load both default and current, so untranslated strings fall back to default
+		$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+		$lang->load($langFile, $langPath, null, false, false);
 
 		// Load system ini file
 		$langFile .= '.sys';
-		$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+		$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+		$lang->load($langFile, $langPath, null, false, false);
 
 		if (!is_object($plugIn))
 		{
@@ -481,7 +485,10 @@ class FabrikFEModelPluginmanager extends FabModel
 
 				$langFile = 'plg_' . $folder . '_' . $element->plugin;
 				$langPath = $client->path . '/plugins/' . $folder . '/' . $element->plugin;
-				$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+
+				// load both default and current, so untranslated strings fall back to default
+				$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
+				$lang->load($langFile, $langPath, null, false, false);
 
 				$listModel = $form->getListModel();
 				$pluginModel->setContext($groupModel, $form, $listModel);

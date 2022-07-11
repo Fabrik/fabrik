@@ -1,102 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
-		<fieldset name="plg-form-upsert">
+    <fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+        <fieldset name="plg-form-upsert">
 
-			<field name="connection_id"
-				type="connections"
-				description="PLG_FORM_UPSERT_CONNECTION_DESC"
-				label="PLG_FORM_UPSERT_CONNECTION_LABEL"
-				repeat="true"/>
+            <field name="connection_id"
+                   type="connections"
+                   description="PLG_FORM_UPSERT_CONNECTION_DESC"
+                   label="PLG_FORM_UPSERT_CONNECTION_LABEL"
+                   repeat="true"/>
 
-			<field name="table"
-				type="fabriktables"
-				description="PLG_FORM_UPSERT_TABLE_DESC"
-				label="PLG_FORM_UPSERT_TABLE_LABEL"
-				observe="params_connection_id"
-				repeat="true"/>
+            <field name="table"
+                   type="fabriktables"
+                   description="PLG_FORM_UPSERT_TABLE_DESC"
+                   label="PLG_FORM_UPSERT_TABLE_LABEL"
+                   observe="params_connection_id"
+                   repeat="true"/>
 
-			<field name="upsert_insert_only"
-				type="list"
-				default="0"
-				description="PLG_FORM_UPSERT_INSERT_ONLY_DESC"
-				label="PLG_FORM_UPSERT_INSERT_ONLY_LABEL"
-				repeat="true">"plugins/fabrik_form/upsert/language/en-GB/en-GB.plg_fabrik_form_upsert.ini"
-					<option value="0">PLG_FORM_UPSERT_INSERT_ONLY_BOTH</option>
-					<option value="1">PLG_FORM_UPSERT_INSERT_ONLY_INSERT</option>
-					<option value="2">PLG_FORM_UPSERT_INSERT_ONLY_UPDATE</option>
-			</field>
+            <field name="upsert_insert_only"
+                   type="list"
+                   default="0"
+                   description="PLG_FORM_UPSERT_INSERT_ONLY_DESC"
+                   label="PLG_FORM_UPSERT_INSERT_ONLY_LABEL"
+                   repeat="true">
+                <option value="0">PLG_FORM_UPSERT_INSERT_ONLY_BOTH</option>
+                <option value="1">PLG_FORM_UPSERT_INSERT_ONLY_INSERT</option>
+                <option value="2">PLG_FORM_UPSERT_INSERT_ONLY_UPDATE</option>
+            </field>
 
-			<field name="upsert_pk_or_fk"
-				type="radio"
-				default="pk"
-				class="btn-group"
-				description="PLG_FORM_UPSERT_PK_OR_FK_DESC"
-				label="PLG_FORM_UPSERT_PK_OR_FK_LABEL"
-				repeat="true">
-					<option value="pk">PLG_FORM_UPSERT_PK_OR_FK_PK</option>
-					<option value="fk">PLG_FORM_UPSERT_PK_OR_FK_FK</option>
-			</field>
+            <field name="upsert_pk_or_fk"
+                   type="radio"
+                   default="pk"
+                   class="btn-group"
+                   description="PLG_FORM_UPSERT_PK_OR_FK_DESC"
+                   label="PLG_FORM_UPSERT_PK_OR_FK_LABEL"
+                   repeat="true">
+                <option value="pk">PLG_FORM_UPSERT_PK_OR_FK_PK</option>
+                <option value="fk">PLG_FORM_UPSERT_PK_OR_FK_FK</option>
+            </field>
 
-			<field name="primary_key"
-				type="element"
-				connection="params_connection_id"
-				table="params_table"
-				description="PLG_FORM_UPSERT_PRIMARY_KEY_DESC"
-				label="PLG_FORM_UPSERT_PRIMARY_KEY_LABEL"
-				repeat="true"/>
+            <field name="primary_key"
+                   type="element"
+                   connection="params_connection_id"
+                   table="params_table"
+                   description="PLG_FORM_UPSERT_PRIMARY_KEY_DESC"
+                   label="PLG_FORM_UPSERT_PRIMARY_KEY_LABEL"
+                   repeat="true"/>
 
-			<field name="row_value"
-				type="field"
-				description="PLG_FORM_UPSERT_ROWID_DESC"
-				label="PLG_FORM_UPSERT_ROWID_LABEL"
-				repeat="true" />
+            <field name="row_value"
+                   type="field"
+                   description="PLG_FORM_UPSERT_ROWID_DESC"
+                   label="PLG_FORM_UPSERT_ROWID_LABEL"
+                   repeat="true"/>
 
-			<field name="upsert_fields"
-				type="fabrikmodalrepeat"
-				repeat="true"
-				description="PLG_FORM_UPSERT_FIELDS_DESC"
-				label="PLG_FORM_UPSERT_FIELDS_LABEL">
+            <field name="upsert_fields"
+                   type="fabrikmodalrepeat"
+                   repeat="true"
+                   description="PLG_FORM_UPSERT_FIELDS_DESC"
+                   label="PLG_FORM_UPSERT_FIELDS_LABEL">
 
-				<fields name="params">
-					<fieldset modal="true" name="upsert_fields_modal" repeat="true">
+                <fields name="params">
+                    <fieldset modal="true" name="upsert_fields_modal" repeat="true">
 
-						<field name="upsert_key"
-							type="element"
-							connection="params_connection_id"
-							table="params_table"
-							valueformat="tableelement"
-							label="PLG_FORM_UPSERT_KEY_LABEL" />
+                        <field name="upsert_key"
+                               type="element"
+                               connection="params_connection_id"
+                               table="params_table"
+                               valueformat="tableelement"
+                               repeat="true"
+                               label="PLG_FORM_UPSERT_KEY_LABEL"/>
 
-						<field name="upsert_value"
-							type="text"
-							size="40"
-							label="PLG_FORM_UPSERT_VALUE_LABEL"/>
+                        <field name="upsert_value"
+                               type="text"
+                               size="40"
+                               repeat="true"
+                               label="PLG_FORM_UPSERT_VALUE_LABEL"/>
 
-						<field name="upsert_default"
-							type="text"
-							label="PLG_FORM_UPSERT_DEFAULT_LABEL" />
+                        <field name="upsert_default"
+                               type="text"
+                               repeat="true"
+                               label="PLG_FORM_UPSERT_DEFAULT_LABEL"/>
 
-						<field name="upsert_eval_value"
-						       default="0"
-						       description="PLG_FORM_UPSERT_VALUE_EVAL_DESC"
-						       label="PLG_FORM_UPSERT_VALUE_EVAL_LABEL"
-						       type="list">
-							<option value="0">JNO</option>
-							<option value="1">JYES</option>
-						</field>
+                        <field name="upsert_eval_value"
+                               default="0"
+                               repeat="true"
+                               description="PLG_FORM_UPSERT_VALUE_EVAL_DESC"
+                               label="PLG_FORM_UPSERT_VALUE_EVAL_LABEL"
+                               type="list">
+                            <option value="0">JNO</option>
+                            <option value="1">JYES</option>
+                        </field>
 
-					</fieldset>
-				</fields>
-			</field>
+                    </fieldset>
+                </fields>
+            </field>
 
-			<field name="upsert_conditon"
-				type="fabrikeditor"
-				mode="php"
-				repeat="true"
-				description="PLG_FORM_UPSERT_CONDITION_DESC"
-				label="PLG_FORM_UPSERT_CONDITION_LABEL" />
+            <field name="upsert_conditon"
+                   type="fabrikeditor"
+                   mode="php"
+                   repeat="true"
+                   description="PLG_FORM_UPSERT_CONDITION_DESC"
+                   label="PLG_FORM_UPSERT_CONDITION_LABEL"/>
 
-		</fieldset>
-	</fields>
+        </fieldset>
+    </fields>
 </form>

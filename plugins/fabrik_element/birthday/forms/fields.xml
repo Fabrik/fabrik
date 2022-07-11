@@ -84,6 +84,7 @@
 				<option value="m.d.Y">03.01.1789</option>
 				<option value="d/m/Y">01/03/1789</option>
 				<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
+				<option value="D month YYYY">PLG_ELEMENT_BIRTHDAY_D2_MONTH_YYYY</option>
 				<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
 				<option value="{age}">PLG_ELEMENT_BIRTHDAY_AGEONLY</option>
 				<option value="{age} d.m">PLG_ELEMENT_BIRTHDAY_YYY_D_MONTH</option>
@@ -119,6 +120,7 @@
 				<option value="d/m/Y">01/03/1789</option>
 				<option value="d m">PLG_ELEMENT_BIRTHDAY_DAY_MONTH</option>
 				<option value="D. month YYYY">PLG_ELEMENT_BIRTHDAY_D_MONTH_YYYY</option>
+				<option value="D month YYYY">PLG_ELEMENT_BIRTHDAY_D2_MONTH_YYYY</option>
 				<option value="Month d, YYYY">PLG_ELEMENT_BIRTHDAY_MONTH_D_YYYY</option>
 			</field>
 

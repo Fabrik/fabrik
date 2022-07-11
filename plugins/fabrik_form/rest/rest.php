@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.rest
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 
 // Require the abstract plugin class
 require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
-require_once 'fabrikOAuth.php';
+require_once JPATH_ROOT . '/plugins/fabrik_form/rest/fabrikOAuth.php';
 
 /**
  * Submit or update data to a REST service
@@ -364,7 +364,15 @@ class PlgFabrik_FormRest extends PlgFabrik_Form
 				}
 				else
 				{
-					$postData[$key] = $values[$i];
+					// specific request from a user to concatenate values if key specified more than once
+					if (array_key_exists($key, $postData))
+					{
+						$postData[$key] .= $values[$i];
+					}
+					else
+					{
+						$postData[$key] = $values[$i];
+					}
 				}
 
 				$i++;

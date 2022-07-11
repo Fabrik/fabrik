@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.2
  */
@@ -16,6 +16,7 @@ $d           = $displayData;
 $baseContext = $d->baseContext;
 $app         = JFactory::getApplication();
 
+if ($d->usePopup) :
 ?>
 <div class="radius_search" id="radius_search<?php echo $d->renderOrder; ?>" style="left:-100000px;position:absolute;">
 
@@ -28,10 +29,10 @@ $app         = JFactory::getApplication();
 		<input type="hidden" name="geo_code_def_lon" value="<?php echo $d->defaultLon; ?>" />
 
 		<div class="row-fluid">
-			<div class="span4">
+			<div class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?>">
 				<?php echo FText::_('PLG_VIEW_RADIUS_DISTANCE'); ?>
 			</div>
-			<div class="span8">
+			<div class="<?php echo FabrikHelperHTML::getGridSpan('8'); ?>">
 				<div class="slider_cont" style="width:200px;">
 					<div class="fabrikslider-line" style="width:200px">
 						<div class="knob"></div>
@@ -43,10 +44,10 @@ $app         = JFactory::getApplication();
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="span4">
+			<div class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?>">
 				<label for="radius_search_type0"><?php echo FText::_('PLG_VIEW_RADIUS_FROM'); ?></label>
 			</div>
-			<div class="span8">
+			<div class="<?php echo FabrikHelperHTML::getGridSpan('8'); ?>">
 				<?php echo $d->select; ?>
 			</div>
 		</div>
@@ -73,20 +74,20 @@ $app         = JFactory::getApplication();
 			<div class="radius_search_coords_container" style="<?php echo $style; ?>">
 
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?>">
 						<label for="radius_search_lat_<?php echo $d->renderOrder; ?>"><?php echo FText::_('PLG_VIEW_RADIUS_LATITUDE'); ?>
 						</label>
 					</div>
-					<div class="span8">
+					<div class="<?php echo FabrikHelperHTML::getGridSpan('8'); ?>">
 						<input type="text" name="radius_search_lat<?php echo $d->renderOrder; ?>" value="<?php echo $d->lat; ?>" id="radius_search_lat_<?php echo $d->renderOrder; ?>" size="6" class="inputbox fabrik_filter autocomplete-trigger" />
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?>">
 						<label for="radius_search_lon_<?php echo $d->renderOrder; ?>"><?php echo FText::_('PLG_VIEW_RADIUS_LONGITUDE'); ?>
 						</label>
 					</div>
-					<div class="span8">
+					<div class="<?php echo FabrikHelperHTML::getGridSpan('8'); ?>">
 						<input type="text" name="radius_search_lon<?php echo $d->renderOrder; ?>" value="<?php echo $d->lon; ?>" id="radius_search_lon_<?php echo $d->renderOrder; ?>" size="6" class="inputbox fabrik_filter autocomplete-trigger" />
 					</div>
 				</div>
@@ -122,3 +123,45 @@ $app         = JFactory::getApplication();
 	<input type="hidden" name="radius_prefilter" value="1" />
 
 </div>
+<?php
+else :
+    ?>
+    <div class="radius_search" id="radius_search<?php echo $d->renderOrder; ?>">
+        <div class="row">
+            <div class="<?php echo FabrikHelperHTML::getGridSpan('1'); ?>">
+                <label for="radius_search_geocomplete_field<?php echo $d->renderOrder; ?>">
+                    <?php echo FText::_('PLG_VIEW_RADIUS_WITHIN'); ?>
+                </label>
+            </div>
+            <div class="<?php echo FabrikHelperHTML::getGridSpan('11'); ?>">
+				<?php echo $d->simpleDistances; ?> <?php echo $d->unit; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="<?php echo FabrikHelperHTML::getGridSpan('1'); ?>">
+                <label for="radius_search_distance<?php echo $d->renderOrder; ?>">
+					<?php echo FText::_('PLG_VIEW_RADIUS_OF'); ?>
+                </label>
+            </div>
+            <div class="<?php echo FabrikHelperHTML::getGridSpan('11'); ?>">
+                <input type="text"
+                       class="radius_search_geocomplete_field input-xlarge"
+                       name="radius_search_geocomplete_field<?php echo $d->renderOrder; ?>"
+                       id="radius_search_geocomplete_field<?php echo $d->renderOrder; ?>"
+                       value="<?php echo $d->address; ?>" />
+            </div>
+        </div>
+        <div class="row <?php echo $d->emptyMsgClass; ?>">
+            <div class=" fabrikRadiusSearchEmptyMsg <?php echo FabrikHelperHTML::getGridSpan('12'); ?>">
+                <?php echo FText::_('PLG_VIEW_RADIUS_EMPTY_MSG'); ?>
+            </div>
+        </div>
+
+        <input type="hidden" name="radius_search_geocomplete_lat<?php echo $d->renderOrder; ?>" value="<?php echo $d->searchLatitude; ?>" />
+        <input type="hidden" name="radius_search_geocomplete_lon<?php echo $d->renderOrder; ?>" value="<?php echo $d->searchLongitude; ?>" />
+        <input type="hidden" name="radius_prefilter" value="1" />
+        <input type="hidden" name="radius_search_active<?php echo $d->renderOrder; ?>[]" value="<?php echo $d->active; ?>" />
+        <input type="hidden" name="radius_search_type<?php echo $d->renderOrder; ?>[]" value="geocomplete" />
+    </div>
+<?php
+endif;

@@ -69,7 +69,39 @@
 			       description="PLG_FABRIK_LIST_LISTCSV_IMPORT_START_CODE_DESC"
 			       label="PLG_FABRIK_LIST_LISTCSV_IMPORT_START_CODE_LABEL"
 			       repeat="true" />
-			
+
+			<field name="listcsv_export_php_file"
+			       type="filelist"
+			       description="PLG_FABRIK_LIST_LISTCSV_EXPORT_FILE_DESC"
+			       directory="plugins/fabrik_list/listcsv/scripts/"
+			       hide_default="1"
+			       label="PLG_FABRIK_LIST_LISTCSV_EXPORT_FILE_LABEL"
+			       repeat="true" />
+
+			<field name="listcsv_export_php_code"
+			       type="fabrikeditor"
+			       mode="php"
+			       default=""
+			       description="PLG_FABRIK_LIST_LISTCSV_EXPORT_CODE_DESC"
+			       label="PLG_FABRIK_LIST_LISTCSV_EXPORT_CODE_LABEL"
+			       repeat="true" />
+
+			<field name="listcsv_export_headings_php_file"
+			       type="filelist"
+			       description="PLG_FABRIK_LIST_LISTCSV_EXPORT_HEADINGS_FILE_DESC"
+			       directory="plugins/fabrik_list/listcsv/scripts/"
+			       hide_default="1"
+			       label="PLG_FABRIK_LIST_LISTCSV_EXPORT_HEADINGS_FILE_LABEL"
+			       repeat="true" />
+
+			<field name="listcsv_export_headings_php_code"
+			       type="fabrikeditor"
+			       mode="php"
+			       default=""
+			       description="PLG_FABRIK_LIST_LISTCSV_EXPORT_HEADINGS_CODE_DESC"
+			       label="PLG_FABRIK_LIST_LISTCSV_EXPORT_HEADINGS_CODE_LABEL"
+			       repeat="true" />
+
 		</fieldset>
 	</fields>
 </form>

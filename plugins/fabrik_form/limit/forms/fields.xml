@@ -56,7 +56,13 @@
 				onlytablefields="0"
 				repeat="true" 
 				valueformat="tableelement"/>
-							
+
+			<field name="limit_where"
+			       type="fabrikeditor"
+			       mode="mysql"
+			       description="PLG_FORM_LIMIT_WHERE_DESC"
+			       label="PLG_FORM_LIMIT_WHERE_LABEL" />
+
 			<field name="OR" type="spacer"/>
 	
 			<field name="limit_connection"

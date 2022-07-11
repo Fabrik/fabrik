@@ -21,7 +21,7 @@ class getFabrikTab extends cbTabHandler {
 		$this->cbTabHandler();
 	}
 
-	function getDisplayTab($tab,$user,$ui)
+	function __construct($tab,$user,$ui)
 	{
 		// $$$ hugh - added privacy option, so you can restrict who sees the tab, requested on forums:
 		// http://fabrikar.com/forums/showthread.php?p=128127#post128127
@@ -66,12 +66,23 @@ class getFabrikTab extends cbTabHandler {
 		$session->set('fabrik.plugin.' . $social_hash . '.profile_id', $user->get('id'));
 		// do the old style one without the hash for backward compat
 		$session->set('fabrik.plugin.profile_id', $user->get('id'));
-		$txt = rtrim($txt, '}') . " fabrik_social_profile_hash=" . $social_hash . '}';
+
+		if (empty($txt))
+		{
+			$txt = '{fabrik_social_profile_hash=' . $social_hash . '}';
+		}
+		else
+		{
+			$txt = rtrim($txt, '}') . " fabrik_social_profile_hash=" . $social_hash . '}';
+		}
 
 		//do some dynamic replacesments with the owner's data
 		foreach ($user as $k=>$v) {
 			if (strstr( $txt, "{\$my->$k}" )) {
 				$txt = str_replace("{\$my->$k}", $v, $txt);
+			}
+			else if (strstr( $txt, "[\$my->$k]" )) {
+				$txt = str_replace("[\$my->$k]", $v, $txt);
 			}
 			// $$$ hugh - might as well stuff the entire CB user object in the session
 			$session->set('fabrik.plugin.' . $social_hash . '.' . $k, $v);

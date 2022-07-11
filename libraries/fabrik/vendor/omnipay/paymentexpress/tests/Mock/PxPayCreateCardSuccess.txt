@@ -1,9 +1,0 @@
-HTTP/1.1 200 OK
-Server: DPS_PX_SERVER
-Cache-Control: private
-Content-Length: 507
-Content-Type: application/xhtml+xml; charset=utf-8
-Expires: Sat, 23 Feb 2013 14:56:42 GMT
-Date: Sat, 23 Feb 2013 14:57:41 GMT
-
-<Request valid="1"><URI>https://sec.paymentexpress.com/pxmi3/EF4054F622D6C4C1B0FA3975F5B37D5883A7AA411DF778AEBA9C4E3CBE1B394B50478552233E3FBD7</URI></Request>

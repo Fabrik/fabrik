@@ -1,2 +1,3 @@
 /*! Fabrik */
-define(["jquery","fab/list-plugin"],function(a,b){var c=new Class({Extends:b,initialize:function(a){this.parent(a)}});return c});
+
+define(["jquery","fab/list-plugin"],function(n,i){return new Class({Extends:i,initialize:function(n){this.parent(n)}})});

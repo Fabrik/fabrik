@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset label="To" name="plg-form-mailgun">
+
+			<field name="mailgun_api_key"
+				   type="text"
+				   label="PLG_FABRIK_FORM_MAILGUN_API_KEY_LABEL"
+				   desc="PLG_FABRIK_FORM_MAILGUN_API_KEY_DESC"
+				   repeat="true"
+				   size="40"/>
+
+			<field name="mailgun_domain"
+				   type="text"
+				   label="PLG_FABRIK_FORM_MAILGUN_DOMAIN_LABEL"
+				   desc="PLG_FABRIK_FORM_MAILGUN_DOMAIN_DESC"
+				   repeat="true"
+				   size="40"/>
+
+			<field name="mailgun_webhook_link"
+				   type="mailgunwebhook"
+				   plugin="mailgun"
+				   label="PLG_FORM_MAILGUN_WEBHOOK_LINK_LABEL"
+				   description="PLG_FORM_MAILGUN_WEBHOOK_LINK_DESC"
+				   repeat="true"/>
+
+			<field name="mailgun_to"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FABRIK_FORM_MAILGUN_TO_DESC"
+			       label="PLG_FABRIK_FORM_MAILGUN_TO_LABEL"/>
+
+			<field name="mailgun_to_eval"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_FABRIK_FORM_MAILGUN_TO_EVAL_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_TO_EVAL_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_to_group"
+				type="usergroup"
+				description="PLG_FABRIK_FORM_MAILGUN_GROUP_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_GROUP_LABEL"
+				multiple="true"
+				repeat="true"
+				size="6"/>
+
+		</fieldset>
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-form-mailgun-options">
+
+			<field name="mailgun_from"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FABRIK_MAILGUN_FROM_DESC"
+			       label="PLG_FABRIK_MAILGUN_FROM_LABEL"/>
+
+			<field name="mailgun_return_path"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FABRIK_MAILGUN_RETURN_PATH_DESC"
+			       label="PLG_FABRIK_MAILGUN_RETURN_PATH_LABEL"/>
+
+			<field name="mailgun_subject"
+			       type="listfields"
+			       repeat="true"
+			       mode="gui"
+			       at="true"
+			       rows="1"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FABRIK_FORM_MAILGUN_SUBJECT_DESC"
+			       label="PLG_FABRIK_FORM_MAILGUN_SUBJECT_LABEL"/>
+
+			<field name="mailgun_template"
+				type="filelist"
+				description="PLG_FABRIK_FORM_MAILGUN_TEMPLATE_DESC"
+				directory="/plugins/fabrik_form/email/tmpl/"
+				hide_default="1"
+				label="PLG_FABRIK_FORM_MAILGUN_TEMPLATE_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_template_content"
+				type="sql2"
+				add_select="true"
+				description="PLG_FABRIK_FORM_MAILGUN_OR_CONTENT_TEMTEMPLATE_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_OR_CONTENT_TEMTEMPLATE_LABEL"
+				query="SELECT id AS value, title AS text FROM #__content WHERE state != -2 "
+				repeat="true" />
+
+			<field name="mailgun_run_content_plugins"
+				type="radio"
+				class="btn-group"
+				default="0"
+				repeat="true"
+				description="PLG_FABRIK_FORM_MAILGUN_RUN_CONTENT_PLUGINS_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_RUN_CONTENT_PLUGINS_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+			<field name="mailgun_message_text"
+				type="fabrikeditor"
+				description="PLG_FABRIK_FORM_MAILGUN_MESSAGE_TEXT_DESC"
+				mode="html"
+				label="PLG_FABRIK_FORM_MAILGUN_MESSAGE_TEXT_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_conditon"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_FABRIK_FORM_MAILGUN_CONDITION_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_CONDITION_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_update_field"
+			       description="PLG_FABRIK_FORM_MAILGUN_UPDATE_FIELD_DESC"
+			       label="PLG_FABRIK_FORM_MAILGUN_UPDATE_FIELD_LABEL"
+			       repeat="true"
+			       type="listfields"
+			       valueformat="tableelement"
+			/>
+
+			<field name="mailgun_headers_eval"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_FORM_MAILGUN_HEADER_EVAL_DESC"
+			       label="PLG_FABRIK_FORM_MAILGUN_HEADER_EVAL_LABEL"
+			       repeat="true" />
+
+		</fieldset>
+
+		<fieldset name="plg-form-mailgun-attachments" label="PLG_FABRIK_FORM_MAILGUN_ATTACHMENTS">
+
+			<field name="mailgun_attach_type"
+				type="text"
+				description="PLG_FABRIK_FORM_MAILGUN_ATTACHTYPE_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_ATTACHTYPE_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_attach_eval"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_FABRIK_FORM_MAILGUN_ATTACH_EVAL_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_ATTACH_EVAL_LABEL"
+				repeat="true" />
+
+			<field name="mailgun_attach_pdf"
+				type="radio"
+				class="btn-group"
+				default="0"
+				repeat="true"
+				description="PLG_FABRIK_FORM_MAILGUN_ATTACH_PDF_DESC"
+				label="PLG_FABRIK_FORM_MAILGUN_ATTACH_PDF_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+
+		<fieldset name="plg-form-mailgun-fields"
+				  label="MAILGUN">
+
+			<field name="mailgun_check_user"
+				   type="list"
+				   default="0"
+				   repeat="true"
+				   description="PLG_FABRIK_FORM_MAILGUN_CHECK_USER_DESC"
+				   label="PLG_FABRIK_FORM_MAILGUN_CHECK_USER_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JGLOBAL_USERNAME</option>
+				<option value="2">JGLOBAL_EMAIL</option>
+			</field>
+
+
+			<field name="mailgun_user_element"
+				   description="MAILGUN_USER_ELEMENT_DESC"
+				   label="MAILGUN_USER_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_url_element"
+				   description="MAILGUN_URL_ELEMENT_DESC"
+				   label="MAILGUN_URL_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_sender_element"
+				   description="MAILGUN_SENDER_ELEMENT_DESC"
+				   label="MAILGUN_SENDER_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_subject_element"
+				   description="MAILGUN_SUBJECT_ELEMENT_DESC"
+				   label="MAILGUN_SUBJECT_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_body_element"
+				   description="MAILGUN_BODY_ELEMENT_DESC"
+				   label="MAILGUN_BODY_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_metadata_element"
+				   description="MAILGUN_METADATA_ELEMENT_DESC"
+				   label="MAILGUN_METADATA_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_msgid_element"
+				   description="MAILGUN_MSGID_ELEMENT_DESC"
+				   label="MAILGUN_MSGID_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_date_element"
+				   description="MAILGUN_DATE_ELEMENT_DESC"
+				   label="MAILGUN_DATE_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="mailgun_status_element"
+				   description="MAILGUN_STATUS_ELEMENT_DESC"
+				   label="MAILGUN_STATUS_ELEMENT_LABEL"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+		</fieldset>
+
+	</fields>
+</form>

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -82,7 +82,11 @@ class FabrikAdminModelHome extends FabModelAdmin
 		}
 		else
 		{
-			$rssDoc = JSimplepieFactory::getFeedParser('http://feeds.feedburner.com/fabrik', 86400);
+			jimport('simplepie.simplepie');
+			$rssDoc = new SimplePie();
+			$rssDoc->set_feed_url('http://feeds.feedburner.com/fabrik');
+			$rssDoc->set_cache_duration(86400);
+			$rssDoc->init();
 		}
 
 		if ($rssDoc == false)
@@ -187,8 +191,8 @@ class FabrikAdminModelHome extends FabModelAdmin
 		$form->submit_button_label = "Submit";
 		$form->published           = 1;
 
-		$form->form_template      = "default";
-		$form->view_only_template = "default";
+		$form->form_template      = "bootstrap";
+		$form->view_only_template = "bootstrap";
 
 		$form->store();
 
@@ -222,7 +226,7 @@ class FabrikAdminModelHome extends FabModelAdmin
 		$list->published      = 1;
 		$list->rows_per_page  = 10;
 		$list->params         = $listModel->getDefaultParams();
-		$list->template       = 'default';
+		$list->template       = 'bootstrap';
 
 		$list->store();
 		echo "<li>Table for 'Contact Us' created</li></div>";

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -88,6 +88,7 @@ class FabrikViewList extends FabrikViewListBase
 		$displayData->emptyDataMessage = $this->emptyDataMessage;
 		$displayData->tmpl = $this->tmpl;
 		$displayData->title = $this->grouptemplates[$groupedBy];
+		$displayData->extra = $this->grouptemplatesExtra[$groupedBy];
 		$displayData->count = count($group);
 		$displayData->group_by_show_count = $this->params->get('group_by_show_count','1');
 		$layout = $this->getModel()->getLayout('list.fabrik-group-by-heading');
@@ -107,6 +108,7 @@ class FabrikViewList extends FabrikViewListBase
 		$displayData->toggleFilters = $this->toggleFilters;
 		$displayData->filterCols = $this->filterCols;
 		$displayData->showClearFilters = $this->showClearFilters;
+		$displayData->gotOptionalFilters = $this->gotOptionalFilters;
 		$displayData->filters = $this->filters;
 		$displayData->filter_action = $this->filter_action;
 		$layoutFile =  $this->filterMode === 5 ? 'fabrik-filters-modal' : 'fabrik-filters';

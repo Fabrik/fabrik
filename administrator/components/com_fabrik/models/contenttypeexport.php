@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.4
  */
@@ -214,6 +214,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 		// We don't want to export the main table, as a new one is created when importing the content type
 		$this->listModel = $formModel->getListModel();
 		$mainTable       = $this->listModel->getTable()->get('db_table_name');
+		$mainTableConnection = $this->listModel->getTable()->get('connection_id');
 		$contentType     = $this->doc->createElement('contenttype');
 		$tables          = FabrikContentTypHelper::iniTableXML($this->doc, $mainTable);
 
@@ -234,7 +235,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 				$elements[] = $elementModel->getElement()->getProperties();
 			}
 
-			$contentType->appendChild($this->createFabrikGroupXML($groupData, $elements, $tables, $mainTable));
+			$contentType->appendChild($this->createFabrikGroupXML($groupData, $elements, $tables, $mainTable, $mainTableConnection));
 		}
 
 		$contentType->appendChild($tables);
@@ -280,7 +281,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 	 *
 	 * @return DOMElement
 	 */
-	private function createFabrikGroupXML($data, $elements, $tables, $mainTable = '')
+	private function createFabrikGroupXML($data, $elements, $tables, $mainTable = '', $mainTableConnection=1)
 	{
 		$tableParams = array('table_join', 'join_from_table');
 
@@ -295,7 +296,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 			{
 				if ($join->get($tableParam) !== $mainTable)
 				{
-					$this->createTableXML($tables, $join->get($tableParam));
+					$this->createTableXML($tables, $join->get($tableParam), $mainTableConnection);
 				}
 			}
 
@@ -334,7 +335,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 
 			if ($params->get('join_db_name') !== $mainTable)
 			{
-				$this->createTableXML($tables, $params->get('join_db_name'));
+				$this->createTableXML($tables, $params->get('join_db_name'),$params->get('join_conn_id'));
 			}
 		};
 
@@ -361,7 +362,7 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 	 *
 	 * @throws Exception
 	 */
-	private function createTableXML(&$tables, $tableName)
+	private function createTableXML(&$tables, $tableName,$tableConnId = 1)
 	{
 		if (in_array($tableName, self::$exportedTables))
 		{
@@ -370,11 +371,29 @@ class FabrikAdminModelContentTypeExport extends FabModelAdmin
 
 		self::$exportedTables[] = $tableName;
 		//$exporter    = $this->db->getExporter();
+
+		$tabDbo= FabrikWorker::getDbo(false, $tableConnId);
+
+		// Until the J! exporters are fixed, we only handle Mysqli (with out extended class)
+		if (!($tabDbo instanceof JDatabaseDriverMysqli))
+		{
+			throw new Exception('Sorry, we currently only support the Mysqli database driver for export');
+		}
+
 		$exporter = new JDatabaseExporterMysqli2;
-		$exporter->setDbo($this->db);
+
+		$exporter->setDbo($tabDbo);
 		$exporter->from($tableName);
 		$tableDoc = new DOMDocument();
-		$tableDoc->loadXML((string) $exporter);
+		$xml = (string) $exporter;
+
+		// magic __toString can't throw exceptions, so we've overridden it, and store the exception
+		if (empty($xml) && $exporter->exception !== null)
+		{
+			throw new Exception('An error occured in XML export: ' . $exporter->exception->getMessage());
+		}
+
+		$tableDoc->loadXML($xml);
 		$structures = $tableDoc->getElementsByTagName('table_structure');
 
 		foreach ($structures as $table)

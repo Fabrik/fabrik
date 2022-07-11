@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.timeline
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -21,7 +21,7 @@ if ($this->showFilters) :
 	  <table class="filtertable fabrikTable fabrikList">
 		  <thead>
 		  	<tr>
-		  		<th><?php echo $table ?></th>
+		  		<th><?php echo FText::_($table) ?></th>
 		  		<th style="text-align:right;"><?php echo $this->advancedSearch;?></th>
 		  	</tr>
 		  </thead>

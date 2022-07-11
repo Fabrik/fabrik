@@ -1,7 +1,7 @@
 /**
  * Radio Button Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -36,7 +36,7 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
             c.getElements('.radio.btn-group label').addClass('btn');
 
 
-            c.getElements(".btn-group input[checked=checked]").each(function (input) {
+            c.getElements(".btn-group input[checked]").each(function (input) {
                 var label = input.getParent('label'), v;
                 if (typeOf(label) === 'null') {
                     // J3.2 button group markup - label is after input (no longer the case)
@@ -148,12 +148,20 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
             }
             this._getSubElements().each(function (sub) {
                 if (sub.value === v) {
-                    sub.checked = 'checked';
+                    sub.set('checked', true);
+                }
+                else {
+                    sub.set('checked', false);
                 }
             });
         },
 
         update: function (val) {
+            if (typeOf(val) === 'array')
+            {
+                val = val.shift();
+            }
+            this.setValue(val);
             if (!this.options.editable) {
                 if (val === '') {
                     this.element.innerHTML = '';
@@ -162,14 +170,8 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
                 this.element.innerHTML = $H(this.options.data).get(val);
                 return;
             } else {
-                var els = this._getSubElements();
-                if (typeOf(val) === 'array') {
-                    els.each(function (el) {
-                        if (val.contains(el.value)) {
-                            this.setButtonGroupCSS(el);
-                        }
-                    }.bind(this));
-                } else {
+                if (this.options.btnGroup) {
+                    var els = this._getSubElements();
                     els.each(function (el) {
                         if (el.value === val) {
                             this.setButtonGroupCSS(el);
@@ -184,12 +186,53 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
                 this.watchAddToggle();
                 this.watchAdd();
             }
+            this._getSubElements().each(function (sub, i) {
+                sub.id = this.options.element + '_input_' + i;
+                var label = sub.getParent('label');
+                if (label) {
+                    label.htmlFor = sub.id;
+                }
+            }.bind(this));
             this.parent(c);
             this.btnGroup();
         },
 
         getChangeEvent: function () {
             return this.options.changeEvent;
+        },
+
+        /**
+         * Get the dom selector that events should be attached to, need to include label for button groups
+         * (don't think we need this after changing the grid layout to include 'for')
+         * @returns {string}
+         */
+        eventDelegate: function () {
+            var str = 'input[type=' + this.type + '][name^=' + this.options.fullName + ']';
+            str += ', [class*=fb_el_' + this.options.fullName + '] .fabrikElement label';
+
+            return str;
+        },
+
+        setName: function (repeatCount) {
+            var element = this.getElement();
+            if (typeOf(element) === 'null') {
+                return false;
+            }
+
+            this._getSubElements().each(function (e) {
+                e.name = this._setName(e.name, repeatCount);
+                e.id = this._setId(e.id, repeatCount, '_input_\\d+');
+                var label = e.getParent('label');
+                if (label) {
+                    label.htmlFor = e.id;
+                }
+            }.bind(this));
+
+            if (typeOf(this.element.id) !== 'null') {
+                this.element.id = this._setId(this.element.id, repeatCount);
+            }
+            this.options.repeatCounter = repeatCount;
+            return this.element.id;
         }
 
     });

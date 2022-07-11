@@ -51,7 +51,9 @@
 		"application/vnd.ms-powerpoint,ppt pps pot," +
 		"application/zip,zip," +
 		"application/x-shockwave-flash,swf swfl," +
-		"application/vnd.openxmlformats,docx pptx xlsx," +
+		"application/vnd.openxmlformats,pptx," +
+		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,xlsx," +
+		"application/vnd.openxmlformats-officedocument.wordprocessingml.document,docx," +
 		"audio/mpeg,mpga mpega mp2 mp3," +
 		"audio/x-wav,wav," +
 		"audio/mp4,m4a," +
@@ -75,7 +77,10 @@
 		"video/vnd.rn-realvideo,rv," +
 		"text/csv,csv," +
 		"text/plain,asc txt text diff log," +
-		"application/octet-stream,exe"
+		"application/octet-stream,exe rvt," +
+		"application/dwg,dwg," +
+		"application/x-3ds,3ds," +
+		"application/x-paperport,max"
 	);
 
 	/**

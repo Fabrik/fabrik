@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -60,7 +60,7 @@ class AllVideosRenderModel
 
 	public function render(&$model, &$params, $file, $thisRow = null)
 	{
-		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$src = $model->getStorage()->getFileUrl($file);
 		$ext = JString::strtolower(JFile::getExt($file));
 
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
@@ -107,11 +107,11 @@ class AllVideosRenderModel
 	 * @param   object  $model    Element model
 	 * @param   object  $params   Element params
 	 * @param   object  $thisRow  All rows data
+	 * @param   bool    $nav      Render a navbar on carousel
 	 *
 	 * @return  string  HTML
 	 */
-
-	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null)
+	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null, $nav = true)
 	{
 		$rendered = '';
 		/**

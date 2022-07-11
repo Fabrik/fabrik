@@ -4,6 +4,7 @@ defined('JPATH_BASE') or die;
 $d      = $displayData;
 $height = empty($d->height) ? '' : ' height="' . $d->height . 'px" ';
 $img    = '<img class="fabrikLightBoxImage" ' . $height . 'src="' . $d->file . '" alt="' . $d->title . '" />';
+$nolinkImg    = '<img class="fabrikLightBoxImage" ' . $height . 'src="' . $d->file . '" alt="' . $d->title . '" title="' . $d->title . '" />';
 
 if ($d->showImage == 0 && !$d->inListView) :
 	?>
@@ -13,7 +14,7 @@ else :
 	if ($d->isSlideShow) :
 		// We're building a Bootstrap slideshow, just a simple img tag
 		?>
-		<img src="<?php echo $d->fullSize; ?>" alt="<?php echo $d->title; ?>" style="margin:auto" />
+		<img height="100%" width="100%" object-fit="contain" src="<?php echo $d->fullSize; ?>" alt="<?php echo $d->title; ?>" style="margin:auto" />
 	<?php
 	else :
 		if ($d->isJoin) :
@@ -30,7 +31,7 @@ else :
 			</a>
 		<?php
 		else :
-			echo $img;
+			echo $nolinkImg;
 		endif;
 
 		if ($d->isJoin) : ?>

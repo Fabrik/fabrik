@@ -1,0 +1,24 @@
+{
+    "name": "arcturial/clickatell",
+    "type": "library",
+    "description": "Standalone PHP library to integrate with the Clickatell SMS gateway",
+    "homepage": "http://www.cainsvault.com",
+    "license": "GNU General Public License",
+    "authors": [
+        {
+            "name": "Chris Brand",
+            "email": "webmaster@cainsvault.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clickatell\\": [ "src", "test" ]
+        }
+    }
+}

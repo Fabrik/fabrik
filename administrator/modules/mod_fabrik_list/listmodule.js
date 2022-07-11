@@ -1,7 +1,7 @@
 /**
  * List in a Module
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -49,7 +49,7 @@ var fabrikTableModule = new Class({
 			this.watchEditLinks();
 			// $$$ is this kosher?  Array.from copies an array, and seems to make [0] be
 			// 'window' if you don't give it an array to copy.
-			var links = Array.from([]);
+			var links = Array.mfrom([]);
 			links.extend([this.blocks[0].getElement('.addbutton')]);
 			links.extend(this.blocks[1].getElements('.button'));
 			links.each(function(l){

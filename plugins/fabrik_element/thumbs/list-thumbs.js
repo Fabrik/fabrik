@@ -1,7 +1,7 @@
 /**
  * Thumbs Element - List
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -23,7 +23,7 @@ define(['jquery'], function (jQuery) {
 			this.setOptions(options);
 			//if (this.options.canUse) {
 			if (true) {
-				this.col = document.getElements('.' + id);
+				this.col = document.getElements('#list_' + this.options.renderContext + ' .' + id);
 				this.origThumbUp = {};
 				this.origThumbDown = {};
 				if (Fabrik.bootstrapped || this.options.j3) {
@@ -229,7 +229,7 @@ define(['jquery'], function (jQuery) {
 						var thumbup = row.getElements('.thumbup');
 						var thumbdown = row.getElements('.thumbdown');
 						Fabrik.loader.stop(row);
-						r = JSON.decode(r);
+						r = JSON.parse(r);
 
 						if (r.error) {
 							console.log(r.error);

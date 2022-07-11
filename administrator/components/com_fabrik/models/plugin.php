@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -84,6 +84,7 @@ class FabrikAdminModelPlugin extends JModelLegacy
 		$data['validationrule']['plugin_published'] = $this->getState('plugin_published');
 		$data['validationrule']['show_icon']        = $this->getState('show_icon');
 		$data['validationrule']['must_validate']    = $this->getState('must_validate');
+		$data['validationrule']['validate_hidden']  = $this->getState('validate_hidden');
 		$data['validationrule']['validate_in']      = $this->getState('validate_in');
 		$data['validationrule']['validation_on']    = $this->getState('validation_on');
 

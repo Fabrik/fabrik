@@ -5,7 +5,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -64,5 +64,10 @@ class FabrikViewList extends FabrikViewListBase
 			$this->doc->setMimeEncoding('text/html; charset=Windows-1252', false);
 			$this->output();
 		}
+	}
+
+	public function layoutFilters()
+	{
+		return '';
 	}
 }

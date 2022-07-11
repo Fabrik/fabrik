@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -172,6 +172,12 @@ class FabrikAdminModelConnection extends FabModelAdmin
 		$params = new stdClass;
 		$params->encryptedPw = true;
 		$data['params'] = json_encode($params);
+
+		/**
+		$encryptedPassword = FabrikWorker::encryptCipher($data['password']);
+		$decryptedPassword = FabrikWorker::decryptCipher($encryptedPassword);
+         */
+
 		$data['password'] = $crypt->encrypt($data['password']);
 		// $$$ hugh TESTING REMOVE!!!!
 		// $$$ Felikat - Not sure what you were testing but it broke stuff!

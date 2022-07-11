@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.access
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -98,15 +98,9 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 	private function getOpts($allowAll = true)
 	{
 		$this->_db
-			->setQuery(
-				'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' FROM #__usergroups AS a'
-					. ' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id' . ' ORDER BY a.lft ASC');
+			 ->setQuery(
+				'SELECT a.id AS value, a.title AS text' . ' FROM #__viewlevels AS a ORDER BY a.title ASC');
 		$options = $this->_db->loadObjectList();
-
-		for ($i = 0, $n = count($options); $i < $n; $i++)
-		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-		}
 
 		// If all user groups is allowed, push it into the array.
 		if ($allowAll)
@@ -131,7 +125,10 @@ class PlgFabrik_ElementAccess extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$options = $this->getOpts();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $options = $this->getOpts();
 		$text = '';
 
 		if ((string) $data !== '')

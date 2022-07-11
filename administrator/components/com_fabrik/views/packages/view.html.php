@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -92,9 +92,11 @@ class FabrikAdminViewPackages extends JViewLegacy
 	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT . '/helpers/fabrik.php';
+
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
 		JToolBarHelper::title(FText::_('COM_FABRIK_MANAGER_PACKAGES'), 'box-add');
 
+		/*
 		if ($canDo->get('core.create'))
 		{
 			JToolBarHelper::addNew('package.add', 'JTOOLBAR_NEW');
@@ -131,6 +133,8 @@ class FabrikAdminViewPackages extends JViewLegacy
 			JToolBarHelper::trash('packages.trash', 'JTOOLBAR_TRASH');
 		}
 
+		*/
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolBarHelper::divider();
@@ -140,6 +144,7 @@ class FabrikAdminViewPackages extends JViewLegacy
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_PACKAGES', false, FText::_('JHELP_COMPONENTS_FABRIK_PACKAGES'));
 
+		/*
 		if (FabrikWorker::j3())
 		{
 			JHtmlSidebar::setAction('index.php?option=com_fabrik&view=packages');
@@ -151,5 +156,6 @@ class FabrikAdminViewPackages extends JViewLegacy
 			JHtml::_('select.options', $publishOpts, 'value', 'text', $this->state->get('filter.published'), true)
 			);
 		}
+		*/
 	}
 }

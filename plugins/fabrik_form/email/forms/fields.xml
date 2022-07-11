@@ -122,6 +122,13 @@
 			       valueformat="tableelement"
 			/>
 
+			<field name="email_headers_eval"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_FORM_EMAIL_HEADER_EVAL_DESC"
+			       label="PLG_FABRIK_FORM_EMAIL_HEADER_EVAL_LABEL"
+			       repeat="true" />
+
 		</fieldset>
 
 		<fieldset name="plg-form-email-attachments" label="PLG_FABRIK_FORM_EMAIL_ATTACHMENTS">

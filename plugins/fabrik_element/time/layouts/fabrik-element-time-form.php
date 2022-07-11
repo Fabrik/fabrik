@@ -3,7 +3,7 @@
 defined('JPATH_BASE') or die;
 
 $d = $displayData;
-$attribs = 'class="input-small fabrikinput inputbox ' . $d->advancedClass . ' ' . $d->errorCss . '"';
+$attribs = 'class="input-small fabrikinput inputbox ' . $d->advancedClass . ' ' . $d->errorCss . '" ';
 ?>
 
 <div class="fabrikSubElementContainer" id="<?php echo $d->id; ?>">

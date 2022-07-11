@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -27,20 +27,15 @@ JToolBarHelper::title(FText::_('COM_FABRIK_WELCOME'), 'fabrik.png');
 
 	<div class="row-fluid">
 		<div class="span6">
-			<a href="http://fabrikar.com">
-				<?php echo JHTML::image('media/com_fabrik/images/logo.png', 'Fabrik logo'); ?>
-				</a>
 			<div style="float:left;width:250px;margin-top:30px;">
-				<a href="http://fabrikar.com/subscribe">
-					<?php echo JHTML::image('media/com_fabrik/images/box.png', 'Fabrik'); ?>
+				<a href="http://fabrikar.com/" target="_blank">
+					<?php echo JHTML::image('media/com_fabrik/images/logo.png', 'Fabrik'); ?>
 				</a>
 			</div>
 			<div style="margin-left:200px;margin-top:30px;">
 				<h1><?php echo FText::_('COM_FABRIK_HOME_SUBSCRIBE_TITLE')?></h1>
-				<?php echo FText::_('COM_FABRIK_HOME_SUBSCRIBE_FEATURES')?>
-				<a href="http://fabrikar.com/subscribe">
-				<?php echo JHTML::image('media/com_fabrik/images/subscribe-now.png', 'Fabrik'); ?>
-				</a><br />
+				<div style="margin-left:50px;"><?php echo FText::_('COM_FABRIK_HOME_SUBSCRIBE_FEATURES')?></div>
+				<a href="http://fabrikar.com/" target="_blank"><?php echo JHTML::image('media/com_fabrik/images/visit-fabrikar.png', 'Fabrik'); ?></a><br />
 			</div>
 		</div>
 

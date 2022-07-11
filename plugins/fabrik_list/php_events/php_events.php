@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.phpevents
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -35,6 +35,21 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 		$params = $this->getParams();
 
 		return $this->doEvaluate($params->get('list_phpevents_onfiltersgot'));
+	}
+
+	/**
+	 * onStoreRequestData method - run when filter data is stored to the session
+	 *
+	 * @param   &$args  Array  Additional options passed into the method when the plugin is called
+	 *
+	 * @return bool currently ignored
+	 */
+
+	public function onStoreRequestData(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onstorerequestdata'), $args);
 	}
 
 	/**
@@ -71,7 +86,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	 * @return bool currently ignored
 	 */
 
-	public function onPreLoadData()
+	public function onPreLoadData(&$args)
 	{
 		$params = $this->getParams();
 
@@ -90,7 +105,7 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	{
 		$params = $this->getParams();
 
-		return $this->doEvaluate($params->get('list_phpevents_onloaddata'));
+		return $this->doEvaluate($params->get('list_phpevents_onloaddata'), $args);
 	}
 
 	/**
@@ -197,14 +212,60 @@ class PlgFabrik_ListPhp_Events extends PlgFabrik_List
 	}
 
 	/**
+	 * On build query where
+	 *
+	 * @param   &$args  Array  Additional options passed into the method when the plugin is called
+
+	 * @return boolean
+	 */
+	public function onGetPluginRowHeadings(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_ongetpluginrowheadings'), $args);
+	}
+
+	public function onShowInList(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onshowinlist'), $args);
+	}
+
+	public function onElementCanViewList(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onelementcanviewlist'), $args);
+	}
+
+	public function onElementSetRowClass(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onelementsetrowclass'), $args);
+	}
+
+	public function onRelatedDataURL(&$args)
+	{
+		$params = $this->getParams();
+
+		return $this->doEvaluate($params->get('list_phpevents_onrelateddataurl'), $args);
+	}
+
+
+
+	/**
 	 * Evaluate supplied PHP
+	 *
+	 * @param   &$args  Array  Additional options passed into the method when the plugin is called
 	 *
 	 * @param   string  $code  Php code
 	 *
 	 * @return bool
 	 */
 
-	protected function doEvaluate($code)
+	protected function doEvaluate($code, &$args = array())
 	{
 		$model = $this->getModel();
 		$w = new FabrikWorker;

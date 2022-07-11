@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -136,6 +136,11 @@ class FabrikAdminModelCron extends FabModelAdmin
 		{
 			$date            = JFactory::getDate();
 			$data['lastrun'] = $date->toSql();
+		}
+		else
+		{
+			$timeZone = new DateTimeZone($this->config->get('offset'));
+			$data['lastrun']     = JFactory::getDate($data['lastrun'], $timeZone)->toSql(false);
 		}
 
 		$data['params'] = json_encode($data['params']);

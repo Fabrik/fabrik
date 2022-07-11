@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - hhvm
+
+install:
+  - composer self-update
+  - composer install
+
+script:
+  phpunit
+

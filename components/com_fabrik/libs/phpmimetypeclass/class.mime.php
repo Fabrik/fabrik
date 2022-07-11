@@ -732,7 +732,7 @@ class MIMETypes {
   * @returns Nothing
   */
   public function __destruct() {
-    unset($this);
+    //unset($this);
   }
 
   /**

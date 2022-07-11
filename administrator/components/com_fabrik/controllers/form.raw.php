@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -100,7 +100,7 @@ class FabrikAdminControllerForm extends JControllerForm
 			// If its in a module with ajax or in a package or inline edit
 			if ($input->get('fabrik_ajax'))
 			{
-				if ($input->getInt('elid') !== 0)
+				if ($input->getInt('elid', 0) !== 0)
 				{
 					// Inline edit
 					$eMsgs = array();

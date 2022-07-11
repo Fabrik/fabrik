@@ -1,7 +1,7 @@
 /**
  * Bootstrap Auto-Complete
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -13,6 +13,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
     var AutoComplete = new Class({
 
         Implements: [Options, Events],
+
+        Binds: [],
 
         options: {
             menuclass              : 'auto-complete-container dropdown',
@@ -30,7 +32,8 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
         },
 
         initialize: function (element, options) {
-            window.addEvent('domready', function () {
+            // not sure why we use domready, but causes issues in popups on second+ open, doesn't fire
+            //window.addEvent('domready', function () {
                 this.matchedResult = false;
                 this.setOptions(options);
                 element = element.replace('-auto-complete', '');
@@ -59,11 +62,18 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
 
                 /**
                  * Using a 3rd party jQuery lib to 'debounce' the input, so the search doesn't fire until
-                 * the user has stopped typing for more than X ms
+                 * the user has stopped typing for more than X ms.  Don't use on() here, use bind(), otherwise
+                 * we get multiple events when form popups are opened multiple times.
                  */
                 var self = this;
-                jQuery(document).on('keyup', debounce(this.options.debounceDelay, function (e) {
+                jQuery(this.getInputElement()).bind('keyup', debounce(this.options.debounceDelay, function (e) {
                     self.search(e);
+                    //console.log('heyup');
+                }));
+
+                jQuery(this.getInputElement()).bind('input', debounce(this.options.debounceDelay, function (e) {
+                    self.search(e);
+                    //console.log('input');
                 }));
 
                 this.getInputElement().addEvent('blur', function (e) {
@@ -76,7 +86,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                         }
                     }
                 }.bind(this));
-            }.bind(this));
+            //}.bind(this));
         },
 
         search: function (e) {
@@ -88,7 +98,9 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             if (!this.isMinTriggerlength()) {
                 return;
             }
-            if (e.keyCode === 'tab' || e.keyCode === 'enter') {
+
+
+            if (e.which === 9 || e.which === 13) {
                 e.preventDefault();
                 this.closeMenu();
                 if (this.ajax) {
@@ -151,11 +163,14 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
                     }).send();
                 }
             }
+            else {
+                //console.log('same same or empty');
+            }
             this.searchText = v;
         },
 
         completeAjax: function (r, v) {
-            r = JSON.decode(r);
+            r = JSON.parse(r);
             this.cache[v] = r;
             if (this.populateMenu(r)) {
                 this.openMenu();
@@ -219,7 +234,7 @@ define(['jquery', 'fab/encoder', 'fab/fabrik', 'lib/debounce/jquery.ba-throttle-
             }
             if (data.length === 0) {
                 li = new Element('li').adopt(new Element('div.alert.alert-info')
-                    .adopt(new Element('i').set('text', Joomla.JText._('COM_FABRIK_NO_RECORDS'))));
+                    .adopt(new Element('i').set('text', Joomla.JText._('COM_FABRIK_NO_AUTOCOMPLETE_RECORDS'))));
                 li.inject(ul);
             }
             for (var i = 0; i < max; i++) {

@@ -21,7 +21,7 @@ intellectual property ("your contribution") to fabrik or fabrikar.com by uploadi
 them to the fabrikar.com web site or its associated projects located on other web 
 sites (e.g. GitHub) then:
 
-You grant pollen8 Ltd. (the copyright owners of fabrik and fabrikar.com) a perpetual, 
+You grant Media A Team Inc. (the copyright owners of fabrik and fabrikar.com) a perpetual,
 non-exclusive, worldwide, fully paid-up, royalty free, irrevocable copyright license 
 to reproduce, prepare derivative works of, publicly display, publicly perform, 
 sublicense under the fabrik GPL2 license or other widely accepted open source license, 

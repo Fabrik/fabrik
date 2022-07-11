@@ -14,13 +14,15 @@ define(['jquery'], function (jQuery) {
         Implements: [Events, Options],
 
         options: {
-            element   : null,
-            defaultVal: '',
-            value     : '',
-            label     : '',
-            editable  : false,
-            isJoin    : false,
-            joinId    : 0
+	        element    : null,
+	        defaultVal : '',
+	        value      : '',
+	        label      : '',
+	        editable   : false,
+	        isJoin     : false,
+	        joinId     : 0,
+	        changeEvent: 'change',
+            hasAjaxValidation: false
         },
 
         /**
@@ -30,6 +32,7 @@ define(['jquery'], function (jQuery) {
          */
 
         initialize: function (element, options) {
+            var self = this;
             this.setPlugin('');
             options.element = element;
             this.strElement = element;
@@ -44,6 +47,16 @@ define(['jquery'], function (jQuery) {
                         event.data.changeEvent));
                 });
             }
+
+            // In ajax pop up form. Close the validation tip message when we focus in the element
+            Fabrik.on('fabrik.form.element.added', function (form, elId, el) {
+                if (el === self) {
+                    self.addNewEvent(self.getFocusEvent(), function () {
+                        self.removeTipMsg();
+                    });
+                }
+            });
+
             return this.setElement();
         },
 
@@ -116,18 +129,20 @@ define(['jquery'], function (jQuery) {
             //is only set when the element is assigned to the form.
         },
 
-        /** allows you to fire an array of events to element /  sub elements, used in calendar
+        /**
+         * Allows you to fire an array of events to element /  sub elements, used in calendar
          * to trigger js events when the calendar closes
+         * @param {array} evnts
          */
         fireEvents: function (evnts) {
             if (this.hasSubElements()) {
                 this._getSubElements().each(function (el) {
-                    Array.from(evnts).each(function (e) {
+                    Array.mfrom(evnts).each(function (e) {
                         el.fireEvent(e);
                     }.bind(this));
                 }.bind(this));
             } else {
-                Array.from(evnts).each(function (e) {
+                Array.mfrom(evnts).each(function (e) {
                     if (this.element) {
                         this.element.fireEvent(e);
                     }
@@ -229,6 +244,11 @@ define(['jquery'], function (jQuery) {
             }.bind(this));
         },
 
+        /**
+         * Add a JS event to the element
+         * @param {string} action
+         * @param {string|function} js
+         */
         addNewEvent: function (action, js) {
             if (action === 'load') {
                 this.loadEvents.push(js);
@@ -255,20 +275,56 @@ define(['jquery'], function (jQuery) {
         validate: function () {
         },
 
+        /**
+         * Add AJAX validation trigger, called from form model setup or when cloned
+         */
+        addAjaxValidationAux: function () {
+            var self = this;
+            // the hasAjaxValidation flag is only set during setup
+            if (this.element && this.options.hasAjaxValidation) {
+                var $el = jQuery(this.element);
+                if ($el.hasClass('fabrikSubElementContainer')) {
+                    // check for things like radio buttons & checkboxes
+                    $el.find('.fabrikinput').on(this.getChangeEvent(), function (e) {
+                        self.form.doElementValidation(e, true);
+                    });
+                    return;
+                }
+                $el.on(this.getChangeEvent(), function (e) {
+                    self.form.doElementValidation(e, false);
+                });
+            }
+        },
+
+        /**
+         * Add AJAX validation trigger, called from form model
+         */
+        addAjaxValidation: function () {
+            var self = this;
+            if (!this.element) {
+                this.element = document.id(this.strElement);
+            }
+            if (this.element) {
+                // set our hasAjaxValidation flag and do the actual event add
+                this.options.hasAjaxValidation = true;
+                this.addAjaxValidationAux();
+            }
+        },
+
         //store new options created by user in hidden field
         addNewOption: function (val, label) {
             var a;
             var added = document.id(this.options.element + '_additions').value;
             var json = {'val': val, 'label': label};
             if (added !== '') {
-                a = JSON.decode(added);
+                a = JSON.parse(added);
             } else {
                 a = [];
             }
             a.push(json);
             var s = '[';
             for (var i = 0; i < a.length; i++) {
-                s += JSON.encode(a[i]) + ',';
+                s += JSON.stringify(a[i]) + ',';
             }
             s = s.substring(0, s.length - 1) + ']';
             document.id(this.options.element + '_additions').value = s;
@@ -332,10 +388,10 @@ define(['jquery'], function (jQuery) {
         },
 
         reset: function () {
-            this.resetEvents();
             if (this.options.editable === true) {
                 this.update(this.options.defaultVal);
             }
+            this.resetEvents();
         },
 
         resetEvents: function () {
@@ -373,17 +429,28 @@ define(['jquery'], function (jQuery) {
         },
 
         /**
+         * Called before an AJAX validation is triggered, in case an element wants to abort it,
+         * for example date element with time picker
+         */
+        shouldAjaxValidate: function () {
+            return true;
+        },
+
+        /**
          * Run when the element is cloned in a repeat group
          */
         cloned: function (c) {
             this.renewEvents();
             this.resetEvents();
+            this.addAjaxValidationAux();
+            var changeEvent = this.getChangeEvent();
             if (this.element.hasClass('chzn-done')) {
                 this.element.removeClass('chzn-done');
                 this.element.addClass('chzn-select');
                 this.element.getParent().getElement('.chzn-container').destroy();
                 jQuery('#' + this.element.id).chosen();
-                var changeEvent = this.getChangeEvent();
+                jQuery(this.element).addClass('chzn-done');
+
                 jQuery('#' + this.options.element).on('change', {changeEvent: changeEvent}, function (event) {
                     document.id(this.id).fireEvent(event.data.changeEvent, new Event.Mock(event.data.changeEvent,
                         document.id(this.id)));
@@ -395,6 +462,7 @@ define(['jquery'], function (jQuery) {
          * Run when the element is de-cloned from the form as part of a deleted repeat group
          */
         decloned: function (groupid) {
+            this.form.removeMustValidate(this);
         },
 
         /**
@@ -440,11 +508,12 @@ define(['jquery'], function (jQuery) {
          * @return array of tips
          */
         tips: function () {
+            var self = this;
             return jQuery(Fabrik.tips.elements).filter(function (index, t) {
-                if (t === this.getContainer() || t.getParent() === this.getContainer()) {
+                if (t === self.getContainer() || t.getParent() === self.getContainer()) {
                     return true;
                 }
-            }.bind(this));
+            });
         },
 
         /**
@@ -549,6 +618,42 @@ define(['jquery'], function (jQuery) {
             }
         },
 
+        /**
+         * Move the tip using its position top property. Used when inside a modal form that
+         * scrolls vertically or modal is moved, and ensures the tip stays attached to the triggering element
+         * @param {number} top
+         * @param {number} left
+         */
+        moveTip: function (top, left) {
+            var t = this.tips(), tip, origPos, popover;
+            if (t.length > 0) {
+                t = jQuery(t[0]);
+                popover = t.data('popover');
+                if (popover) {
+                    tip = popover.$tip;
+                    if (tip) {
+                        origPos = tip.data('origPos');
+                        if (origPos === undefined) {
+                            origPos = {
+                                'top': parseInt(t.data('popover').$tip.css('top'), 10) + top,
+                                'left': parseInt(t.data('popover').$tip.css('left'), 10) + left
+                            };
+                            tip.data('origPos', origPos);
+                        }
+                        tip.css({
+                            'top': origPos.top - top,
+                            'left': origPos.left - left
+                        });
+                    }
+                }
+            }
+        },
+
+        /**
+         * Set the failed validation message
+         * @param {string} msg
+         * @param {string} classname
+         */
         setErrorMessage: function (msg, classname) {
             var a, i;
             var classes = ['fabrikValidating', 'fabrikError', 'fabrikSuccess'];
@@ -592,6 +697,14 @@ define(['jquery'], function (jQuery) {
                     if (errorElements.length > 1) {
                         for (i = 1; i < errorElements.length; i++) {
                             errorElements[i].set('html', msg);
+                        }
+                    }
+
+                    var tabDiv = this.getTabDiv();
+                    if (tabDiv) {
+                        var tab = this.getTab(tabDiv);
+                        if (tab) {
+                            tab.addClass('fabrikErrorGroup');
                         }
                     }
 
@@ -705,7 +818,7 @@ define(['jquery'], function (jQuery) {
                     suffixFound = true;
                 }
             }
-            var bits = Array.from(n.split('_'));
+            var bits = Array.mfrom(n.split('_'));
             var i = bits.getLast();
             if (typeOf(i.toInt()) === 'null') {
                 return bits.join('_');
@@ -753,6 +866,109 @@ define(['jquery'], function (jQuery) {
             return r;
         },
 
+        setContainerRepeatNum: function(oldRepeatCount, newRepeatCount)
+        {
+            var container = this.getContainer();
+            jQuery(container).removeClass('fb_el_' + this.origId + '_' + oldRepeatCount);
+            jQuery(container).addClass('fb_el_' + this.origId + '_' + newRepeatCount);
+        },
+
+        setName: function (repeatCount) {
+            var element = this.getElement();
+            if (typeOf(element) === 'null') {
+                return false;
+            }
+            if (this.hasSubElements()) {
+                this._getSubElements().each(function (e) {
+                    e.name = this._setName(e.name, repeatCount);
+                    e.id = this._setId(e.id, repeatCount);
+                }.bind(this));
+            } else {
+                if (typeOf(this.element.name) !== 'null') {
+                    this.element.name = this._setName(this.element.name, repeatCount);
+                }
+            }
+            if (typeOf(this.element.id) !== 'null') {
+                this.element.id = this._setId(this.element.id, repeatCount);
+            }
+            this.setContainerRepeatNum(this.options.repeatCounter, repeatCount);
+            this.options.repeatCounter = repeatCount;
+            return this.element.id;
+        },
+
+        /**
+         * @param    string    name to decrease
+         * @param    int        delete index
+         * @param    string    name suffix to keep (used for db join autocomplete element)
+         */
+
+        _setId: function (n, repeatCount, suffix) {
+            var suffixFound = false;
+            suffix = suffix ? suffix : false;
+            var match = '';
+            if (suffix !== false) {
+                var re = new RegExp(suffix);
+                if (n.test(re)) {
+                    match = n.match(re)[0];
+                    n = n.replace(re, '');
+                    suffixFound = true;
+                }
+            }
+            var bits = Array.mfrom(n.split('_'));
+            var i = bits.getLast();
+            if (typeOf(i.toInt()) === 'null') {
+                return n + match;
+            }
+            if (i.toInt() === repeatCount) {
+                return n + match;
+            }
+            i = repeatCount;
+            bits.splice(bits.length - 1, 1, i);
+            var r = bits.join('_');
+            if (suffixFound) {
+                r += match;
+            }
+            this.options.element = r;
+            return r;
+        },
+
+        /**
+         * @param    string    name to decrease
+         * @param    int        delete index
+         * @param    string    name suffix to keep (used for db join autocomplete element)
+         */
+
+        _setName: function (n, repeatCount, suffix) {
+
+            var suffixFound = false;
+            suffix = suffix ? suffix : false;
+            var match = '';
+            if (suffix !== false) {
+                var re = new RegExp(suffix);
+                if (n.test(re)) {
+                    match = n.match(re)[0];
+                    n = n.replace(re, '');
+                    suffixFound = true;
+                }
+            }
+            var namebits = n.split('[');
+            var i = namebits[1].replace(']', '').toInt();
+
+            if (i.toInt() === repeatCount) {
+                return n + match;
+            }
+
+            i = repeatCount;
+            i = i + ']';
+
+            namebits[1] = i;
+            var r = namebits.join('[');
+            if (suffixFound) {
+                r += match;
+            }
+            return r;
+        },
+
         /**
          * determine which duplicated instance of the repeat group the
          * element belongs to, returns false if not in a repeat group
@@ -769,26 +985,38 @@ define(['jquery'], function (jQuery) {
             return this.element.get('tag') === 'select' ? 'change' : 'blur';
         },
 
-        getChangeEvent: function () {
-            return 'change';
+        /**
+         * Get focus event
+         * @returns {string}
+         */
+        getFocusEvent: function () {
+            return this.element.get('tag') === 'select' ? 'click' : 'focus';
         },
+
+	    getChangeEvent: function () {
+		    return this.options.changeEvent;
+	    },
 
         select: function () {
         },
         focus : function () {
+            this.removeTipMsg();
         },
 
         hide: function () {
             var c = this.getContainer();
             if (c) {
-                c.hide();
+                jQuery(c).hide();
+                jQuery(c).addClass('fabrikHide');
+
             }
         },
 
         show: function () {
             var c = this.getContainer();
             if (c) {
-                c.show();
+                jQuery(c).show();
+                jQuery(c).removeClass('fabrikHide');
             }
         },
 
@@ -824,6 +1052,29 @@ define(['jquery'], function (jQuery) {
                     }.bind(this));
                 }
             }.bind(this)).delay(500);
+        },
+
+        getTab: function(tab_div) {
+            var tab_dl;
+	        if (Fabrik.bootstrapped) {
+		        var a = jQuery('a[href$=#' + tab_div.id + ']');
+		        tab_dl = a.closest('[data-role=fabrik_tab]');
+	        } else {
+		        tab_dl = tab_div.getPrevious('.tabs');
+	        }
+	        if (tab_dl) {
+	            return tab_dl;
+            }
+            return false;
+        },
+
+        getTabDiv: function() {
+	        var c = Fabrik.bootstrapped ? '.tab-pane' : '.current';
+	        var tab_div = this.element.getParent(c);
+	        if (tab_div) {
+	            return tab_div;
+            }
+            return false;
         },
 
         /**

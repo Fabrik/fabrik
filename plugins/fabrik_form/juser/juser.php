@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.juser
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -68,28 +68,6 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 	protected $blockfield = '';
 
 	/**
-	 * Get an element name
-	 *
-	 * @param   string $pname Params property name to look up
-	 * @param   bool   $short Short (true) or full (false) element name, default false/full
-	 *
-	 * @return    string    element full name
-	 */
-	private function getFieldName($pname, $short = false)
-	{
-		$params = $this->getParams();
-
-		if ($params->get($pname) == '')
-		{
-			return '';
-		}
-
-		$elementModel = FabrikWorker::getPluginManager()->getElementPlugin($params->get($pname));
-
-		return $short ? $elementModel->getElement()->name : $elementModel->getFullName();
-	}
-
-	/**
 	 * Synchronize J! users with F! table if empty
 	 *
 	 * @return  void
@@ -129,6 +107,20 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 					$fabrikDb->setQuery($query);
 					$origUsers = $fabrikDb->loadObjectList();
 					$count     = 0;
+					$syncPK   = $params->get('juser_sync_pk', '0') === '1';
+					$pk = '';
+
+					if ($syncPK)
+					{
+						$listModel = $formModel->getListModel();
+						$pk = $listModel->getPrimaryKey(false);
+						$autoInc = $listModel->getTable()->get('auto_inc', '1') === '1';
+
+						if ($autoInc)
+						{
+							throw new RuntimeException('juser plugin is set to sync pk, but list is set to auto_increment');
+						}
+					}
 
 					// @TODO really should batch this stuff up, maybe 100 at a time, rather than an insert for every user!
 					foreach ($origUsers as $o_user)
@@ -145,6 +137,11 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 						if (!FabrikWorker::j3())
 						{
 							$fields[$this->getFieldName('juser_field_usertype', true)] = $o_user->group_id;
+						}
+
+						if ($syncPK)
+						{
+							$fields[$pk] = $o_user->id;
 						}
 
 						$query->insert($tableName);
@@ -167,26 +164,38 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			}
 		}
 
+		$rowId = FabrikWorker::getMenuOrRequestVar('rowid');
+		$loadCurrentUser = $rowId === '-1' && $this->getFieldName('juser_sync_load_current_user');
+
 		// If we are editing a user, we need to make sure the password field is cleared
-		if (FabrikWorker::getMenuOrRequestVar('rowid'))
+		if ($rowId > 0 || $loadCurrentUser)
 		{
-			$this->passwordfield                            = $this->getFieldName('juser_field_password');
-			$formModel->data[$this->passwordfield]          = '';
-			$formModel->data[$this->passwordfield . '_raw'] = '';
+			// don't clear if confirmation plugin is loading, leave it, it'll get encrypted readonly and resubmitted
+			if ($this->app->input->get('fabrik_confirmation', '') !== '1')
+			{
+				$this->passwordfield                            = $this->getFieldName('juser_field_password');
+				$formModel->data[$this->passwordfield]          = '';
+				$formModel->data[$this->passwordfield . '_raw'] = '';
+			}
+
+			$userId = $loadCurrentUser ? JFactory::getUser()->id : null;
 
 			// $$$$ hugh - testing 'sync on edit'
 			if ($params->get('juser_sync_on_edit', 0) == 1)
 			{
 				$this->useridfield = $this->getFieldName('juser_field_userid');
-				$userId            = (int) FArrayHelper::getValue($formModel->data, $this->useridfield . '_raw');
+				// don't force it as an int, otherwise, is_array on line 193 won't work
+				$userId            = FArrayHelper::getValue($formModel->data, $this->useridfield . '_raw');
 				/**
 				 * $$$ hugh - after a validation failure, userid _raw is an array.
 				 * Trying to work out why, and fix that, but need a bandaid for now.
 				 */
 				if (is_array($userId))
 				{
-					$userId = (int) FArrayHelper::getValue($userId, 0, 0);
+					$userId = FArrayHelper::getValue($userId, 0, 0);
 				}
+				
+				$userId = (int) $userId;
 
 				if ($userId > 0)
 				{
@@ -330,11 +339,24 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 	 */
 	public function onBeforeStore()
 	{
+		/** @var FabrikFEModelForm  $formModel */
 		$formModel = $this->getModel();
 		$params    = $this->getParams();
 		$input     = $this->app->input;
-		$mail      = JFactory::getMailer();
-		$mail->isHtml(true);
+
+		// clear the 'newuserid' stuff
+		$input->set('newuserid', '');
+		$input->cookie->set('newuserid', '');
+		$this->session->set('newuserid', '');
+		$input->set('newuserid_element', '');
+		$input->cookie->set('newuserid_element', '');
+		$this->session->set('newuserid_element', '');
+
+		// check for confirmation plugin first submit
+		if ($input->get('fabrik_confirmation', '') === '0')
+		{
+			return;
+		}
 
 		// Load up com_users lang - used in email text
 		$this->lang->load('com_users', JPATH_SITE);
@@ -442,6 +464,9 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		$this->emailfield = $this->getFieldName('juser_field_email');
 		$this->emailvalue = $this->getFieldValue('juser_field_email', $formModel->formData);
 
+		$this->requireresetfield = $this->getFieldName('juser_field_requirereset');
+		$this->requireresetvalue = $this->getFieldValue('juser_field_requirereset', $formModel->formData);
+
 		$data['id'] = $originalId;
 
 		$data['gid']  = $this->setGroupIds($me, $user);
@@ -487,8 +512,43 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			$user->set('registerDate', $this->date->toSql());
 			$this->setActivation($data);
 		}
+		else
+		{
+			if (!empty($this->requireresetfield))
+			{
+				$data['requireReset'] = $this->requireresetvalue;
+			}
+		}
 
 		$this->trimNamePassword($user, $data);
+
+		$additionalData = $params->get('juser_additional_bind_data', '');
+
+		/**
+		 * Experimental feature for adding custom data.  Useful in specific cases like syncing
+		 * with some "social" extensions such as EasyDiscuss, which look for specific additional data
+		 * like a 'easydiscussprofile' array.
+		 */
+		if (!empty($additionalData))
+		{
+			$w = new \Fabrik\Helpers\Worker();
+			$additionalData = str_replace('{', '$$', $additionalData);
+			$additionalData = str_replace('}', '&&', $additionalData);
+			$additionalData = str_replace('[[', '{', $additionalData);
+			$additionalData = str_replace(']]', '}', $additionalData);
+			$additionalData = $w->parseMessageForPlaceHolder($additionalData, $formModel->formData);
+			$additionalData = str_replace('$$', '{', $additionalData);
+			$additionalData = str_replace('&&', '}', $additionalData);
+			$additionalData = json_decode($additionalData, true);
+
+			if ($additionalData !== false)
+			{
+				$data = array_merge(
+					$data,
+					$additionalData
+				);
+			}
+		}
 
 		// End new
 		if (!$user->bind($data))
@@ -532,6 +592,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 
 				$uri  = JURI::getInstance();
 				$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+				$useHtml = false;
 
 				// Handle account activation/confirmation emails.
 				if ($userActivation == 2 && !$bypassActivation && !$autoLogin)
@@ -607,6 +668,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 				elseif ($autoLogin)
 				{
 					$emailSubject = JText::sprintf('COM_USERS_EMAIL_ACCOUNT_DETAILS', $data['name'], $data['sitename']);
+					$useHtml = true;
 
 					if ($sendpassword)
 					{
@@ -664,8 +726,14 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 				// Send the registration email.
 				if ($emailSubject !== '')
 				{
-					$return = $mail->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-
+					$return = FabrikWorker::sendMail(
+						$data['mailfrom'],
+						$data['fromname'],
+						$data['email'],
+						$emailSubject,
+						$emailBody,
+						$useHtml
+					);
 					/*
 					 * Added email to admin code, but haven't had a chance to test it yet.
 					 */
@@ -680,26 +748,21 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			}
 		}
 
-		// If updating self, load the new user object into the session
+		$syncPK   = $params->get('juser_sync_pk', '0') === '1';
 
-		/* @FIXME - doesnt work in J1.7??
-		 * if ($user->get('id') == $me->get('id'))
-		 * {
-		 * $acl = &JFactory::getACL();
-		 *
-		 * $grp = $acl->getAroGroup($user->get('id'));
-		 *
-		 * $user->set('guest', 0);
-		 * $user->set('aid', 1);
-		 *
-		 * if ($acl->is_group_child_of($grp->name, 'Registered')      ||
-		 * $acl->is_group_child_of($grp->name, 'Public Backend'))    {
-		 * $user->set('aid', 2);
-		 * }
-		 *
-		 * $user->set('usertype', $grp->name);
-		 * $session->set('user', $user);
-		 * } */
+		if ($syncPK)
+		{
+			$listModel = $formModel->getListModel();
+			$pk = $listModel->getPrimaryKey(true);
+			$autoInc = $listModel->getTable()->get('auto_inc', '1') === '1';
+
+			if ($autoInc)
+			{
+				throw new RuntimeException('juser plugin is set to sync pk, but list is set to auto_increment');
+			}
+
+			$formModel->updateFormData($pk, $user->get('id'), true, true);
+		}
 
 		if (!empty($this->useridfield))
 		{
@@ -812,6 +875,18 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			$data['block']      = 0;
 		}
 
+		if (empty($this->requireresetfield))
+		{
+			if ($params->get('juser_require_reset', '') === '1')
+			{
+				$data['requireReset'] = 1;
+			}
+		}
+		else
+		{
+			$data['requireReset'] = $this->requireresetvalue;
+		}
+
 		return $data;
 	}
 
@@ -853,7 +928,12 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$return = FabrikWorker::sendMail(
+					$data['mailfrom'],
+					$data['fromname'],
+					$row->email, $emailSubject,
+					$emailBodyAdmin
+				);
 
 				// Check for an error.
 				if ($return !== true)
@@ -879,7 +959,8 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		$isNew          = $user->get('id') < 1;
 		$params         = $this->getParams();
 		$this->gidfield = $this->getFieldName('juser_field_usertype');
-		$defaultGroup   = (int) $params->get('juser_field_default_group');
+		// if editing, set the default to the existing user's groups
+		$defaultGroup   = $isNew ? (array) $params->get('juser_field_default_group') : $user->groups;
 		$groupIds       = (array) $this->getFieldValue('juser_field_usertype', $formModel->formData, $defaultGroup);
 
 		// If the group ids where encrypted (e.g. user can't edit the element) they appear as an object in groupIds[0]
@@ -907,12 +988,24 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			else
 			{
 				$data = $this->filterGroupIds($data, $me, $groupIds);
+
+				if ($params->get('juser_group_preserve', '0') === '1')
+				{
+					// preserve membership in any groups outside the whitelist the user is already member of
+					$whitelist   = $params->get('juser_group_whitelist', array());
+					$keep = ArrayHelper::toInteger(array_diff($user->groups, $whitelist));
+					$data = array_merge($data, $keep);
+				}
 			}
 		}
 		else
 		{
-			// If editing an existing user and no gid field being used,  use default group id
-			$data[] = $defaultGroup;
+			/*
+			 * Mo 'usertype' field was set, so use default, which is either the default ocnfigured
+			 * in the plugin (for new users), or an existing users current groups.
+			 *
+			 */
+			$data = (array) $defaultGroup;
 		}
 
 		return $data;
@@ -963,7 +1056,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 			return;
 		}
 
-		if ($params->get('juser_auto_login', false))
+		if ($params->get('juser_auto_login', true))
 		{
 			$this->autoLogin();
 		}
@@ -1003,6 +1096,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 
 		if ($this->app->login($credentials, $options) === true)
 		{
+			$this->app->setUserState('rememberLogin', true);
 			$this->session->set($context . 'created', true);
 			$user = JFactory::getUser();
 
@@ -1117,6 +1211,7 @@ class PlgFabrik_FormJUser extends plgFabrik_Form
 		if ($this->app->isAdmin())
 		{
 			$this->app->enqueueMessage($msg, 'notice');
+			$err[$field][0][] = $msg;
 		}
 		else
 		{

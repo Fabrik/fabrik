@@ -1,7 +1,7 @@
 /**
  * List Filter
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -9,6 +9,8 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
     var FbListFilter = new Class({
 
         Implements: [Events],
+
+        Binds: [],
 
         options: {
             'container'     : '',
@@ -32,7 +34,7 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
             this.filtersInHeadings = this.container.find('.listfilter');
             var b = this.container.find('.toggleFilters');
             b.on('click', function (e) {
-                e.stopPropagation();
+                e.preventDefault();
                 self.filterContainer.toggle();
                 self.filtersInHeadings.toggle();
             });
@@ -121,12 +123,22 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
                     f.onSubmit();
                 });
             }
+            if (this.filters.jdate) {
+                jQuery.each(this.filters.jdate, function (key, f) {
+                    f.onSubmit();
+                });
+            }
             this.showFilterState();
         },
 
         onUpdateData: function () {
             if (this.filters.date) {
                 jQuery.each(this.filters.date, function (key, f) {
+                    f.onUpdateData();
+                });
+            }
+            if (this.filters.jdate) {
+                jQuery.each(this.filters.jdate, function (key, f) {
                     f.onUpdateData();
                 });
             }
@@ -182,6 +194,10 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
                     } else {
                         f.val('');
                     }
+                }
+                if (f.hasClass('advancedSelect'))
+                {
+                    f.trigger('liszt:updated');
                 }
             }
         },
@@ -256,7 +272,7 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
                 } else {
                     v = v2 = input.val();
                 }
-                if (v !== '' && v2 !== '') {
+                if (typeof v !== 'undefined' && v !== null && v !== '' && v2 !== '') {
                     show = true;
                     clone = label.clone();
                     clone.find('*[data-filter-clear]').data('filter-clear', filter.name);
@@ -271,6 +287,21 @@ define(['jquery', 'fab/fabrik', 'fab/advanced-search'], function (jQuery, Fabrik
                 this.container.find('*[data-modal-state-container]').hide();
             }
             this.watchClearOne();
+        },
+
+        /**
+         * Update CSS after an AJAX filter
+         */
+        updateFilterCSS: function(data) {
+            var c = this.container.find('.clearFilters');
+            if (c) {
+                if (data.hasFilters) {
+                    c.addClass('hasFilters');
+                }
+                else {
+                    c.removeClass('hasFilters');
+                }
+            }
         }
 
     });

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -19,6 +19,7 @@ $d = $displayData;
 	data-list="<?php echo $d->dataList;?>"
 	data-isajax="<?php echo $d->isAjax; ?>"
 	data-rowid="<?php echo $d->rowId; ?>"
+	data-iscustom="<?php if ($d->isCustom) echo '1'; else echo '0'; ?>"
 	href="<?php echo $d->editLink;?>"
 	title="<?php echo $d->editLabel;?>">
-	<?php echo FabrikHelperHTML::image('edit.png', 'list', '', array('alt' => $d->editLabel));?> <?php echo $d->editText; ?></a>
+	<?php echo FabrikHelperHTML::image($d->list_edit_link_icon, 'list', '', array('alt' => $d->editLabel));?> <?php echo $d->editText; ?></a>

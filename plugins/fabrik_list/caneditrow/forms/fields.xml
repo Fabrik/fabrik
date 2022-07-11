@@ -47,6 +47,29 @@
 				label="PLG_LIST_CANEDITROW_VALUE_LABEL"
 				repeat="true"
 				size="20" />
+
+			<field name="caneditrow_on_submit"
+			       type="radio"
+			       class="btn-group"
+			       default="1"
+			       description="PLG_LIST_CANEDITROW_ON_SUBMIT_DESC"
+			       label="PLG_LIST_CANEDITROW_ON_SUBMIT_LABEL"
+			       repeat="true">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</field>
+
+			<field name="caneditrow_on_failed_validation"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="PLG_LIST_CANEDITROW_ON_FAILED_VALIDATION_DESC"
+				   label="PLG_LIST_CANEDITROW_ON_FAILED_VALIDATION_LABEL"
+				   repeat="true">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="COM_FABRIK_ADVANCED" name="plg-list-caneditrow-advanced">

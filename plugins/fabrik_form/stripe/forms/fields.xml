@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields"
+	        name="params">
+		<fieldset name="plg-form-stripe-payment"
+		          label="PLG_FORM_STRIPE_PAYMENT">
+
+			<field name="stripe_stripe_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_STRIPE_DESCRIPTION" />
+
+			<field name="stripe_secret_key"
+			       type="text"
+			       description="PLG_FORM_STRIPE_SECRET_KEY_DESC"
+			       label="PLG_FORM_STRIPE_SECRET_KEY_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_publishable_key"
+			       type="text"
+			       description="PLG_FORM_STRIPE_PUBLISHABLE_KEY_DESC"
+			       label="PLG_FORM_STRIPE_PUBLISHABLE_KEY_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_currency_code"
+			       type="text"
+			       default="USD"
+			       description="PLG_FORM_STRIPE_CURRENCY_CODE_DESC"
+			       label="PLG_FORM_STRIPE_CURRENCY_CODE_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_currency_multiplier"
+			       type="text"
+			       default="100"
+			       description="PLG_FORM_STRIPE_CURRENCY_MULTIPLIER_DESC"
+			       label="PLG_FORM_STRIPE_CURRENCY_MUTLIPLIER_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_dialog_name"
+			       type="text"
+			       default=""
+			       description="PLG_FORM_STRIPE_DIALOG_NAME_DESC"
+			       label="PLG_FORM_STRIPE_DIALOG_NAME_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_zipcode_check"
+			       type="radio"
+			       default="1"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_ZIPCODE_CHECK_DESC"
+			       label="PLG_FORM_STRIPE_ZIPCODE_CHECK_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_collect_billing_address"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_COLLECT_BILLING_ADDRESS_DESC"
+			       label="PLG_FORM_STRIPE_COLLECT_BILLING_ADDRESS_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_collect_shipping_address"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_COLLECT_SHIPPING_ADDRESS_DESC"
+			       label="PLG_FORM_STRIPE_COLLECT_SHIPPING_ADDRESS_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_condition"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FORM_STRIPE_CONDITION_DESC"
+			       label="PLG_FORM_STRIPE_CONDITION_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_after_process"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_STRIPE_AFTER_PROCESS_DESC"
+				   label="PLG_FORM_STRIPE_AFTER_PROCESS_LABEL"
+				   repeat="true"/>
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-price"
+		          label="PLG_FORM_STRIPE_PRICE">
+
+			<field name="stripe_cost_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_COST_DESCRIPTION" />
+
+			<field name="stripe_cost"
+			       type="fabrikeditor"
+			       mode="php"
+			       default=""
+			       description="PLG_FORM_STRIPE_COST_DESC"
+			       label="PLG_FORM_STRIPE_COST_LABEL"
+			       repeat="true"/>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_COST_EVAL_DESC"
+			       label="PLG_FORM_STRIPE_COST_EVAL_LABEL"
+			       name="stripe_cost_eval"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_COST_EVAL_TO_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_COST_EVAL_TO_ELEMENT_LABEL"
+			       name="stripe_cost_eval_to_element"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field description="PLG_FORM_STRIPE_COST_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_COST_ELEMENT_LABEL"
+			       name="stripe_cost_element"
+			       onlytablefields="0"
+			       repeat="true"
+			       type="listfields"
+			       valueformat="tableelement"/>
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-item"
+		          label="PLG_FORM_STRIPE_ITEM">
+
+			<field name="stripe_item_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_ITEM_DESCRIPTION" />
+
+			<field name="stripe_item"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FORM_STRIPE_PURCHASE_ITEM_DESC"
+			       label="PLG_FORM_STRIPE_PURCHASE_ITEM_LABEL"
+			       repeat="true"/>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_PURCHASE_ITEM_EVAL_DESC"
+			       label="PLG_FORM_STRIPE_PURCHASE_ITEM_EVAL_LABEL"
+			       name="stripe_item_eval"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_PURCHASE_ITEM_EVAL_TO_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_PURCHASE_ITEM_EVAL_TO_ELEMENT_LABEL"
+			       name="stripe_item_eval_to_element"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field description="PLG_FORM_STRIPE_PURCHASE_ITEM_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_PURCHASE_ITEM_ELEMENT_LABEL"
+			       name="stripe_item_element"
+			       onlytablefields="0"
+			       repeat="true"
+			       type="listfields"
+			       valueformat="tableelement"/>
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-products"
+				  label="PLG_FORM_STRIPE_PRODUCTS">
+
+			<field name="stripe_products_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_PRODUCTS_DESCRIPTION" />
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_PRODUCT_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_PRODUCT_ELEMENT_LABEL"
+				   name="stripe_products_product_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_QTY_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_QTY_ELEMENT_LABEL"
+				   name="stripe_products_qty_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_TOTAL_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_TOTAL_ELEMENT_LABEL"
+				   name="stripe_products_total_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_CONNECTION_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_CONNECTION_LABEL"
+				   name="stripe_products_connection"
+				   repeat="true"
+				   type="connections"/>
+
+			<field description="PLG_FORM_STRIPE_PRODUCTS_TABLE_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_TABLE_LABEL"
+				   name="stripe_products_table"
+				   observe="params_stripe_products_connection"
+				   repeat="true"
+				   type="fabriktables"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_PK_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_PK_LABEL"
+				   name="stripe_products_pk"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_NAME_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_NAME_LABEL"
+				   name="stripe_products_name"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_DESC_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_DESC_LABEL"
+				   name="stripe_products_desc"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+
+			<field connection="params_stripe_products_connection"
+				   description="PLG_FORM_STRIPE_PRODUCTS_COST_DESC"
+				   label="PLG_FORM_STRIPE_PRODUCTS_COST_LABEL"
+				   name="stripe_products_cost"
+				   repeat="true"
+				   table="params_stripe_products_table"
+				   type="element"/>
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-charge"
+		          label="PLG_FORM_STRIPE_CHARGE">
+
+			<field name="stripe_charge_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_CHARGE_DESCRIPTION" />
+
+			<field description="PLG_FORM_STRIPE_CHARGE_ID_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_CHARGE_ID_ELEMENT_LABEL"
+			       name="stripe_charge_id_element"
+			       onlytablefields="0"
+			       repeat="true"
+			       type="listfields"
+			       valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_CHARGE_EMAIL_ELEMENT_DESC"
+			       label="PLG_FORM_STRIPE_CHARGE_EMAIL_ELEMENT_LABEL"
+			       name="stripe_charge_email_element"
+			       onlytablefields="0"
+			       repeat="true"
+			       type="listfields"
+			       valueformat="tableelement"/>
+
+			<field description="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_RECEIPT_URL_ELEMENT_LABEL"
+				   name="stripe_charge_receipt_url_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field name="stripe_charge_bottom_text_new"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_NEW_DESC"
+			       label="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_NEW_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_charge_bottom_text_existing"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_EXISTING_DESC"
+			       label="PLG_FORM_STRIPE_CHARGE_BOTTOM_TEXT_EXISTING_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_charge_failed_validation_text"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_DESC"
+				   label="PLG_FORM_STRIPE_CHARGE_FAILED_VALIDATION_TEXT_LABEL"
+				   repeat="true"/>
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-customers"
+		          label="PLG_FORM_STRIPE_CUSTOMERS">
+
+			<field name="stripe_customers_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_CUSTOMERS_DESCRIPTION" />
+
+			<field name="stripe_webhook_link"
+				   type="stripewebhook"
+				   label="PLG_FORM_STRIPE_WEBHOOK_LINK_LABEL"
+				   description="PLG_FORM_STRIPE_WEBHOOK_LINK_DESC"
+				   repeat="true"/>
+
+			<field name="stripe_webhook_secret"
+				   type="text"
+				   label="PLG_FORM_STRIPE_WEBHOOK_SECRET_LABEL"
+				   description="PLG_FORM_STRIPE_WEBHOOK_SECRET_DESC"
+				   repeat="true"/>
+
+			<field description="PLG_FORM_STRIPE_CUSTOMERS_CONNECTION_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_CONNECTION_LABEL"
+			       name="stripe_customers_connection"
+			       repeat="true"
+			       type="connections"/>
+
+			<field description="PLG_FORM_STRIPE_CUSTOMERS_TABLE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_TABLE_LABEL"
+			       name="stripe_customers_table"
+			       observe="params_stripe_customers_connection"
+			       repeat="true"
+			       type="fabriktables"/>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_INSERT_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_INSERT_LABEL"
+			       name="stripe_customers_insert"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="1"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_ALLOW_UPDATE_CC_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_ALLOW_UPDATE_CC_LABEL"
+			       name="stripe_customers_allow_update_cc"
+			       repeat="true"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_customers_update_button_name"
+			       type="text"
+			       default=""
+			       description="PLG_FORM_STRIPE_CUSTOMERS_UPDATE_CC_BUTTON_NAME_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_UPDATE_CC_BUTTON_NAME_LABEL"
+			       repeat="true"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_USERID_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_USERID_LABEL"
+			       name="stripe_customers_userid"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_LABEL"
+			       name="stripe_customers_stripeid"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+				   description="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_TEST_DESC"
+				   label="PLG_FORM_STRIPE_CUSTOMERS_STRIPEID_TEST_LABEL"
+				   name="stripe_customers_stripeid_test"
+				   repeat="true"
+				   table="params_stripe_customers_table"
+				   type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_CUSTOM_FIELD_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_CUSTOM_FIELD_LABEL"
+			       name="stripe_customers_custom_field"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field name="stripe_customers_custom_value"
+			       type="text"
+			       default=""
+			       description="PLG_FORM_STRIPE_CUSTOMERS_CUSTOM_VALUE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_CUSTOM_VALUE_LABEL"
+			       repeat="true"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_NAME_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_NAME_LABEL"
+			       name="stripe_customers_billing_name"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_LINE1_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_LINE1_LABEL"
+			       name="stripe_customers_billing_address_line1"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_CITY_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_CITY_LABEL"
+			       name="stripe_customers_billing_address_city"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_STATE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_STATE_LABEL"
+			       name="stripe_customers_billing_address_state"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_ZIP_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_ZIP_LABEL"
+			       name="stripe_customers_billing_address_zip"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_COUNTRY_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_COUNTRY_LABEL"
+			       name="stripe_customers_billing_address_country"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_COUNTRY_CODE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_BILLING_ADDRESS_COUNTRY_CODE_LABEL"
+			       name="stripe_customers_billing_address_country_code"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_NAME_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_NAME_LABEL"
+			       name="stripe_customers_shipping_name"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_LINE1_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_LINE1_LABEL"
+			       name="stripe_customers_shipping_address_line1"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_CITY_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_CITY_LABEL"
+			       name="stripe_customers_shipping_address_city"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_STATE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_STATE_LABEL"
+			       name="stripe_customers_shipping_address_state"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_ZIP_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_ZIP_LABEL"
+			       name="stripe_customers_shipping_address_zip"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_COUNTRY_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_COUNTRY_LABEL"
+			       name="stripe_customers_shipping_address_country"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+			<field connection="params_stripe_customers_connection"
+			       description="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_COUNTRY_CODE_DESC"
+			       label="PLG_FORM_STRIPE_CUSTOMERS_SHIPPING_ADDRESS_COUNTRY_CODE_LABEL"
+			       name="stripe_customers_shipping_address_country_code"
+			       repeat="true"
+			       table="params_stripe_customers_table"
+			       type="element"/>
+
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-coupons"
+				  label="PLG_FORM_STRIPE_COUPONS">
+
+			<field name="stripe_coupons_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_COUPONS_DESCRIPTION" />
+
+			<field description="PLG_FORM_STRIPE_COUPONS_CONNECTION_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_CONNECTION_LABEL"
+				   name="stripe_coupons_connection"
+				   repeat="true"
+				   type="connections"/>
+
+			<field description="PLG_FORM_STRIPE_COUPONS_TABLE_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_TABLE_LABEL"
+				   name="stripe_coupons_table"
+				   observe="params_stripe_coupons_connection"
+				   repeat="true"
+				   type="fabriktables"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_COUPON_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_COUPON_FIELD_LABEL"
+				   name="stripe_coupons_coupon_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_DISCOUNT_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_DISCOUNT_FIELD_LABEL"
+				   name="stripe_coupons_discount_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_TYPE_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_TYPE_FIELD_LABEL"
+				   name="stripe_coupons_type_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_LIMIT_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_LIMIT_FIELD_LABEL"
+				   name="stripe_coupons_limit_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_USE_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_USE_FIELD_LABEL"
+				   name="stripe_coupons_use_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_START_DATE_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_START_DATE_FIELD_LABEL"
+				   name="stripe_coupons_start_date_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_END_DATE_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_END_DATE_FIELD_LABEL"
+				   name="stripe_coupons_end_date_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field connection="params_stripe_coupons_connection"
+				   description="PLG_FORM_STRIPE_COUPONS_PUBLISHED_FIELD_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_PUBLISHED_FIELD_LABEL"
+				   name="stripe_coupons_published_field"
+				   repeat="true"
+				   table="params_stripe_coupons_table"
+				   type="element"/>
+
+			<field description="PLG_FORM_STRIPE_COUPONS_COUPON_ELEMENT_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_COUPON_ELEMENT_LABEL"
+				   name="stripe_coupon_element"
+				   onlytablefields="0"
+				   repeat="true"
+				   type="listfields"
+				   valueformat="tableelement"/>
+
+			<field default="0"
+				   class="btn-group"
+				   description="PLG_FORM_STRIPE_COUPONS_CC_ON_FREE_DESC"
+				   label="PLG_FORM_STRIPE_COUPONS_CC_ON_FREE_LABEL"
+				   name="stripe_coupons_cc_on_free"
+				   repeat="true"
+				   type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+
+		<fieldset name="plg-form-stripe-other"
+		          label="PLG_FORM_STRIPE_TEST_MODE">
+
+			<field name="stripe_test_description"
+				   type="note"
+                   class="alert alert-info"
+                   close="true"
+				   description="PLG_FORM_STRIPE_TEST_DESCRIPTION" />
+
+			<field name="stripe_test_mode"
+			       type="radio"
+			       default="1"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_TEST_MODE_DESC"
+			       label="PLG_FORM_STRIPE_TEST_MODE_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_test_secret_key"
+			       type="text"
+			       description="PLG_FORM_STRIPE_TEST_SECRET_KEY_DESC"
+			       label="PLG_FORM_STRIPE_TEST_SECRET_KEY_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_test_publishable_key"
+			       type="text"
+			       description="PLG_FORM_STRIPE_TEST_PUBLISHABLE_KEY_DESC"
+			       label="PLG_FORM_STRIPE_TEST_PUBLISHABLE_KEY_LABEL"
+			       repeat="true"/>
+
+			<field name="stripe_receive_debug_emails"
+			       type="radio"
+			       default="1"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_DEBUG_EMAIL_DESC"
+			       label="PLG_FORM_STRIPE_DEBUG_EMAIL_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="stripe_send_default_email"
+			       type="radio"
+			       default="1"
+			       class="btn-group"
+			       description="PLG_FORM_STRIPE_DEFAULT_EMAIL_DESC"
+			       label="PLG_FORM_STRIPE_DEFAULT_EMAIL_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</form>

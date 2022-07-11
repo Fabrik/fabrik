@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+    <fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+        <fieldset name="plg-form-log">
+            <field default="1"
+                   class="btn-group"
+                   description="PLG_FORM_LOG_RECORDINDB_DESC"
+                   label="PLG_FORM_LOG_RECORDINDB_LABEL"
+                   name="log_record_in_db"
+                   repeat="true"
+                   type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field name="log_mode"
+				   type="radio"
+				   default="all"
+                   repeat="true"
+                   label="PLG_FORM_LOG_MODE_LABEL"
+                   description="PLG_FORM_LOG_MODE_DESC"
+                   class="btn-group">
+                <option value="all">PLG_FORM_LOG_MODE_ALL</option>
+                <option value="include">PLG_FORM_LOG_MODE_INCLUDE</option>
+				<option value="exclude">PLG_FORM_LOG_MODE_EXCLUDE</option>
+            </field>
+
+            <field name="log_fields"
+                   type="listfields"
+                   repeat="true"
+                   mode="gui"
+                   rows="3"
+                   valueformat="tableelement"
+                   usestep="false"
+                   addbrackets="false"
+                   class="span5"
+                   description="PLG_FORM_LOG_FIELDS_DESC"
+                   label="PLG_FORM_LOG_FIELDS_LABEL"/>
+
+            <field default="0"
+                   label="PLG_FORM_LOG_FORM_LOAD_LABEL"
+                   description="PLG_FORM_LOG_FORM_LOAD_DESC"
+                   name="log_form_load"
+                   repeat="true"
+                   type="list">
+                <option value="0">JNO</option>
+                <option value="1">PLG_FORM_LOG_FORM_LOAD_FORM</option>
+                <option value="2">PLG_FORM_LOG_FORM_LOAD_FORM_AND_DETAILS</option>
+            </field>
+
+            <field default="1"
+                   class="btn-group"
+                   label="PLG_FORM_LOG_FORM_SUBMIT_LABEL"
+                   description="PLG_FORM_LOG_FORM_SUBMIT_DESC"
+                   name="log_submit"
+                   repeat="true"
+                   type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field default="1"
+                   label="PLG_FORM_LOG_FORM_DELETE_LABEL"
+                   description="PLG_FORM_LOG_FORM_DELETE_DESC"
+                   name="log_delete"
+                   repeat="true"
+                   type="list">
+                <option value="0">JNO</option>
+                <option value="1">PLG_FORM_LOG_DELETE_ROWS</option>
+                <option value="2">PLG_FORM_LOG_DELETE_ROWS_AND_FIELDS</option>
+            </field>
+
+            <field default="0"
+                   class="btn-group"
+                   description="PLG_FORM_LOG_SEND_EMAIL_DESC" label="PLG_FORM_LOG_SEND_EMAIL_LABEL"
+                   name="log_send_email" repeat="true" type="radio">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+
+            <field description="PLG_FORM_LOG_SEND_EMAIL_TO_DESC" label="PLG_FORM_LOG_SEND_EMAIL_TO_LABEL"
+                   name="log_send_email_to" repeat="true" size="30" type="text"/>
+            <field description="PLG_FORM_LOG_SEND_EMAIL_SUBJECT_DESC" label="PLG_FORM_LOG_SEND_EMAIL_SUBJECT_LABEL"
+                   name="log_send_email_subject" repeat="true" size="30" type="text"/>
+
+        </fieldset>
+
+    </fields>
+</form>

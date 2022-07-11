@@ -18,6 +18,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+
+			<field name="viz_extra_query_string"
+				   type="text"
+				   class="input-xlarge"
+				   size="40"
+				   label="COM_FABRIK_FIELD_EXTRA_QUERY_STRING_LABEL"
+				   description="COM_FABRIK_FIELD_EXTRA_QUERY_STRING_DESC"
+			/>
 		</fieldset>
 	</fields>
 </metadata>

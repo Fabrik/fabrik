@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension client="administrator" method="upgrade" type="module" version="3">
 	<name>mod_fabrik_list</name>
-	<author>Rob Clayburn</author>
-	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.4.3</version>
+	<version>3.10</version>
 	<description>MOD_FABRIK_LIST_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_list">mod_fabrik_list.php</filename>
@@ -61,7 +61,7 @@
 
 				<field name="limit" type="text" default="0" description="MOD_FABRIK_LIST_LIMIT_DESC" label="MOD_FABRIK_LIST_LIMIT_LABEL" size="4"/>
 
-				<field name="fabriklayout" type="folderlist" default="default" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL"/>
+				<field name="fabriklayout" type="fabrikfolderlist" default="default" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL"/>
 
 				<field name="list_elements" type="fabrikmodalrepeat" description="MOD_FABRIK_LIST_ELEMENTS_DESC" label="MOD_FABRIK_LIST_ELEMENTS_LABEL">
 
@@ -74,12 +74,12 @@
 					</fields>
 				</field>
 
-				<field name="prefilters" type="fabrikmodalrepeat" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL">
+				<field name="prefilters" type="fabrikmodalrepeat" filter="raw" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL">
 
 					<fields name="params">
 						<fieldset modal="true" name="prefilters_modal" repeat="true">
 
-							<field name="filter-fields" type="listfields" label="MOD_FABRIK_LIST_ELEMENTS_HEADING" valueformat="tableelement"/>
+							<field name="filter-fields" type="listfields" label="MOD_FABRIK_LIST_ELEMENTS_HEADING" valueformat="tableelement" raw="true"/>
 
 							<field name="filter-conditions" type="list" label="MOD_FABRIK_LIST_CONDITION_LABEL">
 								<option value="equals">EQUALS</option>
@@ -95,6 +95,7 @@
 								<option value="in">IN</option>
 								<option value="not_in">NOT IN</option>
 								<option value="exists">EXISTS</option>
+								<option value="thisyear">COM_FABRIK_THIS_YEAR</option>
 								<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
 								<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
 								<option value="yesterday">COM_FABRIK_YESTERDAY</option>
@@ -103,9 +104,10 @@
 								<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
 								<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 								<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+								<option value="nextweek1">COM_FABRIK_NEXT_WEEK1</option>
 							</field>
 
-							<field name="filter-value" type="textarea" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
+							<field name="filter-value" type="textarea" filter="raw" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
 
 							<field name="filter-eval" type="list" label="MOD_FABRIK_LIST_TYPE">
 								<option value="0">MOD_FABRIK_LIST_TEXT</option>

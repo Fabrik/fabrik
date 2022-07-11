@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -63,8 +63,11 @@ $tasks = array('publish', 'unpublish', 'publish');
 				<th width="1%">
 					<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 				</th>
-				<th width="80%">
+				<th width="60%">
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_LABEL', 'c.label', $listDirn, $listOrder); ?>
+				</th>
+				<th width="20%">
+					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_CRON_FREQUENCY', 'c.frequency'.'/'.'c.unit', $listDirn, $listOrder); ?>
 				</th>
 				<th width="20%">
 					<?php echo JHTML::_('grid.sort', 'COM_FABRIK_CRON_FIELD_LAST_RUN_LABEL', 'c.lastrun', $listDirn, $listOrder); ?>
@@ -111,7 +114,10 @@ $tasks = array('publish', 'unpublish', 'publish');
 					<?php endif; ?>
 					</td>
 					<td>
-						<?php echo $item->lastrun; ?>
+						<?php echo $item->frequency .' '. $item->unit; ?>
+					</td>
+					<td>
+						<?php echo JHtml::_('date', $item->lastrun, 'Y-m-d H:i:s'); ?>
 					</td>
 					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'crons.', $canChange);?>

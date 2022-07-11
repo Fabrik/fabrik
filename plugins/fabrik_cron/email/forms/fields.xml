@@ -14,7 +14,20 @@
 				description="PLG_CRON_EMAIL_RETURN_PATH_DESC"
 				label="PLG_CRON_EMAIL_RETURN_PATH_LABEL"
 				size="30" />
-				
+
+			<field name="cronemail_replyto"
+				   type="text"
+				   description="PLG_CRON_EMAIL_REPLYTO_DESC"
+				   label="PLG_CRON_EMAIL_REPLYTO_LABEL"
+				   size="30" />
+
+			<field name="cronemail_replytoname"
+				   type="text"
+				   description="PLG_CRON_EMAIL_REPLYTO_NAME_DESC"
+				   label="PLG_CRON_EMAIL_REPLYTO_NAME_LABEL"
+				   size="30" />
+
+
 			<field name="to"
 				type="text"
 				description="PLG_CRON_EMAIL_TO_DESC"
@@ -50,6 +63,26 @@
 				label="PLG_CRON_EMAIL_CONDITION_LABEL"
 				/>
 
+			<field name="cronemail_no_dups"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_CRON_EMAIL_NO_DUPS_DESC"
+			       label="PLG_CRON_EMAIL_NO_DUPS_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="cronemail_test_mode"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_CRON_EMAIL_TEST_MODE_DESC"
+				   label="PLG_CRON_EMAIL_TEST_MODE_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="PLG_CTON_EMAIL_UPDATE" name="plg-cron-email-update">
@@ -75,6 +108,11 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+
+			<field name="cronemail-update-code"
+			       type="fabrikeditor"
+			       description="PLG_CRON_EMAIL_UPDATE_CODE_DESC"
+			       label="PLG_CRON_EMAIL_UPDATE_CODE_LABEL" />
 
 		</fieldset>
 	</fields>

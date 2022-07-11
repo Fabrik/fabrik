@@ -1,7 +1,7 @@
 /**
  * Created by rob on 18/03/2016.
  */
-define(['jquery'], function (jQuery) {
+define(['jquery', 'fab/element'], function (jQuery, FbElement) {
     /**
      * @author Rob
      * contains methods that are used by any element which manipulates files/folders
@@ -10,105 +10,131 @@ define(['jquery'], function (jQuery) {
 
         Extends   : FbElement,
         ajaxFolder: function () {
+            var self = this;
             this.folderlist = [];
-            if (typeOf(this.element) === 'null') {
+            if (this.element === null) {
                 return;
             }
-            var el = this.element.getParent('.fabrikElement');
-            this.breadcrumbs = el.getElement('.breadcrumbs');
-            this.folderdiv = el.getElement('.folderselect');
-            this.slider = new Fx.Slide(this.folderdiv, {duration: 500});
-            this.slider.hide();
-            this.hiddenField = el.getElement('.folderpath');
-            el.getElement('.toggle').addEvent('click', function (e) {
-                e.stop();
-                this.slider.toggle();
-            }.bind(this));
+            var el = jQuery(this.element.getParent('.fabrikElement'));
+            this.breadcrumbs = el.find('.breadcrumbs');
+            this.folderdiv = el.find('.folderselect');
+
+            jQuery(this.folderdiv).slideUp({duration: 0});
+            this.hiddenField = el.find('.folderpath')[0];
+            el.find('.toggle').on('click', function (e) {
+                e.preventDefault();
+                jQuery(self.folderdiv).slideToggle();
+            });
             this.watchAjaxFolderLinks();
         },
 
-
+        /**
+         * Watch our file element links
+         */
         watchAjaxFolderLinks: function () {
-            this.folderdiv.getElements('a').addEvent('click', function (e) {
-                this.browseFolders(e);
-            }.bind(this));
-            this.breadcrumbs.getElements('a').addEvent('click', function (e) {
-                this.useBreadcrumbs(e);
-            }.bind(this));
+            var self = this;
+            this.folderdiv.find('a').on('click', function (e) {
+                e.preventDefault();
+                self.browseFolders(jQuery(this));
+            });
+            this.breadcrumbs.find('a').on('click', function (e) {
+                e.preventDefault();
+                self.useBreadcrumbs(jQuery(this));
+            });
         },
 
-
+        /**
+         * A folder in the folder list has been clicked - add to the breadcrumbs
+         * and fire an ajax request to update the folder list
+         *
+         * @param {jQuery} e
+         */
         browseFolders: function (e) {
-            e.stop();
-            this.folderlist.push(e.target.get('text'));
+            this.folderlist.push(e.text());
             var dir = this.options.dir + this.folderlist.join(this.options.ds);
-            this.addCrumb(e.target.get('text'));
+            this.addCrumb(e.text());
             this.doAjaxBrowse(dir);
         },
 
+        /**
+         * Update the breadcrumb list
+         * @param {jQuery} e Crumb to update to
+         */
         useBreadcrumbs: function (e) {
-            e.stop();
-            var found = false;
-            var c = e.target.className;
+            var self = this, dir,
+                c = e[0].className, depth, i, link, home;
             this.folderlist = [];
-            var res = this.breadcrumbs.getElements('a').every(function (link) {
-                if (link.className === c) {
-                    return false;
-                }
-                this.folderlist.push(e.target.innerHTML);
-                return true;
-            }, this);
 
-            var home = [this.breadcrumbs.getElements('a').shift().clone(),
-                this.breadcrumbs.getElements('span').shift().clone()];
+            // Check we haven't clicked on the home link
+            if (c !== '') {
+                depth = parseInt(c.replace('crumb', ''), 10);
+
+                // Truncate the folder list to the selected crumb's depth
+                for (i = 1; i <= depth; i ++) {
+                    link = jQuery(this.breadcrumbs.find('a')[i]);
+                    self.folderlist.push(jQuery(link).html());
+                }
+            }
+
+            home = [this.breadcrumbs.find('a')[0].clone(),
+                this.breadcrumbs.find('span')[0].clone()];
+            delete this.breadcrumbs.find('a')[0];
+            delete this.breadcrumbs.find('span')[0];
             this.breadcrumbs.empty();
-            this.breadcrumbs.adopt(home);
+            this.breadcrumbs.append(home);
             this.folderlist.each(function (txt) {
-                this.addCrumb(txt);
-            }, this);
-            var dir = this.options.dir + this.folderlist.join(this.options.ds);
+                self.addCrumb(txt);
+            });
+            dir = this.options.dir + this.folderlist.join(this.options.ds);
             this.doAjaxBrowse(dir);
         },
 
+        /**
+         * Send an ajax request to get an array of folders. If found append to the
+         * folder list
+         *
+         * @param {string} dir Directory to search in
+         */
         doAjaxBrowse: function (dir) {
-
-            var data = {
-                'dir'       : dir,
-                'option'    : 'com_fabrik',
-                'format'    : 'raw',
-                'task'      : 'plugin.pluginAjax',
-                'plugin'    : 'fileupload',
-                'method'    : 'ajax_getFolders',
-                'element_id': this.options.id
-            };
-            new Request({
+            var self = this;
+            jQuery.ajax({
                 url       : '',
-                data      : data,
-                onComplete: function (r) {
-                    r = JSON.decode(r);
-                    this.folderdiv.empty();
+                data      : {
+                    'dir'       : dir,
+                    'option'    : 'com_fabrik',
+                    'format'    : 'raw',
+                    'task'      : 'plugin.pluginAjax',
+                    'plugin'    : 'fileupload',
+                    'method'    : 'ajax_getFolders',
+                    'element_id': this.options.id
+                },
+            }).done(function(r) {
+                r = JSON.parse(r);
+                self.folderdiv.empty();
 
-                    r.each(function (folder) {
-                        new Element('li', {'class': 'fileupload_folder'}).adopt(
-                            new Element('a', {'href': '#'}).set('text', folder)).inject(this.folderdiv);
-                    }.bind(this));
-                    if (r.length === 0) {
-                        this.slider.hide();
-                    } else {
-                        this.slider.slideIn();
-                    }
-                    this.watchAjaxFolderLinks();
-                    this.hiddenField.value = '/' + this.folderlist.join('/') + '/';
-                    this.fireEvent('onBrowse');
-                }.bind(this)
-            }).send();
+                r.each(function (folder) {
+                    var li = jQuery('<li class="fileupload_folder"><a href="#">' + folder + '</a>');
+                    self.folderdiv.append(li);
+                });
+                if (r.length === 0) {
+                    jQuery(self.folderdiv).slideUp({duration: 0});
+                } else {
+                    jQuery(self.folderdiv).slideUp();
+                }
+                self.watchAjaxFolderLinks();
+                jQuery(self.hiddenField).val('/' + self.folderlist.join('/') + '/');
+                self.fireEvent('onBrowse');
+            });
         },
 
-
+        /**
+         * Add crumb
+         * @param {string} txt
+         */
         addCrumb: function (txt) {
-            this.breadcrumbs.adopt(
-                new Element('a', {'href': '#', 'class': 'crumb' + this.folderlist.length}).set('text', txt),
-                new Element('span').set('text', ' / ')
+            this.breadcrumbs.append(
+                jQuery('<a href="#" class="crumb' + this.folderlist.length + '">' + txt + '</a>'),
+                jQuery('<span> / </span>')
             );
         }
     });

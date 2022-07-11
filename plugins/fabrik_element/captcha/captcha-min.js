@@ -1,2 +1,3 @@
 /*! Fabrik */
-define(["jquery","fab/element"],function(a,b){return window.FbCaptcha=new Class({Extends:b,initialize:function(a,b){this.parent(a,b)}}),window.FbCaptcha});
+
+define(["jquery","fab/element"],function(e,i){return window.FbCaptcha=new Class({Extends:i,initialize:function(e,i){if("invisible"===i.method){var t=this;window.fabrikCaptureLoaded=function(){t.widgetId=grecaptcha.render(t.options.element,{sitekey:t.options.siteKey,size:"invisible",callback:t.captureCompleted})},requirejs(["https://www.google.com/recaptcha/api.js?onload=fabrikCaptureLoaded&render=explicit"])}this.parent(e,i)},captureCompleted:function(e){window.fabrikCaptchaSubmitCallBack(!0),delete window.fabrikCaptchaSubmitCallBack},onsubmit:function(e){if(void 0!==e)if("invisible"===this.options.method){if(!grecaptcha.getResponse()){window.fabrikCaptchaSubmitCallBack=e;grecaptcha.execute(this.widgetId)}}else this.parent(e)}}),window.FbCaptcha});

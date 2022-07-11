@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
 		<li>
 			<a data-toggle-group="<?php echo $group['name']?>" data-toggle-state="open">
 				<?php echo FabrikHelperHTML::icon('icon-eye-open'); ?>
-				<strong><?php echo $group['name'];?></strong>
+				<strong><?php echo FText::_($group['name']);?></strong>
 			</a>
 		</li>
 		<?php
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 		<li>
 			<a data-toggle-col="<?php echo $element?>" data-toggle-parent-group="<?php echo $group['name']?>" data-toggle-state="open">
-				<?php echo FabrikHelperHTML::icon('icon-eye-open', $label); ?>
+				<?php echo FabrikHelperHTML::icon('icon-eye-open', FText::_($label)); ?>
 			</a>
 		</li>
 		<?php

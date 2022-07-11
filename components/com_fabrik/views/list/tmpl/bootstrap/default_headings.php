@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -32,8 +32,9 @@ $layoutData = (object) array(
 	<tr class="fabrikFilterContainer">
 		<?php foreach ($this->headings as $key => $heading) :
 			$h = $this->headingClass[$key];
+			$style = empty($h['style']) ? '' : 'style="' . $h['style'] . '"';
 			?>
-			<th class="<?php echo $h['class'] ?>">
+			<th class="<?php echo $h['class'] ?>" <?php echo $style ?>>
 				<?php
 				if (array_key_exists($key, $this->filters)) :
 

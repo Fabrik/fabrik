@@ -36,20 +36,25 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
                 }
             });
 
-            // Get the selected row data
-            var rows = [];
-            for (var g = 0; g < this.list.options.data.length; g++) {
-                for (var r = 0; r < this.list.options.data[g].length; r++) {
-                    var row = this.list.options.data[g][r].data;
-                    if (rowIndexes.indexOf(row.__pk_val) !== -1) {
-                        rows.push(row);
-                    }
-                }
-            }
+            var chxs = this.list.getForm().getElements('input[name^=ids]').filter(function (i) {
+                return i.checked;
+            });
+
+            var ids = chxs.map(function (chx) {
+                return chx.get('value');
+            });
+
+            // Build rows object for ease of access to selected rows' data
+            var rows = {};
+            chxs.each(function (chx) {
+                var id = chx.get('value');
+                rows[id] = this.list.getRow(id);
+            }.bind(this));
 
             if (additional_data) {
                 this.list.getForm().getElement('input[name=fabrik_listplugin_options]').value = Json.encode(hdata);
             }
+
             if (this.options.js_code !== '') {
                 var result = eval('(function() {' + this.options.js_code + '}())');
 

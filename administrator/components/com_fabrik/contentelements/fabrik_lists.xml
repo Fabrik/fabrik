@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <joomfish type="contentelement">
   <name>Fabrik - List</name>
-  <author>Rob Clayburn</author>
+  <author>Media A-Team, Inc.</author>
   <version>1.8</version>
   <description>Definition for Fabrik Lists</description>
   <reference>

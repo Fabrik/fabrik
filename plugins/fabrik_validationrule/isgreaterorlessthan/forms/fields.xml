@@ -61,6 +61,12 @@
 				description="COM_FABRIK_VALIDATION_TIP_TEXT_DESC"
 				label="COM_FABRIK_VALIDATION_TIP_TEXT_LABEL"/>
 
+			<field name="icon"
+			       type="field"
+			       repeat="true"
+			       description="PLG_FABRIK_VALIDATION_ICON_DESC"
+			       label="PLG_FABRIK_VALIDATION_ICON_LABEL" />
+
 		</fieldset>
 	</fields>
 </form>

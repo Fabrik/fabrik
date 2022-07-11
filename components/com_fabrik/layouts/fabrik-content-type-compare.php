@@ -39,6 +39,15 @@ $max = max(count($viewLevels), count($contentTypeViewLevels));
 endif; ?>
 
 <?php
+if (!empty($d->missingElementTypes)) :
+    ?>
+    <div class="alert alert-warning"><span class="icon-warning"></span>
+        <?php echo JText::sprintf('COM_FABRIK_CONTENT_TYPE_MISSING_ELEMENTS', implode(', ', $d->missingElementTypes)); ?>
+    </div>
+    <?php
+endif; ?>
+
+<?php
 if ($d->match) :
 	?>
 	<div class="alert alert-info"><span class="icon-ok"></span>

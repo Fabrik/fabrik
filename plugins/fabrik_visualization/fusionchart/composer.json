@@ -1,0 +1,5 @@
+{
+    "require": {
+        "fusioncharts/fusionexport": "1.0.1"
+    }
+}

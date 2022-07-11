@@ -125,6 +125,50 @@
 				description="PLG_FABRIK_FORM_ARTICLE_TAGS_DESC"
 				label="PLG_FABRIK_FORM_ARTICLE_TAGS_LABEL" />
 			
+			<field name="alias"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_ALIAS_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_ALIAS_LABEL" />
+
+			<field name="ordering"
+				   type="listfields"
+				   repeat="true"
+				   description="PLG_FABRIK_FORM_ARTICLE_ORDERING_DESC"
+				   label="PLG_FABRIK_FORM_ARTICLE_ORDERING_LABEL" />
+
+			<field name="level"
+				type="sql2"
+				add_select="false"
+				multiple="false"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_LEVEL_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_LEVEL_LABEL" 
+				query="SELECT id AS value, title AS text FROM #__viewlevels order by ordering"
+				/>
+		
+			<field name="level_element"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_LEVEL_ELEMENT_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_LEVEL_ELEMENT_LABEL" />
+				
+			<field name="language"
+				type="sql2"
+				add_select="false"
+				multiple="false"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_LANGUAGE_DESC"
+				label="PLG_FABRIK_FORM_ARTICLE_LANGUAGE_LABEL" 
+				query="SELECT lang_code AS value, title AS text FROM #__languages WHERE published != -2"
+				/>
+				
+			<field name="language_element"
+				type="listfields"
+				repeat="true"
+				description="PLG_FABRIK_FORM_ARTICLE_LANGUAGE_ELEMENT_DESC"
+			       label="PLG_FABRIK_FORM_ARTICLE_LANGUAGE_ELEMENT_LABEL" />
+			
 		</fieldset>
 		
 		<fieldset label="PLG_FABRIK_FORM_ARTICLE_IMAGES" name="plg-form-article-images">

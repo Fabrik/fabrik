@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -74,6 +74,15 @@ class FabrikControllerImport extends JControllerLegacy
 			throw new RuntimeException('Naughty naughty!', 400);
 		}
 
+		$menus	= $app->getMenu();
+		$itemId = $input->getInt('Itemid', '');
+
+		if (!empty($itemId))
+		{
+			$menus = $app->getMenu();
+			$menus->setActive($itemId);
+		}
+
 		if (!$model->checkUpload())
 		{
 			$this->display();
@@ -89,7 +98,6 @@ class FabrikControllerImport extends JControllerLegacy
 		// Set the default view name from the Request
 		$this->getView($viewName, $viewType);
 		$model->import();
-		$itemId = $input->getInt('Itemid');
 
 		if (!empty($model->newHeadings))
 		{

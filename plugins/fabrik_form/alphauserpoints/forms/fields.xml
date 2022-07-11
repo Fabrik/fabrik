@@ -43,6 +43,14 @@
 				label="PLG_FABRIK_FORM_AUP_REF_LABEL"
 				description="PLG_FABRIK_FORM_AUP_REF_DESC"
 				repeat="true"/>
+
+			<field name="aup_conditon"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_FORM_AUP_CONDITION_DESC"
+			       label="PLG_FABRIK_FORM_AUP_CONDITION_LABEL"
+			       repeat="true" />
+
 		</fieldset>
 	</fields>
 </form>

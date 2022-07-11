@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     fabrikPlugins(grunt);
     fabrikModules(grunt);
     component(grunt);
+    library(grunt);
 };
 
 /**
@@ -23,6 +24,8 @@ var updateAFile = function (path, grunt) {
             return;
         }
 
+        console.log('--- updateAFile: ' + path);
+
         var version = grunt.config.get('pkg.version');
         var date = new Date(),
             xml;
@@ -31,7 +34,7 @@ var updateAFile = function (path, grunt) {
         xml = fs.readFileSync(path);
         xmlDoc = libxmljs.parseXmlString(xml.toString());
         xmlDoc.get('//creationDate').text(createDate);
-        xmlDoc.get('//copyright').text('Copyright (C) 2005-' + date.getFullYear() + ' fabrikar.com - All rights reserved.');
+        xmlDoc.get('//copyright').text('Copyright (C) 2005-' + date.getFullYear() + ' Media A-Team, Inc. - All rights reserved.');
         xmlDoc.get('//version').text(version);
 
         var ext = xmlDoc.get('//extension');
@@ -95,4 +98,8 @@ var component = function (grunt) {
     updateAFile('administrator/components/com_fabrik/pkg_fabrik.xml', grunt);
     updateAFile('administrator/components/com_fabrik/pkg_fabrik_sink.xml', grunt);
     updateAFile('administrator/components/com_fabrik/fabrik.xml', grunt);
+}
+
+var library = function (grunt) {
+	updateAFile('libraries/fabrik/fabrik.xml', grunt);
 }

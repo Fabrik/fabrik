@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -15,6 +15,19 @@ echo "
 
 .fabrikGroup {
 clear: left;
+}
+
+/* missing from some bootstrap templates (like JoomlArt) */
+
+.row-fluid:before,
+.row-fluid:after {
+	display: table;
+	content: \"\";
+	line-height: 0;
+}
+
+.row-fluid:after {
+	clear: both;
 }
 ";
 ?>

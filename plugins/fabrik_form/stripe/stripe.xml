@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_form" method="upgrade" type="plugin" version="3">
+	<name>plg_fabrik_form_stripe</name>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>hugh.messenger@gmail.com</authorEmail>
+	<authorUrl>www.fabrikar.com</authorUrl>
+	<version>3.10</version>
+	<help url="PLG_FORM_STRIPE_HELP_SERVER"/>
+	<description>PLG_FORM_STRIPE_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="stripe">stripe.php</filename>
+		<filename>stripe.js</filename>
+		<filename>stripe-min.js</filename>
+		<filename>index.html</filename>
+		<folder>forms</folder>
+		<folder>scripts</folder>
+		<folder>language</folder>
+		<folder>layouts</folder>
+	</files>
+
+</extension>

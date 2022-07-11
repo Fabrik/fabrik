@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-list-canviewrow">
+
+			<field type="helplink"
+				url="PLG_LIST_CANVIEWROW_HELP_SERVER" />
+
+			<field name="canviewrow_access"
+				type="accesslevel"
+				default="1"
+				description="PLG_LIST_CANVIEWROW_ACCESS_DESC"
+				label="PLG_LIST_CANVIEWROW_ACCESS_LABEL"
+				repeat="true"/>
+
+			<field name="canviewrow_field"
+				type="listfields"
+				description="PLG_LIST_CANVIEWROW_ELEMENT_DESC"
+				label="PLG_LIST_CANVIEWROW_ELEMENT_LABEL"
+				repeat="true"
+				valueformat="tableelement"/>
+
+			<field name="canviewrow_useraw"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="PLG_LIST_CANVIEWROW_USERAW_DESC"
+				label="PLG_LIST_CANVIEWROW_USERAW_LABEL"
+				repeat="true">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+			</field>
+
+			<field name="canviewrow_operator"
+				type="list"
+				default="="
+				repeat="true"
+				description="PLG_LIST_CANVIEWROW_OPERATOR_DESC"
+				label="PLG_LIST_CANVIEWROW_OPERATOR_LABEL">
+					<option value="=">COM_FABRIK_EQUALS</option>
+					<option value="!=">COM_FABRIK_NOT_EQUALS</option>
+			</field>
+
+			<field name="canviewrow_value"
+				type="text"
+				description="PLG_LIST_CANVIEWROW_VALUE_DESC"
+				label="PLG_LIST_CANVIEWROW_VALUE_LABEL"
+				repeat="true"
+				size="20" />
+
+		</fieldset>
+
+		<fieldset label="COM_FABRIK_ADVANCED" name="plg-list-canviewrow-advanced">
+
+			<field name="canviewrow_eval"
+				type="fabrikeditor"
+				mode="php"
+				description="PLG_LIST_CANVIEWROW_EVAL_DESC"
+				label="PLG_LIST_CANVIEWROW_EVAL_LABEL"
+				repeat="true" />
+
+		</fieldset>
+	</fields>
+</form>

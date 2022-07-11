@@ -4,13 +4,15 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.email
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Fabrik\Helpers\Pdf;
+use Fabrik\Helpers\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 require_once COM_FABRIK_FRONTEND . '/models/plugin-list.php';
@@ -40,14 +42,14 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 	/**
 	 * Mails sent
-	 * 
+	 *
 	 * @var int
 	 */
 	private $sent = 0;
 
 	/**
 	 * Mails not sent
-	 * 
+	 *
 	 * @var int
 	 */
 	private $notSent = 0;
@@ -93,7 +95,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	 */
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('email_button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('email_button_label', parent::buttonLabel()));
 	}
 
 	/**
@@ -105,17 +107,37 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	 */
 	public function onLoadJavascriptInstance($args)
 	{
+		$params = $this->getParams();
+		$w      = new FabrikWorker;
 		FabrikHelperHTML::slimbox();
 		parent::onLoadJavascriptInstance($args);
-		$opts              = $this->getElementJSOptions();
-		$opts->renderOrder = $this->renderOrder;
-		$opts              = json_encode($opts);
-		$this->jsInstance  = "new FbListEmail($opts)";
+		$opts               = $this->getElementJSOptions();
+		$opts->renderOrder  = $this->renderOrder;
+		$opts->additionalQS = $w->parseMessageForPlaceHolder($params->get('list_email_additional_qs', ''));
+
+		$url = 'index.php?option=com_fabrik';
+		$url .= '&view=list';
+		$url .= '&controller=list.email';
+		//$url .= '&task=popupwin';
+		$url .= '&tmpl=component';
+		$url .= '&ajax=1';
+		$url .= '&id=' . $this->getModel()->getId();
+		$url .= '&renderOrder=' . $this->renderOrder;
+		$url .= '&format=partial';
+
+		if (!empty($opts->additionalQS))
+		{
+			$url .= '&' . $opts->additionalQS;
+		}
+
+		$opts->popupUrl = JRoute::_($url, false);
+		$opts               = json_encode($opts);
+		$this->jsInstance   = "new FbListEmail($opts)";
 
 		return true;
 	}
 
-	private function _toType()
+	public function _toType()
 	{
 		return $this->getParams()->get('emailtable_to_type');
 	}
@@ -402,33 +424,42 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		$params    = $this->getParams();
 		$input     = $this->app->input;
 		$updateVal = $params->get($name);
+		$search    = array();
+		$replace   = array();
 
 		if ($updateVal === 'now()' || $updateVal === '{now}')
 		{
-			$updateVal = $this->date->toSql();
+			$search[]  = 'now()';
+			$replace[] = $this->date->toSql();
+			$search[]  = '{now}';
+			$replace[] = $this->date->toSql();
 		}
 
 		if ($updateVal === '{subject}')
 		{
-			$updateVal = $input->get('subject', '', 'string');
+			$search[]  = '{subject}';
+			$replace[] = $input->get('subject', '', 'string');
 		}
 
 		if ($updateVal === '{$my->id}')
 		{
-			$updateVal = $this->user->get('id', 0, 'int');
-		}
-		
-		if ($updateVal === '{sent}')
-		{
-			$updateVal = $this->sent;
-		}
-		
-		if ($updateVal === '{notsent}')
-		{
-			$updateVal = $this->notSent;
+			$search[]  = '{$my->id}';
+			$replace[] = $this->user->get('id', 0, 'int');
 		}
 
-		return $updateVal;
+		if ($updateVal === '{sent}')
+		{
+			$search[]  = '{sent}';
+			$replace[] = $this->sent;
+		}
+
+		if ($updateVal === '{notsent}')
+		{
+			$search[]  = '{notsent}';
+			$replace[] = $this->notSent;
+		}
+
+		return str_replace($search, $replace, $updateVal);
 	}
 
 	/**
@@ -447,6 +478,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		{
 			return false;
 		}
+
 
 		$listModel->setId($input->getInt('id', 0));
 		$w           = new FabrikWorker;
@@ -488,6 +520,11 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 					{
 						$process = isset($row->$to);
 						$mailTo  = $row->$to;
+					}
+					else if ($toType == 'eval')
+					{
+						$process = true;
+						$mailTo = $this->_evalTo($row);
 					}
 					else
 					{
@@ -629,8 +666,8 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		$params        = $this->getParams();
 		$sendSMS       = $params->get('emailtable_email_or_sms', 'email') == 'sms';
 		$input         = $this->app->input;
-		$coverMessage  = $input->get('message', '', 'html');
-		$coverMessage  = nl2br($coverMessage);
+		$coverMessage  = $input->get('message', '', 'raw');
+		$coverMessage  = FabrikString::safeNl2br($coverMessage);
 		$oldStyle      = $this->_oldStyle();
 		$emailTemplate = $this->_emailTemplate();
 		$w             = new FabrikWorker;
@@ -651,6 +688,11 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 		$thisMsg = $w->parseMessageForPlaceholder($thisMsg, $row);
 
+		if (!$sendSMS && $params->get('wysiwyg', true))
+		{
+			Pdf::fullPaths($thisMsg);
+		}
+
 		if ($sendSMS)
 		{
 			return $this->sendSMS($mailTo, $thisMsg, $row);
@@ -664,9 +706,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 			list($replyEmail, $replyEmailName) = $this->_replyEmailName($row);
 			$thisSubject = $w->parseMessageForPlaceholder($subject, $row);
 
-			$mail = JFactory::getMailer();
-
-			return $mail->sendMail($emailFrom, $fromName, $mailTo, $thisSubject, $thisMsg, 1, $cc, $bcc, $this->filepath,
+			return FabrikWorker::sendMail($emailFrom, $fromName, $mailTo, $thisSubject, $thisMsg, 1, $cc, $bcc, $this->filepath,
 				$replyEmail, $replyEmailName);
 		}
 	}
@@ -684,7 +724,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 		if ($toType == 'table' || $toType == 'table_picklist')
 		{
-			$to = $input->get('list_email_to', '', 'array');
+			$to = $input->get('list_email_to', array(), 'array');
 		}
 		else
 		{
@@ -722,17 +762,83 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 	}
 
 	/**
+	 * Eval to address
+	 *
+	 * param  object  row  row data
+	 * @return string
+	 * @throws Exception
+	 */
+	private function _evalTo($row)
+	{
+		$toType = $this->_toType();
+		$to = '';
+
+		if ($toType == 'eval')
+		{
+			$params = $this->getParams();
+			$php = $params->get('emailtable_to_eval');
+			$to = FabrikHelperHTML::isDebug() ? eval($php) : @eval($php);
+			FabrikWorker::logEval($to, 'Eval exception : listEmail::_evalTo() : %s');
+		}
+
+		return $to;
+	}
+
+
+	/**
 	 * Get the email address(es) specified in the admin's 'Email to
 	 * field
 	 *
 	 * @return string
 	 */
-	private function _emailTo()
+	public function _emailTo()
 	{
 		$params  = $this->getParams();
 		$emailTo = $params->get('emailtable_to', '');
 
 		return $emailTo;
+	}
+
+	/**
+	 * Get address book
+	 * @return array
+	 */
+	public function addressBook()
+	{
+		$params = $this->getParams();
+		$table      = $params->get('emailtable_to_table_table');
+
+		if (empty($table))
+		{
+			return array();
+		}
+
+		$tableEmail = $params->get('emailtable_to_table_email');
+		$tableName  = $params->get('emailtable_to_table_name');
+		$tableWhere = $params->get('emailtable_to_table_where', '');
+
+		$toTableModel = JModelLegacy::getInstance('list', 'FabrikFEModel');
+		$toTableModel->setId($table);
+		$toDb = $toTableModel->getDb();
+
+		$tableName          = FabrikString::safeColName($tableName);
+		$tableEmail         = FabrikString::safeColName($tableEmail);
+		$emailTableTo_table = $toDb->qn($toTableModel->getTable()->db_table_name);
+
+		$query = $toDb->getQuery(true);
+		$query->select($tableEmail . ' AS email, ' . $tableName . ' AS name')
+			->from($emailTableTo_table)->order('name ASC');
+
+		if (!empty($tableWhere)) {
+			$w = new FabrikWorker;
+			$tableWhere = $w->parseMessageForPlaceHolder($tableWhere);
+			$query->where($tableWhere);
+		}
+
+		$toDb->setQuery($query);
+		$results = $toDb->loadObjectList();
+
+		return $results;
 	}
 
 	/**
@@ -801,7 +907,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		list($phpMsg, $message) = $this->_message();
 		$w             = new FabrikWorker;
 		$input         = $this->app->input;
-		$coverMessage  = nl2br($input->get('message', '', 'html'));
+		$coverMessage  = FabrikString::safeNl2br($input->get('message', '', 'html'));
 		$emailTemplate = $this->_emailTemplate();
 		$oldStyle      = $this->_oldStyle();
 
@@ -853,13 +959,18 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 		$preamble     = $params->get('emailtable_message_preamble', '');
 		$postamble    = $params->get('emailtable_message_postamble', '');
 		$mergedMsg    = $preamble . $mergedMsg . $postamble;
-		$coverMessage = nl2br($input->get('message', '', 'html'));
+		$coverMessage = FabrikString::safeNl2br($input->get('message', '', 'html'));
 		$cc           = null;
 		$bcc          = null;
 
 		if (!$oldStyle)
 		{
 			$mergedMsg = $coverMessage . $mergedMsg;
+		}
+
+		if ($params->get('wysiwyg', true))
+		{
+			Pdf::fullPaths($coverMessage);
 		}
 
 		if ($toHow == 'single')
@@ -888,8 +999,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 			if ($sent > 0)
 			{
-				$mail = JFactory::getMailer();
-				$res  = $mail->sendMail($emailFrom, $fromName, $thisTos, $thisSubject, $mergedMsg, true, $cc, $bcc, $this->filepath,
+				$res = FabrikWorker::sendMail($emailFrom, $fromName, $thisTos, $thisSubject, $mergedMsg, true, $cc, $bcc, $this->filepath,
 					$replyEmail, $replyEmailName);
 			}
 		}
@@ -899,8 +1009,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 			{
 				if (FabrikWorker::isEmail($thisTo))
 				{
-					$mail = JFactory::getMailer();
-					$res  = $mail->sendMail($emailFrom, $fromName, $thisTo, $thisSubject, $mergedMsg, true, $cc, $bcc, $this->filepath,
+					$res = FabrikWorker::sendMail($emailFrom, $fromName, $thisTo, $thisSubject, $mergedMsg, true, $cc, $bcc, $this->filepath,
 						$replyEmail, $replyEmailName);
 
 					if ($res)
@@ -1034,9 +1143,10 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 
 		if ($params->get('wysiwyg', true))
 		{
-			$editor = JFactory::getEditor();
+			$editor = \JEditor::getInstance($this->config->get('editor'));
+			$buttons = (bool) $params->get('wysiwyg_extra_buttons', true);
 
-			return $editor->display('message', $msg, '100%', '200px', 75, 10, true, 'message');
+			return $editor->display('message', $msg, '100%', '200px', 75, 10, $buttons, 'message');
 		}
 		else
 		{
@@ -1081,7 +1191,7 @@ class PlgFabrik_ListEmail extends PlgFabrik_List
 			$gateway = $params->get('emailtable_sms_gateway', 'kapow.php');
 			$input   = new JFilterInput;
 			$gateway = $input->clean($gateway, 'CMD');
-			require_once JPATH_ROOT . '/components/com_fabrik/helpers/sms_gateways/' . JString::strtolower($gateway);
+            require_once JPATH_ROOT . '/libraries/fabrik/fabrik/Helpers/sms_gateways/' . StringHelper::strtolower($gateway);
 			$gateway               = JFile::stripExt($gateway);
 			$this->gateway         = new $gateway;
 			$this->gateway->params = $params;

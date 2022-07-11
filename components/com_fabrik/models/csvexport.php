@@ -4,14 +4,15 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use \Joomla\Utilities\ArrayHelper;
+use Joomla\Utilities\ArrayHelper;
+use Fabrik\Helpers\Html;
 
 jimport('joomla.application.component.model');
 
@@ -51,13 +52,16 @@ class FabrikFEModelCSVExport extends FabModel
 	public $model;
 
 	/**
-	 * Get csv export step
+	 * Get csv export step from params or URL
 	 *
 	 * @return  integer  Export step
 	 */
 	public function getStep()
 	{
-		return (int) $this->model->getParams()->get('csv_export_step', $this->step);
+		$input = $this->app->input;
+		$step_param = $this->model->getParams()->get('csv_export_step', $this->step);
+		$step_url = $input->get('csv_export_step', $step_param);
+		return (int) $step_url;
 	}
 
 	/**
@@ -141,7 +145,7 @@ class FabrikFEModelCSVExport extends FabModel
 				return;
 			}
 
-			$str .= implode($headings, $this->delimiter) . $end_of_line;
+			$str .= implode($this->delimiter, $headings) . $end_of_line;
 		}
 
 		$incRaw       = $input->get('incraw', true);
@@ -211,6 +215,17 @@ class FabrikFEModelCSVExport extends FabModel
 				if ($params->get('csv_format_json', '1') === '1')
 				{
 					array_walk($a, array($this, 'implodeJSON'), $end_of_line);
+				}
+
+				$this->model->csvExportRow = $a;
+				$pluginResults = FabrikWorker::getPluginManager()->runPlugins('onExportCSVRow', $this->model, 'list', $a);
+				if (in_array(false, $pluginResults))
+				{
+					continue;
+				}
+				else
+				{
+					$a = $this->model->csvExportRow;
 				}
 
 				$str .= implode($this->delimiter, array_map(array($this, 'quote'), array_values($a)));
@@ -330,16 +345,12 @@ class FabrikFEModelCSVExport extends FabModel
 	private function getFileName()
 	{
 		$this->model->setId($this->app->input->getInt('listid'));
-		$table    = $this->model->getTable();
-		$filename = $this->model->getParams()->get('csv_filename');
-		if ($filename == '')
-		{
-			$filename = $table->db_table_name . '-export.csv';
-		}
-		else
-		{
-			$filename = sprintf($filename, date('Y-m-d'));
-		}
+
+		$filename = Html::getLayout('fabrik-csv-filename')
+			->render((object) array(
+				'model' => $this->model,
+				'filename' => $this->model->getParams()->get('csv_filename')
+			));
 		return $filename;
 	}
 
@@ -408,13 +419,15 @@ class FabrikFEModelCSVExport extends FabModel
    			require(JPATH_PLUGINS.'/fabrik_list/listcsv/scripts/list_'.$listid.'_csv_export.php');
 		}
 		$document = JFactory::getDocument();
-		$document->setMimeEncoding('application/zip');
+		//$document->setMimeEncoding('application/zip');
+		$document->setMimeEncoding('text/csv');
 		$str = $this->getCSVContent();
 		$this->app->clearHeaders();
 		$encoding = $this->getEncoding();
 
 		// Set the response to indicate a file download
-		$this->app->setHeader('Content-Type', 'application/zip');
+		//$this->app->setHeader('Content-Type', 'application/zip');
+		$this->app->setHeader('Content-Type', 'text/csv');
 		$this->app->setHeader('Content-Disposition', "attachment;filename=\"" . $filename . "\"");
 
 		// Xls formatting for accents
@@ -469,11 +482,12 @@ class FabrikFEModelCSVExport extends FabModel
 
 							if (count($json) == 1)
 							{
-								$default = $json['Total']->value;
+								$default = $defaultRaw = $json['Total']->value;
 							}
 							else
 							{
-								$default = json_encode($json);
+								$default = strip_tags($calcs[$calKey][$aKey]);
+								$defaultRaw = json_encode($json);
 							}
 						}
 
@@ -510,7 +524,7 @@ class FabrikFEModelCSVExport extends FabModel
 
 							if ($incRaw)
 							{
-								$calculations[$calKey][$x + 1] = $default;
+								$calculations[$calKey][$x + 1] = $defaultRaw;
 							}
 						}
 					}
@@ -568,7 +582,9 @@ class FabrikFEModelCSVExport extends FabModel
 
 		if (function_exists('iconv'))
 		{
-			return iconv('UTF-8', $csvEncoding, $n);
+			$res = iconv('UTF-8', $csvEncoding, $n);
+			//$$$ trob: if iconv returns false try mb_convert instead of returning an empty field
+			if ($res !== false) return $res;
 		}
 		return mb_convert_encoding($n, $csvEncoding, 'UTF-8');
 	}
@@ -715,6 +731,17 @@ class FabrikFEModelCSVExport extends FabModel
 		if ($input->get('inccalcs') == 1)
 		{
 			array_unshift($h, FText::_('Calculation'));
+		}
+
+		$this->model->csvExportHeadings = $h;
+		$pluginResults = FabrikWorker::getPluginManager()->runPlugins('onExportCSVHeadings', $this->model, 'list', $h);
+		if (in_array(false, $pluginResults))
+		{
+			return false;
+		}
+		else
+		{
+			$h = $this->model->csvExportHeadings;
 		}
 
 		$h = array_map(array($this, "quote"), $h);

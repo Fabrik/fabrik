@@ -1,0 +1,27 @@
+{
+    "name": "fusioncharts/fusionexport",
+    "description": "PHP Client for FusionExport",
+    "version": "1.0.1",
+    "type": "library",
+    "keywords": [
+        "export",
+        "fusioncharts",
+        "fusionexport",
+        "client"
+    ],
+    "homepage": "https://www.fusioncharts.com/fusionexport",
+    "license": "MIT",
+    "support": {
+        "email": "support@fusioncharts.com"
+    },
+    "autoload": {
+        "psr-4": {
+            "FusionExport\\": "src/FusionExport"
+        }
+    },
+    "require": {
+        "php": "^5.6",
+        "paquettg/php-html-parser": "^1.7",
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
