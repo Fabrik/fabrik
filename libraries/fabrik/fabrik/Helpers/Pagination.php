@@ -13,6 +13,7 @@ namespace Fabrik\Helpers;
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutInterface;
 use Joomla\CMS\Version;
 use Joomla\CMS\Router\Route;
