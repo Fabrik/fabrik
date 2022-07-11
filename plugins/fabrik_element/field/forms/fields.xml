@@ -46,6 +46,7 @@
 					<option value="3">PLG_ELEMENT_INPUTTYPE_EMAIL</option>
 					<option value="4">PLG_ELEMENT_INPUTTYPE_SEARCH</option>
 					<option value="5">PLG_ELEMENT_INPUTTYPE_URL</option>
+					<option value="6">PLG_ELEMENT_INPUTTYPE_NUMBER</option>
 			</field>
 
 			<field name="maxlength"
@@ -93,6 +94,16 @@
 				label="PLG_ELEMENT_FIELD_SPEECH_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="advanced_behavior"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       label="PLG_ELEMENT_FIELD_JQUERY_CHOSEN_LABEL"
+			       description="PLG_ELEMENT_FIELD_JQUERY_CHOSEN_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 		</fieldset>
@@ -180,6 +191,16 @@
 				label="PLG_ELEMENT_FIELD_INPUT_MASK_LABEL"
 				size="60" />
 
+			<field name="text_input_mask_autoclear"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_FIELD_INPUT_MASK_CLEAR_DESC"
+			       label="PLG_ELEMENT_FIELD_INPUT_MASK_CLEAR_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="text_input_mask_definitions"
 				type="text"
 				description="PLG_ELEMENT_FIELD_INPUT_MASK_DEFINITIONS_DESC"
@@ -194,6 +215,16 @@
 				label="PLG_ELEMENT_FIELD_RENDER_AS_QRCODE_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="scan_qrcode"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FIELD_SCAN_QRCODE_DESC"
+				   label="PLG_ELEMENT_FIELD_SCAN_QRCODE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 		</fieldset>
@@ -251,6 +282,12 @@
 				default=""
 				description="PLG_ELEMENT_FIELD_LINK_TITLE_DESC"
 				label="PLG_ELEMENT_FIELD_LINK_TITLE_LABEL" />
+
+			<field name="link_attributes"
+				   type="text"
+				   default=""
+				   description="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_DESC"
+				   label="PLG_ELEMENT_FIELD_LINK_ATTRIBUTES_LABEL" />
 
 		</fieldset>
 	</fields>

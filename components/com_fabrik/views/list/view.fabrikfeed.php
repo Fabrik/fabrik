@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -215,6 +215,7 @@ class FabrikViewList extends FabrikViewListBase
 							}
 							else
 							{
+								$enclosureUrl = ltrim($enclosureUrl, '/\\');
 								$enclosureFile = COM_FABRIK_BASE . $enclosureUrl;
 								$enclosureUrl = COM_FABRIK_LIVESITE . str_replace('\\', '/', $enclosureUrl);
 							}
@@ -244,11 +245,11 @@ class FabrikViewList extends FabrikViewListBase
 					if ($title == '')
 					{
 						// Set a default title
-						$title = $row->$dbColName['colName'];
+						$title = $row->{$dbColName['colName']};
 					}
 
 					// Rob - was stripping tags - but aren't they valid in the content?
-					$rssContent = $row->$dbColName['colName'];
+					$rssContent = $row->{$dbColName['colName']};
 					$found = false;
 
 					foreach ($rssTags as $rssTag => $namespace)

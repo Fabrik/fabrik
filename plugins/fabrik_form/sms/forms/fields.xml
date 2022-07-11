@@ -4,7 +4,7 @@
 	        name="params">
 		<fieldset name="plg-form-sms">
 			<field description="PLG_FORM_SMS_GATEWAY_DESC"
-			       directory="components/com_fabrik/helpers/sms_gateways"
+			       directory="libraries/fabrik/fabrik/Helpers/sms_gateways"
 			       hide_default="true"
 			       hide_none="true"
 			       label="PLG_FORM_SMS_GATEWAY_LABEL"
@@ -36,6 +36,13 @@
 			       size="30"
 			       type="text"/>
 
+			<field name="sms-to-eval"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FORM_SMS_MOBILE_EVAL_DESC"
+				   label="PLG_FORM_SMS_MOBILE_EVAL_LABEL"
+				   repeat="true" />
+
 			<field default=""
 			       description="PLG_FORM_SMS_SENDERS_MOBILE_NUM_DESC"
 			       label="PLG_FORM_SMS_SENDERS_MOBILE_NUM_LABEL"
@@ -46,8 +53,24 @@
 
 			<field name="sms_message"
 			       type="textarea"
+				   repeat="true"
 			       label="PLG_FORM_SMS_MESSAGE_LABEL"
 					description="PLG_FORM_SMS_MESSAGE_DESC"/>
+			
+			<field name="sms_custom_eval_message"
+			       type="fabrikeditor"
+			       mode="php"
+			       description="PLG_FABRIK_FORM_SMS_CUSTOM_EVAL_MESSAGE_DESC"
+			       label="PLG_FABRIK_FORM_SMS_CUSTOM_EVAL_MESSAGE_LABEL"
+			       repeat="true" />
+
+			<field name="sms_conditon"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FABRIK_FORM_SMS_CONDITION_DESC"
+				   label="PLG_FABRIK_FORM_SMS_CONDITION_LABEL"
+				   repeat="true" />
+
 		</fieldset>
 	</fields>
 </form>

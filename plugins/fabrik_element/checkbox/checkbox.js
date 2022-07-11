@@ -1,7 +1,7 @@
 /**
  * Checkbox Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
@@ -65,7 +65,7 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
             var h, chx;
             this.getElement();
             if (typeOf(val) === 'string') {
-                val = val === '' ? [] : JSON.decode(val);
+                val = val === '' ? [] : JSON.parse(val);
             }
             if (!this.options.editable) {
                 this.element.innerHTML = '';
@@ -95,6 +95,13 @@ define(['jquery', 'fab/elementlist'], function (jQuery, FbElementList) {
                 this.watchAddToggle();
                 this.watchAdd();
             }
+            this._getSubElements().each(function (sub, i) {
+                sub.id = this.options.element + '__' + i + '_input_' + i;
+                var label = sub.getParent('label');
+                if (label) {
+                    label.htmlFor = sub.id;
+                }
+            }.bind(this));
             this.parent(c);
         }
 

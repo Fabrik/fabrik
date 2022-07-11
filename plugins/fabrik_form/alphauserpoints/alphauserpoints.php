@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.alphauserpoints
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -36,14 +36,20 @@ class PlgFabrik_FormAlphaUserPoints extends PlgFabrik_Form
 	public function onAfterProcess()
 	{
 		$params = $this->getParams();
-		$api_AUP = JPATH_SITE . '/components/com_alphauserpoints/helper.php';
+		$api_AUP = JPATH_SITE . '/components/com_altauserpoints/helper.php';
 
 		if (JFile::exists($api_AUP))
 		{
 			$w = new FabrikWorker;
 			$this->data = $this->getProcessData();
+
+			if (!$this->shouldProcess('aup_conditon', null, $params))
+			{
+				return true;
+			}
+
 			require_once $api_AUP;
-			$aup = new AlphaUserPointsHelper;
+			$aup = new AltaUserPointsHelper;
 
 			// Define which user will receive the points.
 			$userId = $params->get('user_id', '');

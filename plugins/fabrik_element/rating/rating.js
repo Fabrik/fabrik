@@ -1,7 +1,7 @@
 /**
  * Rating Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -41,13 +41,13 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 					this.stars.each(function (ii) {
 						if (this._getRating(i) >= this._getRating(ii)) {
 							if (Fabrik.bootstrapped) {
-								ii.removeClass('icon-star-empty').addClass('icon-star');
+								ii.removeClass(this.options.starIconEmpty).addClass(this.options.starIcon);
 							} else {
 								ii.src = this.options.insrc;
 							}
 						} else {
 							if (Fabrik.bootstrapped) {
-								ii.addClass('icon-star-empty').removeClass('icon-star');
+								ii.addClass(this.options.starIconEmpty).removeClass(this.options.starIcon);
 							} else {
 								ii.src = this.options.insrc;
 							}
@@ -61,12 +61,12 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 				i.addEvent('mouseout', function (e) {
 					this.stars.each(function (ii) {
 						if (Fabrik.bootstrapped) {
-							ii.removeClass('icon-star').addClass('icon-star-empty');
+							ii.removeClass(this.options.starIcon).addClass(this.options.starIconEmpty);
 						} else {
 							ii.src = this.options.outsrc;
 						}
 					}.bind(this));
-					this.ratingMessage.innerHTML = this.field.value;
+					this.ratingMessage.innerHTML = '&nbsp;';
 				}.bind(this));
 			}.bind(this));
 
@@ -75,7 +75,6 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 					this.rating = this._getRating(i);
 					this.field.value = this.rating;
 					this.doAjax();
-					this.setStars();
 				}.bind(this));
 			}.bind(this));
 			var clearButton = this.getClearButton();
@@ -93,18 +92,20 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
 			if (typeOf(clearButton) !== 'null') {
 				clearButton.addEvent('mouseover', function (e) {
-					if (Fabrik.bootstrapped) {
-
-					} else {
+					if (!Fabrik.bootstrapped) {
 						e.target.src = this.options.clearinsrc;
 					}
+                    this.stars.each(function (ii) {
+						ii.removeClass(this.options.starIcon).addClass(this.options.starIconEmpty);
+                    }.bind(this));
 					this.ratingMessage.set('html', Joomla.JText._('PLG_ELEMENT_RATING_NO_RATING'));
 				}.bind(this));
 
 				clearButton.addEvent('mouseout', function (e) {
-					if (this.rating !== -1) {
+					if (!Fabrik.bootstrapped && this.rating !== -1) {
 						e.target.src = this.options.clearoutsrc;
 					}
+					this.ratingMessage.innerHTML = '&nbsp;';
 				}.bind(this));
 
 				clearButton.addEvent('click', function (e) {
@@ -112,7 +113,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 					this.field.value = '';
 					this.stars.each(function (ii) {
 						if (Fabrik.bootstrapped) {
-							ii.removeClass('icon-star').addClass('icon-star-empty');
+							ii.removeClass(this.options.starIcon).addClass(this.options.starIconEmpty);
 						} else {
 							ii.src = this.options.outsrc;
 						}
@@ -131,32 +132,32 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 			if (this.options.canRate === false || this.options.doAjax === false) {
 				return;
 			}
-			if (this.options.editable === false) {
-				this.spinner.inject(this.ratingMessage);
-				var data = {
-					'option'     : 'com_fabrik',
-					'format'     : 'raw',
-					'task'       : 'plugin.pluginAjax',
-					'plugin'     : 'rating',
-					'method'     : 'ajax_rate',
-					'g'          : 'element',
-					'element_id' : this.options.elid,
-					'formid'     : this.options.formid,
-					'row_id'     : this.options.row_id,
-					'elementname': this.options.elid,
-					'userid'     : this.options.userid,
-					'rating'     : this.rating,
-					'listid'     : this.options.listid
-				};
 
-				var closeFn = new Request({
-					url       : '',
-					'data'    : data,
-					onComplete: function () {
-						this.spinner.dispose();
-					}.bind(this)
-				}).send();
-			}
+			this.spinner.inject(this.ratingMessage);
+			var data = {
+				'option'     : 'com_fabrik',
+				'format'     : 'raw',
+				'task'       : 'plugin.pluginAjax',
+				'plugin'     : 'rating',
+				'method'     : 'ajax_rate',
+				'g'          : 'element',
+				'element_id' : this.options.elid,
+				'formid'     : this.options.formid,
+				'row_id'     : this.options.row_id,
+				'elementname': this.options.elid,
+				'userid'     : this.options.userid,
+				'rating'     : this.rating,
+				'listid'     : this.options.listid
+			};
+
+			var closeFn = new Request({
+				url       : '',
+				'data'    : data,
+				onComplete: function (r) {
+					this.spinner.dispose();
+                    this.update(r);
+				}.bind(this)
+			}).send();
 		},
 
 		_getRating: function (i) {
@@ -172,29 +173,30 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 				var starScore = this._getRating(ii);
 				if (Fabrik.bootstrapped) {
 					if (starScore <= this.rating) {
-						ii.removeClass('icon-star-empty').addClass('icon-star');
+						ii.removeClass(this.options.starIconEmpty).addClass(this.options.starIcon);
 					} else {
-						ii.removeClass('icon-star').addClass('icon-star-empty');
+						ii.removeClass(this.options.starIconEmpty).addClass(this.options.starIconEmpty);
 					}
 
 				} else {
 					ii.src = starScore <= this.rating ? this.options.insrc : this.options.outsrc;
 				}
 			}.bind(this));
-			var clearButton = this.getClearButton();
-			if (typeOf(clearButton) !== 'null') {
+
+			if (!Fabrik.bootstrapped && typeOf(clearButton) !== 'null') {
+                var clearButton = this.getClearButton();
 				clearButton.src = this.rating !== -1 ? this.options.clearoutsrc : this.options.clearinsrc;
 			}
 		},
 
 		getClearButton: function () {
-			return this.element.getElement('i[data-rating=-1]');
+			return this.element.getElement('span[data-rating=-1]');
 		},
 
 		update: function (val) {
-			this.rating = val.toInt().round();
+			this.rating = Math.round(parseFloat(val));;
 			this.field.value = this.rating;
-			var s = this.element.getElement('.ratingScore');
+			var s = this.element.getParent('.fabrikElementContainer').getElement('.ratingScore');
 			if (typeOf(s) !== 'null') {
 				s.set('text', val);
 			}
@@ -206,6 +208,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 			this.field = document.id(this.options.element);
 			this.setup();
 			this.parent();
+		},
+
+		reset: function () {
+			this.resetEvents();
+			this.update(this.options.defaultVal);
 		}
 	});
 

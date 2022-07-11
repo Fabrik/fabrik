@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.email
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -31,6 +31,7 @@ class FabrikViewPopupwin extends JViewLegacy
 	 */
 	public function display($tmpl = 'default')
 	{
+		$w           = new FabrikWorker;
 		$app         = JFactory::getApplication();
 		$model       = $this->getModel();
 		$input       = $app->input;
@@ -44,7 +45,7 @@ class FabrikViewPopupwin extends JViewLegacy
 
 		if (count($records) == 0)
 		{
-			$app->enqueueMessage('None of the selected records can be emailed', 'notice');
+			$app->enqueueMessage(FText::_('PLG_LIST_EMAIL_ERR_NONE_MAILED'), 'notice');
 
 			return;
 		}
@@ -63,6 +64,7 @@ class FabrikViewPopupwin extends JViewLegacy
 		$this->params          = $model->getParams();
 		$this->listEmailTo     = $model->formModel->getElementList('list_email_to');
 		$this->addressBook     = $model->addressBook();
+		$this->additionalQS    = $w->parseMessageForPlaceHolder($this->params->get('list_email_additional_qs', ''));
 
 		$srcs = FabrikHelperHTML::framework();
 		FabrikHelperHTML::iniRequireJs();

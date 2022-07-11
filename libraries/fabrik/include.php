@@ -10,9 +10,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-use Fabble\Helpers\Factory;
-use Joomla\String\Normalise;
 use Joomla\String\Inflector;
+use Joomla\String\Normalise;
 
 /**'
  * Autoloader Class
@@ -25,6 +24,8 @@ class FabrikAutoloader
 	public function __construct()
 	{
 		spl_autoload_register(array($this, 'controller'));
+		spl_autoload_register(array($this, 'helper'));
+		spl_autoload_register(array($this, 'view'));
 
 		// @TODO - at some point allow auto-loading of these as per Fabble
 		/*
@@ -130,12 +131,13 @@ class FabrikAutoloader
 	 */
 	private function view($class)
 	{
+		/*
 		if (!strstr(strtolower($class), 'view'))
 		{
 			return;
 		}
 
-		$scope = Factory::getApplication()->scope;
+		$scope = \JFactory::getApplication()->scope;
 
 		// Load component specific files
 		if ($this->appName($class) === $scope)
@@ -153,11 +155,25 @@ class FabrikAutoloader
 				return;
 			}
 		}
+		*/
+
+		if ($class !== 'FabrikView')
+		{
+			return;
+		}
+
+		$path = JPATH_SITE . '/components/com_fabrik/views/FabrikView.php';
+
+		if (file_exists($path))
+		{
+			require_once $path;
+		}
+
 	}
 
 	private function appName($class)
 	{
-		$scope = Factory::getApplication()->scope;
+		$scope = \JFactory::getApplication()->scope;
 
 		return 'com_' . strtolower(substr($class, 0, strlen($scope) - 4));
 	}
@@ -193,7 +209,6 @@ class FabrikAutoloader
 	 */
 	private function library($class)
 	{
-
 		if (strstr($class, '\\'))
 		{
 			return;
@@ -224,8 +239,39 @@ class FabrikAutoloader
 			}
 		}
 	}
+
+	/**
+	 * Load helper file
+	 **/
+	private function helper($class)
+	{
+		if (!strstr($class, 'Fabrik\Helper'))
+		{
+			return;
+		}
+
+		$className = str_replace('Fabrik\\Helpers\\', '', $class);
+		$path  = JPATH_SITE . '/libraries/fabrik/fabrik/Helpers/' . $className . '.php';
+		$path = str_replace('\\', '/', $path);
+
+		if (file_exists($path))
+		{
+			require_once $path;
+
+			if (is_callable(array($class, '__initStatic')))
+			{
+				$class::__initStatic();
+			}
+		}
+	}
 }
 
-// PSR-4 Auto-loader.
-$loader     = require JPATH_LIBRARIES . '/fabrik/vendor/autoload.php';
+/*
+ * If the Fabrik library package has been installed, or we have full github code, we can use Composer autoload
+ */
+if (file_exists(JPATH_LIBRARIES . '/fabrik/vendor/autoload.php'))
+{
+	$loader = require JPATH_LIBRARIES . '/fabrik/vendor/autoload.php';
+}
+
 $autoLoader = new FabrikAutoloader();

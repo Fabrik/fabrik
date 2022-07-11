@@ -43,7 +43,18 @@
 					<option value="edit">COM_FABRIK_EDIT</option>
 					<option value="both">COM_FABRIK_BOTH</option>
 			</field>
-			
+
+			<field name="validate_hidden"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   repeat="true"
+				   label="COM_FABRIK_VALIDATION_VALIDATE_HIDDEN_LABEL"
+				   description="COM_FABRIK_VALIDATION_VALIDATE_HIDDEN_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="must_validate"
 				type="radio"
 				class="btn-group"

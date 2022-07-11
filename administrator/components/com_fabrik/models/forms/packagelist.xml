@@ -12,7 +12,7 @@
 		
 		<field default="0" description="MOD_FABRIK_LIST_LIMIT_DESC" label="MOD_FABRIK_LIST_LIMIT_LABEL" name="limit" size="4" type="text"/>
 			
-		<field default="default" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL" name="fabriklayout" type="folderlist"/>
+		<field default="default" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL" name="fabriklayout" type="fabrikfolderlist"/>
 			
 		<field description="MOD_FABRIK_LIST_ELEMENTS_DESC" label="MOD_FABRIK_LIST_ELEMENTS_LABEL" name="list_elements" type="fabrikmodalrepeat">
 		
@@ -24,11 +24,11 @@
 			</fields>
 		</field>
 		
-		<field description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" name="prefilters" type="fabrikmodalrepeat">
+		<field description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" name="prefilters" type="fabrikmodalrepeat" filter="raw">
 		
 			<fields name="params">
 				<fieldset modal="true" name="prefilters_modal" repeat="true">
-					<field label="MOD_FABRIK_LIST_ELEMENTS_HEADING" name="filter-fields" type="listfields" valueformat="tableelement"/>
+					<field label="MOD_FABRIK_LIST_ELEMENTS_HEADING" name="filter-fields" type="listfields" valueformat="tableelement" raw="true"/>
 				
 					<field label="MOD_FABRIK_LIST_CONDITION_LABEL" name="filter-conditions" type="list">
 							<option value="equals">EQUALS</option>
@@ -43,6 +43,7 @@
 							<option value="&lt;=">LESS THAN OR EQUALS</option>
 							<option value="in">IN</option>
 							<option value="not_in">NOT IN</option>
+							<option value="thisyear">COM_FABRIK_THIS_YEAR</option>
 							<option value="earlierthisyear">COM_FABRIK_EARLIER_THIS_YEAR</option>
 							<option value="laterthisyear">COM_FABRIK_LATER_THIS_YEAR</option>
 							<option value="yesterday">COM_FABRIK_YESTERDAY</option>
@@ -51,10 +52,11 @@
 							<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
 							<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 							<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+							<option value="nextmonth">COM_FABRIK_NEXT_WEEK1</option>
 							<option value="birthday">COM_FABRIK_BIRTHDAY_TODAY</option>
 					</field>
 					
-					<field label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING" name="filter-value" type="field"/>
+					<field label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING" name="filter-value" type="field" filter="raw"/>
 					
 					<field label="MOD_FABRIK_LIST_FILTER_ACCESS_HEADING" name="filter-access" type="accesslevel"/>
 						

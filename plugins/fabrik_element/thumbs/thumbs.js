@@ -1,7 +1,7 @@
 /**
  * Thumbs Element
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -138,7 +138,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     url       : '',
                     'data'    : data,
                     onComplete: function (r) {
-                        r = JSON.decode(r);
+                        r = JSON.parse(r);
                         this.spinner.hide();
                         if (r.error) {
                             console.log(r.error);

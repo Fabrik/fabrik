@@ -97,6 +97,9 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         getValue: function () {
             if (!this.options.editable) {
+                if (!this.options.multiple) {
+                    return this.options.value[0];
+                }
                 return this.options.value;
             }
             if (typeOf(this.element.get('value')) === 'null') {
@@ -121,9 +124,15 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         update: function (val) {
             var opts = [];
-            if ((typeOf(val) === 'string') && (JSON.validate(val))) {
-                val = JSON.decode(val);
+
+            if (typeOf(val) === 'string' && val === '') {
+                val = '[]';
             }
+
+            if ((typeOf(val) === 'string') && (JSON.validate(val))) {
+                val = JSON.parse(val);
+            }
+
             if (typeOf(val) === 'null') {
                 val = [];
             }
@@ -154,6 +163,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     opts[i].selected = false;
                 }
             }
+
+            if (this.options.advanced) {
+                jQuery('#' + this.element.id).trigger('liszt:updated');
+            }
+
             this.watchAdd();
         },
 

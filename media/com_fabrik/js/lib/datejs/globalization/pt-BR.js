@@ -5,14 +5,14 @@ Date.CultureInfo = {
     nativeName: "Português (Brasil)",
     
     /* Day Name Strings */
-    dayNames: ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"],
-    abbreviatedDayNames: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
-    shortestDayNames: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
+    dayNames: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+    abbreviatedDayNames: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+    shortestDayNames: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
     firstLetterDayNames: ["d", "s", "t", "q", "q", "s", "s"],
     
     /* Month Name Strings */
-    monthNames: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
-    abbreviatedMonthNames: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
+    monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+    abbreviatedMonthNames: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
 
 	/* AM/PM Designators */
     amDesignator: "",
@@ -43,15 +43,15 @@ Date.CultureInfo = {
     /* Standard date and time format patterns */
     formatPatterns: {
         shortDate: "d/M/yyyy",
-        longDate: "dddd, d' de 'MMMM' de 'yyyy",
+        longDate: "dddd, d \\de MMMM \\de yyyy",
         shortTime: "H:mm",
         longTime: "H:mm:ss",
-        fullDateTime: "dddd, d' de 'MMMM' de 'yyyy H:mm:ss",
+        fullDateTime: "dddd, d \\de MMMM \\de yyyy H:mm:ss",
         sortableDateTime: "yyyy-MM-ddTHH:mm:ss",
         universalSortableDateTime: "yyyy-MM-dd HH:mm:ssZ",
         rfc1123: "ddd, dd MMM yyyy HH:mm:ss GMT",
-        monthDay: "dd' de 'MMMM",
-        yearMonth: "MMMM' de 'yyyy"
+        monthDay: "dd \\de MMMM",
+        yearMonth: "MMMM \\de yyyy"
     },
 
     /**

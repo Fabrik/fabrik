@@ -5,7 +5,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  System
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -13,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Fabrik\Helpers\Worker;
 
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.file');
@@ -37,7 +38,7 @@ class PlgSystemFabrik extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		// Could be component was uninstalled but not the plugin
-		if (!JFile::exists(JPATH_SITE . '/components/com_fabrik/helpers/file.php'))
+		if (!JFile::exists(JPATH_SITE . '/components/com_fabrik/fabrik.php'))
 		{
 			return;
 		}
@@ -64,9 +65,32 @@ class PlgSystemFabrik extends JPlugin
 		}
 		else
 		{
-			JLoader::import($base . '.field', JPATH_SITE . '/administrator', 'administrator.');
-			JLoader::import($base . '.form', JPATH_SITE . '/administrator', 'administrator.');
+			$loaded = true;
+
+		    if (version_compare($version->RELEASE, '3.8', '<'))
+            {
+                $loaded = JLoader::import($base . '.field', JPATH_SITE . '/administrator', 'administrator.');
+            }
+			else
+            {
+                $loaded = JLoader::import($base . '.FormField', JPATH_SITE . '/administrator', 'administrator.');
+            }
+
+            if (!$loaded)
+            {
+	            if ($app->isAdmin() && $app->input->get('option') === 'com_fabrik')
+	            {
+		            $app->enqueueMessage('Fabrik cannot find files required for this version of Joomla.  <b>DO NOT</b> use the Fabrik backend admin until this is resolved.  Please visit <a href="http://fabrikar.com/forums">our web site</a> and check for announcements about this version', 'error');
+	            }
+            }
 		}
+
+        // The fabrikfeed doc type has been deprecated.  For backward compat, change it use standard J! feed instead
+        if (version_compare($version->RELEASE, '3.8', '>=')) {
+            if ($app->input->get('format') === 'fabrikfeed') {
+                $app->input->set('format', 'feed');
+            }
+        }
 
 		if (version_compare($version->RELEASE, '3.1', '<='))
 		{
@@ -76,10 +100,30 @@ class PlgSystemFabrik extends JPlugin
 			JLoader::import($base . '.layout.helper', JPATH_SITE . '/administrator', 'administrator.');
 		}
 
-		require_once JPATH_SITE . '/components/com_fabrik/helpers/file.php';
+		if (!file_exists(JPATH_LIBRARIES . '/fabrik/include.php'))
+		{
+			throw new Exception('PLG_FABRIK_SYSTEM_AUTOLOAD_MISSING');
+		}
 
 		require_once JPATH_LIBRARIES . '/fabrik/include.php';
+
 		parent::__construct($subject, $config);
+
+		jimport('joomla.filesystem.file');
+
+		/**
+		 * Added allow_user_defines to global config, defaulting to No, so even if a user_defines.php is present
+		 * it won't get used unless this option is specifically set.  Did this because it looks like a user_defines.php
+		 * managed to creep in to a release ZIP at some point, so some people unknowingly have one, which started causing
+		 * issues after we added some more includes to defines.php.
+		 */
+		$fbConfig         = JComponentHelper::getParams('com_fabrik');
+		$allowUserDefines = $fbConfig->get('allow_user_defines', '0') === '1';
+		$p                = JPATH_SITE . '/plugins/system/fabrik/';
+		$defines          = $allowUserDefines && JFile::exists($p . 'user_defines.php') ? $p . 'user_defines.php' : $p . 'defines.php';
+		require_once $defines;
+
+		$this->setBigSelects();
 	}
 
 	/**
@@ -90,13 +134,62 @@ class PlgSystemFabrik extends JPlugin
 	public static function js()
 	{
 		/**
-		 *  $$$ hugh - as per Skype session with Rob, looks like we'll get rid of this JS caching, as it
-		 *  really doesn't buy us anything, and introduces problems with things like per-user options on plugin
-		 *  JS initialization (ran in to this when adding canRate ACL to the ratings plugin).
-		 *  For now leave the code in, just short circuit it.  Rip it out after making sure this doesn't have
-		 *  any unforeseen side effects.
+		 * We need to cache the requirejs stuff, as we insert it at the end of the document AFTER Joomla has written
+		 * out the system cache, so loading a cached page will not have requirejs on the end.
 		 */
-		return self::buildJs();
+
+		$config = JFactory::getConfig();
+		$app = JFactory::getApplication();
+		$script = '';
+		$session = JFactory::getSession();
+
+		/**
+		 * Whenever we cache a view, we add the cache ID to this session variable, by calling
+		 * FabrikHelperHTML::addToSessionCacheIds().  This gets cleared at the end of this function, so if there's
+		 * anything in there, it was added on this page load.
+		 *
+		 * The theory is that if the view isn't cached, buildJs() will find everything it needs in our own session
+		 * variables (fabrik.js.config, fabrik.js.scripts, etc).  If it is cached, the view won't have run, so we
+		 * don't have our own session data, but we'll get it back from the cache.
+		 */
+		if ($session->has('fabrik.js.cacheids'))
+		{
+			/**
+			 * NOTE that we use a different cache group name, 'fabrik_cacheids', NOT the default 'fabrik'.  This is
+			 * because the main 'fabrik' cache could get cleared out from under us at any time, like if someone else
+			 * submits a form, or anything else happens that causes Fabrik to do a $cache-clean().  This means that
+			 * the 'fabrik_cacheids' cache could grow quite large, and will need to be cleaned occasionally.
+			 */
+			$cache = Worker::getCache(null, 'fabrik_cacheids');
+			$cacheIds = $session->get('fabrik.js.cacheids', array());
+
+			/**
+			 * It's conceivable multiple views may have been rendered (modules, content plugins), so serialize them
+			 * to get a unique ID for each combo.  In certain corner cases there may be an empty ID, so check and ignore.
+			 */
+			$cacheId = serialize($cacheIds);
+
+			if (!empty($cacheId))
+			{
+				 // We got an ID, so ask the cache for it.
+				$script = $cache->call(array('PlgSystemFabrik', 'buildJs'), $cacheId);
+			}
+			else
+			{
+				// No viable ID, so just build
+				$script = self::buildJs();
+			}
+		}
+		else
+		{
+			// nothing in the session cacheids, so just build.
+			$script = self::buildJs();
+		}
+
+		// clear the session data
+		self::clearJs();
+
+		return $script;
 	}
 
 	/**
@@ -108,10 +201,53 @@ class PlgSystemFabrik extends JPlugin
 	{
 		$session = JFactory::getSession();
 		$session->clear('fabrik.js.scripts');
+		$session->clear('fabrik.js.cacheids');
 		$session->clear('fabrik.js.head.scripts');
 		$session->clear('fabrik.js.config');
 		$session->clear('fabrik.js.shim');
 		$session->clear('fabrik.js.jlayouts');
+	}
+
+	/**
+	 * Store head script in session js store,
+	 * used by partial document type to exclude scripts already loaded, when building modal windows
+	 *
+	 * @return  void
+	 */
+	public static function storeHeadJs()
+	{
+		$session = JFactory::getSession();
+		$doc = JFactory::getDocument();
+		$app = JFactory::getApplication();
+		$key = md5($app->input->server->get('REQUEST_URI', '', 'string'));
+
+		if (!empty($key))
+		{
+			$key = 'fabrik.js.head.cache.' . $key;
+
+			// if this is 'html', it's a main page load, so clear the cache for this page and start again
+			if ($app->input->get('format', 'html') === 'html')
+			{
+				$session->clear($key);
+			}
+
+			$scripts = $doc->_scripts;
+			$existing = $session->get($key);
+
+			/**
+			 * if we already have scripts for this page, merge the new ones.  For example, this might be an AJAX
+			 * call loading an element, so we just want to add any new scripts to the list, not blow it away and replace
+			 */
+			if (!empty($existing))
+			{
+				$existing = json_decode($existing);
+				$existing = ArrayHelper::fromObject($existing);
+				$scripts = array_merge($scripts, $existing);
+			}
+
+			$scripts = json_encode($scripts);
+			$session->set($key, $scripts);
+		}
 	}
 
 	/**
@@ -177,9 +313,23 @@ class PlgSystemFabrik extends JPlugin
 			return;
 		}
 
+		$formats = array (
+			'html',
+			'partial'
+		);
+
 		$app    = JFactory::getApplication();
+
+		/*
+		if (!in_array($app->input->get('format', 'html'), $formats))
+		{
+			return;
+		}
+		*/
+
 		$script = self::js();
-		self::clearJs();
+		//self::clearJs();
+		self::storeHeadJs();
 
 		$version           = new JVersion;
 		$lessThanThreeFour = version_compare($version->RELEASE, '3.4', '<');
@@ -206,7 +356,7 @@ class PlgSystemFabrik extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		jimport('joomla.filesystem.file');
+		//jimport('joomla.filesystem.file');
 
 		/**
 		 * Added allow_user_defines to global config, defaulting to No, so even if a user_defines.php is present
@@ -214,6 +364,7 @@ class PlgSystemFabrik extends JPlugin
 		 * managed to creep in to a release ZIP at some point, so some people unknowingly have one, which started causing
 		 * issues after we added some more includes to defines.php.
 		 */
+		/*
 		$fbConfig         = JComponentHelper::getParams('com_fabrik');
 		$allowUserDefines = $fbConfig->get('allow_user_defines', '0') === '1';
 		$p                = JPATH_SITE . '/plugins/system/fabrik/';
@@ -221,7 +372,22 @@ class PlgSystemFabrik extends JPlugin
 		require_once $defines;
 
 		$this->setBigSelects();
+		*/
 	}
+
+    /**
+     * If a command line like finder_indexer.php is run, it won't call onAfterInitialise, and will then run content
+     * plugins, and ours will bang out because "Fabrik system plugin has not been run".  So onStartIndex, initialize
+     * our plugin.
+     *
+     * @since   3.8
+     *
+     * @return  void
+     */
+	public function onStartIndex()
+    {
+        $this->onAfterInitialise();
+    }
 
 	/**
 	 * From Global configuration setting, set big select for main J database
@@ -232,8 +398,11 @@ class PlgSystemFabrik extends JPlugin
 	 */
 	protected function setBigSelects()
 	{
-		$db = JFactory::getDbo();
-		FabrikWorker::bigSelects($db);
+		if (class_exists('FabrikWorker'))
+		{
+			$db = JFactory::getDbo();
+			FabrikWorker::bigSelects($db);
+		}
 	}
 
 	/**
@@ -321,8 +490,7 @@ class PlgSystemFabrik extends JPlugin
 		$input->set('resetfilters', 1);
 
 		// Ensure search doesn't go over memory limits
-		$memory    = ini_get('memory_limit');
-		$memory    = (int) FabrikString::rtrimword($memory, 'M') * 1000000;
+		$memory    = FabrikWorker::getMemoryLimit();
 		$usage     = array();
 		$memSafety = 0;
 
@@ -350,6 +518,7 @@ class PlgSystemFabrik extends JPlugin
 					break;
 				}
 			}
+
 			// $$$rob set this to current table
 			// Otherwise the fabrik_list_filter_all var is not used
 			$input->set('listid', $id);
@@ -379,11 +548,8 @@ class PlgSystemFabrik extends JPlugin
 				continue;
 			}
 
-			// Test for swap too boolean mode
-			$mode = $input->get('searchphrase', '') === 'all' ? 0 : 1;
-
-			// $params->set('search-mode-advanced', true);
-			$params->set('search-mode-advanced', $mode);
+			// Treat J! search as boolean, we check for com_search mode in list filter model getAdvancedSearchMode()
+			$params->set('search-mode-advanced', '1');
 
 			// The table shouldn't be included in the search results or we have reached the max number of records to show.
 			if (!$params->get('search_use') || $limit <= 0)

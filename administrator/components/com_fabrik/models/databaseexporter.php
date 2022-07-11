@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.3.5
  */
@@ -21,6 +21,8 @@ defined('JPATH_PLATFORM') or die;
  */
 class JDatabaseExporterMysqli2 extends JDatabaseExporterMysqli
 {
+	public $exception = null;
+
 	/**
 	 * Builds the XML structure to export.
 	 *
@@ -65,5 +67,40 @@ class JDatabaseExporterMysqli2 extends JDatabaseExporterMysqli
 		}
 
 		return $buffer;
+	}
+
+	/**
+	 * Magic function to exports the data to a string.
+	 * Overriding for Fabrik 'cos __toString cannot throw exceptions (PHP fatal error)
+	 *
+	 * @return  string
+	 *
+	 * @since   13.1
+	 * @throws  Exception if an error is encountered.
+	 */
+	public function __toString()
+	{
+		// Check everything is ok to run first.
+		try
+		{
+			$this->check();
+
+			// Get the format.
+			switch ($this->asFormat)
+			{
+				case 'xml':
+				default:
+					$buffer = $this->buildXml();
+					break;
+			}
+
+			return $buffer;
+		}
+		catch (Exception $e)
+		{
+			// store the exception in a public var the caller can check if return is empty
+			$this->exception = $e;
+			return '';
+		}
 	}
 }

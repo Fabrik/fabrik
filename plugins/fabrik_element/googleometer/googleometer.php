@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.googleometer
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -123,7 +123,10 @@ class PlgFabrik_ElementGoogleometer extends PlgFabrik_Element
 		static $range;
 		static $fullName;
 
-		if (!isset($range))
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        if (!isset($range))
 		{
 			$range    = $this->getRange();
 			$fullName = $this->getDataElementFullName() . '_raw';

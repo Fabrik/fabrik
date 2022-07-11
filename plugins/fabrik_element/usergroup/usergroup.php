@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.usergroup
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -42,18 +42,15 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 	public $hasSubElements = false;
 
 	/**
-	 * Draws the html form element
+	 * Get the user associated with this element
 	 *
-	 * @param   array  $data           To pre-populate element with
-	 * @param   int    $repeatCounter  Repeat group counter
-	 *
-	 * @return  string	elements html
+	 * @return bool|JUser
 	 */
-	public function render($data, $repeatCounter = 0)
+	protected function getThisUser()
 	{
-		$name = $this->getHTMLName($repeatCounter);
 		$params = $this->getParams();
 		$formModel = $this->getFormModel();
+
 		$userEl = $formModel->getElement($params->get('user_element'), true);
 		$thisUser = false;
 
@@ -71,21 +68,34 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 			$thisUser = !empty($userId) ? JFactory::getUser($userId) : false;
 		}
 
-		$selected = $this->getValue($data, $repeatCounter);
+		return $thisUser;
+	}
 
-		if (is_string($selected))
+	/**
+	 * Draws the html form element
+	 *
+	 * @param   array  $data           To pre-populate element with
+	 * @param   int    $repeatCounter  Repeat group counter
+	 *
+	 * @return  string	elements html
+	 */
+	public function render($data, $repeatCounter = 0)
+	{
+		$name = $this->getHTMLName($repeatCounter);
+		$thisUser = $this->getThisUser();
+
+		if (!$thisUser)
 		{
-			$selected = json_decode($selected);
+			$selected = $this->getValue($data, $repeatCounter);
+		}
+		else
+		{
+			$selected = $thisUser->groups;
 		}
 
 		if (!$this->isEditable())
 		{
-			if (!empty($thisUser))
-			{
-				$selected = $thisUser->groups;
-			}
 			// Get the titles for the user groups.
-			//if (count($selected) > 0)
 			if (!FArrayHelper::emptyish($selected))
 			{
 				$query = $this->_db->getQuery(true);
@@ -251,6 +261,51 @@ class PlgFabrik_ElementUsergroup extends PlgFabrik_ElementList
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Called by form model to build an array of values to encrypt
+	 *
+	 * @param   array &$values Previously encrypted values
+	 * @param   array $data    Form data
+	 * @param   int   $c       Repeat group counter
+	 *
+	 * @return  void
+	 */
+	public function getValuesToEncrypt(&$values, $data, $c)
+	{
+		$name  = $this->getFullName(true, false);
+		$opts  = array('raw' => true);
+		$group = $this->getGroup();
+		$thisUser = $this->getThisUser();
+
+		if ($group->canRepeat())
+		{
+			if (!array_key_exists($name, $values))
+			{
+				$values[$name]['data'] = array();
+			}
+
+			if (!$thisUser)
+			{
+				$values[$name]['data'][$c] = $this->getValue($data, $c, $opts);
+			}
+			else
+			{
+				$values[$name]['data'][$c] = $thisUser->groups;
+			}
+		}
+		else
+		{
+			if (!$thisUser)
+			{
+				$values[$name]['data'] = $this->getValue($data, $c, $opts);
+			}
+			else
+			{
+				$values[$name]['data'] = $thisUser->groups;
+			}
+		}
 	}
 
 	/**

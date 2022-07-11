@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -42,6 +42,7 @@ class JFormFieldUploadsize extends JFormField
 	{
 		$val = trim($val);
 		$last = JString::strtolower(JString::substr($val, -1));
+		$val  = JString::substr($val, 0, -1);
 
 		if ($last == 'g')
 		{

@@ -1,12 +1,12 @@
 /**
  * List Paginate
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 	'use strict';
-	var FabRecordSet = new Class({
+	var Paginate = new Class({
 
 		initialize: function (form, options) {
 			this.form = form;
@@ -25,7 +25,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 		},
 
 		doUpdate: function (json) {
-			var o = JSON.decode(json),
+			var o = JSON.parse(json),
 				r = this.view === 'form' ? o.data : o.html,
 				s;
 			this.options.ids = o.ids;
@@ -147,5 +147,5 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
 		}
 	});
 
-	return FabRecordSet;
+	return Paginate;
 });

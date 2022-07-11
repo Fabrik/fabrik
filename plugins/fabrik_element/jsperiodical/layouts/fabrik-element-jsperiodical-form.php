@@ -6,7 +6,7 @@ $attributes = array();
 
 foreach ($d->attributes as $key => $val)
 {
-	$attributes[] = $key . '="' . $val . '"';
+	$attributes[] = $key . '="' . $val . '" ';
 }
 
 $attributes = implode("\n", $attributes);

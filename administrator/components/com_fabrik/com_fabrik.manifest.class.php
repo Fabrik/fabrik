@@ -4,7 +4,8 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
+ * @author     Rob Clayburn
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -28,6 +29,13 @@ class Com_FabrikInstallerScript
 	 * @var array
 	 */
 	protected $drivers = array('mysql_fab.php', 'mysqli_fab.php', 'pdomysql_fab.php');
+
+	/**
+	 * Documents >3.7
+	 *
+	 * @var array
+	 */
+	protected $documents38 = array('Partial', 'Pdf');
 
 	/**
 	 * Run when the component is installed
@@ -59,6 +67,8 @@ class Com_FabrikInstallerScript
 		$row->password    = $app->get('password');
 		$row->database    = $app->get('db');
 		$row->description = 'site database';
+		$row->params      = '';
+		$row->checked_out = 0;
 		$row->published   = 1;
 		$row->default     = 1;
 		$res              = $db->insertObject('#__fabrik_connections', $row, 'id');
@@ -102,6 +112,12 @@ class Com_FabrikInstallerScript
 		return true;
 	}
 
+	protected function getVersion()
+    {
+        $version = new JVersion;
+        return $version->RELEASE;
+    }
+
 	/**
 	 * Move over files into Joomla libraries folder
 	 *
@@ -114,27 +130,30 @@ class Com_FabrikInstallerScript
 	{
 		jimport('joomla.filesystem.file');
 		$componentFrontend = 'components/com_fabrik';
-		$docTypes          = array('fabrikfeed', 'pdf');
 
-		foreach ($docTypes as $docType)
-		{
-			$dest = 'libraries/joomla/document/' . $docType;
-
-			if (!JFolder::exists(JPATH_ROOT . '/' . $dest))
-			{
-				JFolder::create(JPATH_ROOT . '/' . $dest);
-			}
-			// $$$ hugh - have to use false as last arg (use_streams) on JFolder::copy(), otherwise
-			// it bypasses FTP layer, and will fail if web server does not have write access to J! folders
-			$moveRes = JFolder::copy($componentFrontend . '/' . $docType, $dest, JPATH_SITE, true, false);
-
-			if ($moveRes !== true)
-			{
-				echo "<p style=\"color:red\">failed to moved " . $componentFrontend . '/fabrikfeed to ' . $dest . '</p>';
-
-				return false;
-			}
+		if (version_compare($this->getVersion(), '3.8', '<')) {
+			throw new RuntimeException('Fabrik can no longer be installed on versions of Joomla older than 3.8');
 		}
+		else if (version_compare($this->getVersion(), '4.0', '>=')) {
+			throw new RuntimeException('Fabrik can not yet be installed on Joomla 4.x');
+		}
+        else
+        {
+            $dest = 'libraries/src/Document';
+
+            if (!JFolder::exists(JPATH_ROOT . '/' . $dest)) {
+                JFolder::create(JPATH_ROOT . '/' . $dest);
+            }
+            // $$$ hugh - have to use false as last arg (use_streams) on JFolder::copy(), otherwise
+            // it bypasses FTP layer, and will fail if web server does not have write access to J! folders
+            $moveRes = JFolder::copy($componentFrontend . '/Document', $dest, JPATH_SITE, true, false);
+
+            if ($moveRes !== true) {
+                echo "<p style=\"color:red\">failed to copy " . $componentFrontend . '/Document to ' . $dest . '</p>';
+
+                return false;
+            }
+        }
 
 		$dest             = 'libraries/joomla/database/database';
 		$driverInstallLoc = $componentFrontend . '/dbdriver/';
@@ -171,6 +190,22 @@ class Com_FabrikInstallerScript
 			return false;
 		}
 
+		$dest = 'libraries/fabrik';
+
+		if (!JFolder::exists(JPATH_ROOT . '/' . $dest))
+		{
+			JFolder::create(JPATH_ROOT . '/' . $dest);
+		}
+
+		$moveRes = JFolder::copy($componentFrontend . '/fabrik', $dest, JPATH_SITE, true, false);
+
+		if ($moveRes !== true)
+		{
+			echo "<p style=\"color:red\">failed to moved " . $componentFrontend . '/fabrik to ' . $dest . '</p>';
+
+			return false;
+		}
+
 		return true;
 	}
 
@@ -185,23 +220,47 @@ class Com_FabrikInstallerScript
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
-		$dest = JPATH_SITE . '/libraries/joomla/document/fabrikfeed';
 
-		if (JFolder::exists($dest))
+		// <= 3.7 documents formats
+		$dest = JPATH_ROOT . '/libraries/joomla/document';
+
+		foreach ($this->documents37 as $document)
 		{
-			if (!JFolder::delete($dest))
+			if (!empty($document) && JFolder::exists($dest . '/' . $document))
 			{
-				return;
+				JFolder::delete($dest . '/' . $document);
 			}
 		}
 
-		$dest = JPATH_SITE . '/libraries/joomla/database/database';
+		// database drivers, all versions
+		$dest = JPATH_ROOT . '/libraries/joomla/database/database';
 
 		foreach ($this->drivers as $driver)
 		{
-			if (JFile::exists($dest . '/' . $driver))
+			if (!empty($driver) && JFile::exists($dest . '/' . $driver))
 			{
 				JFile::delete($dest . '/' . $driver);
+			}
+		}
+
+		// >= 3.8 documents and renderers
+		$dest = JPATH_ROOT . '/libraries/src/Document';
+
+		foreach ($this->documents38 as $document)
+		{
+			if (!empty($document) && JFile::exists($dest . '/' . $document . 'Document.php'))
+			{
+				JFile::delete($dest . '/' . $document . 'Document.php');
+			}
+		}
+
+		$dest = JPATH_ROOT . '/libraries/src/Document/Renderer';
+
+		foreach ($this->documents38 as $document)
+		{
+			if (!empty($document) && JFolder::exists($dest . '/' . $document))
+			{
+				JFolder::delete($dest . '/' . $document);
 			}
 		}
 
@@ -256,6 +315,7 @@ class Com_FabrikInstallerScript
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$app   = JFactory::getApplication();
+		$msg = array();
 
 		// Fabrik 3.5 Uninstalled plugins.
 		$plugins = array(
@@ -314,24 +374,35 @@ class Com_FabrikInstallerScript
 		foreach ($forms as $form)
 		{
 			$params = json_decode($form->params);
+			$found = false;
 
-			for ($i = 0; $i < count($params->plugins); $i++)
+			if (isset($params->plugins))
 			{
-				if (in_array($params->plugins[$i], $plugins['fabrik_form']))
+				for ($i = 0; $i < count($params->plugins); $i++)
 				{
-					$msg[]                    = 'Form ' . $form->id . '\'s plugin \'' . $params->plugins[$i] .
-						'\' has been unpublished';
-					$params->plugin_state[$i] = 0;
+					if (in_array($params->plugins[$i], $plugins['fabrik_form']))
+					{
+						$msg[]                    = 'Form ' . $form->id . '\'s plugin \'' . $params->plugins[$i] .
+							'\' has been unpublished';
+						$params->plugin_state[$i] = 0;
+						$found = true;
+					}
+				}
+
+				if ($found)
+				{
+					$query->clear()->update('#__fabrik_forms')->set('params = ' . $db->q(json_encode($params)))
+						->where('id = ' . (int) $form->id);
+
+					$db->setQuery($query)->execute();
 				}
 			}
-
-			$query->clear()->update('#__fabrik_forms')->set('params = ' . $db->q(json_encode($params)))
-				->where('id = ' . (int) $form->id);
-
-			$db->setQuery($query)->execute();
 		}
 
-		$app->enqueueMessage(implode('<br>', $msg), 'warning');
+		if (!empty($msg))
+		{
+			$app->enqueueMessage(implode('<br>', $msg), 'warning');
+		}
 
 		return true;
 	}
@@ -424,6 +495,8 @@ class Com_FabrikInstallerScript
 		}
 
 		echo "<p>Installation finished</p>";
+		echo "<p>Note that this extension places a small number of additional files in the Joomla core directories,
+providing extended functionality such as PDF document types.  These files will be removed if you uninstall Fabrik.</p>";
 		echo '<p><a target="_top" href="index.php?option=com_fabrik&amp;task=home.installSampleData">Click
 here to install sample data</a></p>
 	  ';

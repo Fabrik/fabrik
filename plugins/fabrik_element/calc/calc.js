@@ -11,15 +11,19 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         initialize: function (element, options) {
             this.setPlugin('calc');
             this.parent(element, options);
+            this.observeGroupIds = [];
         },
 
-        attachedToForm: function () {
+        attachedToForm: function (cloning) {
             if (this.options.ajax) {
                 this.options.observe.each(function (o) {
                     this.addObserveEvent(o);
                 }.bind(this));
 
-                if (this.options.calcOnLoad) {
+                if (typeof cloning === 'undefined' && this.options.calcOnLoad) {
+                    this.calc();
+                }
+                else if (cloning === true && (this.options.calcOnRepeat || this.options.calcOnLoad)) {
                     this.calc();
                 }
 
@@ -35,6 +39,19 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     }
                 }.bind(this));
             }
+
+            Fabrik.addEvent('fabrik.form.group.duplicate.end', function(form, event, groupId) {
+                if (jQuery.inArray(groupId, this.observeGroupIds) !== -1) {
+                    this.calc();
+                }
+            }.bind(this));
+
+	        Fabrik.addEvent('fabrik.form.group.delete.end', function(form, event, groupId) {
+		        if (jQuery.inArray(groupId, this.observeGroupIds) !== -1) {
+			        this.calc();
+		        }
+	        }.bind(this));
+
             this.parent();
         },
 
@@ -67,13 +84,18 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     this.form.repeatGroupMarkers.each(function (v, k) {
                         o2 = '';
                         for (v2 = 0; v2 < v; v2++) {
-                            o2 = 'join___' + this.form.options.group_join_ids[k] + '___' + o + '_' + v2;
+                            o2 = o + '_' + v2;
                             if (this.form.formElements[o2]) {
                                 // $$$ hugh - think we can add this one as sticky ...
-                                this.form.formElements[o2].addNewEvent(this.form.formElements[o2].getChangeEvent(),
+                                this.form.formElements[o2].addNewEvent(
+                                    this.form.formElements[o2].getChangeEvent(),
                                     function (e) {
                                         this.calc(e);
-                                    }.bind(this));
+                                    }.bind(this)
+                                );
+                                if (jQuery.inArray(k, this.observeGroupIds) === -1) {
+                                    this.observeGroupIds.push(k);
+                                }
                             }
                         }
                     }.bind(this));
@@ -86,11 +108,12 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             var testData = $H(this.form.getFormData(false));
 
             testData.each(function (v, k) {
-                if (k.test(/^join\[\d+\]/) || k.test(/^fabrik_vars/)) {
+                if (k.test(/\[\d+\]$/) || k.test(/^fabrik_vars/)) {
                     formData[k] = v;
                 }
             }.bind(this));
 
+            /*
             $H(formData).each(function (v, k) {
                 var el = this.form.formElements.get(k);
                 if (el && el.options.inRepeatGroup && el.options.joinid === this.options.joinid &&
@@ -99,27 +122,30 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     formData[el.options.fullName + '_raw'] = formData[k + '_raw'];
                 }
             }.bind(this));
+            */
 
             // For placeholders lets set repeat joined groups to their full element name
 
             var data = {
-                'option'    : 'com_fabrik',
-                'format'    : 'raw',
-                'task'      : 'plugin.pluginAjax',
-                'plugin'    : 'calc',
-                'method'    : 'ajax_calc',
-                'element_id': this.options.id,
-                'formid'    : this.form.id
+	            'option'       : 'com_fabrik',
+	            'format'       : 'raw',
+	            'task'         : 'plugin.pluginAjax',
+	            'plugin'       : 'calc',
+	            'method'       : 'ajax_calc',
+	            'element_id'   : this.options.id,
+	            'formid'       : this.form.id,
+	            'repeatCounter': this.options.repeatCounter
             };
             data = Object.append(formData, data);
             Fabrik.loader.start(this.element.getParent(), Joomla.JText._('COM_FABRIK_LOADING'));
-            new Request({
+            new Request.HTML({
                 'url'     : '',
                 method    : 'post',
                 'data'    : data,
-                onComplete: function (r) {
+                onSuccess: function (tree, elements, r, scripts) {
                     Fabrik.loader.stop(this.element.getParent());
                     this.update(r);
+                    eval(scripts);
                     if (this.options.validations) {
 
                         // If we have a validation on the element run it after AJAX calc is done
@@ -135,7 +161,7 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
 
         cloned: function (c) {
             this.parent(c);
-            this.attachedToForm();
+            this.attachedToForm(true);
         },
 
         update: function (val) {

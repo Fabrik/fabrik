@@ -29,6 +29,7 @@
 				<option value="standard">Standard</option>
 				<option value="recaptcha">Recaptcha</option>
 				<option value="nocaptcha">Nocaptcha</option>
+				<option value="invisible">Nocaptcha (Invisible)</option>
 			</field>
 		</fieldset>
 
@@ -126,7 +127,7 @@
 				name="recaptcha_theme"
 				type="list"
 				default="red"
-				description="RECAPTCHA_THEME_DESC"
+				description="PLG_ELEMENT_RECAPTCHA_THEME_DESC"
 				label="PLG_ELEMENT_RECAPTCHA_THEME">
 				<option value="red">Red</option>
 				<option value="white">White</option>
@@ -137,32 +138,9 @@
 			<field name="recaptcha_lang"
 				type="text"
 				default="en"
-				description="RECAPTCHA_LANG_DESC"
+				description="PLG_ELEMENT_RECAPTCHA_LANG_DESC"
 				label="PLG_ELEMENT_RECAPTCHA_LANG"
 				size="2" />
-
-		</fieldset>
-
-		<fieldset
-			label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_FIELDSET_LABEL"
-			name="plg-captcha-playthru">
-
-			<field
-				type="helplink"
-				url="PLG_ELEMENT_CAPTCHA_HELP_SERVER" />
-
-			<field name="playthru_publisher_key"
-				type="text"
-				description="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_DESC"
-				label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_PUBLISHER_KEY_LABEL"
-				size="30" />
-
-			<field name="playthru_scoring_key"
-				type="text"
-				default=""
-				descripton="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_DESC"
-				label="PLG_ELEMENT_CAPTCHA_PLAYTHRU_SCORING_KEY_LABEL"
-				size="30" />
 
 		</fieldset>
 

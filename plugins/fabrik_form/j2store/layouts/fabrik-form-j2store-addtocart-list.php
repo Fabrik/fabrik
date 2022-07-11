@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.j2store
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -25,7 +25,7 @@ $action  = 'index.php?option=com_j2store&view=carts&task=addItem&product_id=' . 
 	</p>
 </div>
 
-<input type="number" name="product_qty" data-product_id="<?php echo $product->j2store_product_id; ?>" value="1" class="form-control" style="width:40px" placeholder="Quantity">
+<input type="number" name="product_qty" data-product_id="<?php echo $product->j2store_product_id; ?>" value="1" class="form-control" style="width:4em" placeholder="Quantity">
 <a class="btn btn-default j2store_add_to_cart_button"
 	href="<?php echo JRoute::_($action); ?>" data-product_qty="1" data-product_id="<?php echo $product->j2store_product_id; ?>"
 	rel="nofollow">

@@ -4,101 +4,108 @@
 	<fieldset name="details">
 
 		<field name="id"
-			type="text"
-			default="0"
-			readonly="true"
-			class="readonly input-mini"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC" />
+		       type="text"
+		       default="0"
+		       readonly="true"
+		       class="readonly input-mini"
+		       label="COM_FABRIK_ID_LABEL"
+		       description="COM_FABRIK_FIELD_FORM_ID_DESC"/>
 
 		<field name="label"
-			type="text"
-			size="40"
-			required="true"
-			label="COM_FABRIK_FIELD_TITLE_LABEL"
-			description="COM_FABRIK_FIELD_TITLE_DESC" />
+		       type="text"
+		       size="40"
+		       required="true"
+		       label="COM_FABRIK_FIELD_TITLE_LABEL"
+		       description="COM_FABRIK_FIELD_TITLE_DESC"/>
 
 		<field name="intro"
-			type="editor"
-			buttons="false"
-			filter="FabrikAdminHelper::filterText"
-			rows="3"
-			cols="6"
-			label="COM_FABRIK_FIELD_INTRODUCTION_LABEL"
-			description="COM_FABRIK_FIELD_INTRODUCTION_DESC" />
+		       type="editor"
+		       buttons="true"
+		       hide="readmore,pagebreak"
+		       filter="FabrikAdminHelper::filterText"
+		       rows="3"
+		       cols="6"
+		       label="COM_FABRIK_FIELD_INTRODUCTION_LABEL"
+		       description="COM_FABRIK_FIELD_INTRODUCTION_DESC"/>
 
 		<field name="error"
-			type="text"
-			size="40"
-			class="input-xxlarge"
-			label="COM_FABRIK_FIELD_ERROR_MSG_LABEL"
-			description="COM_FABRIK_FIELD_ERROR_MSG_DESC" />
+		       type="text"
+		       size="40"
+		       class="input-xxlarge"
+		       label="COM_FABRIK_FIELD_ERROR_MSG_LABEL"
+		       description="COM_FABRIK_FIELD_ERROR_MSG_DESC"/>
 
 	</fieldset>
 
 	<fieldset name="publishing">
 
 		<field name="published"
-			type="radio"
-			class="btn-group"
-			default="1"
-			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
-			>
-				<option value="1">JPUBLISHED</option>
-				<option value="0">JUNPUBLISHED</option>
-				<option value="-2">JTRASHED</option>
+		       type="radio"
+		       class="btn-group"
+		       default="1"
+		       label="JSTATUS"
+		       description="JFIELD_PUBLISHED_DESC"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field
-			name="created_by"
-			type="user"
-			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-			description="JGLOBAL_FIELD_CREATED_BY_DESC"
+				name="created_by"
+				type="user"
+				label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+				description="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
 
 		<field name="created"
-			type="calendar"
-			class="input-medium"
-			label="JGLOBAL_FIELD_CREATED_LABEL"
-			description="JGLOBAL_FIELD_CREATED_DESC"
+		       type="calendar"
+		       class="input-medium"
+		       label="JGLOBAL_FIELD_CREATED_LABEL"
+		       description="JGLOBAL_FIELD_CREATED_DESC"
 		/>
 
 		<field name="publish_up"
-			type="calendar"
-			class="input-medium"
-			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
-			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-			   format="%Y-%m-%d %H:%M:%S" size="22"
-			   filter="user_utc"
-			/>
+		       type="calendar"
+		       class="input-medium"
+		       label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+		       description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			   translateformat="true"
+			   showtime="true"
+		       size="22"
+		       filter="user_utc"
+		/>
 
 		<field name="publish_down"
-			type="calendar"
-			class="input-medium"
-			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
-			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-			   format="%Y-%m-%d %H:%M:%S" size="22"
-			   filter="user_utc"
-			/>
+		       type="calendar"
+		       class="input-medium"
+		       label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+		       description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			   translateformat="true"
+			   showtime="true"
+		       size="22"
+		       filter="user_utc"
+		/>
 
 	</fieldset>
 
 	<fieldset name="templates">
 
 		<field name="form_template"
-			type="fabriktemplate"
-			view="form"
-			hide_default="0" hide_none="1"
-			description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC"
-			label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL" />
+		       type="fabriktemplate"
+		       view="form"
+		       hide_default="0"
+		       hide_none="1"
+		       description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC"
+		       label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL"/>
 
 		<field name="view_only_template"
-			type="fabriktemplate"
-			view="details"
-			hide_default="0" hide_none="1"
-			description="COM_FABRIK_FIELD_DETAILED_VIEW_TEMPLATE_DESC"
-			label="COM_FABRIK_FIELD_DETAILED_VIEW_TEMPLATE_LABEL"/>
+		       type="fabriktemplate"
+		       view="details"
+		       hide_default="0"
+		       hide_none="1"
+		       description="COM_FABRIK_FIELD_DETAILED_VIEW_TEMPLATE_DESC"
+		       label="COM_FABRIK_FIELD_DETAILED_VIEW_TEMPLATE_LABEL"/>
 
 	</fieldset>
 
@@ -107,48 +114,56 @@
 		<fieldset name="details2">
 
 			<field name="outro"
-				type="editor"
-				buttons="false"
-				filter="FabrikAdminHelper::filterText"
-				rows="3"
-				cols="6"
-				label="COM_FABRIK_FIELD_OUTRO_LABEL"
-				description="COM_FABRIK_FIELD_OUTRO_DESC" />
+			       type="editor"
+			       buttons="true"
+			       hide="readmore,pagebreak"
+			       filter="FabrikAdminHelper::filterText"
+			       rows="3"
+			       cols="6"
+			       label="COM_FABRIK_FIELD_OUTRO_LABEL"
+			       description="COM_FABRIK_FIELD_OUTRO_DESC"/>
 
 		</fieldset>
 
 		<fieldset name="buttons-reset">
 
 			<field name="reset_button"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_RESET_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_RESET_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="reset_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_LABEL"/>
+			       type="text"
+			       default="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_RESET_BUTTON_LABEL_LABEL"/>
+
+			<field name="reset_button_class"
+			       type="text"
+			       default="btn-warning"
+			       description="COM_FABRIK_FIELD_RESET_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_RESET_CLASS_LABEL">
+			</field>
 
 			<field name="reset_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_RESET_ICON_LABEL"
-				description="COM_FABRIK_FIELD_RESET_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_RESET_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_RESET_ICON_DESC"/>
 
 			<field name="reset_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_RESET_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_RESET_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_RESET_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_RESET_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 		</fieldset>
@@ -156,35 +171,41 @@
 		<fieldset name="buttons-copy">
 
 			<field name="copy_button"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_COPY_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_COPY_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_COPY_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_COPY_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="copy_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_LABEL"/>
+			       type="text"
+			       default="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_COPY_BUTTON_LABEL_LABEL"/>
+
+			<field name="copy_button_class"
+			       type="text"
+			       description="COM_FABRIK_FIELD_COPY_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_COPY_CLASS_LABEL">
+			</field>
 
 			<field name="copy_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_COPY_ICON_LABEL"
-				description="COM_FABRIK_FIELD_COPY_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_COPY_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_COPY_ICON_DESC"/>
 
 			<field name="copy_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_COPY_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_COPY_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_COPY_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_COPY_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 		</fieldset>
@@ -192,35 +213,41 @@
 		<fieldset name="buttons-goback">
 
 			<field name="goback_button"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_GO_BACK_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_GO_BACK_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="goback_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_LABEL"/>
+			       type="text"
+			       default="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_GO_BACK_BUTTON_LABEL_LABEL"/>
+
+			<field name="goback_button_class"
+			       type="text"
+			       description="COM_FABRIK_FIELD_GO_BACK_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_GO_BACK_CLASS_LABEL">
+			</field>
 
 			<field name="goback_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_GO_BACK_ICON_LABEL"
-				description="COM_FABRIK_FIELD_GO_BACK_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_GO_BACK_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_GO_BACK_ICON_DESC"/>
 
 			<field name="goback_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_GO_BACK_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 		</fieldset>
@@ -228,35 +255,41 @@
 		<fieldset name="buttons-apply">
 
 			<field name="apply_button"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_APPLY_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_APPLY_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="apply_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_LABEL"/>
+			       type="text"
+			       default="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_APPLY_BUTTON_LABEL_LABEL"/>
+
+			<field name="apply_button_class"
+			       type="text"
+			       description="COM_FABRIK_FIELD_APPLY_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_APPLY_CLASS_LABEL">
+			</field>
 
 			<field name="apply_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_APPLY_ICON_LABEL"
-				description="COM_FABRIK_FIELD_APPLY_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_APPLY_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_APPLY_ICON_DESC"/>
 
 			<field name="apply_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_APPLY_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_APPLY_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_APPLY_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_APPLY_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 		</fieldset>
@@ -264,35 +297,42 @@
 		<fieldset name="buttons-delete">
 
 			<field name="delete_button"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_DELETE_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_DELETE_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="delete_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_LABEL" />
+			       type="text"
+			       default="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_DELETE_BUTTON_LABEL_LABEL"/>
+
+			<field name="delete_button_class"
+			       type="text"
+			       default="btn-danger"
+			       description="COM_FABRIK_FIELD_DELETE_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_DELETE_CLASS_LABEL">
+			</field>
 
 			<field name="delete_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_DELETE_ICON_LABEL"
-				description="COM_FABRIK_FIELD_DELETE_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_DELETE_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_DELETE_ICON_DESC"/>
 
 			<field name="delete_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_DELETE_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_DELETE_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_DELETE_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_DELETE_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 		</fieldset>
@@ -300,45 +340,52 @@
 		<fieldset name="buttons-save">
 
 			<field name="submit_button"
-				type="radio"
-				class="btn-group"
-				default="1"
-				description="COM_FABRIK_FIELD_SUBMIT_BUTTON_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL">
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="radio"
+			       class="btn-group"
+			       default="1"
+			       description="COM_FABRIK_FIELD_SUBMIT_BUTTON_DESC"
+			       label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="submit_button_label"
-				type="text"
-				default="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DEFAULT"
-				translate_default="true"
-				description="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_LABEL"/>
+			       type="text"
+			       default="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DEFAULT"
+			       translate_default="true"
+			       description="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_DESC"
+			       label="COM_FABRIK_FIELD_SUBMIT_BUTTON_LABEL_LABEL"/>
+
+			<field name="save_button_class"
+			       type="text"
+			       default="btn-primary"
+			       description="COM_FABRIK_FIELD_SAVE_CLASS_DESC"
+			       label="COM_FABRIK_FIELD_SAVE_CLASS_LABEL">
+			</field>
 
 			<field name="save_icon"
-				type="text"
-				label="COM_FABRIK_FIELD_SAVE_ICON_LABEL"
-				description="COM_FABRIK_FIELD_SAVE_ICON_DESC" />
+			       type="text"
+			       label="COM_FABRIK_FIELD_SAVE_ICON_LABEL"
+			       description="COM_FABRIK_FIELD_SAVE_ICON_DESC"/>
 
 			<field name="save_icon_location"
-				type="radio"
-				class="btn-group"
-				default="before"
-				description="COM_FABRIK_FIELD_SUBMIT_ICON_LOC_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_ICON_LOC_LABEL">
-					<option value="before">COM_FABRIK_BEFORE</option>
-					<option value="after">COM_FABRIK_AFTER</option>
+			       type="radio"
+			       class="btn-group"
+			       default="before"
+			       description="COM_FABRIK_FIELD_SUBMIT_ICON_LOC_DESC"
+			       label="COM_FABRIK_FIELD_SUBMIT_ICON_LOC_LABEL">
+				<option value="before">COM_FABRIK_BEFORE</option>
+				<option value="after">COM_FABRIK_AFTER</option>
 			</field>
 
 			<field name="submit_on_enter"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_SUBMIT_ON_ENTER_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_ON_ENTER_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_SUBMIT_ON_ENTER_DESC"
+			       label="COM_FABRIK_FIELD_SUBMIT_ON_ENTER_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 		</fieldset>
@@ -346,69 +393,80 @@
 		<fieldset name="templates2">
 
 			<field name="labels_above"
-				type="radio"
-				class="btn-group"
-				default="0"
-				label="COM_FABRIK_FIELD_LABELS_ABOVE_LABEL"
-				description="COM_FABRIK_FIELD_LABELS_ABOVE_DESC" >
-					<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
-					<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
-					<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       label="COM_FABRIK_FIELD_LABELS_ABOVE_LABEL"
+			       description="COM_FABRIK_FIELD_LABELS_ABOVE_DESC">
+				<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
+				<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
+				<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
 			</field>
 
 			<field name="labels_above_details"
-				type="radio"
-				class="btn-group"
-				default="0"
-				label="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_LABEL"
-				description="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_DESC" >
-					<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
-					<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
-					<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       label="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_LABEL"
+			       description="COM_FABRIK_FIELD_LABELS_ABOVE_DETAILS_DESC">
+				<option value="0">COM_FABRIK_FIELD_LABELS_ABOVE_LEFT</option>
+				<option value="1">COM_FABRIK_FIELD_LABELS_ABOVE_ABOVE</option>
+				<option value="2">COM_FABRIK_FIELD_LABELS_ABOVE_NONE</option>
 			</field>
 			<field name="pdf_template"
-				default="admin"
-				type="fabriktemplate"
-				view="details"
-				hide_default="0" hide_none="1"
-				description="COM_FABRIK_FIELD_PDF_TEMPLATE_DESC"
-				label="COM_FABRIK_FIELD_PDF_TEMPLATE_LABEL" />
+			       default="admin"
+			       type="fabriktemplate"
+			       view="details"
+			       hide_default="0"
+			       hide_none="1"
+			       description="COM_FABRIK_FIELD_PDF_TEMPLATE_DESC"
+			       label="COM_FABRIK_FIELD_PDF_TEMPLATE_LABEL"/>
 
 			<field name="pdf_orientation"
-				type="list"
-				default="portrait"
-				description="COM_FABRIK_FIELD_PDF_ORIENTATION_DESC"
-				label="COM_FABRIK_FIELD_PDF_ORIENTATION_LABEL">
-					<option value="landscape">COM_FABRIK_FIELD_PDF_ORIENTATION_LANDSCAPE</option>
-					<option value="portrait">COM_FABRIK_FIELD_PDF_ORIENTATION_PORTRAIT</option>
+			       type="list"
+			       default="portrait"
+			       description="COM_FABRIK_FIELD_PDF_ORIENTATION_DESC"
+			       label="COM_FABRIK_FIELD_PDF_ORIENTATION_LABEL">
+				<option value="landscape">COM_FABRIK_FIELD_PDF_ORIENTATION_LANDSCAPE</option>
+				<option value="portrait">COM_FABRIK_FIELD_PDF_ORIENTATION_PORTRAIT</option>
 			</field>
 
 			<field name="pdf_size"
-				type="list"
-				default="letter"
-				description="COM_FABRIK_FIELD_PDF_SIZE_DESC"
-				label="COM_FABRIK_FIELD_PDF_SIZE_LABEL">
-					<option value="a0"></option>
-				    <option value="a1">a1</option>
-				    <option value="a2">a2</option>
-				    <option value="a3">a3</option>
-				    <option value="a4">a4</option>
-				    <option value="b0">b0</option>
-				    <option value="b1">b1</option>
-				    <option value="b2">b2</option>
-				    <option value="b3">b3</option>
-				    <option value="b4">b4</option>
-				    <option value="c0">c0</option>
-				    <option value="c1">c1</option>
-				    <option value="c2">c2</option>
-				    <option value="c3">c3</option>
-				    <option value="c4">c4</option>
-				    <option value="letter">letter</option>
-				    <option value="legal">legal</option>
-				    <option value="ledger">ledger</option>
-				    <option value="tabloid">tabloid</option>
-				    <option value="executive">executive</option>
-				    <option value="folio">folio</option>
+			       type="list"
+			       default="letter"
+			       description="COM_FABRIK_FIELD_PDF_SIZE_DESC"
+			       label="COM_FABRIK_FIELD_PDF_SIZE_LABEL">
+				<option value="a0"></option>
+				<option value="a1">a1</option>
+				<option value="a2">a2</option>
+				<option value="a3">a3</option>
+				<option value="a4">a4</option>
+				<option value="b0">b0</option>
+				<option value="b1">b1</option>
+				<option value="b2">b2</option>
+				<option value="b3">b3</option>
+				<option value="b4">b4</option>
+				<option value="c0">c0</option>
+				<option value="c1">c1</option>
+				<option value="c2">c2</option>
+				<option value="c3">c3</option>
+				<option value="c4">c4</option>
+				<option value="letter">letter</option>
+				<option value="legal">legal</option>
+				<option value="ledger">ledger</option>
+				<option value="tabloid">tabloid</option>
+				<option value="executive">executive</option>
+				<option value="folio">folio</option>
+			</field>
+
+			<field name="pdf_include_bootstrap"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_DESC"
+				   label="COM_FABRIK_FIELD_PDF_INCLUDE_BOOTSTRAP_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 
@@ -417,40 +475,43 @@
 		<fieldset name="layout">
 
 			<field name="show-title"
-				type="radio"
-				class="btn-group"
-				default="1"
-				description="COM_FABRIK_FIELD_SHOW_TITLE_DESC"
-				label="COM_FABRIK_FIELD_SHOW_TITLE_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="1"
+			       description="COM_FABRIK_FIELD_SHOW_TITLE_DESC"
+			       label="COM_FABRIK_FIELD_SHOW_TITLE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="print"
-				type="list"
-				description="COM_FABRIK_FIELD_PRINT_ICON_DESC"
-				label="COM_FABRIK_FIELD_PRINT_ICON_LABEL">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="list"
+			       description="COM_FABRIK_FIELD_PRINT_ICON_DESC"
+			       label="COM_FABRIK_FIELD_PRINT_ICON_LABEL">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
-			<field  name="email"
-				type="list"
-				description="COM_FABRIK_FIELD_EMAIL_ICON_DESC"
-				label="COM_FABRIK_FIELD_EMAIL_ICON_LABEL">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			<field name="email"
+			       type="list"
+			       description="COM_FABRIK_FIELD_EMAIL_ICON_DESC"
+			       label="COM_FABRIK_FIELD_EMAIL_ICON_LABEL">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="pdf"
-				type="list"
-				description="COM_FABRIK_FIELD_PDF_ICON_DESC"
-				label="COM_FABRIK_FIELD_PDF_ICON_LABEL">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+			       type="list"
+			       description="COM_FABRIK_FIELD_PDF_ICON_DESC"
+			       label="COM_FABRIK_FIELD_PDF_ICON_LABEL">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
+				<option value="2">COM_FABRIK_FORM_VIEW_ONLY</option>
+				<option value="3">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+
 			</field>
 
 		</fieldset>
@@ -458,62 +519,66 @@
 		<fieldset name="admintemplates">
 
 			<field name="admin_form_template"
-				type="fabriktemplate"
-				view="form"
-				hide_default="0" hide_none="1"
-				description="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_DESC"
-				label="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_LABEL" />
+			       type="fabriktemplate"
+			       view="form"
+			       hide_default="0"
+			       hide_none="1"
+			       description="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_DESC"
+			       label="COM_FABRIK_FIELD_ADMIN_FORM_TEMPLATE_LABEL"/>
 
 			<field name="admin_details_template"
-				type="fabriktemplate"
-				view="details"
-				hide_default="0" hide_none="1"
-				description="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_DESC"
-				label="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_LABEL"/>
+			       type="fabriktemplate"
+			       view="details"
+			       hide_default="0"
+			       hide_none="1"
+			       description="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_DESC"
+			       label="COM_FABRIK_FIELD_ADMIN_DETAILS_TEMPLATE_LABEL"/>
 
 		</fieldset>
 
 		<fieldset name="notes">
 
 			<field name="note"
-				type="textarea"
-				cols="40" rows="3"
-				descripton="COM_FABRIK_FIELD_NOTE_DESC"
-				label="COM_FABRIK_FIELD_NOTE_LABEL" />
+			       type="textarea"
+			       cols="40"
+			       rows="3"
+			       descripton="COM_FABRIK_FIELD_NOTE_DESC"
+			       label="COM_FABRIK_FIELD_NOTE_LABEL"/>
 
 		</fieldset>
 
 		<fieldset name="options">
 
 			<field name="show-referring-table-releated-data"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_SHOW_RELATED_TABLE_LINKS_DESC"
-				label="COM_FABRIK_FIELD_SHOW_RELATED_TABLE_LINKS_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_SHOW_RELATED_TABLE_LINKS_DESC"
+			       label="COM_FABRIK_FIELD_SHOW_RELATED_TABLE_LINKS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="tiplocation"
-				type="list"
-				default="tip"
-				description="COM_FABRIK_FIELD_FORM_TIP_LOCATION_DESC"
-				label="COM_FABRIK_FIELD_FORM_TIP_LOCATION_LABEL">
-					<option value="tip">COM_FABRIK_TIP</option>
-					<option value="above">COM_FABRIK_TIP_ABOVE</option>
-					<option value="below">COM_FABRIK_TIP_BELOW</option>
-					<option value="side">COM_FABRIK_TIP_SIDE</option>
+			       type="list"
+			       default="tip"
+			       description="COM_FABRIK_FIELD_FORM_TIP_LOCATION_DESC"
+			       label="COM_FABRIK_FIELD_FORM_TIP_LOCATION_LABEL">
+				<option value="tip">COM_FABRIK_TIP</option>
+				<option value="above">COM_FABRIK_TIP_ABOVE</option>
+				<option value="below">COM_FABRIK_TIP_BELOW</option>
+				<option value="side">COM_FABRIK_TIP_SIDE</option>
 			</field>
 
 			<field name="process-jplugins"
-				type="list"
-				default="2"
-				description="COM_FABRIK_FIELD_PROCESS_JPLUGINS_DESC"
-				label="COM_FABRIK_FIELD_PROCESS_JPLUGINS_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
-					<option value="2">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+			       type="list"
+			       default="2"
+			       description="COM_FABRIK_FIELD_PROCESS_JPLUGINS_DESC"
+			       label="COM_FABRIK_FIELD_PROCESS_JPLUGINS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">COM_FABRIK_DETAILS_AND_FORM_VIEW</option>
+				<option value="2">COM_FABRIK_DETAILS_VIEW_ONLY</option>
+				<option value="3">COM_FABRIK_FORM_VIEW_ONLY</option>
 			</field>
 
 		</fieldset>
@@ -521,69 +586,70 @@
 		<fieldset name="processing">
 
 			<field name="ajax_validations"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_AJAX_VALIDATIONS_DESC"
-				label="COM_FABRIK_FIELD_AJAX_VALIDATIONS_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_AJAX_VALIDATIONS_DESC"
+			       label="COM_FABRIK_FIELD_AJAX_VALIDATIONS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="ajax_validations_toggle_submit"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_AJAX_VALIDATIONS_TOGGLE_SUBMIT_DESC"
-				label="COM_FABRIK_FIELD_AJAX_VALIDATIONS_TOGGLE_SUBMIT_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_AJAX_VALIDATIONS_TOGGLE_SUBMIT_DESC"
+			       label="COM_FABRIK_FIELD_AJAX_VALIDATIONS_TOGGLE_SUBMIT_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="submit-success-msg"
-				type="text"
-				description="COM_FABRIK_FIELD_SUBMIT_SUCCESS_MSG_DESC"
-				label="COM_FABRIK_FIELD_SUBMIT_SUCCESS_MSG_LABEL"
-				size="45" />
+			       type="text"
+			       description="COM_FABRIK_FIELD_SUBMIT_SUCCESS_MSG_DESC"
+			       label="COM_FABRIK_FIELD_SUBMIT_SUCCESS_MSG_LABEL"
+			       size="45"/>
 
 			<field name="suppress_msgs"
-				type="list"
-				default="0"
-				label="COM_FABRIK_FIELD_SUPPRESS_MSGS_LABEL"
-				description="COM_FABRIK_FIELD_SUPPRESS_MSGS_DESC">
-					<option value="0">JNO</option>
-					<option value="1">COM_FABRIK_SUPPRESS_SUCCESS_MSGS</option>
-					<option value="2">COM_FABRIK_SUPPRESS_ACL_MSGS</option>
-					<option value="3">COM_FABRIK_SUPPRESS_ALL_MSGS</option>
+			       type="list"
+			       default="0"
+			       label="COM_FABRIK_FIELD_SUPPRESS_MSGS_LABEL"
+			       description="COM_FABRIK_FIELD_SUPPRESS_MSGS_DESC">
+				<option value="0">JNO</option>
+				<option value="1">COM_FABRIK_SUPPRESS_SUCCESS_MSGS</option>
+				<option value="2">COM_FABRIK_SUPPRESS_ACL_MSGS</option>
+				<option value="3">COM_FABRIK_SUPPRESS_ALL_MSGS</option>
 			</field>
 
 			<field name="show_loader_on_submit"
-				type="radio"
-				class="btn-group"
-				default="0"
-				description="COM_FABRIK_FIELD_SHOW_LOADER_ON_SUBMIT_DESC"
-				label="COM_FABRIK_FIELD_SHOW_LOADER_ON_SUBMIT_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="0"
+			       description="COM_FABRIK_FIELD_SHOW_LOADER_ON_SUBMIT_DESC"
+			       label="COM_FABRIK_FIELD_SHOW_LOADER_ON_SUBMIT_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
-			
+
 			<field name="spoof_check"
-				type="radio"
-				class="btn-group" default="1"
-				description="COM_FABRIK_FIELD_SPOOF_CHECK_DESC"
-				label="COM_FABRIK_FIELD_SPOOF_CHECK_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+			       type="radio"
+			       class="btn-group"
+			       default="1"
+			       description="COM_FABRIK_FIELD_SPOOF_CHECK_DESC"
+			       label="COM_FABRIK_FIELD_SPOOF_CHECK_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="multipage_save"
-				type="list"
-				default="0"
-				description="COM_FABRIK_FIELD_SPLIT_PAGE_SAVE_DESC"
-				label="COM_FABRIK_FIELD_SPLIT_PAGE_SAVE_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">COM_FABRIK_ONLY_LOGGED_IN_USERS</option>
-					<option value="2">COM_FABRIK_EVERYONE</option>
+			       type="list"
+			       default="0"
+			       description="COM_FABRIK_FIELD_SPLIT_PAGE_SAVE_DESC"
+			       label="COM_FABRIK_FIELD_SPLIT_PAGE_SAVE_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">COM_FABRIK_ONLY_LOGGED_IN_USERS</option>
+				<option value="2">COM_FABRIK_EVERYONE</option>
 			</field>
 
 		</fieldset>
@@ -593,27 +659,27 @@
 	<fieldset name="groups">
 
 		<field name="_createGroup"
-			type="autocreategroup"
-			class="btn-group"
-			label="COM_FABRIK_CREATE_GROUP_WITH_SAME_NAME">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+		       type="autocreategroup"
+		       class="btn-group"
+		       label="COM_FABRIK_CREATE_GROUP_WITH_SAME_NAME">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field name="current_groups"
-			type="swaplist"
-			description="COM_FABRIK_CURRENT_GROUPS_DESC"
-			label="COM_FABRIK_FIELD_CURRENT_GROUPS_LABEL"
-			multiple="true" />
+		       type="swaplist"
+		       description="COM_FABRIK_CURRENT_GROUPS_DESC"
+		       label="COM_FABRIK_FIELD_CURRENT_GROUPS_LABEL"
+		       multiple="true"/>
 
 		<field name="randomise_groups"
-			type="radio"
-			class="btn-group"
-			default="0"
-			description="COM_FABRIK_FIELD_RANDOMISE_GROUPS_DESC"
-			label="COM_FABRIK_FIELD_RANDOMISE_GROUPS_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+		       type="radio"
+		       class="btn-group"
+		       default="0"
+		       description="COM_FABRIK_FIELD_RANDOMISE_GROUPS_DESC"
+		       label="COM_FABRIK_FIELD_RANDOMISE_GROUPS_LABEL">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -621,20 +687,20 @@
 	<fieldset name="formprocessing">
 
 		<field name="record_in_database"
-			type="radio"
-			class="btn-group"
-			default="1"
-			description="COM_FABRIK_FIELD_RECORD_IN_DATABASE_DESC"
-			label="COM_FABRIK_FIELD_RECORD_IN_DATABASE_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+		       type="radio"
+		       class="btn-group"
+		       default="1"
+		       description="COM_FABRIK_FIELD_RECORD_IN_DATABASE_DESC"
+		       label="COM_FABRIK_FIELD_RECORD_IN_DATABASE_LABEL">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field name="db_table_name"
-			type="text"
-			description="COM_FABRIK_FIELD_DATABASE_NAME_DESC"
-			label="COM_FABRIK_FIELD_DATABASE_NAME_LABEL"
-			size="40" />
+		       type="text"
+		       description="COM_FABRIK_FIELD_DATABASE_NAME_DESC"
+		       label="COM_FABRIK_FIELD_DATABASE_NAME_LABEL"
+		       size="40"/>
 
 	</fieldset>
 

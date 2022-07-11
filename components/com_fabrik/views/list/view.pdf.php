@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0.5
  */
@@ -31,27 +31,28 @@ class FabrikViewList extends FabrikViewListBase
 	 */
 	public function display($tpl = null)
 	{
-		if (!JFolder::exists(COM_FABRIK_BASE . '/libraries/dompdf'))
-		{
-			throw new RuntimeException('Please install the dompdf library', 404);
-
-			return;
-		}
+		FabrikWorker::canPdf(true);
 
 		if (parent::display($tpl) !== false)
 		{
 			$model = $this->getModel();
 			$params = $model->getParams();
-			$size = $params->get('pdf_size', 'A4');
-			$orientation = $params->get('pdf_orientation', 'portrait');
+			$size        = $this->app->input->get('pdf_size', $params->get('pdf_size', 'A4'));
+			$orientation = $this->app->input->get('pdf_orientation', $params->get('pdf_orientation', 'portrait'));
 			$this->doc->setPaper($size, $orientation);
 			$this->nav = '';
 			$this->showPDF = false;
 			$this->showRSS = false;
 			$this->emptyLink = false;
-			$this->filters = array();
+			//$this->filters = array();
 			$this->showFilters = false;
 			$this->hasButtons = false;
+
+			if ($this->app->input->get('pdf_include_bootstrap', $params->get('pdf_include_bootstrap', '0')) === '1')
+			{
+				FabrikhelperHTML::loadBootstrapCSS(true);
+			}
+
 			$this->output();
 		}
 	}

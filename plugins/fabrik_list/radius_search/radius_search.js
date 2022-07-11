@@ -1,7 +1,7 @@
 /**
  * List Radius Search
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlugin, Fabrik) {
@@ -55,6 +55,21 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 			};
 			Fabrik.radiusSearch = typeOf(Fabrik.radiusSearch) === 'null' ? {} : Fabrik.radiusSearch;
 			var radiusSearchMaps = document.getElements('.radius_search_geocode_map');
+			var radiusGeocompletes = document.getElements('.radius_search_geocomplete_field');
+
+			radiusGeocompletes.each(function (geo) {
+                var c = geo.getParent('.radius_search');
+                var trigger = c.getElement('.radius_search_geocode_field');
+                jQuery('#' + geo.id).geocomplete()
+                    .bind(
+                        'geocode:result',
+                        function(event, result){
+							var loc = result.geometry.location;
+                            c.getElement('input[name^=radius_search_geocomplete_lat]').value = loc.lat();
+                            c.getElement('input[name^=radius_search_geocomplete_lon]').value = loc.lng();
+                        }
+                    );
+			});
 			radiusSearchMaps.each(function (map) {
 				var c = map.getParent('.radius_search_geocode');
 				var btn = c.getElement('button');
@@ -119,7 +134,9 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 			prefilter           : true,
 			prefilterDistance   : 1000,
 			prefilterDone       : false,
-			offset_y            : 0
+			offset_y            : 0,
+			usePopup            : true,
+			key                 : false
 		},
 
 		geocoder: null,
@@ -162,16 +179,21 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 						}
 					});
 
+					google.maps.event.addListener(Fabrik.radiusSearch[mapid].map, 'drag', function (event) {
+						fconsole('dragged');
+					});
+
 				}.bind(this));
 
-				Fabrik.loadGoogleMap(true, 'geoCode');
+				Fabrik.loadGoogleMap(this.options.key, 'geoCode', this.options.language);
 
 				if (typeOf(this.options.value) === 'null') {
 					this.options.value = 0;
 				}
 
-
-				if (typeOf(this.listform) !== 'null') {
+                this.options.value = this.options.value.toInt();
+				
+				if (this.options.usePopup && typeOf(this.listform) !== 'null') {
 					this.listform = this.listform.getElement('#radius_search' + this.options.renderOrder);
 					if (typeOf(this.listform) === 'null') {
 						fconsole('didnt find element #radius_search' + this.options.renderOrder);
@@ -193,37 +215,32 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 						this.listform.getElement('input[name^=radius_search_active]').value = 1;
 					}.bind(this));
 
-				}
+                    var output = this.listform.getElement('.radius_search_distance');
+                    var output2 = this.listform.getElement('.slider_output');
+                    this.mySlide = new Slider(this.listform.getElement('.fabrikslider-line'), this.listform.getElement('.knob'), {
+                        onChange: function (pos) {
+                            output.value = pos;
+                            output2.set('text', pos + this.options.unit);
+                        }.bind(this),
+                        steps   : this.options.steps
+                    }).set(0);
+                    
+                    this.mySlide.set(this.options.value);
+                    output.value = this.options.value;
+                    output2.set('text', this.options.value);
 
-				this.options.value = this.options.value.toInt();
-				if (typeOf(this.listform) === 'null') {
-					return;
-				}
-				var output = this.listform.getElement('.radius_search_distance');
-				var output2 = this.listform.getElement('.slider_output');
-				this.mySlide = new Slider(this.listform.getElement('.fabrikslider-line'), this.listform.getElement('.knob'), {
-					onChange: function (pos) {
-						output.value = pos;
-						output2.set('text', pos + this.options.unit);
-					}.bind(this),
-					steps   : this.options.steps
-				}).set(0);
-
-				this.mySlide.set(this.options.value);
-				output.value = this.options.value;
-				output2.set('text', this.options.value);
-
-				if (this.options.myloc && !this.options.prefilterDone) {
-					if (geo_position_js.init()) {
-						geo_position_js.getCurrentPosition(function (p) {
-								this.setGeoCenter(p);
-							}.bind(this),
-							function (e) {
-								this.geoCenterErr(e);
-							}.bind(this), {
-								enableHighAccuracy: true
-							});
-					}
+                    if (this.options.myloc && !this.options.prefilterDone) {
+                        if (geo_position_js.init()) {
+                            geo_position_js.getCurrentPosition(function (p) {
+                                    this.setGeoCenter(p);
+                                }.bind(this),
+                                function (e) {
+                                    this.geoCenterErr(e);
+                                }.bind(this), {
+                                    enableHighAccuracy: true
+                                });
+                        }
+                    }
 				}
 			}
 
@@ -233,7 +250,26 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 					this.clearFilter();
 				}
 			}.bind(this));
-			this.makeWin(mapid);
+
+			if (this.options.usePopup) {
+                this.makeWin(mapid);
+            }
+            else {
+                Fabrik.addEvent('fabrik.list.submit.ajax.complete', function(list, json) {
+                    if (this.listid === list.id) {
+                        var $emptyMsgDiv = jQuery('#radius_search' + this.options.renderOrder).find('.fabrikRadiusSearchEmptyMsg');
+                        if ($emptyMsgDiv) {
+                            if (json.nav.total === 0) {
+                                $emptyMsgDiv.parent().removeClass('fabrikHide');
+                            }
+                            else {
+                                $emptyMsgDiv.parent().addClass('fabrikHide');
+                            }
+                        }
+                    }
+                }.bind(this));
+                this.listform.getElement('input[name^=radius_search_active]').value = 1;
+			}
 		},
 
 		/**
@@ -273,8 +309,13 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 				c.setStyles({'position': 'relative', 'left': 0});
 				var w = b.retrieve('win');
 				w.center();
-				//w.fitToContent();
 				w.open();
+				w.fitToContent();
+
+				var mapid = 'radius_search_geocode_map' + this.options.renderOrder;
+				if (mapid in Fabrik.radiusSearch) {
+					google.maps.event.trigger(Fabrik.radiusSearch[mapid].map, 'resize');
+				}
 			}.bind(this));
 
 			b.store('win', win);
@@ -295,7 +336,15 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 			var win = this.button.retrieve('win');
 			var c = win.contentEl.clone();
 			c.hide();
-			this.button.getParent().adopt(c);
+
+            // clone() doesn't copy select (or textarea) state, so set selects by hand!
+            var selects = jQuery(win.contentEl).find("select");
+            jQuery(selects).each(function(i) {
+                var select = this;
+                jQuery(c).find("select").eq(i).val(jQuery(select).val());
+            });
+
+			jQuery(this.button).parent().append(c);
 			return true;
 		},
 

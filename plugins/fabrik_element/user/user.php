@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.user
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -78,7 +78,8 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 		 * @TODO when editing a form with joined repeat group the rowid will be set but
 		 * the record is in fact new
 		 */
-		if ($params->get('update_on_edit') || !$rowId || ($this->inRepeatGroup && $this->_inJoin && $this->_repeatGroupTotal == $repeatCounter))
+		//if ($params->get('update_on_edit') || !$rowId || ($this->inRepeatGroup && $this->_inJoin && $this->_repeatGroupTotal == $repeatCounter))
+		if ($params->get('update_on_edit') || !$rowId)
 		{
 			// Set user to logged in user
 			if ($this->isEditable())
@@ -87,11 +88,17 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 			}
 			else
 			{
-				$userId = (int) $this->getValue($data, $repeatCounter);
+				$userId = $this->getValue($data, $repeatCounter, array('raw' => 1));
+				$userId = is_array($userId) ? (int) FArrayHelper::getValue($userId, 0) : (int) $userId;
 
 				// On failed validation value is 1 - user ids are always more than that so don't load userid=1 otherwise an error is generated
-				$user = $userId <= 1 ? $this->user : JFactory::getUser($userId);
+				$user = $userId <= 1 ? false : JFactory::getUser($userId);
 			}
+		}
+		else if ($this->inRepeatGroup && $this->newGroup)
+		{
+			// we're in a new, blank repeat group, so set to current user
+			$user = $this->user;
 		}
 		else
 		{
@@ -131,7 +138,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 				if ($id === '')
 				{
-					$id = $this->getValue($data, $repeatCounter);
+					$id = $this->getValue($data, $repeatCounter, array('raw' => 1));
 				}
 
 				/*
@@ -440,6 +447,22 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 						$data[$element->name] = $newUserId;
 					}
 				}
+				else if ($this->getGroupModel()->canRepeat())
+				{
+					// see if it's empty, so new repeat group, and hidden or read only
+					if ((!$this->canUse() || !empty($element->hidden)) && empty($data[$element->name]))
+					{
+						$data[$element->name]          = $this->user->get('id');
+						// Set the formDataWithTableName so any plugins (like email) pick it up with getProcessData()
+						$thisFullName = $this->getFullName(true, false);
+						$formModel    = $this->getFormModel();
+						$formModel->formDataWithTableName[$thisFullName][$repeatCounter]          = array($data[$element->name]);
+						$formModel->formDataWithTableName[$thisFullName . '_raw'][$repeatCounter] = array($data[$element->name]);
+						// $$$ hugh - need to add to updatedByPlugin() in order to override write access settings.
+						// This allows us to still 'update on edit' when element is write access controlled.
+						$this->getFormModel()->updatedByPlugin($thisFullName, $this->user->get('id'));
+					}
+				}
 			}
 		}
 
@@ -522,7 +545,20 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 */
 	protected function _getSelectLabel($filter = false)
 	{
-		return $this->getParams()->get('user_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT'));
+		$label  = $this->getParams()->get('user_noselectionlabel');
+
+		if (strstr($label, '::'))
+		{
+			$labels = explode('::', $label);
+			$label  = $filter ? $labels[1] : $labels[0];
+		}
+
+		if (!$filter && $label == '')
+		{
+			$label = 'COM_FABRIK_PLEASE_SELECT';
+		}
+
+		return FText::_($label);
 	}
 
 	/**
@@ -692,7 +728,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 *
 	 * @return  string    filter html
 	 */
-	public function getFilter($counter = 0, $normal = true)
+	public function getFilter($counter = 0, $normal = true, $container = '')
 	{
 		$listModel = $this->getlistModel();
 		$formModel = $listModel->getFormModel();
@@ -754,7 +790,7 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 
 			case 'auto-complete':
 				$defaultLabel = $this->getLabelForValue($default);
-				$autoComplete = $this->autoCompleteFilter($default, $v, $defaultLabel, $normal);
+				$autoComplete = $this->autoCompleteFilter($default, $v, $defaultLabel, $normal, $container);
 				$return       = array_merge($return, $autoComplete);
 				break;
 		}
@@ -799,10 +835,11 @@ class PlgFabrik_ElementUser extends PlgFabrik_ElementDatabasejoin
 	 * @param   string $value         search string - already quoted if specified in filter array options
 	 * @param   string $originalValue original filter value without quotes or %'s applied
 	 * @param   string $type          filter type advanced/normal/prefilter/search/querystring/searchall
-	 *
+	 * @param   string  $evalFilter     evaled
+	 *                                  
 	 * @return  string    sql query part e,g, "key = value"
 	 */
-	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal')
+	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
 	{
 		if (!$this->inJDb())
 		{

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -91,16 +91,18 @@ class FabTable extends JTable
 	/**
 	 * Get the columns from database table.
 	 *
+	 * @param   bool  $reload  flag to reload cache
+	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function getFields()
+	public function getFields($reload = false)
 	{
 		static $cache = array();
 
-		if (FArrayHelper::getValue($cache, $this->_tbl) === null)
+		if (FArrayHelper::getValue($cache, $this->_tbl) === null || $reload)
 		{
 			// Lookup the fields for this table only once. PER TABLE NAME!
 			$name   = $this->_tbl;

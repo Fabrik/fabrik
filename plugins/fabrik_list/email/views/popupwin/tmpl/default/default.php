@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.email
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -39,9 +39,6 @@ $params = $this->params;
 					{
 						case 'editable':
 							echo '<input type="text" name="list_email_to" id="list_email_to" value="' . $to . '" />';
-							break;
-						case 'hidden':
-							echo '<input name="list_email_to" id="list_email_to" value="' . $to . '" type="hidden" />';
 							break;
 						case 'readonly':
 						default:
@@ -113,10 +110,10 @@ $params = $this->params;
 					<input class="inputbox fabrikinput" name="attachment[]" type="file" id="attachment" />
 				</label>
 				<a href="#" class="addattachment">
-					<?php echo FabrikHelperHTML::image('plus.png', 'form', @$this->tmpl, FText::_('COM_FABRIK_ADD')); ?>
+					<?php echo FabrikHelperHTML::image('plus', 'form', @$this->tmpl, FText::_('COM_FABRIK_ADD')); ?>
 				</a>
 				<a href="#" class="delattachment">
-					<?php echo FabrikHelperHTML::image('minus-sign.png', 'form', @$this->tmpl, FText::_('COM_FABRIK_DELETE')); ?>
+					<?php echo FabrikHelperHTML::image('minus-sign', 'form', @$this->tmpl, FText::_('COM_FABRIK_DELETE')); ?>
 				</a>
 			</div>
 			<?php
@@ -129,12 +126,16 @@ $params = $this->params;
 		<input type="hidden" name="controller" value=list.email />
 		<input type="hidden" name="task" value="doemail" />
 		<input type="hidden" name="tmpl" value="component" />
+		<input type="hidden" name="format" value="partial" />
 		<input type="hidden" name="renderOrder" value="<?php echo $this->renderOrder ?>" />
 		<input type="hidden" name="id" value="<?php echo $this->listid ?>" />
 		<input type="hidden" name="recordids" value="<?php echo $this->recordids ?>" />
+		<input type="hidden" name="additionalQS" value="<?php echo $this->additionalQS; ?>" />
 		<?php
 		if (!$this->showToField) :
-			echo $this->fieldList;
+			?>
+			<input type=hidden name="list_email_to" id="list_email_to" value="<?php echo $this->emailTo; ?>" />
+			<?php
 		endif;
 		if (!$this->showSubject) :
 			?>

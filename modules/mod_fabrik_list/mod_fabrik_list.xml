@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <extension client="site" method="upgrade" type="module" version="3">
 	<name>mod_fabrik_list</name>
-	<author>Rob Clayburn</author>
-	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005-2016 fabrikar.com - All rights reserved.</copyright>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.4.3</version>
+	<version>3.10</version>
 	<description>MOD_FABRIK_LIST_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_fabrik_list">mod_fabrik_list.php</filename>
@@ -49,7 +49,7 @@
 						<option value="1">JYES</option>
 				</field>
 
-				<field name="fabriklayout" type="folderlist" default="" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL"/>
+				<field name="fabriklayout" type="fabriktemplate" default="" descrption="MOD_FABRIK_LIST_TEMPLATE_DESC" directory="/components/com_fabrik/views/list/tmpl/" label="MOD_FABRIK_LIST_TEMPLATE_LABEL"/>
 
 				<field name="show-title" type="list" default="" description="MOD_FABRIK_LIST_SHOW_TITLE_DESC" label="MOD_FABRIK_LIST_SHOW_TITLE_LABEL">
 						<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -57,7 +57,7 @@
 						<option value="1">JYES</option>
 				</field>
 
-				<field name="show_into" type="radio" default="1" class="btn-group" description="MOD_FABRIK_LIST_SHOW_INTRO_DESC" label="MOD_FABRIK_LIST_SHOW_INTRO_LABEL">
+				<field name="show_intro" type="radio" default="1" class="btn-group" description="MOD_FABRIK_LIST_SHOW_INTRO_DESC" label="MOD_FABRIK_LIST_SHOW_INTRO_LABEL">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 				</field>
@@ -87,7 +87,7 @@
 					<fields name="params">
 						<fieldset modal="true" name="list_elements_modal" repeat="true">
 
-							<field name="show_in_list" type="listfields" label="MOD_FABRIK_LIST_ELEMENTS_HEADING" size="30"/>
+							<field name="show_in_list" type="listfields" label="MOD_FABRIK_LIST_ELEMENTS_HEADING" size="50"/>
 
 						</fieldset>
 					</fields>
@@ -109,7 +109,7 @@
 					</fields>
 				</field>
 
-				<field name="prefilters" class="modal-prefilter" icon="filter" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" type="fabrikmodalrepeat">
+				<field name="prefilters" class="modal-prefilter" icon="filter" description="MOD_FABRIK_LIST_PREFILTERS_DESC" label="MOD_FABRIK_LIST_PREFILTERS_LABEL" type="fabrikmodalrepeat" filter="raw">
 
 					<fields name="params">
 						<fieldset modal="true" name="prefilters_modal" repeat="true">
@@ -135,6 +135,7 @@
 									<option value="in">IN</option>
 									<option value="not_in">NOT IN</option>
 									<option value="exists">EXISTS</option>
+									<option value="thisyear">COM_FABRIK_THIS_YEAR</option>
 									<option value="earlierthisyear">MOD_FABRIK_LIST_EARLIER_THIS_YEAR</option>
 									<option value="laterthisyear">MOD_FABRIK_LIST_LATER_THIS_YEAR</option>
 									<option value="yesterday">COM_FABRIK_YESTERDAY</option>
@@ -143,9 +144,10 @@
 									<option value="thismonth">COM_FABRIK_THIS_MONTH</option>
 									<option value="lastmonth">COM_FABRIK_LAST_MONTH</option>
 									<option value="nextmonth">COM_FABRIK_NEXT_MONTH</option>
+									<option value="nextweek1">COM_FABRIK_NEXT_WEEK1</option>
 							</field>
 
-							<field name="filter-value" type="field" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
+							<field name="filter-value" type="text" filter="raw" label="MOD_FABRIK_LIST_FILTER_VALUE_HEADING"/>
 
 							<field name="filter-eval" type="list" label="MOD_FABRIK_LIST_TYPE">
 									<option value="0">MOD_FABRIK_LIST_TEXT</option>

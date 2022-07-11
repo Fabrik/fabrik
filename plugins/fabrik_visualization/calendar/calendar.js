@@ -1409,7 +1409,7 @@ var fabrikCalendar = new Class({
 		'onSuccess': function (r) {
 			if (typeOf(r) !== 'null') {
 				var text = r.stripScripts(true);
-				var json = JSON.decode(text);
+				var json = JSON.parse(text);
 				this.addEntries(json);
 				this.showView();
 			}
@@ -1423,7 +1423,7 @@ var fabrikCalendar = new Class({
 			},
 			'onComplete': function (r) {
 				r = r.stripScripts(true);
-				var json = JSON.decode(r);
+				var json = JSON.parse(r);
 				this.entries = $H();
 				this.addEntries(json);
 			}.bind(this)

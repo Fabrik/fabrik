@@ -23,10 +23,10 @@ if ($j3) :
 		<table class="table table-striped table-condensed">
 			<thead style="display:none">
 				<tr>
-					<th class="span4"><?php echo FText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME'); ?></th>
-					<th class="span1 plupload_crop">&nbsp;</th>
-					<th class="span5 plupload_file_status"></th>
-					<th class="span1 plupload_file_action">&nbsp;</th>
+					<th class="<?php echo FabrikHelperHTML::getGridSpan('4'); ?>"><?php echo FText::_('PLG_ELEMENT_FILEUPLOAD_FILENAME'); ?></th>
+					<th class="<?php echo FabrikHelperHTML::getGridSpan('2'); ?> plupload_crop">&nbsp;</th>
+					<th class="<?php echo FabrikHelperHTML::getGridSpan('5'); ?> plupload_file_status"></th>
+					<th class="<?php echo FabrikHelperHTML::getGridSpan('1'); ?> plupload_file_action">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody class="plupload_filelist" id="<?php echo $id; ?>_dropList">

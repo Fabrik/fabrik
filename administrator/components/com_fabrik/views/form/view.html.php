@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -81,6 +81,9 @@ class FabrikAdminViewForm extends JViewLegacy
 		$dep->deps                   = array('fab/fabrik');
 		$shim['admin/pluginmanager'] = $dep;
 		FabrikHelperHTML::iniRequireJS($shim);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 
 		$srcs                  = FabrikHelperHTML::framework();
 		$srcs['Fabrik']        = FabrikHelperHTML::mediaFile('fabrik.js');

@@ -31,7 +31,6 @@ if (!empty($d->user_select_message))
 		<tr>
 			<td><?php echo $d->elements; ?></td>
 			<td class="update_col_value">
-			</th>
 			<td>
 				<div class="btn-group">
 					<a class="btn add button btn-primary" href="#">

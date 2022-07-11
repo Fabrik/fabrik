@@ -7,25 +7,30 @@
 
 // Define variable outside of require js so that the form class can initialize it
 
+function geolocateLoad() {
+    if (document.body) {
+        window.fireEvent('google.geolocate.loaded');
+    } else {
+        console.log('no body');
+    }
+}
+
 // Wrap in require js to ensure we always load the same version of jQuery
 // Multiple instances can be loaded an ajax pages are added and removed. However we always want
 // to get the same version as plugins are only assigned to this jQuery instance
 define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery.maskedinput'],
     function (jQuery, FbElement, Mask) {
-    function geolocateLoad() {
-        if (document.body) {
-            window.fireEvent('google.geolocate.loaded');
-        } else {
-            console.log('no body');
-        }
-    }
 
     window.FbField = new Class({
         Extends: FbElement,
 
         options: {
-            use_input_mask        : false,
-            input_mask_definitions: ''
+            use_input_mask         : false,
+            input_mask_definitions : '',
+            input_mask_autoclear   : false,
+            geocomplete            : false,
+            mapKey                 : false,
+            language               : ''
         },
 
         initialize: function (element, options) {
@@ -41,18 +46,45 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
                     definitions = JSON.parse(this.options.input_mask_definitions);
                     jQuery.extend(jQuery.mask.definitions, definitions);
                 }
-                jQuery('#' + element).mask(this.options.input_mask);
+                jQuery('#' + element).mask(this.options.input_mask, {autoclear: this.options.input_mask_autoclear});
             }
             if (this.options.geocomplete) {
                 this.gcMade = false;
                 this.loadFn = function () {
                     if (this.gcMade === false) {
-                        jQuery('#' + this.element.id).geocomplete();
+                        var self = this;
+                        jQuery('#' + this.element.id).geocomplete({}).bind(
+                            'geocode:result',
+                            function(event, result){
+                                Fabrik.fireEvent('fabrik.element.field.geocode', [self, result]);
+                            }
+                        );
                         this.gcMade = true;
                     }
                 }.bind(this);
                 window.addEvent('google.geolocate.loaded', this.loadFn);
-                Fabrik.loadGoogleMap(false, 'geolocateLoad');
+                Fabrik.loadGoogleMap(this.options.mapKey, 'geolocateLoad', this.options.language);
+            }
+
+            if (this.options.editable && this.options.scanQR) {
+                this.qrBtn = document.id(element + '_qr_upload');
+                this.qrBtn.addEvent('change', function (e) {
+                    var node = e.target;
+                    var reader = new FileReader();
+                    var self = this;
+                    reader.onload = function() {
+                        node.value = "";
+                        qrcode.callback = function(res) {
+                            if(res instanceof Error) {
+                                alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
+                            } else {
+                                self.update(res);
+                            }
+                        }.bind(this);
+                        qrcode.decode(reader.result);
+                    };
+                    reader.readAsDataURL(node.files[0]);
+                }.bind(this));
             }
         },
 
@@ -68,6 +100,7 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
             if (element) {
                 this.getElement().focus();
             }
+            this.parent();
         },
 
         cloned: function (c) {
@@ -80,12 +113,18 @@ define(['jquery', 'fab/element', 'components/com_fabrik/libs/masked_input/jquery
                             jQuery.mask.definitions[k] = v;
                         });
                     }
-                    jQuery('#' + element.id).mask(this.options.input_mask);
+                    jQuery('#' + element.id).mask(this.options.input_mask, {autoclear: this.options.input_mask_autoclear});
                 }
             }
             if (this.options.geocomplete) {
                 if (element) {
-                    jQuery('#' + element.id).geocomplete();
+                    var self = this;
+                    jQuery('#' + this.element.id).geocomplete().bind(
+                        'geocode:result',
+                        function(event, result){
+                            Fabrik.fireEvent('fabrik.element.field.geocode', [self, result]);
+                        }
+                    );
                 }
             }
             this.parent(c);

@@ -4,7 +4,7 @@
  *
  * @package		Joomla.Administrator
  * @subpackage	Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -101,7 +101,18 @@ if (!function_exists('fabrik_pagination_item_active'))
 {
 	function fabrik_pagination_item_active(&$item, $listid)
 	{
-		return '<a title="' . $item->text . '" href="' . $item->link . '">' . $item->text . '</a>';
+		switch ($item->key)
+		{
+			case 'previous':
+				$rel = 'rel="prev" ';
+				break;
+			case 'next':
+				$rel = 'rel="next" ';
+				break;
+			default:
+				$rel = '';
+		}
+		return '<a ' . $rel . 'title="' . $item->text . '" href="' . $item->link . '">' . $item->text . '</a>';
 	}
 }
 

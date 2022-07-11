@@ -1,7 +1,7 @@
 /**
  * Admin Namespace
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -29,6 +29,7 @@
 		// Joomla3.2
 		if (typeof(jQuery) !== 'undefined') {
 			jQuery('.hasTooltip').tooltip({'html': true, 'container': 'body'});
+			jQuery(document).popover({selector: '.hasPopover', trigger: 'hover'});
 		}
 	};
 
@@ -52,6 +53,7 @@ if (typeof(jQuery) !== 'undefined') {
 					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
+                input.trigger('change');
 			}
 		});
 	})(jQuery);

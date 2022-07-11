@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.confirmation
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -147,6 +147,7 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 				// $$$ rob 20/04/2012 unset the element access otherwise previously cached acl is used.
 				$elementModel->clearAccess();
 				$elementModel->getElement()->access = -1;
+				$elementModel->setEditable(false);
 			}
 		}
 
@@ -154,7 +155,25 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 	}
 
 	/**
-	 * Sets up HTML to be injected into the form's bottom
+	 * Run for each element's canUse.  Return false to make an element read only
+	 *
+	 * @param  array  $args  array containing element model being tested
+	 *
+	 * @return  bool
+	 */
+	public function onElementCanUse($args)
+	{
+		if ($this->app->input->get('fabrik_confirmation', '0') === '1')
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Sets up HTML to be injected into the form's bottom (fnar fnar)
 	 *
 	 * @return void
 	 */
@@ -168,6 +187,8 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 
 		if ($input->getInt('fabrik_confirmation') === 1)
 		{
+			$formModel->setEditable(false);
+
 			// Unset this flag
 			$input->set('fabrik_confirmation', 2);
 
@@ -237,16 +258,20 @@ class PlgFabrik_FormConfirmation extends PlgFabrik_Form
 			// Unset the task otherwise we will submit the form to be processed.
 			FabrikHelperHTML::addScriptDeclaration("
 				window.addEvent('fabrik.loaded', function() {
-					$('fabrik_redoconfirmation').addEvent('click', function(e) {;
-						this.form.task.value = '';
-						// this.form.submit();
-						var thisform = Fabrik.getBlock(this.form.id);
-						thisform.doSubmit(new Event.Mock(thisform._getButton('Submit')), thisform._getButton('Submit'));
-					});
+						jQuery('#fabrik_redoconfirmation').on('click', function(e) {
+							var form = jQuery(e.target).closest('form');
+							form.find('input[name=task]').val('');
+							Fabrik.getBlock(form[0].id).mockSubmit();
+						});
 				});
 			");
-			$this->html = implode("\n", $fields);
 		}
+		else
+		{
+			$fields[] = '<input type="hidden" name="fabrik_confirmation" value="0" />';
+		}
+
+		$this->html = implode("\n", $fields);
 	}
 
 	/**

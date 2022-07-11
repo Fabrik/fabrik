@@ -4,12 +4,14 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.notes
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Fabrik\Helpers\Html;
 
 require_once JPATH_SITE . '/plugins/fabrik_element/databasejoin/databasejoin.php';
 
@@ -41,6 +43,8 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		$id = $this->getHTMLId($repeatCounter);
 		$opts = $this->getElementJSOptions($repeatCounter);
 		$opts->rowid = (int) $this->getFormModel()->getRowId();
+		$opts->joinPkVal = (int) $this->getJoinedGroupPkVal($repeatCounter);
+		$opts->primaryKey = $this->getGroupModel()->isJoin() ? (int) $this->getJoinedGroupPkVal($repeatCounter) : $opts->rowid;
 		$opts->id = $this->id;
 		$opts->j3 = FabrikWorker::j3();
 
@@ -59,15 +63,16 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	{
 		$params = $this->getParams();
 		$tmp = $this->_getOptions($data, $repeatCounter, true);
-		$layoutName = FabrikWorker::j3() ? 'form' : 'form-25';
-		$layout = $this->getLayout($layoutName);
+		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
 		$layoutData->id = $this->getHTMLId($repeatCounter);
 		$layoutData->labels = array();
-		$layoutData->name = $this->getHTMLName($repeatCounter);;
+		$layoutData->name = $this->getHTMLName($repeatCounter);
 		$layoutData->fieldType = $params->get('fieldType', 'textarea');
 		$layoutData->editable = $this->isEditable();
+		$layoutData->canUse = $this->canUse();
 		$layoutData->rowid = $this->getFormModel()->getRowId();
+		$layoutData->primaryKey = $this->getGroupModel()->isJoin() ? $this->getJoinedGroupPkVal($repeatCounter) : $layoutData->rowid;
 		$layoutData->rows = $tmp;
 		$layoutData->model = $this;
 		$layoutData->labels = array();
@@ -91,34 +96,27 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 	public function getDisplayLabel($row)
 	{
 		$params = $this->getParams();
-		$txt = '';
-		$header = array();
+		$layout = $this->getLayout('form-note');
+		$layoutData = new stdClass;
+		$layoutData->headers = 0;
 
 		if ($params->get('showuser', true))
 		{
-			$header[] = $this->getUserNameLinked($row);
+			$layoutData->showUser = true;
+			$layoutData->user = $this->getUserNameLinked($row);
+			$layoutData->headers++;
 		}
 
 		if ($params->get('notes_date', '') !== '')
 		{
-			$header[] = $this->getFormattedDate($row);
+			$layoutData->showDate = true;
+			$layoutData->date = $this->getFormattedDate($row);
+			$layoutData->headers++;
 		}
 
-		if (!empty($header))
-		{
-			$spanX = 12 / count($header);
+		$layoutData->note = $row;
 
-			foreach ($header as $head)
-			{
-				$txt .= '<div class="span' . $spanX . '">' . $head . '</div>';
-			}
-
-			$txt = '<div class="row-fluid">' . $txt . '</div>';
-		}
-
-		$txt .= $row->text;
-
-		return $txt;
+		return $layout->render($layoutData);
 	}
 
 	/**
@@ -225,6 +223,8 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		$value = $params->get('notes_where_value');
 		$fk = $params->get('join_fk_column', '');
 		$rowId = $this->getFormModel()->getRowId();
+		$repeatCounter = isset($opts['repeatCounter']) ? $opts['repeatCounter'] : 0;
+		$primaryKey = $this->getGroupModel()->isJoin() ? $this->getJoinedGroupPkVal($repeatCounter) : $rowId;
 		$where = array();
 
 		// Jaanus: here we can choose whether WHERE has to have single or (if field is the same as FK then only) custom (single or multiple) criteria,
@@ -240,9 +240,9 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 			}
 		}
 		// Jaanus: when we choose WHERE field to be the same as FK then WHERE criteria is automatically FK = rowid, custom criteria(s) above may be added
-		if ($fk !== '' && $field === $fk && $rowId != '')
+		if ($fk !== '' && $field === $fk && $primaryKey != '')
 		{
-			$where[] = $db->qn($fk) . ' = ' . $rowId;
+			$where[] = $db->qn($fk) . ' = ' . $primaryKey;
 		}
 
 		if ($this->loadRow != '')
@@ -409,6 +409,7 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 		$col = $params->get('join_val_column');
 		$v = $input->get('v', '', '', 'string');
 		$rowId = $this->getFormModel()->getRowId();
+		//$joinPkVal = $this->getJoinedGroupPkVal($repeatCounter);
 
 		// Jaanus - avoid inserting data when the form is 'new' not submitted ($rowId == '')
 		if ($rowId !== '')
@@ -425,7 +426,14 @@ class PlgFabrik_ElementNotes extends PlgFabrik_ElementDatabasejoin
 
 			if ($fk !== '')
 			{
-				$query->set($db->qn($fk) . ' = ' . $db->q($input->get('rowid')));
+				if ($this->getGroupModel()->isJoin())
+				{
+					$query->set($db->qn($fk) . ' = ' . $db->q($input->get('joinPkVal')));
+				}
+				else
+				{
+					$query->set($db->qn($fk) . ' = ' . $db->q($input->get('rowid')));
+				}
 			}
 
 			$date = $params->get('notes_date', '');

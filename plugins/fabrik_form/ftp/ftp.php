@@ -114,7 +114,8 @@ class PlgFabrik_FormFtp extends PlgFabrik_Form
 		$ftpUser = $w->parseMessageForPlaceholder($params->get('ftp_user', ''), $this->data, false);
 		$ftpPassword = $w->parseMessageForPlaceholder($params->get('ftp_password', ''), $this->data, false);
 
-		$tmpDir = rtrim($this->config->getValue('config.tmp_path'), '/');
+		//$tmpDir = rtrim($this->config->getValue('config.tmp_path'), '/');
+		$tmpDir = rtrim($this->config->get('tmp_path'), '/');
 
 		if (empty($tmpDir) || !JFolder::exists($tmpDir))
 		{

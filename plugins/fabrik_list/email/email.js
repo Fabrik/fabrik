@@ -1,7 +1,7 @@
 /**
  * List Email
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlugin, Fabrik) {
@@ -15,13 +15,29 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
 
         watchSubmit: function () {
             var form = jQuery('#emailtable');
+            var self = this;
             form.submit(function (event) {
+                if (typeof WFEditor !== 'undefined') {
+                    WFEditor.getContent('message');
+                }
+                else if (typeof tinymce !== 'undefined') {
+                    if (tinyMCE.activeEditor) {
+                        tinyMCE.activeEditor.save();
+                    }
+                }
+                var url = Fabrik.liveSite + '/index.php';
+                if (self.options.additionalQS !== '') {
+                    url += '?' + self.options.additionalQS;
+                }
                 Fabrik.loader.start(form);
                 jQuery.ajax({
                     type  : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-                    url   : 'index.php', // the url where we want to POST
-                    data  : jQuery(this).serialize(), // our data object
-                    encode: true
+                    url   : url, // the url where we want to POST
+                    //data  : jQuery(this).serialize(), // our data object
+                    data: new FormData(this),
+                    encode: true,
+                    processData: false,
+                    contentType: false
                 })
                     .done(function (data) {
                         form.html(data);
@@ -66,20 +82,25 @@ define(['jquery', 'fab/list-plugin', 'fab/fabrik'], function (jQuery, FbListPlug
         },
 
         buttonAction: function () {
-            var url = 'index.php?option=com_fabrik&controller=list.email&task=popupwin&tmpl=component&ajax=1&id=' +
-                    this.listid + '&renderOrder=' + this.options.renderOrder,
-                self = this;
+            var url = this.options.popupUrl;
+            var self = this;
             this.listform.getElements('input[name^=ids]').each(function (id) {
                 if (id.get('value') !== false && id.checked !== false) {
                     url += '&ids[]=' + id.get('value');
                 }
             });
-            if (this.listform.getElement('input[name=checkAll]').checked) {
-                url += '&checkAll=1';
+
+            var chxall = this.list.form.getElement('input[name=checkAll]');
+            if (typeOf(chxall) !== 'null') {
+                if (this.listform.getElement('input[name=checkAll]').checked) {
+                    url += '&checkAll=1';
+                }
+                else {
+                    url += '&checkAll=0';
+                }
             }
-            else {
-                url += '&checkAll=0';
-            }
+
+            url += '&task=popupwin';
             var id = 'email-list-plugin';
             this.windowopts = {
                 id             : id,

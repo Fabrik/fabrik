@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.googlemap
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,9 +12,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Utilities\ArrayHelper;
+use Fabrik\Helpers\Googlemap;
+use Fabrik\Helpers\Image\Image;
 
 require_once JPATH_SITE . '/components/com_fabrik/models/element.php';
-require_once JPATH_SITE . '/components/com_fabrik/helpers/googlemap.php';
+
 
 /**
  * Plugin element to render a Google map
@@ -64,7 +66,10 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$listModel = $this->getListModel();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $listModel = $this->getListModel();
 		$params = $this->getParams();
 		$w = (int) $params->get('fb_gm_table_mapwidth');
 		$h = (int) $params->get('fb_gm_table_mapheight');
@@ -101,7 +106,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 			}
 		}
 
-		return $this->renderListDataFinal($data);
+		return $this->renderListDataFinal($data, $opts);
 	}
 
 	/**
@@ -296,7 +301,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$this->OSRefJs();
 
 		$mapShown = $this->isEditable() || (!$this->isEditable() && $v != '');
-
+		$opts->mapShown = $mapShown;
 		$opts->lat = (float) $o->coords[0];
 		$opts->lon = (float) $o->coords[1];
 		$opts->lat_dms = (float) $dms->coords[0];
@@ -306,9 +311,10 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$opts->control = $params->get('fb_gm_mapcontrol');
 		$opts->scalecontrol = (bool) $params->get('fb_gm_scalecontrol');
 		$opts->maptypecontrol = (bool) $params->get('fb_gm_maptypecontrol');
+		$opts->maptypeids = $params->get('fb_gm_maptypecontroloptions');
 		$opts->overviewcontrol = (bool) $params->get('fb_gm_overviewcontrol');
 		$opts->traffic = (bool) $params->get('fb_gm_trafficlayer', '0');
-		$opts->drag = (bool) $formModel->isEditable();
+		$opts->drag = (bool) $formModel->isEditable() && (bool) $params->get('fb_gm_draggable', '1');
 		$opts->staticmap = $this->_useStaticMap() ? true : false;
 		$opts->maptype = $params->get('fb_gm_maptype');
 		$opts->scrollwheel = (bool) $params->get('fb_gm_scroll_wheel');
@@ -328,8 +334,11 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 					|| ($geocode_on_load == 2 && !$formModel->isNewRecord())
 					|| $geocode_on_load == 3
 				);
-		$opts->auto_center = (bool) $params->get('fb_gm_auto_center', false);
-		$opts->styles = FabGoogleMapHelper::styleJs($params);
+		$opts->auto_center = (bool) $params->get('fb_gm_auto_center', false) && (bool) $params->get('fb_gm_draggable', '1');
+		$opts->styles = Googlemap::styleJs($params);
+		$opts->lat_element = $this->_getFieldId('fb_gm_lat_element', $repeatCounter);
+		$opts->lon_element = $this->_getFieldId('fb_gm_lon_element', $repeatCounter);
+		$opts->latlng_elements = !empty($opts->lat_element) && !empty($opts->lon_element);
 
 		if ($opts->geocode == '2')
 		{
@@ -342,6 +351,9 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 					$opts->geocode_fields[] = $field_id;
 				}
 			}
+
+			// remove any duplicates in case they have misunderstood and selected the same element for all fields
+			$opts->geocode_fields = array_values(array_unique($opts->geocode_fields));
 		}
 
 		$opts->reverse_geocode = $params->get('fb_gm_reverse_geocode', '0') == '0' ? false : true;
@@ -349,13 +361,14 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		if ($opts->reverse_geocode)
 		{
 			foreach (array(
-				         'route' => 'addr1',
-				         'neighborhood' => 'addr2',
-				         'locality' => 'city',
+				         'street_number'               => 'street_number',
+				         'route'                       => 'addr1',
+				         'neighborhood'                => 'addr2',
+				         'locality'                    => 'city',
 				         'administrative_area_level_1' => 'state',
-				         'postal_code' => 'zip',
-				         'country' => 'country',
-				         'formatted_address' => 'formatted_address'
+				         'postal_code'                 => 'zip',
+				         'country'                     => 'country',
+				         'formatted_address'           => 'formatted_address'
 			         ) as $google_field => $which_field)
 			{
 				$field_id = '';
@@ -400,6 +413,33 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		{
 			$opts->directionsFrom = false;
 		}
+
+		$opts->use_overlays = (int) $params->get('fb_gm_use_overlays', '0');
+
+		if ($opts->use_overlays)
+		{
+			$overlays = $this->getOverlayArray();
+			$opts->overlay_urls = $overlays['urls'];
+			$opts->overlay_labels = $overlays['labels'];
+			$opts->overlay_preserveviewports = $overlays['preserveViewports'];
+			$opts->overlay_suppressinfowindows = $overlays['suppressInfoWindows'];
+		}
+		else
+		{
+			$opts->overlay_urls                = array();
+			$opts->overlay_labels              = array();
+			$opts->overlay_preserveviewports   = array();
+			$opts->overlay_suppressinfowindows = array();
+		}
+
+		$opts->use_overlays_sidebar = $opts->use_overlays && (int) $params->get('fb_gm_use_overlays_sidebar', '0');
+		$opts->use_overlays_select = $params->get('fb_gm_use_overlays_select', 'checkbox');
+		$opts->use_overlays_checked = $params->get('fb_gm_use_overlays_checked', '');
+
+		$config = JComponentHelper::getParams('com_fabrik');
+		$apiKey = trim($config->get('google_api_key', ''));
+		$opts->key = empty($apiKey) ? false : $apiKey;
+		$opts->language             = trim(strtolower($config->get('google_api_language', '')));
 
 		return array('FbGoogleMap', $id, $opts);
 	}
@@ -490,6 +530,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		if (!isset(self::$usestatic))
 		{
 			$params = $this->getParams();
+			$static = $params->get('fb_gm_staticmap');
 
 			// Requires you to have installed the pda plugin
 			// http://joomup.com/blog/2007/10/20/pdaplugin-joomla-15/
@@ -499,7 +540,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 			}
 			else
 			{
-				self::$usestatic = ($params->get('fb_gm_staticmap') == '1' && !$this->isEditable());
+				self::$usestatic = ($static == '1' || $static == '3') && !$this->isEditable();
 			}
 		}
 
@@ -715,7 +756,7 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$attribs[] = 'sensor=false';
 
 		$config = JComponentHelper::getParams('com_fabrik');
-		$apiKey = $config->get('google_api_key', '');
+		$apiKey = trim($config->get('google_api_key', ''));
 		$client = $config->get('google_buisness_client_id', '');
 		$signature = $config->get('google_buisness_signature', '');
 
@@ -756,7 +797,6 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		}
 
 		// Serve cached file from remote url
-		require_once COM_FABRIK_FRONTEND . '/helpers/image.php';
 		$src .= implode('&', $attribs);
 		$folder = 'cache/com_fabrik/staticmaps/';
 		$file = implode('.', $attribs) . '.png';
@@ -765,9 +805,9 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		$layout = $this->getLayout('static');
 		$displayData = new stdClass;
 
-		if (!$tableView || ($tableView && $params->get('fb_gm_staticmap_tableview', '0') === '1'))
+		if ((!$tableView && $params->get('fb_gm_staticmap') == '1') || ($tableView && $params->get('fb_gm_staticmap_tableview', '0') === '1'))
 		{
-			$displayData->src = Fabimage::cacheRemote($src, $folder, $file);
+			$displayData->src = Image::cacheRemote($src, $folder, $file);
 
 			// if cacheImage returned false, probably an issue with permissions on the cache folder, so punt to direct URL
 			if ($displayData->src === false)
@@ -839,6 +879,22 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 				$layoutData->showdms = $params->get('fb_gm_latlng_dms');
 				$layoutData->showlatlng = $params->get('fb_gm_latlng');
 				$layoutData->showosref = $params->get('fb_gm_latlng_osref');
+				$layoutData->sidebarPosition = $params->get('fb_gm_use_overlays_sidebar');
+				$layoutData->showOverLays    = (bool) $params->get('fb_gm_use_overlays');
+
+				if ($this->getShowSideBar())
+				{
+					$overlays = $this->getOverlayArray();
+					$layoutData->showSidebar   = 1;
+					$layoutData->overlaySelect = $params->get('fb_gm_use_overlays_select', 'checkbox');
+					$layoutData->overlayUrls   = $overlays['urls'];
+					$layoutData->overlayLabels = $overlays['labels'];
+					$layoutData->overlaysChecked = $params->get('fb_gm_use_overlays_checked', '');
+				}
+				else
+				{
+					$layoutData->showSidebar = 0;
+				}
 
 				return $layout->render($layoutData);
 			}
@@ -912,5 +968,158 @@ class PlgFabrik_ElementGooglemap extends PlgFabrik_Element
 		}
 
 		return $this->default;
+	}
+
+
+	/**
+	 * Used to format the data when shown in the form's email
+	 *
+	 * @param   mixed $value         element's data
+	 * @param   array $data          form records data
+	 * @param   int   $repeatCounter repeat group counter
+	 *
+	 * @return  string    formatted value
+	 */
+	public function getEmailValue($value, $data = array(), $repeatCounter = 0)
+	{
+		if ($this->inRepeatGroup && is_array($value))
+		{
+			$val = array();
+
+			foreach ($value as $v2)
+			{
+				$val[] = $this->getIndEmailValue($v2, $data, $repeatCounter);
+			}
+		}
+		else
+		{
+			$val = $this->getIndEmailValue($value, $data, $repeatCounter);
+		}
+
+		return $val;
+	}
+
+	/**
+	 * Turn form value into email formatted value
+	 *
+	 * @param   mixed $value         Element value
+	 * @param   array $data          Form data
+	 * @param   int   $repeatCounter Group repeat counter
+	 *
+	 * @return  string  email formatted value
+	 */
+	protected function getIndEmailValue($value, $data = array(), $repeatCounter = 0)
+	{
+		return $this->_staticMap($value, null, null, null, $repeatCounter, false, $data);
+	}
+
+	/**
+	 * Get whether the map side bar should be shown
+	 *
+	 * @return  bool
+	 */
+	private function getShowSideBar()
+	{
+		$params = $this->getParams();
+
+		// KML layers side bar?
+		if ((int) $params->get('fb_gm_use_overlays', 0) === 1 && (int) $params->get('fb_gm_use_overlays_sidebar', 0) > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	private function useOverlays()
+	{
+		$params = $this->getParams();
+
+		return (int) $params->get('fb_gm_use_overlays', 0) === 1;
+	}
+
+	private function getOverlayArray()
+	{
+		static $overlays = null;
+
+		if (!isset($overlays))
+		{
+			if ($this->useOverlays())
+			{
+				$params                      = $this->getParams();
+				$overlay_urls                = (array) $params->get('fb_gm_overlay_urls');
+				$overlay_labels              = (array) $params->get('fb_gm_overlay_labels');
+				$overlay_preserveviewports   = (array) $params->get('fb_gm_overlay_preserveviewport');
+				$overlay_suppressinfowindows = (array) $params->get('fb_gm_overlay_suppressinfowindows');
+
+				$overlayCode = trim($params->get('fb_gm_overlay_code', ''));
+
+				if (!empty($overlayCode))
+				{
+					// make available for eval'ed code
+					$formModel = $this->getFormModel();
+					$overlayArray = eval($overlayCode);
+
+					if (is_array($overlayArray))
+					{
+						if (array_key_exists('urls', $overlayArray) && is_array($overlayArray['urls']))
+						{
+							$overlay_urls = array_merge($overlay_urls, $overlayArray['urls']);
+						}
+
+						if (array_key_exists('labels', $overlayArray))
+						{
+							$overlay_labels = array_merge($overlay_labels, $overlayArray['labels']);
+						}
+
+						if (array_key_exists('preserveViewports', $overlayArray))
+						{
+							$overlay_preserveviewports = array_merge($overlay_preserveviewports, $overlayArray['preserveViewports']);
+						}
+
+						if (array_key_exists('suppressInfoWindows', $overlayArray))
+						{
+							$overlay_suppressinfowindows = array_merge($overlay_suppressinfowindows, $overlayArray['suppressInfoWindows']);
+						}
+					}
+				}
+
+				foreach ($overlay_urls as $k => $overlayUrl)
+				{
+					if (empty($overlayUrl))
+					{
+						unset($overlay_urls[$k]);
+						unset($overlay_labels[$k]);
+						unset($overlay_preserveviewports[$k]);
+						unset($overlay_suppressinfowindows[$k]);
+					}
+				}
+
+				$overlay_urls = array_values($overlay_urls);
+				$overlay_labels = array_values($overlay_labels);
+				$overlay_suppressinfowindows = array_values($overlay_suppressinfowindows);
+				$overlay_preserveviewports = array_values($overlay_preserveviewports);
+
+				$overlays = array(
+					'urls'                => $overlay_urls,
+					'labels'              => $overlay_labels,
+					'preserveViewports'   => $overlay_preserveviewports,
+					'suppressInfoWindows' => $overlay_suppressinfowindows
+				);
+			}
+			else
+			{
+				$overlays = array(
+					'urls'                => array(),
+					'labels'              => array(),
+					'preserveViewports'   => array(),
+					'suppressInfoWindows' => array()
+				);
+			}
+
+			$this->overlayData = $overlays;
+		}
+
+		return $overlays;
 	}
 }

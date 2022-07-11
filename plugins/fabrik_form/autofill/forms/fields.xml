@@ -53,17 +53,36 @@
 				repeat="true"
 				type="listfields"
 				valueformat="tableelement"/>
-			
+
+			<field name="autofill_show_not_found"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_FORM_AUTOFILL_SHOW_NOT_FOUND_DESC"
+			       label="PLG_FORM_AUTOFILL_SHOW_NOT_FOUND_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="autofill_not_found_msg"
+			       type="text"
+			       description="PLG_FORM_AUTOFILL_NOT_FOUND_MSG_DESC"
+			       label="PLG_FORM_AUTOFILL_NOT_FOUND_MSG_LABEL"
+			       size="100"
+			       repeat="true"
+			/>
+
 			<field name="autofill_edit_orig"
-				type="radio"
-				default="0"
-				class="btn-group"
-				description="PLG_FORM_AUTOFILL_EDIT_ORIG_DESC"
-				label="PLG_FORM_AUTOFILL_EDIT_ORIG_LABEL"
-				repeat="true">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_FORM_AUTOFILL_EDIT_ORIG_DESC"
+			       label="PLG_FORM_AUTOFILL_EDIT_ORIG_LABEL"
+			       repeat="true">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 				
 			<field name="autofill_confirm"
 				type="radio"

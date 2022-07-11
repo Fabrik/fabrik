@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -186,8 +186,14 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function cleanName($filename, $repeatCounter)
 	{
-		// Replace any non-alphanumeric chars (except _ and - and .) with _
-		$filename = preg_replace('#[^a-zA-Z0-9_\-\.]#', '_', $filename);
+		$params = $this->getParams();
+
+		if ($params->get('fu_clean_filename', '1') === '1')
+		{
+			// Replace any non-alphanumeric chars (except _ and - and .) with _
+			$filename = preg_replace('#[^a-zA-Z0-9_\-\.]#', '_', $filename);
+		}
+
 		$this->randomizeName($filename);
 
 		return $filename;
@@ -197,13 +203,28 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	 * Delete a file
 	 *
 	 * @param   string  $filepath  file to delete
+	 * @param   bool    $prependRoot  also test with root prepended
 	 *
 	 * @return  void
 	 */
 
-	public function delete($filepath)
+	public function delete($filepath, $prependRoot = true)
 	{
-		JFile::delete($filepath);
+		if (JFile::exists($filepath))
+		{
+			return JFile::delete($filepath);
+		}
+		else
+		{
+			if ($prependRoot)
+			{
+				$filepath = COM_FABRIK_BASE . '/' . FabrikString::ltrimword($filepath, COM_FABRIK_BASE . '/');
+
+				return JFile::delete($filepath);
+			}
+
+			return false;
+		}
 	}
 
 	/**
@@ -221,8 +242,22 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 		$params = $this->getParams();
 		$allowUnsafe = $params->get('allow_unsafe', '0') === '1';
+		$uploaded = false;
 
-		if (JFile::upload($tmpFile, $filepath, false, $allowUnsafe))
+		/**
+		 * If we're AJAX uploading and WiP is set, then we already "uploaded" it direct from the form through AJAX
+		 * to our own tmp location, now we're just moving it - we can't run JFile::upload(), as that will fail
+		 * (it's not an "uploaded file" at this point)
+		 */
+		if ($params->get('ajax_upload', '0') === '1' && $params->get('upload_use_wip', '0') === '1')
+		{
+			$uploaded = JFile::move($tmpFile, $filepath);
+		}
+		else {
+			$uploaded = JFile::upload($tmpFile, $filepath, false, $allowUnsafe);
+		}
+
+		if ($uploaded)
 		{
 			return $this->createIndexFile(dirname($filepath));
 		}
@@ -268,6 +303,38 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	public function read($filepath)
 	{
 		return file_get_contents($filepath);
+	}
+
+	/**
+	 * Stream a file
+	 *
+	 * @param   string  $filepath  file path
+	 * @param   int     $chunkSize  chunk size
+	 *
+	 * @return  bool
+	 */
+
+	public function stream($filepath, $chunkSize = 1048576)
+	{
+		$buffer = '';
+		$handle = fopen($filepath, 'rb');
+
+		if ($handle === false)
+		{
+			return false;
+		}
+
+		while (!feof($handle))
+		{
+			$buffer = fread($handle, $chunkSize);
+			echo $buffer;
+			ob_flush();
+			flush();
+		}
+
+		fclose($handle);
+
+		return true;
 	}
 
 	/**
@@ -348,10 +415,10 @@ class Filesystemstorage extends FabrikStorageAdaptor
 		$thumbdir = str_replace($match, $replace, $typeDir);
 		$ulDir = $w->parseMessageForPlaceHolder($ulDir);
 		$thumbdir = $w->parseMessageForPlaceHolder($thumbdir);
-		$file = str_replace($ulDir, $thumbdir, $file);
 		$file = $w->parseMessageForPlaceHolder($file);
 		$f = basename($file);
 		$dir = dirname($file);
+		$dir = str_replace($ulDir, ltrim($thumbdir, '/'), $dir);
 		$ext = JFile::getExt($f);
 
 		// Remove extension
@@ -470,5 +537,32 @@ class Filesystemstorage extends FabrikStorageAdaptor
 		$filepath = JPath::clean($filepath);
 
 		return $filepath;
+	}
+
+	/**
+	 * Check for snooping
+	 *
+	 * @param   string   $folder   The file path
+	 *
+	 * @return  void
+	 */
+	public function checkPath($folder)
+	{
+		if ($this->appendServerPath())
+		{
+			JPath::check($folder);
+		}
+	}
+
+	/**
+	 * Return the directory separator - can't use DIRECTORY_SEPARATOR by default, as s3 uses /
+	 *
+	 * @return string
+	 *
+	 * @since 3.8
+	 */
+	public function getDS()
+	{
+		return DIRECTORY_SEPARATOR;
 	}
 }

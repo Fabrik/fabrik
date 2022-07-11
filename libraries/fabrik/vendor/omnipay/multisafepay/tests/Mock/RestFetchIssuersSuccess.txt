@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: Fri, 05 Feb 2016 09:18:54 GMT
-Server: Apache
-Vary: Accept-Encoding
-Content-Length: 214
-Content-Type: application/json; charset=UTF-8;
-
-{"success":true,"data":[{"code":"0031","description":"ABN AMRO"},{"code":"0751","description":"SNS Bank"},{"code":"0721","description":"ING"},{"code":"0021","description":"Rabobank"},{"code":"0761","description":"ASN Bank"},{"code":"0771","description":"Regio Bank"},{"code":"0511","description":"Triodos Bank"},{"code":"0161","description":"Van Lanschot Bankiers"},{"code":"0801","description":"Knab"},{"code":4371,"description":"Bunq"}]}

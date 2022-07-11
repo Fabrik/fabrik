@@ -4,7 +4,7 @@ $db = JFactory::getDbo();
 $query = $db->getQuery(true);
 
 // Get labels
-$query->select('params')->from('i2qtd_fabrik_elements')->where('id = 35');
+$query->select('params')->from('#__fabrik_elements')->where('id = 35');
 $db->setQuery($query);
 $params = $db->loadResult();
 $params = json_decode($params);

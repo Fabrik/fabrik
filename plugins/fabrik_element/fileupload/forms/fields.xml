@@ -23,11 +23,13 @@
 			       description="PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_DESC">
 				<option value="0">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE</option>
 				<option value="1">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE</option>
+				<option value="7">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE_USER</option>
+				<option value="8">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_IMAGE_ENVIRONMENT</option>
 				<option value="2">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_IMAGE</option>
 				<option value="3">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_AUDIO</option>
 				<option value="4">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_AUDIO</option>
-				<option value="4">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_VIDEO</option>
-				<option value="7">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_VIDEO</option>
+				<option value="5">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_VIDEO</option>
+				<option value="6">PLG_ELEMENT_FILEUPLOAD_DEVICE_CAPTURE_FILE_VIDEO</option>
 			</field>
 
 			<field name="ul_file_types"
@@ -119,6 +121,22 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field name="fu_clean_filename"
+				   type="radio"
+				   class="btn-group"
+				   default="1"
+				   description="PLG_ELEMENT_FILEUPLOAD_CLEAN_FILENAME_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_CLEAN_FILENAME_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="fu_rename_file_code"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_ELEMENT_FILEUPLOAD_RENAME_FILE_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_RENAME_FILE_LABEL" />
 
 		</fieldset>
 
@@ -368,6 +386,7 @@
 			       label="PLG_ELEMENT_FILEUPLOAD_FILESTORAGE_TYPE_LABEL">
 				<option value="filesystemstorage">PLG_ELEMENT_FILEUPLOAD_FILE_SYSTEM</option>
 				<option value="amazons3storage">PLG_ELEMENT_FILEUPLOAD_AMAZONS3</option>
+				<option value="amazons3sdkstorage">PLG_ELEMENT_FILEUPLOAD_AMAZONS3_SDK</option>
 			</field>
 
 			<field type="spacer"
@@ -388,10 +407,20 @@
 			       label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_STORAGE_LOCATION_LABEL"
 			       name="fileupload_aws_location"
 			       type="list">
-				<option value="">USA East</option>
-				<option value="us-west-1">USA West(Northern California)</option>
-				<option value="EU">Europe</option>
-				<option value="ap-southeast-1">APAC (Singapore)</option>
+				<option value="">US East (N. Virginia)</option>
+				<option value="us-east-2">US East (Ohio)</option>
+				<option value="us-west-1">US West (N. California)</option>
+				<option value="us-west-2">US West (Oregon)</option>
+				<option value="ca-central-1">Canada (Central)</option>
+				<option value="eu-central-1">EU (Frankfurt)</option>
+				<option value="eu-west-1">EU (Ireland)</option>
+				<option value="eu-west-2">EU (London)</option>
+				<option value="ap-south-1">Asia Pacific (Mumbai)</option>
+				<option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+				<option value="ap-southeast-2">Asia Pacific (Sydney)</option>
+				<option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+				<option value="ap-northeast-2">Asia Pacific (Seoul)</option>
+				<option value="sa-east-1">South America (São Paulo)</option>
 			</field>
 
 			<field default="0"
@@ -399,6 +428,16 @@
 			       description="PLG_ELEMENT_FILEUPLOAD_SSL_DESC"
 			       label="PLG_ELEMENT_FILEUPLOAD_SSL_LABEL"
 			       name="fileupload_ssl"
+			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_ENCRYPT_DESC"
+			       label="PLG_ELEMENT_FILEUPLOAD_AMAZONS3_ENCRYPT_LABEL"
+			       name="fileupload_aws_encrypt"
 			       type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -467,6 +506,16 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<field name="ajax_show_widget"
+				   type="radio"
+				   default="1"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_AJAX_SHOW_WIDGET_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="ajax_runtime"
 			       type="text"
 			       default="html5,html4"
@@ -521,7 +570,27 @@
 				<option value="2">Detail View Only</option>
 				<option value="3">Both</option>
 			</field>
-
+			
+			<field default="0"
+                   		class="btn-group"
+                   		description="PLG_ELEMENT_FILEUPLOAD_OPEN_IN_BROWSER_DESC"
+                   		label="PLG_ELEMENT_FILEUPLOAD_OPEN_IN_BROWSER_LABEL"
+                   		name="fu_open_in_browser"
+                   		type="radio">
+                		<option value="0">JNO</option>
+                		<option value="1">JYES</option>
+            		</field>
+			
+           		<field default="0"
+                   		class="btn-group"
+                   		description="PLG_ELEMENT_FILEUPLOAD_FORCE_DOWNLOAD_SCRIPT_ON_EDIT_DESC"
+                   		label="PLG_ELEMENT_FILEUPLOAD_FORCE_DOWNLOAD_SCRIPT_ON_EDIT_LABEL"
+                   		name="fu_force_download_script"
+                   		type="radio">
+                		<option value="0">JNO</option>
+                		<option value="1">JYES</option>
+            		</field>  
+			
 			<field description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_DESC"
 			       label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_ACL_LABEL"
 			       name="fu_download_acl"
@@ -558,6 +627,16 @@
 			       label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_LOG_LABEL"
 			       name="fu_download_log"
 			       type="radio">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_APPEND_DESC"
+				   label="PLG_ELEMENT_FILEUPLOAD_DOWNLOAD_APPEND_LABEL"
+				   name="fu_download_append"
+				   type="radio">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

@@ -4,13 +4,14 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Fabrik\Helpers\LayoutFile;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
@@ -51,6 +52,13 @@ class PlgFabrik_Form extends FabrikPlugin
 	 * @var array
 	 */
 	protected $data = array();
+
+	/**
+	 * J! Log
+	 *
+	 * @var  object
+	 */
+	protected $log = null;
 
 	/**
 	 * Run from form model when deleting record
@@ -525,19 +533,19 @@ class PlgFabrik_Form extends FabrikPlugin
 
 	/**
 	 * Get the element's JLayout file
-	 * Its actually an instance of FabrikLayoutFile which inverses the ordering added include paths.
-	 * In FabrikLayoutFile the addedPath takes precedence over the default paths, which makes more sense!
+	 * Its actually an instance of LayoutFile which inverses the ordering added include paths.
+	 * In LayoutFile the addedPath takes precedence over the default paths, which makes more sense!
 	 *
 	 * @param   string $type form/details/list
 	 *
-	 * @return FabrikLayoutFile
+	 * @return LayoutFile
 	 */
 	public function getLayout($type)
 	{
 		$name     = get_class($this);
 		$name     = strtolower(JString::str_ireplace('PlgFabrik_Form', '', $name));
 		$basePath = COM_FABRIK_BASE . '/plugins/fabrik_form/' . $name . '/layouts';
-		$layout   = new FabrikLayoutFile('fabrik-form-' . $name . '-' . $type, $basePath, array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site'));
+		$layout   = new LayoutFile('fabrik-form-' . $name . '-' . $type, $basePath, array('debug' => false, 'component' => 'com_fabrik', 'client' => 'site'));
 		$layout->addIncludePaths(JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/layouts');
 		$layout->addIncludePaths(JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/layouts/com_fabrik');
 
@@ -569,6 +577,37 @@ class PlgFabrik_Form extends FabrikPlugin
 	}
 
 	/**
+	 * Get an element name
+	 *
+	 * @param   string $pname Params property name to look up
+	 * @param   bool   $short Short (true) or full (false) element name, default false/full
+	 *
+	 * @return    string    element full name
+	 */
+	public function getFieldName($pname, $short = false)
+	{
+		$params = $this->getParams();
+
+		if ($params->get($pname) == '')
+		{
+			return '';
+		}
+
+		$value = $params->get($pname);
+
+		if (is_numeric($value))
+		{
+			$elementModel = FabrikWorker::getPluginManager()->getElementPlugin($value);
+
+			return $short ? $elementModel->getElement()->name : $elementModel->getFullName();
+		}
+		else
+		{
+			return $short ? FabrikString::shortColName($value) : FabrikString::safeColNameToArrayKey($value);
+		}
+	}
+
+	/**
 	 * Replace a plugin parameter value with data parsed via parseMessageForPlaceholder
 	 *
 	 * @param string $pName Parameter name
@@ -581,5 +620,24 @@ class PlgFabrik_Form extends FabrikPlugin
 		$w      = new FabrikWorker;
 
 		return $w->parseMessageForPlaceHolder($params->get($pName), $this->data);
+	}
+
+	/**
+	 * Log a message
+	 *
+	 * @param  string $msgType The dotted message type
+	 * @param  string $msg     The log message
+	 */
+	protected function doLog($msgType, $msg)
+	{
+		if ($this->log === null)
+		{
+			$this->log                = FabTable::getInstance('log', 'FabrikTable');
+			$this->log->referring_url = $this->app->input->server->getString('REQUEST_URI');
+		}
+		$this->log->message_type = $msgType;
+		$this->log->message      = $msg;
+		$this->log->id           = '';
+		$this->log->store();
 	}
 }

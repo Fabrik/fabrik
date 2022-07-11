@@ -93,11 +93,11 @@ endif;
 						<label for="add-comment-anonymous-no-<?php echo $d->replyTo; ?>">
 							<?php echo FText::_('JNO'); ?>
 						</label>
-						<input type="radio" id="add-comment-anonymous-no<?php echo $d->replyTo; ?>" name="anonymous[]" checked="checked" class="inputbox" value="0" />
+						<input type="radio" id="add-comment-anonymous-no<?php echo $d->replyTo; ?>" name="annonymous[]" checked="checked" class="inputbox" value="0" />
 						<label for="add-comment-anonymous-yes-<?php echo $d->replyTo; ?>">
 							<?php echo FText::_('JYES'); ?>
 						</label>
-						<input type="radio" id="add-comment-anonymous-yes-<?php echo $d->replyTo; ?>" name="anonymous[]" class="inputbox" value="1" />
+						<input type="radio" id="add-comment-anonymous-yes-<?php echo $d->replyTo; ?>" name="annonymous[]" class="inputbox" value="1" />
 					<?php
 					endif;
 					?>

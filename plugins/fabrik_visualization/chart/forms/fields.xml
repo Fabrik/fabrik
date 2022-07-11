@@ -81,7 +81,7 @@
 			<field directory="/plugins/fabrik_visualization/chart/views/chart/tmpl/"
 			       label="PLG_VISUALIZATION_CHART_TEMPLATE_LABEL"
 			       name="chart_layout"
-			       type="folderlist"/>
+			       type="fabrikfolderlist"/>
 
 			<field default="BarChart"
 			       label="PLG_VISUALIZATION_CHART_CHART_TYPE_LABEL"

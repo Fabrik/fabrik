@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.js
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -73,7 +73,7 @@ class PlgFabrik_ListJs extends PlgFabrik_List
 
 	protected function buttonLabel()
 	{
-		return $this->getParams()->get('button_label', parent::buttonLabel());
+		return FText::_($this->getParams()->get('button_label', parent::buttonLabel()));
 	}
 
 	/**

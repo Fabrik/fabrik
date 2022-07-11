@@ -1,3 +1,4 @@
+
 <?php
 defined('JPATH_BASE') or die;
 
@@ -9,7 +10,7 @@ if ($d->tipTitle !== '') {
 <?php
 }
 else {
-	if (is_string($d->tipText)) :
+	if (!is_object($d->tipText)) :
 		// Fileupload was showing object here.
 		echo $d->tipText;
 	endif;

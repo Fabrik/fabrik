@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -62,6 +62,7 @@ class FabrikAdminViewHome extends JViewLegacy
 			$this->sidebar = JHtmlSidebar::render();
 		}
 
+		FabrikHelperHTML::iniRequireJS();
 		parent::display($tpl);
 	}
 

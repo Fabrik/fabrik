@@ -22,7 +22,7 @@ $d = $displayData;
 echo $d->commnents;
 
 if (!$d->commentsLocked) :
-	if (!$d->userLoggedIn && $d->anonymous == 0) :
+	if (!$d->userLoggedIn && $d->allowGuest == 0) :
 		?>
 		<h3><?php echo FText::_('PLG_FORM_COMMENT_PLEASE_SIGN_IN_TO_LEAVE_A_COMMENT'); ?></h3>
 	<?php

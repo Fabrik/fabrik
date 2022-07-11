@@ -1,5 +1,12 @@
 module.exports = {
-    'pluginFolders'   : ['element', 'cron', 'form', 'list', 'validationrule', 'visualization'],
+    'pluginFolders'   : [
+        'element',
+        'cron',
+        'form',
+        'list',
+        'validationrule',
+        'visualization'
+    ],
     'corePackageFiles': [
         'mod_fabrik_form_{version}.zip',
         'mod_fabrik_list_{version}.zip',
@@ -12,6 +19,7 @@ module.exports = {
         'plg_fabrik_element_checkbox_{version}.zip',
         'plg_fabrik_element_databasejoin_{version}.zip',
         'plg_fabrik_element_date_{version}.zip',
+        'plg_fabrik_element_jdate_{version}.zip',
         'plg_fabrik_element_display_{version}.zip',
         'plg_fabrik_element_dropdown_{version}.zip',
         'plg_fabrik_element_field_{version}.zip',
@@ -34,8 +42,9 @@ module.exports = {
         'plg_fabrik_validationrule_php_{version}.zip',
         'plg_fabrik_validationrule_regex_{version}.zip',
         'plg_fabrik_validationrule_isemail_{version}.zip',
-        'plg_fabrik_visualization_calendar_{version}.zip',
         'plg_fabrik_visualization_chart_{version}.zip',
+        'plg_fabrik_visualization_fullcalendar_{version}.zip',
+	    'plg_fabrik_visualization_calendar_{version}.zip',
         'plg_fabrik_visualization_googlemap_{version}.zip',
         'plg_fabrik_visualization_media_{version}.zip',
         'plg_fabrik_visualization_slideshow_{version}.zip',
@@ -89,13 +98,14 @@ module.exports = {
             'client'  : 'administrator'
         }],
     'plugins'         : {
-        'system'   : [{
-            'name'    : 'Fabrik System Plugin',
-            'path'    : 'plugins/system/fabrik',
-            'fileName': 'plg_fabrik_system_{version}.zip',
-            'element' : 'fabrik',
-            'xmlFile' : 'plg_system_fabrik.xml'
-        },
+        'system'   : [
+            {
+                'name'    : 'Fabrik System Plugin',
+                'path'    : 'plugins/system/fabrik',
+                'fileName': 'plg_fabrik_system_{version}.zip',
+                'element' : 'fabrik',
+                'xmlFile' : 'plg_system_fabrik.xml'
+            },
             {
                 'name'    : 'Fabrik Cron Plugin',
                 'path'    : 'plugins/system/fabrikcron',
@@ -109,7 +119,7 @@ module.exports = {
                 'name'    : 'Community Builder: Fabrik User Plugin',
                 'path'    : 'components/com_comprofiler/plugin/user/plug_fabrik',
                 'fileName': 'plg_community_builder_fabrik_user_{version}.zip',
-                'element' : 'fabrik',
+                'element' : 'fbk.fabrik',
                 'xmlFile' : 'plg_comprofiler_fabrik.xml'
             }
         ],
@@ -129,12 +139,25 @@ module.exports = {
                 'element' : 'fabrik',
                 'xmlFile' : 'plg_fabrik_content.xml'
             }],
-        'search'   : [{
-            'name'    : 'Fabrik Search Plugin',
-            'path'    : 'plugins/search/fabrik',
-            'fileName': 'plg_fabrik_search_{version}.zip',
-            'element' : 'fabrik',
-            'xmlFile' : 'plg_fabrik_search.xml'
-        }]
+        'search'   : [
+            {
+                'name'    : 'Fabrik Search Plugin',
+                'path'    : 'plugins/search/fabrik',
+                'fileName': 'plg_fabrik_search_{version}.zip',
+                'element' : 'fabrik',
+                'xmlFile' : 'plg_fabrik_search.xml'
+            }
+        ]
+    },
+    'libraries'         : {
+        'fabrik'   : [
+            {
+                'name'    : 'Fabrik Library',
+                'path'    : 'libraries/fabrik',
+                'fileName': 'lib_fabrik_{version}.zip',
+                'element' : 'fabrik',
+                'xmlFile' : 'fabrik.xml'
+            }
+        ]
     }
 }

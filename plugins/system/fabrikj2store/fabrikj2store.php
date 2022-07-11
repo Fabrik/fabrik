@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  System
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 defined('_JEXEC') or die();
@@ -41,7 +41,7 @@ class plgSystemFabrikj2store extends JPlugin
 
 				if ($content->published == 1)
 				{
-					$product->exists = 0;
+					$product->exists = 1;
 				}
 				else
 				{
@@ -103,7 +103,7 @@ class plgSystemFabrikj2store extends JPlugin
 			$context->id        = $objectRow->__pk_val;
 			$sets[$key]         = $context;
 		}
-echo "<pre>";print_r($sets);echo "</pre>";
+//echo "<pre>";print_r($sets);echo "</pre>";
 		return $sets [$key];
 	}
 }

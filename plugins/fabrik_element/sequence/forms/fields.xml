@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields>
+		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-sequence" label="COM_FABRIK_OPTIONS">
+
+			<field type="helplink"
+					url="PLG_ELEMENT_SEQUENCE_HELP_SERVER" />
+
+			<field name="hidden"
+				type="radio"
+				default="0"
+				class="btn-group"
+				label="PLG_ELEMENT_SEQUENCE_HIDDEN_LABEL">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+
+	<fields name="params">
+		<fieldset name="plg-sequence-extra" label="PLG_ELEMENT_SEQUENCE_SETTINGS">
+
+			<field type="helplink"
+				url="PLG_ELEMENT_SEQUENCE_HELP_SERVER" />
+
+			<field name="sequence_position"
+				type="list"
+				default="prefix"
+				description="PLG_ELEMENT_SEQUENCE_POSITION_DESC"
+				label="PLG_ELEMENT_SEQUENCE_POSITION_LABEL">
+					<option value="prefix">PLG_ELEMENT_SEQUENCE_POSITION_PREFIX</option>
+					<option value="suffix">PLG_ELEMENT_SEQUENCE_POSITION_SUFFIX</option>
+			</field>
+
+			<field name="sequence_affix"
+				   type="text"
+				   description="PLG_ELEMENT_SEQUENCE_AFFIX_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_AFFIX_LABEL"
+				   size="60" />
+
+			<field name="sequence_method"
+				   type="list"
+				   default="load"
+				   description="PLG_ELEMENT_SEQUENCE_METHOD_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_METHOD_LABEL">
+				<option value="load">PLG_ELEMENT_SEQUENCE_METHOD_ONLOAD</option>
+				<option value="submit">PLG_ELEMENT_SEQUENCE_METHOD_ONSUBMIT</option>
+				<option value="pk">PLG_ELEMENT_SEQUENCE_METHOD_USEPK</option>
+			</field>
+
+			<field name="sequence_start"
+				   type="text"
+				   description="PLG_ELEMENT_SEQUENCE_START_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_START_LABEL"
+				   default="1"
+				   size="60" />
+
+			<field name="sequence_padding"
+				   type="text"
+				   default="4"
+				   description="PLG_ELEMENT_SEQUENCE_PADDING_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_PADDING_LABEL"
+				   size="60" />
+
+			<field name="sequence_query"
+				   type="fabrikeditor"
+				   mode="mysql"
+				   description="PLG_ELEMENT_SEQUENCE_QUERY_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_QUERY_LABEL"/>
+
+			<field name="placeholder_query"
+				   type="fabrikeditor"
+				   mode="mysql"
+				   description="PLG_ELEMENT_SEQUENCE_PLACEHOLDER_QUERY_DESC"
+				   label="PLG_ELEMENT_SEQUENCE_PLACEHOLDER_QUERY_LABEL"/>
+		</fieldset>
+	</fields>
+</form>

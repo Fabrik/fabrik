@@ -33,6 +33,13 @@
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
 			</field>
+
+			<field name="bootstrap_class"
+			       type="bootstrapfieldclass"
+			       default="input-medium"
+			       label="PLG_ELEMENT_BOOTSTRAP_CLASS_LABEL"
+			       description="PLG_ELEMENT_BOOTSTRAP_CLASS_DESC" />
+
 		</fieldset>
 	</fields>
 </form>

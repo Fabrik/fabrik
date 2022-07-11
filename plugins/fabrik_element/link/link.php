@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.link
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -48,6 +48,9 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
+		$profiler = JProfiler::getInstance('Application');
+		JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
 		$listModel = $this->getlistModel();
 		$params = $this->getParams();
 		$target = $params->get('link_target', '');
@@ -105,7 +108,13 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 
 		if (is_array($data))
 		{
-			if (count($data) == 1)
+			// for historical reasons ...
+			if (count($data) === 0)
+			{
+				$data['label'] = '';
+				$data['link'] = '';
+			}
+			else if (count($data) === 1)
 			{
 				$data['label'] = FArrayHelper::getValue($data, 'link');
 			}
@@ -123,9 +132,10 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				&& substr(JString::strtolower($href), 0, 7) != 'http://'
 				&& substr(JString::strtolower($href), 0, 8) != 'https://'
 				&& substr(JString::strtolower($href), 0, 6) != 'ftp://'
-				)
+				&& substr(JString::strtolower($href), 0, 7) != 'mailto:'
+			)
 			{
-					$href = 'http://' . $href;
+				$href = 'http://' . $href;
 			}
 			// If used as a icon - the dom parser needs to use &amp; and not & in url querystrings
 			if (!strstr($href, '&amp;'))
@@ -145,7 +155,9 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 					$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
 				}
 
-				return FabrikHelperHTML::a($href, $lbl, $opts);
+				$normalize = $params->get('link_normalize', '0') === '1';
+
+				return FabrikHelperHTML::a($href, $lbl, $opts, $normalize);
 			}
 			else
 			{
@@ -249,7 +261,9 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				$opts['title'] = strip_tags($w->parseMessageForPlaceHolder($title, $data));
 			}
 
-			return FabrikHelperHTML::a($href, $lbl, $opts);
+			$normalize = $params->get('link_normalize', '0') === '1';
+
+			return FabrikHelperHTML::a($href, $lbl, $opts, $normalize);
 		}
 
 		$labelname = FabrikString::rtrimword($name, '[]') . '[label]';
@@ -331,10 +345,8 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 		{
 			if ($params->get('use_bitly'))
 			{
-				require_once JPATH_SITE . '/components/com_fabrik/libs/bitly/bitly.php';
 				$login = $params->get('bitly_login');
-				$key = $params->get('bitly_apikey');
-				$bitly = new bitly($login, $key);
+				$apikey = $params->get('bitly_apikey');
 			}
 
 			foreach ($val as $key => &$v)
@@ -343,28 +355,15 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				{
 					if ($params->get('use_bitly'))
 					{
-						/* bitly will return an error if you try and shorten a shortened link,
-						 * and the class file we are using doesn't check for this
-						 */
-						if (!strstr($v['link'], 'bit.ly/') && $v['link'] !== '')
-						{
-							$v['link'] = (string) $bitly->shorten($v['link']);
-						}
+						$v['link'] = FabrikString::bitlify($v['link'], $login, $apikey, true);
 					}
 				}
 				else
 				{
-					if ($key == 'link')
-					{
-						$v = FabrikString::encodeurl($v);
-					}
 					// Not in repeat group
 					if ($key == 'link' && $params->get('use_bitly'))
 					{
-						if (!strstr($v, 'bit.ly/') && $v !== '')
-						{
-							$v = (string) $bitly->shorten($v);
-						}
+						$v = FabrikString::bitlify($v, $login, $apikey, true);
 					}
 				}
 			}
@@ -422,6 +421,8 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 	{
 		$name = $this->getFullName(true, false);
 		$group = $this->getGroup();
+		$value = $this->getValue($data, $c);
+		$value = FabrikWorker::JSONtoData($value, true);
 
 		if ($group->canRepeat())
 		{
@@ -432,13 +433,13 @@ class PlgFabrik_ElementLink extends PlgFabrik_Element
 				$values[$name]['data']['link'] = array();
 			}
 
-			$values[$name]['data']['label'][$c] = FArrayHelper::getValue($data, 'label');
-			$values[$name]['data']['link'][$c] = FArrayHelper::getValue($data, 'link');
+			$values[$name]['data']['label'][$c] = FArrayHelper::getValue($value, 'label');
+			$values[$name]['data']['link'][$c] = FArrayHelper::getValue($value, 'link');
 		}
 		else
 		{
-			$values[$name]['data']['label'] = FArrayHelper::getValue($data, 'label');
-			$values[$name]['data']['link'] = FArrayHelper::getValue($data, 'link');
+			$values[$name]['data']['label'] = FArrayHelper::getValue($value, 'label');
+			$values[$name]['data']['link'] = FArrayHelper::getValue($value, 'link');
 		}
 	}
 

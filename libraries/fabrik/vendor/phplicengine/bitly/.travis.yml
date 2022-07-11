@@ -1,0 +1,7 @@
+language: php
+install: composer install
+php:
+  - '7.2'
+  - '7.3'
+notifications:
+  email: false

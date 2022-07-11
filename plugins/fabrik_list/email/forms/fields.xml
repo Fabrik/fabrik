@@ -28,6 +28,14 @@
 				label="PLG_LIST_EMAIL_IMAGE_LABEL"
 				repeat="true" size="20"
 			/>
+
+			<field name="list_email_additional_qs"
+			       type="text"
+			       default=""
+			       description="PLG_LIST_EMAIL_ADDITIONAL_QS_DESC"
+			       label="PLG_LIST_EMAIL_ADDITIONAL_QS_LABEL"
+			       repeat="true" size="20"
+			/>
 							
 			<field name="emailtable_condition"
 				type="fabrikeditor"
@@ -43,6 +51,16 @@
 				label="PLG_LIST_EMAIL_WYSIWYG_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>	
+			</field>
+			
+			<field name="wysiwyg_extra_buttons"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="PLG_LIST_EMAIL_WYSIWYG_EXTRA_BUTTONS_LABEL"
+				description="PLG_LIST_EMAIL_WYSIWYG_EXTRA_BUTTONS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 			
 			<field name="checkall"
@@ -113,6 +131,7 @@
 				type="list">
 					<option value="list">PLG_LIST_EMAIL_TO_TYPE_LIST</option>
 					<option value="field">PLG_LIST_EMAIL_TO_TYPE_FIELD</option>
+					<option value="eval">PLG_LIST_EMAIL_TO_TYPE_EVAL</option>
 					<option value="table">PLG_LIST_EMAIL_TO_TYPE_TABLE</option>
 					<option value="table_picklist">PLG_LIST_EMAIL_TO_TYPE_TABLE_PICKLIST</option>
 			</field>
@@ -124,6 +143,15 @@
 				repeat="true"
 				size="40"
 				type="text"
+			/>
+
+			<field name="emailtable_to_eval"
+				   description="PLG_LIST_EMAIL_TO_EVAL_DESC"
+				   label="PLG_LIST_EMAIL_TO_EVAL_LABEL"
+				   repeat="true"
+				   type="fabrikeditor"
+				   mode="php"
+				   showon="emailtable_to_type:eval"
 			/>
 
 			<field name="emailtable_email_to_field_how"
@@ -232,6 +260,14 @@
 				label="PLG_LIST_EMAIL_TO_TABLE_NAME_LABEL"
 				description="PLG_LIST_EMAIL_TO_TABLE_NAME_DESC"
 			/>
+
+			<field name="emailtable_to_table_where"
+			       description="PLG_LIST_EMAIL_TO_TABLE_WHERE_LABEL"
+			       label="PLG_LIST_EMAIL_TO_TABLE_WHERE_LABEL"
+			       repeat="true"
+			       type="fabrikeditor"
+			       mode="sql"
+			/>
 			
 		</fieldset>
 		
@@ -306,7 +342,7 @@
 		<fieldset name="plg-list-email-sms"  label="PLG_FABRIK_LIST_EMAIL_SMS">
 		
 			<field description="PLG_LIST_EMAIL_SMS_GATEWAY_DESC"
-			       directory="components/com_fabrik/helpers/sms_gateways"
+			       directory="libraries/fabrik/fabrik/Helpers/sms_gateways"
 			       hide_default="true"
 			       hide_none="true"
 			       label="PLG_LIST_EMAIL_SMS_GATEWAY_LABEL"

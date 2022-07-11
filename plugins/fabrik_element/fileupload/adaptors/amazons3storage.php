@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -289,6 +289,23 @@ class Amazons3storage extends FabrikStorageAdaptor
 	}
 
 	/**
+	 * Stream a file
+	 *
+	 * NOT IMPLEMENTED - use amazons3sdk adapter if you need streaming
+	 *
+	 * @param   string  $filepath  file path
+	 * @param  int  $chunkSize
+	 */
+
+	public function stream($filepath, $chunkSize = 1048576)
+	{
+		echo $this->read($filepath);
+		ob_flush();
+		flush();
+		return true;
+	}
+
+	/**
 	 * Get the S3 Acl setting
 	 *
 	 * @return string
@@ -392,11 +409,12 @@ class Amazons3storage extends FabrikStorageAdaptor
 	 * Delete a file
 	 *
 	 * @param   string  $filepath  File to delete
+	 * @param   bool    $prependRoot  also test with root prepended
 	 *
 	 * @return  void
 	 */
 
-	public function delete($filepath)
+	public function delete($filepath, $prependRoot = true)
 	{
 		$filepath = $this->urlToPath($filepath);
 		$this->s3->deleteObject($this->getBucketName(), $filepath);
@@ -584,5 +602,29 @@ class Amazons3storage extends FabrikStorageAdaptor
 		}
 
 		return $filepath;
+	}
+
+	/**
+	 * Check for snooping
+	 *
+	 * @param   string   $folder   The file path
+	 *
+	 * @return  void
+	 */
+	public function checkPath($folder)
+	{
+		return;
+	}
+
+	/**
+	 * Return the directory separator - can't use DIRECTORY_SEPARATOR by default, as s3 uses /
+	 *
+	 * @return string
+	 *
+	 * @since 3.8
+	 */
+	public function getDS()
+	{
+		return '/';
 	}
 }

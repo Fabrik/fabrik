@@ -6,7 +6,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -50,6 +50,6 @@ class FabrikViewGooglemap extends JViewLegacy
 			return false;
 		}
 
-		echo $model->getJSIcons();
+		echo json_encode($model->getJSIcons());
 	}
 }

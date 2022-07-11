@@ -4,13 +4,15 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.updatecol
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Fabrik\Helpers\Pdf;
+use Fabrik\Helpers\Worker;
 use Joomla\Utilities\ArrayHelper;
 
 // Require the abstract plugin class
@@ -133,8 +135,42 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		// get the pre-set updates
 		$update = json_decode($params->get('update_col_updates'));
 
+		$prompt = $params->get('update_col_prompt', false);
+
 		// if we allow user selected updates ...
-		if ($params->get('update_user_select', 0))
+		if ($prompt)
+		{
+			$formModel = $model->getFormModel();
+			$value = $this->app->input->get('fabrik_update_col', '', 'string');
+			$elementModel = $formModel->getElement($prompt, true);
+			$elementName = $elementModel->getFullName(false, false);
+
+			// Was this element already pre-set?  Use array_search() rather than in_array() as we'll need the index if it exists.
+			if (isset($update) && isset($update->coltoupdate) && is_array($update->coltoupdate))
+			{
+				$index = array_search($elementName, $update->coltoupdate);
+			}
+			else
+			{
+				$index = false;
+			}
+
+			if ($index === false)
+			{
+				// nope, wasn't preset, so just add it to the updates
+				$update->coltoupdate[] = $elementName;
+				$update->update_value[] = $value;
+				$update->update_eval[] = '0';
+			}
+			else
+			{
+				// yes it was preset, so use the $index to modify the existing value
+				$update->update_value[$index] = $value;
+				$update->update_eval[$index] = '0';
+			}
+
+		}
+		else if ($params->get('update_user_select', 0))
 		{
 			// get the values from the form inputs
 			$formModel = $model->getFormModel();
@@ -148,24 +184,38 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 			for ($i = 0; $i < count($values['elementid']); $i ++)
 			{
 				$id = $values['elementid'][$i];
+
+				// meh, nasty hack to handle autocomplete values, which currently aren't working in this plugin
+				if (array_key_exists('auto-complete' . $id, $output))
+				{
+					$values['value'][$i] = $output['auto-complete' . $id];
+				}
+
 				$elementModel = $formModel->getElement($id, true);
 				$elementName = $elementModel->getFullName(false, false);
 
 				// Was this element already pre-set?  Use array_search() rather than in_array() as we'll need the index if it exists.
-				$index = array_search($elementName, $update->coltoupdate);
+				if (isset($update) && isset($update->coltoupdate) && is_array($update->coltoupdate))
+				{
+					$index = array_search($elementName, $update->coltoupdate);
+				}
+				else
+				{
+					$index = false;
+				}
 
 				if ($index === false)
 				{
 					// nope, wasn't preset, so just add it to the updates
 					$update->coltoupdate[] = $elementName;
 					$update->update_value[] = $values['value'][$i];
-					$update->udate_eval[] = '0';
+					$update->update_eval[] = '0';
 				}
 				else
 				{
 					// yes it was preset, so use the $index to modify the existing value
 					$update->update_value[$index] = $values['value'][$i];
-					$update->udate_eval[$index] = '0';
+					$update->update_eval[$index] = '0';
 				}
 			}
 		}
@@ -192,9 +242,10 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		$model = $this->getModel();
 		$input = $this->app->input;
 		$update = $this->getUpdateCols($params);
+		$preEval  = $params->get('update_pre_eval', '');
 		$postEval = $params->get('update_post_eval', '');
 
-		if (!$update && empty($postEval))
+		if (!$update && empty($postEval) && empty($preEval))
 		{
 			return false;
 		}
@@ -212,19 +263,46 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		$ids = implode(',', $ids);
 		$model->reset();
 		$model->setPluginQueryWhere('update_col', $item->db_primary_key . ' IN ( ' . $ids . ')');
+		$model->setLimits(0, 0);
 		$data = $model->getData();
 
 		// Needed to re-assign as getDate() messes the plugin params order
 		$this->params = $params;
 
+		if (!empty($preEval))
+		{
+			$res = FabrikHelperHTML::isDebug() ? eval($preEval) : @eval($preEval);
+			Worker::logEval($res, 'Caught exception on eval in updatecol::process() : %s');
+
+			if ($res === false)
+			{
+				return false;
+			}
+		}
+
 		if (!empty($dateCol))
 		{
-			$this->_process($model, $dateCol, $this->date->toSql(), false);
+			$formModel    = $model->getFormModel();
+			$dateEl = $formModel->getElement($dateCol);
+			$local   = (bool) $dateEl->getParams()->get('date_store_as_local', false);
+
+			if ($local)
+			{
+				$tz       = new DateTimeZone($this->config->get('offset'));
+				$this->date->setTimezone($tz);
+			}
+
+			$this->_process($model, $dateCol, $this->date->toSql($local), false);
 		}
 
 		if (!empty($userCol))
 		{
 			$this->_process($model, $userCol, (int) $this->user->get('id'), false);
+		}
+
+		if ($params->get('update_email_after_update', '1') == '0')
+		{
+			$this->sendEmails($ids);
 		}
 
 		if (!empty($update))
@@ -235,9 +313,15 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 			}
 		}
 
-		$this->sendEmails($ids);
+		if ($params->get('update_email_after_update', '1') == '1')
+		{
+			$this->sendEmails($ids);
+		}
 
-		$this->msg = $params->get('update_message', '');
+		if (empty($this->msg))
+		{
+			$this->msg = $params->get('update_message', '');
+		}
 
 		if (empty($this->msg))
 		{
@@ -250,8 +334,14 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 
 		if (!empty($postEval))
 		{
-			$err = @eval($postEval);
-			FabrikWorker::logEval($err, 'Caught exception on eval in updatecol::process() : %s');
+			@trigger_error('');
+			$msg = @eval($postEval);
+			Worker::logEval($msg, 'Caught exception on eval in updatecol::process() : %s');
+
+			if (!empty($msg))
+			{
+				$this->msg .= "\n" . $msg;
+			}
 		}
 
 		// Clean the cache.
@@ -280,8 +370,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 
 		if (!empty($emailColID) || !empty($emailTo))
 		{
-			$w = new FabrikWorker;
-			jimport('joomla.mail.helper');
+			$w = new Worker;
 			$aids = explode(',', $ids);
 			$message = $params->get('update_email_msg');
 			$subject = $params->get('update_email_subject');
@@ -309,7 +398,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 				{
 					$email = trim($email);
 
-					if (!(JMailHelper::cleanAddress($email) && FabrikWorker::isEmail($email)))
+					if (!(JMailHelper::cleanAddress($email) && Worker::isEmail($email)))
 					{
 						$cleanTo = false;
 					}
@@ -328,11 +417,20 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 					if ($eval)
 					{
 						$thisMessage = @eval($thisMessage);
-						FabrikWorker::logEval($thisMessage, 'Caught exception on eval in updatecol::process() : %s');
+						Worker::logEval($thisMessage, 'Caught exception on eval in updatecol::process() : %s');
 					}
 
-					$mail = JFactory::getMailer();
-					$res = $mail->sendMail($from, $fromName, $to, $thisSubject, $thisMessage, true);
+					Pdf::fullPaths($thisMessage);
+
+					$res = Worker::sendMail(
+						$from,
+						$fromName,
+						$to,
+						$thisSubject,
+						$thisMessage,
+						true
+					);
+
 
 					if ($res)
 					{
@@ -391,7 +489,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		$tbl = array_shift(explode('.', $emailColumn));
 		$db = $this->_db;
 		$userIdsEmails = array();
-		$query = $db->getQuery();
+		$query = $db->getQuery(true);
 		$query->select('#__users.id AS id, #__users.email AS email')
 		->from('#__users')->join('LEFT', $tbl . ' ON #__users.id = ' . $emailColumn)
 		->where($item->db_primary_key . ' IN (' . $ids . ')');
@@ -421,7 +519,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		$params = $this->getParams();
 		$emailColID = $params->get('update_email_element', '');
 
-		return FabrikWorker::getPluginManager()->getElementPlugin($emailColID);
+		return Worker::getPluginManager()->getElementPlugin($emailColID);
 	}
 
 	/**
@@ -456,6 +554,13 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		else
 		{
 			$to = $params->get('update_email_to', '');
+
+
+            if ($params->get('update_email_to_eval', '0') === '1')
+            {
+                $to = @eval($to);
+                Worker::logEval($to, 'Caught exception on eval in updatecol::emailTo() : %s');
+            }
 		}
 
 		return $to;
@@ -489,7 +594,7 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		if ($eval)
 		{
 			$val = @eval($val);
-			FabrikWorker::logEval($val, 'Caught exception on eval in updatecol::_process() : %s');
+			Worker::logEval($val, 'Caught exception on eval in updatecol::_process() : %s');
 		}
 
 		$model->updateRows($ids, $col, $val);
@@ -507,6 +612,8 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 		parent::onLoadJavascriptInstance($args);
 		$params = $this->getParams();
 		$opts = $this->getElementJSOptions();
+		$opts->prompt = $params->get('update_col_prompt', false) !== false;
+		$opts->promptMsg = $params->get('update_user_select_message', '');
 		$opts->userSelect = (bool) $params->get('update_user_select', 0);
 		$opts->form = $this->userSelectForm();
 		$opts->renderOrder = $this->renderOrder;
@@ -549,23 +656,22 @@ class PlgFabrik_ListUpdate_col extends PlgFabrik_List
 			{
 				$elName = $elementModel->getFilterFullName();
 				$options[] = '<option value="' . $elName . '" data-id="' . $element->id . '" data-plugin="' . $element->plugin . '">'
-					. strip_tags($element->label) . '</option>';
+					. FText::_(strip_tags($element->label)) . '</option>';
 			}
 		}
 
 		$listRef = $model->getRenderContext();
 		$prefix = 'fabrik___update_col[list_' . $listRef . '][';
 		$elements = '<select class="inputbox key update_col_elements" size="1" name="' . $prefix . 'key][]">' . implode("\n", $options) . '</select>';
-		$j3 = FabrikWorker::j3();
-		$addImg = $j3 ? 'plus.png' : 'add.png';
-		$removeImg = $j3 ? 'remove.png' : 'del.png';
+		$addImg = 'plus';
+		$removeImg = 'remove';
 
 
 		$layout = $this->getLayout('form');
 		$layoutData = new stdClass;
 		$layoutData->listRef = $listRef;
 		$layoutData->renderOrder = $this->renderOrder;
-		$layoutData->j3 = $j3;
+		$layoutData->j3 = true;
 		$layoutData->addImg = FabrikHelperHTML::image($addImg, 'list', $model->getTmpl());
 		$layoutData->delImg = FabrikHelperHTML::image($removeImg, 'list', $model->getTmpl());
 		$layoutData->elements = $elements;

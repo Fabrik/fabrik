@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -231,18 +231,20 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$must_validate = (array) FArrayHelper::getNestedValue($item->params, 'validations.must_validate', array());
 		$in            = (array) FArrayHelper::getNestedValue($item->params, 'validations.validate_in', array());
 		$on            = (array) FArrayHelper::getNestedValue($item->params, 'validations.validation_on', array());
+		$hidden        = (array) FArrayHelper::getNestedValue($item->params, 'validations.validate_hidden', array());
 
 		$return = array();
 
 		for ($i = 0; $i < count($plugins); $i++)
 		{
-			$o                = new stdClass;
-			$o->plugin        = $plugins[$i];
-			$o->published     = FArrayHelper::getValue($published, $i, 1);
-			$o->show_icon     = FArrayHelper::getValue($icons, $i, 1);
-			$o->must_validate = FArrayHelper::getValue($must_validate, $i, 1);
-			$o->validate_in   = FArrayHelper::getValue($in, $i, 'both');
-			$o->validation_on = FArrayHelper::getValue($on, $i, 'both');
+			$o                  = new stdClass;
+			$o->plugin          = $plugins[$i];
+			$o->published       = FArrayHelper::getValue($published, $i, 1);
+			$o->show_icon       = FArrayHelper::getValue($icons, $i, 1);
+			$o->must_validate   = FArrayHelper::getValue($must_validate, $i, 1);
+			$o->validate_in     = FArrayHelper::getValue($in, $i, 'both');
+			$o->validation_on   = FArrayHelper::getValue($on, $i, 'both');
+			$o->validate_hidden = FArrayHelper::getValue($hidden, $i, 1);
 			$return[]         = $o;
 		}
 
@@ -367,6 +369,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$nameChanged  = $data['name'] !== $elementModel->getElement()->name;
 		$elementModel->getElement()->bind($data);
 		$listModel = $elementModel->getListModel();
+		$isView = (bool)$listModel->isView();
 
 		if ($data['id'] == '')
 		{
@@ -375,7 +378,14 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 			if ($listModel->canAddFields() === false && $listModel->noTable() === false)
 			{
-				$this->setError(FText::_('COM_FABRIK_ERR_CANT_ADD_FIELDS'));
+				if ($isView)
+				{
+					$this->app->enqueueMessage(FText::_('COM_FABRIK_LIST_VIEW_SCHEMA_NOT_ALTERED'));
+				}
+				else
+				{
+					$this->setError(FText::_('COM_FABRIK_ERR_CANT_ADD_FIELDS'));
+				}
 			}
 
 			if (!FabrikWorker::validElementName($data['name']))
@@ -387,7 +397,14 @@ class FabrikAdminModelElement extends FabModelAdmin
 		{
 			if ($listModel->canAlterFields() === false && $nameChanged && $listModel->noTable() === false)
 			{
-				$this->setError(FText::_('COM_FABRIK_ERR_CANT_ALTER_EXISTING_FIELDS'));
+				if ($isView)
+				{
+					$this->app->enqueueMessage(FText::_('COM_FABRIK_LIST_VIEW_SCHEMA_NOT_ALTERED'));
+				}
+				else
+				{
+					$this->setError(FText::_('COM_FABRIK_ERR_CANT_ALTER_EXISTING_FIELDS'));
+				}
 			}
 
 			if ($nameChanged && !FabrikWorker::validElementName($data['name'], false))
@@ -397,6 +414,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 
 		$listModel = $elementModel->getListModel();
+		$groupModel = $elementModel->getGroupModel();
+
 		/**
 		 * Test for duplicate names
 		 * un-linking produces this error
@@ -414,12 +433,13 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$query->join('INNER', '#__{package}_lists AS t ON j.table_join = t.db_table_name');
 			$query->where('group_id = ' . (int) $data['group_id'] . ' AND element_id = 0');
 			$db->setQuery($query);
+			$sql = (string)$query;
 			$joinTblId = (int) $db->loadResult();
 			$ignore    = array($data['id']);
 
 			if ($joinTblId === 0)
 			{
-				if ($listModel->fieldExists($data['name'], $ignore))
+				if ($listModel->fieldExists($data['name'], $ignore, $groupModel))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}
@@ -439,7 +459,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 					}
 				}
 
-				if ($joinListModel->fieldExists($data['name'], $ignore))
+				if ($joinListModel->fieldExists($data['name'], $ignore, $groupModel))
 				{
 					$this->setError(FText::_('COM_FABRIK_ELEMENT_NAME_IN_USE'));
 				}
@@ -504,6 +524,9 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 		if ($new)
 		{
+		    // Can't have elements starting with _
+		    $name = ltrim($name, '_');
+		    $data['name'] = $name;
 			// Have to forcefully set group id otherwise list model id is blank
 			$elementModel->getElement()->group_id = $data['group_id'];
 		}
@@ -640,7 +663,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		 * $$$ hugh - shouldn't updateChildIds() happen AFTER we save the main row?
 		 * Same place we do updateJavascript()?
 		 */
-		$this->updateChildIds($row);
+		//$this->updateChildIds($row);
 		$elementModel->getElement()->bind($data);
 		$origName = $input->get('name_orig', '');
 		list($update, $q, $oldName, $newdesc, $origDesc) = $listModel->shouldUpdateElement($elementModel, $origName);
@@ -714,6 +737,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 
 				return false;
 			}
+
+			$this->updateChildIds($row);
 		}
 
 		parent::cleanCache('com_fabrik');
@@ -1146,6 +1171,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$db->execute();
 
 		// Remove previous join records if found
+		/*
 		if ((int) $row->id !== 0)
 		{
 			$jdb   = FabrikWorker::getDbo(true);
@@ -1154,6 +1180,7 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$jdb->setQuery($query);
 			$jdb->execute();
 		}
+		*/
 		// Create or update fabrik join
 		if ($groupModel->isJoin())
 		{
@@ -1164,8 +1191,16 @@ class FabrikAdminModelElement extends FabModelAdmin
 			$joinFromTable = $listModel->getTable()->db_table_name;
 		}
 
-		$data = array('list_id' => $listModel->getTable()->id, 'element_id' => $row->id, 'join_from_table' => $joinFromTable,
-			'table_join' => $tableName, 'table_key' => $row->name, 'table_join_key' => 'parent_id', 'join_type' => 'left');
+		$data = array(
+			'list_id'    => $listModel->getTable()->id,
+			'element_id' => $row->id,
+			'join_from_table' => $joinFromTable,
+			'table_join' => $tableName,
+			'table_key' => $row->name,
+			'table_join_key' => 'parent_id',
+			'join_type' => 'left'
+		);
+
 		$join = $this->getTable('join');
 		$join->load(array('element_id' => $data['element_id']));
 		$opts           = new stdClass;
@@ -1174,6 +1209,19 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$data['params'] = json_encode($opts);
 		$join->bind($data);
 		$join->store();
+
+		// update the join for any children
+		$ids    = $this->getElementDescendents($row->id);
+
+		foreach ($ids as $id)
+		{
+			$childElementModel = $this->pluginManager->getElementPlugin($id);
+			$data['list_id'] = $childElementModel->getListModel()->getTable()->id;
+			$data['element_id'] = $id;
+			$join->load(array('element_id' => $data['element_id']));
+			$join->bind($data);
+			$join->store();
+		}
 
 		$fieldName = $tableName . '___parent_id';
 		$listModel->addIndex($fieldName, 'parent_fk', 'INDEX', '');
@@ -1193,7 +1241,6 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 		$fieldName = $tableName . '___' . $row->name;
 		$listModel->addIndex($fieldName, 'repeat_el', 'INDEX', $size);
-
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -12,6 +12,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 use \Joomla\Utilities\ArrayHelper;
+use \Fabrik\Helpers\Html;
+use \Fabrik\Helpers\Worker;
 
 jimport('joomla.application.component.controller');
 
@@ -89,7 +91,17 @@ class FabrikControllerDetails extends JControllerLegacy
 		// Display the view
 		$view->error = $this->getError();
 
-		if (in_array($input->get('format'), array('raw', 'csv', 'pdf')))
+		// $$$ hugh - added disable caching option, and no caching if not logged in (unless we can come up with a unique cacheid for guests)
+		// NOTE - can't use IP of client, as could be two users behind same NAT'ing proxy / firewall.
+		$listModel = $model->getListModel();
+		$listParams = $listModel->getParams();
+
+		$user = JFactory::getUser();
+
+		// don't cache for certain formats, or if used in social profile (CB, JomSocial)
+		if (!Worker::useCache($listModel)
+			|| $input->get('fabrik_social_profile_hash', '') !== ''
+		)
 		{
 			$view->display();
 		}
@@ -100,7 +112,8 @@ class FabrikControllerDetails extends JControllerLegacy
 			$uri = $uri->toString(array('path', 'query'));
 			$cacheId = serialize(array($uri, $input->post, $user->get('id'), get_class($view), 'display', $this->cacheId));
 			$cache = JFactory::getCache('com_' . $package, 'view');
-			echo $cache->get($view, 'display', $cacheId);
+			Html::addToSessionCacheIds($cacheId);
+			$cache->get($view, 'display', $cacheId);
 		}
 	}
 

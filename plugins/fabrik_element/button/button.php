@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.button
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,7 +43,7 @@ class PlgFabrik_ElementButton extends PlgFabrik_Element
 		$displayData->class = $class;
 		$displayData->id = $id;
 		$displayData->name = $name;
-		$displayData->label = $element->label;
+		$displayData->label = FText::_($element->label);;
 		$displayData->icon = $icon;
 		$displayData->type = $type;
 

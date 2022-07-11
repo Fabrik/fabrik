@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0.7
  */
@@ -40,13 +40,15 @@ $group = $this->group;
 	<tbody>
 		<?php
 
-		// Load each repeated group in a <tr>
-		$this->i = 0;
-		foreach ($group->subgroups as $subgroup) :
-			$this->elements = $subgroup;
-			echo $this->loadTemplate('repeatgroup_row');
-			$this->i ++;
-		endforeach;
+		if (!$group->newGroup) :
+			// Load each repeated group in a <tr>
+			$this->i = 0;
+			foreach ($group->subgroups as $subgroup) :
+				$this->elements = $subgroup;
+				echo $this->loadTemplate('repeatgroup_row');
+				$this->i ++;
+			endforeach;
+		endif;
 		?>
 	</tbody>
 </table>

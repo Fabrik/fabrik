@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.cascadingdropdown
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -71,7 +71,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$opts->lang           = FabrikWorker::getMultiLangURLCode();
 
 		// This bizarre chunk of code handles the case of setting a CDD value on the QS on a new form
-		$rowId = $input->get('rowid', '', 'string');
+		$rowId = $this->getFormModel()->getRowId();
 		$fullName = $this->getFullName();
 		$watchName = $this->getWatchFullName();
 
@@ -127,7 +127,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$join = $this->getJoin();
 		$db = $this->getDb();
 
-		if (($params->get('cascadingdropdown_label_concat') != '') && $this->app->input->get('override_join_val_column_concat') != 1)
+		if (($params->get('cascadingdropdown_label_concat') != '') && $this->app->input->get('override_join_val_column_concat', '0') !== '1')
 		{
 			$val = $params->get('cascadingdropdown_label_concat');
 
@@ -304,7 +304,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 				}
 			}
 
-			return $defaultLabel . $this->loadingImg;
+			return $defaultLabel;
 		}
 
 		$html[] = $this->renderDescription($tmp, $default);
@@ -409,12 +409,17 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 			$where = $obsName . ' IN (' . implode(',', $obsValue) . ')';
 			$opts = array('where' => $where);
+			$input->set('fabrik_storesessionfilters', false);
+			$input->set('incfilters', true);
 			$ids = $listModel->getColumnData($this->getFullName(false, false), true, $opts);
 			$key = $this->queryKey();
 
 			if (is_array($ids))
 			{
-				array_walk($ids, create_function('&$val', '$db = JFactory::getDbo();$val = $db->quote($val);'));
+				array_walk($ids, function(&$val) {
+					$db = JFactory::getDbo();
+					$val = $db->quote($val);
+				});
 				$this->autocomplete_where = empty($ids) ? '1 = -1' : $key . ' IN (' . implode(',', $ids) . ')';
 			}
 		}
@@ -613,13 +618,14 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 	 * Get the full name of the element to observe. When this element changes
 	 * state, the cdd should perform an ajax lookup to update its options
 	 *
+	 * @param   bool  $repeat  include repeat []
 	 * @return  string
 	 */
-	protected function getWatchFullName()
+	protected function getWatchFullName($repeat = true)
 	{
 		$elementModel = $this->getWatchElement();
 
-		return $elementModel->getFullName();
+		return $elementModel->getFullName(true, $repeat);
 	}
 
 	/**
@@ -669,6 +675,11 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 
 				// Load the matched element
 				$this->watchElement = $pluginManager->getElementPlugin($matched[0]);
+
+				if (!$this->watchElement)
+				{
+					throw new RuntimeException('No watch element found for cdd: ' . $this->getElement()->id . ', trying to find children of: ' . $watch, 500);
+				}
 			}
 		}
 
@@ -699,7 +710,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		}
 
 		$params = $this->getParams();
-		$watch = $this->getWatchFullName();
+		$watch = $this->getWatchFullName(false);
 		$whereVal = null;
 		$groups = $this->getFormModel()->getGroupsHiarachy();
 		$formModel = $this->getFormModel();
@@ -864,7 +875,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$listModel = JModelLegacy::getInstance('List', 'FabrikFEModel');
 		$val = $params->get('cascadingdropdown_label_concat');
 
-		if (!empty($val))
+		if (!empty($val) && $this->app->input->get('override_join_val_column_concat', '0') !== '1')
 		{
 			$val = $this->parseThisTable($val, $join);
 			$val = $w->parseMessageForPlaceHolder($val, $data);
@@ -962,7 +973,7 @@ class PlgFabrik_ElementCascadingdropdown extends PlgFabrik_ElementDatabasejoin
 		$params = $this->getParams();
 		$join = $this->getJoin();
 
-		if ($params->get('cascadingdropdown_label_concat') == '')
+		if ($params->get('cascadingdropdown_label_concat') == '' || $this->app->input->get('override_join_val_column_concat', '0') === '1')
 		{
 			return $this->getLabelParamVal();
 		}

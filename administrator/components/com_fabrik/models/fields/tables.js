@@ -1,7 +1,7 @@
 /**
  * Admin Table Editor
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -76,7 +76,7 @@ var tablesElement = new Class({
 				'cid': cid.toInt()
 			},
 			onComplete: function (r) {
-				var opts = JSON.decode(r);
+				var opts = JSON.parse(r);
 				if (typeOf(opts) !== 'null') {
 					if (opts.err) {
 						alert(opts.err);

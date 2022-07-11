@@ -1,0 +1,50 @@
+{
+    "name": "php-http/curl-client",
+    "description": "cURL client for PHP-HTTP",
+    "license": "MIT",
+    "keywords": ["http", "curl"],
+    "homepage": "http://php-http.org",
+    "authors": [
+        {
+            "name": "Михаил Красильников",
+            "email": "m.krasilnikov@yandex.ru"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "beta",
+    "config": {
+        "bin-dir": "vendor/bin"
+    },
+    "require": {
+        "php": "^5.5 || ^7.0",
+        "ext-curl": "*",
+        "php-http/httplug": "^1.0",
+        "php-http/message-factory": "^1.0.2",
+        "php-http/message": "^1.2",
+        "php-http/discovery": "^1.0"
+    },
+    "require-dev": {
+        "guzzlehttp/psr7": "^1.0",
+        "php-http/client-integration-tests": "^0.5.1",
+        "phpunit/phpunit": "^4.8.27",
+        "zendframework/zend-diactoros": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Http\\Client\\Curl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Http\\Client\\Curl\\Tests\\": "tests/"
+        }
+    },
+    "provide": {
+        "php-http/client-implementation": "1.0",
+        "php-http/async-client-implementation": "1.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-ci": "vendor/bin/phpunit --coverage-clover build/coverage.xml"
+    }
+}

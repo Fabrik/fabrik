@@ -15,6 +15,5 @@ define(['jquery', 'fab/list-plugin'], function (jQuery, FbListPlugin) {
 			this.list.submit('list.doPlugin');
 		}
 	});
-	return
-	FbListWebservice;
+	return FbListWebservice;
 });

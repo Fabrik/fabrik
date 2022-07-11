@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -281,7 +281,12 @@ class FabrikFEModelAdvancedSearch extends FabModel
 				{
 					if (array_key_exists($k, $advanced))
 					{
-						$advanced[$k][] = FArrayHelper::getValue($filters[$k], $i, '');
+						// some keys may not exist for all filters
+						$kf             = FArrayHelper::getValue($filters, $k, array());
+						if (is_array($advanced[$k]))
+						{
+							$advanced[$k][] = FArrayHelper::getValue($kf, $i, '');
+						}
 					}
 					else
 					{

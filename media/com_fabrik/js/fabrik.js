@@ -1,7 +1,7 @@
 /**
  * Various Fabrik JS classes
  *
- * @copyright: Copyright (C) 2005-2015, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -31,17 +31,23 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
      * @returns {*}
      */
     Fabrik.bootstrapVersion = function (pluginName) {
-        pluginName = pluginName || 'modal';
-        var pluginFn = jQuery.fn[pluginName];
-        if (pluginFn) {
-            if (pluginFn.VERSION) {
-                return pluginFn.VERSION;
-            }
-            if (pluginName === 'modal') {
-                // Bootstrap 2 doesn't use namespace on modal data (at least for now...)
-                return pluginFn.toString().indexOf('bs.modal') === -1 ? '2.x' : '3.x';
+        // try the function provided first, punt to 'tooltip' if it doesn't exist (some plugins override 'modal')
+        var i, pluginNames = [pluginName || 'modal', 'tooltip'], len = pluginNames.length;
+        for (i=0; i<len; ++i) {
+            var pluginFn = jQuery.fn[pluginNames[i]];
+            if (pluginFn) {
+                if (pluginFn.VERSION) {
+                    return pluginFn.VERSION.match(/(\d+)\./)[0].toInt();
+                }
+                else if (pluginFn.Constructor && pluginFn.Constructor.VERSION)
+                {
+                    return pluginFn.Constructor.VERSION.match(/(\d+)\./)[0].toInt();
+                }
             }
         }
+
+        // if we got this far, it's not 3 or 4, so either 2, or not Bootstrap!
+        return 2;
     };
 
     Fabrik.Windows = {};
@@ -205,7 +211,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         if (!events || !events[type]) {
             return this;
         }
-        args = Array.from(args);
+        args = Array.mfrom(args);
         events[type].each(function (fn) {
             if (delay) {
                 this.eventResults.push(fn.delay(delay, this, args));
@@ -225,16 +231,25 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
     /**
      * Load the google maps API once
      *
-     * @param {boolean} s Sensor
+     * @param {boolean|string} k API key
      * @param {function|string} cb Callback method function or function name (assigned to window)
+     * @param {string} language optional two letter language code
      */
-    Fabrik.loadGoogleMap = function (s, cb) {
+    Fabrik.loadGoogleMap = function (k, cb, language) {
 
         var prefix = document.location.protocol === 'https:' ? 'https:' : 'http:';
-        var src = prefix + '//maps.googleapis.com/maps/api/js?&sensor=' + s + '&libraries=places&callback=Fabrik.mapCb';
+        var src = prefix + '//maps.googleapis.com/maps/api/js?libraries=places,visualization&callback=Fabrik.mapCb';
+        
+        if (k !== false) {
+            src += '&key=' + k;
+        }
+
+        if (language !== '') {
+            src += '&language=' + language;
+        }
 
         // Have we previously started to load the Googlemaps script?
-        var gmapScripts = Array.from(document.scripts).filter(function (f) {
+        var gmapScripts = Array.mfrom(document.scripts).filter(function (f) {
             return f.src === src;
         });
 
@@ -339,7 +354,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         }
         // Get correct list block
         if (!l.submit('list.delete')) {
-            e.stop();
+            e.preventDefault();
         }
     };
 
@@ -406,8 +421,13 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
             a = jQuery(e.target).find('a').length > 0 ? jQuery(e.target).find('a') : jQuery(e.target).closest('a');
         }
         url = a.prop('href');
-        url += url.contains('?') ? '&tmpl=component&ajax=1' : '?tmpl=component&ajax=1';
-        url += '&format=partial';
+
+        // if it's a custom link, don't add our junk 'n' stuff
+        if (jQuery(target).data('iscustom') !== 1) {
+            url += url.contains('?') ? '&tmpl=component&ajax=1' : '?tmpl=component&ajax=1';
+            url += '&format=partial';
+        }
+
         title = a.prop('title');
         loadMethod = a.data('loadmethod');
         if (loadMethod === undefined) {
@@ -415,7 +435,7 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         }
 
         // Only one edit window open at the same time.
-        jQuery(Fabrik.Windows, function (key, win) {
+        jQuery.each(Fabrik.Windows, function (key, win) {
             win.close();
         });
 
@@ -459,6 +479,38 @@ define(['jquery', 'fab/loader', 'fab/requestqueue'], function (jQuery, Loader, R
         Fabrik.getWindow(winOpts);
     };
 
+    /**
+     * Needed for the wickedpicker time picker, to figure out which element the picker is attached to when closing
+     *
+     * @param  element  the DOM element the time picker is attached to
+     * @param  picker  the picker DOM element
+     */
+    Fabrik.timePickerClose = function (element, picker) {
+        if (element) {
+            // find the form
+            var form = jQuery(element).closest('form');
+
+            if (form.length > 0) {
+                // get our block
+                form = Fabrik.getBlock(form[0].id);
+
+                if (form) {
+                    // find element container
+                    var container = jQuery(element).closest('.fabrikSubElementContainer');
+
+                    if (container.length > 0) {
+                        // get the element object
+                        var el = form.formElements.get(container[0].id);
+
+                        if (el) {
+                            // fire the hideTime method
+                            el.hideTime(element, picker);
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     Fabrik.Array = {
         chunk: function (array, chunk) {

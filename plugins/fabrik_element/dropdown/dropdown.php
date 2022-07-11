@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.dropdown
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -84,7 +84,7 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 			}
 
 			$tmpLabel = FArrayHelper::getValue($labels, $i);
-			$disable = FArrayHelper::getValue($endIs, $i);
+			$disable = FArrayHelper::getValue($endIs, $i, false);
 
 			// For values like '1"'
 			$tmpVal = htmlspecialchars($tmpVal, ENT_QUOTES);
@@ -109,7 +109,7 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 			{
 				if (!in_array($sel, $values) && $sel !== '')
 				{
-					$opts[] = JHTML::_('select.option', $sel, $sel);
+					$opts[] = JHTML::_('select.option', htmlspecialchars($sel, ENT_QUOTES), $sel);
 					$aRoValues[] = $this->getReadOnlyOutput($sel, $sel);
 				}
 			}
@@ -404,10 +404,11 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 * @param   string  $value          Search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  Original filter value without quotes or %'s applied
 	 * @param   string  $type           Filter type advanced/normal/prefilter/search/querystring/searchall
+	 * @param   string  $evalFilter     evaled
 	 *
 	 * @return  string	sql query part e,g, "key = value"
 	 */
-	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal')
+	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
 	{
 		$params = $this->getParams();
 		$condition = JString::strtoupper($condition);
@@ -417,11 +418,11 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		{
 			// Multiple select options need to be treated specially (regardless of filter type?)
 			// see http://fabrikar.com/forums/index.php?threads/how-filter-a-dropdown-element-in-the-plug-fabrik-content.42089/
-			$str = $this->filterQueryMultiValues($key, $condition, $originalValue);
+			$str = $this->filterQueryMultiValues($key, $condition, $originalValue, $evalFilter, $type);
 		}
 		else
 		{
-			$str = parent::getFilterQuery($key, $condition, $value, $originalValue, $type);
+			$str = parent::getFilterQuery($key, $condition, $value, $originalValue, $type, $evalFilter);
 		}
 
 		return $str;

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -36,9 +36,6 @@ class FabrikViewFusionchart extends JViewLegacy
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$j3 = FabrikWorker::j3();
-		$srcs = FabrikHelperHTML::framework();
-		$srcs['FbListFilter'] = 'media/com_fabrik/js/listfilter.js';
-		$srcs['AdvancedSearch'] = 'media/com_fabrik/js/advanced-search.js';
 		$model = $this->getModel();
 		$usersConfig = JComponentHelper::getParams('com_fabrik');
 		$model->setId($input->getInt('id', $usersConfig->get('visualizationid', $input->getInt('visualizationid', 0))));
@@ -53,6 +50,7 @@ class FabrikViewFusionchart extends JViewLegacy
 
 		$this->requiredFiltersFound = $this->get('RequiredFiltersFound');
 
+		/*
 		if ($this->requiredFiltersFound)
 		{
 			$this->chart = $this->get('Fusionchart');
@@ -61,6 +59,7 @@ class FabrikViewFusionchart extends JViewLegacy
 		{
 			$this->chart = '';
 		}
+		*/
 
 		$params = $model->getParams();
 		$this->params = $params;
@@ -72,20 +71,105 @@ class FabrikViewFusionchart extends JViewLegacy
 		$this->showFilters = $model->showFilters();
 		$this->filterFormURL = $this->get('FilterFormURL');
 		$tpl = $j3 ? 'bootstrap' : 'default';
-		$tpl = $params->get('fusionchart_layout', $tpl);
+		$tpl = $input->get('layout', $params->get('fusionchart_layout', $tpl));
 		$this->_setPath('template', JPATH_ROOT . '/plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl/' . $tpl);
 
 		FabrikHelperHTML::stylesheetFromPath('plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl/' . $tpl . '/template.css');
+		// Adding custom.css, just for the heck of it
+		FabrikHelperHTML::stylesheetFromPath('plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl/' . $tpl . '/custom.css');
+		FabrikHelperHTML::stylesheetFromPath(
+			'plugins/fabrik_visualization/fusionchart/views/fusionchart/tmpl/' . $tpl . '/custom_css.php?c=' . $this->containerId . '&id=' . $model->getVisualization()->get('id')
+		);
 
-		// Assign something to Fabrik.blocks to ensure we can clear filters
-		$ref = $model->getJSRenderContext();
-		$js = "$ref = {};";
-		$js .= "\n" . "Fabrik.addBlock('$ref', $ref);";
-		$js .= $model->getFilterJs();
-		FabrikHelperHTML::iniRequireJs($model->getShim());
-		FabrikHelperHTML::script($srcs, $js);
+		$this->iniJs();
 		$text = $this->loadTemplate();
-		FabrikHelperHTML::runContentPlugins($text);
+		FabrikHelperHTML::runContentPlugins($text, true);
 		echo $text;
+	}
+
+	/**
+	 * Get Js Options
+	 *
+	 * @return stdClass
+	 * @throws Exception
+	 */
+	private function jsOptions()
+	{
+		$model    = $this->getModel();
+		$params = $model->getParams();
+		$options = new stdClass;
+		$options->id = $model->getVisualization()->get('id');
+		$options->chartJSON = $model->getFusionChart();
+		$options->chartType = $model->getRealChartType($params->get('fusionchart_type'));
+		$options->chartWidth = $params->get('fusionchart_width', '100%');
+		$options->chartHeight = $params->get('fusionchart_height', '100%');
+		$options->chartID = 'FusionChart_' . $model->getJSRenderContext();
+		$options->chartContainer = 'chart-container-' . $model->getJSRenderContext();
+		return $options;
+	}
+
+	/**
+	 * Initialize the js
+	 *
+	 * @return void
+	 */
+	private function iniJs()
+	{
+		$model = $this->getModel();
+		$params = $model->getParams();
+		$ref   = $model->getJSRenderContext();
+		$json  = json_encode($this->jsOptions());
+		$js    = array();
+		$js[]  = "\tvar $ref = new fabrikFusionchart('$ref', $json);";
+		$js[]  = "\tFabrik.addBlock('" . $ref . "', $ref);";
+		$js[]  = "" . $model->getFilterJs();
+		$js    = implode("\n", $js);
+
+		$mediaFolder = FabrikHelperHTML::getMediaFolder();
+
+		$srcs   = FabrikHelperHTML::framework();
+		$srcs['FbListFilter'] = $mediaFolder . '/listfilter.js';
+		$srcs['fabrikFusionchart'] = 'plugins/fabrik_visualization/fusionchart/fusionchart.js';
+
+		$shim = $model->getShim();
+        $xtLibPath = $params->get('fusionchart_library', 'fusioncharts-suite-xt');
+        $paths = array(
+        	'fusionchart' => 'plugins/fabrik_visualization/fusionchart/libs/' . $xtLibPath . '/js/fusioncharts'
+        );
+
+		$shim['fusionchart'] = (object) array(
+			'deps' => array()
+		);
+
+		$vizShim = 'viz/fusionchart/fusionchart';
+		if (!FabrikHelperHTML::isDebug())
+		{
+			$vizShim .= '-min';
+		}
+
+		$shim[$vizShim] = (object) array(
+			'deps' => array('fusionchart', 'jquery')
+		);
+
+		$theme = $params->get('fusionchart_theme', '');
+
+		if (!empty($theme))
+		{
+			$paths['fusioncharttheme'] = 'plugins/fabrik_visualization/fusionchart/libs/' . $xtLibPath .
+				'/js/themes/fusioncharts.theme.' . $theme;
+
+			$shim['fusioncharttheme'] = (object) array(
+				'deps' => array('fusionchart')
+			);
+
+			$shim[$vizShim]->deps[] = 'fusioncharttheme';
+
+			//$shim['fusionchart']->deps[] = 'fusioncharttheme';
+		}
+
+		$model->getCustomJsAction($srcs);
+
+		FabrikHelperHTML::iniRequireJs($shim, $paths);
+		FabrikHelperHTML::script($srcs, $js);
 	}
 }

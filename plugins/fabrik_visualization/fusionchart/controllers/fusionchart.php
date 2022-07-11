@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.fusionchart
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -23,4 +23,19 @@ jimport('joomla.application.component.controller');
 
 class FabrikControllerVisualizationfusionchart extends FabrikControllerVisualization
 {
+	/**
+	 * Ajax chart update
+	 *
+	 * @param   string $tmpl Template
+	 *
+	 * @return  void
+	 */
+	public function ajax_getFusionchart($tmpl = 'default')
+	{
+		$viewName = 'fusionchart';
+		$model    = $this->getModel($viewName);
+		$id       = $this->input->getInt('visualizationid', 0);
+		$model->setId($id);
+		$model->onAjax_getFusionchart();
+	}
 }

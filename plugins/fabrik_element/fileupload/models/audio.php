@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -39,7 +39,7 @@ class AudioRenderModel extends FabModel
 	 */
 	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
-		$this->render($model, $params, $file);
+	    $this->render($model, $params, $file);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class AudioRenderModel extends FabModel
 	{
 		$layout = $model->getLayout('audio');
 		$displayData = new stdClass;
-		$displayData->file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$displayData->file = $model->getStorage()->getFileUrl($file);
 
 		$this->output = $layout->render($displayData);
 	}
@@ -68,10 +68,11 @@ class AudioRenderModel extends FabModel
 	 * @param   object  $model    Element model
 	 * @param   object  $params   Element params
 	 * @param   object  $thisRow  All rows data
+	 * @param   bool    $nav      Render a navbar on carousel
 	 *
 	 * @return  string  HTML
 	 */
-	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null)
+	public function renderCarousel($id = 'carousel', $data = array(), $model = null, $params = null, $thisRow = null, $nav = true)
 	{
 		$rendered = '';
 		$id .= '_audio_carousel';

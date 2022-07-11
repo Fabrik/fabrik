@@ -14,17 +14,6 @@ define(['jquery', 'element/radiobutton/radiobutton'], function (jQuery, FbRadio)
         },
 
         /**
-         * Get the dom selector that events should be attached to. Attach to labels as well
-         * @returns {string}
-         */
-        eventDelegate: function () {
-            var str = 'input[type=' + this.type + '][name^=' + this.options.fullName + ']';
-            str += ', [class*=fb_el_' + this.options.fullName + '] .fabrikElement label';
-
-            return str;
-        },
-
-        /**
          * Convert event actions on a per element basis.
          * @param {string} action
          * @returns {string}
@@ -40,6 +29,36 @@ define(['jquery', 'element/radiobutton/radiobutton'], function (jQuery, FbRadio)
 
         getChangeEvent: function () {
             return this.options.changeEvent;
+        },
+
+        setButtonGroupCSS: function (input) {
+            var label;
+            if (input.id !== '') {
+                label = document.getElement('label[for=' + input.id + ']');
+            }
+            if (typeOf(label) === 'null') {
+                label = input.getParent('label.btn');
+            }
+            var v = input.get('value');
+
+            if (label) {
+                var parent = label.getParent('.btn-group');
+                // some templates (JoomlArt) remove the brn-group class!
+                if (!parent) {
+                    parent = label.getParent('.btn-radio');
+                }
+                if (parent) {
+                    parent.getElements('label').removeClass('active').removeClass('btn-success')
+                        .removeClass('btn-danger').removeClass('btn-primary');
+                }
+                if (v === '') {
+                    label.addClass('active btn-primary');
+                } else if (v.toInt() === 0) {
+                    label.addClass('active btn-danger');
+                } else {
+                    label.addClass('active btn-success');
+                }
+            }
         }
 
     });

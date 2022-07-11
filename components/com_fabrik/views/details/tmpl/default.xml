@@ -38,7 +38,7 @@
 					<option value="1">JYES</option>
 			</field>
 
-			<field name="fabriklayout" type="folderlist"
+			<field name="fabriklayout" type="fabrikfolderlist"
 				description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC"
 				directory="/components/com_fabrik/views/details/tmpl/"
 				label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL" />

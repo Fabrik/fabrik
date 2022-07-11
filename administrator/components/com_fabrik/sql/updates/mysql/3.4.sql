@@ -1,21 +1,22 @@
-CREATE INDEX showinsummary ON `#__fabrik_elements` (show_in_list_summary);
-CREATE INDEX plugin ON `#__fabrik_elements` (plugin(10));
-CREATE INDEX join_checked_out ON `#__fabrik_elements` (checked_out);
-CREATE INDEX join_group_id ON `#__fabrik_elements` (group_id);
-CREATE INDEX parent_id ON `#__fabrik_elements` (parent_id);
+ALTER TABLE `#__fabrik_elements` ADD INDEX (show_in_list_summary);
+ALTER TABLE `#__fabrik_elements` ADD INDEX (plugin(10));
+ALTER TABLE `#__fabrik_elements` ADD INDEX (checked_out);
+ALTER TABLE `#__fabrik_elements` ADD INDEX (group_id);
+ALTER TABLE `#__fabrik_elements` ADD INDEX (parent_id);
+ 
+ALTER TABLE `#__fabrik_formgroup` ADD INDEX (group_id);
+ALTER TABLE `#__fabrik_formgroup` ADD INDEX (form_id);
+ALTER TABLE `#__fabrik_formgroup` ADD INDEX (ordering);
 
-CREATE INDEX join_group_id ON `#__fabrik_formgroup` (group_id);
-CREATE INDEX join_form_id ON `#__fabrik_formgroup` (form_id);
-CREATE INDEX ordering ON `#__fabrik_formgroup` (ordering);
+ALTER TABLE `#__fabrik_groups` ADD INDEX (published);
 
-CREATE INDEX published ON `#__fabrik_groups` (published);
+ALTER TABLE `#__fabrik_joins` ADD INDEX (list_id);
+ALTER TABLE `#__fabrik_joins` ADD INDEX (element_id);
+ALTER TABLE `#__fabrik_joins` ADD INDEX (group_id);
+ALTER TABLE `#__fabrik_joins` ADD INDEX (table_join(100));
 
-CREATE INDEX list_id ON `#__fabrik_joins` (list_id);
-CREATE INDEX element_id ON `#__fabrik_joins` (element_id);
-CREATE INDEX group_id ON `#__fabrik_joins` (group_id);
-CREATE INDEX table_join ON `#__fabrik_joins` (table_join(100));
+ALTER TABLE `#__fabrik_forms` ADD INDEX (published);
 
-CREATE INDEX published ON `#__fabrik_forms` (published);
-CREATE INDEX form_id ON `#__fabrik_lists` (form_id);
+ALTER TABLE `#__fabrik_lists` ADD INDEX (form_id);
 
-CREATE INDEX element_id ON `#__fabrik_jsactions` (element_id);
+ALTER TABLE `#__fabrik_jsactions` ADD INDEX (element_id);

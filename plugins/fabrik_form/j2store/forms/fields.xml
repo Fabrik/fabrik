@@ -3,8 +3,16 @@
 
 	<fields addfieldpath="/administrator/components/com_fabrik/models/fields"
 	        name="params">
+
 		<fieldset name="plg-j2store-extra"
 		          label="COM_FABRIK_OPTIONS">
+
+			<field name="j2store_access"
+			       type="accesslevel"
+			       default="1"
+			       label="PLG_FABRIK_FORM_J2STORE_ACCESS_LABEL"
+			       desc="PLG_FABRIK_FORM_J2STORE_ACCESS_DESC"
+			       repeat="true" />
 
 			<field name="j2store_product_name"
 			       type="listfields"
@@ -97,6 +105,19 @@
 			       class="span5"
 			       description="PLG_FORM_J2STORE_FIELD_MANUFACTURER_DESC"
 			       label="PLG_FORM_J2STORE_FIELD_MANUFACTURER_LABEL"/>
+
+			<field name="j2store_vendor_id"
+			       repeat="true"
+			       type="listfields"
+			       mode="gui"
+			       placeholder="E.g. {my_products___vendor}"
+			       at="true"
+			       valueformat="tableelement"
+			       usestep="true"
+			       addbrackets="true"
+			       class="span5"
+			       description="PLG_FORM_J2STORE_FIELD_VENDOR_DESC"
+			       label="PLG_FORM_J2STORE_FIELD_VENDOR_LABEL"/>
 
 			<field name="j2store_addtocart_text"
 			       type="text"

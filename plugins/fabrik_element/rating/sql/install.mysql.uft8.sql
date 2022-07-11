@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS  `#__fabrik_ratings` (
-	`user_id` VARCHAR( 255 ) NOT NULL ,
+	`user_id` VARCHAR( 40 ) NOT NULL ,
 	`listid` INT( 6 ) NOT NULL ,
 	`formid` INT( 6 ) NOT NULL ,
 	`row_id` INT( 6 ) NOT NULL ,

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.birthday
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -154,6 +154,11 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 					{
 						$detailValue = $dayDisplay . '. ' . $monthDisplay . ' ' . $year;
 					}
+					
+					if ($fd == 'D month YYYY')
+					{
+						$detailValue = $dayDisplay . ' ' . $monthDisplay . ' ' . $year;
+					}
 
 					if ($fd == 'Month d, YYYY')
 					{
@@ -255,12 +260,12 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			$layoutData->day_name = preg_replace('#(\[\])$#', '[0]', $name);
 			$layoutData->day_id = $id . '_0';
 			$layoutData->day_options = $this->_dayOptions();
-			$layoutData->day_value = $dayValue;
+			$layoutData->day_value = ltrim($dayValue, "0");
 
 			$layoutData->month_name = preg_replace('#(\[\])$#', '[1]', $name);
 			$layoutData->month_id = $id . '_1';
 			$layoutData->month_options = $this->_monthOptions();
-			$layoutData->month_value = $monthValue;
+			$layoutData->month_value = ltrim($monthValue, '0');
 
 			$layoutData->year_name = preg_replace('#(\[\])$#', '[2]', $name);
 			$layoutData->year_id = $id . '_2';
@@ -290,11 +295,20 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	private function _dayOptions()
 	{
 		$params = $this->getParams();
-		$days = array(JHTML::_('select.option', '', $params->get('birthday_daylabel', FText::_('DAY'))));
+		$days = array(
+			JHTML::_(
+				'select.option',
+				'',
+				FText::_($params->get('birthday_daylabel', 'PLG_ELEMENT_BIRTHDAY_DAY')),
+				'value',
+				'text',
+				false
+			)
+		);
 
 		for ($i = 1; $i < 32; $i++)
 		{
-			$days[] = JHTML::_('select.option', $i);
+			$days[] = JHTML::_('select.option', (string) $i);
 		}
 
 		return $days;
@@ -308,12 +322,21 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	private function _monthOptions()
 	{
 		$params = $this->getParams();
-		$months = array(JHTML::_('select.option', '', $params->get('birthday_monthlabel', FText::_('MONTH'))));
+		$months = array(
+			JHTML::_(
+				'select.option',
+				'',
+				FText::_($params->get('birthday_monthlabel', 'PLG_ELEMENT_BIRTHDAY_MONTH')),
+				'value',
+				'text',
+				false
+			)
+		);
 		$monthLabels = $this->_monthLabels();
 
 		for ($i = 0; $i < count($monthLabels); $i++)
 		{
-			$months[] = JHTML::_('select.option', $i + 1, $monthLabels[$i]);
+			$months[] = JHTML::_('select.option', (string) ($i + 1), $monthLabels[$i]);
 		}
 
 		return $months;
@@ -326,8 +349,17 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	private function _yearOptions()
 	{
 		$params = $this->getParams();
-		$years = array(JHTML::_('select.option', '', $params->get('birthday_yearlabel', FText::_('YEAR'))));
-
+		$years = array(JHTML::_('select.option', '', FText::_($params->get('birthday_yearlabel', 'PLG_ELEMENT_BIRTHDAY_YEAR'))));
+		$years = array(
+			JHTML::_(
+				'select.option',
+				'',
+				FText::_($params->get('birthday_yearlabel', 'PLG_ELEMENT_BIRTHDAY_YEAR')),
+				'value',
+				'text',
+				false
+			)
+		);
 		// Jaanus: now we can choose one exact year A.C to begin the dropdown AND would the latest year be current year or some years earlier/later.
 		$date = date('Y') + (int) $params->get('birthday_forward', 0);
 		$yearOpt = $params->get('birthday_yearopt');
@@ -336,7 +368,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 
 		for ($i = $date; $i >= $date - $yearDiff; $i--)
 		{
-			$years[] = JHTML::_('select.option', $i);
+			$years[] = JHTML::_('select.option', (string) $i);
 		}
 
 		return $years;
@@ -368,9 +400,11 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 * @TODO: if NULL value is the first in repeated group then in list view whole group is empty.
 	 * Could anyone find a solution? I give up :-(
 	 * Paul 20130904 I fixed the id fields and I am getting a string passed in as $val here yyyy-m-d.
+	 * Jaanus: saved data could be date or nothing (null). Previous return '' wrote always '0000-00-00' as DATE field doesn't know ''. 
+	 * such value as '' and therefore setting element to save null hadn't expected impact. Simple return; returns null as it should. 
 	 *
 	 *
-	 * @return  string	yyyy-mm-dd
+	 * @return  string	yyyy-mm-dd or null or 0000-00-00 if needed and set
 	 */
 
 	private function _indStoreDBFormat($val)
@@ -392,7 +426,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 			}
 		}
 
-		return '';
+		return;
 	}
 
 	/**
@@ -471,7 +505,10 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$groupModel = $this->getGroup();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $groupModel = $this->getGroup();
 		/**
 		 * Jaanus: json_decode replaced with FabrikWorker::JSONtoData that made visible also single data in repeated group
 		 *
@@ -541,6 +578,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 		$mdy = $month . '.' . $day . '.' . $year;
 		$dmy_slash = $day . '/' . $month . '/' . $year;
 		$dMonthYear = $dayDisplay . '. ' . $monthDisplay . ' ' . $year;
+		$dMonthYear2 = $dayDisplay . ' ' . $monthDisplay . ' ' . $year;
 		$monthDYear = $monthDisplay . ' ' . $dayDisplay . ', ' . $year;
 		$dMonth = $dayDisplay . '  ' . $monthDisplay;
 
@@ -560,6 +598,9 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 					break;
 				case 'D. month YYYY':
 					$dateDisplay = $dMonthYear;
+					break;
+				case 'D month YYYY':
+					$dateDisplay = $dMonthYear2;
 					break;
 				case 'Month d, YYYY':
 					$dateDisplay = $monthDYear;
@@ -705,7 +746,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 *
 	 * @return  string	Filter html
 	 */
-	public function getFilter($counter = 0, $normal = true)
+	public function getFilter($counter = 0, $normal = true, $container = '')
 	{
 		$params = $this->getParams();
 		$element = $this->getElement();
@@ -813,11 +854,12 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 	 * @param   string  $value          search string - already quoted if specified in filter array options
 	 * @param   string  $originalValue  original filter value without quotes or %'s applied
 	 * @param   string  $type           filter type advanced/normal/prefilter/search/querystring/searchall
-	 *
+	 * @param   string  $evalFilter     evaled
+	 *                                  
 	 * @return  string	sql query part e,g, "key = value"
 	 */
 
-	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal')
+	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
 	{
 		$params = $this->getParams();
 		$element = $this->getElement();
@@ -886,7 +928,7 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 				return $query;
 			}
 
-			$query = parent::getFilterQuery($key, $condition, $value, $originalValue, $type);
+			$query = parent::getFilterQuery($key, $condition, $value, $originalValue, $type, $evalFilter);
 
 			return $query;
 		}

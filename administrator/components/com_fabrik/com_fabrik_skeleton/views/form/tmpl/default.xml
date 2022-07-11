@@ -42,7 +42,7 @@
 			</field>
 			
 			<field name="fabriklayout"
-				type="folderlist"
+				type="fabrikfolderlist"
 				directory="/components/com_fabrik/views/form/tmpl/"
 				label="COM_FABRIK_FIELD_FORM_TEMPLATE_LABEL"
 				description="COM_FABRIK_FIELD_FORM_TEMPLATE_DESC" />		

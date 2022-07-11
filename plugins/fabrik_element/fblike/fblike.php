@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.facebooklike
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -65,7 +65,10 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		if ($this->app->input->get('format') === 'raw')
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        if ($this->app->input->get('format') === 'raw')
 		{
 			return $data;
 		}
@@ -116,10 +119,20 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 		$meta = array();
 		$formModel = $this->getFormModel();
 		$ex = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
-		$map = array('og:title' => 'fblike_title', 'og:type' => 'fblike_type', 'og:image' => 'fblike_image',
-			'og:description' => 'fblike_description', 'og:street-address' => 'fblike_street_address', 'og:locality' => 'fblike_locality',
-			'og:region' => 'fblike_region', 'og:postal-code' => 'fblike_postal_code', 'og:country-name' => 'fblike_country',
-			'og:email' => 'fblike_email', 'og:phone_number' => 'fblike_phone_number', 'og:fax_number' => 'fblike_fax_number');
+		$map = array(
+			'og:title' => 'fblike_title',
+			'og:type' => 'fblike_type',
+			'og:image' => 'fblike_image',
+			'og:description' => 'fblike_description',
+			'og:street-address' => 'fblike_street_address',
+			'og:locality' => 'fblike_locality',
+			'og:region' => 'fblike_region',
+			'og:postal-code' => 'fblike_postal_code',
+			'og:country-name' => 'fblike_country',
+			'og:email' => 'fblike_email',
+			'og:phone_number' => 'fblike_phone_number',
+			'og:fax_number' => 'fblike_fax_number'
+		);
 
 		foreach ($map as $k => $v)
 		{
@@ -192,11 +205,10 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 			{
 				// $$$ rob doesn't work with sef urls as $url already contains site folder.
 				// $url = COM_FABRIK_LIVESITE.$url;
+				$base = JURI::base();
 				$ex = $_SERVER['SERVER_PORT'] == 80 ? 'http://' : 'https://';
 				$url = $ex . $input->server->getString('SERVER_NAME') . $url;
 			}
-
-			$href = "href=\"$url\"";
 		}
 		else
 		{
@@ -204,9 +216,10 @@ class PlgFabrik_ElementFblike extends PlgFabrik_Element
 		}
 
 		$data = new stdClass;
-		$data->href = $href;
+		$data->url = $url;
 		$data->layout = $params->get('fblike_layout', 'standard');
 		$data->showfaces = $params->get('fblike_showfaces', 0) == 1 ? 'true' : 'false';
+		$data->includeShare = $params->get('fblike_include_share', 0) == 1 ? 'true' : 'false';
 		$data->width = $params->get('fblike_width', 300);
 		$data->action = $params->get('fblike_action', 'like');
 		$data->font = $params->get('fblike_font', 'arial');

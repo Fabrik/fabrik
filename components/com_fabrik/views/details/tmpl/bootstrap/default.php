@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -30,7 +30,11 @@ if ($this->params->get('show-title', 1)) :?>
 endif;
 
 echo $form->intro;
-echo '<div class="fabrikForm fabrikDetails" id="' . $form->formid . '">';
+if ($this->isMambot) :
+	echo '<div class="fabrikForm fabrikDetails fabrikIsMambot" id="' . $form->formid . '">';
+else :
+	echo '<div class="fabrikForm fabrikDetails" id="' . $form->formid . '">';
+endif;
 echo $this->plugintop;
 echo $this->loadTemplate('buttons');
 echo $this->loadTemplate('relateddata');

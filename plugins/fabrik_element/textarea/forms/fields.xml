@@ -93,6 +93,15 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="textarea_field_type"
+			       type="list"
+			       default="TEXT"
+			       description="PLG_ELEMENT_TEXTAREA_FIELD_TYPE_DESC"
+			       label="PLG_ELEMENT_TEXTAREA_FIELD_TYPE_LABEL" >
+				<option value="TEXT">PLG_ELEMENT_TEXTAREA_FIELD_TYPE_TEXT</option>
+				<option value="MEDIUMTEXT">PLG_ELEMENT_TEXTAREA_FIELD_TYPE_MEDIUMTEXT</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="PLG_ELEMENT_TEXTAREA_LIMIT" name="plt-textarea-limit">

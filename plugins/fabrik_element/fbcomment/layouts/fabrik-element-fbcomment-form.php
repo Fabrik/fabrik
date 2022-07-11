@@ -6,10 +6,15 @@ $d = $displayData;
 
 <?php
 if ($d->href !== '') :
+    echo $d->graphApi;
 	?>
-	<div id="fb-root">
-	<fb:comments href="<?php echo $d->href; ?>" nmigrated="1"
-		um_posts="<?php echo $d->num;?>" width="<?php echo $d->width;?>" <?php echo $d->colour; ?>></fb:comments>
+    <div class="fb-comments"
+         data-href="<?php echo $d->href; ?>"
+         data-numposts="<?php echo $d->num;?>"
+         width="<?php echo $d->width;?>"
+		 <?php echo $d->colour; ?>
+    >
+    </div>
 <?php
 else :
 	?>

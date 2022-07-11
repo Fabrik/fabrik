@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
-	<fields name="params">
-	
-		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields" name="plg-element-thumbs">
-	
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields">
+		<fieldset label="COM_FABRIK_OPTIONS" name="plg-element-thumbs">
+
 			<field type="helplink"
-				url="PLG_ELEMENT_THUMBS_HELP_SERVER" />
-			
+				   url="PLG_ELEMENT_THUMBS_HELP_SERVER" />
+
+			<field name="hidden"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				   description="PLG_ELEMENT_THUMBS_HIDDEN_DESC"
+				   label="PLG_ELEMENT_THUMBS_HIDDEN_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+
+	<fields name="params">
+		<fieldset name="plg-element-thumbs-params" label="PLG_ELEMENT_THUMBS_OPTIONS">
 			<field name="show_down"
 				type="radio"
 				class="btn-group"

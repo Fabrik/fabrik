@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Search.fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -60,6 +60,6 @@ class PlgSearchFabrik extends JPlugin
 			}
 		}
 
-		return plgSystemFabrik::onDoContentSearch($text, $this->params, $phrase, $ordering, $areas);
+		return plgSystemFabrik::onDoContentSearch($text, $this->params, $phrase, $ordering);
 	}
 }

@@ -12,6 +12,8 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
     var FloatingTips = new Class({
         Implements: [Events],
 
+        Binds: [],
+
         options: {
             fxProperties: {transition: Fx.Transitions.linear, duration: 500},
             'position'  : 'top',
@@ -38,7 +40,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 Fabrik.fireEvent('bootstrap.tips.place', [tip, ele]);
                 var pos = Fabrik.eventResults.length === 0 ? false : Fabrik.eventResults[0];
                 if (pos === false) {
-                    var opts = JSON.decode(ele.get('opts', '{}').opts);
+                    var opts = JSON.parse(ele.get('opts', '{}').opts);
                     return opts && opts.position ? opts.position : 'top';
                 } else {
                     return pos;
@@ -47,7 +49,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
         },
 
         initialize: function (elements, options) {
-            if (Fabrik.bootstrapVersion('modal') === '3.x' || typeof(Materialize) === 'object') {
+            if (Fabrik.bootstrapVersion('modal') >= 3 || typeof(Materialize) === 'object') {
                 // We should override any Fabrik3 custom tip settings with bootstrap3 data-foo attributes in JLayouts
                 return;
             }
@@ -64,7 +66,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
         },
 
         attach: function (elements) {
-            if (Fabrik.bootstrapVersion('modal') === '3.x' || typeof(Materialize) === 'object') {
+            if (Fabrik.bootstrapVersion('modal') >= 3 || typeof(Materialize) === 'object') {
                 // We should override any Fabrik3 custom tip settings with bootstrap3 data-foo attributes in JLayouts
                 this.elements = document.getElements(elements);
                 this.elements.each(function (trigger) {
@@ -141,7 +143,7 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
         },
 
         hideAll: function () {
-
+            jQuery('.popover').remove();
         }
 
     });

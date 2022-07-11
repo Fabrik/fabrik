@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension group="fabrik_list" method="upgrade" type="plugin" version="3">
+	<name>plg_fabrik_list_link</name>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>hugh.messenger@gmail.com</authorEmail>
+	<authorUrl>www.fabrikar.com</authorUrl>
+	<version>3.10</version>
+	<help url="PLG_LIST_LINK_HELP_SERVER"/>
+	<description>PLG_LIST_LINK_DESCRIPTION</description>
+	<files>
+		<filename plugin="link">link.php</filename>
+		<filename>link.js</filename>
+		<filename>link-min.js</filename>
+		<filename>index.html</filename>
+		<folder>forms</folder>
+		<folder>language</folder>
+	</files>
+</extension>

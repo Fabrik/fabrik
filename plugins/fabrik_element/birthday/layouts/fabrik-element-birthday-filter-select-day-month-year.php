@@ -5,7 +5,7 @@ use Joomla\Utilities\ArrayHelper;
 
 $d = $displayData;
 
-$data = 'data-filter-name="' . $d->elementName . '"';
+$data = 'data-filter-name="' . $d->elementName . '" ';
 // Order of the selects is important - do not change
 ?>
 

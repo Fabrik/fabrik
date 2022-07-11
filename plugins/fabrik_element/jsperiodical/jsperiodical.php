@@ -3,7 +3,7 @@
  * Fabrik JS-Periodical - run JS every x ms
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.jsperiodical
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -33,7 +33,10 @@ class PlgFabrik_ElementJSPeriodical extends PlgFabrik_Element
 	 */
 	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		$params = $this->getParams();
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
+
+        $params = $this->getParams();
 		$format = $params->get('text_format_string');
 		$format_blank = $params->get('field_format_string_blank', true);
 

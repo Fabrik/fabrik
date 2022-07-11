@@ -4,13 +4,16 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.captcha
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use ReCaptcha\ReCaptcha;
+
+require_once JPATH_ROOT . '/plugins/fabrik_element/captcha/vendor/autoload.php';
 /**
  * Plugin element to captcha
  *
@@ -63,6 +66,11 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			{
 				return '';
 			}
+		}
+
+		if ($params->get('captcha-method') == 'invisible')
+		{
+			return '';
 		}
 
 		return parent::getLabel($repeatCounter, $tmpl);
@@ -213,7 +221,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			// $$$tom added lang & theme options
 			$theme = $params->get('recaptcha_theme', 'red');
-			$lang  = JString::strtolower($params->get('recaptcha_lang', 'en'));
+			$lang  = FabrikWorker::replaceWithLanguageTags(JString::strtolower($params->get('recaptcha_lang', 'en')));
 			$error = null;
 
 			if ($this->user->get('id') != 0 && $params->get('captcha-showloggedin', 0) == false)
@@ -228,24 +236,6 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 				return $this->fabrik_recaptcha_get_html($id, $publickey, $theme, $lang, $error, $ssl);
 			}
 		}
-		elseif ($params->get('captcha-method') == 'playthru')
-		{
-			if ($this->user->get('id') != 0 && $params->get('captcha-showloggedin', 0) == false)
-			{
-				return '<input class="inputbox text" type="hidden" name="' . $name . '" id="' . $id . '" value="" />';
-			}
-
-			if (!defined('AYAH_PUBLISHER_KEY'))
-			{
-				define('AYAH_PUBLISHER_KEY', $params->get('playthru_publisher_key', ''));
-				define('AYAH_SCORING_KEY', $params->get('playthru_scoring_key', ''));
-			}
-
-			require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ayah_php_bundle_1.1.7/ayah.php';
-			$ayah = new AYAH;
-
-			return $ayah->getPublisherHTML();
-		}
 		elseif ($params->get('captcha-method') == 'nocaptcha')
 		{
 			$layout                = $this->getLayout('nocaptcha');
@@ -253,6 +243,18 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$displayData->id       = $id;
 			$displayData->name     = $name;
 			$displayData->site_key = $params->get('recaptcha_publickey');
+			$displayData->lang     = FabrikWorker::replaceWithLanguageTags(JString::strtolower($params->get('recaptcha_lang', 'en')));
+
+			return $layout->render($displayData);
+		}
+		elseif ($params->get('captcha-method') == 'invisible')
+		{
+			$layout                = $this->getLayout('nocaptcha-invisible');
+			$displayData           = new stdClass;
+			$displayData->id       = $id;
+			$displayData->name     = $name;
+			$displayData->site_key = $params->get('recaptcha_publickey');
+			$displayData->lang     = FabrikWorker::replaceWithLanguageTags(JString::strtolower($params->get('recaptcha_lang', 'en')));
 
 			return $layout->render($displayData);
 		}
@@ -269,30 +271,7 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$padding    = $params->get('captcha-padding', 10);
 			$characters = $params->get('captcha-chars', 6);
 			$code       = $this->_generateCode($characters);
-
-			// $$$ hugh - code that generates image now in image.php
 			$this->session->set('com_' . $this->package . '.element.captcha.security_code', $code);
-
-			// Additional plugin params with validation
-			$noiseColor = $params->get('captcha-noise-color', '0000FF');
-
-			// '0000FF' again if we have param value but it's invalid
-			$noiseColor = $this->_getRGBcolor($noiseColor, '0000FF');
-			$textColor  = $params->get('captcha-text-color', '0000FF');
-			$textColor  = $this->_getRGBcolor($textColor, '0000FF');
-			$bgColor    = $params->get('captcha-bg', 'FFFFFF');
-			$bgColor    = $this->_getRGBcolor($bgColor, 'FFFFFF');
-
-			// Let's keep all params in relatively safe place not only captcha value
-			// Felixkat - Add
-			$this->session->set('com_' . $this->package . '.element.captcha.fontsize', $fontSize);
-			$this->session->set('com_' . $this->package . '.element.captcha.angle', $angle);
-			$this->session->set('com_' . $this->package . '.element.captcha.padding', $padding);
-			$this->session->set('com_' . $this->package . '.element.captcha.noise_color', $noiseColor);
-			$this->session->set('com_' . $this->package . '.element.captcha.text_color', $textColor);
-			$this->session->set('com_' . $this->package . '.element.captcha.bg_color', $bgColor);
-			$this->session->set('com_' . $this->package . '.element.captcha.font', $this->font);
-
 			$type = $params->get('password') == '1' ? 'password' : 'text';
 
 			if ($this->elementError != '')
@@ -310,11 +289,14 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$displayData->id   = $id;
 			$displayData->name = $name;
 
-			// $$$ hugh - changed from static image path to using simple image.php script, to get round IE caching images
-			//$displayData->url = COM_FABRIK_LIVESITE . 'plugins/fabrik_element/captcha/image.php?foo=' . rand();
+			$formId    = $this->getFormModel()->getId();
+			$rowId     = $this->app->input->get('rowid', '0');
+			$elementId = $this->getId();
 
-			// Changed to relative path as some sites were on site.com and loading from www.site.com (thus sessions different)
-			$displayData->url  = JRoute::_('plugins/fabrik_element/captcha/image.php?foo=' . rand());
+			$displayData->url  = COM_FABRIK_LIVESITE . 'index.php?option=com_' . $this->package
+				. '&task=plugin.pluginAjax&plugin=captcha&method=ajax_image&format=raw&element_id='
+				. $elementId . '&formid=' . $formId . '&rowid=' . $rowId . '&repeatcount=' . $repeatCounter;
+
 			$displayData->type = $type;
 			$displayData->size = $size;
 
@@ -332,15 +314,28 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function validate($data, $repeatCounter = 0)
 	{
+	    if ($this->app->input->get('task', '') === 'form.ajax_validate')
+        {
+            return true;
+        }
+
 		$params = $this->getParams();
 		$input  = $this->app->input;
+
+		// if this is the submit from the confirmation plugin, we already validated when rendering confirmation page
+		if ($this->app->input->get('fabrik_confirmation', '') === '2')
+		{
+			return true;
+		}
 
 		if (!$this->canUse())
 		{
 			return true;
 		}
 
-		if ($params->get('captcha-method') == 'recaptcha')
+		$method = $params->get('captcha-method', '');
+
+		if ($method === 'recaptcha')
 		{
 			if (!function_exists('_recaptcha_qsencode'))
 			{
@@ -360,18 +355,25 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			return false;
 		}
-		elseif ($params->get('captcha-method') == 'nocaptcha')
+		elseif ($method === 'nocaptcha' || $method === 'invisible')
 		{
 			if ($input->get('g-recaptcha-response'))
 			{
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/ReCaptcha.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestMethod/Post.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/RequestParameters.php';
-				require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ReCaptcha/Response.php';
-
 				$privateKey = $params->get('recaptcha_privatekey');
-				$noCaptcha  = new \ReCaptcha\ReCaptcha($privateKey);
+
+				/*
+				 * Some Windows boxes with CA cert bundle issues may fail using CurlPost, because the ReCaptcha lib
+				 * asserts verify_peer, so check to see if our global setting is turned off, if so try using socket instead
+				 */
+				if ($this->config->get('verify_peer', '1') === '0')
+				{
+					$noCaptcha = new ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\SocketPost());
+				}
+				else
+				{
+					$noCaptcha = new ReCaptcha($privateKey, new \ReCaptcha\RequestMethod\CurlPost());
+				}
+
 				$response   = $input->get('g-recaptcha-response');
 				$server     = $input->server->get('REMOTE_ADDR');
 				$resp       = $noCaptcha->verify($response, $server);
@@ -401,19 +403,6 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 
 			return false;
 		}
-		elseif ($params->get('captcha-method') == 'playthru')
-		{
-			if (!defined('AYAH_PUBLISHER_KEY'))
-			{
-				define('AYAH_PUBLISHER_KEY', $params->get('playthru_publisher_key', ''));
-				define('AYAH_SCORING_KEY', $params->get('playthru_scoring_key', ''));
-			}
-
-			require_once JPATH_SITE . '/plugins/fabrik_element/captcha/libs/ayah_php_bundle_1.1.7/ayah.php';
-			$ayah = new AYAH;
-
-			return $ayah->scoreResult();
-		}
 		else
 		{
 			$this->getParams();
@@ -434,7 +423,9 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function getValidationErr()
 	{
-		return FText::_('PLG_ELEMENT_CAPTCHA_FAILED');
+		$params = $this->getParams();
+		$method = $params->get('captcha-method', 'standard');
+		return FText::_('PLG_ELEMENT_CAPTCHA_' . strtoupper($method) . '_FAILED');
 	}
 
 	/**
@@ -462,10 +453,15 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 	 */
 	public function elementJavascript($repeatCounter)
 	{
-		if ($this->user->get('id') == 0)
+		$params = $this->getParams();
+
+		if ($params->get('captcha-showloggedin', 0) == 1 || $this->user->get('id') == 0)
 		{
-			$id   = $this->getHTMLId($repeatCounter);
-			$opts = $this->getElementJSOptions($repeatCounter);
+			$params       = $this->getParams();
+			$id           = $this->getHTMLId($repeatCounter);
+			$opts         = $this->getElementJSOptions($repeatCounter);
+			$opts->method = $params->get('captcha-method');
+			$opts->siteKey = $params->get('recaptcha_publickey');
 
 			return array('FbCaptcha', $id, $opts);
 		}
@@ -527,6 +523,154 @@ class PlgFabrik_ElementCaptcha extends PlgFabrik_Element
 			$rgb[$i] = intval($rgb[$i], 16);
 		}
 
-		return implode('+', $rgb);
+		return $rgb;
+	}
+
+	public function onAjax_image() {
+		$package = $this->app->getUserState('com_fabrik.package', 'fabrik');
+		$this->setId($this->app->input->getInt('element_id'));
+		$this->loadMeForAjax();
+		$this->getElement();
+		$params = $this->getParams();
+
+		$code = $this->session->get('com_' . $package . '.element.captcha.security_code', false);
+
+		if (empty($code))
+		{
+			exit;
+		}
+
+		$fontSize   = $params->get('captcha-font-size', 22);
+		$angle      = $params->get('captcha-angle', 0);
+		$padding    = $params->get('captcha-padding', 10);
+		$nc = $params->get('captcha-noise-color', '0000FF');
+		$nc = $this->_getRGBcolor($nc, '0000FF');
+		$tc  = $params->get('captcha-text-color', '0000FF');
+		$tc  = $this->_getRGBcolor($tc, '0000FF');
+		$bc    = $params->get('captcha-bg', 'FFFFFF');
+		$bc    = $this->_getRGBcolor($bc, 'FFFFFF');
+
+		// Create textbox and add text
+		$fontPath = JPATH_SITE . '/plugins/fabrik_element/captcha/' . $this->font;
+
+		if (function_exists('imagettfbbox'))
+		{
+			$the_box = $this->calculateTextBox($code, $fontPath, $fontSize, $angle);
+		}
+		else
+		{
+			$the_box = array('width' => 150, 'height' => 50, 'top' => 0, 'left' => 0);
+		}
+
+
+		$imgWidth = $the_box["width"] + $padding;
+		$imgHeight = $the_box["height"] + $padding;
+
+		$image = imagecreate($imgWidth, $imgHeight);
+
+		$background_color = imagecolorallocate($image, $bc[0], $bc[1], $bc[2]);
+		$text_color = imagecolorallocate($image, $tc[0], $tc[1], $tc[2]);
+		$noise_color = imagecolorallocate($image, $nc[0], $nc[1], $nc[2]);
+
+		// Generate random dots in background
+		for ($i = 0; $i < ($imgWidth * $imgHeight) / 3; $i++)
+		{
+			imagefilledellipse($image, mt_rand(0, $imgWidth), mt_rand(0, $imgHeight), 1, 1, $noise_color);
+		}
+
+		// Generate random lines in background
+		for ($i = 0; $i < ($imgWidth * $imgHeight) / 150; $i++)
+		{
+			imageline($image, mt_rand(0, $imgWidth), mt_rand(0, $imgHeight), mt_rand(0, $imgWidth), mt_rand(0, $imgHeight), $noise_color);
+		}
+
+		$left = $the_box["left"] + ($imgWidth / 2) - ($the_box["width"] / 2);
+		$top = $the_box["top"] + ($imgHeight / 2) - ($the_box["height"] / 2);
+
+		if (function_exists('imagettfbbox'))
+		{
+			imagettftext(
+				$image,
+				$fontSize,
+				$angle,
+				$left,
+				$top,
+				$text_color,
+				$fontPath,
+				$code
+			);
+		}
+		else
+		{
+			imagestring($image, 6, $left, $top, $code, $text_color);
+		}
+
+		// ... set no-cache (and friends) headers ...
+		// Some time in the past
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+		header('Accept-Ranges: bytes');
+
+		header('Content-Type: image/jpeg');
+
+		ob_start();
+		imagejpeg($image);
+		$img = ob_get_contents();
+
+		/**
+		Felixkat - Clean has been replaced with flush due to a image truncating issue
+		Haven't been able to pinpoint the exact issue yet, possibly PHP version related
+		http://fabrikar.com/forums/showthread.php?p=147606#post147606
+		 */
+		// Not this: ob_end_clean();
+		ob_end_flush();
+
+		// For some weird reason if we do this in 5.2.x the image gets truncated
+		// http://fabrikar.com/forums/showthread.php?t=26941&page=5
+		if (version_compare(PHP_VERSION, '5.3.0') < 0)
+		{
+			header('Content-Length: ' . JString::strlen($img));
+		}
+
+		imagedestroy($image);
+		echo $img;
+
+		// ... and we're done.
+		exit();
+
+	}
+
+	/**
+	 *  Simple function that calculates the *exact* bounding box (single pixel precision).
+	 *  The function returns an associative array with these keys:
+	 *  left, top:  coordinates you will pass to imagettftext
+	 *  width, height: dimension of the image you have to create
+	 *
+	 * @param   string  $code      Code
+	 * @param   string  $fontPath  Font path
+	 * @param   int     $fontsize  Font size
+	 * @param   int     $angle     Text angle
+	 *
+	 * @return  array
+	 */
+	private function calculateTextBox($code, $fontPath, $fontsize, $angle)
+	{
+		$rect = imagettfbbox($fontsize, $angle, $fontPath, $code);
+		$minX = min(array($rect[0], $rect[2], $rect[4], $rect[6]));
+		$maxX = max(array($rect[0], $rect[2], $rect[4], $rect[6]));
+		$minY = min(array($rect[1], $rect[3], $rect[5], $rect[7]));
+		$maxY = max(array($rect[1], $rect[3], $rect[5], $rect[7]));
+
+		return array
+		(
+			"left"   => abs($minX) - 1,
+			"top"    => abs($minY) - 1,
+			"width"  => $maxX - $minX,
+			"height" => $maxY - $minY,
+			"box"    => $rect
+		);
 	}
 }

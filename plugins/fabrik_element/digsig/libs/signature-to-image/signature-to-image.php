@@ -50,7 +50,8 @@ function sigJsonToImage ($json, $options = array()) {
   }
 
   $pen = imagecolorallocate($img, $options['penColour'][0], $options['penColour'][1], $options['penColour'][2]);
-  imagefill($img, 0, 0, $bg);
+  //imagefill($img, 0, 0, $bg);
+  imagefilledrectangle($img,0,0,$options['imageSize'][0] * $options['drawMultiplier'],$options['imageSize'][1] * $options['drawMultiplier'],$bg);
 
   if (is_string($json))
     $json = json_decode(stripslashes($json));

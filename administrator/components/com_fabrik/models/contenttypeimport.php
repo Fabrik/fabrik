@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.3.5
  */
@@ -85,6 +85,13 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 	 * @var array
 	 */
 	private $elementIds = array();
+
+    /**
+     * Array of missing element types
+     *
+     * @var array
+     */
+    protected $missingElementTypes = array();
 
 	/**
 	 * Constructor.
@@ -211,6 +218,7 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 				$elementData['params']   = json_encode(FabrikContentTypHelper::nodeParams($element));
 				$elementData['group_id'] = $groupId;
 				$this->mapElementACL($elementData);
+				$this->massageElementData($elementData);
 				$name          = (string) $element->getAttribute('name');
 				$fields[$name] = $this->listModel->makeElement($name, $elementData);
 
@@ -231,6 +239,16 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 		$this->importTables($dbTableName);
 
 		return $fields;
+	}
+
+	/**
+	 * Massage any element param data, for instance replacing #__ prefix in join element params
+	 *
+	 * @param   &$data  Element Data
+	 */
+	private function massageElementData(&$data)
+	{
+
 	}
 
 	/**
@@ -593,7 +611,14 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 			{
 				$elementData                  = FabrikContentTypHelper::domNodeAttributesToArray($element);
 				$elementData['params']        = FabrikContentTypHelper::nodeParams($element);
-				$elementModel                 = clone($pluginManager->loadPlugIn($elementData['plugin'], 'element'));
+				try {
+                    $elementModel = clone($pluginManager->loadPlugIn($elementData['plugin'], 'element'));
+                }
+                catch (RuntimeException $e)
+                {
+                    $this->missingElementTypes[] = $elementData['plugin'];
+                    continue;
+                }
 				$elementModel->element        = $elementModel->getDefaultProperties($elementData);
 				$elementModel->element->name  = $elementData['name'];
 				$elementModel->element->label = $elementData['label'];
@@ -638,7 +663,7 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 		{
 			// Could be importing from a CSV in which case default fields are set.
 			// TODO refactor this $input get into class constructor
-			$fields     = $input->get('defaultfields', array('id' => 'internalid', 'date_time' => 'date'), 'array');
+			$fields     = $input->get('defaultfields', array('id' => 'internalid', 'date_time' => 'jdate'), 'array');
 			$primaryKey = array_keys($input->get('key', array(), 'array'));
 			$primaryKey = array_pop($primaryKey);
 			$elements   = array();
@@ -849,7 +874,8 @@ class FabrikAdminModelContentTypeImport extends FabModelAdmin
 			'match' => true,
 			'groups' => $groups,
 			'importGroups' => $contentTypeGroups,
-			'alteredGroups' => $alteredGroups
+			'alteredGroups' => $alteredGroups,
+            'missingElementTypes' => $this->missingElementTypes
 		);
 		try
 		{

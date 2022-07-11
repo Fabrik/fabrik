@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -36,9 +36,11 @@
 header('Content-type: text/css');
 $c = $_REQUEST['c'];
 echo <<<EOT
+/* BEGIN - Your CSS styling starts here */
 
-#listform_$c .fabrikForm {
+#listform_$c {
 	margin-top: 25px !important;
 }
 
+/* END - Your CSS styling ends here */
 EOT;

@@ -7,10 +7,10 @@ $d = $displayData;
 <?php
 if ($d->j3) :
 	?>
-	<div class="btn-group">';
+	<div class="btn-group">
 		<button <?php echo $d->commentdata;?> data-fabrik-thumb-formid="<?php echo $d->formId;?>"
 			data-fabrik-thumb="up" class="btn btn-small thumb-up<?php echo $d->upActiveClass;?>">
-			<span class="icon-thumbs-up"></span>
+			<?php echo FabrikHelperHTML::image('thumbs-up', 'form', $d->tmpl); ?>
 		<span class="thumb-count"><?php echo $d->countUp;?>
 		</span>
 		</button>
@@ -19,7 +19,7 @@ if ($d->j3) :
 			?>
 			<button <?php echo $d->commentdata;?> data-fabrik-thumb-formid="<?php echo $d->formId;?>"
 				data-fabrik-thumb="down" class="btn btn-small thumb-down<?php echo $d->downActiveClass;?>">
-				<span class="icon-thumbs-down"></span>
+				<?php echo FabrikHelperHTML::image('thumbs-down', 'form', $d->tmpl); ?>
 				<span class="thumb-count"><?php echo $d->countDown;?></span>
 			</button>
 		<?php

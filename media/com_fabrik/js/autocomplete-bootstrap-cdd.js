@@ -6,6 +6,8 @@ define(['jquery', 'fab/autocomplete-bootstrap', 'fab/fabrik'],
     function (jQuery, AutoComplete, Fabrik) {
         var FabCddAutocomplete = new Class({
 
+            Binds: [],
+
             Extends: AutoComplete,
 
             search: function (e) {

@@ -3,10 +3,14 @@
 defined('_JEXEC') or die();
 
 error_reporting(E_ALL);
+ini_set('max_execution_time', 300);
 
 jimport('joomla.mail.helper');
-//JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fabsubs/tables');
-//require_once JPATH_ROOT . '/fabrik_plugins/form/paypal/scripts/fabrikar_subs.php';
+JTable::addIncludePath(JPATH_ROOT . '/plugins/fabrik_form/subscriptions/tables');
+//JTable::addIncludePath(JPATH_ROOT . '/plugins/fabrik_cron/php/scripts/tables');
+//require_once JPATH_ROOT . '/plugins/fabrik_cron/php/scripts/ipn.php';
+require_once JPATH_ROOT . '/plugins/fabrik_form/subscriptions/scripts/ipn.php';
+
 
 $db = FabrikWorker::getDbo();
 
@@ -20,7 +24,7 @@ CASE
   as emailday
    FROM #__fabrik_subs_cron_emails WHERE event_type = 'auto_renewal'");
 $auto_renewal_mails = $db->loadObjectList('emailday');
-echo $db->getQuery();
+//echo $db->getQuery();
 
 $db->setQuery("SELECT *,
 CASE
@@ -30,7 +34,7 @@ CASE
 	WHEN timeunit = 'D' THEN time_value
   END
   as emailday
-   FROM fabsubs_emails WHERE event_type = 'expiration'");
+   FROM #__fabrik_subs_cron_emails WHERE event_type = 'expiration'");
 $expiration_mails = $db->loadObjectList('emailday');
 
 
@@ -40,32 +44,36 @@ $mailfrom = $config->get('mailfrom');
 $fromname = $config->get('fromname');
 $url = str_replace('/administrator', '', JURI::base());
 
-	$db->setQuery("SELECT s.id AS subid, p.id AS planid, p.duration, plan_name AS subscription, p.period_unit, username, email, u.name, userid,
-signup_date, '$sitename' AS sitename, '$mailfrom' AS mailfrom, '$url' AS url, '$fromname' AS fromname, s.recurring,
+	$db->setQuery("SELECT s.id AS subid, p.id AS planid, pbc.duration, p.plan_name AS subscription, pbc.period_unit,
+u.username, u.email, u.name, s.userid,
+s.signup_date, '$sitename' AS sitename, '$mailfrom' AS mailfrom, '$url' AS url, '$fromname' AS fromname, s.recurring,
+s.lastpay_date,
 CASE
-	WHEN p.period_unit = 'Y' THEN date_add(lastpay_date , interval p.duration year)
-	WHEN p.period_unit = 'M' THEN date_add(lastpay_date , interval p.duration month)
-	WHEN p.period_unit = 'W' THEN date_add(lastpay_date , interval p.duration week)
-	WHEN p.period_unit = 'D' THEN date_add(lastpay_date , interval p.duration day)
+	WHEN pbc.period_unit = 'Y' THEN date_add(lastpay_date , interval pbc.duration year)
+	WHEN pbc.period_unit = 'M' THEN date_add(lastpay_date , interval pbc.duration month)
+	WHEN pbc.period_unit = 'W' THEN date_add(lastpay_date , interval pbc.duration week)
+	WHEN pbc.period_unit = 'D' THEN date_add(lastpay_date , interval pbc.duration day)
   END
   AS renew_date
 ,
 CASE
-	WHEN p.period_unit = 'Y' THEN datediff(date_add(lastpay_date , interval p.duration year), now())
-	WHEN p.period_unit = 'M' THEN datediff(date_add(lastpay_date , interval p.duration month), now())
-	WHEN p.period_unit = 'W' THEN datediff(date_add(lastpay_date , interval p.duration week), now())
-	WHEN p.period_unit = 'D' THEN datediff(date_add(lastpay_date , interval p.duration day), now())
+	WHEN pbc.period_unit = 'Y' THEN datediff(date_add(lastpay_date , interval pbc.duration year), now())
+	WHEN pbc.period_unit = 'M' THEN datediff(date_add(lastpay_date , interval pbc.duration month), now())
+	WHEN pbc.period_unit = 'W' THEN datediff(date_add(lastpay_date , interval pbc.duration week), now())
+	WHEN pbc.period_unit = 'D' THEN datediff(date_add(lastpay_date , interval pbc.duration day), now())
   END
   AS daysleft
-FROM `fabsubs_subscriptions` AS s
+FROM `#__fabrik_subs_subscriptions` AS s
 LEFT JOIN #__users AS u ON u.id = s.userid
-INNER JOIN fabsubs_plans AS p ON p.id = s.plan
-INNER JOIN fabsubs_payment_gateways AS g ON g.id = s.type
- WHERE status = 'Active' AND lifetime = 0 and p.free = 0
+INNER JOIN #__fabrik_subs_plans AS p ON p.id = s.plan
+INNER JOIN #__fabrik_subs_plan_billing_cycle AS pbc ON pbc.id = s.billing_cycle_id
+INNER JOIN #__fabrik_subs_payment_gateways AS g ON g.id = s.type
+ WHERE s.status = 'Active' AND s.lifetime = 0 and p.free = 0
 ORDER BY daysleft ");
 
 $res = $db->loadObjectList();
 
+//var_dump($db->getQuery(), $res);exit;
 foreach ($res as $row) {
 	if (array_key_exists($row->daysleft, $auto_renewal_mails) && $row->recurring == 1) {
 		$mail = clone($auto_renewal_mails[$row->daysleft]);
@@ -73,7 +81,8 @@ foreach ($res as $row) {
 			$mail->subject = str_replace('{'.$k.'}', $v, $mail->subject);
 			$mail->body = str_replace('{'.$k.'}', $v, $mail->body);
 		}
-		$res = JUtility::sendMail($mailfrom, $fromname, $row->email, $mail->subject, $mail->body, true);
+		echo "would mail: " . $row->email;
+		//$res = JUtility::sendMail($mailfrom, $fromname, $row->email, $mail->subject, $mail->body, true);
 	}
 
 	if (array_key_exists($row->daysleft, $expiration_mails) && $row->recurring == 0)
@@ -84,61 +93,120 @@ foreach ($res as $row) {
 			$mail->subject = str_replace('{'.$k.'}', $v, $mail->subject);
 			$mail->body = str_replace('{'.$k.'}', $v, $mail->body);
 		}
-		$res = JUtility::sendMail($mailfrom, $fromname, $row->email, $mail->subject, $mail->body, true);
+		echo "would mail: " . $row->email;
+		//$res = JUtility::sendMail($mailfrom, $fromname, $row->email, $mail->subject, $mail->body, true);
 	}
 }
 
-//send email reminders to active subs in old acctexpt table:
-//last date this should be used from is 09/03/2011
-$db->setQuery("SELECT s.id AS subid, email, name, `type` AS subscription, username,
-datediff(expiration, now()) AS daysleft, expiration as renew_date
-FROM `#__acctexp_subscr` as s
-left join #__users as u on s.userid = u.id
-where status = 'Active' and plan != 2 and plan !=3
-");
-$res = $db->loadObjectList();
+// get list of valid subs users
 
-foreach ($res as $row) {
-	if (array_key_exists($row->daysleft, $expiration_mails)) {
-		$mail = clone($expiration_mails[$row->daysleft]);
-		foreach ($row as $k=>$v) {
-			$mail->subject = str_replace('{'.$k.'}', $v, $mail->subject);
-			$mail->body = str_replace('{'.$k.'}', $v, $mail->body);
-		}
-		$res = JUtility::sendMail( $mailfrom, $fromname, $row->email, $mail->subject, $mail->body, true);
-	}
-}
+$db->setQuery("SELECT s.userid AS userid, u.username, u.name, u.email, pbc.plan_name, s.recurring
+FROM `#__fabrik_subs_subscriptions` AS s
+INNER JOIN #__fabrik_subs_plans AS p ON p.id = s.plan
+INNER JOIN #__fabrik_subs_plan_billing_cycle AS pbc ON pbc.id = s.billing_cycle_id
+INNER JOIN #__users AS u ON u.id = s.userid
+ WHERE s.status = 'Active' AND s.lifetime = 0
+ AND (
+ CASE
+	WHEN pbc.period_unit = 'Y' THEN datediff(date_add(lastpay_date , interval pbc.duration year), now())
+	WHEN pbc.period_unit = 'M' THEN datediff(date_add(lastpay_date , interval pbc.duration month), now())
+	WHEN pbc.period_unit = 'W' THEN datediff(date_add(lastpay_date , interval pbc.duration week), now())
+	WHEN pbc.period_unit = 'D' THEN datediff(date_add(lastpay_date , interval pbc.duration day), now())
+  END > 0
 
-//expire non recurring subs that have expired. Create fall back plan if required
+  OR ( expiration != '0000-00-00 00:00:00' AND
+  CASE
+	WHEN pbc.period_unit = 'Y' THEN datediff(date_add(expiration , interval pbc.duration year), now())
+	WHEN pbc.period_unit = 'M' THEN datediff(date_add(expiration , interval pbc.duration month), now())
+	WHEN pbc.period_unit = 'W' THEN datediff(date_add(expiration , interval pbc.duration week), now())
+	WHEN pbc.period_unit = 'D' THEN datediff(date_add(expiration , interval pbc.duration day), now())
+  END > 0
+  )
+)
+ ");
+$validSubsUserIds = $db->loadObjectList('userid');
+//var_dump($validSubsUserIds);
 
-	$db->setQuery("SELECT s.id AS subid
-FROM `fabsubs_subscriptions` AS s
-INNER JOIN fabsubs_plans AS p ON p.id = s.plan
- WHERE status = 'Active' AND lifetime = 0 AND recurring = 0 AND CASE
-	WHEN p.period_unit = 'Y' THEN datediff(date_add(lastpay_date , interval p.duration year), now())
-	WHEN p.period_unit = 'M' THEN datediff(date_add(lastpay_date , interval p.duration month), now())
-	WHEN p.period_unit = 'W' THEN datediff(date_add(lastpay_date , interval p.duration week), now())
-	WHEN p.period_unit = 'D' THEN datediff(date_add(lastpay_date , interval p.duration day), now())
+//expire subs that have expired. Create fall back plan if required
+
+	$db->setQuery("SELECT s.userid, u.username, s.lastpay_date, s.id AS subid, pbc.plan_name
+FROM `#__fabrik_subs_subscriptions` AS s
+INNER JOIN #__fabrik_subs_plans AS p ON p.id = s.plan
+INNER JOIN #__fabrik_subs_plan_billing_cycle AS pbc ON pbc.id = s.billing_cycle_id
+INNER JOIN #__users AS u ON u.id = s.userid
+ WHERE s.status = 'Active' AND s.lifetime = 0 AND (
+  CASE
+	WHEN pbc.period_unit = 'Y' THEN datediff(date_add(lastpay_date , interval pbc.duration year), now())
+	WHEN pbc.period_unit = 'M' THEN datediff(date_add(lastpay_date , interval pbc.duration month), now())
+	WHEN pbc.period_unit = 'W' THEN datediff(date_add(lastpay_date , interval pbc.duration week), now())
+	WHEN pbc.period_unit = 'D' THEN datediff(date_add(lastpay_date , interval pbc.duration day), now())
   END <= 0
 
   OR ( expiration != '0000-00-00 00:00:00' AND
   CASE
-	WHEN p.period_unit = 'Y' THEN datediff(date_add(expiration , interval p.duration year), now())
-	WHEN p.period_unit = 'M' THEN datediff(date_add(expiration , interval p.duration month), now())
-	WHEN p.period_unit = 'W' THEN datediff(date_add(expiration , interval p.duration week), now())
-	WHEN p.period_unit = 'D' THEN datediff(date_add(expiration , interval p.duration day), now())
+	WHEN pbc.period_unit = 'Y' THEN datediff(date_add(expiration , interval pbc.duration year), now())
+	WHEN pbc.period_unit = 'M' THEN datediff(date_add(expiration , interval pbc.duration month), now())
+	WHEN pbc.period_unit = 'W' THEN datediff(date_add(expiration , interval pbc.duration week), now())
+	WHEN pbc.period_unit = 'D' THEN datediff(date_add(expiration , interval pbc.duration day), now())
   END <= 0
   )
+)
+ORDER BY s.lastpay_date
  ");
 
-	$ipn = new fabrikPayPalIPN();
+	$recalibratedUserIds = array();
+
+
+	$ipn = new FabrikSubscriptionsIPN();
 	$rows = $db->loadObjectList();
+//var_dump($db->getQuery(), $rows);exit;
 	$now = JFactory::getDate()->toSql();
-	$sub = FabTable::getInstance('Subscriptions', 'FabrikTable');
+	$sub = FabTable::getInstance('Subscription', 'FabrikTable');
 	foreach ($rows as $row) {
 		$sub->load($row->subid);
 		$sub->status = 'Expired';
 		$sub->eot_date = $now;
+		echo "store Expired sub: " . $sub->id . " : " . $row->userid . " : " . $row->plan_name . "<br />\n";
 		$sub->store();
-		$ipn->fallbackPlan($sub);
 	}
+
+	foreach ($rows as $row)
+	{
+			echo "recalibrate user: " . $row->username . ' : ' . $row->lastpay_date;
+			echo "<br />\n";
+			$ipn->recalibrateUser($row->userid);
+	}
+
+	/*
+	echo "<br />\nActive Subs<br />\n";
+	foreach ($validSubsUserIds as $v)
+	{
+		//$ipn->recalibrateUser($v->userid);
+		echo $v->username . "(" . $v->name . " - " . $v->email . ") : " . $v->plan_name;
+		if ($v->recurring == 1)
+		{
+			echo " (recurring)";
+		}
+		echo "<br />\n";
+	}
+
+	echo "<br />\nValid subs total: " . count($validSubsUserIds) . "<br />\n";
+	echo "Recalibrated total: " . count($recalibratedUserIds) . "<br />\n";
+
+$db->setQuery("SELECT s.userid, u.username, s.lastpay_date, s.id AS subid, pbc.plan_name
+FROM `#__fabrik_subs_subscriptions` AS s
+INNER JOIN #__fabrik_subs_plans AS p ON p.id = s.plan
+INNER JOIN #__fabrik_subs_plan_billing_cycle AS pbc ON pbc.id = s.billing_cycle_id
+INNER JOIN #__users AS u ON u.id = s.userid
+ WHERE s.status = 'Expired' AND s.lifetime = 0
+ GROUP BY s.userid
+ LIMIT 700,100
+ ");
+$rows = $db->loadObjectList();
+foreach ($rows as $row) {
+	echo "expired: " . $row->username . "<br />\n";
+	$ipn->recalibrateUser($row->userid);
+}
+echo "total: " . count($rows);
+	*/
+	exit;

@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Date: Fri, 05 Feb 2016 09:18:54 GMT
-Server: Apache
-Vary: Accept-Encoding
-Content-Length: 131
-Content-Type: application/json; charset=UTF-8;
-
-{"success":true,"data":{"order_id":"TEST-TRANS-1","payment_url":"https:\/\/testpay.multisafepay.com\/pay\/?order_id=TEST-TRANS-1"}}

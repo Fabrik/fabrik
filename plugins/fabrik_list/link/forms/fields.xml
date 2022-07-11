@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+		<fieldset name="plg-list-link">
+
+			<field type="helplink"
+				url="PLG_LIST_LINK_HELP_SERVER" />
+
+			<field name="table_link_access"
+				type="accesslevel"
+				default="1"
+				label="PLG_FABRIK_LIST_link_ACCESS_LABEL"
+				repeat="true" />
+
+			<field name="table_link_button_label"
+				type="text"
+				label="PLG_FABRIK_LIST_LINK_BUTTON_LABEL_LABEL"
+				repeat="true"
+				size="30" />
+
+			<field name="list_link_image_name"
+				type="text"
+				default="link"
+				description="PLG_FABRIK_LIST_LINK_IMAGE_DESC"
+				label="PLG_FABRIK_LIST_LINK_IMAGE_LABEL"
+				repeat="true" size="20" />
+
+			<field type="text"
+				name="table_link_link"
+				label="PLG_FABRIK_LIST_LINK_LINK_LABEL"
+				   description="PLG_FABRIK_LIST_LINK_LINK_DESC"
+				repeat="true"
+				size="60" />
+
+			<field name="table_link_new_tab"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				   repeat="true"
+				   label="PLG_FABRIK_LIST_LINK_NEW_TAB_LABEL"
+				   description="PLG_FABRIK_LIST_LINK_NEW_TAB_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="table_link_isfabrik"
+			       type="list"
+			       default="0"
+				   repeat="true"
+			       label="PLG_FABRIK_LIST_LINK_ISFABRIK_LABEL"
+			       description="PLG_FABRIK_LIST_LINK_ISFABRIK_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="2">PLG_FABRIK_LIST_LINK_ISFABRIK_AJAX</option>
+			</field>
+
+			<field type="text"
+			       name="table_link_fabrik_window_title"
+			       label="PLG_FABRIK_LIST_LINK_TITLE_LABEL"
+			       description="PLG_FABRIK_LIST_LINK_TITLE_DESC"
+			       repeat="true"
+			       size="30" />
+
+		</fieldset>
+	</fields>
+</form>

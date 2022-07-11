@@ -9,7 +9,9 @@ define(['jquery'], function (jQuery) {
      */
 
     var FbGroupedToggler = new Class({
-        Implements: Options,
+        Binds: [],
+
+        Implements: [Options],
 
         options: {
             collapseOthers: false,
@@ -49,6 +51,7 @@ define(['jquery'], function (jQuery) {
                     rows = h.getParent().getNext();
                 }
                 state ? jQuery(rows).hide() : jQuery(rows).show();
+                state ? jQuery(h).find('.groupExtra').hide() : jQuery(h).find('.groupExtra').show();
                 this.setIcon(img, state);
                 state = state ? false : true;
                 img.store('showgroup', state);
@@ -78,7 +81,8 @@ define(['jquery'], function (jQuery) {
 
         collapse: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).hide();
-            var selector = this.options.bootstrap ? 'i' : 'img';
+            jQuery(this.container.getElements('.groupExtra')).hide();
+            var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
             var i = this.container.getElements('.fabrik_groupheading a ' + selector);
             if (i.length === 0) {
                 i = this.container.getElements('.fabrik_groupheading ' + selector);
@@ -91,9 +95,11 @@ define(['jquery'], function (jQuery) {
 
         expand: function () {
             jQuery(this.container.getElements('.fabrik_groupdata')).show();
-            var i = this.container.getElements('.fabrik_groupheading a img');
+            jQuery(this.container.getElements('.groupExtra')).show();
+            var selector = this.options.bootstrap ? '*[data-role="toggle"]' : 'img';
+            var i = this.container.getElements('.fabrik_groupheading a ' + selector);
             if (i.length === 0) {
-                i = this.container.getElements('.fabrik_groupheading img');
+                i = this.container.getElements('.fabrik_groupheading ' + selector);
             }
             i.each(function (img) {
                 img.store('showgroup', true);

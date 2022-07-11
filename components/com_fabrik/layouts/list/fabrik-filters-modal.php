@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.4
  */
@@ -66,10 +66,12 @@ endforeach;
 		</table>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="#" class="btn" data-dismiss="modal"><?php echo FabrikHelperHTML::icon('icon-cancel', FText::_('COM_FABRIK_CLOSE_WINDOW')); ?></a>
 		<?php
-		if ($d->showClearFilters) : ?>
-			<a class="btn clearFilters" href="#">
+		if ($d->showClearFilters) :
+			$clearFiltersClass = $d->gotOptionalFilters ? "btn clearFilters hasFilters" : "btn clearFilters";
+			?>
+			<a class="<?php echo $clearFiltersClass; ?>" href="#">
 				<?php echo FabrikHelperHTML::icon('icon-refresh', FText::_('COM_FABRIK_CLEAR')); ?>
 			</a>
 		<?php endif ?>

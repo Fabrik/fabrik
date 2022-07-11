@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -250,4 +250,47 @@ class FabrikAdminControllerList extends FabControllerForm
 		$model->setId($id);
 		echo $model->getAdvancedElementFilter();
 	}
+
+	/**
+	 * Run a list plugin
+	 *
+	 * @return  null
+	 */
+	public function doPlugin()
+	{
+		$app = JFactory::getApplication();
+		$input = $this->input;
+		$cid   = $input->get('cid', array(0), 'array');
+		$cid   = $cid[0];
+		$model = $this->getModel('list', 'FabrikFEModel');
+		$model->setId($input->getInt('listid', $cid));
+
+		// $$$ rob need to ask the model to get its data here as if the plugin calls $model->getData
+		// then the other plugins are recalled which makes the current plugins params incorrect.
+		$model->setLimits();
+		$model->getData();
+
+		// If showing n tables in article page then ensure that only activated table runs its plugin
+		if ($input->getInt('id') == $model->get('id') || $input->get('origid', '', 'string') == '')
+		{
+			$messages = $model->processPlugin();
+
+			if ($input->get('format') == 'raw')
+			{
+				$input->set('view', 'list');
+			}
+			else
+			{
+				foreach ($messages as $msg)
+				{
+					$this->app->enqueueMessage($msg);
+				}
+			}
+		}
+
+		$format = $input->get('format', 'html');
+		$ref    = 'index.php?option=com_fabrik&task=list.view&listid=' . $model->getId() . '&format=' . $format;
+		$app->redirect($ref);
+	}
+
 }

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -25,11 +25,11 @@ foreach ($this->elements as $element) :
 		$this->element->containerClass = str_replace('fabrikElementContainer', '', $this->element->containerClass);
 	}
 
-	$element->fullWidth = $element->span == 'span12' || $element->span == '';
+	$element->fullWidth = $element->span == FabrikHelperHTML::getGridSpan(12) || $element->span == '';
 	$style = $element->hidden ? 'style="display:none"' : '';
 
 	if ($element->startRow) : ?>
-			<div class="row-fluid <?php echo $single ? 'fabrikElementContainer' : ''; ?>" <?php echo $style?>><!-- start element row -->
+			<div class="row-fluid <?php echo $single ? 'fabrikElementContainer ' : ''; echo $single && $element->dataEmpty ? 'fabrikDataEmpty ' : ''; ?>" <?php echo $style?>><!-- start element row -->
 	<?php
 		$rowStarted = true;
 	endif;
@@ -44,7 +44,7 @@ foreach ($this->elements as $element) :
 	{
 		echo $this->loadTemplate('group_labels_none');
 	}
-	elseif ($element->span == 'span12' || $element->span == '' || $labels_above == 0)
+	elseif ($element->span == FabrikHelperHTML::getGridSpan('12') || $element->span == '' || $labels_above == 0)
 	{
 		echo $this->loadTemplate('group_labels_side');
 	}

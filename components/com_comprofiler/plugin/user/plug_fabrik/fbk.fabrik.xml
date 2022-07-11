@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cbinstall version="1.0" type="plugin" group="user">
 	<name>Fabrik</name>
-	<author>Rob Clayburn</author>
+	<author>Media A-Team, Inc.</author>
 	<creationDate>Jan 2009</creationDate>
 	<copyright>(C) 2005-2008 fabrikar.com</copyright>
 	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>1.2</version>
+	<version>2.1</version>
 	<description>Fabrik tab</description>
 	<files>
 		<filename plugin="fbk.fabrik">fbk.fabrik.php</filename>

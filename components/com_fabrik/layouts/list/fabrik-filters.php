@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.4
  */
@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $d             = $displayData;
 $underHeadings = $d->filterMode === 3 || $d->filterMode === 4;
+$clearFiltersClass = $d->gotOptionalFilters ? "clearFilters hasFilters" : "clearFilters";
 
 $style = $d->toggleFilters ? 'style="display:none"' : ''; ?>
 <div class="fabrikFilterContainer" <?php echo $style ?>>
@@ -34,7 +35,7 @@ $style = $d->toggleFilters ? 'style="display:none"' : ''; ?>
 					<th><?php echo FText::_('COM_FABRIK_SEARCH'); ?>:</th>
 					<th style="text-align:right">
 						<?php if ($d->showClearFilters) : ?>
-							<a class="clearFilters" href="#">
+							<a class="<?php echo $clearFiltersClass; ?>" href="#">
 								<?php echo FabrikHelperHTML::icon('icon-refresh', FText::_('COM_FABRIK_CLEAR')); ?>
 							</a>
 						<?php endif ?>

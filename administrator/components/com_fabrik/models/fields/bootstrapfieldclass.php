@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -51,6 +51,18 @@ class JFormFieldBootstrapfieldclass extends JFormFieldList
 		$sizes[] = JHTML::_('select.option', 'span10');
 		$sizes[] = JHTML::_('select.option', 'span11');
 		$sizes[] = JHTML::_('select.option', 'span12');
+		$sizes[] = JHTML::_('select.option', 'col-md-1');
+		$sizes[] = JHTML::_('select.option', 'col-md-2');
+		$sizes[] = JHTML::_('select.option', 'col-md-3');
+		$sizes[] = JHTML::_('select.option', 'col-md-4');
+		$sizes[] = JHTML::_('select.option', 'col-md-5');
+		$sizes[] = JHTML::_('select.option', 'col-md-6');
+		$sizes[] = JHTML::_('select.option', 'col-md-7');
+		$sizes[] = JHTML::_('select.option', 'col-md-8');
+		$sizes[] = JHTML::_('select.option', 'col-md-9');
+		$sizes[] = JHTML::_('select.option', 'col-md-10');
+		$sizes[] = JHTML::_('select.option', 'col-md-11');
+		$sizes[] = JHTML::_('select.option', 'col-md-12');
 
 		return $sizes;
 	}

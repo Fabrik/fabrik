@@ -3,14 +3,11 @@ defined('JPATH_BASE') or die;
 ?>
 <a
 	id=""
-	class="fabrikEvent label fabrikTip"
-	href="#"
-	data-toggle="popover"
-	data-placement="top"
+	class="fabrikEvent label"
+	href="#fabrikEvent_modal"
+	data-toggle="modal"
 	data-title=""
-	data-content=""
-	data-trigger="click"
-	data-html="true"
-	data-container="body"
+	data-body=""
+	data-buttons=""
 >
 </a>

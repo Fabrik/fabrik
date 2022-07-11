@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -93,6 +93,11 @@ class JFormFieldFabrikModalrepeat extends JFormField
 
 		$subForm->model = $feModel;
 
+		if (isset($this->form->rawData))
+		{
+			$subForm->rawData = $this->form->rawData;
+		}
+
 		// Hack for order by elements which we now want to store as ids
 		$v = json_decode($this->value);
 
@@ -127,7 +132,7 @@ class JFormFieldFabrikModalrepeat extends JFormField
 
 		// As JForm will render child fieldsets we have to hide it via CSS
 		$fieldSetId = str_replace('jform_params_', '', $modalId);
-		$css = '#' . $fieldSetId . ' { display: none; }';
+		$css = 'a[href="#' . $fieldSetId . '"] { display: none!important; }';
 		$document->addStyleDeclaration($css);
 
 		$path = 'templates/' . $app->getTemplate() . '/images/menu/';

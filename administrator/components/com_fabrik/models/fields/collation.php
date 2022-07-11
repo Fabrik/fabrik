@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2015 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2020  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -44,7 +44,7 @@ class JFormFieldCollation extends JFormFieldList
 
 		if ($defaultToTableValue)
 		{
-			$defaultToTableValue = (bool) $this->element->attributes()->$defaultToTableValue[0];
+			$defaultToTableValue = (bool) $this->element->attributes()->{$defaultToTableValue[0]};
 		}
 		else
 		{
@@ -90,7 +90,6 @@ class JFormFieldCollation extends JFormFieldList
 		$db->setQuery('SHOW COLLATION WHERE ' . $db->quoteName('Compiled') . ' = ' . $db->quote('Yes'));
 		$rows = $db->loadObjectList();
 		sort($rows);
-		require_once COM_FABRIK_FRONTEND . '/helpers/image.php';
 		$opts = array();
 
 		if ($this->element->attributes()->show_none && (bool) $this->element->attributes()->show_none[0])

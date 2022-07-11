@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<form>
+	<fields addfieldpath="/administrator/components/com_fabrik/models/fields" name="params">
+        <fieldset name="plg-form-joompush">
+
+			<field name="joompush_use_jp_template"
+				   type="radio"
+				   default="0"
+				   repeat="true"
+				   class="btn-group btn-group-yesno"
+				   label="PLG_FABRIK_FORM_JOOMPUSH_USE_JP_TEMPLATE_LABEL"
+				   description="PLG_FABRIK_FORM_JOOMPUSH_USE_JP_TEMPLATE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="joompush_template"
+				   type="sql"
+				   default="0"
+				   repeat="true"
+				   showon="joompush_use_jp_template:1"
+				   label="PLG_FABRIK_FORM_JOOMPUSH_TEMPLATE_LABEL"
+				   description="PLG_FABRIK_FORM_JOOMPUSH_TEMPLATE_DESC"
+				   query="SELECT id AS value, title AS joompush_template FROM #__joompush_notification_templates WHERE state = 1"
+			/>
+
+            <field name="joompush_notification_icon"
+                   type="media"
+                   repeat="true"
+				   showon="joompush_use_jp_template:0"
+                   label="PLG_FABRIK_FORM_JOOMPUSH_NOTIFICATION_ICON_LABEL"
+                   description="PLG_FABRIK_FORM_JOOMPUSH_NOTIFICATION_DESC"
+                   hide_none="1"
+                   default="media/com_joompush/images/joompush.png"
+            />
+
+            <field name="joompush_title"
+                   type="text"
+                   repeat="true"
+				   showon="joompush_use_jp_template:0"
+                   label="PLG_FABRIK_FORM_JOOMPUSH_TITLE_LABEL"
+                   description="PLG_FABRIK_FORM_JOOMPUSH_TITLE_DESC"
+            />
+
+            <field name="joompush_message"
+			       type="listfields"
+				   mode="gui"
+				   valueformat="tableelement"
+				   addbrackets="true"
+                   repeat="true"
+				   showon="joompush_use_jp_template:0"
+			       label="PLG_FABRIK_FORM_JOOMPUSH_MESSAGE_LABEL"
+                   description="PLG_FABRIK_FORM_JOOMPUSH_MESSAGE_DESC"
+            />
+
+
+			<field name="joompush_url"
+				   type="text"
+				   repeat="true"
+				   label="PLG_FABRIK_FORM_JOOMPUSH_URL_LABEL"
+				   description="PLG_FABRIK_FORM_JOOMPUSH_URL_DESC"
+			/>
+
+            <field name="joompush_group"
+                   type="sql"
+                   default=""
+				   header="COM_FABRIK_PLEASE_SELECT"
+                   repeat="true"
+                   label="PLG_FABRIK_FORM_JOOMPUSH_GROUP_LABEL"
+                   description="PLG_FABRIK_FORM_JOOMPUSH_GROUP_DESC"
+                   query="SELECT id AS value, title AS joompush_group FROM #__joompush_subscriber_groups WHERE state = 1"
+            />
+
+			<field name="joompush_user"
+				   type="listfields"
+				   default=""
+				   description="PLG_FABRIK_FORM_JOOMPUSH_USER_FIELD_DESC"
+				   label="PLG_FABRIK_FORM_JOOMPUSH_USER_FIELD_LABEL"
+				   onlytablefields="0"
+				   repeat="true" />
+
+			<field name="joompush_conditon"
+				   type="fabrikeditor"
+				   mode="php"
+				   description="PLG_FABRIK_FORM_JOOMPUSH_CONDITION_DESC"
+				   label="PLG_FABRIK_FORM_JOOMPUSH_CONDITION_LABEL"
+				   repeat="true" />
+		</fieldset>
+	</fields>
+</form>

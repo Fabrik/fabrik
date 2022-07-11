@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="library" method="upgrade" version="3">
 	<name>Fabrik library</name>
 	<libraryname>fabrik</libraryname>
-	<author>Fabrikar</author>
-	<creationDate>Feb 2016</creationDate>
-	<copyright>Copyright (C) 2016</copyright>
+	<author>Media A-Team, Inc.</author>
+	<creationDate>August 2021</creationDate>
+	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>fabrikar@gmail.com</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.5</version>
+	<version>3.10</version>
 	<description>Fabrik - Library files</description>
 
 	<files>
 		<folder>vendor</folder>
+		<folder>libs</folder>
+		<folder>fabrik</folder>
 		<file>composer.json</file>
 		<file>include.php</file>
 	</files>
