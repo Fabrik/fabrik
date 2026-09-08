@@ -1,3 +1,12 @@
+This is the Fabrik3 code source, running only on outdated Joomla! 3. Fabrik3 is not longer maintained.
+====
+
+For recent Fabrik versions supporting Joomla! 4, Joomla! 5, Joomla! 6 see https://fabrikar.com
+---
+
+
+
+
 Fabrik is the Joomla application builder
 
 Installation
@@ -62,9 +71,4 @@ An additional tasks is available for minimising the javascript:
 Further Information
 ================
 
-[Wiki](http://fabrikar.com/forums/index.php?wiki)  
-[FAQ](http://fabrikar.com/forums/index.php?wiki/faq/)  
-[Forum](http://fabrikar.com/forums/)  
-[Things You Can Do](http://fabrikar.com/forums/index.php?wiki/things-you-can-do/)  
-[Contribute Code](http://fabrikar.com/forums/index.php?wiki/contribute-code/)  
-[Contribute Translation](http://fabrikar.com/forums/index.php?wiki/translations/)  
+https://fabrikar.com 
