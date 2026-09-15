@@ -3234,6 +3234,9 @@ class FabrikFEModelList extends JModelForm
 		$return = array();
 		$joins = ($this->get('includeCddInJoin', true) === false) ? $this->getJoinsNoCdd() : $this->getJoins();
 
+		$id = array_column( $joins, "id" );
+		array_multisort( $id, SORT_ASC, $joins );
+		
 		foreach ($joins as $join)
 		{
 			// Used to bypass user joins if the table connect isnt the Joomla connection
