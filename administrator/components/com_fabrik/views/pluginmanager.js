@@ -62,7 +62,12 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                 var container = target.getParent('.actionContainer'),
                     title = container.getElement('.pluginTitle'),
                     plugin = container.getElement('select[name*=plugin]').getValue(),
-                    desc = target.getValue();
+                    desc = target.getValue(),
+					params = container.getElement('select[name*=params]').getValue();
+				if (plugin == 'php'){
+					if (params == '') params = 'never';
+					plugin += '[' + params + ']' ;												
+                }	                
                 title.set('text', plugin + ': ' + desc);
             });
         },
@@ -279,10 +284,17 @@ define(['jquery', 'fab/fabrik'], function (jQuery, Fabrik) {
                     var container = document.id('plugins').getElements('.actionContainer')[c];
                     var title = container.getElement('span.pluginTitle'),
                         heading = plugin,
+						params = container.getElement('select[name*=params]').getValue(),
+						unpublished = container.getElement('input[name*=plugin_state]').checked,                        
                         desc = container.getElement('input[name*=plugin_description]');
+                    if (heading == 'php'){
+						if (params == '') params = 'never';
+						heading += '[' + params + ']' ;												
+					}
                     if (desc) {
                         heading += ': ' + desc.getValue();
                     }
+    				if (unpublished) title.addClass('unpublished');                
                     title.set('text', heading);
                     this.pluginTotal++;
                     this.updateBootStrap();
