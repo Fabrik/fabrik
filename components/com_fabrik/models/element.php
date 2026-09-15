@@ -935,11 +935,11 @@ class PlgFabrik_Element extends FabrikPlugin
 	 *
 	 * @return string
 	 */
-	protected function groupConcactJoinKey()
+	public function groupConcactJoinKey()
 	{
 		$table = $this->getListModel()->getTable();
 
-		if ($this->getGroupModel()->isJoin() && $this->isJoin())
+		if ($this->getGroupModel()->isJoin()) //  && $this->isJoin()
 		{
 			$groupJoin = $this->getGroupModel()->getJoinModel()->getJoin();
 			$pkField   = $groupJoin->params->get('pk');
@@ -2353,6 +2353,10 @@ class PlgFabrik_Element extends FabrikPlugin
 				break;
 		}
 
+		$primary = $this->groupConcactJoinKey();
+		$element->primary = FabrikString::safeColNameToArrayKey($primary);
+		$element->isPK = $this->getFullName() == $element->primary;
+		
 		return $element;
 	}
 
