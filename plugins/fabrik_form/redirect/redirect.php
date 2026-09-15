@@ -56,7 +56,7 @@ class PlgFabrik_FormRedirect extends PlgFabrik_Form
 		$this->data['append_jump_url'] = $params->get('append_jump_url');
 		$this->data['save_and_next'] = $params->get('save_and_next', '0');
 		$this->data['save_in_session'] = $params->get('save_insession');
-		$this->data['jump_page'] = $w->parseMessageForPlaceHolder($params->get('jump_page'), $this->data);
+		$this->data['jump_page'] = $w->parseMessageForPlaceHolder(JRoute::_($params->get('jump_page')), $this->data);
 		$this->data['thanks_message'] = FText::_($w->parseMessageForPlaceHolder($params->get('thanks_message'), $this->data));
 
 		if (!$this->shouldRedirect($params))
