@@ -232,6 +232,10 @@ class PlgFabrik_ElementBirthday extends PlgFabrik_Element
 				$layoutData = new stdClass;
 				$layoutData->text =  $this->replaceWithIcons($detailValue);
 				$layoutData->hidden = $element->hidden;
+				$layoutData->day = $day;
+				$layoutData->month = $month;
+				$layoutData->year = $year;
+				$layoutData->age = $ageYear - $year;
 
 				return $layout->render($layoutData);
 			}
