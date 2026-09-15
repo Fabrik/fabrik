@@ -8494,7 +8494,13 @@ class FabrikFEModelList extends JModelForm
 		$item->hidden = 1;
 		$item->group_id = $groupId;
 
-		// PR#2031 do not show repeat group parent_id in list by default
+		// PR#1945 Fix params to match parent_id column created in group.php:makeJoinedGroup()
+		$params = json_decode($item->params);
+		$params->text_format = "integer";
+		$params->integer_length = 11;
+		$item->params = json_encode($params);
+
+    		// PR#2031 do not show repeat group parent_id in list by default
 		$item->show_in_list_summary = 0;
 
 		if (!$item->store())
