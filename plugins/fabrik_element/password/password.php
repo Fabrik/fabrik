@@ -1,4 +1,7 @@
 <?php
+
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Plugin element to render 2 fields to capture and confirm a password
  *
@@ -87,6 +90,18 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 			return '***********';
 		}
 
+		$pw_requirements_params = ComponentHelper::getParams('com_users');
+
+		if (!empty($pw_requirements_params))
+		{
+			$document = JFactory::getDocument();
+			$document->addScriptOptions('passwordMinLength', $pw_requirements_params->get('minimum_length', 8));
+			$document->addScriptOptions('passwordMinIntegers', $pw_requirements_params->get('minimum_integers', 0));
+			$document->addScriptOptions('passwordMinSymbols', $pw_requirements_params->get('minimum_symbols', 0));
+			$document->addScriptOptions('passwordMinUppercase', $pw_requirements_params->get('minimum_uppercase', 0));
+			$document->addScriptOptions('passwordMinLowercase', $pw_requirements_params->get('minimum_lowercase', 0));
+		}
+
 		$extraClass = 'strength ' . $params->get('bootstrap_class', '');
 		$extraStyle = 'margin-top: 20px;';
 
@@ -155,6 +170,13 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		$layoutData->bootstrapClass    = $params->get('bootstrap_class', '');
 		$layoutData->extraStyle        = $extraStyle;
 		$layoutData->showStrengthMeter = $params->get('strength_meter', 1) == 1;
+		$layoutData->showPasswordRequirements = $params->get('password_requirements_indicator', 1) == 1;
+
+		$layoutData->passwordMinLength = $pw_requirements_params->get('minimum_length', 8);
+		$layoutData->passwordMinIntegers = $pw_requirements_params->get('minimum_integers', 0);
+		$layoutData->passwordMinSymbols = $pw_requirements_params->get('minimum_symbols', 0);
+		$layoutData->passwordMinUppercase = $pw_requirements_params->get('minimum_uppercase', 0);
+		$layoutData->passwordMinLowercase = $pw_requirements_params->get('minimum_lowercase', 0);
 
 		return $layout->render($layoutData);
 	}
@@ -269,6 +291,14 @@ class PlgFabrik_ElementPassword extends PlgFabrik_Element
 		JText::script('PLG_ELEMENT_PASSWORD_WEAK');
 		JText::script('PLG_ELEMENT_PASSWORD_TYPE_PASSWORD');
 		JText::script('PLG_ELEMENT_PASSWORD_MORE_CHARACTERS');
+		JText::script('PLG_ELEMENT_PASSWORD_MIN_LENGTH');
+		JText::script('PLG_ELEMENT_PASSWORD_MIN_INTEGERS');
+		JText::script('PLG_ELEMENT_PASSWORD_MIN_SYMBOLS');
+		JText::script('PLG_ELEMENT_PASSWORD_MIN_UPPERCASE');
+		JText::script('PLG_ELEMENT_PASSWORD_MIN_LOWERCASE');
+		JText::script('PLG_ELEMENT_PASSWORD_MATCH');
+		JText::script('PLG_ELEMENT_PASSWORD_DONT_MATCH');
+		JText::script('PLG_ELEMENT_PASSWORD_ONE_OF');
 
 		return array('FbPassword', $id, $opts);
 	}

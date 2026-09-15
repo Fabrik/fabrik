@@ -34,6 +34,16 @@
 						<option value="1">JYES</option>
 			</field>
 
+			<field name="password_requirements_indicator"
+				type="radio"
+				class="btn-group"
+				default="0"
+				description="PLG_ELEMENT_PASSWORD_SHOW_REQUIREMENTS_DESC"
+				label="PLG_ELEMENT_PASSWORD_SHOW_REQUIREMENTS_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
 			<field name="bootstrap_class"
 			       type="bootstrapfieldclass"
 			       default="input-medium"

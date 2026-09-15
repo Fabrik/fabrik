@@ -38,6 +38,38 @@ if ($d->showStrengthMeter) :
 	<?php
 	endif;
 endif;
+
+if ($d->showPasswordRequirements) :
+	?>
+	<div class="" id="pw-requirements-indicator" style="margin-left:6px; margin-bottom: 20px; font-size: 0.95em; <?php echo $d->extraStyle; ?>">
+		
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_MIN_LENGTH') . ": " . $d->passwordMinLength; ?>
+		</span><br/>
+		
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_MIN_INTEGERS') . ": " . $d->passwordMinIntegers; ?>
+		</span><br/>
+
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_MIN_SYMBOLS') . ": " . $d->passwordMinSymbols . " (" . FText::_('PLG_ELEMENT_PASSWORD_ONE_OF') . ": @$!%*#?&)"; ?>
+		</span><br/>
+
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_MIN_UPPERCASE') . ": " . $d->passwordMinUppercase; ?>
+		</span><br/>
+
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_MIN_LOWERCASE') . ": " . $d->passwordMinLowercase; ?>
+		</span><br/>
+
+		<span style="color: #DB1717;"><span class="icon-cancel-2"> </span>
+			<?php echo FText::_('PLG_ELEMENT_PASSWORD_DONT_MATCH') ?>
+		</span>
+
+	</div>
+	<?php
+endif;
 ?>
 
 <input <?php echo $pw2Attributes; ?>"  />
