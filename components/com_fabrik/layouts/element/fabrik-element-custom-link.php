@@ -13,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 $d = $displayData;
 
+if ($d->data != ''):
 ?>
 <a data-loadmethod="<?php echo $d->loadMethod;?>"
 	class="<?php echo $d->class; ?>"
@@ -27,3 +28,4 @@ $d = $displayData;
 >
 <?php echo $d->data; ?>
 </a>
+<?php endif ?>
