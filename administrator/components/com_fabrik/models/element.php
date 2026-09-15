@@ -208,6 +208,8 @@ class FabrikAdminModelElement extends FabModelAdmin
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
+		usort($items, array($this, 'cmpJsEvents'));
+
 		for ($i = 0; $i < count($items); $i++)
 		{
 			$items[$i]->params             = json_decode($items[$i]->params);
@@ -215,6 +217,43 @@ class FabrikAdminModelElement extends FabModelAdmin
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Callable function to sort the javascript array by action type (in a logical sequence)
+	 *
+	 * @return  array  plugins
+	 */
+	private static function cmpJsEvents($a, $b)
+	{
+		$sortOrder = array(
+			"load",
+			"unload",
+			"abort",
+			"focus",
+			"blur",
+			"select",
+			"change",
+			"click",
+			"dblclick",
+			"keydown",
+			"keypress",
+			"keyup",
+			"mouseover",
+			"mousedown",
+			"mouseup",
+			"mouseout",
+		);
+
+		$a = array_search($a->action, $sortOrder);
+		$b = array_search($b->action, $sortOrder);
+
+		if ($a == $b)
+		{
+			return 0;
+		}
+
+		return ($a < $b) ? -1 : 1;
 	}
 
 	/**
