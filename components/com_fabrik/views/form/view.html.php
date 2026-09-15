@@ -104,7 +104,7 @@ class FabrikViewForm extends FabrikViewFormBase
 			$slug   = $model->getListModel()->getSlug(ArrayHelper::toObject($data));
 			$rowId  = $slug === '' ? $model->getRowId() : $slug;
 			$view   = $model->isEditable() ? 'form' : 'details';
-			$url    = JRoute::_('index.php?option=com_' . $this->package . '&view=' . $view . '&formid=' . $formId . '&rowid=' . $rowId);
+			$url    = JRoute::_('index.php?option=com_' . $this->package . '&view=' . $view . '&formid=' . $formId . '&rowid=' . $rowId, true, -1);
 		}
 
 		return $url;
