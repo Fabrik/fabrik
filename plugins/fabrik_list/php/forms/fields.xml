@@ -14,6 +14,7 @@
 
 			<field name="table_php_button_label"
 				type="text"
+				description="PLG_FABRIK_LIST_PHP_BUTTON_LABEL_DESC"
 				label="PLG_FABRIK_LIST_PHP_BUTTON_LABEL_LABEL"
 				repeat="true"
 				size="30" />

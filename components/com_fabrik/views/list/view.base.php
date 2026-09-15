@@ -631,6 +631,7 @@ class FabrikViewListBase extends FabrikView
 
 		$this->buttons();
 		$this->pluginTopButtons = $model->getPluginTopButtons();
+		$this->pluginsAbove = (bool) $this->params->get('plugins-above', false);
 	}
 
 	/**
