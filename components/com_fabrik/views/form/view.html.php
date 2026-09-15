@@ -120,7 +120,7 @@ class FabrikViewForm extends FabrikViewFormBase
 	{
 		if (!$this->app->isAdmin() && !$this->isMambot)
 		{
-			$url = $this->getCanonicalLink();
+			$url =  JUri::root() . trim( JRoute::_($this->getCanonicalLink()), '/' );
 
 			// Set a flag so that the system plugin can clear out any other canonical links.
 			$this->session->set('fabrik.clearCanonical', true);
