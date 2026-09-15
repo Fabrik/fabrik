@@ -305,7 +305,7 @@ class FabrikFEModelJoin extends FabModel
 	public function isView()
 	{
 		$join = $this->getJoin();
-		$params = $$join->params;
+		$params = $join->params;
 		$isView = $params->get('isview', null);
 
 		if (!is_null($isView) && (int) $isView >= 0)
