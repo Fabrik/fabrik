@@ -1620,7 +1620,18 @@ class Worker
 			{
 				// Remove the white-listed attributes from the black-list.
 				$tags   = array_diff($blackListTags, $whiteListTags);
-				$filter = JFilterInput::getInstance($tags, array_diff($blackListAttributes, $whiteListAttributes), 1, 1);
+
+				// Here we want to seperate CBL from BL, in order to make the proper call to JFilterInput::getInstance
+				// This is because for CBL we want to pass the parameter $xssAuto as 0, so it will only perform the essential clean
+				// Otherwhise it will always perform the full blacklist cleanup
+				// Helpful resources: https://stackoverflow.com/a/42729709/1739313
+				// https://api.joomla.org/cms-3/classes/Joomla.CMS.Filter.InputFilter.html#method_getInstance
+				// getInstance(array $tagsArray = array(), array $attrArray = array(), integer $tagsMethod, integer $attrMethod, integer $xssAuto = 1, integer $stripUSC = -1) : \Joomla\CMS\Filter\InputFilter
+				if ($filterType == 'CBL') {
+					$filter = JFilterInput::getInstance($tags, array_diff($blackListAttributes, $whiteListAttributes), 1, 1, 0);
+				} else {
+					$filter = JFilterInput::getInstance($tags, array_diff($blackListAttributes, $whiteListAttributes), 1, 1);
+				}
 			}
 			// White lists take third precedence.
 			elseif ($whiteList)
