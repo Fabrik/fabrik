@@ -11382,6 +11382,11 @@ class FabrikFEModelList extends JModelForm
 		$params = $this->getParams();
 		$class = array('table');
 
+		if ($params->get('bootstrap_groups_header', true))
+		{
+			$class[] = 'table-group-header';
+		}
+
 		if ($params->get('bootstrap_stripped_class', true))
 		{
 			$class[] = 'table-striped';
