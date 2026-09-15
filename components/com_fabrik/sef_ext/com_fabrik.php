@@ -215,6 +215,10 @@ $config = JComponentHelper::getParams('com_fabrik');
 
 switch ($view)
 {
+	case 'plugin' :
+		$dosef = false;
+		break;
+		
 	case 'form':
 		// If we edit the form, there is no need to create a SEF URL
 		if($rowid != '')
