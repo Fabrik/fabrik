@@ -59,7 +59,13 @@
 					<option value="radio">PLG_ELEMENT_CDD_RADIO_LIST</option>
 				</field>
 
-			<field name="cascadingdropdown_connection"
+			<field name="repeat"
+			       label="PLG_ELEMENT_FORCE_ISJOIN_LABEL"
+			       description="PLG_ELEMENT_FORCE_ISJOIN_LABEL"
+			       type="checkbox"
+				   value="1"/>
+
+				   <field name="cascadingdropdown_connection"
 				type="connections"
 				label="PLG_ELEMENT_CDD_CONNECTION_LABEL" />
 
@@ -108,6 +114,34 @@
 				class="input-mini"
 				description="PLG_ELEMENT_CDD_DROPDOWN_MAXWIDTH_DESC"
 				label="PLG_ELEMENT_CDD_DROPDOWN_MAXWIDTH_LABEL"/>
+
+			<field name="repeat_db_name"
+			       label="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_LABEL"
+			       description="PLG_ELEMENT_DBJOIN_REPEAT_TABLE_DESC"
+			       observe="params_cascadingdropdown_connection"
+			       key="name"
+			       type="tables"
+				   mode="combo"
+				   />
+
+			<field name="repeat_parent_id"
+			       type="listfields"
+			       highlightpk="true"
+			       connection="params_cascadingdropdown_connection"
+			       description="PLG_ELEMENT_DBJOIN_PARENT_ID_DESC"
+			       label="PLG_ELEMENT_DBJOIN_PARENT_ID_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
+
+			<field name="repeat_element"
+			       type="listfields"
+			       connection="params_cascadingdropdown_connection"
+			       description="PLG_ELEMENT_DBJOIN_THIS_FIELD_DESC"
+			       label="PLG_ELEMENT_DBJOIN_THIS_FIELD_LABEL"
+			       table="params_repeat_db_name"
+				   mode="gui"
+				   modefield="field"/>
 
 		</fieldset>
 
