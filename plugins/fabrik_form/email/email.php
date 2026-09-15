@@ -171,6 +171,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			$message = $this->_getTextEmail();
 		}
 
+		$this->attachments = array(); //Reset in case of multiple email plugins
 		$this->addAttachments();
 
 		$cc  = null;
@@ -426,7 +427,7 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 			}
 		}
 
-		$this->updateRow();
+		$this->updateRow($params);
 
 		JDEBUG ? $profiler->mark("email: end: onAfterProcess") : null;
 
@@ -845,9 +846,10 @@ class PlgFabrik_FormEmail extends PlgFabrik_Form
 	/**
 	 * Update row
 	 */
-	private function updateRow()
+	private function updateRow($params)
 	{
-		$params      = $this->getParams();
+		//$$$trob: in case of multiple email plugins getParams is fetching the "last" ones for the first email plugin
+		//$params      = $this->getParams(); 
 		$updateField = $params->get('email_update_field');
 		$rowid       = $this->data['rowid'];
 
