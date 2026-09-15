@@ -69,7 +69,7 @@ class PlgFabrik_ListInlineedit extends PlgFabrik_List
 
 		foreach ($addShim as $key => $deps)
 		{
-			if (!array_key_exists($key, $shim))
+			if (!property_exists($shim, $key))
 			{
 				$shim[$key] = $deps;
 			}
@@ -138,7 +138,7 @@ class PlgFabrik_ListInlineedit extends PlgFabrik_List
 		{
 			foreach ($use as $key => $fields)
 			{
-				if (array_key_exists($key, $elements))
+				if (property_exists($key, $elements))
 				{
 					$trigger = $elements[$key];
 					$els[$key] = new stdClass;
