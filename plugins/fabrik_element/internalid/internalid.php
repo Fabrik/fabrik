@@ -39,23 +39,41 @@ class PlgFabrik_ElementInternalid extends PlgFabrik_Element
 
 	public function render($data, $repeatCounter = 0)
 	{
+		/*
+		// Jaanus: copied to element.php
+		
 		$element = $this->getElement();
 		$value = $this->getValue($data, $repeatCounter);
-		$value = stripslashes($value);
-
+		$layoutData = new stdClass;
+		if (is_array($value))
+		{
+			foreach ($value as $k => $v)
+			{
+				$value[$k] = stripslashes($value[$k]);
+				$layoutData->value = htmlspecialchars($value[$k], ENT_COMPAT, 'UTF-8');
+				$return = ($element->hidden == '1') ? "<!-- " . $value[$k] . " -->" : $value[$k];
+			}
+		}
+		else
+		{
+			$value = stripslashes($value);
+			$layoutData->value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+			$return = ($element->hidden == '1') ? "<!-- " . $value . " -->" : $value;
+		}
+		
 		if (!$this->isEditable())
 		{
-			return ($element->hidden == '1') ? "<!-- " . $value . " -->" : $value;
+			return $return;
 		}
 
 		$layout = $this->getLayout('form');
-		$layoutData = new stdClass;
 		$layoutData->name = $this->getHTMLName($repeatCounter);;
 		$layoutData->id = $this->getHTMLId($repeatCounter);;
-		$layoutData->value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 		$layoutData->class = 'fabrikinput inputbox hidden';
 
 		return $layout->render($layoutData);
+		*/
+		return parent::render($data, $repeatCounter = 0);
 	}
 
 	/**

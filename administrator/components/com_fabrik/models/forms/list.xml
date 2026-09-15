@@ -239,6 +239,15 @@
 		<fieldset addfieldpath="/administrator/components/com_fabrik/models/fields"
 		          name="grouping2">
 
+			<field name="group_by_query_list"
+				type="listfields"
+				description="COM_FABRIK_GROUP_BY_QUERY_DESC"
+				label="COM_FABRIK_GROUP_BY_QUERY_LABEL"
+				valueformat="tableelement"
+				mode="gui"
+				modefield="textarea"/>
+
+
 			<field name="group_by_raw"
 			       type="radio"
 			       class="btn-group"
