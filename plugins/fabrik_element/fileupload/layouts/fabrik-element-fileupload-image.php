@@ -1,4 +1,20 @@
 <?php
+/*
+		$displayData->lightboxAttrs
+		$displayData->listRow
+		$displayData->elementname
+		$displayData->restrict_lightbox
+		$displayData->fullSize
+		$displayData->file
+		$displayData->makeLink
+		$displayData->title
+		$displayData->isJoin
+		$displayData->width
+		$displayData->showImage
+		$displayData->inListView
+		$displayData->height
+		$displayData->isSlideShow
+*/
 defined('JPATH_BASE') or die;
 
 $d      = $displayData;
