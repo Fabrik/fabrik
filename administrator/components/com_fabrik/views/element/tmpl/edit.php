@@ -92,10 +92,17 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 					echo $field->input; ?>
 				</li>
 				<?php endforeach;?>
-
 				<li>
 					<?php echo $this->form->getLabel('plugin') . $this->form->getInput('plugin'); ?>
 				</li>
+				<?php if (!in_array($this->item->plugin, array('internalid','timestamp')) && $this->item->id > 0) :?>
+				<?php foreach ($this->form->getFieldset('hidden') as $field) : ?>
+				<li>
+					<?php echo $field->label;
+					echo $field->input; ?>
+				</li>
+				<?php endforeach;?>
+				<?php endif;?>
 			</ul>
 			<div class="clr"> </div>
 		</fieldset>

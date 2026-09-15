@@ -16,4 +16,3 @@ defined('JPATH_BASE') or die;
 		<div class="span8" id="viewend"></div>
 	</div>
 </div>
-

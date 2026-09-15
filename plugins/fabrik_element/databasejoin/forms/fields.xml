@@ -22,14 +22,6 @@
 			       mode="php"
 			       label="PLG_ELEMENT_DBJOIN_DEFAULT_LABEL"/>
 
-			<field name="hidden"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       label="PLG_ELEMENT_DBJOIN_HIDDEN">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
 		</fieldset>
 	</fields>
 
