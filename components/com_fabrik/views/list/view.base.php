@@ -518,6 +518,7 @@ class FabrikViewListBase extends FabrikView
 		$this->limitLength    = $model->limitLength;
 		$this->ajax           = $model->isAjax();
 		$this->showTitle      = FabrikWorker::getMenuOrRequestVar('show-title', $params->get('show-title', 1), $this->isMambot, 'request');
+		$this->rowintro 	  = str_replace('.', '___', $params->get('rowintro', ''));
 
 		// 3.0 observed in list.js & html moved into fabrik_actions rollover
 		$this->showPDF = $params->get('pdf', $fbConfig->get('list_pdf', false));
