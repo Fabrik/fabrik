@@ -1049,7 +1049,7 @@ class FabrikViewListBase extends FabrikView
 		{
 			$model = $this->getModel();
 			$id    = $model->getId();
-			$url   = JRoute::_('index.php?option=com_' . $this->package . '&view=list&listid=' . $id);
+			$url   = JRoute::_('index.php?option=com_' . $this->package . '&view=list&listid=' . $id, true, -1);
 		}
 
 		return $url;
