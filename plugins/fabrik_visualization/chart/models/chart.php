@@ -587,6 +587,13 @@ class FabrikModelChart extends FabrikFEModelVisualization
 					$axisLabels = explode('|', $glabels[0]);
 				}
 		}
+		
+        	$x_axis_measurement_unit = $params->get('x_axis_measurement_unit');          
+        	if ($x_axis_measurement_unit[0]) {
+            		for ($n=0; $n<count($axisLabels); $n++) {
+                		$axisLabels[$n] .= $x_axis_measurement_unit[0]; 
+            		}
+        	}
 
 		$this->axisLabels = $axisLabels;
 
