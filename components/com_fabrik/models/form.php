@@ -4306,6 +4306,30 @@ class FabrikFEModelForm extends FabModelForm
 
 		if (!$this->isEditable())
 		{
+    		$titles = [];
+    		
+    		$groups = $this->getGroupsHiarachy();
+    
+    		foreach ($groups as $groupModel)
+    		{
+    			$elementModels = $groupModel->getPublishedElements();
+    
+    			foreach ($elementModels as $elementModel)
+    			{
+    				$element = $elementModel->getParams();
+    
+    				if ($element->get('use_as_details_label') == '1')
+    				{
+    					$titles[] = $elementModel->getTitlePart($this->data);
+    				}
+    			}
+    		}
+    		
+    		if (count($titles) > 0)
+    		{
+    		    $label = implode(' | ', $titles);
+    		}
+
 			return str_replace("{Add/Edit}", '', $label);
 		}
 
